@@ -364,6 +364,828 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (window.Babel && typeof window.Babel.transformScriptTags === 'function') {
       window.Babel.transformScriptTags();
     }
+
+    const sectionsNav = document.querySelector('header.d-only nav[aria-label="Sections"]');
+    if (sectionsNav) {
+      const allowedSections = new Set(['Top news', 'Events', 'Careers', 'Sponsor', 'About', 'Contact us']);
+      Array.from(sectionsNav.querySelectorAll('a')).forEach((tab) => {
+        if (!allowedSections.has(tab.textContent.trim())) tab.remove();
+        if (tab.textContent.trim() === 'Events') tab.href = 'Careers.dc.html';
+        if (tab.textContent.trim() === 'Sponsor') tab.href = 'Advertise.dc.html';
+        if (tab.textContent.trim() === 'About') tab.href = 'About.dc.html';
+        if (tab.textContent.trim() === 'Contact us') tab.href = 'Contact.dc.html';
+      });
+      const addSectionLink = (label, href) => {
+        if (Array.from(sectionsNav.querySelectorAll('a')).some((tab) => tab.textContent.trim() === label)) return;
+        const link = document.createElement('a');
+        link.href = href;
+        link.textContent = label;
+        link.style.cssText = 'display: flex; align-items: center; font-size: 16px; font-weight: 500; color: #CFE0DE';
+        sectionsNav.appendChild(link);
+      };
+      addSectionLink('Sponsor', 'Advertise.dc.html');
+      addSectionLink('About', 'About.dc.html');
+      addSectionLink('Contact us', 'Contact.dc.html');
+      const footer = document.querySelector('footer');
+      if (footer) {
+        if (!footer.id) footer.id = 'about';
+        Array.from(footer.querySelectorAll('a')).forEach((link) => {
+          if (link.textContent.trim() === 'Submit a story') link.remove();
+          if (link.textContent.trim() === 'Advertise') {
+            link.textContent = 'Sponsor';
+            link.href = '#sponsored-title';
+          }
+        });
+      }
+    }
+
+    const morningBriefCta = document.querySelector('header.d-only a[href="#newsletter"]');
+    if (morningBriefCta) {
+      const shareBar = document.createElement('div');
+      shareBar.setAttribute('aria-label', 'Share on social media');
+      shareBar.style.cssText = 'display: flex; align-items: center; gap: 10px';
+      const shareIcons = [
+        ['Facebook', '#1877F2', 'f'],
+        ['X', '#0E3A43', 'X'],
+        ['LinkedIn', '#0A66C2', 'in'],
+        ['WhatsApp', '#25D366', 'W'],
+      ];
+      shareIcons.forEach(([label, color, glyph]) => {
+        const icon = document.createElement('a');
+        icon.href = '#';
+        icon.setAttribute('aria-label', `Share on ${label} (dummy)`);
+        icon.style.cssText = `display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%; background: ${color}; color: #FFFFFF; font-size: 13px; font-weight: 700; text-decoration: none`;
+        icon.textContent = glyph;
+        shareBar.appendChild(icon);
+      });
+      morningBriefCta.replaceWith(shareBar);
+    }
+
+    document.querySelectorAll('header.d-only a[aria-label="Funds.ae home"], header.m-only a[aria-label="Funds.ae home"]').forEach((brand) => {
+      if (brand.querySelector('[data-brand-tagline]')) return;
+      const tagline = document.createElement('span');
+      tagline.textContent = 'Discover. Connect. Grow.';
+      tagline.setAttribute('data-brand-tagline', 'true');
+      tagline.style.cssText = 'display: block; margin-top: 4px; font-size: 10px; font-weight: 500; line-height: 1.1; letter-spacing: 0.08em; color: #A7C3C2; white-space: nowrap';
+      brand.style.display = 'grid';
+      brand.style.gridTemplateColumns = '36px auto';
+      brand.style.gridTemplateRows = 'auto auto';
+      brand.style.columnGap = '12px';
+      brand.style.rowGap = '2px';
+      const mark = brand.querySelector('svg');
+      const wordmark = brand.querySelector('span');
+      if (mark) mark.style.gridRow = '1 / span 2';
+      if (wordmark) wordmark.style.gridColumn = '2';
+      tagline.style.gridColumn = '2';
+      brand.appendChild(tagline);
+    });
+
+    const sidebar = document.querySelector('aside');
+    if (sidebar) {
+      sidebar.insertAdjacentHTML('afterbegin', `
+        <section aria-labelledby="markets-ticker-title" style="padding: 22px 24px 20px; border: 1px solid #DCE5E3; border-radius: 14px; background: #FFFFFF">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+            <h2 id="markets-ticker-title" style="margin: 0; font-size: 19px; font-weight: 600; color: #0E3A43">Markets</h2>
+            <span style="font-size: 12px; color: #4B676C">Dummy prices</span>
+          </div>
+          <div style="display: flex; flex-direction: column; margin-top: 10px">
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #DCE5E3"><span style="font-size: 14px; font-weight: 600; color: #0E3A43">DFM General</span><span style="font-size: 14px; font-weight: 600; color: #137A72">4,982.41 <small style="font-size: 12px; font-weight: 500">+0.84%</small></span></div>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #DCE5E3"><span style="font-size: 14px; font-weight: 600; color: #0E3A43">ADX General</span><span style="font-size: 14px; font-weight: 600; color: #137A72">10,246.18 <small style="font-size: 12px; font-weight: 500">+0.31%</small></span></div>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #DCE5E3"><span style="font-size: 14px; font-weight: 600; color: #0E3A43">Nasdaq Dubai</span><span style="font-size: 14px; font-weight: 600; color: #B05A3C">3,612.77 <small style="font-size: 12px; font-weight: 500">-0.12%</small></span></div>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #DCE5E3"><span style="font-size: 14px; font-weight: 600; color: #0E3A43">S&amp;P 500</span><span style="font-size: 14px; font-weight: 600; color: #137A72">5,842.19 <small style="font-size: 12px; font-weight: 500">+0.46%</small></span></div>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #DCE5E3"><span style="font-size: 14px; font-weight: 600; color: #0E3A43">Nasdaq Composite</span><span style="font-size: 14px; font-weight: 600; color: #137A72">19,438.72 <small style="font-size: 12px; font-weight: 500">+0.72%</small></span></div>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #DCE5E3"><span style="font-size: 14px; font-weight: 600; color: #0E3A43">FTSE 100</span><span style="font-size: 14px; font-weight: 600; color: #B05A3C">9,214.08 <small style="font-size: 12px; font-weight: 500">-0.18%</small></span></div>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #DCE5E3"><span style="font-size: 14px; font-weight: 600; color: #0E3A43">DAX</span><span style="font-size: 14px; font-weight: 600; color: #137A72">18,762.55 <small style="font-size: 12px; font-weight: 500">+0.27%</small></span></div>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0"><span style="font-size: 14px; font-weight: 600; color: #0E3A43">Nikkei 225</span><span style="font-size: 14px; font-weight: 600; color: #B05A3C">37,914.26 <small style="font-size: 12px; font-weight: 500">-0.09%</small></span></div>
+          </div>
+          <div style="margin-top: 6px; font-size: 12px; color: #7F9A97">Last updated 10:00 UAE time</div>
+        </section>`);
+      const marketsTicker = sidebar.querySelector('[aria-labelledby="markets-ticker-title"]');
+      sidebar.style.gridColumn = '2';
+      if (marketsTicker) sidebar.insertBefore(marketsTicker, sidebar.firstElementChild);
+      const events = sidebar.querySelector('[aria-labelledby="events-title"]');
+      if (events) {
+        const eventsTitle = events.querySelector('#events-title');
+        if (eventsTitle) eventsTitle.textContent = 'Events and Expos';
+      }
+      if (events && !events.querySelector('[data-extra-event]')) {
+        const eventsListForExtras = events.querySelector('ul');
+        const extraEvents = [
+          ['12', 'Dec', 'Dummy Fund Managers Forum', 'Conrad Dubai, Sheikh Zayed Road'],
+          ['16', 'Dec', 'Dummy Private Wealth Congress', 'Jumeirah Emirates Towers, Dubai'],
+          ['3', 'Jan', 'Dummy Sustainable Finance Expo', 'Abu Dhabi National Exhibition Centre'],
+          ['9', 'Jan', 'Dummy Capital Markets Roundtable', 'DIFC Innovation Hub, Dubai'],
+          ['15', 'Jan', 'Dummy Family Office Summit', 'Emirates Palace, Abu Dhabi'],
+          ['22', 'Jan', 'Dummy Digital Assets Conference', 'Museum of the Future, Dubai']
+        ];
+        if (eventsListForExtras) {
+          extraEvents.forEach(([day, month, title, location]) => {
+            eventsListForExtras.insertAdjacentHTML('beforeend', `
+              <li data-extra-event="true" style="display: flex; gap: 16px; padding: 14px 0; border-bottom: 1px solid #DCE5E3">
+                <div style="width: 56px; flex-shrink: 0; display: flex; flex-direction: column">
+                  <span style="font-size: 20px; font-weight: 600; line-height: 1.15; color: #0E3A43">${day}</span>
+                  <span style="font-size: 14px; color: #4B676C">${month}</span>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 3px">
+                  <a href="#" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">${title}</a>
+                  <span style="font-size: 14px; line-height: 1.4; color: #4B676C">${location} (dummy)</span>
+                </div>
+              </li>`);
+          });
+        }
+      }
+      if (events && !events.querySelector('[data-city-heading]')) {
+        const eventHeadings = document.createElement('div');
+        eventHeadings.setAttribute('data-city-heading', 'true');
+        eventHeadings.style.cssText = 'display: grid; grid-template-columns: 56px minmax(0, 1fr) 96px; gap: 24px; margin: 14px 0 -2px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #7F9A97';
+        eventHeadings.innerHTML = '<span>Date</span><span>Event Type</span><span style="text-align: right">City</span>';
+        const eventsList = events.querySelector('ul');
+        if (eventsList) events.insertBefore(eventHeadings, eventsList);
+      }
+      if (events) {
+        const eventRows = Array.from(events.querySelectorAll('ul > li'));
+        const eventDetails = [
+          ['Finance week', 'Dubai'],
+          ['Fintech summit', 'Dubai'],
+          ['Finance week', 'Abu Dhabi'],
+          ['Technology expo', 'Dubai'],
+          ['Networking', 'Dubai'],
+          ['Wealth summit', 'Dubai'],
+          ['Sustainability expo', 'Abu Dhabi'],
+          ['Roundtable', 'Dubai'],
+          ['Family office summit', 'Abu Dhabi'],
+          ['Digital assets expo', 'Dubai']
+        ];
+        eventRows.forEach((row, index) => {
+          const date = row.querySelector(':scope > div:first-child');
+          const detail = row.querySelector(':scope > div:nth-child(2)');
+          const title = detail && detail.querySelector('a');
+          const city = detail && detail.querySelector('span');
+          if (!date || !detail || !title || !city) return;
+          const [eventType, cityName] = eventDetails[index] || ['Finance event', 'Dubai'];
+          city.textContent = cityName;
+          city.style.fontSize = '14px';
+          city.style.fontWeight = '500';
+          city.style.lineHeight = '1.4';
+          city.style.color = '#4B676C';
+          city.style.textAlign = 'right';
+          title.textContent = eventType;
+          title.style.fontFamily = "'Newsreader', 'Georgia', serif";
+          title.style.fontSize = '15px';
+          title.style.fontWeight = '600';
+          title.style.lineHeight = '1.4';
+          title.style.color = '#0E3A43';
+          date.style.fontSize = '14px';
+          date.style.lineHeight = '1.4';
+          row.style.display = 'grid';
+          row.style.gridTemplateColumns = '56px minmax(0, 1fr) 96px';
+          row.style.alignItems = 'center';
+          row.style.gap = '24px';
+          row.style.borderBottom = '1px solid #DCE5E3';
+          detail.style.display = 'contents';
+          date.style.gridColumn = '1';
+          title.style.gridColumn = '2';
+          city.style.gridColumn = '3';
+        });
+        if (eventRows.length) eventRows[eventRows.length - 1].style.borderBottom = 'none';
+      }
+      if (events && !events.querySelector('[data-submit-event]')) {
+        const submitEvent = document.createElement('a');
+        submitEvent.href = '#';
+        submitEvent.textContent = 'Submit your event';
+        submitEvent.setAttribute('data-submit-event', 'true');
+        submitEvent.style.cssText = 'display: block; margin-top: 20px; font-size: 14px; font-weight: 600; color: #137A72';
+        events.appendChild(submitEvent);
+      }
+      sidebar.insertAdjacentHTML('afterbegin', `
+        <section aria-labelledby="sponsored-title" style="padding: 22px 24px 24px; border: 1px solid #B7DCD7; border-radius: 14px; background: #E8F5F2">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+            <h2 id="sponsored-title" style="margin: 0; font-size: 19px; font-weight: 600; color: #0E3A43">Sponsored Posts</h2>
+            <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #137A72">Promoted</span>
+          </div>
+          <ul style="list-style: none; margin: 8px 0 0; padding: 0">
+            <li style="padding: 14px 0; border-bottom: 1px solid #C9E4DF">
+              <a href="#" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">GCC Growth Fund: applications open</a>
+              <p style="margin: 4px 0 0; font-size: 14px; line-height: 1.4; color: #4B676C">Connect with a new fund for ambitious UAE businesses.</p>
+            </li>
+            <li style="padding: 14px 0; border-bottom: 1px solid #C9E4DF">
+              <a href="#" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Private markets briefing, Dubai</a>
+              <p style="margin: 4px 0 0; font-size: 14px; line-height: 1.4; color: #4B676C">A practical half-day session for institutional investors.</p>
+            </li>
+            <li style="padding: 14px 0 4px">
+              <a href="#" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Build your DIFC fund platform</a>
+              <p style="margin: 4px 0 0; font-size: 14px; line-height: 1.4; color: #4B676C">Fund administration and compliance support for managers.</p>
+            </li>
+          </ul>
+          <a href="#" style="display: inline-block; margin-top: 12px; font-size: 14px; font-weight: 600; color: #137A72">View all Sponsored Posts</a>
+        </section>`);
+
+      const sponsored = sidebar.querySelector('[aria-labelledby="sponsored-title"]');
+      if (sponsored) {
+        sponsored.insertAdjacentHTML('afterend', `
+          <section aria-labelledby="sponsored-podcasts-title" style="padding: 22px 24px 24px; border: 1px solid #DCE5E3; border-radius: 14px; background: #FFFFFF">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+              <h2 id="sponsored-podcasts-title" style="margin: 0; font-size: 19px; font-weight: 600; color: #0E3A43">Videos and Podcasts</h2>
+            </div>
+            <div style="margin-top: 10px; padding-bottom: 14px; border-bottom: 1px solid #DCE5E3">
+              <div style="display: flex; align-items: center; gap: 10px"><span aria-hidden="true" style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 8px; background: #52CFC2; color: #0E3A43; font-size: 12px">&#9658;</span><span style="font-size: 12px; font-weight: 600; color: #4B676C">VIDEO 01</span></div>
+              <a href="#" style="display: block; margin-top: 8px; font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Inside a modern DIFC fund platform</a>
+              <p style="margin: 4px 0 0; font-size: 14px; line-height: 1.4; color: #4B676C">A three-minute tour of the tools managers use every day.</p>
+            </div>
+            <div style="padding: 14px 0; border-bottom: 1px solid #DCE5E3">
+              <div style="display: flex; align-items: center; gap: 10px"><span aria-hidden="true" style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 8px; background: #52CFC2; color: #0E3A43; font-size: 12px">&#9658;</span><span style="font-size: 12px; font-weight: 600; color: #4B676C">VIDEO 02</span></div>
+              <a href="#" style="display: block; margin-top: 8px; font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">How GCC funds are finding their next growth market</a>
+              <p style="margin: 4px 0 0; font-size: 14px; line-height: 1.4; color: #4B676C">A 22-minute conversation with Crescent Capital Partners.</p>
+            </div>
+            <div style="padding: 14px 0; border-bottom: 1px solid #DCE5E3">
+              <div style="display: flex; align-items: center; gap: 10px"><span aria-hidden="true" style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 8px; background: #52CFC2; color: #0E3A43; font-size: 12px">&#9658;</span><span style="font-size: 12px; font-weight: 600; color: #4B676C">VIDEO 03</span></div>
+              <a href="#" style="display: block; margin-top: 8px; font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Private credit and the new SME financing gap</a>
+              <p style="margin: 4px 0 0; font-size: 14px; line-height: 1.4; color: #4B676C">A 28-minute briefing from Emirates Private Credit.</p>
+            </div>
+            <div style="padding: 14px 0; border-bottom: 1px solid #DCE5E3">
+              <div style="display: flex; align-items: center; gap: 10px"><span aria-hidden="true" style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 8px; background: #52CFC2; color: #0E3A43; font-size: 12px">&#9658;</span><span style="font-size: 12px; font-weight: 600; color: #4B676C">VIDEO 04</span></div>
+              <a href="#" style="display: block; margin-top: 8px; font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">A walkthrough of Dubai's newest fund launch</a>
+              <p style="margin: 4px 0 0; font-size: 14px; line-height: 1.4; color: #4B676C">A five-minute look at the structure and strategy.</p>
+            </div>
+            <div style="padding-top: 14px">
+              <div style="display: flex; align-items: center; gap: 10px"><span aria-hidden="true" style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 8px; background: #52CFC2; color: #0E3A43; font-size: 12px">&#9658;</span><span style="font-size: 12px; font-weight: 600; color: #4B676C">VIDEO 05</span></div>
+              <a href="#" style="display: block; margin-top: 8px; font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Behind the scenes at a DIFC family office</a>
+              <p style="margin: 4px 0 0; font-size: 14px; line-height: 1.4; color: #4B676C">A four-minute profile of a growing regional allocator.</p>
+            </div>
+            <a href="#" style="display: inline-block; margin-top: 16px; font-size: 14px; font-weight: 600; color: #137A72">Explore all sponsored media</a>
+          </section>`);
+      }
+      if (sponsored) {
+        sponsored.querySelector('ul').insertAdjacentHTML('beforeend', `
+          <li style="padding: 14px 0; border-bottom: 1px solid #C9E4DF"><a href="#" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">AI tools for smarter portfolio teams</a><p style="margin: 4px 0 0; font-size: 14px; line-height: 1.4; color: #4B676C">See how modern managers streamline research and reporting.</p></li>
+          <li style="padding: 14px 0; border-bottom: 1px solid #C9E4DF"><a href="#" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">UAE venture capital opportunities</a><p style="margin: 4px 0 0; font-size: 14px; line-height: 1.4; color: #4B676C">Meet the founders and investors shaping the next decade.</p></li>
+          <li style="padding: 14px 0; border-bottom: 1px solid #C9E4DF"><a href="#" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Fund management made simpler</a><p style="margin: 4px 0 0; font-size: 14px; line-height: 1.4; color: #4B676C">One platform for operations, oversight, and investor updates.</p></li>
+          <li style="padding: 14px 0; border-bottom: 1px solid #C9E4DF"><a href="#" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Abu Dhabi investor roundtable</a><p style="margin: 4px 0 0; font-size: 14px; line-height: 1.4; color: #4B676C">A private conversation on capital, growth, and resilience.</p></li>
+          <li style="padding: 14px 0; border-bottom: 1px solid #C9E4DF"><a href="#" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Private credit for growing companies</a><p style="margin: 4px 0 0; font-size: 14px; line-height: 1.4; color: #4B676C">Flexible financing built for the Gulf's next generation of businesses.</p></li>
+          <li style="padding: 14px 0; border-bottom: 1px solid #C9E4DF"><a href="#" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">ESG reporting for fund managers</a><p style="margin: 4px 0 0; font-size: 14px; line-height: 1.4; color: #4B676C">Turn sustainability data into clear investor communication.</p></li>
+          <li style="padding: 14px 0 4px"><a href="#" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Wealth management in the GCC</a><p style="margin: 4px 0 0; font-size: 14px; line-height: 1.4; color: #4B676C">A new perspective on serving the region's emerging wealth.</p></li>`);
+
+        const logoLabels = ['GF', 'PM', 'DF', 'AI', 'VC', 'FM', 'AD', 'PC', 'ES', 'WM'];
+        sponsored.querySelectorAll('li').forEach((post, index) => {
+          const content = document.createElement('div');
+          while (post.firstChild) content.appendChild(post.firstChild);
+          const logo = document.createElement('span');
+          logo.textContent = logoLabels[index] || 'SP';
+          logo.setAttribute('aria-hidden', 'true');
+          logo.style.cssText = 'display: flex; align-items: center; justify-content: center; flex: 0 0 36px; width: 36px; height: 36px; border-radius: 8px; background: #137A72; color: #F1F5F4; font-size: 11px; font-weight: 700; letter-spacing: 0.04em';
+          post.style.display = 'flex';
+          post.style.gap = '12px';
+          post.style.alignItems = 'flex-start';
+          post.appendChild(logo);
+          post.appendChild(content);
+        });
+      }
+
+      const sponsoredPodcasts = sidebar.querySelector('[aria-labelledby="sponsored-podcasts-title"]');
+      const sponsoredPosts = sidebar.querySelector('[aria-labelledby="sponsored-title"]');
+      if (sponsoredPodcasts && sponsoredPosts) sidebar.insertBefore(sponsoredPosts, sponsoredPodcasts);
+      if (sponsoredPodcasts) {
+        sponsoredPodcasts.insertAdjacentHTML('afterend', `
+          <section aria-labelledby="uae-influencers-title" style="padding: 22px 24px 24px; border: 1px solid #DCE5E3; border-radius: 14px; background: #FFFFFF; box-shadow: 0 8px 24px rgba(14, 58, 67, 0.06)">
+            <h2 id="uae-influencers-title" style="margin: 0; font-size: 19px; font-weight: 600; color: #0E3A43">UAE Influencers</h2>
+            <p style="margin: 6px 0 0; font-size: 13px; line-height: 1.5; color: #4B676C">Dummy list of the voices shaping UAE finance conversations online.</p>
+            <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 14px">
+              <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><span role="img" aria-label="Dummy avatar" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 50%; background: #0E3A43; color: #FFFFFF; font-size: 12px; font-weight: 700">AH</span><span><span style="display: block; font-size: 14px; font-weight: 600; line-height: 1.3">Amina Al Hashimi</span><span style="display: block; font-size: 12px; color: #7F9A97">Fintech &amp; digital banking commentator</span></span></a>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><span role="img" aria-label="Dummy avatar" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 50%; background: #137A72; color: #FFFFFF; font-size: 12px; font-weight: 700">RK</span><span><span style="display: block; font-size: 14px; font-weight: 600; line-height: 1.3">Rashid Khoury</span><span style="display: block; font-size: 12px; color: #7F9A97">Private markets and VC analyst</span></span></a>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><span role="img" aria-label="Dummy avatar" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 50%; background: #8A6330; color: #FFFFFF; font-size: 12px; font-weight: 700">SM</span><span><span style="display: block; font-size: 14px; font-weight: 600; line-height: 1.3">Sara Mansoori</span><span style="display: block; font-size: 12px; color: #7F9A97">Real estate investment strategist</span></span></a>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><span role="img" aria-label="Dummy avatar" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 50%; background: #31556D; color: #FFFFFF; font-size: 12px; font-weight: 700">OF</span><span><span style="display: block; font-size: 14px; font-weight: 600; line-height: 1.3">Omar Farouk</span><span style="display: block; font-size: 12px; color: #7F9A97">Wealth management and family offices</span></span></a>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><span role="img" aria-label="Dummy avatar" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 50%; background: #416C56; color: #FFFFFF; font-size: 12px; font-weight: 700">LN</span><span><span style="display: block; font-size: 14px; font-weight: 600; line-height: 1.3">Layla Noor</span><span style="display: block; font-size: 12px; color: #7F9A97">ESG and sustainable finance voice</span></span></a>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><span role="img" aria-label="Dummy avatar" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 50%; background: #5B4675; color: #FFFFFF; font-size: 12px; font-weight: 700">TA</span><span><span style="display: block; font-size: 14px; font-weight: 600; line-height: 1.3">Tariq Abdulla</span><span style="display: block; font-size: 12px; color: #7F9A97">Crypto and digital assets researcher</span></span></a>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><span role="img" aria-label="Dummy avatar" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 50%; background: #874E4B; color: #FFFFFF; font-size: 12px; font-weight: 700">MZ</span><span><span style="display: block; font-size: 14px; font-weight: 600; line-height: 1.3">Mariam Zayed</span><span style="display: block; font-size: 12px; color: #7F9A97">SME banking and credit access</span></span></a>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><span role="img" aria-label="Dummy avatar" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 50%; background: #607A5A; color: #FFFFFF; font-size: 12px; font-weight: 700">KB</span><span><span style="display: block; font-size: 14px; font-weight: 600; line-height: 1.3">Khalid Bin Rashed</span><span style="display: block; font-size: 12px; color: #7F9A97">IPO and capital markets watcher</span></span></a>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><span role="img" aria-label="Dummy avatar" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 50%; background: #356A78; color: #FFFFFF; font-size: 12px; font-weight: 700">HD</span><span><span style="display: block; font-size: 14px; font-weight: 600; line-height: 1.3">Hessa Al Dhaheri</span><span style="display: block; font-size: 12px; color: #7F9A97">Venture building and startup finance</span></span></a>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><span role="img" aria-label="Dummy avatar" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 50%; background: #B58B52; color: #FFFFFF; font-size: 12px; font-weight: 700">YS</span><span><span style="display: block; font-size: 14px; font-weight: 600; line-height: 1.3">Youssef Salman</span><span style="display: block; font-size: 12px; color: #7F9A97">Macro and regional markets outlook</span></span></a>
+            </div>
+          </section>`);
+      }
+
+      const marketsTickerFinal = sidebar.querySelector('[aria-labelledby="markets-ticker-title"]');
+      const sponsoredPostsForMarkets = sidebar.querySelector('[aria-labelledby="sponsored-title"]');
+      if (marketsTickerFinal && sponsoredPostsForMarkets) {
+        sponsoredPostsForMarkets.insertAdjacentElement('afterend', marketsTickerFinal);
+      }
+
+      const main = sidebar.parentElement;
+      const careers = sidebar.querySelector('[aria-labelledby="careers-title"]');
+      if (careers) {
+        const careersTitle = careers.querySelector('#careers-title');
+        if (careersTitle) careersTitle.textContent = 'UAE Careers';
+      }
+      const marketDates = sidebar.querySelector('[aria-labelledby="dates-title"]');
+      if (marketDates) marketDates.remove();
+      if (main && careers) {
+        const careerList = careers.querySelector('ul');
+        const existingJobs = Array.from(careerList.querySelectorAll('li'));
+        const existingCompanies = ['Gulf Horizon Asset Management', 'Emirates Private Credit', 'Nexa Digital Exchange', 'FlowPay Technologies'];
+        existingJobs.forEach((job, index) => {
+          const company = document.createElement('span');
+          company.textContent = existingCompanies[index];
+          company.style.cssText = 'font-size: 13px; font-weight: 600; color: #52CFC2';
+          job.insertBefore(company, job.querySelector('span'));
+        });
+        careerList.insertAdjacentHTML('beforeend', `
+          <li style="display: flex; flex-direction: column; gap: 3px; padding: 12px 0; border-bottom: 1px solid #2B6A74"><a href="Careers.dc.html" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #F1F5F4">Investment Analyst, MENA</a><span style="font-size: 13px; font-weight: 600; color: #52CFC2">Crescent Capital Partners</span><span style="font-size: 14px; color: #A7C3C2">Multi-strategy fund, Dubai</span></li>
+          <li style="display: flex; flex-direction: column; gap: 3px; padding: 12px 0; border-bottom: 1px solid #2B6A74"><a href="Careers.dc.html" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #F1F5F4">Head of Investor Relations</a><span style="font-size: 13px; font-weight: 600; color: #52CFC2">Al Noor Investments</span><span style="font-size: 14px; color: #A7C3C2">Private markets manager, DIFC</span></li>
+          <li style="display: flex; flex-direction: column; gap: 3px; padding: 12px 0; border-bottom: 1px solid #2B6A74"><a href="Careers.dc.html" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #F1F5F4">Senior Risk Manager</a><span style="font-size: 13px; font-weight: 600; color: #52CFC2">Mosaic Fund Services</span><span style="font-size: 14px; color: #A7C3C2">Fund administrator, Abu Dhabi</span></li>
+          <li style="display: flex; flex-direction: column; gap: 3px; padding: 12px 0; border-bottom: 1px solid #2B6A74"><a href="Careers.dc.html" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #F1F5F4">Compliance Manager</a><span style="font-size: 13px; font-weight: 600; color: #52CFC2">Harborstone Financial</span><span style="font-size: 14px; color: #A7C3C2">Wealth platform, Dubai</span></li>
+          <li style="display: flex; flex-direction: column; gap: 3px; padding: 12px 0; border-bottom: 1px solid #2B6A74"><a href="Careers.dc.html" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #F1F5F4">Product Lead, WealthTech</a><span style="font-size: 13px; font-weight: 600; color: #52CFC2">Sahra Wealth</span><span style="font-size: 14px; color: #A7C3C2">Digital wealth manager, DIFC</span></li>
+          <li style="display: flex; flex-direction: column; gap: 3px; padding: 12px 0; border-bottom: 1px solid #2B6A74"><a href="Careers.dc.html" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #F1F5F4">Associate, Venture Capital</a><span style="font-size: 13px; font-weight: 600; color: #52CFC2">Desert Seed Ventures</span><span style="font-size: 14px; color: #A7C3C2">Early-stage investor, Dubai</span></li>
+          <li style="display: flex; flex-direction: column; gap: 3px; padding: 12px 0; border-bottom: 1px solid #2B6A74"><a href="Careers.dc.html" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #F1F5F4">Treasury Manager</a><span style="font-size: 13px; font-weight: 600; color: #52CFC2">Marhaba Holdings</span><span style="font-size: 14px; color: #A7C3C2">Family office, Abu Dhabi</span></li>
+          <li style="display: flex; flex-direction: column; gap: 3px; padding: 12px 0; border-bottom: 1px solid #2B6A74"><a href="Careers.dc.html" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #F1F5F4">Quantitative Researcher</a><span style="font-size: 13px; font-weight: 600; color: #52CFC2">Vertex Alpha</span><span style="font-size: 14px; color: #A7C3C2">Systematic strategies, Dubai</span></li>
+          <li style="display: flex; flex-direction: column; gap: 3px; padding: 12px 0; border-bottom: 1px solid #2B6A74"><a href="Careers.dc.html" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #F1F5F4">Legal Counsel, Funds</a><span style="font-size: 13px; font-weight: 600; color: #52CFC2">Meydan Legal</span><span style="font-size: 14px; color: #A7C3C2">Financial services law firm, DIFC</span></li>
+          <li style="display: flex; flex-direction: column; gap: 3px; padding: 12px 0; border-bottom: 1px solid #2B6A74"><a href="Careers.dc.html" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #F1F5F4">Marketing Director</a><span style="font-size: 13px; font-weight: 600; color: #52CFC2">Lighthouse Asset Partners</span><span style="font-size: 14px; color: #A7C3C2">Institutional manager, Dubai</span></li>
+          <li style="display: flex; flex-direction: column; gap: 3px; padding: 12px 0; border-bottom: 1px solid #2B6A74"><a href="Careers.dc.html" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #F1F5F4">Operations Specialist</a><span style="font-size: 13px; font-weight: 600; color: #52CFC2">Atlas Fund Administration</span><span style="font-size: 14px; color: #A7C3C2">Alternative investments, Abu Dhabi</span></li>
+          <li style="display: flex; flex-direction: column; gap: 3px; padding: 12px 0; border-bottom: 1px solid #2B6A74"><a href="Careers.dc.html" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #F1F5F4">Client Service Manager</a><span style="font-size: 13px; font-weight: 600; color: #52CFC2">Palm Gate Investments</span><span style="font-size: 14px; color: #A7C3C2">Regional asset manager, Dubai</span></li>
+          <li style="display: flex; flex-direction: column; gap: 3px; padding: 12px 0; border-bottom: 1px solid #2B6A74"><a href="Careers.dc.html" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #F1F5F4">Data Engineer</a><span style="font-size: 13px; font-weight: 600; color: #52CFC2">Namaa Analytics</span><span style="font-size: 14px; color: #A7C3C2">Investment data platform, DIFC</span></li>
+          <li style="display: flex; flex-direction: column; gap: 3px; padding: 12px 0; border-bottom: 1px solid #2B6A74"><a href="Careers.dc.html" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #F1F5F4">Senior Relationship Manager</a><span style="font-size: 13px; font-weight: 600; color: #52CFC2">Oasis Private Bank</span><span style="font-size: 14px; color: #A7C3C2">Private banking, Abu Dhabi</span></li>
+          <li style="display: flex; flex-direction: column; gap: 3px; padding: 12px 0"><a href="Careers.dc.html" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #F1F5F4">Financial Crime Analyst</a><span style="font-size: 13px; font-weight: 600; color: #52CFC2">Blue Dhow Exchange</span><span style="font-size: 14px; color: #A7C3C2">Virtual asset exchange, Dubai</span></li>`);
+
+        careers.querySelectorAll('li span').forEach((detail) => {
+          if (detail.style.color === 'rgb(167, 195, 194)' || detail.style.color === '#A7C3C2') detail.remove();
+        });
+
+        main.style.display = 'grid';
+        main.style.gridTemplateColumns = 'minmax(0, 2fr) minmax(220px, 1fr) minmax(220px, 1fr)';
+        main.style.gap = '40px';
+        main.style.alignItems = 'stretch';
+
+        const careersColumn = document.createElement('aside');
+        careersColumn.setAttribute('aria-label', 'Careers');
+        careersColumn.style.cssText = 'min-width: 0; display: flex; flex-direction: column; gap: 28px';
+        careers.style.minHeight = '720px';
+        careersColumn.appendChild(careers);
+        const resourcing = document.createElement('section');
+        resourcing.setAttribute('aria-labelledby', 'career-resources-title');
+        resourcing.style.cssText = 'padding: 22px 24px 24px; border: 1px solid #DCE5E3; border-radius: 14px; background: #FFFFFF; box-shadow: 0 8px 24px rgba(14, 58, 67, 0.06)';
+        resourcing.innerHTML = `
+          <h2 id="career-resources-title" style="margin: 0; font-size: 19px; font-weight: 600; color: #0E3A43">Career Resources</h2>
+          <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 14px">
+            <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy UAE government agency logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #0E3A43, #52CFC2); color: #FFFFFF; font-size: 11px; font-weight: 700">UAE</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Ministry of Finance</span></a>
+            <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy UAE government agency logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #B58B52, #6B4E32); color: #FFFFFF; font-size: 11px; font-weight: 700">CBU</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Central Bank of the UAE</span></a>
+            <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy UAE government agency logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #7F9A97, #164B55); color: #FFFFFF; font-size: 11px; font-weight: 700">DIFC</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Dubai International Financial Centre</span></a>
+            <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy UAE government agency logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #C9A9A0, #874E4B); color: #FFFFFF; font-size: 11px; font-weight: 700">ADX</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Abu Dhabi Securities Exchange</span></a>
+            <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy UAE government agency logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #6F8E8D, #2B6A74); color: #FFFFFF; font-size: 11px; font-weight: 700">ADGM</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Abu Dhabi Global Market</span></a>
+            <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy UAE government agency logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #4F8A8B, #1C5965); color: #FFFFFF; font-size: 11px; font-weight: 700">MOE</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Ministry of Economy</span></a>
+            <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy UAE government agency logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #D3B46A, #8A6330); color: #FFFFFF; font-size: 11px; font-weight: 700">DLD</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Dubai Land Department</span></a>
+            <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy UAE government agency logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #9EB9A5, #416C56); color: #FFFFFF; font-size: 11px; font-weight: 700">RERA</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Dubai RERA</span></a>
+            <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy UAE government agency logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #B4A4C9, #5B4675); color: #FFFFFF; font-size: 11px; font-weight: 700">TAMM</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">TAMM Abu Dhabi</span></a>
+            <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy UAE government agency logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #C6A59B, #794C47); color: #FFFFFF; font-size: 11px; font-weight: 700">FCA</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Federal Competitiveness Authority</span></a>
+            <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy UAE government agency logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #8BA9C1, #31556D); color: #FFFFFF; font-size: 11px; font-weight: 700">FCSC</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Federal Competitiveness and Statistics Centre</span></a>
+          </div>`;
+        careersColumn.appendChild(resourcing);
+        const morningBrief = sidebar.querySelector('#newsletter');
+        if (morningBrief) {
+          sidebar.insertBefore(morningBrief, sidebar.firstElementChild);
+        }
+        if (morningBrief) {
+          const briefTitle = morningBrief.querySelector('#brief-title');
+          if (briefTitle) briefTitle.textContent = 'Subscribe to stay ahead';
+          const briefCopy = morningBrief.querySelector('p');
+          if (briefCopy) briefCopy.remove();
+          const briefEmailLabel = morningBrief.querySelector('label[for="brief-email"]');
+          if (briefEmailLabel) briefEmailLabel.textContent = 'Email';
+
+          const morningBriefCopy = morningBrief.cloneNode(true);
+          morningBriefCopy.removeAttribute('id');
+          const copyTitle = morningBriefCopy.querySelector('#brief-title');
+          if (copyTitle) {
+            copyTitle.id = 'brief-title-careers';
+            morningBriefCopy.setAttribute('aria-labelledby', 'brief-title-careers');
+          }
+          const copyEmailInput = morningBriefCopy.querySelector('#brief-email');
+          if (copyEmailInput) copyEmailInput.id = 'brief-email-careers';
+          const copyEmailLabel = morningBriefCopy.querySelector('label[for="brief-email"]');
+          if (copyEmailLabel) copyEmailLabel.setAttribute('for', 'brief-email-careers');
+          morningBriefCopy.style.marginTop = '28px';
+          careersColumn.appendChild(morningBriefCopy);
+        }
+        const createAdBanner = (label, headline, colors) => {
+          const banner = document.createElement('a');
+          banner.href = '#';
+          banner.setAttribute('aria-label', `${label}: ${headline}`);
+          banner.style.cssText = `display: flex; min-height: 230px; flex-direction: column; justify-content: space-between; padding: 22px; border-radius: 14px; background: linear-gradient(145deg, ${colors[0]}, ${colors[1]}); color: #FFFFFF; text-decoration: none; box-shadow: 0 12px 30px rgba(14, 58, 67, 0.14)`;
+          banner.innerHTML = `<span style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.82">${label}</span><strong style="max-width: 250px; font-family: 'Newsreader', Georgia, serif; font-size: 25px; line-height: 1.15; font-weight: 600">${headline}</strong><span style="font-size: 13px; font-weight: 600; color: #D8F5EF">Learn more <span aria-hidden="true">&#8594;</span></span>`;
+          return banner;
+        };
+        const smallAds = [
+          ['Fund research made clearer', ['#0E3A43', '#137A72']],
+          ['Grow your UAE portfolio', ['#8A6330', '#B58B52']],
+          ['Invest with local insight', ['#31556D', '#8BA9C1']],
+          ['The future of private markets', ['#416C56', '#9EB9A5']],
+          ['Connect with GCC capital', ['#5B4675', '#B4A4C9']]
+        ];
+        smallAds.forEach(([headline, colors]) => {
+          const ad = createAdBanner('Sponsored', headline, colors);
+          ad.setAttribute('data-sponsored-banner', 'true');
+          ad.style.minHeight = '126px';
+          ad.style.padding = '16px 18px';
+          ad.querySelector('strong').style.fontSize = '20px';
+          careersColumn.appendChild(ad);
+        });
+        const tweets = document.createElement('section');
+        tweets.setAttribute('aria-labelledby', 'tweets-title');
+        tweets.style.cssText = 'margin-top: 28px; padding: 22px 24px 24px; border: 1px solid #DCE5E3; border-radius: 14px; background: #FFFFFF; box-shadow: 0 8px 24px rgba(14, 58, 67, 0.06)';
+        tweets.innerHTML = `
+          <h2 id="tweets-title" style="margin: 0; font-size: 19px; font-weight: 600; color: #0E3A43">Top Tweets</h2>
+          <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 14px">
+            <a href="#" style="display: flex; gap: 10px; color: #0E3A43; text-decoration: none"><span role="img" aria-label="Dummy avatar" style="display: flex; align-items: center; justify-content: center; flex: 0 0 32px; width: 32px; height: 32px; border-radius: 50%; background: #137A72; color: #FFFFFF; font-size: 10px; font-weight: 700">FM</span><span style="font-size: 13px; line-height: 1.4"><strong>Funds Monitor</strong> <span style="color: #7F9A97">@fundsmonitor</span><br>UAE private markets continue to attract global attention. Dummy tweet.</span></a>
+            <a href="#" style="display: flex; gap: 10px; color: #0E3A43; text-decoration: none"><span role="img" aria-label="Dummy avatar" style="display: flex; align-items: center; justify-content: center; flex: 0 0 32px; width: 32px; height: 32px; border-radius: 50%; background: #8A6330; color: #FFFFFF; font-size: 10px; font-weight: 700">UE</span><span style="font-size: 13px; line-height: 1.4"><strong>UAE Economy</strong> <span style="color: #7F9A97">@uaeeconomy</span><br>New investment data points to a busy final quarter. Dummy tweet.</span></a>
+            <a href="#" style="display: flex; gap: 10px; color: #0E3A43; text-decoration: none"><span role="img" aria-label="Dummy avatar" style="display: flex; align-items: center; justify-content: center; flex: 0 0 32px; width: 32px; height: 32px; border-radius: 50%; background: #31556D; color: #FFFFFF; font-size: 10px; font-weight: 700">DX</span><span style="font-size: 13px; line-height: 1.4"><strong>Dubai Exchange</strong> <span style="color: #7F9A97">@dubai_exchange</span><br>Trading activity remains steady across listed sectors. Dummy tweet.</span></a>
+            <a href="#" style="display: flex; gap: 10px; color: #0E3A43; text-decoration: none"><span role="img" aria-label="Dummy avatar" style="display: flex; align-items: center; justify-content: center; flex: 0 0 32px; width: 32px; height: 32px; border-radius: 50%; background: #416C56; color: #FFFFFF; font-size: 10px; font-weight: 700">RE</span><span style="font-size: 13px; line-height: 1.4"><strong>Real Estate UAE</strong> <span style="color: #7F9A97">@realestateuae</span><br>Residential launches are reshaping buyer conversations. Dummy tweet.</span></a>
+            <a href="#" style="display: flex; gap: 10px; color: #0E3A43; text-decoration: none"><span role="img" aria-label="Dummy avatar" style="display: flex; align-items: center; justify-content: center; flex: 0 0 32px; width: 32px; height: 32px; border-radius: 50%; background: #5B4675; color: #FFFFFF; font-size: 10px; font-weight: 700">GC</span><span style="font-size: 13px; line-height: 1.4"><strong>GCC Capital</strong> <span style="color: #7F9A97">@gcccapital</span><br>Regional allocators are looking beyond traditional strategies. Dummy tweet.</span></a>
+            <a href="#" style="display: flex; gap: 10px; color: #0E3A43; text-decoration: none"><span role="img" aria-label="Dummy avatar" style="display: flex; align-items: center; justify-content: center; flex: 0 0 32px; width: 32px; height: 32px; border-radius: 50%; background: #874E4B; color: #FFFFFF; font-size: 10px; font-weight: 700">FD</span><span style="font-size: 13px; line-height: 1.4"><strong>Finance Daily</strong> <span style="color: #7F9A97">@financedaily</span><br>Funds are reviewing their regional growth plans. Dummy tweet.</span></a>
+            <a href="#" style="display: flex; gap: 10px; color: #0E3A43; text-decoration: none"><span role="img" aria-label="Dummy avatar" style="display: flex; align-items: center; justify-content: center; flex: 0 0 32px; width: 32px; height: 32px; border-radius: 50%; background: #607A5A; color: #FFFFFF; font-size: 10px; font-weight: 700">AF</span><span style="font-size: 13px; line-height: 1.4"><strong>Abu Dhabi Finance</strong> <span style="color: #7F9A97">@abudhabifin</span><br>Institutional interest in local opportunities is rising. Dummy tweet.</span></a>
+            <a href="#" style="display: flex; gap: 10px; color: #0E3A43; text-decoration: none"><span role="img" aria-label="Dummy avatar" style="display: flex; align-items: center; justify-content: center; flex: 0 0 32px; width: 32px; height: 32px; border-radius: 50%; background: #356A78; color: #FFFFFF; font-size: 10px; font-weight: 700">VC</span><span style="font-size: 13px; line-height: 1.4"><strong>Venture Connect</strong> <span style="color: #7F9A97">@ventureconnect</span><br>Founders are preparing for the next funding cycle. Dummy tweet.</span></a>
+            <a href="#" style="display: flex; gap: 10px; color: #0E3A43; text-decoration: none"><span role="img" aria-label="Dummy avatar" style="display: flex; align-items: center; justify-content: center; flex: 0 0 32px; width: 32px; height: 32px; border-radius: 50%; background: #B58B52; color: #FFFFFF; font-size: 10px; font-weight: 700">IM</span><span style="font-size: 13px; line-height: 1.4"><strong>Investment MENA</strong> <span style="color: #7F9A97">@investmentmena</span><br>Private credit is becoming a bigger part of portfolios. Dummy tweet.</span></a>
+            <a href="#" style="display: flex; gap: 10px; color: #0E3A43; text-decoration: none"><span role="img" aria-label="Dummy avatar" style="display: flex; align-items: center; justify-content: center; flex: 0 0 32px; width: 32px; height: 32px; border-radius: 50%; background: #8BA9C1; color: #FFFFFF; font-size: 10px; font-weight: 700">GF</span><span style="font-size: 13px; line-height: 1.4"><strong>Gulf Funds</strong> <span style="color: #7F9A97">@gulffunds</span><br>More managers are building teams in the UAE. Dummy tweet.</span></a>
+          </div>`;
+        const influencersSection = sidebar.querySelector('[aria-labelledby="uae-influencers-title"]');
+        if (influencersSection) {
+          influencersSection.insertAdjacentElement('afterend', tweets);
+        } else {
+          sidebar.appendChild(tweets);
+        }
+        const hiringBox = document.createElement('div');
+        hiringBox.style.cssText = 'margin-top: 28px; padding: 24px; border-radius: 14px; background: #0E3A43; color: #F1F5F4; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap';
+        hiringBox.innerHTML = `
+          <div>
+            <h2 style="margin: 0; font-family: 'Newsreader', 'Georgia', serif; font-size: 20px; font-weight: 600">Hiring in UAE finance?</h2>
+            <p style="margin: 4px 0 0; font-size: 14px; color: #CFE0DE">Dummy call to action &mdash; post a role to reach the Funds.ae community.</p>
+          </div>
+          <a href="Careers.dc.html" style="flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; height: 44px; padding: 0 22px; border: 1px solid #A7C3C2; border-radius: 10px; color: #F1F5F4; font-size: 15px; font-weight: 500; text-decoration: none">Post a role (dummy)</a>
+        `;
+        const influencersSectionForHiring = sidebar.querySelector('[aria-labelledby="uae-influencers-title"]');
+        if (influencersSectionForHiring) {
+          sidebar.insertBefore(hiringBox, influencersSectionForHiring);
+        } else {
+          sidebar.appendChild(hiringBox);
+        }
+        const professionalServicesBox = document.createElement('section');
+        professionalServicesBox.setAttribute('aria-labelledby', 'professional-services-title');
+        professionalServicesBox.style.cssText = 'margin-top: 14px; padding: 22px 24px 24px; border: 1px solid #DCE5E3; border-radius: 14px; background: #FFFFFF; box-shadow: 0 8px 24px rgba(14, 58, 67, 0.06); flex: 1 1 auto; display: flex; flex-direction: column';
+        professionalServicesBox.innerHTML = `
+          <h2 id="professional-services-title" style="margin: 0; font-size: 15px; font-weight: 600; color: #0E3A43">Professional Services Companies</h2>
+          <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 14px">
+            <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy company logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #0E3A43, #52CFC2); color: #FFFFFF; font-size: 11px; font-weight: 700">LAW</div><span><span style="display: block; font-size: 14px; font-weight: 600; line-height: 1.3">Meydan Legal Advisors</span><span style="display: block; font-size: 12px; color: #7F9A97">www.meydanlegal-dummy.ae</span></span></a>
+            <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy company logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #B58B52, #6B4E32); color: #FFFFFF; font-size: 11px; font-weight: 700">AUD</div><span><span style="display: block; font-size: 14px; font-weight: 600; line-height: 1.3">Atlas Fund Auditors</span><span style="display: block; font-size: 12px; color: #7F9A97">www.atlasauditors-dummy.ae</span></span></a>
+            <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy company logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #7F9A97, #164B55); color: #FFFFFF; font-size: 11px; font-weight: 700">TAX</div><span><span style="display: block; font-size: 14px; font-weight: 600; line-height: 1.3">Oasis Tax Advisory</span><span style="display: block; font-size: 12px; color: #7F9A97">www.oasistax-dummy.ae</span></span></a>
+            <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy company logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #C9A9A0, #874E4B); color: #FFFFFF; font-size: 11px; font-weight: 700">ADM</div><span><span style="display: block; font-size: 14px; font-weight: 600; line-height: 1.3">Palm Gate Fund Administration</span><span style="display: block; font-size: 12px; color: #7F9A97">www.palmgateadmin-dummy.ae</span></span></a>
+            <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy company logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #6F8E8D, #2B6A74); color: #FFFFFF; font-size: 11px; font-weight: 700">CON</div><span><span style="display: block; font-size: 14px; font-weight: 600; line-height: 1.3">Namaa Strategy Consulting</span><span style="display: block; font-size: 12px; color: #7F9A97">www.namaaconsulting-dummy.ae</span></span></a>
+            <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy company logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #4F8A8B, #1C5965); color: #FFFFFF; font-size: 11px; font-weight: 700">IT</div><span><span style="display: block; font-size: 14px; font-weight: 600; line-height: 1.3">Vertex Fund Tech Services</span><span style="display: block; font-size: 12px; color: #7F9A97">www.vertexfundtech-dummy.ae</span></span></a>
+          </div>`;
+        careersColumn.appendChild(professionalServicesBox);
+        window.__careersColumn = careersColumn;
+        main.appendChild(careersColumn);
+
+        const responsiveStyle = document.createElement('style');
+        responsiveStyle.textContent = `
+          :root { --ink: #0E3A43; --muted: #587176; --line: #D9E7E4; --mint: #52CFC2; --surface: #FFFFFF; --wash: #F2F7F5; }
+          body { background: #F7FAF8 !important; color: var(--ink); }
+          header.d-only { box-shadow: 0 8px 24px rgba(14, 58, 67, 0.12); }
+          header.d-only nav a { position: relative; transition: color 160ms ease, background 160ms ease; }
+          header.d-only nav a:hover { color: #FFFFFF !important; }
+          header.d-only nav a:not([aria-current="page"])::after { content: ''; position: absolute; right: 0; bottom: 18px; left: 0; height: 2px; background: var(--mint); transform: scaleX(0); transform-origin: center; transition: transform 160ms ease; }
+          header.d-only nav a:not([aria-current="page"]):hover::after { transform: scaleX(1); }
+          main.wrap { padding-top: 48px !important; }
+          .news > .tabs-row { gap: 14px !important; margin-bottom: 8px; }
+          .tabs-row button { max-width: 100%; font-size: 14px !important; color: var(--muted) !important; transition: color 160ms ease, box-shadow 160ms ease; }
+          .tabs-row button:hover { color: var(--ink) !important; }
+          .news article { transition: transform 180ms ease, border-color 180ms ease; }
+          .news article:hover { transform: translateX(4px); border-color: #9CCEC8 !important; }
+          aside > section { box-shadow: 0 8px 24px rgba(14, 58, 67, 0.06); }
+          aside > section[aria-labelledby="markets-ticker-title"], aside > section[aria-labelledby="sponsored-title"] { box-shadow: 0 10px 28px rgba(14, 58, 67, 0.08); }
+          aside > section[aria-labelledby="sponsored-title"] { background: linear-gradient(135deg, #E8F5F2 0%, #F4FAF8 100%) !important; }
+          aside > section[aria-labelledby="careers-title"] { box-shadow: 0 12px 30px rgba(14, 58, 67, 0.18); }
+          input:focus, button:focus, a:focus-visible { outline: 3px solid rgba(82, 207, 194, 0.42); outline-offset: 3px; }
+          a { transition: color 160ms ease; }
+          a:hover { color: #0C6A63 !important; }
+          @media (max-width: 980px) {
+            main.wrap { grid-template-columns: minmax(0, 1fr) !important; padding-top: 28px !important; }
+            main.wrap > .news, main.wrap > aside { min-height: 0 !important; }
+            [aria-labelledby="careers-title"] { min-height: 0 !important; }
+            header.d-only { display: none !important; }
+          }
+          @media (max-width: 620px) {
+            main.wrap { padding-right: 16px !important; padding-left: 16px !important; }
+            [aria-label="UAE Real Estate News"] { grid-template-columns: minmax(0, 1fr) !important; }
+            [aria-label="UAE Business Grants and Funding news"] { grid-template-columns: minmax(0, 1fr) !important; }
+            [aria-label="Other Funding Resources"] > div { grid-template-columns: minmax(0, 1fr) !important; }
+            .news article:hover { transform: none; }
+          }
+        `;
+        document.head.appendChild(responsiveStyle);
+
+        const equalizeColumns = () => {
+          // Columns now hold very different amounts of content (careers list, 20
+          // headlines, sponsor rail, etc.), so forcing every column to match the
+          // tallest one's height just pads the shorter columns with blank space
+          // and pushes the footer far below the visible content. Leave each
+          // column at its natural height instead.
+          Array.from(main.children).forEach((column) => { column.style.minHeight = ''; });
+        };
+        requestAnimationFrame(equalizeColumns);
+        window.addEventListener('resize', equalizeColumns);
+        window.__equalizeFundsColumns = equalizeColumns;
+      }
+
+      const news = main && main.querySelector('.news');
+      if (news) {
+        let activeNewsRegion = 'UAE News';
+        const applyNewsRegion = (region) => {
+          document.querySelectorAll('.news > article').forEach((article) => {
+            article.style.display = article.dataset.newsRegion === region ? '' : 'none';
+          });
+          document.querySelectorAll('[data-more-news-region]').forEach((link) => {
+            link.style.display = link.dataset.moreNewsRegion === region ? 'inline-block' : 'none';
+          });
+        };
+        const limitNewsTabs = () => {
+          const currentNews = document.querySelector('.news');
+          const tabRow = currentNews && currentNews.querySelector('.tabs-row');
+          if (!tabRow) return;
+          Array.from(tabRow.querySelectorAll('button')).forEach((tab) => {
+            if (/^(all|markets?|funds?)$/i.test(tab.textContent.trim())) tab.remove();
+          });
+          const tabs = Array.from(tabRow.querySelectorAll('button'));
+          if (tabs.length >= 2) {
+            if (tabs[0].textContent !== 'UAE News') tabs[0].textContent = 'UAE News';
+            if (tabs[1].textContent !== 'Global News') tabs[1].textContent = 'Global News';
+            tabs.slice(2).forEach((tab) => tab.remove());
+            tabs.forEach((tab) => {
+              if (tab.dataset.newsRegionBound) return;
+              tab.dataset.newsRegionBound = 'true';
+              tab.addEventListener('click', () => {
+                activeNewsRegion = tab.textContent.trim();
+                applyNewsRegion(activeNewsRegion);
+              });
+            });
+            applyNewsRegion(activeNewsRegion);
+          }
+        };
+        limitNewsTabs();
+        new MutationObserver(limitNewsTabs).observe(document.body, { childList: true, subtree: true });
+        setInterval(limitNewsTabs, 250);
+        const articles = Array.from(news.querySelectorAll('article'));
+        articles.forEach((article) => { article.dataset.newsRegion = 'UAE News'; });
+        news.querySelectorAll('span[aria-hidden="true"]').forEach((bullet) => bullet.remove());
+        news.querySelectorAll('article > div[style*="margin-top: 6px"]').forEach((relatedStory) => relatedStory.remove());
+        news.querySelectorAll('article > div[style*="line-height: 1.6"]').forEach((moreLinksRow) => moreLinksRow.remove());
+        articles.forEach((article) => { article.style.borderBottom = '1px solid #DCE5E3'; });
+        const originalUaeSources = ['Emirates Business Journal', 'Gulf Finance Wire', 'The National Ledger', 'UAE Markets Today', 'Khaleej Capital Report', 'Dirham Daily', 'Federal Finance Bulletin'];
+        articles.forEach((article, index) => {
+          const summary = article.querySelector('p');
+          if (summary) summary.remove();
+          const headline = article.querySelector('h2');
+          if (headline) {
+            headline.insertAdjacentHTML('afterend', `<p style="margin: 0; font-size: 13px; font-weight: 500; color: #7F9A97">Source: ${originalUaeSources[index % originalUaeSources.length]} (dummy)</p>`);
+          }
+        });
+        const dummyStories = [
+          ['UAE News', 'UAE launches new green finance initiative for local businesses', 'Emirates Business Journal'],
+          ['UAE News', 'Abu Dhabi investment community prepares for a busy final quarter', 'Gulf Finance Wire'],
+          ['UAE News', 'Dubai fintech firms report stronger demand from institutional clients', 'The National Ledger'],
+          ['UAE News', 'Sharjah free zones report rising demand from SME founders', 'UAE Markets Today'],
+          ['UAE News', 'RAK industrial parks see fresh manufacturing investment', 'Khaleej Capital Report'],
+          ['UAE News', 'UAE banks report steady growth in SME lending', 'Dirham Daily'],
+          ['UAE News', 'Federal authorities outline new rules for fund managers', 'Federal Finance Bulletin'],
+          ['UAE News', 'Dubai family offices increase allocations to regional startups', 'Emirates Business Journal'],
+          ['UAE News', 'Abu Dhabi sovereign wealth vehicles expand local investments', 'Gulf Finance Wire'],
+          ['UAE News', 'UAE insurers roll out new products for small businesses', 'The National Ledger'],
+          ['UAE News', 'Free zone authorities simplify licensing for fintech firms', 'UAE Markets Today'],
+          ['UAE News', 'UAE exchanges report higher trading volumes this quarter', 'Khaleej Capital Report'],
+          ['UAE News', 'Regional banks expand green financing programmes', 'Dirham Daily']
+        ];
+        const globalStories = [
+          ['European markets edge higher as investors assess new inflation data', 'Global Markets Wire'],
+          ['Asia-Pacific funds increase allocations to renewable infrastructure', 'FinPulse Daily'],
+          ['US private equity deal activity shows early signs of recovery', 'Capital Horizon'],
+          ['African startups attract fresh funding for cross-border payments', 'MarketEdge Today'],
+          ['London asset managers focus on transparent fee structures', 'The Ledger Report'],
+          ['Singapore expands its role as a hub for digital assets', 'WorldFin Tribune'],
+          ['Latin American debt markets draw renewed investor attention', 'Bourse & Beyond'],
+          ['Canadian pension funds back next generation climate technology', 'Emerging Markets Desk'],
+          ['Swiss wealth managers add private credit to client portfolios', 'The Finance Loop'],
+          ['Australian super funds prepare for infrastructure expansion', 'Global Capital Post'],
+          ['Japanese conglomerates increase venture investment abroad', 'Market Signal'],
+          ['Middle East sovereign funds diversify into private markets', 'The Investor Wire'],
+          ['South Korean regulators outline new fintech licensing rules', 'Finance Frontier'],
+          ['Brazilian fund managers see inflows into local equities', 'Global Economy Watch'],
+          ['German family offices expand direct lending activity', 'The Trading Desk'],
+          ['Indian startups attract record cross-border venture funding', 'Capital Flows Daily'],
+          ['French insurers increase exposure to infrastructure debt', 'World Markets Journal'],
+          ['US regional banks tighten lending standards for SMEs', 'The Fund Report'],
+          ['Chinese asset managers expand offshore fund offerings', 'Global Business Wire'],
+          ['Nordic pension funds increase allocations to private equity', 'Finance & Markets Today']
+        ];
+        globalStories.forEach(([title, source]) => {
+          dummyStories.push(['Global News', title, source]);
+        });
+        dummyStories.forEach(([region, title, source]) => {
+          const article = document.createElement('article');
+          article.dataset.newsRegion = region;
+          if (region === 'Global News' && !news.querySelector('#global-news')) article.id = 'global-news';
+          article.style.cssText = 'padding: 7px 0; border-bottom: 1px solid #DCE5E3; display: flex; flex-direction: column; gap: 4px';
+          const detailLine = `<p style="margin: 0; font-size: 13px; font-weight: 500; color: #7F9A97">Source: ${source} (dummy)</p>`;
+          article.innerHTML = `<div style="font-size: 13px; font-weight: 500; color: #4B676C">${region}:</div><h2 style="margin: 0; font-family: 'Newsreader', 'Georgia', serif; font-size: 20px; font-weight: 600; line-height: 1.25; color: #0E3A43"><a href="#" style="color: #0E3A43">${title}</a></h2>${detailLine}`;
+          news.appendChild(article);
+        });
+        const allArticles = Array.from(news.querySelectorAll('article'));
+        const uaeArticles = allArticles.filter((article) => article.dataset.newsRegion === 'UAE News');
+        const globalArticles = allArticles.filter((article) => article.dataset.newsRegion === 'Global News');
+        uaeArticles.slice(20).forEach((article) => article.remove());
+        globalArticles.slice(20).forEach((article) => article.remove());
+        Array.from(news.querySelectorAll('article')).forEach((article) => {
+          const headline = article.querySelector('h2 a');
+          const summary = article.querySelector('p');
+          if (headline && headline.textContent.length > 92) {
+            headline.textContent = headline.textContent.slice(0, 92).trimEnd() + '…';
+          }
+          article.style.padding = '7px 0';
+          article.style.gap = '4px';
+          if (headline) headline.style.fontSize = '20px';
+          if (summary) summary.style.fontSize = '13px';
+        });
+        const moreNewsLinks = document.createElement('div');
+        moreNewsLinks.style.cssText = 'display: flex; gap: 16px; padding: 20px 0 8px';
+        moreNewsLinks.innerHTML = '<a href="#" data-more-news-region="UAE News" style="display: inline-block; font-size: 14px; font-weight: 600; color: #137A72">More UAE News</a><a href="#" data-more-news-region="Global News" style="display: none; font-size: 14px; font-weight: 600; color: #137A72">More Global News</a>';
+        news.appendChild(moreNewsLinks);
+        applyNewsRegion(activeNewsRegion);
+        const eventsPanel = sidebar && sidebar.querySelector('[aria-labelledby="events-title"]');
+        if (eventsPanel) {
+          const realEstateHeading = document.createElement('h2');
+          realEstateHeading.textContent = 'UAE Real Estate News';
+          realEstateHeading.style.cssText = 'margin: 32px 0 0; padding-top: 24px; border-top: 1px solid #DCE5E3; font-size: 22px; font-weight: 600; color: #0E3A43';
+          news.appendChild(realEstateHeading);
+          const realEstateBox = document.createElement('section');
+          realEstateBox.setAttribute('aria-label', 'UAE Real Estate News');
+          realEstateBox.style.cssText = 'display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 16px; padding: 18px; border: 1px solid #DCE5E3; border-radius: 14px; background: #FFFFFF; box-shadow: 0 8px 24px rgba(14, 58, 67, 0.06)';
+          realEstateBox.innerHTML = `
+            <article style="min-width: 0">
+              <div role="img" aria-label="Dummy Dubai skyline image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #B7DCD7, #0E3A43); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">DUBAI SKYLINE</div>
+              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Dubai residential demand stays strong into the final quarter</a>
+              <p style="margin: 5px 0 0; font-size: 13px; line-height: 1.4; color: #4B676C">Dummy update on new launches and buyer activity.</p>
+            </article>
+            <article style="min-width: 0">
+              <div role="img" aria-label="Dummy Abu Dhabi buildings image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #E6C88A, #6F8E8D); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">ABU DHABI HOMES</div>
+              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Abu Dhabi master-planned communities attract fresh capital</a>
+              <p style="margin: 5px 0 0; font-size: 13px; line-height: 1.4; color: #4B676C">Dummy coverage of infrastructure and property investment.</p>
+            </article>
+            <article style="min-width: 0">
+              <div role="img" aria-label="Dummy UAE property image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #7F9A97, #52CFC2); display: flex; align-items: flex-end; padding: 10px; color: #0E3A43; font-size: 11px; font-weight: 700; letter-spacing: 0.08em">UAE PROPERTY</div>
+              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Rental yields remain a focus for UAE investors</a>
+              <p style="margin: 5px 0 0; font-size: 13px; line-height: 1.4; color: #4B676C">Dummy analysis of rents, yields, and new supply.</p>
+            </article>
+            <article style="min-width: 0">
+              <div role="img" aria-label="Dummy Sharjah homes image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #D9B38C, #875F4A); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">SHARJAH HOMES</div>
+              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Sharjah communities see rising interest from first-time buyers</a>
+              <p style="margin: 5px 0 0; font-size: 13px; line-height: 1.4; color: #4B676C">Dummy report on affordable homes and new neighbourhoods.</p>
+            </article>
+            <article style="min-width: 0">
+              <div role="img" aria-label="Dummy waterfront apartments image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #A8C5D1, #356A78); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">WATERFRONT LIVING</div>
+              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Waterfront apartment launches reshape the Dubai market</a>
+              <p style="margin: 5px 0 0; font-size: 13px; line-height: 1.4; color: #4B676C">Dummy snapshot of premium homes and buyer demand.</p>
+            </article>
+            <article style="min-width: 0">
+              <div role="img" aria-label="Dummy UAE office district image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #D8D0A4, #607A5A); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">OFFICE DISTRICTS</div>
+              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">UAE office districts prepare for another year of expansion</a>
+              <p style="margin: 5px 0 0; font-size: 13px; line-height: 1.4; color: #4B676C">Dummy outlook on commercial property and workspace demand.</p>
+            </article>
+            <article style="min-width: 0">
+              <div role="img" aria-label="Dummy Ras Al Khaimah resort image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #C9DCC0, #4E7A5C); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">RAK RESORTS</div>
+              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Ras Al Khaimah resort developments draw regional buyers</a>
+              <p style="margin: 5px 0 0; font-size: 13px; line-height: 1.4; color: #4B676C">Dummy look at branded residences and tourism-led supply.</p>
+            </article>
+            <article style="min-width: 0">
+              <div role="img" aria-label="Dummy logistics warehouse image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #D3C4A6, #7A5C3E); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">LOGISTICS PARKS</div>
+              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Industrial and logistics parks see growing investor demand</a>
+              <p style="margin: 5px 0 0; font-size: 13px; line-height: 1.4; color: #4B676C">Dummy update on warehousing supply and e-commerce demand.</p>
+            </article>
+            <article style="min-width: 0">
+              <div role="img" aria-label="Dummy off-plan tower image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #B9C9E0, #2F4E6D); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">OFF-PLAN TOWERS</div>
+              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Off-plan tower launches continue at a steady pace</a>
+              <p style="margin: 5px 0 0; font-size: 13px; line-height: 1.4; color: #4B676C">Dummy summary of new project registrations and payment plans.</p>
+            </article>`;
+          realEstateBox.querySelectorAll('[role="img"]').forEach((image) => {
+            image.style.width = '78%';
+            image.style.maxWidth = '150px';
+          });
+          news.appendChild(realEstateBox);
+          eventsPanel.style.marginTop = '28px';
+          if (window.__careersColumn) {
+            const firstSponsoredBanner = window.__careersColumn.querySelector('[data-sponsored-banner]');
+            if (firstSponsoredBanner) {
+              window.__careersColumn.insertBefore(eventsPanel, firstSponsoredBanner);
+            } else {
+              window.__careersColumn.appendChild(eventsPanel);
+            }
+          } else {
+            news.appendChild(eventsPanel);
+          }
+
+          const grantsHeading = document.createElement('h2');
+          grantsHeading.textContent = 'UAE Business Grants & Funding Resources';
+          grantsHeading.style.cssText = 'margin: 32px 0 0; padding-top: 24px; border-top: 1px solid #DCE5E3; font-size: 22px; font-weight: 600; color: #0E3A43';
+          news.appendChild(grantsHeading);
+          const grantsBox = document.createElement('section');
+          grantsBox.setAttribute('aria-label', 'UAE Business Grants and Funding news');
+          grantsBox.style.cssText = 'display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 16px; padding: 18px; border: 1px solid #DCE5E3; border-radius: 14px; background: #FFFFFF; box-shadow: 0 8px 24px rgba(14, 58, 67, 0.06)';
+          grantsBox.innerHTML = `
+            <article style="min-width: 0">
+              <div role="img" aria-label="Dummy SME grant image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #0E3A43, #52CFC2); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">SME GRANTS</div>
+              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">New SME grant round opens for UAE-based founders</a>
+              <p style="margin: 5px 0 0; font-size: 13px; line-height: 1.4; color: #4B676C">Dummy summary of eligibility and application deadlines.</p>
+            </article>
+            <article style="min-width: 0">
+              <div role="img" aria-label="Dummy venture capital image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #B58B52, #6B4E32); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">VENTURE CAPITAL</div>
+              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Regional VCs raise fresh capital for early-stage founders</a>
+              <p style="margin: 5px 0 0; font-size: 13px; line-height: 1.4; color: #4B676C">Dummy coverage of new fund closes and sector focus.</p>
+            </article>
+            <article style="min-width: 0">
+              <div role="img" aria-label="Dummy angel investor image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #7F9A97, #164B55); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">ANGEL NETWORK</div>
+              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Gulf angel network doubles membership this year</a>
+              <p style="margin: 5px 0 0; font-size: 13px; line-height: 1.4; color: #4B676C">Dummy look at deal flow and ticket sizes for new members.</p>
+            </article>
+            <article style="min-width: 0">
+              <div role="img" aria-label="Dummy crowdfunding image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #C9A9A0, #874E4B); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">CROWDFUNDING</div>
+              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Equity crowdfunding platforms report record activity</a>
+              <p style="margin: 5px 0 0; font-size: 13px; line-height: 1.4; color: #4B676C">Dummy snapshot of campaigns closing above target.</p>
+            </article>
+            <article style="min-width: 0">
+              <div role="img" aria-label="Dummy free zone incubator image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #6F8E8D, #2B6A74); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">INCUBATORS</div>
+              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Free zone incubators expand support for early founders</a>
+              <p style="margin: 5px 0 0; font-size: 13px; line-height: 1.4; color: #4B676C">Dummy update on mentorship and workspace grants.</p>
+            </article>
+            <article style="min-width: 0">
+              <div role="img" aria-label="Dummy innovation grant image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #4F8A8B, #1C5965); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">INNOVATION GRANTS</div>
+              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Federal innovation grants target deep tech startups</a>
+              <p style="margin: 5px 0 0; font-size: 13px; line-height: 1.4; color: #4B676C">Dummy breakdown of award sizes and sector priorities.</p>
+            </article>
+            <article style="min-width: 0">
+              <div role="img" aria-label="Dummy trade finance image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #D3B46A, #8A6330); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">TRADE FINANCE</div>
+              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Trade finance facilities expand for exporting SMEs</a>
+              <p style="margin: 5px 0 0; font-size: 13px; line-height: 1.4; color: #4B676C">Dummy overview of new credit lines from local banks.</p>
+            </article>
+            <article style="min-width: 0">
+              <div role="img" aria-label="Dummy private equity image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #B4A4C9, #5B4675); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">PRIVATE EQUITY</div>
+              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Private equity access programme opens to growth-stage firms</a>
+              <p style="margin: 5px 0 0; font-size: 13px; line-height: 1.4; color: #4B676C">Dummy note on ticket sizes and sector eligibility.</p>
+            </article>
+            <article style="min-width: 0">
+              <div role="img" aria-label="Dummy export credit image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #C6A59B, #794C47); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">EXPORT CREDIT</div>
+              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Export credit scheme extends cover for new markets</a>
+              <p style="margin: 5px 0 0; font-size: 13px; line-height: 1.4; color: #4B676C">Dummy update on coverage limits and target sectors.</p>
+            </article>`;
+          grantsBox.querySelectorAll('[role="img"]').forEach((image) => {
+            image.style.width = '78%';
+            image.style.maxWidth = '150px';
+          });
+          news.appendChild(grantsBox);
+
+          const advertiseBox = document.createElement('a');
+          advertiseBox.href = 'Advertise.dc.html';
+          advertiseBox.setAttribute('aria-label', 'Advertise with Funds.ae (dummy)');
+          advertiseBox.style.cssText = 'margin-top: 28px; padding: 16px; border-radius: 14px; background: linear-gradient(145deg, #0E3A43, #137A72); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-height: 250px; text-align: center; text-decoration: none; box-shadow: 0 12px 30px rgba(14, 58, 67, 0.14)';
+          advertiseBox.innerHTML = `
+            <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #D8F5EF">Advertisement</span>
+            <strong style="font-family: 'Newsreader', Georgia, serif; font-size: 24px; font-weight: 600; color: #FFFFFF; max-width: 260px">Advertise with Funds.ae</strong>
+            <span style="font-size: 13px; font-weight: 600; color: #D8F5EF">Reach the UAE finance community <span aria-hidden="true">&#8594;</span></span>
+          `;
+          news.appendChild(advertiseBox);
+
+          const otherFundingHeading = document.createElement('h2');
+          otherFundingHeading.textContent = 'Other Funding Resources';
+          otherFundingHeading.style.cssText = 'margin: 32px 0 0; padding-top: 24px; border-top: 1px solid #DCE5E3; font-size: 22px; font-weight: 600; color: #0E3A43';
+          news.appendChild(otherFundingHeading);
+          const otherFundingBox = document.createElement('section');
+          otherFundingBox.setAttribute('aria-label', 'Other Funding Resources');
+          otherFundingBox.style.cssText = 'margin-top: 16px; padding: 18px; border: 1px solid #DCE5E3; border-radius: 14px; background: #FFFFFF; box-shadow: 0 8px 24px rgba(14, 58, 67, 0.06)';
+          otherFundingBox.innerHTML = `
+            <p style="margin: 0 0 16px; font-size: 14px; line-height: 1.5; color: #4B676C">Dummy links for founders exploring capital options across the UAE.</p>
+            <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px">
+              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #DCE5E3; border-radius: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy funding resource logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #0E3A43, #52CFC2); color: #FFFFFF; font-size: 11px; font-weight: 700">SME</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">SME Loan Guarantee Programme</span></a>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #DCE5E3; border-radius: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy funding resource logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #B58B52, #6B4E32); color: #FFFFFF; font-size: 11px; font-weight: 700">VC</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">UAE Venture Capital Directory</span></a>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #DCE5E3; border-radius: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy funding resource logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #7F9A97, #164B55); color: #FFFFFF; font-size: 11px; font-weight: 700">ANG</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Gulf Angel Investor Network</span></a>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #DCE5E3; border-radius: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy funding resource logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #C9A9A0, #874E4B); color: #FFFFFF; font-size: 11px; font-weight: 700">CF</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Regional Crowdfunding Portal</span></a>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #DCE5E3; border-radius: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy funding resource logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #6F8E8D, #2B6A74); color: #FFFFFF; font-size: 11px; font-weight: 700">KHDA</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Dubai SME Support Office</span></a>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #DCE5E3; border-radius: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy funding resource logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #4F8A8B, #1C5965); color: #FFFFFF; font-size: 11px; font-weight: 700">GRT</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Innovation Grants Portal</span></a>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #DCE5E3; border-radius: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy funding resource logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #D3B46A, #8A6330); color: #FFFFFF; font-size: 11px; font-weight: 700">INC</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Free Zone Incubator Network</span></a>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #DCE5E3; border-radius: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy funding resource logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #9EB9A5, #416C56); color: #FFFFFF; font-size: 11px; font-weight: 700">TRD</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Trade Finance Facility Guide</span></a>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #DCE5E3; border-radius: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy funding resource logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #B4A4C9, #5B4675); color: #FFFFFF; font-size: 11px; font-weight: 700">EQF</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Private Equity Access Programme</span></a>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #DCE5E3; border-radius: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy funding resource logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #C6A59B, #794C47); color: #FFFFFF; font-size: 11px; font-weight: 700">EXP</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Export Credit Support Scheme</span></a>
+            </div>`;
+          news.appendChild(otherFundingBox);
+
+          news.appendChild(realEstateHeading);
+          news.appendChild(realEstateBox);
+        }
+        if (window.__equalizeFundsColumns) requestAnimationFrame(window.__equalizeFundsColumns);
+      }
+    }
   } catch (err) {
     setStatus('Error unpacking: ' + err.message);
     console.error('Bundle unpack error:', err);

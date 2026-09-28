@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Careers · Funds.ae</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --ink: #0E3A43;
+    --muted: #587176;
+    --line: #DCE5E3;
+    --mint: #52CFC2;
+    --surface: #FFFFFF;
+    --wash: #F7FAF8;
+    --ghost: #7F9A97;
+  }
+  body {
+    font-family: 'Jost', 'Futura', 'Century Gothic', sans-serif;
+    background: var(--wash);
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  a { color: inherit; }
+  header {
+    background: var(--ink);
+    color: #F1F5F4;
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  header a.brand {
+    text-decoration: none;
+    color: #F1F5F4;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 0.01em;
+  }
+  header a.back {
+    text-decoration: none;
+    color: #CFE0DE;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  header a.back:hover { color: #FFFFFF; }
+  .page {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr);
+    gap: 40px;
+    align-items: start;
+  }
+  main { min-width: 0; }
+  aside {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .resources-box {
+    padding: 22px 24px 24px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--surface);
+    box-shadow: 0 8px 24px rgba(14, 58, 67, 0.06);
+  }
+  .resources-box h2 {
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .resources-box .links {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 14px;
+  }
+  .resources-box .links a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .resources-box .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    color: #FFFFFF;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .resources-box .label {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .events-box {
+    padding: 22px 24px 20px;
+    border-radius: 14px;
+    background: #F1F5F4;
+  }
+  .events-box h2 {
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .events-headings {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr) 96px;
+    gap: 24px;
+    margin: 14px 0 -2px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ghost);
+  }
+  .events-headings span:last-child { text-align: right; }
+  .events-list {
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 0;
+  }
+  .events-list li {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr) 96px;
+    align-items: center;
+    gap: 24px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .events-list li:last-child { border-bottom: none; }
+  .events-list .day { font-size: 20px; font-weight: 600; line-height: 1.15; color: var(--ink); display: block; }
+  .events-list .month { font-size: 14px; color: var(--muted); }
+  .events-list .event-type { font-family: 'Newsreader', Georgia, serif; font-size: 15px; font-weight: 600; color: var(--ink); }
+  .events-list .city { font-size: 14px; font-weight: 500; color: var(--muted); text-align: right; }
+  .submit-event {
+    display: block;
+    margin-top: 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #137A72;
+    text-decoration: none;
+  }
+  .ad-banner {
+    display: flex;
+    min-height: 126px;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px 18px;
+    border-radius: 14px;
+    color: #FFFFFF;
+    text-decoration: none;
+    box-shadow: 0 12px 30px rgba(14, 58, 67, 0.14);
+  }
+  .ad-banner .tag {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.82;
+  }
+  .ad-banner strong {
+    max-width: 250px;
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 20px;
+    line-height: 1.15;
+    font-weight: 600;
+  }
+  .ad-banner .cta {
+    font-size: 13px;
+    font-weight: 600;
+    color: #D8F5EF;
+  }
+  @media (max-width: 860px) {
+    .page { grid-template-columns: minmax(0, 1fr); }
+  }
+  .intro h1 {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .intro p {
+    margin-top: 12px;
+    max-width: 640px;
+    color: var(--muted);
+    font-size: 16px;
+  }
+  .meta-bar {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-top: 28px;
+    padding: 16px 20px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--surface);
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .meta-bar strong { color: var(--ink); }
+  .roles {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--surface);
+    box-shadow: 0 8px 24px rgba(14, 58, 67, 0.06);
+    overflow: hidden;
+  }
+  .role {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+  .role:last-child { border-bottom: none; }
+  .role-info h2 {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .role-info .company {
+    margin-top: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #137A72;
+  }
+  .role-info .location {
+    margin-top: 2px;
+    font-size: 13px;
+    color: var(--ghost);
+  }
+  .apply-btn {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 0 20px;
+    border-radius: 10px;
+    background: var(--mint);
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .apply-btn:hover { background: #3fb8ab; }
+  .post-role {
+    margin-top: 32px;
+    padding: 24px;
+    border-radius: 14px;
+    background: var(--ink);
+    color: #F1F5F4;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .post-role h2 {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 20px;
+    font-weight: 600;
+  }
+  .post-role p {
+    margin-top: 4px;
+    font-size: 14px;
+    color: #CFE0DE;
+  }
+  .post-role a {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    padding: 0 22px;
+    border: 1px solid #A7C3C2;
+    border-radius: 10px;
+    color: #F1F5F4;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  .post-role a:hover { border-color: #FFFFFF; color: #FFFFFF; }
+  @media (max-width: 620px) {
+    .role { padding: 16px; }
+    .apply-btn { width: 100%; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <a href="this.html" class="brand">Funds.ae</a>
+  <a href="this.html" class="back">&larr; Back to Funds.ae home</a>
+</header>
+<div class="page">
+<main>
+  <div class="intro">
+    <h1>Events and Career Opportunities</h1>
+  </div>
+
+  <div class="post-role">
+    <div>
+      <h2>Hiring in UAE finance?</h2>
+      <p>Dummy call to action &mdash; post a role to reach the Funds.ae community.</p>
+    </div>
+    <a href="#">Post a role (dummy)</a>
+  </div>
+
+  <div class="meta-bar">
+    <span><strong>19</strong> dummy roles</span>
+    <span><strong>Dubai &amp; Abu Dhabi</strong> locations</span>
+    <span>Updated <strong>today (dummy)</strong></span>
+  </div>
+
+  <div class="roles">
+    <div class="role">
+      <div class="role-info">
+        <h2>Portfolio Manager, GCC Equities</h2>
+        <div class="company">Gulf Horizon Asset Management</div>
+        <div class="location">Regional asset manager, DIFC</div>
+      </div>
+      <a class="apply-btn" href="#">Apply (dummy)</a>
+    </div>
+    <div class="role">
+      <div class="role-info">
+        <h2>Associate, Private Credit</h2>
+        <div class="company">Emirates Private Credit</div>
+        <div class="location">Abu Dhabi investment firm, ADGM</div>
+      </div>
+      <a class="apply-btn" href="#">Apply (dummy)</a>
+    </div>
+    <div class="role">
+      <div class="role-info">
+        <h2>Money Laundering Reporting Officer</h2>
+        <div class="company">Nexa Digital Exchange</div>
+        <div class="location">Virtual asset exchange, Dubai</div>
+      </div>
+      <a class="apply-btn" href="#">Apply (dummy)</a>
+    </div>
+    <div class="role">
+      <div class="role-info">
+        <h2>Product Manager, Payments</h2>
+        <div class="company">FlowPay Technologies</div>
+        <div class="location">Payments fintech, Dubai</div>
+      </div>
+      <a class="apply-btn" href="#">Apply (dummy)</a>
+    </div>
+    <div class="role">
+      <div class="role-info">
+        <h2>Investment Analyst, MENA</h2>
+        <div class="company">Crescent Capital Partners</div>
+        <div class="location">Multi-strategy fund, Dubai</div>
+      </div>
+      <a class="apply-btn" href="#">Apply (dummy)</a>
+    </div>
+    <div class="role">
+      <div class="role-info">
+        <h2>Head of Investor Relations</h2>
+        <div class="company">Al Noor Investments</div>
+        <div class="location">Private markets manager, DIFC</div>
+      </div>
+      <a class="apply-btn" href="#">Apply (dummy)</a>
+    </div>
+    <div class="role">
+      <div class="role-info">
+        <h2>Senior Risk Manager</h2>
+        <div class="company">Mosaic Fund Services</div>
+        <div class="location">Fund administrator, Abu Dhabi</div>
+      </div>
+      <a class="apply-btn" href="#">Apply (dummy)</a>
+    </div>
+    <div class="role">
+      <div class="role-info">
+        <h2>Compliance Manager</h2>
+        <div class="company">Harborstone Financial</div>
+        <div class="location">Wealth platform, Dubai</div>
+      </div>
+      <a class="apply-btn" href="#">Apply (dummy)</a>
+    </div>
+    <div class="role">
+      <div class="role-info">
+        <h2>Product Lead, WealthTech</h2>
+        <div class="company">Sahra Wealth</div>
+        <div class="location">Digital wealth manager, DIFC</div>
+      </div>
+      <a class="apply-btn" href="#">Apply (dummy)</a>
+    </div>
+    <div class="role">
+      <div class="role-info">
+        <h2>Associate, Venture Capital</h2>
+        <div class="company">Desert Seed Ventures</div>
+        <div class="location">Early-stage investor, Dubai</div>
+      </div>
+      <a class="apply-btn" href="#">Apply (dummy)</a>
+    </div>
+    <div class="role">
+      <div class="role-info">
+        <h2>Treasury Manager</h2>
+        <div class="company">Marhaba Holdings</div>
+        <div class="location">Family office, Abu Dhabi</div>
+      </div>
+      <a class="apply-btn" href="#">Apply (dummy)</a>
+    </div>
+    <div class="role">
+      <div class="role-info">
+        <h2>Quantitative Researcher</h2>
+        <div class="company">Vertex Alpha</div>
+        <div class="location">Systematic strategies, Dubai</div>
+      </div>
+      <a class="apply-btn" href="#">Apply (dummy)</a>
+    </div>
+    <div class="role">
+      <div class="role-info">
+        <h2>Legal Counsel, Funds</h2>
+        <div class="company">Meydan Legal</div>
+        <div class="location">Financial services law firm, DIFC</div>
+      </div>
+      <a class="apply-btn" href="#">Apply (dummy)</a>
+    </div>
+    <div class="role">
+      <div class="role-info">
+        <h2>Marketing Director</h2>
+        <div class="company">Lighthouse Asset Partners</div>
+        <div class="location">Institutional manager, Dubai</div>
+      </div>
+      <a class="apply-btn" href="#">Apply (dummy)</a>
+    </div>
+    <div class="role">
+      <div class="role-info">
+        <h2>Operations Specialist</h2>
+        <div class="company">Atlas Fund Administration</div>
+        <div class="location">Alternative investments, Abu Dhabi</div>
+      </div>
+      <a class="apply-btn" href="#">Apply (dummy)</a>
+    </div>
+    <div class="role">
+      <div class="role-info">
+        <h2>Client Service Manager</h2>
+        <div class="company">Palm Gate Investments</div>
+        <div class="location">Regional asset manager, Dubai</div>
+      </div>
+      <a class="apply-btn" href="#">Apply (dummy)</a>
+    </div>
+    <div class="role">
+      <div class="role-info">
+        <h2>Data Engineer</h2>
+        <div class="company">Namaa Analytics</div>
+        <div class="location">Investment data platform, DIFC</div>
+      </div>
+      <a class="apply-btn" href="#">Apply (dummy)</a>
+    </div>
+    <div class="role">
+      <div class="role-info">
+        <h2>Senior Relationship Manager</h2>
+        <div class="company">Oasis Private Bank</div>
+        <div class="location">Private banking, Abu Dhabi</div>
+      </div>
+      <a class="apply-btn" href="#">Apply (dummy)</a>
+    </div>
+    <div class="role">
+      <div class="role-info">
+        <h2>Financial Crime Analyst</h2>
+        <div class="company">Blue Dhow Exchange</div>
+        <div class="location">Virtual asset exchange, Dubai</div>
+      </div>
+      <a class="apply-btn" href="#">Apply (dummy)</a>
+    </div>
+  </div>
+</main>
+
+<aside>
+  <section class="events-box">
+    <h2>Events and Expos</h2>
+    <div class="events-headings">
+      <span>Date</span><span>Event Type</span><span>City</span>
+    </div>
+    <ul class="events-list">
+      <li>
+        <div><span class="day">26</span><span class="month">Nov</span></div>
+        <span class="event-type">Finance week</span>
+        <span class="city">Dubai</span>
+      </li>
+      <li>
+        <div><span class="day">23</span><span class="month">Nov</span></div>
+        <span class="event-type">Fintech summit</span>
+        <span class="city">Dubai</span>
+      </li>
+      <li>
+        <div><span class="day">7&ndash;10</span><span class="month">Dec</span></div>
+        <span class="event-type">Finance week</span>
+        <span class="city">Abu Dhabi</span>
+      </li>
+      <li>
+        <div><span class="day">7&ndash;11</span><span class="month">Dec</span></div>
+        <span class="event-type">Technology expo</span>
+        <span class="city">Dubai</span>
+      </li>
+      <li>
+        <div><span class="day">12</span><span class="month">Dec</span></div>
+        <span class="event-type">Networking</span>
+        <span class="city">Dubai</span>
+      </li>
+      <li>
+        <div><span class="day">16</span><span class="month">Dec</span></div>
+        <span class="event-type">Wealth summit</span>
+        <span class="city">Dubai</span>
+      </li>
+      <li>
+        <div><span class="day">3</span><span class="month">Jan</span></div>
+        <span class="event-type">Sustainability expo</span>
+        <span class="city">Abu Dhabi</span>
+      </li>
+      <li>
+        <div><span class="day">9</span><span class="month">Jan</span></div>
+        <span class="event-type">Roundtable</span>
+        <span class="city">Dubai</span>
+      </li>
+      <li>
+        <div><span class="day">15</span><span class="month">Jan</span></div>
+        <span class="event-type">Family office summit</span>
+        <span class="city">Abu Dhabi</span>
+      </li>
+      <li>
+        <div><span class="day">22</span><span class="month">Jan</span></div>
+        <span class="event-type">Digital assets expo</span>
+        <span class="city">Dubai</span>
+      </li>
+    </ul>
+    <a href="#" class="submit-event">Submit your event (dummy)</a>
+  </section>
+
+  <section class="resources-box">
+    <h2>Career Resources</h2>
+    <div class="links">
+      <a href="#"><div class="logo" style="background: linear-gradient(145deg, #0E3A43, #52CFC2)">UAE</div><span class="label">Ministry of Finance</span></a>
+      <a href="#"><div class="logo" style="background: linear-gradient(145deg, #B58B52, #6B4E32)">CBU</div><span class="label">Central Bank of the UAE</span></a>
+      <a href="#"><div class="logo" style="background: linear-gradient(145deg, #7F9A97, #164B55)">DIFC</div><span class="label">Dubai International Financial Centre</span></a>
+      <a href="#"><div class="logo" style="background: linear-gradient(145deg, #C9A9A0, #874E4B)">ADX</div><span class="label">Abu Dhabi Securities Exchange</span></a>
+      <a href="#"><div class="logo" style="background: linear-gradient(145deg, #6F8E8D, #2B6A74)">ADGM</div><span class="label">Abu Dhabi Global Market</span></a>
+      <a href="#"><div class="logo" style="background: linear-gradient(145deg, #4F8A8B, #1C5965)">MOE</div><span class="label">Ministry of Economy</span></a>
+      <a href="#"><div class="logo" style="background: linear-gradient(145deg, #D3B46A, #8A6330)">DLD</div><span class="label">Dubai Land Department</span></a>
+      <a href="#"><div class="logo" style="background: linear-gradient(145deg, #9EB9A5, #416C56)">RERA</div><span class="label">Dubai RERA</span></a>
+      <a href="#"><div class="logo" style="background: linear-gradient(145deg, #B4A4C9, #5B4675)">TAMM</div><span class="label">TAMM Abu Dhabi</span></a>
+      <a href="#"><div class="logo" style="background: linear-gradient(145deg, #C6A59B, #794C47)">FCA</div><span class="label">Federal Competitiveness Authority</span></a>
+      <a href="#"><div class="logo" style="background: linear-gradient(145deg, #8BA9C1, #31556D)">FCSC</div><span class="label">Federal Competitiveness and Statistics Centre</span></a>
+    </div>
+  </section>
+
+  <a href="#" class="ad-banner" style="background: linear-gradient(145deg, #0E3A43, #137A72)" aria-label="Sponsored: Fund research made clearer">
+    <span class="tag">Sponsored</span>
+    <strong>Fund research made clearer</strong>
+    <span class="cta">Learn more &rarr;</span>
+  </a>
+  <a href="#" class="ad-banner" style="background: linear-gradient(145deg, #8A6330, #B58B52)" aria-label="Sponsored: Grow your UAE portfolio">
+    <span class="tag">Sponsored</span>
+    <strong>Grow your UAE portfolio</strong>
+    <span class="cta">Learn more &rarr;</span>
+  </a>
+  <a href="#" class="ad-banner" style="background: linear-gradient(145deg, #31556D, #8BA9C1)" aria-label="Sponsored: Invest with local insight">
+    <span class="tag">Sponsored</span>
+    <strong>Invest with local insight</strong>
+    <span class="cta">Learn more &rarr;</span>
+  </a>
+  <a href="#" class="ad-banner" style="background: linear-gradient(145deg, #416C56, #9EB9A5)" aria-label="Sponsored: The future of private markets">
+    <span class="tag">Sponsored</span>
+    <strong>The future of private markets</strong>
+    <span class="cta">Learn more &rarr;</span>
+  </a>
+  <a href="#" class="ad-banner" style="background: linear-gradient(145deg, #5B4675, #B4A4C9)" aria-label="Sponsored: Connect with GCC capital">
+    <span class="tag">Sponsored</span>
+    <strong>Connect with GCC capital</strong>
+    <span class="cta">Learn more &rarr;</span>
+  </a>
+</aside>
+</div>
+</body>
+</html>
