@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>About · Funds.ae</title>
+<title>Terms of Service · Funds.ae</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;600;700&family=Jost:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -101,120 +101,18 @@
     color: #33494E;
     max-width: 640px;
   }
-  .stats {
-    margin-top: 40px;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
-  }
-  .stat {
-    padding: 20px;
-    border: 1px solid var(--line);
-    border-radius: 3px;
-    background: var(--surface);
-    text-align: center;
-  }
-  .stat .num {
-    font-family: 'Newsreader', Georgia, serif;
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--ink);
-  }
-  .stat .label {
-    margin-top: 4px;
-    font-size: 13px;
-    color: var(--ghost);
-  }
-  .team {
-    margin-top: 20px;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px;
-  }
-  .team-member {
-    text-align: center;
-  }
-  .team-member .avatar {
-    width: 72px;
-    height: 72px;
-    margin: 0 auto;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #FFFFFF;
-    font-size: 20px;
-    font-weight: 700;
-  }
-  .team-member h3 {
-    margin-top: 12px;
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--ink);
-  }
-  .team-member .role {
-    margin-top: 2px;
-    font-size: 13px;
-    color: var(--ghost);
-  }
-  .contact-box {
-    margin-top: 40px;
-    padding: 24px;
-    border-radius: 3px;
-    background: var(--ink);
-    color: #F1F5F4;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-  .contact-box h2 {
-    font-family: 'Newsreader', Georgia, serif;
-    font-size: 20px;
-    font-weight: 600;
-  }
-  .contact-box p {
-    margin-top: 4px;
-    font-size: 14px;
-    color: #CFE0DE;
-  }
-  .contact-box a {
-    flex-shrink: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 44px;
-    padding: 0 22px;
-    border: 1px solid #A7C3C2;
-    border-radius: 3px;
-    color: #F1F5F4;
-    font-size: 15px;
-    font-weight: 500;
-    text-decoration: none;
-  }
-  .contact-box a:hover { border-color: #FFFFFF; color: #FFFFFF; }
-  @media (max-width: 620px) {
-    .stats, .team { grid-template-columns: minmax(0, 1fr); }
-  }
-  /* Editorial theme: ruled stats and section labels */
+  /* Legal pages: ruled sections in the same editorial theme as About */
   .intro { padding-bottom: 28px; border-bottom: 1px solid var(--line); }
-  .stats { gap: 0; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--line); }
-  .stat { border: 0; border-radius: 0; background: transparent; padding: 22px 16px; }
-  .stat + .stat { border-left: 1px solid var(--line); }
-  .stat .num { font-size: 34px; font-weight: 600; }
-  .stat .label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .updated { margin-top: 14px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ghost); }
   section { padding-top: 12px; border-top: 2px solid var(--ink); }
   section h2 { font-family: 'Jost', 'Futura', 'Century Gothic', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
-  section p { font-family: var(--serif); font-size: 17px; line-height: 1.6; }
-  .team-member .role { font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em; }
-  .contact-box { border-top: 3px solid var(--mint); }
-  @media (max-width: 620px) { .stat + .stat { border-left: 0; border-top: 1px solid var(--line); } }
-  /* Pale grey-teal hiring panel (matches the home page) */
-  .post-role, .contact-box { background: #E8F0EF; color: #0E3A43; border: 1px solid #CFDEDD; border-top: 2px solid #2F8A8C; }
-  .post-role p, .contact-box p { color: #3D5F66; }
-  .post-role a, .contact-box a { background: #0E3A43; border-color: #0E3A43; color: #F5FAF9; }
-  .post-role a:hover, .contact-box a:hover { background: #1F5560; border-color: #1F5560; color: #FFFFFF; }
+  section p, section li { font-family: var(--serif); font-size: 17px; line-height: 1.6; color: #33494E; max-width: 640px; }
+  section ul { margin: 10px 0 0 20px; }
+  section li { margin-top: 6px; }
+  section a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+  .related { margin-top: 48px; padding: 20px 24px; border: 1px solid var(--line); border-top: 2px solid var(--accent-2); border-radius: 3px; background: var(--surface); font-size: 14px; color: var(--muted); }
+  .related a { color: var(--accent); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 620px) { main { padding-top: 40px; } }
   /* Site footer, shared with this.html: double rule, brand, tagline, links. Pinned to the bottom on short pages. */
   body { min-height: 100vh; display: flex; flex-direction: column; }
   body > main, body > .page { width: 100%; flex: 1 0 auto; }
@@ -254,70 +152,69 @@
     <a href="Careers.dc.html">Events</a>
     <a href="Careers.dc.html">Careers</a>
     <a href="Advertise.dc.html">Sponsor</a>
-    <a href="About.dc.html" aria-current="page">About</a>
+    <a href="About.dc.html">About</a>
     <a href="Contact.dc.html">Contact us</a>
     </nav>
   </div>
 </header>
 <main>
   <div class="intro">
-    <h1>About Funds.ae</h1>
-    <p class="lead">Dummy placeholder copy. Funds.ae is a fictional UAE finance news and resource hub covering markets, funds, careers and sponsorship &mdash; built for demonstration purposes only.</p>
-  </div>
-
-  <div class="stats">
-    <div class="stat">
-      <div class="num">120K+</div>
-      <div class="label">Dummy monthly readers</div>
-    </div>
-    <div class="stat">
-      <div class="num">450+</div>
-      <div class="label">Dummy funds &amp; firms covered</div>
-    </div>
-    <div class="stat">
-      <div class="num">2019</div>
-      <div class="label">Dummy year founded</div>
-    </div>
+    <h1>Terms of Service</h1>
+    <p class="lead">Dummy placeholder terms. Funds.ae is a fictional UAE finance news and resource hub, and nothing on this page is legal advice or a binding agreement.</p>
+    <p class="updated">Last updated 27 September 2026 (dummy)</p>
   </div>
 
   <section>
-    <h2>Our mission</h2>
-    <p>Dummy text: Funds.ae exists to give UAE-based investors, founders and finance professionals a single place to track markets, discover funding, find talent, and connect with sponsors across the region.</p>
+    <h2>1. Acceptance of these terms</h2>
+    <p>Dummy text: by visiting or using Funds.ae you agree to these placeholder terms. If you do not agree, please stop using the site. This wording is for demonstration only.</p>
   </section>
 
   <section>
-    <h2>What we cover</h2>
-    <p>Dummy text: daily UAE and global finance news, a live markets ticker, fund and career resources, business grants and funding directories, sponsor and advertiser placements, and a curated events calendar for the region's finance community.</p>
+    <h2>2. About the service</h2>
+    <p>Dummy text: Funds.ae aggregates UAE and global finance headlines, events, careers, sponsored content and resource directories. Headlines link to the original publishers, and Funds.ae does not own that third-party content.</p>
   </section>
 
   <section>
-    <h2>Our team</h2>
-    <div class="team">
-      <div class="team-member">
-        <div class="avatar" style="background: linear-gradient(145deg, #0E3A43, #4FB3B8)">RA</div>
-        <h3>Rania Al Suwaidi</h3>
-        <div class="role">Editor-in-Chief (dummy)</div>
-      </div>
-      <div class="team-member">
-        <div class="avatar" style="background: linear-gradient(145deg, #B58B52, #6B4E32)">KM</div>
-        <h3>Karim Mansour</h3>
-        <div class="role">Head of Markets (dummy)</div>
-      </div>
-      <div class="team-member">
-        <div class="avatar" style="background: linear-gradient(145deg, #0E3A43, #2F8A8C)">LF</div>
-        <h3>Layla Farouk</h3>
-        <div class="role">Partnerships Lead (dummy)</div>
-      </div>
-    </div>
+    <h2>3. Using the site</h2>
+    <p>Dummy text: you agree to use the site lawfully and not to:</p>
+    <ul>
+      <li>copy, scrape or resell content without permission (dummy)</li>
+      <li>attempt to disrupt or gain unauthorised access to the service (dummy)</li>
+      <li>post misleading job, event or sponsor listings (dummy)</li>
+    </ul>
   </section>
 
-  <div class="contact-box">
-    <div>
-      <h2>Get in touch</h2>
-      <p>Dummy contact &mdash; press, partnerships and general enquiries.</p>
-    </div>
-    <a href="#">Contact us (dummy)</a>
-  </div>
+  <section>
+    <h2>4. Not financial advice</h2>
+    <p>Dummy text: news, market data, fund listings and sponsored posts are provided for information only. Nothing on Funds.ae is investment, legal or tax advice, and you should consult a licensed professional before making decisions.</p>
+  </section>
+
+  <section>
+    <h2>5. Sponsored and promoted content</h2>
+    <p>Dummy text: items marked “Sponsored” or “Promoted” are paid placements. Their inclusion is not an endorsement by Funds.ae.</p>
+  </section>
+
+  <section>
+    <h2>6. Intellectual property</h2>
+    <p>Dummy text: the Funds.ae name, logo and original site design belong to Funds.ae Media Ltd (dummy). Third-party names and logos belong to their respective owners.</p>
+  </section>
+
+  <section>
+    <h2>7. Limitation of liability</h2>
+    <p>Dummy text: to the fullest extent permitted by law, Funds.ae is provided “as is” without warranties, and is not liable for losses arising from use of the site or reliance on its content.</p>
+  </section>
+
+  <section>
+    <h2>8. Changes to these terms</h2>
+    <p>Dummy text: we may update these terms from time to time. Continued use of the site after changes means you accept the updated terms.</p>
+  </section>
+
+  <section>
+    <h2>9. Contact</h2>
+    <p>Dummy text: questions about these terms can be sent through our <a href="Contact.dc.html">contact page</a>.</p>
+  </section>
+
+  <p class="related">See also our <a href="Privacy.dc.html">Privacy Policy</a>, or <a href="this.html">return to the Funds.ae home page</a>.</p>
 </main>
 <footer class="site-footer">
   <div class="foot-inner">

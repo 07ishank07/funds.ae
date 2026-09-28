@@ -6,17 +6,25 @@
 <title>Careers · Funds.ae</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;600;700&family=Jost:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  /* Editorial theme tokens. Keep in sync with the theme block at the end of this.html's script. */
   :root {
     --ink: #0E3A43;
+    --ink-2: #3D5A5F;
     --muted: #587176;
-    --line: #DCE5E3;
-    --mint: #52CFC2;
+    --ghost: #62797D;
+    --line: #D3DFDF;
+    --line-2: #E4ECEB;
+    --mint: #4FB3B8;
+    --accent: #1F6A6E;
+    --accent-2: #1F6A6E;
     --surface: #FFFFFF;
-    --wash: #F7FAF8;
-    --ghost: #7F9A97;
+    --panel: #E8F0EF;
+    --wash: #FAFBFA;
+    --serif: 'Newsreader', Georgia, serif;
+    --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   }
   body {
     font-family: 'Jost', 'Futura', 'Century Gothic', sans-serif;
@@ -25,32 +33,45 @@
     line-height: 1.5;
   }
   a { color: inherit; }
-  header {
-    background: var(--ink);
-    color: #F1F5F4;
-    padding: 18px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  /* Masthead: mono top line, centred logo, double-ruled section nav (matches this.html) */
+  .masthead { background: var(--wash); color: var(--ink); }
+  .mast-inner { max-width: 1288px; margin: 0 auto; padding: 0 24px; }
+  .topline {
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; padding: 8px 0;
+    border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ghost);
   }
-  header a.brand {
-    text-decoration: none;
-    color: #F1F5F4;
-    font-weight: 600;
-    font-size: 18px;
-    letter-spacing: 0.01em;
+  .topline .edition { color: var(--accent-2); }
+  .topline > :last-child { text-align: right; }
+  .topline a.back { text-decoration: none; color: var(--ink-2); }
+  .topline a.back:hover { color: var(--accent); }
+  .brand {
+    display: grid; grid-template-columns: 40px auto; column-gap: 12px; align-items: center; justify-content: center;
+    width: max-content; margin: 0 auto; padding: 18px 0 16px; color: var(--ink); text-decoration: none;
   }
-  header a.back {
-    text-decoration: none;
-    color: #CFE0DE;
-    font-size: 14px;
-    font-weight: 500;
+  .brand svg { grid-row: 1 / span 2; width: 40px; height: 40px; }
+  .brand .wordmark { font-size: 34px; font-weight: 500; line-height: 1; letter-spacing: -0.025em; }
+  .brand .dot { display: inline-block; width: 0.18em; height: 0.18em; margin: 0 0.05em 0 0.065em; border-radius: 50%; background: var(--mint); overflow: hidden; color: transparent; }
+  .brand .tagline { margin-top: 5px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ghost); }
+  .sections {
+    display: flex; justify-content: center; flex-wrap: wrap; gap: 0 36px; min-height: 44px;
+    border-top: 1px solid var(--ink); border-bottom: 3px double var(--ink);
   }
-  header a.back:hover { color: #FFFFFF; }
+  .sections a {
+    position: relative; display: flex; align-items: center; font-size: 13px; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-2); text-decoration: none;
+  }
+  .sections a:hover { color: var(--ink); }
+  .sections a[aria-current="page"] { color: var(--ink); font-weight: 600; }
+  @media (max-width: 720px) {
+    .topline { grid-template-columns: 1fr auto; }
+    .topline .edition { display: none; }
+    .brand .wordmark { font-size: 28px; }
+    .sections { justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; gap: 0 22px; scrollbar-width: none; }
+    .sections a { flex-shrink: 0; min-height: 44px; }
+  }
   .page {
-    max-width: 1180px;
+    max-width: 1288px;
     margin: 0 auto;
     padding: 48px 24px 80px;
     display: grid;
@@ -68,9 +89,8 @@
   .resources-box {
     padding: 22px 24px 24px;
     border: 1px solid var(--line);
-    border-radius: 14px;
+    border-radius: 3px;
     background: var(--surface);
-    box-shadow: 0 8px 24px rgba(14, 58, 67, 0.06);
   }
   .resources-box h2 {
     font-size: 19px;
@@ -97,7 +117,7 @@
     flex: 0 0 40px;
     width: 40px;
     height: 40px;
-    border-radius: 10px;
+    border-radius: 3px;
     color: #FFFFFF;
     font-size: 11px;
     font-weight: 700;
@@ -109,7 +129,7 @@
   }
   .events-box {
     padding: 22px 24px 20px;
-    border-radius: 14px;
+    border-radius: 3px;
     background: #F1F5F4;
   }
   .events-box h2 {
@@ -152,46 +172,25 @@
     margin-top: 16px;
     font-size: 14px;
     font-weight: 600;
-    color: #137A72;
+    color: #1F6A6E;
     text-decoration: none;
   }
-  .ad-banner {
-    display: flex;
-    min-height: 126px;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 16px 18px;
-    border-radius: 14px;
-    color: #FFFFFF;
-    text-decoration: none;
-    box-shadow: 0 12px 30px rgba(14, 58, 67, 0.14);
-  }
-  .ad-banner .tag {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    opacity: 0.82;
-  }
-  .ad-banner strong {
-    max-width: 250px;
-    font-family: 'Newsreader', Georgia, serif;
-    font-size: 20px;
-    line-height: 1.15;
-    font-weight: 600;
-  }
-  .ad-banner .cta {
-    font-size: 13px;
-    font-weight: 600;
-    color: #D8F5EF;
-  }
+  /* The page heading is hidden visually but kept for screen readers and the page outline. */
+  .intro { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  /* Gold Sponsors: ten small gold tiles, two across (same as the home page) */
+  .gold-sponsors { padding: 12px 0 0; border-top: 2px solid var(--ink); }
+  .gold-sponsors h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
+  .gold-grid { margin-top: 14px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .gold-tile { display: flex; align-items: flex-end; min-height: 68px; padding: 10px 12px; border-radius: 3px; background: linear-gradient(145deg, #DDB86F, #B88B3E); color: #0E3A43; font-size: 14px; font-weight: 600; line-height: 1.25; text-decoration: none; }
+  .gold-tile:hover { filter: brightness(1.06); text-decoration: underline; text-underline-offset: 3px; }
   @media (max-width: 860px) {
     .page { grid-template-columns: minmax(0, 1fr); }
   }
   .intro h1 {
     font-family: 'Newsreader', Georgia, serif;
     font-size: clamp(2rem, 4vw, 2.75rem);
-    font-weight: 700;
+    font-weight: 600;
+    letter-spacing: -0.015em;
     color: var(--ink);
   }
   .intro p {
@@ -200,28 +199,62 @@
     color: var(--muted);
     font-size: 16px;
   }
-  .meta-bar {
-    display: flex;
-    gap: 24px;
-    flex-wrap: wrap;
-    margin-top: 28px;
-    padding: 16px 20px;
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    background: var(--surface);
-    font-size: 13px;
-    color: var(--muted);
+  .employers {
+    margin-top: 0;
+    padding: 12px 0 0;
+    border-top: 2px solid var(--ink);
   }
-  .meta-bar strong { color: var(--ink); }
+  .employers h2 {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+  /* Current Opportunities: same heading treatment as Featured Employers (rule above, small-caps title) */
+  .opportunities { margin-top: 28px; padding: 12px 0 0; border-top: 2px solid var(--ink); }
+  .opportunities > h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
+  .opportunities .roles { margin-top: 16px; border-top: 1px solid var(--line); }
+  .employer-grid {
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 20px 12px;
+    list-style: none;
+  }
+  .employer-grid a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .employer-grid .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 3px;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .employer-grid .name { font-size: 13px; font-weight: 600; line-height: 1.3; min-height: 2.6em; }
+  .employer-grid .jobs { margin-top: -6px; font-size: 12px; font-weight: 600; color: var(--accent); }
+  .employer-grid a:hover .name { color: var(--accent); }
+  @media (max-width: 620px) { .employer-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   .roles {
     margin-top: 32px;
     display: flex;
     flex-direction: column;
     gap: 0;
     border: 1px solid var(--line);
-    border-radius: 14px;
+    border-radius: 3px;
     background: var(--surface);
-    box-shadow: 0 8px 24px rgba(14, 58, 67, 0.06);
     overflow: hidden;
   }
   .role {
@@ -245,7 +278,7 @@
     margin-top: 4px;
     font-size: 13px;
     font-weight: 600;
-    color: #137A72;
+    color: #1F6A6E;
   }
   .role-info .location {
     margin-top: 2px;
@@ -259,7 +292,7 @@
     justify-content: center;
     height: 40px;
     padding: 0 20px;
-    border-radius: 10px;
+    border-radius: 3px;
     background: var(--mint);
     color: var(--ink);
     font-size: 14px;
@@ -267,54 +300,93 @@
     text-decoration: none;
     white-space: nowrap;
   }
-  .apply-btn:hover { background: #3fb8ab; }
-  .post-role {
-    margin-top: 32px;
-    padding: 24px;
-    border-radius: 14px;
-    background: var(--ink);
-    color: #F1F5F4;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-  .post-role h2 {
-    font-family: 'Newsreader', Georgia, serif;
-    font-size: 20px;
-    font-weight: 600;
-  }
-  .post-role p {
-    margin-top: 4px;
-    font-size: 14px;
-    color: #CFE0DE;
-  }
-  .post-role a {
-    flex-shrink: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 44px;
-    padding: 0 22px;
-    border: 1px solid #A7C3C2;
-    border-radius: 10px;
-    color: #F1F5F4;
-    font-size: 15px;
-    font-weight: 500;
-    text-decoration: none;
-  }
-  .post-role a:hover { border-color: #FFFFFF; color: #FFFFFF; }
+  .apply-btn:hover { background: #43A0A5; }
   @media (max-width: 620px) {
     .role { padding: 16px; }
     .apply-btn { width: 100%; }
   }
+  /* Editorial theme: ruled sidebar blocks, mono metadata, sand-marked sponsored banners */
+  .intro { padding-bottom: 24px; border-bottom: 1px solid var(--line); }
+  .page { gap: 0 28px; }
+  aside { border-left: 1px solid var(--line); padding-left: 28px; gap: 32px; }
+  .events-box, .resources-box { padding: 12px 0 0; border: 0; border-top: 2px solid var(--ink); border-radius: 0; background: transparent; }
+  .events-box h2, .resources-box h2 { font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; }
+  .events-headings { font-family: var(--mono); font-weight: 500; grid-template-columns: 52px minmax(0, 1fr) 76px; gap: 12px; }
+  .events-list li { grid-template-columns: 52px minmax(0, 1fr) 76px; gap: 12px; padding: 10px 0; border-bottom-color: var(--line-2); }
+  .events-list .day { font-size: 17px; font-weight: 600; line-height: 1.15; white-space: nowrap; letter-spacing: 0; }
+  .events-list .month { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .submit-event { font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .roles { border-top: 2px solid var(--ink); }
+  .role:hover { background: var(--panel); }
+  .role-info .company { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: 0.02em; }
+  .role-info .location { font-family: var(--mono); font-size: 11px; letter-spacing: 0.02em; }
+  @media (max-width: 860px) { aside { border-left: 0; padding-left: 0; margin-top: 32px; } }
+  /* Site footer, shared with this.html: double rule, brand, tagline, links. Pinned to the bottom on short pages. */
+  body { min-height: 100vh; display: flex; flex-direction: column; }
+  body > main, body > .page { width: 100%; flex: 1 0 auto; }
+  .site-footer { flex-shrink: 0; margin-top: 40px; background: var(--wash); border-top: 3px double var(--ink); }
+  .foot-inner { max-width: 1288px; margin: 0 auto; padding: 26px 24px 30px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
+  .foot-brand { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; }
+  .foot-brand svg { width: 26px; height: 26px; flex-shrink: 0; }
+  .foot-brand span { font-size: 20px; font-weight: 500; line-height: 1; letter-spacing: -0.015em; }
+  .foot-brand .dot { display: inline-block; width: 0.18em; height: 0.18em; margin: 0 0.05em 0 0.065em; border-radius: 50%; background: var(--mint); overflow: hidden; color: transparent; }
+  .foot-note { font-size: 14px; color: var(--muted); }
+  .foot-nav { margin-left: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; }
+  .foot-nav a { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2); text-decoration: none; }
+  .foot-nav a:hover { color: var(--accent); }
+  .foot-bottom { flex: 1 0 100%; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; margin-top: 8px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .foot-bottom .foot-note { font-size: 13px; color: var(--ghost); }
+  @media (max-width: 720px) { .foot-nav { margin-left: 0; } }
+  /* One typeface across the site: Jost, as on the home page. Replaces the serif headlines and monospace labels.
+     Sizes, weights and caps styling are unchanged. Skipped in Arabic mode, where i18n.js sets its own font. */
+  html:not([lang="ar"]) body *:not(svg):not(svg *) { font-family: 'Jost', 'Futura', 'Century Gothic', sans-serif !important; }
+  /* Current Opportunities: compact two-column job cards, 20 per page */
+  .opportunities .roles {
+    margin-top: 16px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;
+    border: 0; border-radius: 0; background: transparent; overflow: visible;
+  }
+  .opportunities .role {
+    display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 12px;
+    padding: 14px 16px; border: 1px solid var(--line); border-radius: 3px; background: var(--surface);
+  }
+  .opportunities .role:last-child { border-bottom: 1px solid var(--line); }
+  .opportunities .role[hidden] { display: none; }
+  .opportunities .role-info h2 { font-size: 16px; line-height: 1.3; }
+  .opportunities .role-info .company { margin-top: 4px; }
+  .opportunities .apply-btn { width: auto; height: 32px; padding: 0 14px; font-size: 13px; }
+  @media (max-width: 720px) { .opportunities .roles { grid-template-columns: minmax(0, 1fr); } }
+  .pager { margin-top: 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; }
+  .pager button {
+    min-width: 36px; height: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 3px;
+    background: var(--surface); color: var(--ink); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+  }
+  .pager button:hover:not([disabled]):not([aria-current="page"]) { border-color: var(--ink); }
+  .pager button[aria-current="page"] { background: var(--ink); border-color: var(--ink); color: #FFFFFF; cursor: default; }
+  .pager button[disabled] { color: var(--ghost); cursor: default; opacity: 0.6; }
 </style>
 </head>
 <body>
-<header>
-  <a href="this.html" class="brand">Funds.ae</a>
-  <a href="this.html" class="back">&larr; Back to Funds.ae home</a>
+<header class="masthead">
+  <div class="mast-inner">
+    <div class="topline">
+      <a href="this.html" class="back">&larr; Back to Funds.ae home</a>
+      <span class="edition">Connecting Talent, Opportunities and Intelligence</span>
+      <span aria-hidden="true"></span>
+    </div>
+    <a href="this.html" class="brand" aria-label="Funds.ae home">
+      <svg viewBox="0 0 140 140" aria-hidden="true"><circle cx="70" cy="70" r="62.83" fill="none" stroke="#0E3A43" stroke-width="10"/><circle cx="53.03" cy="86.97" r="38.83" fill="none" stroke="#0E3A43" stroke-width="10"/><circle cx="42.54" cy="97.46" r="29" fill="#4FB3B8"/></svg>
+      <span class="wordmark">Funds<span class="dot">.</span>ae</span>
+      <span class="tagline">Discover. Connect. Grow.</span>
+    </a>
+    <nav class="sections" aria-label="Sections">
+    <a href="this.html">Top news</a>
+    <a href="Careers.dc.html">Events</a>
+    <a href="Careers.dc.html" aria-current="page">Careers</a>
+    <a href="Advertise.dc.html">Sponsor</a>
+    <a href="About.dc.html">About</a>
+    <a href="Contact.dc.html">Contact us</a>
+    </nav>
+  </div>
 </header>
 <div class="page">
 <main>
@@ -322,174 +394,185 @@
     <h1>Events and Career Opportunities</h1>
   </div>
 
-  <div class="post-role">
-    <div>
-      <h2>Hiring in UAE finance?</h2>
-      <p>Dummy call to action &mdash; post a role to reach the Funds.ae community.</p>
-    </div>
-    <a href="#">Post a role (dummy)</a>
-  </div>
+  <section class="employers" aria-labelledby="employers-title">
+    <h2 id="employers-title">Featured Employers</h2>
+    <ul class="employer-grid">
+      <li><a href="#"><span class="logo" role="img" aria-label="Dummy Gulf Horizon Asset Management logo" style="background: linear-gradient(145deg, #0E3A43, #2F8A8C)">GH</span><span class="name">Gulf Horizon Asset Management</span><span class="jobs">14 jobs</span></a></li>
+      <li><a href="#"><span class="logo" role="img" aria-label="Dummy Emirates Private Credit logo" style="background: linear-gradient(145deg, #B58B52, #6B4E32)">EP</span><span class="name">Emirates Private Credit</span><span class="jobs">9 jobs</span></a></li>
+      <li><a href="#"><span class="logo" role="img" aria-label="Dummy Nexa Digital Exchange logo" style="background: linear-gradient(145deg, #1F5560, #4FB3B8)">NX</span><span class="name">Nexa Digital Exchange</span><span class="jobs">7 jobs</span></a></li>
+      <li><a href="#"><span class="logo" role="img" aria-label="Dummy FlowPay Technologies logo" style="background: linear-gradient(145deg, #5B4675, #B4A4C9)">FP</span><span class="name">FlowPay Technologies</span><span class="jobs">11 jobs</span></a></li>
+      <li><a href="#"><span class="logo" role="img" aria-label="Dummy Crescent Capital Partners logo" style="background: linear-gradient(145deg, #31556D, #8BA9C1)">CC</span><span class="name">Crescent Capital Partners</span><span class="jobs">6 jobs</span></a></li>
+      <li><a href="#"><span class="logo" role="img" aria-label="Dummy Al Noor Investments logo" style="background: linear-gradient(145deg, #416C56, #9EB9A5)">AN</span><span class="name">Al Noor Investments</span><span class="jobs">5 jobs</span></a></li>
+      <li><a href="#"><span class="logo" role="img" aria-label="Dummy Mosaic Fund Services logo" style="background: linear-gradient(145deg, #874E4B, #C9A9A0)">MF</span><span class="name">Mosaic Fund Services</span><span class="jobs">8 jobs</span></a></li>
+      <li><a href="#"><span class="logo" role="img" aria-label="Dummy Harborstone Financial logo" style="background: linear-gradient(145deg, #134A50, #1F6A6E)">HF</span><span class="name">Harborstone Financial</span><span class="jobs">4 jobs</span></a></li>
+      <li><a href="#"><span class="logo" role="img" aria-label="Dummy Sahra Wealth logo" style="background: linear-gradient(145deg, #8A6330, #D3B46A)">SW</span><span class="name">Sahra Wealth</span><span class="jobs">10 jobs</span></a></li>
+      <li><a href="#"><span class="logo" role="img" aria-label="Dummy Desert Seed Ventures logo" style="background: linear-gradient(145deg, #4F8A8B, #1C5965)">DS</span><span class="name">Desert Seed Ventures</span><span class="jobs">3 jobs</span></a></li>
+      <li><a href="#"><span class="logo" role="img" aria-label="Dummy Lighthouse Asset Partners logo" style="background: linear-gradient(145deg, #1F5560, #4FB3B8)">LA</span><span class="name">Lighthouse Asset Partners</span><span class="jobs">12 jobs</span></a></li>
+      <li><a href="#"><span class="logo" role="img" aria-label="Dummy Atlas Fund Administration logo" style="background: linear-gradient(145deg, #8A6330, #D3B46A)">AF</span><span class="name">Atlas Fund Administration</span><span class="jobs">6 jobs</span></a></li>
+      <li><a href="#"><span class="logo" role="img" aria-label="Dummy Marhaba Holdings logo" style="background: linear-gradient(145deg, #5B4675, #B4A4C9)">MH</span><span class="name">Marhaba Holdings</span><span class="jobs">5 jobs</span></a></li>
+      <li><a href="#"><span class="logo" role="img" aria-label="Dummy Vertex Alpha logo" style="background: linear-gradient(145deg, #31556D, #8BA9C1)">VA</span><span class="name">Vertex Alpha</span><span class="jobs">8 jobs</span></a></li>
+      <li><a href="#"><span class="logo" role="img" aria-label="Dummy Oasis Private Bank logo" style="background: linear-gradient(145deg, #0E3A43, #2F8A8C)">OB</span><span class="name">Oasis Private Bank</span><span class="jobs">13 jobs</span></a></li>
+    </ul>
+  </section>
 
-  <div class="meta-bar">
-    <span><strong>19</strong> dummy roles</span>
-    <span><strong>Dubai &amp; Abu Dhabi</strong> locations</span>
-    <span>Updated <strong>today (dummy)</strong></span>
-  </div>
-
-  <div class="roles">
-    <div class="role">
-      <div class="role-info">
-        <h2>Portfolio Manager, GCC Equities</h2>
-        <div class="company">Gulf Horizon Asset Management</div>
-        <div class="location">Regional asset manager, DIFC</div>
+  <section class="opportunities" aria-labelledby="opportunities-title">
+    <h2 id="opportunities-title">Current Opportunities</h2>
+    <div class="roles">
+      <div class="role">
+        <div class="role-info">
+          <h2>Portfolio Manager, GCC Equities</h2>
+          <div class="company">Gulf Horizon Asset Management</div>
+          <div class="location">Regional asset manager, DIFC</div>
+        </div>
+        <a class="apply-btn" href="#">Apply (dummy)</a>
       </div>
-      <a class="apply-btn" href="#">Apply (dummy)</a>
-    </div>
-    <div class="role">
-      <div class="role-info">
-        <h2>Associate, Private Credit</h2>
-        <div class="company">Emirates Private Credit</div>
-        <div class="location">Abu Dhabi investment firm, ADGM</div>
+      <div class="role">
+        <div class="role-info">
+          <h2>Associate, Private Credit</h2>
+          <div class="company">Emirates Private Credit</div>
+          <div class="location">Abu Dhabi investment firm, ADGM</div>
+        </div>
+        <a class="apply-btn" href="#">Apply (dummy)</a>
       </div>
-      <a class="apply-btn" href="#">Apply (dummy)</a>
-    </div>
-    <div class="role">
-      <div class="role-info">
-        <h2>Money Laundering Reporting Officer</h2>
-        <div class="company">Nexa Digital Exchange</div>
-        <div class="location">Virtual asset exchange, Dubai</div>
+      <div class="role">
+        <div class="role-info">
+          <h2>Money Laundering Reporting Officer</h2>
+          <div class="company">Nexa Digital Exchange</div>
+          <div class="location">Virtual asset exchange, Dubai</div>
+        </div>
+        <a class="apply-btn" href="#">Apply (dummy)</a>
       </div>
-      <a class="apply-btn" href="#">Apply (dummy)</a>
-    </div>
-    <div class="role">
-      <div class="role-info">
-        <h2>Product Manager, Payments</h2>
-        <div class="company">FlowPay Technologies</div>
-        <div class="location">Payments fintech, Dubai</div>
+      <div class="role">
+        <div class="role-info">
+          <h2>Product Manager, Payments</h2>
+          <div class="company">FlowPay Technologies</div>
+          <div class="location">Payments fintech, Dubai</div>
+        </div>
+        <a class="apply-btn" href="#">Apply (dummy)</a>
       </div>
-      <a class="apply-btn" href="#">Apply (dummy)</a>
-    </div>
-    <div class="role">
-      <div class="role-info">
-        <h2>Investment Analyst, MENA</h2>
-        <div class="company">Crescent Capital Partners</div>
-        <div class="location">Multi-strategy fund, Dubai</div>
+      <div class="role">
+        <div class="role-info">
+          <h2>Investment Analyst, MENA</h2>
+          <div class="company">Crescent Capital Partners</div>
+          <div class="location">Multi-strategy fund, Dubai</div>
+        </div>
+        <a class="apply-btn" href="#">Apply (dummy)</a>
       </div>
-      <a class="apply-btn" href="#">Apply (dummy)</a>
-    </div>
-    <div class="role">
-      <div class="role-info">
-        <h2>Head of Investor Relations</h2>
-        <div class="company">Al Noor Investments</div>
-        <div class="location">Private markets manager, DIFC</div>
+      <div class="role">
+        <div class="role-info">
+          <h2>Head of Investor Relations</h2>
+          <div class="company">Al Noor Investments</div>
+          <div class="location">Private markets manager, DIFC</div>
+        </div>
+        <a class="apply-btn" href="#">Apply (dummy)</a>
       </div>
-      <a class="apply-btn" href="#">Apply (dummy)</a>
-    </div>
-    <div class="role">
-      <div class="role-info">
-        <h2>Senior Risk Manager</h2>
-        <div class="company">Mosaic Fund Services</div>
-        <div class="location">Fund administrator, Abu Dhabi</div>
+      <div class="role">
+        <div class="role-info">
+          <h2>Senior Risk Manager</h2>
+          <div class="company">Mosaic Fund Services</div>
+          <div class="location">Fund administrator, Abu Dhabi</div>
+        </div>
+        <a class="apply-btn" href="#">Apply (dummy)</a>
       </div>
-      <a class="apply-btn" href="#">Apply (dummy)</a>
-    </div>
-    <div class="role">
-      <div class="role-info">
-        <h2>Compliance Manager</h2>
-        <div class="company">Harborstone Financial</div>
-        <div class="location">Wealth platform, Dubai</div>
+      <div class="role">
+        <div class="role-info">
+          <h2>Compliance Manager</h2>
+          <div class="company">Harborstone Financial</div>
+          <div class="location">Wealth platform, Dubai</div>
+        </div>
+        <a class="apply-btn" href="#">Apply (dummy)</a>
       </div>
-      <a class="apply-btn" href="#">Apply (dummy)</a>
-    </div>
-    <div class="role">
-      <div class="role-info">
-        <h2>Product Lead, WealthTech</h2>
-        <div class="company">Sahra Wealth</div>
-        <div class="location">Digital wealth manager, DIFC</div>
+      <div class="role">
+        <div class="role-info">
+          <h2>Product Lead, WealthTech</h2>
+          <div class="company">Sahra Wealth</div>
+          <div class="location">Digital wealth manager, DIFC</div>
+        </div>
+        <a class="apply-btn" href="#">Apply (dummy)</a>
       </div>
-      <a class="apply-btn" href="#">Apply (dummy)</a>
-    </div>
-    <div class="role">
-      <div class="role-info">
-        <h2>Associate, Venture Capital</h2>
-        <div class="company">Desert Seed Ventures</div>
-        <div class="location">Early-stage investor, Dubai</div>
+      <div class="role">
+        <div class="role-info">
+          <h2>Associate, Venture Capital</h2>
+          <div class="company">Desert Seed Ventures</div>
+          <div class="location">Early-stage investor, Dubai</div>
+        </div>
+        <a class="apply-btn" href="#">Apply (dummy)</a>
       </div>
-      <a class="apply-btn" href="#">Apply (dummy)</a>
-    </div>
-    <div class="role">
-      <div class="role-info">
-        <h2>Treasury Manager</h2>
-        <div class="company">Marhaba Holdings</div>
-        <div class="location">Family office, Abu Dhabi</div>
+      <div class="role">
+        <div class="role-info">
+          <h2>Treasury Manager</h2>
+          <div class="company">Marhaba Holdings</div>
+          <div class="location">Family office, Abu Dhabi</div>
+        </div>
+        <a class="apply-btn" href="#">Apply (dummy)</a>
       </div>
-      <a class="apply-btn" href="#">Apply (dummy)</a>
-    </div>
-    <div class="role">
-      <div class="role-info">
-        <h2>Quantitative Researcher</h2>
-        <div class="company">Vertex Alpha</div>
-        <div class="location">Systematic strategies, Dubai</div>
+      <div class="role">
+        <div class="role-info">
+          <h2>Quantitative Researcher</h2>
+          <div class="company">Vertex Alpha</div>
+          <div class="location">Systematic strategies, Dubai</div>
+        </div>
+        <a class="apply-btn" href="#">Apply (dummy)</a>
       </div>
-      <a class="apply-btn" href="#">Apply (dummy)</a>
-    </div>
-    <div class="role">
-      <div class="role-info">
-        <h2>Legal Counsel, Funds</h2>
-        <div class="company">Meydan Legal</div>
-        <div class="location">Financial services law firm, DIFC</div>
+      <div class="role">
+        <div class="role-info">
+          <h2>Legal Counsel, Funds</h2>
+          <div class="company">Meydan Legal</div>
+          <div class="location">Financial services law firm, DIFC</div>
+        </div>
+        <a class="apply-btn" href="#">Apply (dummy)</a>
       </div>
-      <a class="apply-btn" href="#">Apply (dummy)</a>
-    </div>
-    <div class="role">
-      <div class="role-info">
-        <h2>Marketing Director</h2>
-        <div class="company">Lighthouse Asset Partners</div>
-        <div class="location">Institutional manager, Dubai</div>
+      <div class="role">
+        <div class="role-info">
+          <h2>Marketing Director</h2>
+          <div class="company">Lighthouse Asset Partners</div>
+          <div class="location">Institutional manager, Dubai</div>
+        </div>
+        <a class="apply-btn" href="#">Apply (dummy)</a>
       </div>
-      <a class="apply-btn" href="#">Apply (dummy)</a>
-    </div>
-    <div class="role">
-      <div class="role-info">
-        <h2>Operations Specialist</h2>
-        <div class="company">Atlas Fund Administration</div>
-        <div class="location">Alternative investments, Abu Dhabi</div>
+      <div class="role">
+        <div class="role-info">
+          <h2>Operations Specialist</h2>
+          <div class="company">Atlas Fund Administration</div>
+          <div class="location">Alternative investments, Abu Dhabi</div>
+        </div>
+        <a class="apply-btn" href="#">Apply (dummy)</a>
       </div>
-      <a class="apply-btn" href="#">Apply (dummy)</a>
-    </div>
-    <div class="role">
-      <div class="role-info">
-        <h2>Client Service Manager</h2>
-        <div class="company">Palm Gate Investments</div>
-        <div class="location">Regional asset manager, Dubai</div>
+      <div class="role">
+        <div class="role-info">
+          <h2>Client Service Manager</h2>
+          <div class="company">Palm Gate Investments</div>
+          <div class="location">Regional asset manager, Dubai</div>
+        </div>
+        <a class="apply-btn" href="#">Apply (dummy)</a>
       </div>
-      <a class="apply-btn" href="#">Apply (dummy)</a>
-    </div>
-    <div class="role">
-      <div class="role-info">
-        <h2>Data Engineer</h2>
-        <div class="company">Namaa Analytics</div>
-        <div class="location">Investment data platform, DIFC</div>
+      <div class="role">
+        <div class="role-info">
+          <h2>Data Engineer</h2>
+          <div class="company">Namaa Analytics</div>
+          <div class="location">Investment data platform, DIFC</div>
+        </div>
+        <a class="apply-btn" href="#">Apply (dummy)</a>
       </div>
-      <a class="apply-btn" href="#">Apply (dummy)</a>
-    </div>
-    <div class="role">
-      <div class="role-info">
-        <h2>Senior Relationship Manager</h2>
-        <div class="company">Oasis Private Bank</div>
-        <div class="location">Private banking, Abu Dhabi</div>
+      <div class="role">
+        <div class="role-info">
+          <h2>Senior Relationship Manager</h2>
+          <div class="company">Oasis Private Bank</div>
+          <div class="location">Private banking, Abu Dhabi</div>
+        </div>
+        <a class="apply-btn" href="#">Apply (dummy)</a>
       </div>
-      <a class="apply-btn" href="#">Apply (dummy)</a>
-    </div>
-    <div class="role">
-      <div class="role-info">
-        <h2>Financial Crime Analyst</h2>
-        <div class="company">Blue Dhow Exchange</div>
-        <div class="location">Virtual asset exchange, Dubai</div>
+      <div class="role">
+        <div class="role-info">
+          <h2>Financial Crime Analyst</h2>
+          <div class="company">Blue Dhow Exchange</div>
+          <div class="location">Virtual asset exchange, Dubai</div>
+        </div>
+        <a class="apply-btn" href="#">Apply (dummy)</a>
       </div>
-      <a class="apply-btn" href="#">Apply (dummy)</a>
     </div>
-  </div>
+    <nav class="pager" id="job-pager" aria-label="Job pages"></nav>
+  </section>
 </main>
 
 <aside>
@@ -510,12 +593,12 @@
         <span class="city">Dubai</span>
       </li>
       <li>
-        <div><span class="day">7&ndash;10</span><span class="month">Dec</span></div>
+        <div><span class="day">7-10</span><span class="month">Dec</span></div>
         <span class="event-type">Finance week</span>
         <span class="city">Abu Dhabi</span>
       </li>
       <li>
-        <div><span class="day">7&ndash;11</span><span class="month">Dec</span></div>
+        <div><span class="day">7-11</span><span class="month">Dec</span></div>
         <span class="event-type">Technology expo</span>
         <span class="city">Dubai</span>
       </li>
@@ -550,13 +633,29 @@
         <span class="city">Dubai</span>
       </li>
     </ul>
-    <a href="#" class="submit-event">Submit your event (dummy)</a>
+    <a href="#" class="submit-event">View All</a>
+  </section>
+
+  <section class="gold-sponsors" aria-labelledby="gold-sponsors-title">
+    <h2 id="gold-sponsors-title">Gold Sponsors</h2>
+    <div class="gold-grid">
+      <a href="#" class="gold-tile" aria-label="Gold sponsor: Fund research made clearer">Fund research made clearer</a>
+      <a href="#" class="gold-tile" aria-label="Gold sponsor: Grow your UAE portfolio">Grow your UAE portfolio</a>
+      <a href="#" class="gold-tile" aria-label="Gold sponsor: Invest with local insight">Invest with local insight</a>
+      <a href="#" class="gold-tile" aria-label="Gold sponsor: The future of private markets">The future of private markets</a>
+      <a href="#" class="gold-tile" aria-label="Gold sponsor: Connect with GCC capital">Connect with GCC capital</a>
+      <a href="#" class="gold-tile" aria-label="Gold sponsor: Private credit, simplified">Private credit, simplified</a>
+      <a href="#" class="gold-tile" aria-label="Gold sponsor: Wealth without borders">Wealth without borders</a>
+      <a href="#" class="gold-tile" aria-label="Gold sponsor: Fintech built for the Gulf">Fintech built for the Gulf</a>
+      <a href="#" class="gold-tile" aria-label="Gold sponsor: Smarter fund operations">Smarter fund operations</a>
+      <a href="#" class="gold-tile" aria-label="Gold sponsor: Capital for growing firms">Capital for growing firms</a>
+    </div>
   </section>
 
   <section class="resources-box">
     <h2>Career Resources</h2>
     <div class="links">
-      <a href="#"><div class="logo" style="background: linear-gradient(145deg, #0E3A43, #52CFC2)">UAE</div><span class="label">Ministry of Finance</span></a>
+      <a href="#"><div class="logo" style="background: linear-gradient(145deg, #0E3A43, #4FB3B8)">UAE</div><span class="label">Ministry of Finance</span></a>
       <a href="#"><div class="logo" style="background: linear-gradient(145deg, #B58B52, #6B4E32)">CBU</div><span class="label">Central Bank of the UAE</span></a>
       <a href="#"><div class="logo" style="background: linear-gradient(145deg, #7F9A97, #164B55)">DIFC</div><span class="label">Dubai International Financial Centre</span></a>
       <a href="#"><div class="logo" style="background: linear-gradient(145deg, #C9A9A0, #874E4B)">ADX</div><span class="label">Abu Dhabi Securities Exchange</span></a>
@@ -569,33 +668,99 @@
       <a href="#"><div class="logo" style="background: linear-gradient(145deg, #8BA9C1, #31556D)">FCSC</div><span class="label">Federal Competitiveness and Statistics Centre</span></a>
     </div>
   </section>
-
-  <a href="#" class="ad-banner" style="background: linear-gradient(145deg, #0E3A43, #137A72)" aria-label="Sponsored: Fund research made clearer">
-    <span class="tag">Sponsored</span>
-    <strong>Fund research made clearer</strong>
-    <span class="cta">Learn more &rarr;</span>
-  </a>
-  <a href="#" class="ad-banner" style="background: linear-gradient(145deg, #8A6330, #B58B52)" aria-label="Sponsored: Grow your UAE portfolio">
-    <span class="tag">Sponsored</span>
-    <strong>Grow your UAE portfolio</strong>
-    <span class="cta">Learn more &rarr;</span>
-  </a>
-  <a href="#" class="ad-banner" style="background: linear-gradient(145deg, #31556D, #8BA9C1)" aria-label="Sponsored: Invest with local insight">
-    <span class="tag">Sponsored</span>
-    <strong>Invest with local insight</strong>
-    <span class="cta">Learn more &rarr;</span>
-  </a>
-  <a href="#" class="ad-banner" style="background: linear-gradient(145deg, #416C56, #9EB9A5)" aria-label="Sponsored: The future of private markets">
-    <span class="tag">Sponsored</span>
-    <strong>The future of private markets</strong>
-    <span class="cta">Learn more &rarr;</span>
-  </a>
-  <a href="#" class="ad-banner" style="background: linear-gradient(145deg, #5B4675, #B4A4C9)" aria-label="Sponsored: Connect with GCC capital">
-    <span class="tag">Sponsored</span>
-    <strong>Connect with GCC capital</strong>
-    <span class="cta">Learn more &rarr;</span>
-  </a>
 </aside>
 </div>
+<footer class="site-footer">
+  <div class="foot-inner">
+    <a href="this.html" class="foot-brand" aria-label="Funds.ae home">
+      <svg viewBox="0 0 140 140" aria-hidden="true"><circle cx="70" cy="70" r="62.83" fill="none" stroke="#0E3A43" stroke-width="10"/><circle cx="53.03" cy="86.97" r="38.83" fill="none" stroke="#0E3A43" stroke-width="10"/><circle cx="42.54" cy="97.46" r="29" fill="#2F8A8C"/></svg>
+      <span>Funds<span class="dot">.</span>ae</span>
+    </a>
+    <span class="foot-note">Discover. Connect. Grow.</span>
+    <nav class="foot-nav" aria-label="Footer">
+      <a href="About.dc.html">About</a>
+      <a href="Advertise.dc.html">Sponsor</a>
+      <a href="Contact.dc.html">Contact</a>
+      <a href="Terms.dc.html">Terms of Service</a>
+      <a href="Privacy.dc.html">Privacy Policy</a>
+    </nav>
+    <div class="foot-bottom">
+      <span class="foot-note">© 2026 Funds.ae. All rights reserved.</span>
+      <span class="foot-note">Headlines link to the original publishers.</span>
+    </div>
+  </div>
+</footer>
+<script>
+/* Job list: builds up to 60 dummy jobs and shows 20 per page (pages 1, 2, 3). */
+(function () {
+  var PER_PAGE = 20, TOTAL = 60;
+  var list = document.querySelector('.roles');
+  var pager = document.getElementById('job-pager');
+  if (!list || !pager) return;
+
+  var titles = ['Fund Accountant', 'Portfolio Analyst', 'Investor Relations Associate', 'Credit Risk Analyst', 'Compliance Officer',
+    'AML Analyst', 'Fintech Product Owner', 'Wealth Advisor', 'Equity Research Associate', 'Fund Operations Analyst',
+    'Private Equity Associate', 'Treasury Analyst', 'Financial Controller', 'Data Analyst', 'Software Engineer',
+    'Legal Counsel, Funds', 'Head of Sales', 'Client Onboarding Specialist', 'ESG Analyst', 'Investment Director'];
+  var firms = [['Gulf Horizon Asset Management', 'Regional asset manager, DIFC'], ['Emirates Private Credit', 'Private credit fund, ADGM'],
+    ['Nexa Digital Exchange', 'Virtual asset exchange, Dubai'], ['FlowPay Technologies', 'Payments fintech, Dubai'],
+    ['Crescent Capital Partners', 'Multi-strategy fund, Dubai'], ['Al Noor Investments', 'Private markets manager, DIFC'],
+    ['Mosaic Fund Services', 'Fund administrator, Abu Dhabi'], ['Harborstone Financial', 'Wealth platform, Dubai'],
+    ['Sahra Wealth', 'Digital wealth manager, DIFC'], ['Desert Seed Ventures', 'Early-stage investor, Dubai'],
+    ['Lighthouse Asset Partners', 'Institutional manager, Dubai'], ['Atlas Fund Administration', 'Alternative investments, Abu Dhabi'],
+    ['Marhaba Holdings', 'Family office, Abu Dhabi'], ['Vertex Alpha', 'Systematic strategies, Dubai'],
+    ['Oasis Private Bank', 'Private banking, Abu Dhabi']];
+
+  function addJob(i) {
+    var firm = firms[(i * 7 + 3) % firms.length];
+    var row = document.createElement('div');
+    row.className = 'role';
+    var info = document.createElement('div');
+    info.className = 'role-info';
+    var h = document.createElement('h2');
+    h.textContent = titles[(i * 3 + 1) % titles.length];
+    var company = document.createElement('div');
+    company.className = 'company';
+    company.textContent = firm[0];
+    var where = document.createElement('div');
+    where.className = 'location';
+    where.textContent = firm[1];
+    info.appendChild(h); info.appendChild(company); info.appendChild(where);
+    var apply = document.createElement('a');
+    apply.className = 'apply-btn';
+    apply.href = '#';
+    apply.textContent = 'Apply (dummy)';
+    row.appendChild(info); row.appendChild(apply);
+    list.appendChild(row);
+  }
+  for (var n = list.children.length; n < TOTAL; n++) addJob(n);
+
+  var rows = Array.prototype.slice.call(list.children);
+  var pages = Math.ceil(rows.length / PER_PAGE);
+  var current = 1;
+
+  function button(label, page, opts) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = label;
+    if (opts && opts.current) b.setAttribute('aria-current', 'page');
+    if (opts && opts.disabled) b.disabled = true;
+    if (opts && opts.aria) b.setAttribute('aria-label', opts.aria);
+    b.addEventListener('click', function () { show(page, true); });
+    return b;
+  }
+  function show(page, scroll) {
+    current = Math.min(Math.max(page, 1), pages);
+    rows.forEach(function (row, i) { row.hidden = Math.floor(i / PER_PAGE) + 1 !== current; });
+    pager.textContent = '';
+    pager.appendChild(button('Previous', current - 1, { disabled: current === 1 }));
+    for (var p = 1; p <= pages; p++) pager.appendChild(button(String(p), p, { current: p === current, aria: 'Page ' + p }));
+    pager.appendChild(button('Next', current + 1, { disabled: current === pages }));
+    if (scroll) document.getElementById('opportunities-title').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  show(1, false);
+})();
+</script>
+<script src="i18n.js"></script>
 </body>
 </html>
