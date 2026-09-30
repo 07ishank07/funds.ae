@@ -1,0 +1,21 @@
+# Continuous integration for every pull request and push (build guide Part I3).
+# Phase 2 adds a PostgreSQL service, DATABASE_URL and an `npm run migrate up` step.
+name: CI
+on: [pull_request, push]
+permissions: { contents: read }
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults: { run: { working-directory: backend } }
+    steps:
+      - uses: actions/checkout@v4
+        with: { persist-credentials: false }
+      - uses: actions/setup-node@v4
+        with: { node-version: '24', cache: npm, cache-dependency-path: backend/package-lock.json }
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      # Skipped until a lint script exists (added with the Fastify work).
+      - run: npm run lint --if-present
+      - run: npm run validate
+      - run: npm test
+      - run: npm audit --omit=dev --audit-level=high
