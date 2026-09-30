@@ -81,7 +81,7 @@ Each source is fetched independently: one broken feed never stops the others. A 
 | File | What it controls |
 |---|---|
 | `settings.json` | `mode` (`demo`/`live`), timeouts, retries, thresholds, retention, grouping, publishing limits, `events`, `employers`, `submissions` |
-| `sources.news.json` | News feeds (`sources` for live, `demoSources` for demo) |
+| `sources.news.json` | News feeds: `sources` (the 100 sources verified on 2026-09-30, build guide Part C3) for live, `demoSources` for demo |
 | `sources.jobs.json` | Job sources: `rss`, `greenhouse`, `lever`, `ashby` |
 | `jobs.manual.json` | Roles you post yourself (featured roles are listed first; `demoOnly` examples never go live) |
 | `events.json` | Events for "Events and Expos" (`events` for live, `demoFixture` for demo) |
@@ -89,6 +89,22 @@ Each source is fetched independently: one broken feed never stops the others. A 
 | `sponsors.json` | Sponsor slots (normally edited with `admin/`) |
 
 Keys starting with `_` are notes for people and are ignored. `npm run validate` checks every file and explains mistakes in plain language.
+
+**News source fields.** Beyond `id`, `name`, `homepage`, `type` (`rss`, or `api` which must stay disabled until it has an adapter), `url`, `enabled`, `region`, `focus` and `priority`, every live source states its licensing:
+
+| Field | Values | Default (demo only) |
+|---|---|---|
+| `tier` | `L1` official, `L2` press-release wire, `L3` publisher RSS, `L4` licensed API, `L5` paid syndication | `L3` |
+| `licenseStatus` | `public_sector`, `wire`, `terms_reviewed`, `permission_granted`, `pending_review`, `blocked` | `pending_review` |
+| `termsUrl`, `termsReviewedAt` | https link and `YYYY-MM-DD`. Required for `terms_reviewed` (`permission_granted` needs the date) | none |
+| `allowExcerpt` | `false` shows headline + link only | `true` |
+| `allowImages` | `true` shows images from the publisher's own feed (hot-linked). **Opt-in** | `false` |
+| `language` | two-letter code | `en` |
+| `pollEveryHours` | 1–168 | `24` |
+
+`tier` and `licenseStatus` are required in live mode. `blocked` sources must be disabled. Misspelt fields are reported (for example `licenceStatus`).
+
+**Checking feeds.** `npm run check-sources -- --config` fetches every enabled RSS source with the pipeline's own client and parser. It prints status, format, item count and newest item date. It exits 1 if any source fails, is not a feed, is empty, or has no item newer than 14 days. `npm run check-sources -- <url>` checks a single feed before you add it.
 
 Environment variables for the server are documented in [`.env.example`](.env.example).
 
@@ -264,13 +280,14 @@ Record shapes are defined once in `src/contracts/models.js`. `schema/schema.sql`
 
 - **Commands:**
   - `npm run ingest` (everything), `ingest:news`, `ingest:jobs`, `publish:sponsors`, `publish:events`, `publish:content`
-  - `validate`, `reset-feed -- <id>`, `submissions:prune`
+  - `validate`, `check-sources -- --config`, `reset-feed -- <id>`, `submissions:prune`
   - `serve`
 - **Logs:** GitHub → Actions → the run. Warnings and errors also appear as annotations.
 - **Failure alerts:** if every source fails or the code crashes, the workflow fails and GitHub emails the owner. The site keeps its previous data.
 - **Source health:** `api/v1/sources.json`. A paused source resumes after 7 days, or run `npm run reset-feed -- <id>`.
-- **Tests:** `npm test` runs 55 tests:
-  - parsing, dedupe, grouping, classification and filters
+- **Tests:** `npm test` runs 67 tests:
+  - source configuration rules, the live source list, and the check-sources script
+  - parsing (including real-world date formats), dedupe, grouping, classification and filters
   - HTTP retries, timeouts and limits
   - the full demo pipeline
   - validation rules
@@ -280,7 +297,8 @@ Record shapes are defined once in `src/contracts/models.js`. `schema/schema.sql`
 ## 9. Legal and editorial
 
 - Only headlines, publisher-supplied excerpts (≤ 280 characters) and publisher-supplied feed images are used; full articles are never copied. Every item links to the original publisher, and grouped stories keep every source's link.
-- Images are hot-linked from the publisher's own feed, never copied. Set `allowImages: false` for any publisher whose terms forbid this.
+- Images are hot-linked from the publisher's own feed, never copied, and only for sources with `allowImages: true` (set once the publisher's terms allow it).
+- The fetcher identifies itself as `Mozilla/5.0 (compatible; FundsAeNewsBot/1.0; +https://funds.ae/about)`, the standard crawler format. A source that still answers 403 has blocked the bot: disable it and ask the publisher; never disguise the bot.
 - Before going live, review each publisher's terms for commercial reuse of its RSS feed and remove any source whose terms you cannot meet.
 - Sponsored links carry `rel="sponsored"`; editorial career resources do not.
 - All demo names (sponsors, employers, events, stories) are fictional and marked "(demo)" or "Demo …". Replace them before launch.

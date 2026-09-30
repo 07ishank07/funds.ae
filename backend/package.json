@@ -18,7 +18,8 @@
     "reset-feed": "node src/cli.js reset-feed",
     "submissions:prune": "node src/cli.js submissions:prune",
     "serve": "node src/server.js",
-    "test": "node --test test/*.test.js"
+    "test": "node --test test/*.test.js",
+    "check-sources": "node scripts/check-sources.mjs"
   },
   "dependencies": {
     "fast-xml-parser": "^4.5.7"

@@ -47,10 +47,103 @@ const loadConfig = (name) => stripDocs(readJson(path.join(CONFIG_DIR, name)));
 
 const ID_RE = /^[a-z0-9][a-z0-9-]{1,60}$/;
 
-function validateSources(list, kind, { demo }) {
+// Licensing and scheduling fields for news sources (build guide Part C1 and C5).
+export const SOURCE_TIERS = ['L1', 'L2', 'L3', 'L4', 'L5'];
+export const LICENSE_STATUSES = ['public_sector', 'wire', 'terms_reviewed', 'permission_granted', 'pending_review', 'blocked'];
+const NEWS_FIELDS = new Set([
+  'id', 'name', 'homepage', 'type', 'url', 'fixture', 'enabled', 'verified', 'region', 'focus', 'priority',
+  'allowImages', 'allowExcerpt', 'tier', 'licenseStatus', 'termsUrl', 'termsReviewedAt', 'language',
+  'pollEveryHours', 'notes'
+]);
+// Likely typos, so a misspelt field gets a pointer instead of being silently ignored.
+const FIELD_HINTS = {
+  licenceStatus: 'licenseStatus', license: 'licenseStatus', licence: 'licenseStatus', status: 'licenseStatus',
+  allowImage: 'allowImages', images: 'allowImages', allowExcerpts: 'allowExcerpt', excerpt: 'allowExcerpt',
+  termsURL: 'termsUrl', terms: 'termsUrl', termsReviewed: 'termsReviewedAt', reviewedAt: 'termsReviewedAt',
+  lang: 'language', pollHours: 'pollEveryHours', pollEvery: 'pollEveryHours', feed: 'url', link: 'url'
+};
+// Values used when a (demo) source leaves a field out. Images are opt-in: a publisher's
+// feed images are shown only after its terms have been checked.
+export const NEWS_SOURCE_DEFAULTS = {
+  allowImages: false,
+  allowExcerpt: true,
+  language: 'en',
+  pollEveryHours: 24,
+  tier: 'L3',
+  licenseStatus: 'pending_review'
+};
+
+function isRealPastDate(value, today = new Date()) {
+  const m = typeof value === 'string' ? /^(\d{4})-(\d{2})-(\d{2})$/.exec(value) : null;
+  if (!m) return false;
+  const t = Date.UTC(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+  if (new Date(t).toISOString().slice(0, 10) !== value) return false;
+  return t <= Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate());
+}
+
+function validateNewsSourceFields(s, where, { live }) {
+  const errors = [];
+  for (const key of Object.keys(s)) {
+    if (NEWS_FIELDS.has(key)) continue;
+    errors.push(FIELD_HINTS[key]
+      ? `${where}: unknown field "${key}". Did you mean "${FIELD_HINTS[key]}"?`
+      : `${where}: unknown field "${key}". Remove it, or prefix it with "_" if it is a note for people.`);
+  }
+  if (s.tier === undefined) {
+    if (live) errors.push(`${where}: "tier" is required. Use L1 (official), L2 (press-release wire), L3 (publisher RSS), L4 (licensed API) or L5 (paid syndication).`);
+  } else if (!SOURCE_TIERS.includes(s.tier)) {
+    errors.push(`${where}: "tier" must be one of ${SOURCE_TIERS.join(', ')}.`);
+  }
+  if (s.licenseStatus === undefined) {
+    if (live) errors.push(`${where}: "licenseStatus" is required. Use "pending_review" until you have read the publisher's terms.`);
+  } else if (!LICENSE_STATUSES.includes(s.licenseStatus)) {
+    errors.push(`${where}: "licenseStatus" must be one of ${LICENSE_STATUSES.join(', ')}.`);
+  }
+  if (s.licenseStatus === 'terms_reviewed' && !s.termsUrl) {
+    errors.push(`${where}: "termsUrl" is required when licenseStatus is "terms_reviewed" (link to the terms you read).`);
+  }
+  if (['terms_reviewed', 'permission_granted'].includes(s.licenseStatus) && !s.termsReviewedAt) {
+    errors.push(`${where}: "termsReviewedAt" (YYYY-MM-DD) is required when licenseStatus is "${s.licenseStatus}".`);
+  }
+  if (s.licenseStatus === 'blocked' && s.enabled !== false) {
+    errors.push(`${where}: a source with licenseStatus "blocked" must have "enabled": false.`);
+  }
+  if (s.termsUrl !== undefined && !/^https:\/\/[^\s"'<>]+$/.test(String(s.termsUrl))) {
+    errors.push(`${where}: "termsUrl" must be a link starting with https://`);
+  }
+  if (s.termsReviewedAt !== undefined && !isRealPastDate(s.termsReviewedAt)) {
+    errors.push(`${where}: "termsReviewedAt" must be a real date written as YYYY-MM-DD, and not in the future.`);
+  }
+  for (const field of ['enabled', 'verified', 'allowImages', 'allowExcerpt']) {
+    if (s[field] !== undefined && typeof s[field] !== 'boolean') {
+      errors.push(`${where}: "${field}" must be true or false, without quotes.`);
+    }
+  }
+  if (s.language !== undefined && !/^[a-z]{2}$/.test(String(s.language))) {
+    errors.push(`${where}: "language" must be a two-letter code such as "en" or "ar".`);
+  }
+  if (s.pollEveryHours !== undefined && !(Number.isInteger(s.pollEveryHours) && s.pollEveryHours >= 1 && s.pollEveryHours <= 168)) {
+    errors.push(`${where}: "pollEveryHours" must be a whole number from 1 to 168 (one week).`);
+  }
+  if (s.priority !== undefined && !(Number.isInteger(s.priority) && s.priority >= 1 && s.priority <= 9)) {
+    errors.push(`${where}: "priority" must be a whole number from 1 (most authoritative) to 9.`);
+  }
+  if (s.notes !== undefined && typeof s.notes !== 'string') errors.push(`${where}: "notes" must be text.`);
+  if (s.type === 'api' && s.enabled !== false) {
+    errors.push(`${where}: "type" "api" has no adapter yet; set "enabled": false until one is added.`);
+  }
+  return errors;
+}
+
+/** Fills in defaults for optional news-source fields (see NEWS_SOURCE_DEFAULTS). */
+export function withNewsDefaults(source) {
+  return { ...NEWS_SOURCE_DEFAULTS, ...source };
+}
+
+export function validateSources(list, kind, { demo }) {
   const errors = [];
   const seen = new Set();
-  const newsTypes = ['rss'];
+  const newsTypes = ['rss', 'api'];
   const jobTypes = ['rss', 'greenhouse', 'lever', 'ashby'];
   list.forEach((s, i) => {
     const where = `${kind} source #${i + 1} (${s.id || 'no id'})`;
@@ -60,12 +153,15 @@ function validateSources(list, kind, { demo }) {
     if (!s.name) errors.push(`${where}: missing "name".`);
     const types = kind === 'news' ? newsTypes : jobTypes;
     if (!types.includes(s.type)) errors.push(`${where}: "type" must be one of ${types.join(', ')}.`);
+    // Licensing fields are checked on every news source, enabled or not. Live sources must
+    // state them; demo sources may leave them out and get NEWS_SOURCE_DEFAULTS.
+    if (kind === 'news') errors.push(...validateNewsSourceFields(s, where, { live: !demo }));
     if (s.enabled === false) return;
     if (demo) {
       if (!s.fixture) errors.push(`${where}: demo sources need a "fixture" file.`);
     } else if (s.type === 'rss') {
       if (!/^https:\/\//.test(s.url || '')) errors.push(`${where}: "url" must start with https://`);
-    } else if (!s.board || /REPLACE/.test(s.board)) {
+    } else if (kind === 'jobs' && (!s.board || /REPLACE/.test(s.board))) {
       errors.push(`${where}: set "board" to the employer's board token, or set enabled to false.`);
     }
     if (kind === 'news') {
@@ -138,15 +234,18 @@ export function loadAll() {
   const manualJobs = loadConfig('jobs.manual.json');
   const eventsConfig = loadConfig('events.json');
 
-  const newsSources = (demo ? newsCfg.demoSources : newsCfg.sources) || [];
+  const rawNewsSources = (demo ? newsCfg.demoSources : newsCfg.sources) || [];
   const jobSources = (demo ? jobsCfg.demoSources : jobsCfg.sources) || [];
 
+  // Validate what the file says, then fill defaults: a live source that omits a required
+  // licensing field must fail here, not silently inherit a default.
   const errors = [
-    ...validateSources(newsSources, 'news', { demo }),
+    ...validateSources(rawNewsSources, 'news', { demo }),
     ...validateSources(jobSources, 'jobs', { demo }),
     ...validateTaxonomy(taxonomy)
   ];
   if (errors.length) throw new ConfigError('Configuration problems:\n  - ' + errors.join('\n  - '));
+  const newsSources = rawNewsSources.map(withNewsDefaults);
 
   return {
     settings,

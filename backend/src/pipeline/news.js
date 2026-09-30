@@ -29,9 +29,12 @@ export function normaliseItem(raw, source, settings, now) {
   if (!summary) summary = cleanExcerpt(htmlToText(raw.contentHtml));
   summary = truncate(summary, settings.news.excerptMaxChars);
   if (normaliseTitle(summary) === normaliseTitle(title)) summary = '';
+  // Publishers whose terms don't allow their excerpt get headline + link only.
+  if (source.allowExcerpt === false) summary = '';
 
   let imageUrl = null;
-  if (source.allowImages !== false) {
+  // Images are opt-in per source (allowImages: true), set once the publisher's terms allow it.
+  if (source.allowImages === true) {
     const candidate = raw.images?.[0] || raw.htmlImage || null;
     // Only https images: the site is served over https and must not load mixed content.
     if (candidate && /^https:\/\//i.test(candidate)) imageUrl = candidate;
