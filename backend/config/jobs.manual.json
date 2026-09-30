@@ -1,0 +1,37 @@
+{
+  "_help": [
+    "Roles you post yourself (for example, paid 'Post a role' listings).",
+    "Required: id (unique, no spaces), title, company, location, url (https://...), postedAt (YYYY-MM-DD).",
+    "Optional: expiresAt (YYYY-MM-DD), department, employmentType, featured (true shows it first).",
+    "demoOnly: true means the listing is an example and is hidden in live mode. Delete it or set it to false for real listings.",
+    "A listing disappears automatically after expiresAt, or after jobs.maxAgeDays in settings.json if no expiresAt is set."
+  ],
+  "jobs": [
+    {
+      "id": "manual-gulf-horizon-pm",
+      "title": "Portfolio Manager, GCC Equities",
+      "company": "Gulf Horizon Asset Management (demo)",
+      "location": "DIFC, Dubai",
+      "url": "https://example.com/careers/gulf-horizon/portfolio-manager",
+      "postedAt": "2026-09-22",
+      "expiresAt": "2026-12-31",
+      "department": "Investments",
+      "employmentType": "Full-time",
+      "featured": true,
+      "demoOnly": true
+    },
+    {
+      "id": "manual-emirates-private-credit-associate",
+      "title": "Associate, Private Credit",
+      "company": "Emirates Private Credit (demo)",
+      "location": "ADGM, Abu Dhabi",
+      "url": "https://example.com/careers/emirates-private-credit/associate",
+      "postedAt": "2026-09-18",
+      "expiresAt": "2026-12-31",
+      "department": "Private Credit",
+      "employmentType": "Full-time",
+      "featured": true,
+      "demoOnly": true
+    }
+  ]
+}

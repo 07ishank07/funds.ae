@@ -1,0 +1,98 @@
+{
+  "_help": [
+    "Most big job boards (LinkedIn, Indeed, Bayt and similar) do not offer public RSS feeds, and their terms forbid scraping. Check a board's terms before adding it.",
+    "The reliable, legal route is employer career pages that run on Greenhouse, Lever or Ashby. These systems publish public job APIs that are meant to be reused.",
+    "How to find a board token: open the employer's careers page. If the job links contain boards.greenhouse.io/NAME, jobs.lever.co/NAME or jobs.ashbyhq.com/NAME, then NAME is the token.",
+    "type: rss | greenhouse | lever | ashby. For greenhouse/lever/ashby, put the token in \"board\".",
+    "requireUaeLocation: true keeps only jobs located in the UAE (or remote roles open to the UAE).",
+    "relevanceFilter: true keeps only finance and investment roles. Use false for specialist finance employers where every role is relevant.",
+    "Roles you post yourself go in jobs.manual.json, not here."
+  ],
+  "sources": [
+    {
+      "id": "example-greenhouse-employer",
+      "name": "Example employer on Greenhouse",
+      "type": "greenhouse",
+      "board": "REPLACE_WITH_BOARD_TOKEN",
+      "company": "Example Capital",
+      "enabled": false,
+      "requireUaeLocation": true,
+      "relevanceFilter": false
+    },
+    {
+      "id": "example-lever-employer",
+      "name": "Example employer on Lever",
+      "type": "lever",
+      "board": "REPLACE_WITH_BOARD_TOKEN",
+      "company": "Example Ventures",
+      "enabled": false,
+      "requireUaeLocation": true,
+      "relevanceFilter": false
+    },
+    {
+      "id": "example-ashby-employer",
+      "name": "Example employer on Ashby",
+      "type": "ashby",
+      "board": "REPLACE_WITH_BOARD_TOKEN",
+      "company": "Example Fintech",
+      "enabled": false,
+      "requireUaeLocation": true,
+      "relevanceFilter": true
+    },
+    {
+      "id": "example-rss-job-board",
+      "name": "Example RSS job board",
+      "type": "rss",
+      "url": "https://example.com/jobs.rss",
+      "enabled": false,
+      "requireUaeLocation": true,
+      "relevanceFilter": true,
+      "titlePattern": "^(?<title>.+?) at (?<company>.+?)(?: \\((?<location>[^)]+)\\))?$"
+    }
+  ],
+  "demoSources": [
+    {
+      "id": "demo-gulf-finance-jobs",
+      "name": "Demo Gulf Finance Jobs",
+      "type": "rss",
+      "fixture": "jobs/demo-gulf-finance-jobs.xml",
+      "enabled": true,
+      "requireUaeLocation": true,
+      "relevanceFilter": true,
+      "titlePattern": "^(?<title>.+?) at (?<company>.+?)(?: \\((?<location>[^)]+)\\))?$"
+    },
+    {
+      "id": "demo-sandline-ventures",
+      "name": "Sandline Ventures careers (demo)",
+      "type": "greenhouse",
+      "board": "sandline-demo",
+      "company": "Sandline Ventures",
+      "fixture": "jobs/demo-greenhouse.json",
+      "enabled": true,
+      "requireUaeLocation": true,
+      "relevanceFilter": false
+    },
+    {
+      "id": "demo-qirsh",
+      "name": "Qirsh careers (demo)",
+      "type": "lever",
+      "board": "qirsh-demo",
+      "company": "Qirsh",
+      "fixture": "jobs/demo-lever.json",
+      "enabled": true,
+      "requireUaeLocation": true,
+      "relevanceFilter": true
+    },
+    {
+      "id": "demo-harbourline",
+      "name": "Harbourline careers (demo)",
+      "type": "ashby",
+      "board": "harbourline-demo",
+      "company": "Harbourline Group",
+      "fixture": "jobs/demo-ashby.json",
+      "enabled": true,
+      "requireUaeLocation": true,
+      "relevanceFilter": true
+    }
+  ]
+}

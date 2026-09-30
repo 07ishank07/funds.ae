@@ -1,0 +1,64 @@
+{
+  "_help": "Main switch: set \"mode\" to \"demo\" (sample data, no internet needed) or \"live\" (real RSS feeds and job boards). Everything else has safe defaults.",
+  "mode": "demo",
+  "siteName": "Funds.ae",
+  "userAgent": "FundsAeNewsBot/1.0 (+https://funds.ae/about)",
+  "http": {
+    "timeoutMs": 15000,
+    "retries": 3,
+    "retryBaseDelayMs": 1500,
+    "concurrency": 4,
+    "maxResponseBytes": 5000000
+  },
+  "news": {
+    "maxAgeDays": 21,
+    "retentionDays": 180,
+    "maxItemsPerFeed": 60,
+    "excerptMaxChars": 280,
+    "relevanceThreshold": 3,
+    "focusedSourceRelevanceThreshold": 1,
+    "uaeThreshold": 2,
+    "excludeOpinion": true,
+    "excludePressReleases": false,
+    "checkLinks": true,
+    "linkCheckTimeoutMs": 8000,
+    "grouping": {
+      "windowHours": 72,
+      "titleSimilarity": 0.5,
+      "entitySimilarity": 0.1,
+      "minSharedEntities": 2
+    },
+    "publish": {
+      "maxStories": 200,
+      "maxPerCategory": 100
+    }
+  },
+  "jobs": {
+    "maxAgeDays": 45,
+    "relevanceThreshold": 1,
+    "maxPublished": 150
+  },
+  "employers": {
+    "_help": "Featured Employers on the Careers page are derived from open roles. The grid shows 15.",
+    "maxPublished": 15
+  },
+  "events": {
+    "_help": "Events come from config/events.json. Upcoming events are published, plus anything that ended in the last keepPastDays.",
+    "maxPublished": 50,
+    "keepPastDays": 30
+  },
+  "submissions": {
+    "_help": "Website forms (contact, newsletter, advertise, event, job). Only used by the optional server; GitHub Pages cannot receive forms. Stored in backend/data/submissions/ (git-ignored) and deleted after retentionDays by `npm run submissions:prune`.",
+    "enabled": true,
+    "retentionDays": 180,
+    "demoMaxPerKind": 500,
+    "maxBodyBytes": 16384,
+    "writeRatePerMinute": 5,
+    "writeRatePerHour": 30
+  },
+  "circuitBreaker": {
+    "maxConsecutiveFailures": 5,
+    "pauseDays": 7
+  },
+  "runHistoryLength": 30
+}

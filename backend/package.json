@@ -1,0 +1,26 @@
+{
+  "name": "fundsae-backend",
+  "version": "1.0.0",
+  "description": "News, jobs and sponsor ingestion backend for Funds.ae",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "ingest": "node src/cli.js all",
+    "ingest:news": "node src/cli.js news",
+    "ingest:jobs": "node src/cli.js jobs",
+    "publish:sponsors": "node src/cli.js sponsors",
+    "publish:events": "node src/cli.js events",
+    "publish:content": "node src/cli.js content",
+    "validate": "node src/cli.js validate",
+    "reset-feed": "node src/cli.js reset-feed",
+    "submissions:prune": "node src/cli.js submissions:prune",
+    "serve": "node src/server.js",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^4.5.7"
+  }
+}

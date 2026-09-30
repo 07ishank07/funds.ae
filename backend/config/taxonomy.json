@@ -1,0 +1,169 @@
+{
+  "_help": [
+    "Keywords are matched as whole words, case-insensitive, and also match simple plurals (fund matches funds).",
+    "A keyword found in the headline counts double; found in the summary it counts once.",
+    "To add a topic: copy a block in \"topics\", give it a new id and label, and list keywords with weights (1 = weak signal, 3 = strong).",
+    "To add a category you also need a rule in src/lib/classify.js; UAE vs Rest of the World is built in."
+  ],
+  "categories": [
+    { "id": "uae", "label": "UAE", "uiLabel": "UAE News" },
+    { "id": "world", "label": "Rest of the World", "uiLabel": "Global News" }
+  ],
+  "uaeTerms": [
+    "uae", "u.a.e.", "united arab emirates", "emirates", "emirati", "dubai", "abu dhabi", "sharjah", "ajman",
+    "ras al khaimah", "fujairah", "umm al quwain", "al ain",
+    "difc", "dubai international financial centre", "adgm", "abu dhabi global market", "dfsa", "fsra",
+    "cbuae", "central bank of the uae", "securities and commodities authority", "adx", "dfm", "nasdaq dubai", "hub71",
+    "mubadala", "adia", "adq", "adic", "l'imad", "lunate", "mgx", "alpha dhabi", "international holding company",
+    "dubai holding", "investment corporation of dubai", "emirates nbd", "first abu dhabi bank", "adcb", "mashreq",
+    "dp world", "ad ports", "adnoc", "taqa", "g42", "aldar", "emaar", "masdar"
+  ],
+  "topics": [
+    {
+      "id": "private-equity",
+      "label": "Private equity",
+      "keywords": {
+        "private equity": 3, "buyout": 3, "leveraged buyout": 3, "pe firm": 3, "pe-backed": 3,
+        "private equity-backed": 3, "take-private": 3, "take private": 3, "growth equity": 3,
+        "portfolio company": 2, "carve-out": 2, "general partner": 2
+      }
+    },
+    {
+      "id": "venture-capital",
+      "label": "Venture capital",
+      "keywords": {
+        "venture capital": 3, "vc": 2, "venture fund": 3, "series a": 3, "series b": 3, "series c": 3, "series d": 3,
+        "seed round": 3, "pre-seed": 3, "seed funding": 3, "funding round": 3, "unicorn": 2, "angel investor": 2,
+        "start-up": 1, "startup": 1, "raises": 1, "accelerator": 1
+      }
+    },
+    {
+      "id": "private-credit",
+      "label": "Private credit",
+      "keywords": {
+        "private credit": 3, "direct lending": 3, "private debt": 3, "credit fund": 3, "venture debt": 3,
+        "mezzanine": 3, "infrastructure debt": 3, "distressed debt": 2, "asset-based finance": 2, "credit strategy": 2
+      }
+    },
+    {
+      "id": "infrastructure",
+      "label": "Infrastructure",
+      "keywords": {
+        "infrastructure fund": 3, "infrastructure investment": 2, "infrastructure investor": 2, "infrastructure": 1,
+        "data centre": 1, "data center": 1, "renewable energy": 1, "energy transition": 1
+      }
+    },
+    {
+      "id": "real-estate",
+      "label": "Real estate",
+      "keywords": {
+        "real estate fund": 3, "property fund": 3, "reit": 2, "real estate investment": 2, "real estate": 1
+      }
+    },
+    {
+      "id": "hedge-funds-alternatives",
+      "label": "Hedge funds and alternatives",
+      "keywords": {
+        "hedge fund": 3, "alternative investment": 3, "alternative asset": 3, "alternatives": 2, "multi-strategy": 2,
+        "digital asset fund": 2
+      }
+    },
+    {
+      "id": "secondaries",
+      "label": "Secondaries",
+      "keywords": {
+        "secondaries": 3, "secondary market": 2, "continuation vehicle": 3, "continuation fund": 3, "gp-led": 3,
+        "secondary transaction": 3, "lp stake": 2
+      }
+    },
+    {
+      "id": "fundraising",
+      "label": "Fund launches and closes",
+      "keywords": {
+        "final close": 3, "first close": 3, "fund close": 3, "closes fund": 3, "hard cap": 3, "fundraise": 2,
+        "fundraising": 2, "launches fund": 3, "new fund": 2, "oversubscribed": 2, "assets under management": 2, "aum": 2
+      }
+    },
+    {
+      "id": "mergers-acquisitions",
+      "label": "M&A",
+      "keywords": {
+        "acquisition": 2, "acquire": 2, "acquires": 2, "merger": 2, "takeover": 2, "tender offer": 3,
+        "majority stake": 2, "minority stake": 2, "stake": 1, "divest": 2, "joint venture": 1, "deal": 1
+      }
+    },
+    {
+      "id": "institutional-investors",
+      "label": "Sovereign and institutional investors",
+      "keywords": {
+        "sovereign wealth": 3, "sovereign fund": 3, "sovereign investor": 3, "pension fund": 3, "endowment": 2,
+        "family office": 3, "limited partner": 3, "institutional investor": 3, "asset manager": 2, "allocation": 1,
+        "mubadala": 2, "adia": 2, "adq": 2, "pif": 2, "qia": 2, "temasek": 2, "gic": 2
+      }
+    },
+    {
+      "id": "ipo-capital-markets",
+      "label": "IPOs and listings",
+      "keywords": {
+        "ipo": 2, "initial public offering": 2, "pre-ipo": 3, "listing": 1, "sukuk": 1
+      }
+    },
+    {
+      "id": "grants-funding",
+      "label": "Grants and funding",
+      "keywords": {
+        "grant": 2, "startup grant": 3, "sme fund": 3, "sme funding": 3, "sme support": 3, "funding programme": 3,
+        "funding program": 3, "soft loan": 3, "innovation fund": 2, "subsidy": 2, "subsidies": 2, "government-backed fund": 2
+      }
+    }
+  ],
+  "_sectionsHelp": "Sections group topics for one area of the page (the tile grids on the home page). Each gets api/v1/news/sections/<id>.json. \"category\" (optional) limits a section to uae or world stories.",
+  "sections": [
+    { "id": "real-estate-infrastructure", "label": "Real Estate and Infrastructure", "topics": ["real-estate", "infrastructure"] },
+    { "id": "grants-funding", "label": "UAE Business Grants and Funding", "topics": ["grants-funding"], "category": "uae" }
+  ],
+  "genericInvestmentTerms": {
+    "investment": 1, "investor": 1, "invests": 1, "fund": 1, "funding": 1, "capital": 1, "financing": 1
+  },
+  "negativeTerms": {
+    "football": -3, "cricket": -3, "tennis": -3, "formula 1": -3, "recipe": -3, "celebrity": -3, "horoscope": -3,
+    "weather": -3, "temperatures": -3, "concert": -3, "movie": -2, "gadgets": -3, "lottery": -3, "arrested": -3,
+    "police": -2, "traffic": -2
+  },
+  "filters": {
+    "opinion": {
+      "titlePrefix": ["opinion", "comment", "commentary", "op-ed", "oped", "column", "editorial", "letter", "letters", "viewpoint", "my view"],
+      "urlSegments": ["opinion", "opinions", "comment", "op-ed", "editorial", "editorials", "columnist", "columnists", "blog", "blogs", "letters"],
+      "categories": ["opinion", "comment", "op-ed", "editorial", "columns", "columnists", "blog"]
+    },
+    "nonArticle": {
+      "titlePrefix": ["podcast", "video", "watch", "listen", "gallery", "in pictures", "photos", "quiz", "live", "webinar"],
+      "urlSegments": ["podcast", "podcasts", "video", "videos", "gallery", "galleries", "live", "webinar"],
+      "categories": ["podcast", "video", "gallery"]
+    },
+    "advertorial": {
+      "titlePrefix": ["sponsored", "promoted", "advertisement", "ad", "partner content", "brand view", "brandview", "paid post"],
+      "titleContains": ["advertorial", "sponsored content", "sponsored post", "partner content", "paid post", "in association with", "brought to you by"],
+      "urlSegments": ["sponsored", "partner-content", "brandview", "brand-view", "advertorial", "promoted", "paid-post", "native"],
+      "categories": ["sponsored", "partner content", "advertorial", "promoted", "brand view", "commercial", "paid content"]
+    },
+    "pressRelease": {
+      "titleContains": ["press release"],
+      "urlSegments": ["press-release", "press-releases", "pressrelease"],
+      "categories": ["press release", "press releases", "pr"]
+    }
+  },
+  "jobs": {
+    "uaeLocationTerms": [
+      "uae", "united arab emirates", "dubai", "abu dhabi", "sharjah", "ajman", "ras al khaimah", "fujairah",
+      "umm al quwain", "al ain", "difc", "adgm"
+    ],
+    "remoteTerms": ["remote - uae", "remote (uae)", "remote, uae", "remote - middle east", "remote - mena", "remote - gcc"],
+    "relevanceKeywords": [
+      "investment", "investor", "portfolio", "fund", "private equity", "venture", "private credit", "credit", "capital",
+      "analyst", "associate", "asset management", "wealth", "banking", "treasury", "finance", "financial", "accountant",
+      "audit", "compliance", "risk", "m&a", "valuation", "trading", "research", "relationship manager", "fund administration",
+      "investor relations", "legal counsel", "controller", "cfo", "actuary", "underwriter", "quant"
+    ]
+  }
+}

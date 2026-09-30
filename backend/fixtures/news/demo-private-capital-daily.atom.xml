@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FICTIONAL DEMO FEED (Atom format). Companies, people and links are invented for testing. -->
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
+  <title>Demo Private Capital Daily</title>
+  <id>https://example.com/private-capital-daily/</id>
+  <updated>{{ISO:-1h}}</updated>
+  <link href="https://example.com/private-capital-daily/" />
+
+  <entry>
+    <title>Harbourview Partners closes €4.2bn buyout fund above target</title>
+    <id>tag:example.com,2026:pcd-201</id>
+    <link rel="alternate" href="https://example.com/private-capital-daily/harbourview-fund-vii" />
+    <published>{{ISO:-1d6h}}</published>
+    <updated>{{ISO:-1d5h}}</updated>
+    <category term="Private equity" />
+    <summary type="html">&lt;p&gt;The London-based private equity firm said its seventh flagship fund hit its hard cap after nine months in market.&lt;/p&gt;</summary>
+    <media:thumbnail url="https://example.com/images/harbourview.jpg" width="800" height="450" />
+  </entry>
+
+  <entry>
+    <title>Secondaries volume hits record as LPs seek liquidity</title>
+    <id>tag:example.com,2026:pcd-202</id>
+    <link href="https://example.com/private-capital-daily/secondaries-record" />
+    <published>{{ISO:-2d2h}}</published>
+    <category term="Secondaries" />
+    <summary>GP-led continuation vehicles accounted for almost half of first-half deal value, a broker report found.</summary>
+  </entry>
+
+  <entry>
+    <title>Pension funds lift allocations to infrastructure debt</title>
+    <id>tag:example.com,2026:pcd-203</id>
+    <link href="https://example.com/private-capital-daily/pensions-infrastructure-debt" />
+    <published>{{ISO:-3d}}</published>
+    <summary>A survey of 140 institutional investors found most plan to raise private credit exposure over the next year.</summary>
+  </entry>
+
+  <entry>
+    <title>Gulf sovereign investors join $1bn round for London AI infrastructure firm Northlight</title>
+    <id>tag:example.com,2026:pcd-204</id>
+    <link href="https://example.com/private-capital-daily/northlight-1bn-round" />
+    <published>{{ISO:-20h}}</published>
+    <summary>Investors from Abu Dhabi and Riyadh took part alongside US pension funds, people familiar with the matter said.</summary>
+  </entry>
+
+  <entry>
+    <title>Abu Dhabi manager Falcon Ridge wraps up $750m private credit fundraise</title>
+    <id>tag:example.com,2026:pcd-205</id>
+    <link href="https://example.com/private-capital-daily/falcon-ridge-wraps-up" />
+    <published>{{ISO:-5h}}</published>
+    <summary>Demand from Gulf family offices helped the fund close ahead of schedule.</summary>
+  </entry>
+
+  <entry>
+    <title>Podcast: The state of private markets this autumn</title>
+    <id>tag:example.com,2026:pcd-206</id>
+    <link href="https://example.com/private-capital-daily/podcast/autumn" />
+    <published>{{ISO:-4h}}</published>
+    <summary>An audio episode, not an article. Must be filtered out.</summary>
+  </entry>
+
+  <entry>
+    <title>Kestrel Credit Partners hires bank veteran to lead European direct lending</title>
+    <id>tag:example.com,2026:pcd-207</id>
+    <link href="https://example.com/private-capital-daily/kestrel-direct-lending-hire" />
+    <published>{{ISO:-3d8h}}</published>
+    <summary>The private credit manager is expanding its mid-market lending team in Frankfurt and Paris.</summary>
+  </entry>
+</feed>

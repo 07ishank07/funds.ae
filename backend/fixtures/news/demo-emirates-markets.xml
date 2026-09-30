@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- FICTIONAL DEMO FEED. Companies, people and links are invented for testing. -->
+<rss version="2.0">
+  <channel>
+    <title>Demo Emirates Markets</title>
+    <link>https://example.com/emirates-markets</link>
+    <description>Fictional UAE markets outlet used by Funds.ae demo mode</description>
+
+    <item>
+      <title>Qirsh secures $45m in Series B round as Dubai payments start-up expands to Riyadh</title>
+      <link>https://example.com/emirates-markets/qirsh-45m-series-b-riyadh</link>
+      <guid>https://example.com/emirates-markets/qirsh-45m-series-b-riyadh</guid>
+      <pubDate>{{RFC822:-26h}}</pubDate>
+      <category>Venture capital</category>
+      <description>Sandline Ventures led the round, with participation from two Abu Dhabi family offices.</description>
+    </item>
+
+    <item>
+      <title>Falcon Ridge Capital raises $750 million for private credit strategy</title>
+      <link>https://example.com/emirates-markets/falcon-ridge-750-million</link>
+      <guid>https://example.com/emirates-markets/falcon-ridge-750-million</guid>
+      <pubDate>{{RFC822:-7h}}</pubDate>
+      <category>Private credit</category>
+      <description>The final close beat the manager's $600 million target, chief executive said on Monday.</description>
+    </item>
+
+    <item>
+      <title>Sharjah family office launches $200m venture fund for climate start-ups</title>
+      <link>https://example.com/emirates-markets/sharjah-family-office-climate-fund</link>
+      <guid>https://example.com/emirates-markets/sharjah-family-office-climate-fund</guid>
+      <pubDate>{{RFC822:-1d10h}}</pubDate>
+      <category>Venture capital</category>
+      <description>The fund will write cheques of $2 million to $10 million into seed and Series A companies.</description>
+    </item>
+
+    <item>
+      <title>Abu Dhabi logistics group Harbourline agrees $1.2bn takeover of Omani port operator</title>
+      <link>https://example.com/emirates-markets/harbourline-takeover</link>
+      <guid>https://example.com/emirates-markets/harbourline-takeover</guid>
+      <pubDate>{{RFC822:-2d1h}}</pubDate>
+      <category>Deals</category>
+      <description>The tender offer is backed by a consortium of regional institutional investors.</description>
+    </item>
+
+    <item>
+      <title>ADGM-registered Crescent Peak announces first close of GCC secondaries fund</title>
+      <link>https://example.com/emirates-markets/crescent-peak-secondaries-first-close</link>
+      <guid>https://example.com/emirates-markets/crescent-peak-secondaries-first-close</guid>
+      <pubDate>{{RFC822:-4d3h}}</pubDate>
+      <category>Private equity</category>
+      <description>The vehicle will buy LP stakes and back GP-led continuation vehicles in the region.</description>
+    </item>
+
+    <item>
+      <title>Weather: Temperatures to dip across the Emirates this weekend</title>
+      <link>https://example.com/emirates-markets/weather-weekend</link>
+      <guid>https://example.com/emirates-markets/weather-weekend</guid>
+      <pubDate>{{RFC822:-3h}}</pubDate>
+      <description>Not about investment. Must be filtered out.</description>
+    </item>
+
+    <item>
+      <title>Why the region's IPO pipeline needs patient capital</title>
+      <link>https://example.com/emirates-markets/ipo-pipeline-patient-capital</link>
+      <guid>https://example.com/emirates-markets/ipo-pipeline-patient-capital</guid>
+      <pubDate>{{RFC822:-12h}}</pubDate>
+      <category>Opinion</category>
+      <description>Tagged Opinion by the publisher. Must be filtered out.</description>
+    </item>
+  </channel>
+</rss>

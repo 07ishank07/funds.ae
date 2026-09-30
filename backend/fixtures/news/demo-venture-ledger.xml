@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- FICTIONAL DEMO FEED. Companies, people and links are invented for testing. -->
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Demo Venture Ledger</title>
+    <link>https://example.com/venture-ledger</link>
+    <description>Fictional global venture capital news used by Funds.ae demo mode</description>
+
+    <item>
+      <title>Qirsh lands $45 million to take buy-now-pay-later across the Gulf</title>
+      <link>https://example.com/venture-ledger/qirsh-45-million</link>
+      <guid isPermaLink="true">https://example.com/venture-ledger/qirsh-45-million</guid>
+      <pubDate>{{RFC822:-20h}}</pubDate>
+      <description><![CDATA[<img src="https://example.com/images/qirsh-team.jpg" width="640" height="360" /> The Series B brings total funding for the company to $70 million.]]></description>
+    </item>
+
+    <item>
+      <title>Berlin climate start-up Voltwerk raises $60m Series B</title>
+      <link>https://example.com/venture-ledger/voltwerk-series-b</link>
+      <guid isPermaLink="true">https://example.com/venture-ledger/voltwerk-series-b</guid>
+      <pubDate>{{RFC822:-1d2h}}</pubDate>
+      <description>The grid-storage company will use the funding to open factories in Poland and Spain.</description>
+      <media:thumbnail url="https://example.com/images/voltwerk.jpg" width="640" height="360" />
+    </item>
+
+    <item>
+      <title>Singapore's Lumen Health raises $30 million led by Tidewater Ventures</title>
+      <link>https://example.com/venture-ledger/lumen-health-30m</link>
+      <guid isPermaLink="true">https://example.com/venture-ledger/lumen-health-30m</guid>
+      <pubDate>{{RFC822:-2d6h}}</pubDate>
+      <description>The digital clinic operator plans to enter Indonesia and Vietnam next year.</description>
+      <enclosure url="https://example.com/images/lumen.png" type="image/png" length="48211" />
+    </item>
+
+    <item>
+      <title>VC funding to MENA start-ups rose 18% in the third quarter</title>
+      <link>https://example.com/venture-ledger/mena-vc-q3</link>
+      <guid isPermaLink="true">https://example.com/venture-ledger/mena-vc-q3</guid>
+      <pubDate>{{RFC822:-3d5h}}</pubDate>
+      <description>Fintech and logistics companies took the largest share of capital, a data provider said.</description>
+    </item>
+
+    <item>
+      <title>Seed round: Dubai-based Tahweel raises $4m to digitise remittances</title>
+      <link>https://example.com/venture-ledger/tahweel-seed</link>
+      <guid isPermaLink="true">https://example.com/venture-ledger/tahweel-seed</guid>
+      <pubDate>{{RFC822:-15h}}</pubDate>
+      <description>The company is licensed in the DIFC innovation sandbox.</description>
+    </item>
+
+    <item>
+      <title>Top 10 gadgets for your home office</title>
+      <link>https://example.com/venture-ledger/gadgets</link>
+      <guid isPermaLink="true">https://example.com/venture-ledger/gadgets</guid>
+      <pubDate>{{RFC822:-10h}}</pubDate>
+      <description>Not about investment. Must be filtered out.</description>
+    </item>
+
+    <item>
+      <title>Sponsored: How to pick the right fund administrator</title>
+      <link>https://example.com/venture-ledger/partner/fund-admin</link>
+      <guid isPermaLink="true">https://example.com/venture-ledger/partner/fund-admin</guid>
+      <pubDate>{{RFC822:-11h}}</pubDate>
+      <description>Advertorial. Must be filtered out.</description>
+    </item>
+  </channel>
+</rss>
