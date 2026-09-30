@@ -363,6 +363,20 @@
   .pager button:hover:not([disabled]):not([aria-current="page"]) { border-color: var(--ink); }
   .pager button[aria-current="page"] { background: var(--ink); border-color: var(--ink); color: #FFFFFF; cursor: default; }
   .pager button[disabled] { color: var(--ghost); cursor: default; opacity: 0.6; }
+  /* "Post a role" and "Submit your event" review forms */
+  .submit-forms { margin-top: 36px; display: flex; flex-direction: column; gap: 12px; }
+  .submit-forms details { border: 1px solid var(--line); border-top: 2px solid var(--ink); border-radius: 3px; background: var(--surface); }
+  .submit-forms summary { padding: 14px 16px; font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; }
+  .submit-forms details > p { padding: 0 16px; font-size: 14px; color: var(--muted); }
+  .submit-forms form { display: flex; flex-direction: column; gap: 12px; padding: 14px 16px 18px; }
+  .submit-forms .field { display: flex; flex-direction: column; gap: 6px; }
+  .submit-forms .field-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .submit-forms label { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .submit-forms input, .submit-forms select { width: 100%; padding: 9px 12px; border: 1px solid var(--line); border-radius: 3px; font: inherit; font-size: 15px; color: var(--ink); background: var(--surface); }
+  .submit-forms .submit-btn { align-self: flex-start; height: 40px; padding: 0 18px; border: 0; border-radius: 3px; background: var(--ink); color: #F1F5F4; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .submit-forms .submit-btn:hover { background: var(--accent); }
+  summary:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (max-width: 620px) { .submit-forms .field-row { grid-template-columns: minmax(0, 1fr); } }
 </style>
 </head>
 <body>
@@ -380,7 +394,7 @@
     </a>
     <nav class="sections" aria-label="Sections">
     <a href="this.html">Top news</a>
-    <a href="Careers.dc.html">Events</a>
+    <a href="Careers.dc.html#events">Events</a>
     <a href="Careers.dc.html" aria-current="page">Careers</a>
     <a href="Advertise.dc.html">Sponsor</a>
     <a href="About.dc.html">About</a>
@@ -391,12 +405,12 @@
 <div class="page">
 <main>
   <div class="intro">
-    <h1>Events and Career Opportunities</h1>
+    <h1 data-fundsae-badge>Events and Career Opportunities</h1>
   </div>
 
   <section class="employers" aria-labelledby="employers-title">
     <h2 id="employers-title">Featured Employers</h2>
-    <ul class="employer-grid">
+    <ul class="employer-grid" data-fundsae-slot="employers">
       <li><a href="#"><span class="logo" role="img" aria-label="Dummy Gulf Horizon Asset Management logo" style="background: linear-gradient(145deg, #0E3A43, #2F8A8C)">GH</span><span class="name">Gulf Horizon Asset Management</span><span class="jobs">14 jobs</span></a></li>
       <li><a href="#"><span class="logo" role="img" aria-label="Dummy Emirates Private Credit logo" style="background: linear-gradient(145deg, #B58B52, #6B4E32)">EP</span><span class="name">Emirates Private Credit</span><span class="jobs">9 jobs</span></a></li>
       <li><a href="#"><span class="logo" role="img" aria-label="Dummy Nexa Digital Exchange logo" style="background: linear-gradient(145deg, #1F5560, #4FB3B8)">NX</span><span class="name">Nexa Digital Exchange</span><span class="jobs">7 jobs</span></a></li>
@@ -417,7 +431,7 @@
 
   <section class="opportunities" aria-labelledby="opportunities-title">
     <h2 id="opportunities-title">Current Opportunities</h2>
-    <div class="roles">
+    <div class="roles" data-fundsae-slot="roles">
       <div class="role">
         <div class="role-info">
           <h2>Portfolio Manager, GCC Equities</h2>
@@ -573,15 +587,63 @@
     </div>
     <nav class="pager" id="job-pager" aria-label="Job pages"></nav>
   </section>
+
+  <!-- Public submissions go to a review queue; nothing is listed until an editor approves it.
+       Field names are the API contract (POST /api/v1/submissions/job and /event). -->
+  <section class="submit-forms" aria-label="Post a role or submit an event">
+    <details id="post-a-role">
+      <summary>Post a role</summary>
+      <p>Hiring in UAE finance? Send us the role and a link to apply. We review every listing before it appears.</p>
+      <form method="post" data-fundsae-form="job">
+        <div class="field"><label for="job-title">Job title</label><input id="job-title" name="title" type="text" required minlength="3" maxlength="160"></div>
+        <div class="field"><label for="job-company">Company</label><input id="job-company" name="company" type="text" required minlength="2" maxlength="120" autocomplete="organization"></div>
+        <div class="field"><label for="job-location">Location</label><input id="job-location" name="location" type="text" required minlength="2" maxlength="160" placeholder="e.g. DIFC, Dubai"></div>
+        <div class="field"><label for="job-url">Link to apply</label><input id="job-url" name="url" type="url" required maxlength="500" pattern="https://.+" placeholder="https://"></div>
+        <div class="field"><label for="job-type">Employment type (optional)</label>
+          <select id="job-type" name="employmentType">
+            <option value="">Not specified</option>
+            <option value="Full-time">Full-time</option>
+            <option value="Part-time">Part-time</option>
+            <option value="Contract">Contract</option>
+            <option value="Internship">Internship</option>
+            <option value="Temporary">Temporary</option>
+          </select>
+        </div>
+        <div class="field"><label for="job-email">Your email</label><input id="job-email" name="email" type="email" required maxlength="254" autocomplete="email"></div>
+        <div class="fx-hp" aria-hidden="true"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+        <button type="submit" class="submit-btn">Send role for review</button>
+        <p class="fx-form-status" data-fundsae-form-status role="status" aria-live="polite"></p>
+      </form>
+    </details>
+    <details id="submit-event">
+      <summary>Submit your event</summary>
+      <p>Organising a finance event in the UAE? Send us the details. We review every event before it appears.</p>
+      <form method="post" data-fundsae-form="event">
+        <div class="field"><label for="event-title">Event name</label><input id="event-title" name="title" type="text" required minlength="3" maxlength="90"></div>
+        <div class="field"><label for="event-type">Event type</label><input id="event-type" name="eventType" type="text" required minlength="2" maxlength="40" placeholder="e.g. Roundtable"></div>
+        <div class="field-row">
+          <div class="field"><label for="event-start">Start date</label><input id="event-start" name="startDate" type="date" required></div>
+          <div class="field"><label for="event-end">End date (optional)</label><input id="event-end" name="endDate" type="date"></div>
+        </div>
+        <div class="field"><label for="event-city">City</label><input id="event-city" name="city" type="text" required minlength="2" maxlength="60"></div>
+        <div class="field"><label for="event-url">Event website (optional)</label><input id="event-url" name="url" type="url" maxlength="500" pattern="https://.+" placeholder="https://"></div>
+        <div class="field"><label for="event-organiser">Organiser</label><input id="event-organiser" name="organiser" type="text" required minlength="2" maxlength="120" autocomplete="organization"></div>
+        <div class="field"><label for="event-email">Your email</label><input id="event-email" name="email" type="email" required maxlength="254" autocomplete="email"></div>
+        <div class="fx-hp" aria-hidden="true"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+        <button type="submit" class="submit-btn">Send event for review</button>
+        <p class="fx-form-status" data-fundsae-form-status role="status" aria-live="polite"></p>
+      </form>
+    </details>
+  </section>
 </main>
 
 <aside>
-  <section class="events-box">
-    <h2>Events and Expos</h2>
+  <section class="events-box" id="events" aria-labelledby="events-box-title">
+    <h2 id="events-box-title">Events and Expos</h2>
     <div class="events-headings">
       <span>Date</span><span>Event Type</span><span>City</span>
     </div>
-    <ul class="events-list">
+    <ul class="events-list" data-fundsae-slot="events">
       <li>
         <div><span class="day">26</span><span class="month">Nov</span></div>
         <span class="event-type">Finance week</span>
@@ -633,12 +695,12 @@
         <span class="city">Dubai</span>
       </li>
     </ul>
-    <a href="#" class="submit-event">View All</a>
+    <a href="#submit-event" class="submit-event">Submit your event</a>
   </section>
 
   <section class="gold-sponsors" aria-labelledby="gold-sponsors-title">
     <h2 id="gold-sponsors-title">Gold Sponsors</h2>
-    <div class="gold-grid">
+    <div class="gold-grid" data-fundsae-slot="sponsor-gold">
       <a href="#" class="gold-tile" aria-label="Gold sponsor: Fund research made clearer">Fund research made clearer</a>
       <a href="#" class="gold-tile" aria-label="Gold sponsor: Grow your UAE portfolio">Grow your UAE portfolio</a>
       <a href="#" class="gold-tile" aria-label="Gold sponsor: Invest with local insight">Invest with local insight</a>
@@ -654,18 +716,18 @@
 
   <section class="resources-box">
     <h2>Career Resources</h2>
-    <div class="links">
-      <a href="#"><div class="logo" style="background: linear-gradient(145deg, #0E3A43, #4FB3B8)">UAE</div><span class="label">Ministry of Finance</span></a>
-      <a href="#"><div class="logo" style="background: linear-gradient(145deg, #B58B52, #6B4E32)">CBU</div><span class="label">Central Bank of the UAE</span></a>
-      <a href="#"><div class="logo" style="background: linear-gradient(145deg, #7F9A97, #164B55)">DIFC</div><span class="label">Dubai International Financial Centre</span></a>
-      <a href="#"><div class="logo" style="background: linear-gradient(145deg, #C9A9A0, #874E4B)">ADX</div><span class="label">Abu Dhabi Securities Exchange</span></a>
-      <a href="#"><div class="logo" style="background: linear-gradient(145deg, #6F8E8D, #2B6A74)">ADGM</div><span class="label">Abu Dhabi Global Market</span></a>
-      <a href="#"><div class="logo" style="background: linear-gradient(145deg, #4F8A8B, #1C5965)">MOE</div><span class="label">Ministry of Economy</span></a>
-      <a href="#"><div class="logo" style="background: linear-gradient(145deg, #D3B46A, #8A6330)">DLD</div><span class="label">Dubai Land Department</span></a>
-      <a href="#"><div class="logo" style="background: linear-gradient(145deg, #9EB9A5, #416C56)">RERA</div><span class="label">Dubai RERA</span></a>
-      <a href="#"><div class="logo" style="background: linear-gradient(145deg, #B4A4C9, #5B4675)">TAMM</div><span class="label">TAMM Abu Dhabi</span></a>
-      <a href="#"><div class="logo" style="background: linear-gradient(145deg, #C6A59B, #794C47)">FCA</div><span class="label">Federal Competitiveness Authority</span></a>
-      <a href="#"><div class="logo" style="background: linear-gradient(145deg, #8BA9C1, #31556D)">FCSC</div><span class="label">Federal Competitiveness and Statistics Centre</span></a>
+    <div class="links" data-fundsae-slot="career-resources">
+      <a href="#"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #0E3A43, #4FB3B8)">LIC</div><span class="label">Financial services licensing guide (demo)</span></a>
+      <a href="#"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #B58B52, #6B4E32)">REG</div><span class="label">Fund manager registration guide (demo)</span></a>
+      <a href="#"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #7F9A97, #164B55)">FZ</div><span class="label">Free zone employment basics (demo)</span></a>
+      <a href="#"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #C9A9A0, #874E4B)">PAY</div><span class="label">Salary benchmarks for finance roles (demo)</span></a>
+      <a href="#"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #6F8E8D, #2B6A74)">CV</div><span class="label">CV guide for finance roles (demo)</span></a>
+      <a href="#"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #4F8A8B, #1C5965)">INT</div><span class="label">Interview preparation checklist (demo)</span></a>
+      <a href="#"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #D3B46A, #8A6330)">CERT</div><span class="label">Professional certifications overview (demo)</span></a>
+      <a href="#"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #9EB9A5, #416C56)">VISA</div><span class="label">Residence visa guide for professionals (demo)</span></a>
+      <a href="#"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #B4A4C9, #5B4675)">GRAD</div><span class="label">Graduate programmes directory (demo)</span></a>
+      <a href="#"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #C6A59B, #794C47)">CMP</div><span class="label">Compliance careers explained (demo)</span></a>
+      <a href="#"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #8BA9C1, #31556D)">MOVE</div><span class="label">Relocating to the UAE for work (demo)</span></a>
     </div>
   </section>
 </aside>
@@ -691,7 +753,10 @@
   </div>
 </footer>
 <script>
-/* Job list: builds up to 60 dummy jobs and shows 20 per page (pages 1, 2, 3). */
+/* Job list pager: 20 roles per page. Until live data arrives it shows up to 60 placeholder roles.
+   js/fundsae-connector.js replaces the rows with roles from the API and calls
+   window.__fundsPaginateRoles(focusId) again. Rows marked data-fundsae-filtered
+   (the employer filter) are left out of the pages. */
 (function () {
   var PER_PAGE = 20, TOTAL = 60;
   var list = document.querySelector('.roles');
@@ -735,8 +800,8 @@
   }
   for (var n = list.children.length; n < TOTAL; n++) addJob(n);
 
-  var rows = Array.prototype.slice.call(list.children);
-  var pages = Math.ceil(rows.length / PER_PAGE);
+  var rows = [];
+  var pages = 1;
   var current = 1;
 
   function button(label, page, opts) {
@@ -751,16 +816,35 @@
   }
   function show(page, scroll) {
     current = Math.min(Math.max(page, 1), pages);
+    Array.prototype.forEach.call(list.children, function (row) { row.hidden = true; });
     rows.forEach(function (row, i) { row.hidden = Math.floor(i / PER_PAGE) + 1 !== current; });
     pager.textContent = '';
+    if (pages < 2) return;
     pager.appendChild(button('Previous', current - 1, { disabled: current === 1 }));
     for (var p = 1; p <= pages; p++) pager.appendChild(button(String(p), p, { current: p === current, aria: 'Page ' + p }));
     pager.appendChild(button('Next', current + 1, { disabled: current === pages }));
     if (scroll) document.getElementById('opportunities-title').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
-  show(1, false);
+  window.__fundsPaginateRoles = function (focusId) {
+    rows = Array.prototype.filter.call(list.children, function (row) {
+      return row.classList.contains('role') && !row.hasAttribute('data-fundsae-filtered');
+    });
+    pages = Math.max(1, Math.ceil(rows.length / PER_PAGE));
+    var target = focusId ? document.getElementById(focusId) : null;
+    var index = target ? rows.indexOf(target) : -1;
+    show(index >= 0 ? Math.floor(index / PER_PAGE) + 1 : 1, false);
+    if (index >= 0) {
+      target.setAttribute('tabindex', '-1');
+      target.scrollIntoView({ block: 'center' });
+      target.focus({ preventScroll: true });
+    }
+  };
+  window.__fundsPaginateRoles();
 })();
 </script>
-<script src="i18n.js"></script>
+<script src="../i18n.js"></script>
+<script src="../js/fundsae-api.js" defer></script>
+<script src="../js/fundsae-connector.js" defer></script>
+<script src="../js/fundsae-forms.js" defer></script>
 </body>
 </html>

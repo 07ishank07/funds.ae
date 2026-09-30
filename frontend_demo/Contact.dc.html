@@ -208,7 +208,7 @@
     </a>
     <nav class="sections" aria-label="Sections">
     <a href="this.html">Top news</a>
-    <a href="Careers.dc.html">Events</a>
+    <a href="Careers.dc.html#events">Events</a>
     <a href="Careers.dc.html">Careers</a>
     <a href="Advertise.dc.html">Sponsor</a>
     <a href="About.dc.html">About</a>
@@ -219,30 +219,34 @@
 <main>
   <div class="intro">
     <h1>Contact us</h1>
-    <p>Dummy contact page. All addresses, numbers and form fields below are placeholder content.</p>
+    <p>Send us a message with the form. The addresses and numbers below are placeholder content.</p>
   </div>
 
   <div class="layout">
     <div class="card">
       <h2>Send us a message</h2>
-      <form onsubmit="return false">
+      <!-- Field names are the API contract (POST /api/v1/submissions/contact). method="post" keeps
+           anything typed out of the URL even if the script fails to load. -->
+      <form method="post" data-fundsae-form="contact">
         <div class="field">
           <label for="name">Name</label>
-          <input id="name" type="text" placeholder="Your name (dummy)">
+          <input id="name" name="name" type="text" placeholder="Your name" required minlength="2" maxlength="80" autocomplete="name">
         </div>
         <div class="field">
           <label for="email">Email</label>
-          <input id="email" type="email" placeholder="name@company.ae (dummy)">
+          <input id="email" name="email" type="email" placeholder="name@company.ae" required maxlength="254" autocomplete="email">
         </div>
         <div class="field">
           <label for="subject">Subject</label>
-          <input id="subject" type="text" placeholder="What's this about? (dummy)">
+          <input id="subject" name="subject" type="text" placeholder="What's this about?" required minlength="2" maxlength="120">
         </div>
         <div class="field">
           <label for="message">Message</label>
-          <textarea id="message" placeholder="Write your message here (dummy)"></textarea>
+          <textarea id="message" name="message" placeholder="Write your message here" required minlength="10" maxlength="4000"></textarea>
         </div>
-        <button type="submit" class="submit-btn">Send message (dummy)</button>
+        <div class="fx-hp" aria-hidden="true"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+        <button type="submit" class="submit-btn">Send message</button>
+        <p class="fx-form-status" data-fundsae-form-status role="status" aria-live="polite"></p>
       </form>
     </div>
 
@@ -295,6 +299,8 @@
     </div>
   </div>
 </footer>
-<script src="i18n.js"></script>
+<script src="../i18n.js"></script>
+<script src="../js/fundsae-api.js" defer></script>
+<script src="../js/fundsae-forms.js" defer></script>
 </body>
 </html>
