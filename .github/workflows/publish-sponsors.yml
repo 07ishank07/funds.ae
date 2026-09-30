@@ -1,0 +1,65 @@
+# Publishes sponsor and event changes. Runs automatically when the sponsor manager
+# (admin page) saves, or when you edit backend/config/sponsors.json or events.json by hand.
+name: Publish sponsors and events
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "backend/config/sponsors.json"
+      - "backend/config/events.json"
+      - "assets/sponsors/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: fundsae-data
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - run: npm ci --no-audit --no-fund --ignore-scripts
+
+      - name: Validate and publish sponsors and events
+        run: npm run publish:content
+
+      - name: Save to the repository
+        working-directory: .
+        run: |
+          git config user.name "funds-ae-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add api/v1/sponsors.json api/v1/events.json api/v1/meta.json
+          if git diff --cached --quiet; then
+            echo "Nothing changed."
+            exit 0
+          fi
+          git commit -m "Publish sponsors and events"
+          for attempt in 1 2 3; do
+            git pull --rebase origin "${GITHUB_REF_NAME}" && git push && exit 0
+            sleep 10
+          done
+          exit 1
+
+      - name: Refresh GitHub Pages
+        if: always()
+        working-directory: .
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds" >/dev/null 2>&1 || echo "Pages will rebuild on its own."
