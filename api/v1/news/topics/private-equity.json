@@ -1,0 +1,74 @@
+{
+  "apiVersion": 1,
+  "mode": "demo",
+  "generatedAt": "2026-09-30T07:19:10.867Z",
+  "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
+  "topic": "private-equity",
+  "label": "Private equity",
+  "count": 2,
+  "items": [
+    {
+      "id": "s_576aaea4077729",
+      "headline": "Harbourview Partners closes €4.2bn buyout fund above target",
+      "summary": "The London-based private equity firm said its seventh flagship fund hit its hard cap after nine months in market.",
+      "url": "https://example.com/private-capital-daily/harbourview-fund-vii",
+      "source": "Demo Private Capital Daily",
+      "sourceId": "demo-private-capital-daily",
+      "publishedAt": "2026-09-29T01:19:10.867Z",
+      "updatedAt": "2026-09-29T01:19:10.867Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "private-equity",
+      "topicLabel": "Private equity",
+      "topics": [
+        "private-equity",
+        "fundraising"
+      ],
+      "imageUrl": "https://example.com/images/harbourview.jpg",
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_a53bf2c46f8c3e01",
+          "source": "Demo Private Capital Daily",
+          "sourceId": "demo-private-capital-daily",
+          "title": "Harbourview Partners closes €4.2bn buyout fund above target",
+          "url": "https://example.com/private-capital-daily/harbourview-fund-vii",
+          "publishedAt": "2026-09-29T01:19:10.867Z"
+        }
+      ]
+    },
+    {
+      "id": "s_5a385db0c12008",
+      "headline": "ADGM-registered Crescent Peak announces first close of GCC secondaries fund",
+      "summary": "The vehicle will buy LP stakes and back GP-led continuation vehicles in the region.",
+      "url": "https://example.com/emirates-markets/crescent-peak-secondaries-first-close",
+      "source": "Demo Emirates Markets",
+      "sourceId": "demo-emirates-markets",
+      "publishedAt": "2026-09-26T04:19:10.000Z",
+      "updatedAt": "2026-09-26T04:19:10.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "secondaries",
+      "topicLabel": "Secondaries",
+      "topics": [
+        "secondaries",
+        "fundraising",
+        "private-equity"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_fed27b364d038ad9",
+          "source": "Demo Emirates Markets",
+          "sourceId": "demo-emirates-markets",
+          "title": "ADGM-registered Crescent Peak announces first close of GCC secondaries fund",
+          "url": "https://example.com/emirates-markets/crescent-peak-secondaries-first-close",
+          "publishedAt": "2026-09-26T04:19:10.000Z"
+        }
+      ]
+    }
+  ]
+}

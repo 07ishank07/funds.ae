@@ -1,0 +1,103 @@
+{
+  "apiVersion": 1,
+  "mode": "demo",
+  "generatedAt": "2026-09-30T07:19:10.867Z",
+  "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
+  "topic": "mergers-acquisitions",
+  "label": "M&A",
+  "count": 3,
+  "items": [
+    {
+      "id": "s_89280b2a65569b",
+      "headline": "Abu Dhabi logistics group Harbourline agrees $1.2bn takeover of Omani port operator",
+      "summary": "The tender offer is backed by a consortium of regional institutional investors.",
+      "url": "https://example.com/emirates-markets/harbourline-takeover",
+      "source": "Demo Emirates Markets",
+      "sourceId": "demo-emirates-markets",
+      "publishedAt": "2026-09-28T06:19:10.000Z",
+      "updatedAt": "2026-09-28T06:19:10.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "mergers-acquisitions",
+      "topicLabel": "M&A",
+      "topics": [
+        "mergers-acquisitions",
+        "institutional-investors"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_a615b76c9f9d631c",
+          "source": "Demo Emirates Markets",
+          "sourceId": "demo-emirates-markets",
+          "title": "Abu Dhabi logistics group Harbourline agrees $1.2bn takeover of Omani port operator",
+          "url": "https://example.com/emirates-markets/harbourline-takeover",
+          "publishedAt": "2026-09-28T06:19:10.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_1a1fbf34e56a27",
+      "headline": "Secondaries volume hits record as LPs seek liquidity",
+      "summary": "GP-led continuation vehicles accounted for almost half of first-half deal value, a broker report found.",
+      "url": "https://example.com/private-capital-daily/secondaries-record",
+      "source": "Demo Private Capital Daily",
+      "sourceId": "demo-private-capital-daily",
+      "publishedAt": "2026-09-28T05:19:10.867Z",
+      "updatedAt": "2026-09-28T05:19:10.867Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "secondaries",
+      "topicLabel": "Secondaries",
+      "topics": [
+        "secondaries",
+        "mergers-acquisitions"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_86b33d1bb6e472ba",
+          "source": "Demo Private Capital Daily",
+          "sourceId": "demo-private-capital-daily",
+          "title": "Secondaries volume hits record as LPs seek liquidity",
+          "url": "https://example.com/private-capital-daily/secondaries-record",
+          "publishedAt": "2026-09-28T05:19:10.867Z"
+        }
+      ]
+    },
+    {
+      "id": "s_d5c44978d20304",
+      "headline": "Abu Dhabi's Sandstone Holdings takes majority stake in Egyptian dairy group",
+      "summary": "The acquisition values the Cairo-based company at about $310 million, according to people familiar with the deal.",
+      "url": "https://example.com/gulf-wire/sandstone-majority-stake-dairy",
+      "source": "Demo Gulf Wire",
+      "sourceId": "demo-gulf-wire",
+      "publishedAt": "2026-09-27T05:19:10.000Z",
+      "updatedAt": "2026-09-27T05:19:10.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "mergers-acquisitions",
+      "topicLabel": "M&A",
+      "topics": [
+        "mergers-acquisitions"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_47d29ce7539f1e7f",
+          "source": "Demo Gulf Wire",
+          "sourceId": "demo-gulf-wire",
+          "title": "Abu Dhabi's Sandstone Holdings takes majority stake in Egyptian dairy group",
+          "url": "https://example.com/gulf-wire/sandstone-majority-stake-dairy",
+          "publishedAt": "2026-09-27T05:19:10.000Z"
+        }
+      ]
+    }
+  ]
+}

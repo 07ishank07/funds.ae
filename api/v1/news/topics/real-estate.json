@@ -1,0 +1,103 @@
+{
+  "apiVersion": 1,
+  "mode": "demo",
+  "generatedAt": "2026-09-30T07:19:10.867Z",
+  "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
+  "topic": "real-estate",
+  "label": "Real estate",
+  "count": 3,
+  "items": [
+    {
+      "id": "s_36c692072aa8b0",
+      "headline": "Dubai developer Sandhaven launches AED 500m real estate fund for build-to-rent homes",
+      "summary": "The fund will buy completed apartment blocks in established Dubai communities and hold them for rental income.",
+      "url": "https://example.com/property-sme-wire/sandhaven-build-to-rent-fund",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-09-30T02:19:10.000Z",
+      "updatedAt": "2026-09-30T02:19:10.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "real-estate",
+      "topicLabel": "Real estate",
+      "topics": [
+        "real-estate"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_9ee476a0874ae938",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "Dubai developer Sandhaven launches AED 500m real estate fund for build-to-rent homes",
+          "url": "https://example.com/property-sme-wire/sandhaven-build-to-rent-fund",
+          "publishedAt": "2026-09-30T02:19:10.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_46c15c6bee49f5",
+      "headline": "Tidewell REIT raises AED 300m to buy logistics warehouses in Abu Dhabi",
+      "summary": "The listed real estate investment trust said demand from e-commerce tenants remains strong across the emirate's industrial zones.",
+      "url": "https://example.com/property-sme-wire/tidewell-reit-logistics",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-09-29T11:19:10.000Z",
+      "updatedAt": "2026-09-29T11:19:10.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "real-estate",
+      "topicLabel": "Real estate",
+      "topics": [
+        "real-estate",
+        "venture-capital"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_28b8f0155619a511",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "Tidewell REIT raises AED 300m to buy logistics warehouses in Abu Dhabi",
+          "url": "https://example.com/property-sme-wire/tidewell-reit-logistics",
+          "publishedAt": "2026-09-29T11:19:10.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_c8d19186907ab1",
+      "headline": "London property fund Wexmoor raises £400m for student housing",
+      "summary": "The real estate fund will target purpose-built student accommodation in university cities.",
+      "url": "https://example.com/property-sme-wire/wexmoor-student-housing",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-09-26T01:19:10.000Z",
+      "updatedAt": "2026-09-26T01:19:10.000Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "real-estate",
+      "topicLabel": "Real estate",
+      "topics": [
+        "real-estate",
+        "venture-capital"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_1cf9b64666a0727d",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "London property fund Wexmoor raises £400m for student housing",
+          "url": "https://example.com/property-sme-wire/wexmoor-student-housing",
+          "publishedAt": "2026-09-26T01:19:10.000Z"
+        }
+      ]
+    }
+  ]
+}

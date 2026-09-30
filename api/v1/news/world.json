@@ -1,0 +1,319 @@
+{
+  "apiVersion": 1,
+  "mode": "demo",
+  "generatedAt": "2026-09-30T07:19:10.867Z",
+  "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
+  "category": "world",
+  "label": "Rest of the World",
+  "count": 10,
+  "items": [
+    {
+      "id": "s_1ec502cf2475e3",
+      "headline": "Gulf sovereign investors join $1bn round for London AI infrastructure firm Northlight",
+      "summary": "Investors from Abu Dhabi and Riyadh took part alongside US pension funds, people familiar with the matter said.",
+      "url": "https://example.com/private-capital-daily/northlight-1bn-round",
+      "source": "Demo Private Capital Daily",
+      "sourceId": "demo-private-capital-daily",
+      "publishedAt": "2026-09-29T11:19:10.867Z",
+      "updatedAt": "2026-09-29T11:19:10.867Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "institutional-investors",
+      "topicLabel": "Sovereign and institutional investors",
+      "topics": [
+        "institutional-investors",
+        "infrastructure"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_845e42dfd074172f",
+          "source": "Demo Private Capital Daily",
+          "sourceId": "demo-private-capital-daily",
+          "title": "Gulf sovereign investors join $1bn round for London AI infrastructure firm Northlight",
+          "url": "https://example.com/private-capital-daily/northlight-1bn-round",
+          "publishedAt": "2026-09-29T11:19:10.867Z"
+        }
+      ]
+    },
+    {
+      "id": "s_0f1c5b82ce1c1e",
+      "headline": "Berlin climate start-up Voltwerk raises $60m Series B",
+      "summary": "The grid-storage company will use the funding to open factories in Poland and Spain.",
+      "url": "https://example.com/venture-ledger/voltwerk-series-b",
+      "source": "Demo Venture Ledger",
+      "sourceId": "demo-venture-ledger",
+      "publishedAt": "2026-09-29T05:19:10.000Z",
+      "updatedAt": "2026-09-29T05:19:10.000Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "venture-capital",
+      "topicLabel": "Venture capital",
+      "topics": [
+        "venture-capital"
+      ],
+      "imageUrl": "https://example.com/images/voltwerk.jpg",
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_bc86c61f9f1706ee",
+          "source": "Demo Venture Ledger",
+          "sourceId": "demo-venture-ledger",
+          "title": "Berlin climate start-up Voltwerk raises $60m Series B",
+          "url": "https://example.com/venture-ledger/voltwerk-series-b",
+          "publishedAt": "2026-09-29T05:19:10.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_576aaea4077729",
+      "headline": "Harbourview Partners closes €4.2bn buyout fund above target",
+      "summary": "The London-based private equity firm said its seventh flagship fund hit its hard cap after nine months in market.",
+      "url": "https://example.com/private-capital-daily/harbourview-fund-vii",
+      "source": "Demo Private Capital Daily",
+      "sourceId": "demo-private-capital-daily",
+      "publishedAt": "2026-09-29T01:19:10.867Z",
+      "updatedAt": "2026-09-29T01:19:10.867Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "private-equity",
+      "topicLabel": "Private equity",
+      "topics": [
+        "private-equity",
+        "fundraising"
+      ],
+      "imageUrl": "https://example.com/images/harbourview.jpg",
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_a53bf2c46f8c3e01",
+          "source": "Demo Private Capital Daily",
+          "sourceId": "demo-private-capital-daily",
+          "title": "Harbourview Partners closes €4.2bn buyout fund above target",
+          "url": "https://example.com/private-capital-daily/harbourview-fund-vii",
+          "publishedAt": "2026-09-29T01:19:10.867Z"
+        }
+      ]
+    },
+    {
+      "id": "s_a42cf20de9d2eb",
+      "headline": "Brindlecourt Infrastructure closes €1.2bn infrastructure fund for European data centres",
+      "summary": "The final close drew commitments from pension funds and insurers in Europe and Asia.",
+      "url": "https://example.com/property-sme-wire/brindlecourt-data-centre-fund",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-09-28T22:19:10.000Z",
+      "updatedAt": "2026-09-28T22:19:10.000Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "infrastructure",
+      "topicLabel": "Infrastructure",
+      "topics": [
+        "infrastructure",
+        "fundraising",
+        "institutional-investors"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_58ca14532f4deae7",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "Brindlecourt Infrastructure closes €1.2bn infrastructure fund for European data centres",
+          "url": "https://example.com/property-sme-wire/brindlecourt-data-centre-fund",
+          "publishedAt": "2026-09-28T22:19:10.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_1a1fbf34e56a27",
+      "headline": "Secondaries volume hits record as LPs seek liquidity",
+      "summary": "GP-led continuation vehicles accounted for almost half of first-half deal value, a broker report found.",
+      "url": "https://example.com/private-capital-daily/secondaries-record",
+      "source": "Demo Private Capital Daily",
+      "sourceId": "demo-private-capital-daily",
+      "publishedAt": "2026-09-28T05:19:10.867Z",
+      "updatedAt": "2026-09-28T05:19:10.867Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "secondaries",
+      "topicLabel": "Secondaries",
+      "topics": [
+        "secondaries",
+        "mergers-acquisitions"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_86b33d1bb6e472ba",
+          "source": "Demo Private Capital Daily",
+          "sourceId": "demo-private-capital-daily",
+          "title": "Secondaries volume hits record as LPs seek liquidity",
+          "url": "https://example.com/private-capital-daily/secondaries-record",
+          "publishedAt": "2026-09-28T05:19:10.867Z"
+        }
+      ]
+    },
+    {
+      "id": "s_ca2a801ab5ba25",
+      "headline": "Singapore's Lumen Health raises $30 million led by Tidewater Ventures",
+      "summary": "The digital clinic operator plans to enter Indonesia and Vietnam next year.",
+      "url": "https://example.com/venture-ledger/lumen-health-30m",
+      "source": "Demo Venture Ledger",
+      "sourceId": "demo-venture-ledger",
+      "publishedAt": "2026-09-28T01:19:10.000Z",
+      "updatedAt": "2026-09-28T01:19:10.000Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "venture-capital",
+      "topicLabel": "Venture capital",
+      "topics": [
+        "venture-capital"
+      ],
+      "imageUrl": "https://example.com/images/lumen.png",
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_f91af6d016fe297c",
+          "source": "Demo Venture Ledger",
+          "sourceId": "demo-venture-ledger",
+          "title": "Singapore's Lumen Health raises $30 million led by Tidewater Ventures",
+          "url": "https://example.com/venture-ledger/lumen-health-30m",
+          "publishedAt": "2026-09-28T01:19:10.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_f6a599b474b486",
+      "headline": "Pension funds lift allocations to infrastructure debt",
+      "summary": "A survey of 140 institutional investors found most plan to raise private credit exposure over the next year.",
+      "url": "https://example.com/private-capital-daily/pensions-infrastructure-debt",
+      "source": "Demo Private Capital Daily",
+      "sourceId": "demo-private-capital-daily",
+      "publishedAt": "2026-09-27T07:19:10.867Z",
+      "updatedAt": "2026-09-27T07:19:10.867Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "institutional-investors",
+      "topicLabel": "Sovereign and institutional investors",
+      "topics": [
+        "institutional-investors",
+        "private-credit",
+        "infrastructure"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_abbfc331682f3f55",
+          "source": "Demo Private Capital Daily",
+          "sourceId": "demo-private-capital-daily",
+          "title": "Pension funds lift allocations to infrastructure debt",
+          "url": "https://example.com/private-capital-daily/pensions-infrastructure-debt",
+          "publishedAt": "2026-09-27T07:19:10.867Z"
+        }
+      ]
+    },
+    {
+      "id": "s_3569b3929adea8",
+      "headline": "VC funding to MENA start-ups rose 18% in the third quarter",
+      "summary": "Fintech and logistics companies took the largest share of capital, a data provider said.",
+      "url": "https://example.com/venture-ledger/mena-vc-q3",
+      "source": "Demo Venture Ledger",
+      "sourceId": "demo-venture-ledger",
+      "publishedAt": "2026-09-27T02:19:10.000Z",
+      "updatedAt": "2026-09-27T02:19:10.000Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "venture-capital",
+      "topicLabel": "Venture capital",
+      "topics": [
+        "venture-capital"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_eebd3c65455ed78a",
+          "source": "Demo Venture Ledger",
+          "sourceId": "demo-venture-ledger",
+          "title": "VC funding to MENA start-ups rose 18% in the third quarter",
+          "url": "https://example.com/venture-ledger/mena-vc-q3",
+          "publishedAt": "2026-09-27T02:19:10.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_06453dd1915e5e",
+      "headline": "Kestrel Credit Partners hires bank veteran to lead European direct lending",
+      "summary": "The private credit manager is expanding its mid-market lending team in Frankfurt and Paris.",
+      "url": "https://example.com/private-capital-daily/kestrel-direct-lending-hire",
+      "source": "Demo Private Capital Daily",
+      "sourceId": "demo-private-capital-daily",
+      "publishedAt": "2026-09-26T23:19:10.867Z",
+      "updatedAt": "2026-09-26T23:19:10.867Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "private-credit",
+      "topicLabel": "Private credit",
+      "topics": [
+        "private-credit"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_10cc7d475fd91f3c",
+          "source": "Demo Private Capital Daily",
+          "sourceId": "demo-private-capital-daily",
+          "title": "Kestrel Credit Partners hires bank veteran to lead European direct lending",
+          "url": "https://example.com/private-capital-daily/kestrel-direct-lending-hire",
+          "publishedAt": "2026-09-26T23:19:10.867Z"
+        }
+      ]
+    },
+    {
+      "id": "s_c8d19186907ab1",
+      "headline": "London property fund Wexmoor raises £400m for student housing",
+      "summary": "The real estate fund will target purpose-built student accommodation in university cities.",
+      "url": "https://example.com/property-sme-wire/wexmoor-student-housing",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-09-26T01:19:10.000Z",
+      "updatedAt": "2026-09-26T01:19:10.000Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "real-estate",
+      "topicLabel": "Real estate",
+      "topics": [
+        "real-estate",
+        "venture-capital"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_1cf9b64666a0727d",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "London property fund Wexmoor raises £400m for student housing",
+          "url": "https://example.com/property-sme-wire/wexmoor-student-housing",
+          "publishedAt": "2026-09-26T01:19:10.000Z"
+        }
+      ]
+    }
+  ]
+}

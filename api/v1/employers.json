@@ -1,0 +1,65 @@
+{
+  "apiVersion": 1,
+  "mode": "demo",
+  "generatedAt": "2026-09-30T07:19:10.867Z",
+  "notice": "Employers are derived from the open roles listed on Funds.ae.",
+  "count": 8,
+  "items": [
+    {
+      "id": "emp_994ddd5d9c21a8e3",
+      "name": "Emirates Private Credit (demo)",
+      "initials": "EP",
+      "openJobs": 1,
+      "featured": true
+    },
+    {
+      "id": "emp_44cd123125645764",
+      "name": "Gulf Horizon Asset Management (demo)",
+      "initials": "GH",
+      "openJobs": 1,
+      "featured": true
+    },
+    {
+      "id": "emp_b0a8a2e3895137ef",
+      "name": "Harbourline Group",
+      "initials": "HG",
+      "openJobs": 2,
+      "featured": false
+    },
+    {
+      "id": "emp_9142e7d4b96b201c",
+      "name": "Sandline Ventures",
+      "initials": "SV",
+      "openJobs": 2,
+      "featured": false
+    },
+    {
+      "id": "emp_365cb94e3e73d240",
+      "name": "Crescent Peak Partners",
+      "initials": "CP",
+      "openJobs": 1,
+      "featured": false
+    },
+    {
+      "id": "emp_7d4bc3a93267084e",
+      "name": "Falcon Ridge Capital",
+      "initials": "FR",
+      "openJobs": 1,
+      "featured": false
+    },
+    {
+      "id": "emp_d753612008f91055",
+      "name": "Palm Gate Fund Administration",
+      "initials": "PG",
+      "openJobs": 1,
+      "featured": false
+    },
+    {
+      "id": "emp_be950ac478f7703f",
+      "name": "Qirsh",
+      "initials": "QI",
+      "openJobs": 1,
+      "featured": false
+    }
+  ]
+}

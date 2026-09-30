@@ -1,0 +1,295 @@
+{
+  "apiVersion": 1,
+  "mode": "demo",
+  "generatedAt": "2026-09-30T07:19:10.867Z",
+  "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
+  "topic": "institutional-investors",
+  "label": "Sovereign and institutional investors",
+  "count": 8,
+  "items": [
+    {
+      "id": "s_5dbd32a8d22e9c",
+      "headline": "Abu Dhabi's Falcon Ridge Capital closes $750m second private credit fund",
+      "summary": "The ADGM-registered manager said the fund drew commitments from regional pension funds and family offices, and will lend to mid-sized companies across the GCC.",
+      "url": "https://example.com/gulf-wire/falcon-ridge-private-credit-fund-ii",
+      "source": "Demo Gulf Wire",
+      "sourceId": "demo-gulf-wire",
+      "publishedAt": "2026-09-29T22:19:10.000Z",
+      "updatedAt": "2026-09-30T02:19:10.867Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "private-credit",
+      "topicLabel": "Private credit",
+      "topics": [
+        "private-credit",
+        "fundraising",
+        "institutional-investors"
+      ],
+      "imageUrl": "https://example.com/images/falcon-ridge.jpg",
+      "sourceCount": 3,
+      "sources": [
+        {
+          "articleId": "a_f571fc8bf3c58049",
+          "source": "Demo Gulf Wire",
+          "sourceId": "demo-gulf-wire",
+          "title": "Abu Dhabi's Falcon Ridge Capital closes $750m second private credit fund",
+          "url": "https://example.com/gulf-wire/falcon-ridge-private-credit-fund-ii",
+          "publishedAt": "2026-09-29T22:19:10.000Z"
+        },
+        {
+          "articleId": "a_0767f4e44124c67e",
+          "source": "Demo Emirates Markets",
+          "sourceId": "demo-emirates-markets",
+          "title": "Falcon Ridge Capital raises $750 million for private credit strategy",
+          "url": "https://example.com/emirates-markets/falcon-ridge-750-million",
+          "publishedAt": "2026-09-30T00:19:10.000Z"
+        },
+        {
+          "articleId": "a_7ce855c52942d109",
+          "source": "Demo Private Capital Daily",
+          "sourceId": "demo-private-capital-daily",
+          "title": "Abu Dhabi manager Falcon Ridge wraps up $750m private credit fundraise",
+          "url": "https://example.com/private-capital-daily/falcon-ridge-wraps-up",
+          "publishedAt": "2026-09-30T02:19:10.867Z"
+        }
+      ]
+    },
+    {
+      "id": "s_1ec502cf2475e3",
+      "headline": "Gulf sovereign investors join $1bn round for London AI infrastructure firm Northlight",
+      "summary": "Investors from Abu Dhabi and Riyadh took part alongside US pension funds, people familiar with the matter said.",
+      "url": "https://example.com/private-capital-daily/northlight-1bn-round",
+      "source": "Demo Private Capital Daily",
+      "sourceId": "demo-private-capital-daily",
+      "publishedAt": "2026-09-29T11:19:10.867Z",
+      "updatedAt": "2026-09-29T11:19:10.867Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "institutional-investors",
+      "topicLabel": "Sovereign and institutional investors",
+      "topics": [
+        "institutional-investors",
+        "infrastructure"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_845e42dfd074172f",
+          "source": "Demo Private Capital Daily",
+          "sourceId": "demo-private-capital-daily",
+          "title": "Gulf sovereign investors join $1bn round for London AI infrastructure firm Northlight",
+          "url": "https://example.com/private-capital-daily/northlight-1bn-round",
+          "publishedAt": "2026-09-29T11:19:10.867Z"
+        }
+      ]
+    },
+    {
+      "id": "s_7f39d1f83e5cfa",
+      "headline": "Dubai-based fintech Qirsh raises $45 million Series B led by Sandline Ventures",
+      "summary": "The buy-now-pay-later provider will use the capital to expand into Saudi Arabia and hire 120 staff in its DIFC office.",
+      "url": "https://example.com/gulf-wire/qirsh-series-b",
+      "source": "Demo Gulf Wire",
+      "sourceId": "demo-gulf-wire",
+      "publishedAt": "2026-09-29T01:19:10.000Z",
+      "updatedAt": "2026-09-29T11:19:10.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "venture-capital",
+      "topicLabel": "Venture capital",
+      "topics": [
+        "venture-capital",
+        "institutional-investors"
+      ],
+      "imageUrl": "https://example.com/images/qirsh.jpg",
+      "sourceCount": 3,
+      "sources": [
+        {
+          "articleId": "a_47f6735e591cea65",
+          "source": "Demo Gulf Wire",
+          "sourceId": "demo-gulf-wire",
+          "title": "Dubai-based fintech Qirsh raises $45 million Series B led by Sandline Ventures",
+          "url": "https://example.com/gulf-wire/qirsh-series-b",
+          "publishedAt": "2026-09-29T01:19:10.000Z"
+        },
+        {
+          "articleId": "a_d0a9ae63a58b381b",
+          "source": "Demo Emirates Markets",
+          "sourceId": "demo-emirates-markets",
+          "title": "Qirsh secures $45m in Series B round as Dubai payments start-up expands to Riyadh",
+          "url": "https://example.com/emirates-markets/qirsh-45m-series-b-riyadh",
+          "publishedAt": "2026-09-29T05:19:10.000Z"
+        },
+        {
+          "articleId": "a_e72c6985fb047deb",
+          "source": "Demo Venture Ledger",
+          "sourceId": "demo-venture-ledger",
+          "title": "Qirsh lands $45 million to take buy-now-pay-later across the Gulf",
+          "url": "https://example.com/venture-ledger/qirsh-45-million",
+          "publishedAt": "2026-09-29T11:19:10.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_a42cf20de9d2eb",
+      "headline": "Brindlecourt Infrastructure closes €1.2bn infrastructure fund for European data centres",
+      "summary": "The final close drew commitments from pension funds and insurers in Europe and Asia.",
+      "url": "https://example.com/property-sme-wire/brindlecourt-data-centre-fund",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-09-28T22:19:10.000Z",
+      "updatedAt": "2026-09-28T22:19:10.000Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "infrastructure",
+      "topicLabel": "Infrastructure",
+      "topics": [
+        "infrastructure",
+        "fundraising",
+        "institutional-investors"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_58ca14532f4deae7",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "Brindlecourt Infrastructure closes €1.2bn infrastructure fund for European data centres",
+          "url": "https://example.com/property-sme-wire/brindlecourt-data-centre-fund",
+          "publishedAt": "2026-09-28T22:19:10.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_20a6669eae460f",
+      "headline": "Sharjah family office launches $200m venture fund for climate start-ups",
+      "summary": "The fund will write cheques of $2 million to $10 million into seed and Series A companies.",
+      "url": "https://example.com/emirates-markets/sharjah-family-office-climate-fund",
+      "source": "Demo Emirates Markets",
+      "sourceId": "demo-emirates-markets",
+      "publishedAt": "2026-09-28T21:19:10.000Z",
+      "updatedAt": "2026-09-28T21:19:10.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "venture-capital",
+      "topicLabel": "Venture capital",
+      "topics": [
+        "venture-capital",
+        "institutional-investors"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_6e87c828112f76ec",
+          "source": "Demo Emirates Markets",
+          "sourceId": "demo-emirates-markets",
+          "title": "Sharjah family office launches $200m venture fund for climate start-ups",
+          "url": "https://example.com/emirates-markets/sharjah-family-office-climate-fund",
+          "publishedAt": "2026-09-28T21:19:10.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_89280b2a65569b",
+      "headline": "Abu Dhabi logistics group Harbourline agrees $1.2bn takeover of Omani port operator",
+      "summary": "The tender offer is backed by a consortium of regional institutional investors.",
+      "url": "https://example.com/emirates-markets/harbourline-takeover",
+      "source": "Demo Emirates Markets",
+      "sourceId": "demo-emirates-markets",
+      "publishedAt": "2026-09-28T06:19:10.000Z",
+      "updatedAt": "2026-09-28T06:19:10.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "mergers-acquisitions",
+      "topicLabel": "M&A",
+      "topics": [
+        "mergers-acquisitions",
+        "institutional-investors"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_a615b76c9f9d631c",
+          "source": "Demo Emirates Markets",
+          "sourceId": "demo-emirates-markets",
+          "title": "Abu Dhabi logistics group Harbourline agrees $1.2bn takeover of Omani port operator",
+          "url": "https://example.com/emirates-markets/harbourline-takeover",
+          "publishedAt": "2026-09-28T06:19:10.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_062e5f384d5c3e",
+      "headline": "DIFC fund managers pass 500 as hedge funds and family offices keep arriving",
+      "summary": "The financial centre said 38 hedge funds registered in the first half, with assets under management at resident firms up 21 per cent.",
+      "url": "https://example.com/gulf-wire/difc-fund-managers-500",
+      "source": "Demo Gulf Wire",
+      "sourceId": "demo-gulf-wire",
+      "publishedAt": "2026-09-28T03:19:10.000Z",
+      "updatedAt": "2026-09-28T03:19:10.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "hedge-funds-alternatives",
+      "topicLabel": "Hedge funds and alternatives",
+      "topics": [
+        "hedge-funds-alternatives",
+        "institutional-investors",
+        "fundraising"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_8ed8f6435a1746d4",
+          "source": "Demo Gulf Wire",
+          "sourceId": "demo-gulf-wire",
+          "title": "DIFC fund managers pass 500 as hedge funds and family offices keep arriving",
+          "url": "https://example.com/gulf-wire/difc-fund-managers-500",
+          "publishedAt": "2026-09-28T03:19:10.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_f6a599b474b486",
+      "headline": "Pension funds lift allocations to infrastructure debt",
+      "summary": "A survey of 140 institutional investors found most plan to raise private credit exposure over the next year.",
+      "url": "https://example.com/private-capital-daily/pensions-infrastructure-debt",
+      "source": "Demo Private Capital Daily",
+      "sourceId": "demo-private-capital-daily",
+      "publishedAt": "2026-09-27T07:19:10.867Z",
+      "updatedAt": "2026-09-27T07:19:10.867Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "institutional-investors",
+      "topicLabel": "Sovereign and institutional investors",
+      "topics": [
+        "institutional-investors",
+        "private-credit",
+        "infrastructure"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_abbfc331682f3f55",
+          "source": "Demo Private Capital Daily",
+          "sourceId": "demo-private-capital-daily",
+          "title": "Pension funds lift allocations to infrastructure debt",
+          "url": "https://example.com/private-capital-daily/pensions-infrastructure-debt",
+          "publishedAt": "2026-09-27T07:19:10.867Z"
+        }
+      ]
+    }
+  ]
+}
