@@ -16,7 +16,18 @@ const parser = new XMLParser({
   ignoreAttributes: false,
   attributeNamePrefix: '@_',
   textNodeName: '#text',
-  processEntities: true,
+  // Entity-expansion attacks need entity *definitions* in a DOCTYPE, which parseFeed strips
+  // before parsing. What remains are ordinary references (&amp;, &#8217;), whose count grows
+  // only linearly with the (5 MB-capped) input. The library's default cap of 1,000 references
+  // rejected real feeds such as Business Insider, Axios and the Guardian.
+  processEntities: {
+    enabled: true,
+    maxTotalExpansions: 500000,
+    maxExpansionDepth: 10,
+    maxEntitySize: 10000,
+    maxExpandedLength: 100000,
+    maxEntityCount: 100
+  },
   htmlEntities: true,
   trimValues: true,
   parseTagValue: false,
@@ -34,15 +45,26 @@ function text(node) {
   return '';
 }
 
-function toDate(value) {
+// Named zones seen in real feeds. Ambiguous abbreviations (AST, BST, IST) are left out.
+const ZONES = { UT: '+0000', GST: '+0400', EET: '+0200', EEST: '+0300', CET: '+0100', CEST: '+0200' };
+// JavaScript itself understands GMT/UTC and the US zones (EST, EDT, CST, CDT, MST, MDT, PST, PDT).
+const hasZone = (s) => /(Z|[+-]\d{2}:?\d{2}|\bGMT|\bUTC|\b[ECMP][SD]T)\s*$/i.test(s) || /^\d{4}-\d{2}-\d{2}$/.test(s);
+const plausible = (d) => !Number.isNaN(d.getTime()) && d.getUTCFullYear() >= 1990 && d.getUTCFullYear() <= 2100;
+
+export function toDate(value) {
   const s = text(value).trim();
-  if (!s) return null;
-  const d = new Date(s);
-  if (!Number.isNaN(d.getTime())) return d;
-  // Some feeds use "+0400" style offsets V8 misreads, or named zones like "GST".
-  const fixed = s.replace(/\b(GST)\b/, '+0400').replace(/\b(UT)\b/, 'GMT');
-  const d2 = new Date(fixed);
-  return Number.isNaN(d2.getTime()) ? null : d2;
+  if (!s || !/\d{4}/.test(s)) return null;
+  const direct = new Date(s);
+  if (plausible(direct) && hasZone(s)) return direct;
+  // Normalise what JavaScript can't read: named zones ("EEST") become offsets, and
+  // "Monday, September 28, 2026 - 14:29" loses its dash. A date with no zone at all is read
+  // as UTC, so the result never depends on the server's own time zone.
+  let fixed = s.replace(/\b(UT|GST|EEST|EET|CEST|CET)\b/, (zone) => ZONES[zone]).replace(/\s+-\s+(?=\d{1,2}:\d{2})/, ' ');
+  if (/^\d{4}-\d{2}-\d{2}T[\d:.]+$/.test(fixed)) fixed += 'Z';
+  else if (!hasZone(fixed)) fixed += ' +0000';
+  const normalised = new Date(fixed);
+  if (plausible(normalised)) return normalised;
+  return plausible(direct) ? direct : null;
 }
 
 function isImageish(url, type, medium) {
