@@ -23,8 +23,16 @@
     return;
   }
 
-  var LIMITS = { newsPerRegion: 15, newsMore: 35, headline: 92, tileHeadline: 110, homeJobs: 19, tiles: 15, eventsPerList: 10 };
+  var LIMITS = { newsPerRegion: 15, newsMore: 35, headline: 92, tileHeadline: 110, homeJobs: 20, tiles: 15, eventsPerList: 10, topJobs: 20 };
+  var ROLES_DEMO_TOTAL = 120; // Careers page, demo mode: live roles are topped up with dummy roles to this many (3 pages of PER_PAGE = 40 in Careers.dc.html)
+  var TILES_SHOWN = 12; // Real Estate, Energy, AI and Technology and Grants boxes
   var REGIONS = { uae: 'UAE News', world: 'Global News' };
+  // Business Funding is a third news tab, alongside UAE/Global. It is not a category like the
+  // other two: it pulls in any story tagged with the "grants-funding" topic, regardless of
+  // category, in addition to (not instead of) that story's normal UAE/Global News tab.
+  var BUSINESS_FUNDING_TOPIC = 'grants-funding';
+  var BUSINESS_FUNDING_REGION = 'Business Funding';
+  var NEWS_REGIONS = ['UAE News', 'Global News', 'Business Funding'];
   var EMPTY_TEXT = 'Nothing to show yet. Check back soon.';
   var state = { mode: null };
   var loads = {};
@@ -216,10 +224,17 @@
     var moreLink = news.querySelector('[data-more-news-region]');
     var anchor = moreLink ? moreLink.parentElement : null;
     var byRegion = {};
-    stories.forEach(function (s) { (byRegion[REGIONS[s.category]] = byRegion[REGIONS[s.category]] || []).push(s); });
+    var addTo = function (region, story) { (byRegion[region] = byRegion[region] || []).push(story); };
+    stories.forEach(function (s) {
+      var region = REGIONS[s.category];
+      if (region) addTo(region, s);
+      // Cross-listed, not exclusive: a grants-funding story still appears in its own UAE/Global tab too.
+      if (s.topic === BUSINESS_FUNDING_TOPIC || (s.topics || []).indexOf(BUSINESS_FUNDING_TOPIC) !== -1) {
+        addTo(BUSINESS_FUNDING_REGION, s);
+      }
+    });
 
-    Object.keys(REGIONS).forEach(function (category) {
-      var region = REGIONS[category];
+    NEWS_REGIONS.forEach(function (region) {
       var list = (byRegion[region] || []).slice(0, LIMITS.newsPerRegion + LIMITS.newsMore);
       if (!list.length) {
         var none = document.createElement('article');
@@ -254,7 +269,7 @@
     // "View All" expands a region to every story the API returned for it.
     news.querySelectorAll('[data-more-news-region]').forEach(function (link) {
       var region = link.getAttribute('data-more-news-region');
-      if (!/^(UAE|Global) News$/.test(region)) return;
+      if (NEWS_REGIONS.indexOf(region) === -1) return;
       link.setAttribute('data-fundsae-more', region);
       link.setAttribute('role', 'button');
       link.addEventListener('click', function (event) {
@@ -297,9 +312,12 @@
 
   /* -------------------------------- topic tiles -------------------------------- */
 
-  function renderTiles(slotName, doc) {
-    var stories = api.items(doc.items, api.valid.story, 'stories').slice(0, LIMITS.tiles);
+  // padTo (optional): the box always shows this many tiles. Live mode shows only real stories;
+  // demo mode tops the live stories up with the page's own dummy tiles so the box never looks half empty.
+  function renderTiles(slotName, doc, padTo) {
+    var stories = api.items(doc.items, api.valid.story, 'stories').slice(0, padTo || LIMITS.tiles);
     slots(slotName).forEach(function (box) {
+      var dummies = padTo ? children(box, ':scope > article').filter(function (r) { return !r.hasAttribute('data-fundsae-row'); }).map(function (r) { return r.cloneNode(true); }) : [];
       var palette = backgroundsOf(children(box, ':scope > article [role="img"], :scope > article [data-fundsae-tag]'));
       fillList(box, ':scope > article', stories, function (art, story, i) {
         var tag = art.querySelector('[role="img"], [data-fundsae-tag]');
@@ -315,6 +333,9 @@
         a.title = story.headline;
         api.setLink(a, story.url);
       });
+      if (padTo && state.mode === 'demo' && stories.length) {
+        dummies.slice(stories.length, padTo).forEach(function (tile) { box.appendChild(tile); });
+      }
     });
   }
 
@@ -337,27 +358,97 @@
     });
   }
 
+  /** "Today", "3 days ago", "2 weeks ago", "1 month ago" from an ISO date. */
+  function postedAgo(iso) {
+    var t = Date.parse(iso);
+    if (isNaN(t)) return '';
+    var days = Math.max(0, Math.floor((Date.now() - t) / 86400000));
+    if (days < 1) return api.tr('Posted today');
+    if (days < 14) return api.tr('Posted {n} days ago').replace('{n}', String(days));
+    if (days < 60) return api.tr('Posted {n} weeks ago').replace('{n}', String(Math.floor(days / 7)));
+    return api.tr('Posted {n} months ago').replace('{n}', String(Math.floor(days / 30)));
+  }
+
+  /** Emirate for the Location filter: the API's location text is free-form ("DIFC, Dubai", "ADGM", "Remote - UAE"). */
+  function cityOf(location) {
+    var l = String(location || '').toLowerCase();
+    if (/abu dhabi|adgm/.test(l)) return 'Abu Dhabi';
+    if (/dubai|difc/.test(l)) return 'Dubai';
+    if (/sharjah/.test(l)) return 'Sharjah';
+    if (/remote/.test(l)) return 'Remote';
+    return '';
+  }
+
   function renderRoles(jobsDoc, employersDoc) {
     var list = slots('roles')[0];
     if (!list) return;
     var jobs = api.items(jobsDoc.items, api.valid.job, 'jobs');
+    // Demo mode only: the live demo roles are topped up with the page's own dummy roles to ROLES_DEMO_TOTAL.
+    var dummies = children(list, ':scope > .role').filter(function (r) { return !r.hasAttribute('data-fundsae-row'); }).map(function (r) { return r.cloneNode(true); });
     var filled = fillList(list, ':scope > .role', jobs, function (row, job) {
       row.id = job.id;
       row.setAttribute('data-employer', job.employerId);
+      row.setAttribute('data-city', cityOf(job.location));
+      row.setAttribute('data-department', job.department || '');
+      row.setAttribute('data-type', job.employmentType || '');
+      row.setAttribute('data-posted', job.postedAt || '');
+      row.setAttribute('data-featured', job.featured ? '1' : '0');
       row.querySelector('h2').textContent = job.title;
       row.querySelector('.company').textContent = job.company;
       row.querySelector('.location').textContent = [job.location, job.employmentType].filter(Boolean).join(' · ');
+      var logo = row.querySelector('.role-logo');
+      if (logo) logo.textContent = initials(job.company);
+      var meta = row.querySelector('.role-meta');
+      if (meta) {
+        meta.textContent = '';
+        if (job.featured) {
+          var tag = document.createElement('span');
+          tag.className = 'role-featured';
+          tag.textContent = api.tr('Featured');
+          meta.appendChild(tag);
+        }
+        var bits = [job.department, postedAgo(job.postedAt)].filter(Boolean).join(' · ');
+        if (bits) {
+          var text = document.createElement('span');
+          text.textContent = bits;
+          meta.appendChild(text);
+        }
+      }
       var apply = row.querySelector('.apply-btn');
       apply.textContent = 'Apply';
       api.setLink(apply, job.url);
       apply.setAttribute('aria-label', 'Apply for ' + job.title + ' at ' + job.company + " (opens the employer's site)");
     });
     if (!filled) return;
+    if (state.mode === 'demo' && jobs.length) {
+      dummies.slice(jobs.length, ROLES_DEMO_TOTAL).forEach(function (row) { list.appendChild(row); });
+    }
     applyEmployerFilter(list, employersDoc ? api.items(employersDoc.items, api.valid.employer, 'employers') : []);
+    if (typeof window.__fundsInitFilters === 'function') window.__fundsInitFilters();
     if (typeof window.__fundsPaginateRoles === 'function') {
       var hash = decodeURIComponent(location.hash.slice(1));
       window.__fundsPaginateRoles(/^j_[a-f0-9]{8,32}$/.test(hash) ? hash : null);
     }
+  }
+
+  /** Careers page, column 2: the twenty best roles, featured first then newest. Rows link to the employer's own posting. */
+  function renderTopJobs(jobsDoc) {
+    var jobs = api.items(jobsDoc.items, api.valid.job, 'jobs').slice().sort(function (a, b) {
+      return (b.featured ? 1 : 0) - (a.featured ? 1 : 0) || String(b.postedAt || '').localeCompare(String(a.postedAt || ''));
+    }).slice(0, LIMITS.topJobs);
+    slots('top-jobs').forEach(function (ul) {
+      fillList(ul, ':scope > li', jobs, function (li, job) {
+        var a = li.querySelector('a');
+        a.querySelector('.tj-title').textContent = job.title;
+        a.querySelector('.tj-co').textContent = [job.company, job.location].filter(Boolean).join(' · ');
+        a.title = job.title + ' at ' + job.company;
+        api.setLink(a, job.url);
+      });
+      Array.prototype.forEach.call(ul.querySelectorAll(':scope > li'), function (li, i) {
+        var rank = li.querySelector('.tj-rank');
+        if (rank) rank.textContent = String(i + 1);
+      });
+    });
   }
 
   /** ?employer=emp_... (from a Featured Employers tile) shows only that employer's roles. */
@@ -537,18 +628,24 @@
 
       if (hasSlot('news')) guard('News', load('news.json', 'news').then(function (doc) { renderNews(doc); bindSearch(); }));
       if (hasSlot('tiles-real-estate-infrastructure')) {
-        guard('Real estate stories', load('news/sections/real-estate-infrastructure.json', 'news').then(function (doc) { renderTiles('tiles-real-estate-infrastructure', doc); }));
+        guard('Real estate stories', load('news/sections/real-estate-infrastructure.json', 'news').then(function (doc) { renderTiles('tiles-real-estate-infrastructure', doc, TILES_SHOWN); }));
+      }
+      if (hasSlot('tiles-energy')) {
+        guard('Energy stories', load('news/sections/energy.json', 'news').then(function (doc) { renderTiles('tiles-energy', doc, TILES_SHOWN); }));
+      }
+      if (hasSlot('tiles-ai-technology')) {
+        guard('AI and technology stories', load('news/sections/ai-technology.json', 'news').then(function (doc) { renderTiles('tiles-ai-technology', doc, TILES_SHOWN); }));
       }
       if (hasSlot('tiles-grants-funding')) {
-        guard('Grants stories', load('news/sections/grants-funding.json', 'news').then(function (doc) { renderTiles('tiles-grants-funding', doc); }));
+        guard('Grants stories', load('news/sections/grants-funding.json', 'news').then(function (doc) { renderTiles('tiles-grants-funding', doc, TILES_SHOWN); }));
       }
       if (hasSlot('home-jobs')) guard('Jobs', load('jobs.json', 'jobs').then(renderHomeJobs));
       if (hasSlot('employers')) guard('Employers', load('employers.json', 'employers').then(renderEmployers));
-      if (hasSlot('roles')) {
+      if (hasSlot('roles') || hasSlot('top-jobs')) {
         guard('Roles', Promise.all([
           load('jobs.json', 'jobs'),
           load('employers.json', 'employers').catch(function () { return null; })
-        ]).then(function (docs) { renderRoles(docs[0], docs[1]); }));
+        ]).then(function (docs) { renderRoles(docs[0], docs[1]); renderTopJobs(docs[0]); }));
       }
       if (hasSlot('events')) guard('Events', load('events.json', 'events').then(renderEvents));
       var sponsorSlots = ['sponsor-platinum', 'sponsor-gold', 'sponsor-posts', 'sponsor-media', 'sponsor-companies', 'career-resources'];

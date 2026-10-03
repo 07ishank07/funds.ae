@@ -367,14 +367,21 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     const sectionsNav = document.querySelector('header.d-only nav[aria-label="Sections"]');
     if (sectionsNav) {
+      // The design tool renders this tab as "Sponsor"; matching on that original text keeps it
+      // in its original nav position while we relabel it to "Advertise" for display.
       const allowedSections = new Set(['Top news', 'Events', 'Careers', 'Sponsor', 'About', 'Contact us']);
       Array.from(sectionsNav.querySelectorAll('a')).forEach((tab) => {
         if (!allowedSections.has(tab.textContent.trim())) tab.remove();
         if (tab.textContent.trim() === 'Events') tab.href = 'Careers.dc.html#events';
-        if (tab.textContent.trim() === 'Sponsor') tab.href = 'Advertise.dc.html';
+        if (tab.textContent.trim() === 'Sponsor') { tab.textContent = 'Advertise'; tab.href = 'Advertise.dc.html'; }
         if (tab.textContent.trim() === 'About') tab.href = 'About.dc.html';
         if (tab.textContent.trim() === 'Contact us') tab.href = 'Contact.dc.html';
       });
+      // Careers before Events (same order as the .dc.html pages' header nav).
+      const tabsNow = Array.from(sectionsNav.querySelectorAll('a'));
+      const eventsTab = tabsNow.find((tab) => tab.textContent.trim() === 'Events');
+      const careersTab = tabsNow.find((tab) => tab.textContent.trim() === 'Careers');
+      if (eventsTab && careersTab) sectionsNav.insertBefore(careersTab, eventsTab);
       const addSectionLink = (label, href) => {
         if (Array.from(sectionsNav.querySelectorAll('a')).some((tab) => tab.textContent.trim() === label)) return;
         const link = document.createElement('a');
@@ -383,7 +390,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         link.style.cssText = 'display: flex; align-items: center; font-size: 16px; font-weight: 500; color: #CFE0DE';
         sectionsNav.appendChild(link);
       };
-      addSectionLink('Sponsor', 'Advertise.dc.html');
+      addSectionLink('Advertise', 'Advertise.dc.html');
       addSectionLink('About', 'About.dc.html');
       addSectionLink('Contact us', 'Contact.dc.html');
       const footer = document.querySelector('footer');
@@ -411,14 +418,10 @@ document.addEventListener('DOMContentLoaded', async function() {
             footerNav.appendChild(legalLink);
           });
         }
+        // About, Contact and Sponsor (Advertise) are dropped from the footer nav, leaving just
+        // the legal links appended above.
         Array.from(footer.querySelectorAll('a')).forEach((link) => {
-          if (link.textContent.trim() === 'Submit a story') link.remove();
-          if (link.textContent.trim() === 'About') link.href = 'About.dc.html';
-          if (link.textContent.trim() === 'Contact') link.href = 'Contact.dc.html';
-          if (link.textContent.trim() === 'Advertise') {
-            link.textContent = 'Sponsor';
-            link.href = 'Advertise.dc.html';
-          }
+          if (['Submit a story', 'About', 'Contact', 'Advertise'].includes(link.textContent.trim())) link.remove();
         });
       }
     }
@@ -602,6 +605,11 @@ document.addEventListener('DOMContentLoaded', async function() {
             <li style="padding: 8px 0; border-bottom: 1px solid #CFDEDD"><a href="#" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 14px; font-weight: 600; line-height: 1.3; color: #0E3A43">Digital assets custody, explained</a></li>
             <li style="padding: 8px 0; border-bottom: 1px solid #CFDEDD"><a href="#" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 14px; font-weight: 600; line-height: 1.3; color: #0E3A43">Trade finance for growing exporters</a></li>
             <li style="padding: 8px 0; border-bottom: 1px solid #CFDEDD"><a href="#" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 14px; font-weight: 600; line-height: 1.3; color: #0E3A43">Sustainable investing for institutions</a></li>
+            <li style="padding: 8px 0; border-bottom: 1px solid #CFDEDD"><a href="#" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 14px; font-weight: 600; line-height: 1.3; color: #0E3A43">Islamic finance: a primer for fund managers</a></li>
+            <li style="padding: 8px 0; border-bottom: 1px solid #CFDEDD"><a href="#" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 14px; font-weight: 600; line-height: 1.3; color: #0E3A43">Fast-track visas for founders and teams</a></li>
+            <li style="padding: 8px 0; border-bottom: 1px solid #CFDEDD"><a href="#" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 14px; font-weight: 600; line-height: 1.3; color: #0E3A43">Cyber risk checklist for fund operators</a></li>
+            <li style="padding: 8px 0; border-bottom: 1px solid #CFDEDD"><a href="#" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 14px; font-weight: 600; line-height: 1.3; color: #0E3A43">FX hedging for GCC portfolios</a></li>
+            <li style="padding: 8px 0; border-bottom: 1px solid #CFDEDD"><a href="#" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 14px; font-weight: 600; line-height: 1.3; color: #0E3A43">RegTech tools for faster compliance</a></li>
           </ul>
           <a href="#" style="display: inline-block; margin-top: 12px; font-size: 14px; font-weight: 600; color: #1F6A6E">View All</a>
         </section>`);
@@ -613,22 +621,22 @@ document.addEventListener('DOMContentLoaded', async function() {
             <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
               <h2 id="sponsored-podcasts-title" style="margin: 0; font-size: 19px; font-weight: 600; color: #0E3A43">Videos and Podcasts</h2>
             </div>
-            <div style="margin-top: 10px">
-              <a href="#" style="display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex: 0 0 24px; width: 24px; height: 24px; border-radius: 6px; background: #4FB3B8; color: #0E3A43; font-size: 10px">&#9658;</span><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Inside a modern DIFC fund platform</span></a>
-              <a href="#" style="display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex: 0 0 24px; width: 24px; height: 24px; border-radius: 6px; background: #4FB3B8; color: #0E3A43; font-size: 10px">&#9658;</span><span style="font-size: 14px; font-weight: 600; line-height: 1.3">How GCC funds are finding their next growth market</span></a>
-              <a href="#" style="display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex: 0 0 24px; width: 24px; height: 24px; border-radius: 6px; background: #4FB3B8; color: #0E3A43; font-size: 10px">&#9658;</span><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Private credit and the new SME financing gap</span></a>
-              <a href="#" style="display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex: 0 0 24px; width: 24px; height: 24px; border-radius: 6px; background: #4FB3B8; color: #0E3A43; font-size: 10px">&#9658;</span><span style="font-size: 14px; font-weight: 600; line-height: 1.3">A walkthrough of Dubai's newest fund launch</span></a>
-              <a href="#" style="display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex: 0 0 24px; width: 24px; height: 24px; border-radius: 6px; background: #4FB3B8; color: #0E3A43; font-size: 10px">&#9658;</span><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Behind the scenes at a DIFC family office</span></a>
-              <a href="#" style="display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex: 0 0 24px; width: 24px; height: 24px; border-radius: 6px; background: #4FB3B8; color: #0E3A43; font-size: 10px">&#9658;</span><span style="font-size: 14px; font-weight: 600; line-height: 1.3">The rise of Islamic private credit</span></a>
-              <a href="#" style="display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex: 0 0 24px; width: 24px; height: 24px; border-radius: 6px; background: #4FB3B8; color: #0E3A43; font-size: 10px">&#9658;</span><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Building a regional fund team</span></a>
-              <a href="#" style="display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex: 0 0 24px; width: 24px; height: 24px; border-radius: 6px; background: #4FB3B8; color: #0E3A43; font-size: 10px">&#9658;</span><span style="font-size: 14px; font-weight: 600; line-height: 1.3">How sovereign funds pick partners</span></a>
-              <a href="#" style="display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex: 0 0 24px; width: 24px; height: 24px; border-radius: 6px; background: #4FB3B8; color: #0E3A43; font-size: 10px">&#9658;</span><span style="font-size: 14px; font-weight: 600; line-height: 1.3">A founder's guide to venture debt</span></a>
-              <a href="#" style="display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex: 0 0 24px; width: 24px; height: 24px; border-radius: 6px; background: #4FB3B8; color: #0E3A43; font-size: 10px">&#9658;</span><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Real estate funds: what to watch</span></a>
-              <a href="#" style="display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex: 0 0 24px; width: 24px; height: 24px; border-radius: 6px; background: #4FB3B8; color: #0E3A43; font-size: 10px">&#9658;</span><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Fund administration in the digital age</span></a>
-              <a href="#" style="display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex: 0 0 24px; width: 24px; height: 24px; border-radius: 6px; background: #4FB3B8; color: #0E3A43; font-size: 10px">&#9658;</span><span style="font-size: 14px; font-weight: 600; line-height: 1.3">ESG reporting explained in five minutes</span></a>
-              <a href="#" style="display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex: 0 0 24px; width: 24px; height: 24px; border-radius: 6px; background: #4FB3B8; color: #0E3A43; font-size: 10px">&#9658;</span><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Inside the ADGM fund ecosystem</span></a>
-              <a href="#" style="display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex: 0 0 24px; width: 24px; height: 24px; border-radius: 6px; background: #4FB3B8; color: #0E3A43; font-size: 10px">&#9658;</span><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Wealth management trends for 2027</span></a>
-              <a href="#" style="display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex: 0 0 24px; width: 24px; height: 24px; border-radius: 6px; background: #4FB3B8; color: #0E3A43; font-size: 10px">&#9658;</span><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Ask the analyst: GCC market outlook</span></a>
+            <div class="fx-vid-list">
+              <a href="#" class="fx-vid"><span class="fx-vid-thumb" aria-hidden="true"><span class="fx-vid-play">&#9658;</span></span><span class="fx-vid-title">Inside a modern DIFC fund platform</span></a>
+              <a href="#" class="fx-vid"><span class="fx-vid-thumb" aria-hidden="true"><span class="fx-vid-play">&#9658;</span></span><span class="fx-vid-title">How GCC funds are finding their next growth market</span></a>
+              <a href="#" class="fx-vid"><span class="fx-vid-thumb" aria-hidden="true"><span class="fx-vid-play">&#9658;</span></span><span class="fx-vid-title">Private credit and the new SME financing gap</span></a>
+              <a href="#" class="fx-vid"><span class="fx-vid-thumb" aria-hidden="true"><span class="fx-vid-play">&#9658;</span></span><span class="fx-vid-title">A walkthrough of Dubai's newest fund launch</span></a>
+              <a href="#" class="fx-vid"><span class="fx-vid-thumb" aria-hidden="true"><span class="fx-vid-play">&#9658;</span></span><span class="fx-vid-title">Behind the scenes at a DIFC family office</span></a>
+              <a href="#" class="fx-vid"><span class="fx-vid-thumb" aria-hidden="true"><span class="fx-vid-play">&#9658;</span></span><span class="fx-vid-title">The rise of Islamic private credit</span></a>
+              <a href="#" class="fx-vid"><span class="fx-vid-thumb" aria-hidden="true"><span class="fx-vid-play">&#9658;</span></span><span class="fx-vid-title">Building a regional fund team</span></a>
+              <a href="#" class="fx-vid"><span class="fx-vid-thumb" aria-hidden="true"><span class="fx-vid-play">&#9658;</span></span><span class="fx-vid-title">How sovereign funds pick partners</span></a>
+              <a href="#" class="fx-vid"><span class="fx-vid-thumb" aria-hidden="true"><span class="fx-vid-play">&#9658;</span></span><span class="fx-vid-title">A founder's guide to venture debt</span></a>
+              <a href="#" class="fx-vid"><span class="fx-vid-thumb" aria-hidden="true"><span class="fx-vid-play">&#9658;</span></span><span class="fx-vid-title">Real estate funds: what to watch</span></a>
+              <a href="#" class="fx-vid"><span class="fx-vid-thumb" aria-hidden="true"><span class="fx-vid-play">&#9658;</span></span><span class="fx-vid-title">Fund administration in the digital age</span></a>
+              <a href="#" class="fx-vid"><span class="fx-vid-thumb" aria-hidden="true"><span class="fx-vid-play">&#9658;</span></span><span class="fx-vid-title">ESG reporting explained in five minutes</span></a>
+              <a href="#" class="fx-vid"><span class="fx-vid-thumb" aria-hidden="true"><span class="fx-vid-play">&#9658;</span></span><span class="fx-vid-title">Inside the ADGM fund ecosystem</span></a>
+              <a href="#" class="fx-vid"><span class="fx-vid-thumb" aria-hidden="true"><span class="fx-vid-play">&#9658;</span></span><span class="fx-vid-title">Wealth management trends for 2027</span></a>
+              <a href="#" class="fx-vid"><span class="fx-vid-thumb" aria-hidden="true"><span class="fx-vid-play">&#9658;</span></span><span class="fx-vid-title">Ask the analyst: GCC market outlook</span></a>
             </div>
             <a href="#" style="display: inline-block; margin-top: 16px; font-size: 14px; font-weight: 600; color: #1F6A6E">View All</a>
           </section>`);
@@ -696,6 +704,8 @@ document.addEventListener('DOMContentLoaded', async function() {
           company.style.cssText = 'font-size: 13px; font-weight: 600; color: #4FB3B8';
           job.insertBefore(company, job.querySelector('span'));
         });
+        // UAE Careers box shows 20 roles total: the 4 above (labelled with a company here) plus
+        // 16 appended below.
         careerList.insertAdjacentHTML('beforeend', `
           <li style="display: flex; flex-direction: column; gap: 3px; padding: 12px 0; border-bottom: 1px solid #2B6A74"><a href="Careers.dc.html" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #F1F5F4">Investment Analyst, MENA</a><span style="font-size: 13px; font-weight: 600; color: #4FB3B8">Crescent Capital Partners</span><span style="font-size: 14px; color: #A7C3C2">Multi-strategy fund, Dubai</span></li>
           <li style="display: flex; flex-direction: column; gap: 3px; padding: 12px 0; border-bottom: 1px solid #2B6A74"><a href="Careers.dc.html" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #F1F5F4">Head of Investor Relations</a><span style="font-size: 13px; font-weight: 600; color: #4FB3B8">Al Noor Investments</span><span style="font-size: 14px; color: #A7C3C2">Private markets manager, DIFC</span></li>
@@ -711,7 +721,8 @@ document.addEventListener('DOMContentLoaded', async function() {
           <li style="display: flex; flex-direction: column; gap: 3px; padding: 12px 0; border-bottom: 1px solid #2B6A74"><a href="Careers.dc.html" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #F1F5F4">Client Service Manager</a><span style="font-size: 13px; font-weight: 600; color: #4FB3B8">Palm Gate Investments</span><span style="font-size: 14px; color: #A7C3C2">Regional asset manager, Dubai</span></li>
           <li style="display: flex; flex-direction: column; gap: 3px; padding: 12px 0; border-bottom: 1px solid #2B6A74"><a href="Careers.dc.html" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #F1F5F4">Data Engineer</a><span style="font-size: 13px; font-weight: 600; color: #4FB3B8">Namaa Analytics</span><span style="font-size: 14px; color: #A7C3C2">Investment data platform, DIFC</span></li>
           <li style="display: flex; flex-direction: column; gap: 3px; padding: 12px 0; border-bottom: 1px solid #2B6A74"><a href="Careers.dc.html" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #F1F5F4">Senior Relationship Manager</a><span style="font-size: 13px; font-weight: 600; color: #4FB3B8">Oasis Private Bank</span><span style="font-size: 14px; color: #A7C3C2">Private banking, Abu Dhabi</span></li>
-          <li style="display: flex; flex-direction: column; gap: 3px; padding: 12px 0"><a href="Careers.dc.html" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #F1F5F4">Financial Crime Analyst</a><span style="font-size: 13px; font-weight: 600; color: #4FB3B8">Blue Dhow Exchange</span><span style="font-size: 14px; color: #A7C3C2">Virtual asset exchange, Dubai</span></li>`);
+          <li style="display: flex; flex-direction: column; gap: 3px; padding: 12px 0; border-bottom: 1px solid #2B6A74"><a href="Careers.dc.html" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #F1F5F4">Financial Crime Analyst</a><span style="font-size: 13px; font-weight: 600; color: #4FB3B8">Blue Dhow Exchange</span><span style="font-size: 14px; color: #A7C3C2">Virtual asset exchange, Dubai</span></li>
+          <li style="display: flex; flex-direction: column; gap: 3px; padding: 12px 0"><a href="Careers.dc.html" style="font-family: 'Newsreader', 'Georgia', serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #F1F5F4">ESG and Sustainability Analyst</a><span style="font-size: 13px; font-weight: 600; color: #4FB3B8">Zabeel Impact Capital</span><span style="font-size: 14px; color: #A7C3C2">Impact investing fund, Dubai</span></li>`);
 
         careers.querySelectorAll('li span').forEach((detail) => {
           if (detail.style.color === 'rgb(167, 195, 194)' || detail.style.color === '#A7C3C2') detail.remove();
@@ -729,26 +740,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         const sponsoredPostsBox = sidebar.querySelector('[aria-labelledby="sponsored-title"]');
         if (sponsoredPostsBox) careersColumn.appendChild(sponsoredPostsBox);
         careers.style.minHeight = '720px';
-        // Careers leads the second column (sidebar), above the markets ticker.
+        // Careers leads the second column (sidebar) for now; Subscribe to stay ahead is
+        // inserted directly above it further down, once its box exists.
         sidebar.insertBefore(careers, sidebar.firstElementChild);
-        const resourcing = document.createElement('section');
-        resourcing.setAttribute('aria-labelledby', 'career-resources-title');
-        resourcing.style.cssText = 'padding: 22px 24px 24px; border: 1px solid #DAE5E4; border-radius: 14px; background: #FFFFFF; box-shadow: 0 8px 24px rgba(14, 58, 67, 0.06)';
-        resourcing.innerHTML = `
-          <h2 id="career-resources-title" style="margin: 0; font-size: 19px; font-weight: 600; color: #0E3A43">Career Resources</h2>
-          <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 14px">
-            <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><div aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #0E3A43, #4FB3B8); color: #FFFFFF; font-size: 11px; font-weight: 700">LIC</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Financial services licensing guide (demo)</span></a>
-            <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><div aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #B58B52, #6B4E32); color: #FFFFFF; font-size: 11px; font-weight: 700">REG</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Fund manager registration guide (demo)</span></a>
-            <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><div aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #7F9A97, #164B55); color: #FFFFFF; font-size: 11px; font-weight: 700">FZ</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Free zone employment basics (demo)</span></a>
-            <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><div aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #C9A9A0, #874E4B); color: #FFFFFF; font-size: 11px; font-weight: 700">PAY</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Salary benchmarks for finance roles (demo)</span></a>
-            <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><div aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #6F8E8D, #2B6A74); color: #FFFFFF; font-size: 11px; font-weight: 700">CV</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">CV guide for finance roles (demo)</span></a>
-            <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><div aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #4F8A8B, #1C5965); color: #FFFFFF; font-size: 11px; font-weight: 700">INT</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Interview preparation checklist (demo)</span></a>
-            <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><div aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #D3B46A, #8A6330); color: #FFFFFF; font-size: 11px; font-weight: 700">CERT</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Professional certifications overview (demo)</span></a>
-            <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><div aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #9EB9A5, #416C56); color: #FFFFFF; font-size: 11px; font-weight: 700">VISA</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Residence visa guide for professionals (demo)</span></a>
-            <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><div aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #B4A4C9, #5B4675); color: #FFFFFF; font-size: 11px; font-weight: 700">GRAD</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Graduate programmes directory (demo)</span></a>
-            <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><div aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #C6A59B, #794C47); color: #FFFFFF; font-size: 11px; font-weight: 700">CMP</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Compliance careers explained (demo)</span></a>
-            <a href="#" style="display: flex; align-items: center; gap: 12px; color: #0E3A43; text-decoration: none"><div aria-hidden="true" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #8BA9C1, #31556D); color: #FFFFFF; font-size: 11px; font-weight: 700">MOVE</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Relocating to the UAE for work (demo)</span></a>
-          </div>`;
         const morningBrief = sidebar.querySelector('#newsletter');
         if (morningBrief) {
           const briefTitle = morningBrief.querySelector('#brief-title');
@@ -769,8 +763,10 @@ document.addEventListener('DOMContentLoaded', async function() {
           if (copyEmailInput) copyEmailInput.id = 'brief-email-careers';
           const copyEmailLabel = morningBriefCopy.querySelector('label[for="brief-email"]');
           if (copyEmailLabel) copyEmailLabel.setAttribute('for', 'brief-email-careers');
-          morningBriefCopy.style.marginTop = '28px';
-          careersColumn.appendChild(morningBriefCopy);
+          // Subscribe to stay ahead sits in the second column (sidebar), directly above UAE
+          // Careers (already moved to sidebar.firstElementChild above). The aside's flex "gap"
+          // spaces it from Careers, so no extra margin is needed now that it's the first child.
+          sidebar.insertBefore(morningBriefCopy, careers);
         }
         // Gold Sponsors: ten small gold tiles under a box title (replaces the five larger "Sponsored" banners).
         const goldSponsors = [
@@ -781,11 +777,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         const goldSection = document.createElement('section');
         goldSection.setAttribute('aria-labelledby', 'gold-sponsors-title');
         goldSection.innerHTML = `<h2 id="gold-sponsors-title">Gold Sponsors</h2><div class="fx-gold-grid">${goldSponsors.map((name) => `<a href="#" class="fx-gold-tile" aria-label="Gold sponsor: ${name}">${name}</a>`).join('')}</div>`;
-        // Gold Sponsors sit directly above Videos and Podcasts (which is appended right after this).
         careersColumn.appendChild(goldSection);
-        // Videos and Podcasts sit directly below Gold Sponsors in the third column.
-        const videosPodcastsBox = sidebar.querySelector('[aria-labelledby="sponsored-podcasts-title"]');
-        if (videosPodcastsBox) careersColumn.appendChild(videosPodcastsBox);
+        // Videos and Podcasts moves to the second column, under Events and Expos, further down
+        // this script (once the events box exists there).
         const tweets = document.createElement('section');
         tweets.setAttribute('aria-labelledby', 'tweets-title');
         tweets.style.cssText = 'margin-top: 28px; padding: 22px 24px 24px; border: 1px solid #DAE5E4; border-radius: 14px; background: #FFFFFF; box-shadow: 0 8px 24px rgba(14, 58, 67, 0.06)';
@@ -809,41 +803,49 @@ document.addEventListener('DOMContentLoaded', async function() {
         } else {
           sidebar.appendChild(tweets);
         }
-        // Platinum Sponsors: five platinum tiles under a box title, above everything else in the second column.
+        // Platinum Sponsors: five platinum tiles under a box title, directly above Gold Sponsors
+        // in the third column (careersColumn). Both are <aside> elements, so the generic
+        // "main.wrap aside > section" card styling applies the same either way.
         const platinumSponsors = ['Sandhaven Capital (demo)', 'Tidewell Holdings (demo)', 'Qamar Ridge Partners (demo)', 'Almira Private Bank (demo)', 'Saltmarsh Investments (demo)'];
         const platinumSection = document.createElement('section');
         platinumSection.setAttribute('aria-labelledby', 'platinum-sponsors-title');
         platinumSection.innerHTML = `<h2 id="platinum-sponsors-title">Platinum Sponsors</h2><div class="fx-platinum-list">${platinumSponsors.map((name) => `<a href="#" class="fx-platinum-tile" aria-label="Platinum sponsor: ${name}">${name}</a>`).join('')}</div>`;
-        sidebar.insertBefore(platinumSection, sidebar.firstElementChild);
-        // Subscribe box is no longer shown in the second column (its copy in the third column stays).
+        careersColumn.insertBefore(platinumSection, goldSection);
+        // The original (undecorated) Subscribe box is removed now that its relabelled copy
+        // (morningBriefCopy, above UAE Careers) is the one shown in the second column.
         if (morningBrief) morningBrief.remove();
-        // Career resources close the second column, after every other sidebar insert.
-        // UAE Influencers sit directly above Career Resources at the bottom of the second column.
-        const influencersForSidebar = sidebar.querySelector('[aria-labelledby="uae-influencers-title"]');
-        if (influencersForSidebar) sidebar.appendChild(influencersForSidebar);
-        sidebar.appendChild(resourcing);
         const professionalServicesBox = document.createElement('section');
         professionalServicesBox.setAttribute('aria-labelledby', 'professional-services-title');
         professionalServicesBox.style.cssText = 'margin-top: 14px; padding: 22px 24px 24px; border: 1px solid #DAE5E4; border-radius: 14px; background: #FFFFFF; box-shadow: 0 8px 24px rgba(14, 58, 67, 0.06); flex: 1 1 auto; display: flex; flex-direction: column';
         professionalServicesBox.innerHTML = `
           <h2 id="professional-services-title" style="margin: 0; font-size: 15px; font-weight: 600; color: #0E3A43">Featured Companies</h2>
-          <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 14px">
-            <a href="#" style="display: flex; align-items: center; gap: 10px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy company logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 34px; width: 34px; height: 34px; border-radius: 8px; background: linear-gradient(145deg, #0E3A43, #4FB3B8); color: #FFFFFF; font-size: 10px; font-weight: 700">LAW</div><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Meydan Legal Advisors</span><span style="display: block; font-size: 11px; color: #7F9A97">www.meydanlegal-dummy.ae</span></span></a>
-            <a href="#" style="display: flex; align-items: center; gap: 10px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy company logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 34px; width: 34px; height: 34px; border-radius: 8px; background: linear-gradient(145deg, #B58B52, #6B4E32); color: #FFFFFF; font-size: 10px; font-weight: 700">AUD</div><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Atlas Fund Auditors</span><span style="display: block; font-size: 11px; color: #7F9A97">www.atlasauditors-dummy.ae</span></span></a>
-            <a href="#" style="display: flex; align-items: center; gap: 10px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy company logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 34px; width: 34px; height: 34px; border-radius: 8px; background: linear-gradient(145deg, #7F9A97, #164B55); color: #FFFFFF; font-size: 10px; font-weight: 700">TAX</div><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Oasis Tax Advisory</span><span style="display: block; font-size: 11px; color: #7F9A97">www.oasistax-dummy.ae</span></span></a>
-            <a href="#" style="display: flex; align-items: center; gap: 10px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy company logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 34px; width: 34px; height: 34px; border-radius: 8px; background: linear-gradient(145deg, #C9A9A0, #874E4B); color: #FFFFFF; font-size: 10px; font-weight: 700">ADM</div><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Palm Gate Fund Administration</span><span style="display: block; font-size: 11px; color: #7F9A97">www.palmgateadmin-dummy.ae</span></span></a>
-            <a href="#" style="display: flex; align-items: center; gap: 10px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy company logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 34px; width: 34px; height: 34px; border-radius: 8px; background: linear-gradient(145deg, #6F8E8D, #2B6A74); color: #FFFFFF; font-size: 10px; font-weight: 700">CON</div><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Namaa Strategy Consulting</span><span style="display: block; font-size: 11px; color: #7F9A97">www.namaaconsulting-dummy.ae</span></span></a>
-            <a href="#" style="display: flex; align-items: center; gap: 10px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy company logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 34px; width: 34px; height: 34px; border-radius: 8px; background: linear-gradient(145deg, #4F8A8B, #1C5965); color: #FFFFFF; font-size: 10px; font-weight: 700">IT</div><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Vertex Fund Tech Services</span><span style="display: block; font-size: 11px; color: #7F9A97">www.vertexfundtech-dummy.ae</span></span></a>
-            <a href="#" style="display: flex; align-items: center; gap: 10px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy company logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 34px; width: 34px; height: 34px; border-radius: 8px; background: linear-gradient(145deg, #31556D, #8BA9C1); color: #FFFFFF; font-size: 10px; font-weight: 700">CMP</div><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Crescent Compliance Partners</span><span style="display: block; font-size: 11px; color: #7F9A97">www.crescentcompliance-dummy.ae</span></span></a>
-            <a href="#" style="display: flex; align-items: center; gap: 10px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy company logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 34px; width: 34px; height: 34px; border-radius: 8px; background: linear-gradient(145deg, #5B4675, #B4A4C9); color: #FFFFFF; font-size: 10px; font-weight: 700">ACT</div><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Gulf Actuarial Group</span><span style="display: block; font-size: 11px; color: #7F9A97">www.gulfactuarial-dummy.ae</span></span></a>
-            <a href="#" style="display: flex; align-items: center; gap: 10px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy company logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 34px; width: 34px; height: 34px; border-radius: 8px; background: linear-gradient(145deg, #416C56, #9EB9A5); color: #FFFFFF; font-size: 10px; font-weight: 700">CUS</div><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Emirates Custody Services</span><span style="display: block; font-size: 11px; color: #7F9A97">www.emiratescustody-dummy.ae</span></span></a>
-            <a href="#" style="display: flex; align-items: center; gap: 10px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy company logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 34px; width: 34px; height: 34px; border-radius: 8px; background: linear-gradient(145deg, #8A6330, #D3B46A); color: #FFFFFF; font-size: 10px; font-weight: 700">CF</div><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Noor Corporate Finance</span><span style="display: block; font-size: 11px; color: #7F9A97">www.noorcorpfin-dummy.ae</span></span></a>
-            <a href="#" style="display: flex; align-items: center; gap: 10px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy company logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 34px; width: 34px; height: 34px; border-radius: 8px; background: linear-gradient(145deg, #134A50, #2F8A8C); color: #FFFFFF; font-size: 10px; font-weight: 700">TRU</div><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Sahra Legal &amp; Trust</span><span style="display: block; font-size: 11px; color: #7F9A97">www.sahratrust-dummy.ae</span></span></a>
-            <a href="#" style="display: flex; align-items: center; gap: 10px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy company logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 34px; width: 34px; height: 34px; border-radius: 8px; background: linear-gradient(145deg, #874E4B, #C6A59B); color: #FFFFFF; font-size: 10px; font-weight: 700">RSK</div><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Desert Risk Analytics</span><span style="display: block; font-size: 11px; color: #7F9A97">www.desertrisk-dummy.ae</span></span></a>
-            <a href="#" style="display: flex; align-items: center; gap: 10px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy company logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 34px; width: 34px; height: 34px; border-radius: 8px; background: linear-gradient(145deg, #1F5560, #4FB3B8); color: #FFFFFF; font-size: 10px; font-weight: 700">FT</div><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Marina Fund Tech</span><span style="display: block; font-size: 11px; color: #7F9A97">www.marinafundtech-dummy.ae</span></span></a>
-            <a href="#" style="display: flex; align-items: center; gap: 10px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy company logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 34px; width: 34px; height: 34px; border-radius: 8px; background: linear-gradient(145deg, #31556D, #6F8E8D); color: #FFFFFF; font-size: 10px; font-weight: 700">INV</div><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Harbor Investor Services</span><span style="display: block; font-size: 11px; color: #7F9A97">www.harborinvestor-dummy.ae</span></span></a>
-            <a href="#" style="display: flex; align-items: center; gap: 10px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy company logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 34px; width: 34px; height: 34px; border-radius: 8px; background: linear-gradient(145deg, #8A6330, #B58B52); color: #FFFFFF; font-size: 10px; font-weight: 700">ADV</div><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Falcon Advisory Partners</span><span style="display: block; font-size: 11px; color: #7F9A97">www.falconadvisory-dummy.ae</span></span></a>
+          <div style="display: flex; flex-direction: column; margin-top: 10px">
+            <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Meydan Legal Advisors</span></span></a>
+            <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Atlas Fund Auditors</span></span></a>
+            <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Oasis Tax Advisory</span></span></a>
+            <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Palm Gate Fund Administration</span></span></a>
+            <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Namaa Strategy Consulting</span></span></a>
+            <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Vertex Fund Tech Services</span></span></a>
+            <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Crescent Compliance Partners</span></span></a>
+            <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Gulf Actuarial Group</span></span></a>
+            <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Emirates Custody Services</span></span></a>
+            <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Noor Corporate Finance</span></span></a>
+            <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Sahra Legal &amp; Trust</span></span></a>
+            <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Desert Risk Analytics</span></span></a>
+            <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Marina Fund Tech</span></span></a>
+            <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Harbor Investor Services</span></span></a>
+            <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Falcon Advisory Partners</span></span></a>
+            <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Summit Wealth Advisory</span></span></a>
+            <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Bayan Capital Markets</span></span></a>
+            <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Ridge Fund Governance</span></span></a>
+            <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Dune Payments Advisory</span></span></a>
+            <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Pearl Trust Services</span></span></a>
           </div>`;
+        // Column 3 order: Videos and Podcasts (moved here from the second column) on top, then Platinum Sponsors,
+        // Sponsored Posts (in the spot Videos used to hold), Gold Sponsors and Featured Companies.
+        const videosPodcastsBox = document.querySelector('[aria-labelledby="sponsored-podcasts-title"]');
+        if (videosPodcastsBox) careersColumn.insertBefore(videosPodcastsBox, careersColumn.firstChild);
+        if (sponsoredPostsBox) careersColumn.insertBefore(sponsoredPostsBox, goldSection);
         careersColumn.appendChild(professionalServicesBox);
         window.__careersColumn = careersColumn;
         main.appendChild(careersColumn);
@@ -860,9 +862,9 @@ document.addEventListener('DOMContentLoaded', async function() {
           }
           @media (max-width: 620px) {
             main.wrap { padding-right: 16px !important; padding-left: 16px !important; }
-            [aria-label="Real Estate and Infrastructure News"] { grid-template-columns: minmax(0, 1fr) !important; }
+            [aria-label="Real Estate and Infrastructure News"], [aria-label="Energy News"], [aria-label="AI and Technology News"] { grid-template-columns: minmax(0, 1fr) !important; }
             [aria-label="UAE Business Grants and Funding news"] { grid-template-columns: minmax(0, 1fr) !important; }
-            [aria-label="Other Funding Resources"] > div { grid-template-columns: minmax(0, 1fr) !important; }
+            [aria-label="Other Funding Resources"] { grid-template-columns: minmax(0, 1fr) !important; }
             .news article:hover { transform: none; }
           }
         `;
@@ -891,6 +893,21 @@ document.addEventListener('DOMContentLoaded', async function() {
           document.querySelectorAll('[data-more-news-region]').forEach((link) => {
             link.style.display = link.dataset.moreNewsRegion === region ? 'inline-block' : 'none';
           });
+          // Real Estate and Infrastructure News stays under UAE News and Global News, but not
+          // under Business Funding. Queried each call (not closed over) because the box is
+          // created later, further down this same script.
+          // Energy News and AI and Technology News follow the same rule.
+          ['Real Estate and Infrastructure News', 'Energy News', 'AI and Technology News'].forEach((label) => {
+            const tileBox = document.querySelector('.news > section[aria-label="' + label + '"]');
+            if (!tileBox) return;
+            const show = region !== 'Business Funding';
+            // 'grid', not '': the box's own inline style sets display:grid (for the tile
+            // columns), so clearing it back to '' would fall through to the browser default
+            // (block), stacking every tile in one column instead of three.
+            tileBox.style.display = show ? 'grid' : 'none';
+            const heading = tileBox.previousElementSibling;
+            if (heading && heading.tagName === 'H2') heading.style.display = show ? '' : 'none';
+          });
         };
         const limitNewsTabs = () => {
           const currentNews = document.querySelector('.news');
@@ -899,17 +916,29 @@ document.addEventListener('DOMContentLoaded', async function() {
           Array.from(tabRow.querySelectorAll('button')).forEach((tab) => {
             if (/^(all|markets?|funds?)$/i.test(tab.textContent.trim())) tab.remove();
           });
-          const tabs = Array.from(tabRow.querySelectorAll('button'));
+          let tabs = Array.from(tabRow.querySelectorAll('button'));
+          const REGION_NAMES = ['UAE News', 'Global News', 'Business Funding'];
           if (tabs.length >= 2) {
             // The region is kept in a data attribute, not read back from the label, so the label can be translated (i18n.js).
             const translate = window.__fundsTr || ((text) => text);
-            ['UAE News', 'Global News'].forEach((regionName, i) => {
+            REGION_NAMES.forEach((regionName, i) => {
+              // The design tool's template may render fewer tab buttons than we need
+              // (hint-placeholder-count is a hint, not a guarantee), so a missing one is
+              // cloned from the first tab rather than assumed to already exist.
+              if (!tabs[i]) {
+                const extra = tabs[0].cloneNode(true);
+                extra.removeAttribute('aria-pressed');
+                delete extra.dataset.newsRegionBound;
+                tabRow.appendChild(extra);
+                tabs.push(extra);
+              }
               tabs[i].dataset.newsRegionName = regionName;
               if (tabs[i].textContent !== translate(regionName)) tabs[i].textContent = translate(regionName);
             });
-            tabs.slice(2).forEach((tab) => tab.remove());
+            tabs.slice(REGION_NAMES.length).forEach((tab) => tab.remove());
+            tabs = tabs.slice(0, REGION_NAMES.length);
             const markActiveTab = () => {
-              tabs.slice(0, 2).forEach((tab) => {
+              tabs.forEach((tab) => {
                 const on = tab.dataset.newsRegionName === activeNewsRegion;
                 tab.setAttribute('aria-pressed', String(on));
                 tab.style.boxShadow = on ? 'inset 0 -2px 0 #2F8A8C' : 'none';
@@ -989,6 +1018,24 @@ document.addEventListener('DOMContentLoaded', async function() {
         globalStories.forEach(([title, source]) => {
           dummyStories.push(['Global News', title, source]);
         });
+        const businessFundingStories = [
+          ['Federal SME support scheme opens applications for a second round', 'Federal Finance Bulletin'],
+          ['Seed funds open new cheque sizes for early-stage UAE startups', 'Emirates Business Journal'],
+          ['Green finance grants back a fresh round of clean-energy ventures', 'Gulf Finance Wire'],
+          ['New fund backs women-led businesses across the Gulf', 'The National Ledger'],
+          ['Fintech accelerators open their next cohort in DIFC', 'UAE Markets Today'],
+          ['Venture debt gains ground for growth-stage UAE firms', 'Khaleej Capital Report'],
+          ['Free zone authorities expand grant funding for manufacturers', 'Dirham Daily'],
+          ['Abu Dhabi launches matched-funding scheme for tech founders', 'Gulf Finance Wire'],
+          ['SME lending guarantees widen eligibility for small exporters', 'Federal Finance Bulletin'],
+          ['Dubai innovation fund adds a dedicated healthtech track', 'Emirates Business Journal'],
+          ['Sharjah entrepreneurship centre expands its grant pool', 'UAE Markets Today'],
+          ['Family offices co-invest alongside a new founder grant programme', 'The National Ledger'],
+          ['Federal authorities streamline applications for R&D grants', 'Khaleej Capital Report']
+        ];
+        businessFundingStories.forEach(([title, source]) => {
+          dummyStories.push(['Business Funding', title, source]);
+        });
         dummyStories.forEach(([region, title, source]) => {
           const article = document.createElement('article');
           article.dataset.newsRegion = region;
@@ -1001,8 +1048,10 @@ document.addEventListener('DOMContentLoaded', async function() {
         const allArticles = Array.from(news.querySelectorAll('article'));
         const uaeArticles = allArticles.filter((article) => article.dataset.newsRegion === 'UAE News');
         const globalArticles = allArticles.filter((article) => article.dataset.newsRegion === 'Global News');
+        const businessFundingArticles = allArticles.filter((article) => article.dataset.newsRegion === 'Business Funding');
         uaeArticles.slice(15).forEach((article) => article.remove());
         globalArticles.slice(15).forEach((article) => article.remove());
+        businessFundingArticles.slice(15).forEach((article) => article.remove());
         Array.from(news.querySelectorAll('article')).forEach((article) => {
           const headline = article.querySelector('h2 a');
           const summary = article.querySelector('p');
@@ -1016,7 +1065,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
         const moreNewsLinks = document.createElement('div');
         moreNewsLinks.style.cssText = 'display: flex; gap: 16px; padding: 20px 0 8px';
-        moreNewsLinks.innerHTML = '<a href="#" data-more-news-region="UAE News" style="display: inline-block; font-size: 14px; font-weight: 600; color: #1F6A6E">View All</a><a href="#" data-more-news-region="Global News" style="display: none; font-size: 14px; font-weight: 600; color: #1F6A6E">View All</a>';
+        moreNewsLinks.innerHTML = '<a href="#" data-more-news-region="UAE News" style="display: inline-block; font-size: 14px; font-weight: 600; color: #1F6A6E">View All</a><a href="#" data-more-news-region="Global News" style="display: none; font-size: 14px; font-weight: 600; color: #1F6A6E">View All</a><a href="#" data-more-news-region="Business Funding" style="display: none; font-size: 14px; font-weight: 600; color: #1F6A6E">View All</a>';
         news.appendChild(moreNewsLinks);
         applyNewsRegion(activeNewsRegion);
         const eventsPanel = sidebar && sidebar.querySelector('[aria-labelledby="events-title"]');
@@ -1070,6 +1119,61 @@ document.addEventListener('DOMContentLoaded', async function() {
             image.style.maxWidth = '150px';
           });
           news.appendChild(realEstateBox);
+          // Energy News and AI and Technology News: same heading, box and tile format as
+          // Real Estate, directly below it (12 dummy tiles each, replaced by live stories).
+          const addTileSection = (label, tiles) => {
+            const heading = document.createElement('h2');
+            heading.textContent = label;
+            heading.style.cssText = realEstateHeading.style.cssText;
+            news.appendChild(heading);
+            const section = document.createElement('section');
+            section.setAttribute('aria-label', label);
+            section.style.cssText = realEstateBox.style.cssText;
+            tiles.forEach(([tagText, headline, colours]) => {
+              const article = document.createElement('article');
+              article.style.cssText = 'min-width: 0';
+              const image = document.createElement('div');
+              image.setAttribute('role', 'img');
+              image.setAttribute('aria-label', 'Dummy ' + tagText.toLowerCase() + ' image');
+              image.style.cssText = 'height: 116px; border-radius: 10px; background: linear-gradient(145deg, ' + colours + '); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; width: 78%; max-width: 150px';
+              image.textContent = tagText;
+              const link = document.createElement('a');
+              link.href = '#';
+              link.style.cssText = 'display: block; margin-top: 10px; font-family: \'Newsreader\', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43';
+              link.textContent = headline;
+              article.append(image, link);
+              section.appendChild(article);
+            });
+            news.appendChild(section);
+          };
+          addTileSection('Energy News', [
+            ['UPSTREAM', 'Upstream investment holds firm across the Gulf', '#8A6330, #D3B46A'],
+            ['LNG', 'New LNG supply deals reshape regional gas trade', '#31556D, #8BA9C1'],
+            ['REFINING', 'Refinery expansion plans move into the next phase', '#874E4B, #C6A59B'],
+            ['OPEC+', 'OPEC+ output decisions keep crude prices in focus', '#0E3A43, #7F9A97'],
+            ['PETROCHEMICALS', 'Petrochemical projects draw fresh long-term capital', '#5B4675, #B4A4C9'],
+            ['OFFSHORE', 'Offshore field developments gather pace', '#356A78, #A8C5D1'],
+            ['PIPELINES', 'Cross-border pipeline projects attract infrastructure funds', '#607A5A, #D8D0A4'],
+            ['NATIONAL OIL COS', 'National oil companies widen their investment programmes', '#875F4A, #D9B38C'],
+            ['GAS POWER', 'Gas-fired power capacity grows alongside renewables', '#4E7A5C, #C9DCC0'],
+            ['ENERGY SERVICES', 'Energy services firms win larger regional contracts', '#2F4E6D, #B9C9E0'],
+            ['CARBON CAPTURE', 'Carbon capture projects move from pilot to build', '#416C56, #9EB9A5'],
+            ['OIL TRADING', 'Trading houses expand their Dubai energy desks', '#7A5C3E, #D3C4A6']
+          ]);
+          addTileSection('AI and Technology News', [
+            ['AI INVESTMENT', 'AI infrastructure funding reaches new highs', '#31556D, #8BA9C1'],
+            ['DATA CENTRES', 'Data centre campuses expand across the UAE', '#0E3A43, #7F9A97'],
+            ['AI STARTUPS', 'AI start-ups close larger rounds in the Gulf', '#5B4675, #B4A4C9'],
+            ['SEMICONDUCTORS', 'Chip supply deals shape the regional compute race', '#356A78, #A8C5D1'],
+            ['CLOUD', 'Cloud providers commit to new regional zones', '#4F8A8B, #1C5965'],
+            ['FINTECH', 'Fintech platforms scale up under the DIFC and ADGM regimes', '#8A6330, #D3B46A'],
+            ['CYBERSECURITY', 'Cybersecurity spending climbs across financial firms', '#874E4B, #C6A59B'],
+            ['ROBOTICS', 'Robotics and automation pilots reach production', '#607A5A, #D8D0A4'],
+            ['GOVERNMENT AI', 'Government AI programmes open to private partners', '#2F4E6D, #B9C9E0'],
+            ['GENERATIVE AI', 'Generative AI tools move into asset management', '#416C56, #9EB9A5'],
+            ['DIGITAL ASSETS', 'Digital asset platforms win new licences', '#875F4A, #D9B38C'],
+            ['TECH IPOS', 'Technology listings test investor appetite', '#7A5C3E, #D3C4A6']
+          ]);
           // Events and Expos sit in the second column, directly under UAE Careers.
           eventsPanel.style.marginTop = '28px';
           const careersInSidebar = sidebar.querySelector('[aria-labelledby="careers-title"]');
@@ -1078,7 +1182,6 @@ document.addEventListener('DOMContentLoaded', async function() {
           } else {
             news.appendChild(eventsPanel);
           }
-
           const grantsHeading = document.createElement('h2');
           grantsHeading.textContent = 'UAE Business Grants & Funding Resources';
           grantsHeading.style.cssText = 'margin: 32px 0 0; padding-top: 24px; border-top: 1px solid #DAE5E4; font-size: 22px; font-weight: 600; color: #0E3A43';
@@ -1136,23 +1239,32 @@ document.addEventListener('DOMContentLoaded', async function() {
           const otherFundingBox = document.createElement('section');
           otherFundingBox.setAttribute('aria-label', 'Other Funding Resources');
           otherFundingBox.style.cssText = 'margin-top: 16px; padding: 18px; border: 1px solid #DAE5E4; border-radius: 14px; background: #FFFFFF; box-shadow: 0 8px 24px rgba(14, 58, 67, 0.06)';
-          otherFundingBox.innerHTML = `
-            <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px">
-              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #DAE5E4; border-radius: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy funding resource logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #0E3A43, #4FB3B8); color: #FFFFFF; font-size: 11px; font-weight: 700">SME</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">SME Loan Guarantee Programme</span></a>
-              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #DAE5E4; border-radius: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy funding resource logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #B58B52, #6B4E32); color: #FFFFFF; font-size: 11px; font-weight: 700">VC</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">UAE Venture Capital Directory</span></a>
-              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #DAE5E4; border-radius: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy funding resource logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #7F9A97, #164B55); color: #FFFFFF; font-size: 11px; font-weight: 700">ANG</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Gulf Angel Investor Network</span></a>
-              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #DAE5E4; border-radius: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy funding resource logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #C9A9A0, #874E4B); color: #FFFFFF; font-size: 11px; font-weight: 700">CF</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Regional Crowdfunding Portal</span></a>
-              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #DAE5E4; border-radius: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy funding resource logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #6F8E8D, #2B6A74); color: #FFFFFF; font-size: 11px; font-weight: 700">SME</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Dubai SME Support Office</span></a>
-              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #DAE5E4; border-radius: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy funding resource logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #4F8A8B, #1C5965); color: #FFFFFF; font-size: 11px; font-weight: 700">GRT</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Innovation Grants Portal</span></a>
-              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #DAE5E4; border-radius: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy funding resource logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #D3B46A, #8A6330); color: #FFFFFF; font-size: 11px; font-weight: 700">INC</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Free Zone Incubator Network</span></a>
-              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #DAE5E4; border-radius: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy funding resource logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #9EB9A5, #416C56); color: #FFFFFF; font-size: 11px; font-weight: 700">TRD</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Trade Finance Facility Guide</span></a>
-              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #DAE5E4; border-radius: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy funding resource logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #B4A4C9, #5B4675); color: #FFFFFF; font-size: 11px; font-weight: 700">EQF</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Private Equity Access Programme</span></a>
-              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #DAE5E4; border-radius: 12px; color: #0E3A43; text-decoration: none"><div role="img" aria-label="Dummy funding resource logo" style="display: flex; align-items: center; justify-content: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(145deg, #C6A59B, #794C47); color: #FFFFFF; font-size: 11px; font-weight: 700">EXP</div><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Export Credit Support Scheme</span></a>
-            </div>`;
+          // Same box and headline format as the Real Estate tiles, links only, no images (12 dummy resources).
+          otherFundingBox.style.cssText = 'display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 16px; padding: 18px; border: 1px solid #DAE5E4; border-radius: 14px; background: #FFFFFF; box-shadow: 0 8px 24px rgba(14, 58, 67, 0.06)';
+          [
+            ['SME LOANS', 'SME Loan Guarantee Programme', '#0E3A43, #4FB3B8'],
+            ['VC DIRECTORY', 'UAE Venture Capital Directory', '#B58B52, #6B4E32'],
+            ['ANGEL NETWORK', 'Gulf Angel Investor Network', '#7F9A97, #164B55'],
+            ['CROWDFUNDING', 'Regional Crowdfunding Portal', '#C9A9A0, #874E4B'],
+            ['SME SUPPORT', 'Dubai SME Support Office', '#6F8E8D, #2B6A74'],
+            ['INNOVATION', 'Innovation Grants Portal', '#4F8A8B, #1C5965'],
+            ['INCUBATORS', 'Free Zone Incubator Network', '#D3B46A, #8A6330'],
+            ['TRADE FINANCE', 'Trade Finance Facility Guide', '#9EB9A5, #416C56'],
+            ['PRIVATE EQUITY', 'Private Equity Access Programme', '#B4A4C9, #5B4675'],
+            ['EXPORT CREDIT', 'Export Credit Support Scheme', '#C6A59B, #794C47'],
+            ['STARTUP VISA', 'Startup Visa Guide', '#31556D, #8BA9C1'],
+            ['ISLAMIC FINANCE', 'Islamic Finance Directory', '#416C56, #9EB9A5']
+          ].forEach(([tagText, headline]) => {
+            const article = document.createElement('article');
+            article.style.cssText = 'min-width: 0';
+            const link = document.createElement('a');
+            link.href = '#';
+            link.style.cssText = 'display: block; margin-top: 10px; font-family: Newsreader, Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43';
+            link.textContent = headline;
+            article.appendChild(link);
+            otherFundingBox.appendChild(article);
+          });
           news.appendChild(otherFundingBox);
-
-          news.appendChild(realEstateHeading);
-          news.appendChild(realEstateBox);
         }
         if (window.__equalizeFundsColumns) requestAnimationFrame(window.__equalizeFundsColumns);
       }
@@ -1166,39 +1278,13 @@ document.addEventListener('DOMContentLoaded', async function() {
           ['SME SCHEMES', 'Federal SME support scheme opens for applications', '#8A6330, #B58B52'],
           ['GREEN FINANCE', 'Green finance grants back clean-energy ventures', '#416C56, #9EB9A5'],
           ['WOMEN FOUNDERS', 'New fund backs women-led businesses across the Gulf', '#874E4B, #C9A9A0'],
-          ['ACCELERATORS', 'Fintech accelerators open next cohort in DIFC', '#31556D, #8BA9C1'],
-          ['VENTURE DEBT', 'Venture debt gains ground for growth-stage firms', '#5B4675, #B4A4C9'],
         ],
         'Real Estate and Infrastructure News': [
           ['AFFORDABLE HOMES', 'Affordable housing pipeline widens across the northern emirates', '#4F8A8B, #1C5965'],
           ['SMART CITIES', 'Smart-city projects move into the delivery phase', '#31556D, #8BA9C1'],
           ['RAIL AND METRO', 'Rail and metro expansion lifts nearby property demand', '#5B4675, #B4A4C9'],
-          ['PORTS', 'Port expansion boosts industrial land demand', '#8A6330, #D3B46A'],
-          ['HOSPITALITY', 'Hotel developments accelerate ahead of peak season', '#874E4B, #C6A59B'],
-          ['RETAIL DISTRICTS', 'New retail districts reshape neighbourhood high streets', '#416C56, #9EB9A5'],
         ],
       };
-      // Other Funding Resources: five more link boxes (10 to 15), cloned from the first one.
-      {
-        const fundingGrid = document.querySelector('.news > section[aria-label="Other Funding Resources"] > div');
-        const linkTemplate = fundingGrid && fundingGrid.querySelector('a');
-        if (linkTemplate && fundingGrid.querySelectorAll('a').length < 15) {
-          [
-            ['VISA', 'Startup Visa Guide', '#31556D, #8BA9C1'],
-            ['ISL', 'Islamic Finance Directory', '#416C56, #9EB9A5'],
-            ['KIT', 'Grant Application Toolkit', '#8A6330, #B58B52'],
-            ['PIT', 'Investor Pitch Templates', '#5B4675, #B4A4C9'],
-            ['CAL', 'Regional Funding Calendar', '#874E4B, #C9A9A0'],
-          ].forEach(([tag, name, colours]) => {
-            const link = linkTemplate.cloneNode(true);
-            const logo = link.querySelector('[role="img"]');
-            logo.textContent = tag;
-            logo.style.background = 'linear-gradient(145deg, ' + colours + ')';
-            link.querySelector('span').textContent = name;
-            fundingGrid.appendChild(link);
-          });
-        }
-      }
       Object.entries(extraTiles).forEach(([label, tiles]) => {
         const box = document.querySelector('.news > section[aria-label="' + label + '"]');
         const template = box && box.querySelector('article');
@@ -1227,44 +1313,53 @@ document.addEventListener('DOMContentLoaded', async function() {
       };
       const inside = [
         document.querySelector('#professional-services-title'),
-        document.querySelector('#career-resources-title'),
       ].map((heading) => heading && heading.closest('section'));
       inside.forEach((box) => { if (box && !box.querySelector('.fx-view-all')) box.appendChild(makeViewAll()); });
-      ['Other Funding Resources', 'UAE Business Grants and Funding news', 'Real Estate and Infrastructure News'].forEach((label) => {
+      ['Other Funding Resources', 'UAE Business Grants and Funding news', 'Real Estate and Infrastructure News', 'Energy News', 'AI and Technology News'].forEach((label) => {
         const box = document.querySelector('.news > section[aria-label="' + label + '"]');
         if (box && !(box.nextElementSibling && box.nextElementSibling.classList.contains('fx-view-all'))) box.after(makeViewAll());
       });
-      // Top Tweets moves from the second column to the bottom of the news column, with its View All link below it.
-      const tweetsBox = document.querySelector('#tweets-title') && document.querySelector('#tweets-title').closest('section');
-      const newsColumn = document.querySelector('.news');
-      if (tweetsBox && newsColumn) {
-        newsColumn.appendChild(tweetsBox);
-        tweetsBox.after(makeViewAll());
-      }
-      // UAE Influencers sits directly above Top Tweets near the bottom of the news column, with its own View All link.
+      // UAE Thought Leaders and Influencers sits in the second column, directly under Events and Expos,
+      // with its View All link inside the card. Fifteen people are listed (the first ten show, see .fx-voices).
       const influencersBox = document.querySelector('#uae-influencers-title') && document.querySelector('#uae-influencers-title').closest('section');
-      if (influencersBox && newsColumn) {
-        newsColumn.insertBefore(influencersBox, tweetsBox || null); // above Top Tweets
-        // No avatar circles; list grows from 10 to 15 people by cloning the first entry.
+      const eventsBoxForVoices = document.querySelector('[aria-labelledby="events-title"]');
+      if (influencersBox) {
+        if (eventsBoxForVoices) {
+          influencersBox.style.marginTop = '28px';
+          eventsBoxForVoices.insertAdjacentElement('afterend', influencersBox);
+        }
         const influencerList = influencersBox.querySelector('div');
-        influencerList.querySelectorAll('[role="img"]').forEach((avatar) => avatar.remove());
+        influencerList.classList.add('fx-voices');
         const influencerTemplate = influencerList.querySelector('a');
         if (influencerTemplate && influencerList.querySelectorAll('a').length < 15) {
           [
-            ['Nadia Al Mazrouei', 'Banking regulation and compliance'],
-            ['Faisal Haddad', 'Startup ecosystem and accelerators'],
-            ['Dina Karam', 'Real estate funds analyst'],
-            ['Salim Al Ketbi', 'Energy transition investing'],
-            ['Reem Bakr', 'Fintech regulation and policy'],
-          ].forEach(([name, role]) => {
+            ['Nadia Al Mazrouei', 'Banking regulation and compliance', '#0E3A43'],
+            ['Faisal Haddad', 'Startup ecosystem and accelerators', '#1F6A6E'],
+            ['Dina Karam', 'Real estate funds analyst', '#8A6330'],
+            ['Salim Al Ketbi', 'Energy transition investing', '#31556D'],
+            ['Reem Bakr', 'Fintech regulation and policy', '#416C56'],
+          ].forEach(([name, role, colour]) => {
             const person = influencerTemplate.cloneNode(true);
+            const avatar = person.querySelector('[role="img"]');
+            avatar.textContent = name.split(' ').filter((w) => w !== 'Al').map((w) => w[0]).slice(0, 2).join('');
+            avatar.style.background = colour;
             const lines = person.querySelectorAll('span span');
             lines[0].textContent = name;
             lines[1].textContent = role;
             influencerList.appendChild(person);
           });
         }
-        influencersBox.after(makeViewAll());
+        influencersBox.appendChild(makeViewAll());
+      }
+      // Top Tweets closes the second column, directly under Thought Leaders and Influencers, with its View All link
+      // inside the card. Five tweets show (see .fx-tweets).
+      const tweetsBox = document.querySelector('#tweets-title') && document.querySelector('#tweets-title').closest('section');
+      if (tweetsBox) {
+        tweetsBox.style.marginTop = '28px';
+        tweetsBox.classList.add('fx-tweets');
+        const tweetsAnchor = influencersBox || eventsBoxForVoices;
+        if (tweetsAnchor) tweetsAnchor.insertAdjacentElement('afterend', tweetsBox);
+        tweetsBox.appendChild(makeViewAll());
       }
     }
 
@@ -1383,10 +1478,16 @@ document.addEventListener('DOMContentLoaded', async function() {
         main.wrap aside a[style*="Newsreader"]:hover { color: var(--fx-accent) !important; }
 
         /* Sponsored content is marked with a cyan rule and a light panel, so it reads as paid */
-        main.wrap aside > section[aria-labelledby="sponsored-title"] { border-top-color: var(--fx-accent-2) !important; background: var(--fx-panel) !important; padding: 12px 16px 16px !important; }
+        /* Sponsored Posts (third column): Techmeme-style text list. A flat block under the cyan "paid" rule, every entry a
+           bold headline, no logos or boxes. All twenty show. */
+        main.wrap aside > section[aria-labelledby="sponsored-title"] { border-top-color: var(--fx-accent-2) !important; background: transparent !important; padding: 12px 0 0 !important; }
+        main.wrap aside > section[aria-labelledby="sponsored-title"] ul { margin-top: 4px !important; }
+        main.wrap aside > section[aria-labelledby="sponsored-title"] li { display: block !important; padding: 10px 0 !important; border-bottom: 1px solid var(--fx-line-2) !important; }
+        main.wrap aside > section[aria-labelledby="sponsored-title"] li:nth-child(n+21) { display: none !important; }
+        main.wrap aside > section[aria-labelledby="sponsored-title"] li > span { display: none !important; }
+        main.wrap aside > section[aria-labelledby="sponsored-title"] li a { font-family: var(--fx-sans) !important; font-size: 14.5px !important; font-weight: 700 !important; line-height: 1.3 !important; color: var(--fx-ink) !important; }
+        main.wrap aside > section[aria-labelledby="sponsored-title"] li a:hover { color: var(--fx-accent) !important; text-decoration: underline; text-underline-offset: 2px; }
         main.wrap aside > section[aria-labelledby="sponsored-podcasts-title"] { border-top-color: var(--fx-accent-2) !important; }
-        main.wrap aside > section[aria-labelledby="sponsored-title"] li > span { background: var(--fx-ink) !important; }
-        main.wrap aside > section[aria-labelledby="sponsored-title"] li a { font-size: 14px !important; line-height: 1.3 !important; }
         main.wrap aside > section[aria-labelledby="sponsored-podcasts-title"] span[style*="font-size: 12px"] { font-family: var(--fx-mono); letter-spacing: 0.08em; color: var(--fx-accent-2) !important; }
 
         /* This box was set to flex-grow when it ended the column; it now sits mid-column, so stop it stretching and leaving a blank gap */
@@ -1424,22 +1525,16 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
         .news > section[aria-label] { background: transparent !important; border: 0 !important; padding: 0 !important; margin-top: 14px !important; }
         .news > section[aria-label] > article { column-gap: 0; }
-        /* Tile grids: five across, smaller images and type (15 tiles = 3 rows). */
-        .news > section[aria-label="Real Estate and Infrastructure News"], .news > section[aria-label="UAE Business Grants and Funding news"] { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; column-gap: 12px !important; row-gap: 18px !important; }
-        .news > section[aria-label] [role="img"][style*="height: 116px"], .news > section[aria-label] [role="img"][style*="height:116px"] { box-sizing: border-box; width: 100% !important; max-width: none !important; height: 68px !important; padding: 6px 8px !important; font-family: var(--fx-mono); font-size: 9px !important; letter-spacing: 0.06em !important; line-height: 1.2; }
+        /* Tile grids: smaller images and type (same size in every box; the data-fundsae-tag selectors cover live tiles, which the connector strips of role=img). Grants stays five across (15 tiles = 3 rows);
+           Real Estate is kept at three across (15 tiles = 5 rows) so 3 images/headlines share
+           one row, as on Grants' 760px breakpoint. */
+        .news > section[aria-label="Real Estate and Infrastructure News"], .news > section[aria-label="Energy News"], .news > section[aria-label="AI and Technology News"], .news > section[aria-label="UAE Business Grants and Funding news"], .news > section[aria-label="Other Funding Resources"] { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; column-gap: 12px !important; row-gap: 18px !important; }
+        .news > section[aria-label] [role="img"][style*="height: 116px"], .news > section[aria-label] [role="img"][style*="height:116px"], .news > section[aria-label] [data-fundsae-tag][style*="height: 116px"], .news > section[aria-label] [data-fundsae-tag][style*="height:116px"] { box-sizing: border-box; width: 100% !important; max-width: none !important; height: 68px !important; padding: 6px 8px !important; font-family: var(--fx-mono); font-size: 9px !important; letter-spacing: 0.06em !important; line-height: 1.2; }
         .news > section[aria-label] article > a { margin-top: 8px !important; font-size: 13px !important; line-height: 1.3 !important; }
-        @media (max-width: 760px) { .news > section[aria-label="Real Estate and Infrastructure News"], .news > section[aria-label="UAE Business Grants and Funding news"] { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; } }
-        @media (max-width: 480px) { .news > section[aria-label="Real Estate and Infrastructure News"], .news > section[aria-label="UAE Business Grants and Funding news"] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
+        @media (max-width: 480px) { .news > section[aria-label="Real Estate and Infrastructure News"], .news > section[aria-label="Energy News"], .news > section[aria-label="AI and Technology News"], .news > section[aria-label="UAE Business Grants and Funding news"], .news > section[aria-label="Other Funding Resources"] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
+        /* Other Funding Resources: links only, no images; each link sits on a hairline divider. */
+        .news > section[aria-label="Other Funding Resources"] article > a { margin-top: 0 !important; padding: 8px 0; border-bottom: 1px solid var(--fx-line-2); }
         .news > section[aria-label] article > a:hover { color: var(--fx-accent) !important; text-decoration: none !important; }
-        .news > section[aria-label="Other Funding Resources"] a { border-color: var(--fx-line) !important; background: var(--fx-raise); }
-        .news > section[aria-label="Other Funding Resources"] a:hover { border-color: var(--fx-ink) !important; text-decoration: none !important; }
-        /* Other Funding Resources: three across, smaller boxes and type (15 boxes = 5 rows). */
-        .news > section[aria-label="Other Funding Resources"] > div { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 10px !important; }
-        .news > section[aria-label="Other Funding Resources"] a { padding: 8px 10px !important; gap: 8px !important; border-radius: 3px !important; }
-        .news > section[aria-label="Other Funding Resources"] a > [role="img"] { flex: 0 0 28px !important; width: 28px !important; height: 28px !important; border-radius: 6px !important; font-size: 8px !important; letter-spacing: 0 !important; }
-        .news > section[aria-label="Other Funding Resources"] a > span { font-size: 12px !important; line-height: 1.25 !important; }
-        @media (max-width: 760px) { .news > section[aria-label="Other Funding Resources"] > div { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
-        @media (max-width: 400px) { .news > section[aria-label="Other Funding Resources"] > div { grid-template-columns: minmax(0, 1fr) !important; } }
 
         /* Buttons and inputs: squarer, consistent */
         main.wrap input[type="email"] { border-radius: 3px !important; border-color: var(--fx-line) !important; }
@@ -1485,27 +1580,56 @@ document.addEventListener('DOMContentLoaded', async function() {
         .fx-view-all:hover { color: #0E3A43 !important; text-decoration: underline; text-underline-offset: 3px; }
         .news > .fx-view-all { margin-top: 14px; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; }
 
-        /* Top Tweets in the news column: same treatment as the other blocks there (dark rule, small-caps title), tweets two across. */
-        .news > section[aria-labelledby="tweets-title"] { margin-top: 44px !important; padding: 12px 0 0 !important; border: 0 !important; border-top: 2px solid var(--fx-ink) !important; border-radius: 0 !important; background: transparent !important; box-shadow: none !important; }
-        .news > section[aria-labelledby="tweets-title"] > h2 { font-size: 13px !important; font-weight: 600 !important; letter-spacing: 0.14em; text-transform: uppercase; }
-        .news > section[aria-labelledby="tweets-title"] > div { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 24px !important; margin-top: 16px !important; }
-        @media (max-width: 620px) { .news > section[aria-labelledby="tweets-title"] > div { grid-template-columns: minmax(0, 1fr); } }
 
         /* UAE Influencers in the news column: same treatment as Top Tweets (dark rule, small-caps title), profiles two across. */
-        .news > section[aria-labelledby="uae-influencers-title"] { margin-top: 44px !important; padding: 12px 0 0 !important; border: 0 !important; border-top: 2px solid var(--fx-ink) !important; border-radius: 0 !important; background: transparent !important; box-shadow: none !important; }
-        .news > section[aria-labelledby="uae-influencers-title"] > h2 { font-size: 13px !important; font-weight: 600 !important; letter-spacing: 0.14em; text-transform: uppercase; }
-        .news > section[aria-labelledby="uae-influencers-title"] > p { margin-top: 8px !important; }
-        .news > section[aria-labelledby="uae-influencers-title"] > div { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 20px !important; margin-top: 14px !important; }
-        .news > section[aria-labelledby="uae-influencers-title"] a { gap: 0 !important; }
-        .news > section[aria-labelledby="uae-influencers-title"] a span span:first-child { font-size: 13px !important; line-height: 1.3 !important; }
-        .news > section[aria-labelledby="uae-influencers-title"] a span span:last-child { font-size: 11px !important; line-height: 1.3 !important; }
-        @media (max-width: 620px) { .news > section[aria-labelledby="uae-influencers-title"] > div { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-        @media (max-width: 400px) { .news > section[aria-labelledby="uae-influencers-title"] > div { grid-template-columns: minmax(0, 1fr); } }
 
-        /* Platinum Sponsors: five platinum (cool silver) tiles stacked in the second column, dark text for contrast. */
+        /* Platinum Sponsors: five platinum (cool silver) tiles stacked in the third column, above Gold Sponsors, dark text for contrast. */
         .fx-platinum-list { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
         .fx-platinum-tile { display: flex; align-items: center; min-height: 56px; padding: 10px 14px; border-radius: 3px; background: linear-gradient(145deg, #F1F3F4, #B9C0C6); color: #0E3A43 !important; font-size: 14px; font-weight: 600; line-height: 1.25; text-decoration: none; }
         .fx-platinum-tile:hover { filter: brightness(1.04); text-decoration: underline; text-underline-offset: 3px; }
+
+        /* Videos and Podcasts (third column, above Featured Companies): news-site video hub. First item is a large
+           16:9 lead with a play button; the rest are compact rows with a small thumbnail. Ten show, View All opens the rest. */
+        .fx-vid-list { margin-top: 12px; display: flex; flex-direction: column; }
+        .fx-vid { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--fx-line-2); color: #0E3A43; text-decoration: none; }
+        .fx-vid:nth-child(n+11) { display: none; }
+        .fx-vid-thumb { position: relative; flex: 0 0 96px; aspect-ratio: 16 / 9; border-radius: 3px; display: flex; align-items: center; justify-content: center; background: linear-gradient(145deg, #0E3A43, #4FB3B8); }
+        .fx-vid:nth-child(2) .fx-vid-thumb { background: linear-gradient(145deg, #31556D, #8BA9C1); }
+        .fx-vid:nth-child(3) .fx-vid-thumb { background: linear-gradient(145deg, #5B4675, #B4A4C9); }
+        .fx-vid:nth-child(4) .fx-vid-thumb { background: linear-gradient(145deg, #8A6330, #D3B46A); }
+        .fx-vid:nth-child(5) .fx-vid-thumb { background: linear-gradient(145deg, #416C56, #9EB9A5); }
+        .fx-vid:nth-child(6) .fx-vid-thumb { background: linear-gradient(145deg, #874E4B, #C6A59B); }
+        .fx-vid:nth-child(7) .fx-vid-thumb { background: linear-gradient(145deg, #356A78, #A8C5D1); }
+        .fx-vid:nth-child(8) .fx-vid-thumb { background: linear-gradient(145deg, #607A5A, #D8D0A4); }
+        .fx-vid:nth-child(9) .fx-vid-thumb { background: linear-gradient(145deg, #2F4E6D, #B9C9E0); }
+        .fx-vid:nth-child(10) .fx-vid-thumb { background: linear-gradient(145deg, #875F4A, #D9B38C); }
+        .fx-vid-play { display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; padding-left: 2px; box-sizing: border-box; border-radius: 50%; background: rgba(14, 58, 67, 0.78); color: #FFFFFF; font-size: 9px; }
+        .fx-vid-title { font-family: 'Newsreader', Georgia, serif; font-size: 14px; font-weight: 600; line-height: 1.3; }
+        .fx-vid:hover .fx-vid-title { color: var(--fx-accent); }
+        .fx-vid:first-child { flex-direction: column; align-items: stretch; gap: 10px; padding-top: 0; }
+        .fx-vid:first-child .fx-vid-thumb { flex: none; width: 100%; }
+        .fx-vid:first-child .fx-vid-play { width: 44px; height: 44px; font-size: 15px; padding-left: 3px; }
+        .fx-vid:first-child .fx-vid-title { font-size: 18px; }
+
+        /* UAE Thought Leaders and Influencers (second column, under Events and Expos): "voices to follow" list.
+           Avatar, name and role per row with hairline dividers; the first ten show, View All opens the rest. */
+        .fx-voices { gap: 0 !important; margin-top: 10px !important; }
+        .fx-voices > a { padding: 11px 0; border-bottom: 1px solid var(--fx-line-2); }
+        .fx-voices > a:nth-child(n+11) { display: none !important; }
+        .fx-voices > a > span:last-of-type { min-width: 0; }
+        .fx-voices > a > span:last-of-type > span:first-child { font-family: 'Newsreader', Georgia, serif; font-size: 16px !important; line-height: 1.25 !important; }
+        .fx-voices > a:hover > span:last-of-type > span:first-child { color: var(--fx-accent); }
+        main.wrap aside > section[aria-labelledby="uae-influencers-title"] > p { margin-top: 6px !important; }
+
+        /* Top Tweets (second column, bottom): social-feed list. Avatar, bold name and tweet text per row with hairline
+           dividers; the first five show, View All opens the rest. */
+        .fx-tweets > div { gap: 0 !important; margin-top: 8px !important; }
+        .fx-tweets > div > a { align-items: flex-start !important; gap: 12px !important; padding: 12px 0; border-bottom: 1px solid var(--fx-line-2); }
+        .fx-tweets > div > a:nth-child(n+6) { display: none !important; }
+        .fx-tweets > div > a > span:last-child { min-width: 0; font-size: 13.5px !important; line-height: 1.45 !important; }
+        .fx-tweets > div > a > span:last-child strong { font-size: 14px; font-weight: 700; }
+        .fx-tweets > div > a > span:last-child span { font-size: 12px; }
+        .fx-tweets > div > a:hover > span:last-child strong { color: var(--fx-accent); }
 
         /* Keep grid rows at their natural height so a row never absorbs leftover page height. */
         main.wrap { align-content: start; }
@@ -1536,10 +1660,11 @@ document.addEventListener('DOMContentLoaded', async function() {
       tag(inBox('sponsored-title', 'ul'), 'sponsor-posts');
       tag(inBox('sponsored-podcasts-title', ':scope > div:nth-of-type(2)'), 'sponsor-media');
       tag(inBox('professional-services-title', ':scope > div'), 'sponsor-companies');
-      tag(inBox('career-resources-title', ':scope > div'), 'career-resources');
       tag(document.querySelector('.fx-gold-grid'), 'sponsor-gold');
       tag(document.querySelector('.fx-platinum-list'), 'sponsor-platinum');
       tag(document.querySelector('.news > section[aria-label="Real Estate and Infrastructure News"]'), 'tiles-real-estate-infrastructure');
+      tag(document.querySelector('.news > section[aria-label="Energy News"]'), 'tiles-energy');
+      tag(document.querySelector('.news > section[aria-label="AI and Technology News"]'), 'tiles-ai-technology');
       tag(document.querySelector('.news > section[aria-label="UAE Business Grants and Funding news"]'), 'tiles-grants-funding');
       const dateLine = document.querySelector('.fx-topline > span:first-child');
       if (dateLine) {
@@ -1548,8 +1673,10 @@ document.addEventListener('DOMContentLoaded', async function() {
       }
       const careersBox = box('careers-title');
       if (careersBox) {
+        // The "Post a role" form no longer exists on the Careers page (removed from column 1),
+        // so this link is removed here rather than repointed to a now-dead anchor.
         careersBox.querySelectorAll('a').forEach((link) => {
-          if (/^Post a role/.test(link.textContent.trim())) link.href = 'Careers.dc.html#post-a-role';
+          if (/^Post a role/.test(link.textContent.trim())) link.remove();
         });
       }
     }

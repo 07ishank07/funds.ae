@@ -22,9 +22,9 @@ const WEBSITE = /^(?:www\.)?[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:
 export const SLOT_RULES = {
   platinum: { maxItems: 5, sponsored: true, text: { title: 60 }, required: ['title'], images: ['image'], colors: ['colorFrom', 'colorTo'] },
   gold: { maxItems: 10, sponsored: true, text: { title: 70, label: 20 }, required: ['title'], images: ['image'], colors: ['colorFrom', 'colorTo'] },
-  sponsoredPosts: { maxItems: 15, sponsored: true, text: { title: 90, blurb: 160, logoText: 4 }, required: ['title'], images: ['image'], colors: ['colorFrom', 'colorTo'] },
+  sponsoredPosts: { maxItems: 20, sponsored: true, text: { title: 90, blurb: 160, logoText: 4 }, required: ['title'], images: ['image'], colors: ['colorFrom', 'colorTo'] },
   sponsoredMedia: { maxItems: 15, sponsored: true, text: { label: 20, title: 90, blurb: 160 }, required: ['title'], images: ['image'], colors: [] },
-  professionalServices: { maxItems: 15, sponsored: true, text: { title: 70, website: 80, logoText: 4 }, required: ['title'], images: ['image'], colors: ['colorFrom', 'colorTo'] },
+  professionalServices: { maxItems: 20, sponsored: true, text: { title: 70, website: 80, logoText: 4 }, required: ['title'], images: ['image'], colors: ['colorFrom', 'colorTo'] },
   careerResources: { maxItems: 12, sponsored: false, text: { title: 70, logoText: 5 }, required: ['title'], images: [], colors: ['colorFrom', 'colorTo'] }
 };
 

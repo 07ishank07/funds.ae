@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-09-30T07:19:10.867Z",
+  "generatedAt": "2026-10-03T13:27:17.477Z",
   "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
   "topic": "real-estate",
   "label": "Real estate",
@@ -14,8 +14,8 @@
       "url": "https://example.com/property-sme-wire/sandhaven-build-to-rent-fund",
       "source": "Demo Property and SME Wire",
       "sourceId": "demo-property-sme-wire",
-      "publishedAt": "2026-09-30T02:19:10.000Z",
-      "updatedAt": "2026-09-30T02:19:10.000Z",
+      "publishedAt": "2026-10-03T08:27:17.000Z",
+      "updatedAt": "2026-10-03T08:27:17.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -33,7 +33,7 @@
           "sourceId": "demo-property-sme-wire",
           "title": "Dubai developer Sandhaven launches AED 500m real estate fund for build-to-rent homes",
           "url": "https://example.com/property-sme-wire/sandhaven-build-to-rent-fund",
-          "publishedAt": "2026-09-30T02:19:10.000Z"
+          "publishedAt": "2026-10-03T08:27:17.000Z"
         }
       ]
     },
@@ -44,8 +44,8 @@
       "url": "https://example.com/property-sme-wire/tidewell-reit-logistics",
       "source": "Demo Property and SME Wire",
       "sourceId": "demo-property-sme-wire",
-      "publishedAt": "2026-09-29T11:19:10.000Z",
-      "updatedAt": "2026-09-29T11:19:10.000Z",
+      "publishedAt": "2026-10-02T17:27:17.000Z",
+      "updatedAt": "2026-10-02T17:27:17.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -64,7 +64,7 @@
           "sourceId": "demo-property-sme-wire",
           "title": "Tidewell REIT raises AED 300m to buy logistics warehouses in Abu Dhabi",
           "url": "https://example.com/property-sme-wire/tidewell-reit-logistics",
-          "publishedAt": "2026-09-29T11:19:10.000Z"
+          "publishedAt": "2026-10-02T17:27:17.000Z"
         }
       ]
     },
@@ -75,8 +75,8 @@
       "url": "https://example.com/property-sme-wire/wexmoor-student-housing",
       "source": "Demo Property and SME Wire",
       "sourceId": "demo-property-sme-wire",
-      "publishedAt": "2026-09-26T01:19:10.000Z",
-      "updatedAt": "2026-09-26T01:19:10.000Z",
+      "publishedAt": "2026-09-29T07:27:17.000Z",
+      "updatedAt": "2026-09-29T07:27:17.000Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -95,7 +95,7 @@
           "sourceId": "demo-property-sme-wire",
           "title": "London property fund Wexmoor raises £400m for student housing",
           "url": "https://example.com/property-sme-wire/wexmoor-student-housing",
-          "publishedAt": "2026-09-26T01:19:10.000Z"
+          "publishedAt": "2026-09-29T07:27:17.000Z"
         }
       ]
     }

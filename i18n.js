@@ -22,6 +22,7 @@
     'Top news': 'أبرز الأخبار',
     'Events': 'الفعاليات',
     'Careers': 'الوظائف',
+    'Advertise': 'الإعلان',
     'Sponsor': 'الرعاة',
     'About': 'عن الموقع',
     'Contact us': 'اتصل بنا',
@@ -34,6 +35,7 @@
     // News column
     'UAE News': 'أخبار الإمارات',
     'Global News': 'أخبار عالمية',
+    'Business Funding': 'تمويل الأعمال',
     'UAE News:': 'أخبار الإمارات:',
     'Global News:': 'أخبار عالمية:',
     'UAE Business Grants & Funding Resources': 'المنح ومصادر التمويل لأعمال الإمارات',

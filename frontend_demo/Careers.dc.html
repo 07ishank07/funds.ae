@@ -177,6 +177,12 @@
   }
   /* The page heading is hidden visually but kept for screen readers and the page outline. */
   .intro { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  /* Platinum Sponsors: five wide platinum tiles stacked in a single column, above Gold Sponsors (same as the home page) */
+  .platinum-sponsors { padding: 12px 0 0; border-top: 2px solid var(--ink); }
+  .platinum-sponsors h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
+  .platinum-list { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+  .platinum-tile { display: flex; align-items: center; min-height: 56px; padding: 10px 14px; border-radius: 3px; background: linear-gradient(145deg, #F1F3F4, #B9C0C6); color: #0E3A43; font-size: 14px; font-weight: 600; line-height: 1.25; text-decoration: none; }
+  .platinum-tile:hover { filter: brightness(1.04); text-decoration: underline; text-underline-offset: 3px; }
   /* Gold Sponsors: ten small gold tiles, two across (same as the home page) */
   .gold-sponsors { padding: 12px 0 0; border-top: 2px solid var(--ink); }
   .gold-sponsors h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
@@ -214,6 +220,21 @@
   /* Current Opportunities: same heading treatment as Featured Employers (rule above, small-caps title) */
   .opportunities { margin-top: 28px; padding: 12px 0 0; border-top: 2px solid var(--ink); }
   .opportunities > h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
+  /* Job search: filters the role cards below by title, company or location (js at the foot of the page). */
+  .job-search { margin-top: 16px; }
+  .job-search-row { display: flex; gap: 10px; }
+  .job-search-row input {
+    flex: 1 1 auto; min-width: 0; height: 44px; padding: 0 14px; border: 1px solid var(--line); border-radius: 3px;
+    font: inherit; font-size: 15px; color: var(--ink); background: var(--surface);
+  }
+  .job-search-row input::placeholder { color: var(--ghost); }
+  .job-search-row input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .job-search-row button {
+    flex: 0 0 auto; height: 44px; padding: 0 18px; border: 1px solid var(--line); border-radius: 3px;
+    background: var(--surface); color: var(--ink); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+  }
+  .job-search-row button:hover { border-color: var(--ink); }
+  .job-search-status { margin-top: 8px; min-height: 20px; font-size: 13px; color: var(--muted); }
   .opportunities .roles { margin-top: 16px; border-top: 1px solid var(--line); }
   .employer-grid {
     margin-top: 16px;
@@ -340,7 +361,7 @@
   /* One typeface across the site: Jost, as on the home page. Replaces the serif headlines and monospace labels.
      Sizes, weights and caps styling are unchanged. Skipped in Arabic mode, where i18n.js sets its own font. */
   html:not([lang="ar"]) body *:not(svg):not(svg *) { font-family: 'Jost', 'Futura', 'Century Gothic', sans-serif !important; }
-  /* Current Opportunities: compact two-column job cards, 20 per page */
+  /* Current Opportunities: compact two-column job cards, 40 per page */
   .opportunities .roles {
     margin-top: 16px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;
     border: 0; border-radius: 0; background: transparent; overflow: visible;
@@ -355,6 +376,37 @@
   .opportunities .role-info .company { margin-top: 4px; }
   .opportunities .apply-btn { width: auto; height: 32px; padding: 0 14px; font-size: 13px; }
   @media (max-width: 720px) { .opportunities .roles { grid-template-columns: minmax(0, 1fr); } }
+  /* Top Jobs (column 2, above Events and Expos): ranked list, each row links to the employer's own posting */
+  .top-jobs { padding: 12px 0 0; border-top: 2px solid var(--ink); margin-bottom: 28px; }
+  .top-jobs h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
+  .top-jobs-list { list-style: none; margin: 8px 0 0; padding: 0; }
+  .top-jobs-list li { border-bottom: 1px solid var(--line-2); }
+  .top-jobs-list a { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; color: var(--ink); text-decoration: none; }
+  .tj-rank { flex: 0 0 22px; font-size: 18px; font-weight: 600; line-height: 1.2; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .tj-main { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .tj-title { font-size: 15px; font-weight: 600; line-height: 1.3; }
+  .tj-co { font-size: 12.5px; line-height: 1.3; color: var(--muted); }
+  .top-jobs-list a:hover .tj-title { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+  .top-jobs-all { display: inline-block; margin-top: 12px; font-size: 14px; font-weight: 600; color: var(--accent); text-decoration: none; }
+  .top-jobs-all:hover { text-decoration: underline; text-underline-offset: 3px; }
+  /* Job filters and sort */
+  .job-filters { margin-top: 12px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; align-items: end; }
+  .job-filters[hidden] { display: none; }
+  .job-filters label { display: flex; flex-direction: column; gap: 4px; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .job-filters select { width: 100%; height: 38px; padding: 0 10px; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); color: var(--ink); font: inherit; font-size: 14px; letter-spacing: 0; text-transform: none; }
+  .job-filters select:focus-visible, .job-filters button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .job-filters button { grid-column: 1 / -1; justify-self: start; height: 32px; padding: 0 12px; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); color: var(--ink); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .job-filters button[hidden] { display: none; }
+  .job-filters button:hover { border-color: var(--ink); }
+  @media (max-width: 720px) { .job-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  /* Richer job cards: company logo, title, company, location and type, then Featured tag, function and posted date */
+  .opportunities .role { display: grid; grid-template-columns: 40px minmax(0, 1fr); grid-template-areas: "logo info" "apply apply"; column-gap: 12px; row-gap: 12px; align-items: start; }
+  .opportunities .role-logo { grid-area: logo; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 3px; background: linear-gradient(145deg, #0E3A43, #2F8A8C); color: #FFFFFF; font-size: 13px; font-weight: 700; letter-spacing: 0.02em; }
+  .opportunities .role-info { grid-area: info; min-width: 0; }
+  .opportunities .apply-btn { grid-area: apply; }
+  .opportunities .role-meta { margin-top: 8px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font-size: 12px; color: var(--muted); }
+  .opportunities .role-meta:empty { display: none; }
+  .opportunities .role-featured { padding: 2px 7px; border-radius: 2px; background: var(--ink); color: #FFFFFF; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
   .pager { margin-top: 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; }
   .pager button {
     min-width: 36px; height: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 3px;
@@ -363,7 +415,7 @@
   .pager button:hover:not([disabled]):not([aria-current="page"]) { border-color: var(--ink); }
   .pager button[aria-current="page"] { background: var(--ink); border-color: var(--ink); color: #FFFFFF; cursor: default; }
   .pager button[disabled] { color: var(--ghost); cursor: default; opacity: 0.6; }
-  /* "Post a role" and "Submit your event" review forms */
+  /* "Submit your event" review form (in the aside; see .events-box overrides below) */
   .submit-forms { margin-top: 36px; display: flex; flex-direction: column; gap: 12px; }
   .submit-forms details { border: 1px solid var(--line); border-top: 2px solid var(--ink); border-radius: 3px; background: var(--surface); }
   .submit-forms summary { padding: 14px 16px; font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; }
@@ -377,6 +429,16 @@
   .submit-forms .submit-btn:hover { background: var(--accent); }
   summary:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   @media (max-width: 620px) { .submit-forms .field-row { grid-template-columns: minmax(0, 1fr); } }
+  /* The event-submission box reuses .submit-forms styling but sits in the narrower aside column
+     (aside is ~1fr vs main's ~2fr, min 240px), so it always stacks and uses tighter spacing
+     rather than waiting for the 620px viewport breakpoint above. */
+  .events-box .submit-forms { margin-top: 20px; }
+  .events-box .submit-forms .field-row { grid-template-columns: minmax(0, 1fr); }
+  .events-box .submit-forms summary { padding: 12px 14px; font-size: 12px; }
+  .events-box .submit-forms details > p { font-size: 13px; }
+  .events-box .submit-forms form { padding: 12px 14px 16px; gap: 10px; }
+  .events-box .submit-forms input, .events-box .submit-forms select { padding: 8px 10px; font-size: 14px; }
+  .events-box .submit-forms .submit-btn { width: 100%; }
 </style>
 </head>
 <body>
@@ -394,9 +456,9 @@
     </a>
     <nav class="sections" aria-label="Sections">
     <a href="this.html">Top news</a>
-    <a href="Careers.dc.html#events">Events</a>
     <a href="Careers.dc.html" aria-current="page">Careers</a>
-    <a href="Advertise.dc.html">Sponsor</a>
+    <a href="Careers.dc.html#events">Events</a>
+    <a href="Advertise.dc.html">Advertise</a>
     <a href="About.dc.html">About</a>
     <a href="Contact.dc.html">Contact us</a>
     </nav>
@@ -431,6 +493,24 @@
 
   <section class="opportunities" aria-labelledby="opportunities-title">
     <h2 id="opportunities-title">Current Opportunities</h2>
+    <div class="job-search" role="search" aria-label="Search current opportunities">
+      <div class="job-search-row">
+        <input type="search" id="job-search-input" aria-label="Search roles by title, company or location" placeholder="Search by title, company or location" autocomplete="off">
+        <button type="button" id="job-search-clear" hidden>Clear</button>
+      </div>
+      <div class="job-filters" id="job-filters" hidden>
+        <label>Location<select id="jf-city"><option value="">All locations</option></select></label>
+        <label>Function<select id="jf-department"><option value="">All functions</option></select></label>
+        <label>Job type<select id="jf-type"><option value="">All types</option></select></label>
+        <label>Sort by<select id="jf-sort">
+          <option value="featured">Featured first</option>
+          <option value="newest">Newest</option>
+          <option value="company">Company A to Z</option>
+        </select></label>
+        <button type="button" id="jf-reset" hidden>Reset filters</button>
+      </div>
+      <p id="job-search-status" class="job-search-status" role="status" aria-live="polite"></p>
+    </div>
     <div class="roles" data-fundsae-slot="roles">
       <div class="role">
         <div class="role-info">
@@ -587,57 +667,35 @@
     </div>
     <nav class="pager" id="job-pager" aria-label="Job pages"></nav>
   </section>
-
-  <!-- Public submissions go to a review queue; nothing is listed until an editor approves it.
-       Field names are the API contract (POST /api/v1/submissions/job and /event). -->
-  <section class="submit-forms" aria-label="Post a role or submit an event">
-    <details id="post-a-role">
-      <summary>Post a role</summary>
-      <p>Hiring in UAE finance? Send us the role and a link to apply. We review every listing before it appears.</p>
-      <form method="post" data-fundsae-form="job">
-        <div class="field"><label for="job-title">Job title</label><input id="job-title" name="title" type="text" required minlength="3" maxlength="160"></div>
-        <div class="field"><label for="job-company">Company</label><input id="job-company" name="company" type="text" required minlength="2" maxlength="120" autocomplete="organization"></div>
-        <div class="field"><label for="job-location">Location</label><input id="job-location" name="location" type="text" required minlength="2" maxlength="160" placeholder="e.g. DIFC, Dubai"></div>
-        <div class="field"><label for="job-url">Link to apply</label><input id="job-url" name="url" type="url" required maxlength="500" pattern="https://.+" placeholder="https://"></div>
-        <div class="field"><label for="job-type">Employment type (optional)</label>
-          <select id="job-type" name="employmentType">
-            <option value="">Not specified</option>
-            <option value="Full-time">Full-time</option>
-            <option value="Part-time">Part-time</option>
-            <option value="Contract">Contract</option>
-            <option value="Internship">Internship</option>
-            <option value="Temporary">Temporary</option>
-          </select>
-        </div>
-        <div class="field"><label for="job-email">Your email</label><input id="job-email" name="email" type="email" required maxlength="254" autocomplete="email"></div>
-        <div class="fx-hp" aria-hidden="true"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
-        <button type="submit" class="submit-btn">Send role for review</button>
-        <p class="fx-form-status" data-fundsae-form-status role="status" aria-live="polite"></p>
-      </form>
-    </details>
-    <details id="submit-event">
-      <summary>Submit your event</summary>
-      <p>Organising a finance event in the UAE? Send us the details. We review every event before it appears.</p>
-      <form method="post" data-fundsae-form="event">
-        <div class="field"><label for="event-title">Event name</label><input id="event-title" name="title" type="text" required minlength="3" maxlength="90"></div>
-        <div class="field"><label for="event-type">Event type</label><input id="event-type" name="eventType" type="text" required minlength="2" maxlength="40" placeholder="e.g. Roundtable"></div>
-        <div class="field-row">
-          <div class="field"><label for="event-start">Start date</label><input id="event-start" name="startDate" type="date" required></div>
-          <div class="field"><label for="event-end">End date (optional)</label><input id="event-end" name="endDate" type="date"></div>
-        </div>
-        <div class="field"><label for="event-city">City</label><input id="event-city" name="city" type="text" required minlength="2" maxlength="60"></div>
-        <div class="field"><label for="event-url">Event website (optional)</label><input id="event-url" name="url" type="url" maxlength="500" pattern="https://.+" placeholder="https://"></div>
-        <div class="field"><label for="event-organiser">Organiser</label><input id="event-organiser" name="organiser" type="text" required minlength="2" maxlength="120" autocomplete="organization"></div>
-        <div class="field"><label for="event-email">Your email</label><input id="event-email" name="email" type="email" required maxlength="254" autocomplete="email"></div>
-        <div class="fx-hp" aria-hidden="true"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
-        <button type="submit" class="submit-btn">Send event for review</button>
-        <p class="fx-form-status" data-fundsae-form-status role="status" aria-live="polite"></p>
-      </form>
-    </details>
-  </section>
 </main>
 
 <aside>
+  <section class="top-jobs" aria-labelledby="top-jobs-title">
+    <h2 id="top-jobs-title">Top Jobs</h2>
+    <ol class="top-jobs-list" data-fundsae-slot="top-jobs">
+      <li><a href="#"><span class="tj-rank">1</span><span class="tj-main"><span class="tj-title">Portfolio Manager, GCC Equities</span><span class="tj-co">Gulf Horizon Asset Management (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">2</span><span class="tj-main"><span class="tj-title">Associate, Private Credit</span><span class="tj-co">Emirates Private Credit (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">3</span><span class="tj-main"><span class="tj-title">Money Laundering Reporting Officer</span><span class="tj-co">Nexa Digital Exchange (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">4</span><span class="tj-main"><span class="tj-title">Product Manager, Payments</span><span class="tj-co">FlowPay Technologies (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">5</span><span class="tj-main"><span class="tj-title">Investment Analyst, MENA</span><span class="tj-co">Crescent Capital Partners (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">6</span><span class="tj-main"><span class="tj-title">Head of Investor Relations</span><span class="tj-co">Al Noor Investments (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">7</span><span class="tj-main"><span class="tj-title">Senior Risk Manager</span><span class="tj-co">Mosaic Fund Services (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">8</span><span class="tj-main"><span class="tj-title">Compliance Manager</span><span class="tj-co">Harborstone Financial (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">9</span><span class="tj-main"><span class="tj-title">Product Lead, WealthTech</span><span class="tj-co">Sahra Wealth (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">10</span><span class="tj-main"><span class="tj-title">Associate, Venture Capital</span><span class="tj-co">Desert Seed Ventures (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">11</span><span class="tj-main"><span class="tj-title">Treasury Manager</span><span class="tj-co">Oasis Private Bank (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">12</span><span class="tj-main"><span class="tj-title">Quantitative Researcher</span><span class="tj-co">Vertex Alpha (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">13</span><span class="tj-main"><span class="tj-title">Legal Counsel, Funds</span><span class="tj-co">Atlas Fund Administration (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">14</span><span class="tj-main"><span class="tj-title">Marketing Director</span><span class="tj-co">Lighthouse Asset Partners (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">15</span><span class="tj-main"><span class="tj-title">Operations Specialist</span><span class="tj-co">Marhaba Holdings (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">16</span><span class="tj-main"><span class="tj-title">Client Service Manager</span><span class="tj-co">Oasis Private Bank (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">17</span><span class="tj-main"><span class="tj-title">Data Engineer</span><span class="tj-co">FlowPay Technologies (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">18</span><span class="tj-main"><span class="tj-title">Senior Relationship Manager</span><span class="tj-co">Sahra Wealth (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">19</span><span class="tj-main"><span class="tj-title">Financial Crime Analyst</span><span class="tj-co">Blue Dhow Exchange (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">20</span><span class="tj-main"><span class="tj-title">Fund Accountant</span><span class="tj-co">Mosaic Fund Services (dummy)</span></span></a></li>
+    </ol>
+    <a class="top-jobs-all" href="#opportunities-title">See all roles</a>
+  </section>
   <section class="events-box" id="events" aria-labelledby="events-box-title">
     <h2 id="events-box-title">Events and Expos</h2>
     <div class="events-headings">
@@ -696,6 +754,41 @@
       </li>
     </ul>
     <a href="#submit-event" class="submit-event">Submit your event</a>
+
+    <!-- Field names are the API contract (POST /api/v1/submissions/event). Reuses .submit-forms
+         styling from the main column; .events-box overrides below shrink it to fit this box. -->
+    <div class="submit-forms">
+      <details id="submit-event">
+        <summary>Submit your event</summary>
+        <p>Organising a finance event in the UAE? Send us the details. We review every event before it appears.</p>
+        <form method="post" data-fundsae-form="event">
+          <div class="field"><label for="event-title">Event name</label><input id="event-title" name="title" type="text" required minlength="3" maxlength="90"></div>
+          <div class="field"><label for="event-type">Event type</label><input id="event-type" name="eventType" type="text" required minlength="2" maxlength="40" placeholder="e.g. Roundtable"></div>
+          <div class="field-row">
+            <div class="field"><label for="event-start">Start date</label><input id="event-start" name="startDate" type="date" required></div>
+            <div class="field"><label for="event-end">End date (optional)</label><input id="event-end" name="endDate" type="date"></div>
+          </div>
+          <div class="field"><label for="event-city">City</label><input id="event-city" name="city" type="text" required minlength="2" maxlength="60"></div>
+          <div class="field"><label for="event-url">Event website (optional)</label><input id="event-url" name="url" type="url" maxlength="500" pattern="https://.+" placeholder="https://"></div>
+          <div class="field"><label for="event-organiser">Organiser</label><input id="event-organiser" name="organiser" type="text" required minlength="2" maxlength="120" autocomplete="organization"></div>
+          <div class="field"><label for="event-email">Your email</label><input id="event-email" name="email" type="email" required maxlength="254" autocomplete="email"></div>
+          <div class="fx-hp" aria-hidden="true"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+          <button type="submit" class="submit-btn">Send event for review</button>
+          <p class="fx-form-status" data-fundsae-form-status role="status" aria-live="polite"></p>
+        </form>
+      </details>
+    </div>
+  </section>
+
+  <section class="platinum-sponsors" aria-labelledby="platinum-sponsors-title">
+    <h2 id="platinum-sponsors-title">Platinum Sponsors</h2>
+    <div class="platinum-list" data-fundsae-slot="sponsor-platinum">
+      <a href="#" class="platinum-tile" aria-label="Platinum sponsor: Sandhaven Capital (demo)">Sandhaven Capital (demo)</a>
+      <a href="#" class="platinum-tile" aria-label="Platinum sponsor: Tidewell Holdings (demo)">Tidewell Holdings (demo)</a>
+      <a href="#" class="platinum-tile" aria-label="Platinum sponsor: Qamar Ridge Partners (demo)">Qamar Ridge Partners (demo)</a>
+      <a href="#" class="platinum-tile" aria-label="Platinum sponsor: Almira Private Bank (demo)">Almira Private Bank (demo)</a>
+      <a href="#" class="platinum-tile" aria-label="Platinum sponsor: Saltmarsh Investments (demo)">Saltmarsh Investments (demo)</a>
+    </div>
   </section>
 
   <section class="gold-sponsors" aria-labelledby="gold-sponsors-title">
@@ -740,9 +833,6 @@
     </a>
     <span class="foot-note">Discover. Connect. Grow.</span>
     <nav class="foot-nav" aria-label="Footer">
-      <a href="About.dc.html">About</a>
-      <a href="Advertise.dc.html">Sponsor</a>
-      <a href="Contact.dc.html">Contact</a>
       <a href="Terms.dc.html">Terms of Service</a>
       <a href="Privacy.dc.html">Privacy Policy</a>
     </nav>
@@ -753,12 +843,12 @@
   </div>
 </footer>
 <script>
-/* Job list pager: 20 roles per page. Until live data arrives it shows up to 60 placeholder roles.
+/* Job list pager: 40 roles per page. Until live data arrives it shows 120 placeholder roles (three pages).
    js/fundsae-connector.js replaces the rows with roles from the API and calls
    window.__fundsPaginateRoles(focusId) again. Rows marked data-fundsae-filtered
-   (the employer filter) are left out of the pages. */
+   (the employer filter, or the job search box below) are left out of the pages. */
 (function () {
-  var PER_PAGE = 20, TOTAL = 60;
+  var PER_PAGE = 40, TOTAL = 120;
   var list = document.querySelector('.roles');
   var pager = document.getElementById('job-pager');
   if (!list || !pager) return;
@@ -775,6 +865,25 @@
     ['Lighthouse Asset Partners', 'Institutional manager, Dubai'], ['Atlas Fund Administration', 'Alternative investments, Abu Dhabi'],
     ['Marhaba Holdings', 'Family office, Abu Dhabi'], ['Vertex Alpha', 'Systematic strategies, Dubai'],
     ['Oasis Private Bank', 'Private banking, Abu Dhabi']];
+
+  /* Richer card: company logo (initials) before the text and an empty meta line the connector fills with
+     the Featured tag, function and posted date. */
+  function enhanceRole(row) {
+    if (row.querySelector('.role-logo')) return;
+    var info = row.querySelector('.role-info');
+    var co = row.querySelector('.company');
+    if (!info) return;
+    var words = (co ? co.textContent : '').replace(/\([^)]*\)/g, ' ').split(/\s+/).filter(Boolean);
+    var logo = document.createElement('span');
+    logo.className = 'role-logo';
+    logo.setAttribute('aria-hidden', 'true');
+    logo.textContent = ((words[0] || '?').charAt(0) + (words[1] || '').charAt(0)).toUpperCase();
+    row.insertBefore(logo, info);
+    var meta = document.createElement('div');
+    meta.className = 'role-meta';
+    info.appendChild(meta);
+  }
+  Array.prototype.forEach.call(list.querySelectorAll(':scope > .role'), enhanceRole);
 
   function addJob(i) {
     var firm = firms[(i * 7 + 3) % firms.length];
@@ -796,6 +905,7 @@
     apply.href = '#';
     apply.textContent = 'Apply (dummy)';
     row.appendChild(info); row.appendChild(apply);
+    enhanceRole(row);
     list.appendChild(row);
   }
   for (var n = list.children.length; n < TOTAL; n++) addJob(n);
@@ -840,6 +950,127 @@
     }
   };
   window.__fundsPaginateRoles();
+})();
+</script>
+<script>
+/* Job search, filters and sort. Search text, the Location / Function / Job type filters and the ?employer= filter
+   all work through the same data-fundsae-filtered attribute (a row is shown only if every one of them allows it),
+   then the pager above is re-run so the page count reflects only the matching rows. The filter menus are built
+   from the roles' own data-* attributes (set by js/fundsae-connector.js), so they only appear once live data has
+   loaded; the connector calls window.__fundsInitFilters() after it renders the roles. */
+(function () {
+  var input = document.getElementById('job-search-input');
+  var clearBtn = document.getElementById('job-search-clear');
+  var status = document.getElementById('job-search-status');
+  var list = document.querySelector('.opportunities .roles');
+  var bar = document.getElementById('job-filters');
+  var resetBtn = document.getElementById('jf-reset');
+  var selects = { city: document.getElementById('jf-city'), department: document.getElementById('jf-department'), type: document.getElementById('jf-type') };
+  var sortSel = document.getElementById('jf-sort');
+  if (!input || !list) return;
+
+  var employerId = new URLSearchParams(location.search).get('employer');
+
+  function roles() { return Array.prototype.slice.call(list.querySelectorAll(':scope > .role')); }
+
+  function rowText(row) {
+    if (row.__fxSearchText === undefined) {
+      row.__fxSearchText = Array.prototype.map.call(row.querySelectorAll('.role-info h2, .company, .location'), function (el) {
+        return el.textContent;
+      }).join(' ').toLowerCase();
+    }
+    return row.__fxSearchText;
+  }
+
+  function filtersActive() {
+    return Object.keys(selects).some(function (k) { return selects[k] && selects[k].value; });
+  }
+
+  function sortRows() {
+    var mode = sortSel ? sortSel.value : 'featured';
+    var rows = roles();
+    var time = function (r) { return Date.parse(r.getAttribute('data-posted') || '') || 0; };
+    var featured = function (r) { return r.getAttribute('data-featured') === '1' ? 1 : 0; };
+    rows.sort(function (a, b) {
+      if (mode === 'company') return (a.querySelector('.company').textContent || '').localeCompare(b.querySelector('.company').textContent || '') || time(b) - time(a);
+      if (mode === 'newest') return time(b) - time(a);
+      return featured(b) - featured(a) || time(b) - time(a);
+    });
+    rows.forEach(function (row) { list.appendChild(row); });
+  }
+
+  function apply() {
+    var query = input.value.trim();
+    var needle = query.toLowerCase();
+    clearBtn.hidden = !query;
+    var rows = roles();
+    var matches = 0;
+    rows.forEach(function (row) {
+      var employerOk = !employerId || row.getAttribute('data-employer') === employerId;
+      var textOk = !needle || rowText(row).indexOf(needle) !== -1;
+      var filterOk = Object.keys(selects).every(function (k) {
+        var sel = selects[k];
+        return !sel || !sel.value || row.getAttribute('data-' + k) === sel.value;
+      });
+      if (employerOk && textOk && filterOk) { row.removeAttribute('data-fundsae-filtered'); matches++; }
+      else row.setAttribute('data-fundsae-filtered', '');
+    });
+    var narrowed = !!query || filtersActive();
+    if (resetBtn) resetBtn.hidden = !narrowed;
+    status.textContent = narrowed
+      ? (matches ? matches + ' of ' + rows.length + (rows.length === 1 ? ' role' : ' roles') + ' match your search and filters.' : 'No roles match your search and filters.')
+      : (bar && !bar.hidden ? rows.length + (rows.length === 1 ? ' role' : ' roles') : '');
+    if (typeof window.__fundsPaginateRoles === 'function') window.__fundsPaginateRoles();
+  }
+
+  /* Fill each menu with the distinct values found on the roles, keeping any current choice. */
+  window.__fundsInitFilters = function () {
+    if (!bar) return;
+    var rows = roles();
+    var any = false;
+    Object.keys(selects).forEach(function (k) {
+      var sel = selects[k];
+      if (!sel) return;
+      var keep = sel.value;
+      var seen = {};
+      rows.forEach(function (r) { var v = r.getAttribute('data-' + k); if (v) seen[v] = (seen[v] || 0) + 1; });
+      var values = Object.keys(seen).sort();
+      while (sel.options.length > 1) sel.remove(1);
+      values.forEach(function (v) {
+        var o = document.createElement('option');
+        o.value = v;
+        o.textContent = v + ' (' + seen[v] + ')';
+        sel.appendChild(o);
+      });
+      sel.value = values.indexOf(keep) >= 0 ? keep : '';
+      sel.closest('label').hidden = !values.length;
+      if (values.length) any = true;
+    });
+    bar.hidden = !any;
+    sortRows();
+    apply();
+  };
+
+  var debounce;
+  input.addEventListener('input', function () {
+    clearTimeout(debounce);
+    debounce = setTimeout(apply, 150);
+  });
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && input.value) { input.value = ''; apply(); }
+  });
+  clearBtn.addEventListener('click', function () {
+    input.value = '';
+    apply();
+    input.focus();
+  });
+  Object.keys(selects).forEach(function (k) { if (selects[k]) selects[k].addEventListener('change', apply); });
+  if (sortSel) sortSel.addEventListener('change', function () { sortRows(); apply(); });
+  if (resetBtn) resetBtn.addEventListener('click', function () {
+    input.value = '';
+    Object.keys(selects).forEach(function (k) { if (selects[k]) selects[k].value = ''; });
+    apply();
+  });
 })();
 </script>
 <script src="../i18n.js"></script>

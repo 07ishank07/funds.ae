@@ -4,6 +4,7 @@
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { EMAIL_RE } from './validation/validate.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 export const BACKEND_DIR = path.resolve(here, '..');
@@ -213,6 +214,16 @@ const SETTINGS_DEFAULTS = {
   }
 };
 
+/**
+ * Adds a contact address to the user-agent, inside the bracketed comment when there is one:
+ * "Mozilla/5.0 (compatible; FundsAeNewsBot/1.0; +https://funds.ae/about; news@funds.ae)".
+ * The SEC asks automated clients to name a contact and may block requests that don't.
+ */
+export function withContact(userAgent, email) {
+  if (!email || userAgent.includes(email)) return userAgent;
+  return userAgent.endsWith(')') ? `${userAgent.slice(0, -1)}; ${email})` : `${userAgent} ${email}`;
+}
+
 export function loadSettings() {
   const settings = loadConfig('settings.json');
   for (const [key, defaults] of Object.entries(SETTINGS_DEFAULTS)) settings[key] = { ...defaults, ...(settings[key] || {}) };
@@ -221,7 +232,29 @@ export function loadSettings() {
   if (!['demo', 'live'].includes(settings.mode)) {
     throw new ConfigError('settings.json: "mode" must be "demo" or "live".');
   }
+  // The environment wins so a deployment can set the address without editing the file.
+  const contactEmail = String(process.env.FUNDSAE_CONTACT_EMAIL ?? settings.contactEmail ?? '').trim();
+  if (contactEmail && !EMAIL_RE.test(contactEmail)) {
+    throw new ConfigError('settings.json: "contactEmail" (or FUNDSAE_CONTACT_EMAIL) must be an email address, or empty.');
+  }
+  settings.contactEmail = contactEmail;
+  settings.userAgent = withContact(String(settings.userAgent || ''), contactEmail);
   return settings;
+}
+
+const SEC_HOST = /(^|\.)sec\.gov$/i;
+
+/** Problems that don't stop a run but will cost sources. Returned by loadAll as `warnings`. */
+function configWarnings({ settings, demo, newsSources }) {
+  const warnings = [];
+  const sec = newsSources.filter((s) => s.enabled !== false && s.url && SEC_HOST.test(new URL(s.url).hostname));
+  if (!demo && sec.length && !settings.contactEmail) {
+    warnings.push(
+      `${sec.length} enabled SEC source(s) (${sec.map((s) => s.id).join(', ')}) but no contact email: ` +
+      'the SEC may block requests. Set "contactEmail" in settings.json or FUNDSAE_CONTACT_EMAIL.'
+    );
+  }
+  return warnings;
 }
 
 export function loadAll() {
@@ -250,6 +283,7 @@ export function loadAll() {
   return {
     settings,
     demo,
+    warnings: configWarnings({ settings, demo, newsSources }),
     newsSources: newsSources.filter((s) => s.enabled !== false),
     allNewsSources: newsSources,
     jobSources: jobSources.filter((s) => s.enabled !== false),

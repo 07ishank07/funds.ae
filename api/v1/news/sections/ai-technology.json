@@ -3,8 +3,8 @@
   "mode": "demo",
   "generatedAt": "2026-10-03T13:27:17.477Z",
   "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
-  "topic": "infrastructure",
-  "label": "Infrastructure",
+  "section": "ai-technology",
+  "label": "AI and Technology",
   "count": 4,
   "items": [
     {
@@ -36,6 +36,54 @@
           "title": "Gulf sovereign investors join $1bn round for London AI infrastructure firm Northlight",
           "url": "https://example.com/private-capital-daily/northlight-1bn-round",
           "publishedAt": "2026-10-02T17:27:17.477Z"
+        }
+      ]
+    },
+    {
+      "id": "s_7f39d1f83e5cfa",
+      "headline": "Dubai-based fintech Qirsh raises $45 million Series B led by Sandline Ventures",
+      "summary": "The buy-now-pay-later provider will use the capital to expand into Saudi Arabia and hire 120 staff in its DIFC office.",
+      "url": "https://example.com/gulf-wire/qirsh-series-b",
+      "source": "Demo Gulf Wire",
+      "sourceId": "demo-gulf-wire",
+      "publishedAt": "2026-10-02T07:27:17.000Z",
+      "updatedAt": "2026-10-02T17:27:17.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "venture-capital",
+      "topicLabel": "Venture capital",
+      "topics": [
+        "venture-capital",
+        "ai-technology",
+        "institutional-investors"
+      ],
+      "imageUrl": "https://example.com/images/qirsh.jpg",
+      "sourceCount": 3,
+      "sources": [
+        {
+          "articleId": "a_47f6735e591cea65",
+          "source": "Demo Gulf Wire",
+          "sourceId": "demo-gulf-wire",
+          "title": "Dubai-based fintech Qirsh raises $45 million Series B led by Sandline Ventures",
+          "url": "https://example.com/gulf-wire/qirsh-series-b",
+          "publishedAt": "2026-10-02T07:27:17.000Z"
+        },
+        {
+          "articleId": "a_d0a9ae63a58b381b",
+          "source": "Demo Emirates Markets",
+          "sourceId": "demo-emirates-markets",
+          "title": "Qirsh secures $45m in Series B round as Dubai payments start-up expands to Riyadh",
+          "url": "https://example.com/emirates-markets/qirsh-45m-series-b-riyadh",
+          "publishedAt": "2026-10-02T11:27:17.000Z"
+        },
+        {
+          "articleId": "a_e72c6985fb047deb",
+          "source": "Demo Venture Ledger",
+          "sourceId": "demo-venture-ledger",
+          "title": "Qirsh lands $45 million to take buy-now-pay-later across the Gulf",
+          "url": "https://example.com/venture-ledger/qirsh-45-million",
+          "publishedAt": "2026-10-02T17:27:17.000Z"
         }
       ]
     },
@@ -72,65 +120,33 @@
       ]
     },
     {
-      "id": "s_50a38aa499d7a1",
-      "headline": "Sharjah infrastructure fund backs new solar and water projects",
-      "summary": "The infrastructure investment programme will co-finance utility-scale solar plants and a desalination upgrade.",
-      "url": "https://example.com/property-sme-wire/sharjah-infrastructure-fund-solar",
-      "source": "Demo Property and SME Wire",
-      "sourceId": "demo-property-sme-wire",
-      "publishedAt": "2026-10-01T09:27:17.000Z",
-      "updatedAt": "2026-10-01T09:27:17.000Z",
-      "category": "uae",
-      "categoryLabel": "UAE",
-      "uiLabel": "UAE News",
-      "topic": "infrastructure",
-      "topicLabel": "Infrastructure",
-      "topics": [
-        "infrastructure",
-        "energy"
-      ],
-      "imageUrl": null,
-      "sourceCount": 1,
-      "sources": [
-        {
-          "articleId": "a_58e9d8f9b2c84445",
-          "source": "Demo Property and SME Wire",
-          "sourceId": "demo-property-sme-wire",
-          "title": "Sharjah infrastructure fund backs new solar and water projects",
-          "url": "https://example.com/property-sme-wire/sharjah-infrastructure-fund-solar",
-          "publishedAt": "2026-10-01T09:27:17.000Z"
-        }
-      ]
-    },
-    {
-      "id": "s_f6a599b474b486",
-      "headline": "Pension funds lift allocations to infrastructure debt",
-      "summary": "A survey of 140 institutional investors found most plan to raise private credit exposure over the next year.",
-      "url": "https://example.com/private-capital-daily/pensions-infrastructure-debt",
-      "source": "Demo Private Capital Daily",
-      "sourceId": "demo-private-capital-daily",
-      "publishedAt": "2026-09-30T13:27:17.477Z",
-      "updatedAt": "2026-09-30T13:27:17.477Z",
+      "id": "s_3569b3929adea8",
+      "headline": "VC funding to MENA start-ups rose 18% in the third quarter",
+      "summary": "Fintech and logistics companies took the largest share of capital, a data provider said.",
+      "url": "https://example.com/venture-ledger/mena-vc-q3",
+      "source": "Demo Venture Ledger",
+      "sourceId": "demo-venture-ledger",
+      "publishedAt": "2026-09-30T08:27:17.000Z",
+      "updatedAt": "2026-09-30T08:27:17.000Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
-      "topic": "institutional-investors",
-      "topicLabel": "Sovereign and institutional investors",
+      "topic": "venture-capital",
+      "topicLabel": "Venture capital",
       "topics": [
-        "institutional-investors",
-        "private-credit",
-        "infrastructure"
+        "venture-capital",
+        "ai-technology"
       ],
       "imageUrl": null,
       "sourceCount": 1,
       "sources": [
         {
-          "articleId": "a_abbfc331682f3f55",
-          "source": "Demo Private Capital Daily",
-          "sourceId": "demo-private-capital-daily",
-          "title": "Pension funds lift allocations to infrastructure debt",
-          "url": "https://example.com/private-capital-daily/pensions-infrastructure-debt",
-          "publishedAt": "2026-09-30T13:27:17.477Z"
+          "articleId": "a_eebd3c65455ed78a",
+          "source": "Demo Venture Ledger",
+          "sourceId": "demo-venture-ledger",
+          "title": "VC funding to MENA start-ups rose 18% in the third quarter",
+          "url": "https://example.com/venture-ledger/mena-vc-q3",
+          "publishedAt": "2026-09-30T08:27:17.000Z"
         }
       ]
     }

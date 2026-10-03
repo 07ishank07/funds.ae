@@ -169,9 +169,9 @@ Query parameters are validated against an allow-list (`v` is always allowed for 
 |---|---|---|---|---|
 | `platinum` | Home, top of the middle column | 5 | title, url, image, colorFrom/To | yes |
 | `gold` | Home right column and Careers page | 10 | title, label, url, image, colorFrom/To | yes |
-| `sponsoredPosts` | Home "Sponsored Posts" | 15 | title, blurb, logoText, url, image, colorFrom/To | yes |
+| `sponsoredPosts` | Home "Sponsored Posts" | 20 | title, blurb, logoText, url, image, colorFrom/To | yes |
 | `sponsoredMedia` | Home "Videos and Podcasts" | 15 | title, label, blurb, url, image | yes |
-| `professionalServices` | Home "Featured Companies" | 15 | title, website, logoText, url, image, colorFrom/To | yes |
+| `professionalServices` | Home "Featured Companies" (names only; website, logo and image are kept in the data but not shown) | 20 | title, website, logoText, url, image, colorFrom/To | yes |
 | `careerResources` | Home and Careers "Career Resources" | 12 | title, logoText, url, colorFrom/To | no (editorial) |
 
 Unknown fields and old names (`headline`, `name`, `logo`, `thumbnail`, `logoBackground`, the `banners` group) are rejected with a message saying what they are now called.
@@ -202,7 +202,8 @@ The connector fills elements marked `data-fundsae-slot`. For each slot it clones
 | Slot | Where | Data |
 |---|---|---|
 | `news` | Home news column (region tabs, "View All", search box `#home-search`) | `news.json` |
-| `tiles-real-estate-infrastructure`, `tiles-grants-funding` | Home tile grids | `news/sections/*.json` |
+| `tiles-real-estate-infrastructure`, `tiles-energy`, `tiles-ai-technology`, `tiles-grants-funding` | Home tile grids | `news/sections/*.json` |
+| `top-jobs` | Careers page column 2, "Top Jobs" (20 roles) (featured first, then newest; links to the employer posting) | `jobs.json` |
 | `home-jobs` | Home "UAE Careers" (links to `Careers.dc.html#<jobId>`) | `jobs.json` |
 | `roles`, `employers` | Careers page (pager, `?employer=` filter, `#jobId` deep link) | `jobs.json`, `employers.json` |
 | `events` | Home "Events and Expos" and Careers events box (upcoming only) | `events.json` |
@@ -299,7 +300,8 @@ Record shapes are defined once in `src/contracts/models.js`. `schema/schema.sql`
 - Only headlines, publisher-supplied excerpts (≤ 280 characters) and publisher-supplied feed images are used; full articles are never copied. Every item links to the original publisher, and grouped stories keep every source's link.
 - Images are hot-linked from the publisher's own feed, never copied, and only for sources with `allowImages: true` (set once the publisher's terms allow it).
 - The fetcher identifies itself as `Mozilla/5.0 (compatible; FundsAeNewsBot/1.0; +https://funds.ae/about)`, the standard crawler format. A source that still answers 403 has blocked the bot: disable it and ask the publisher; never disguise the bot.
-- Before going live, review each publisher's terms for commercial reuse of its RSS feed and remove any source whose terms you cannot meet.
+- Set `contactEmail` in `config/settings.json` (or the `FUNDSAE_CONTACT_EMAIL` environment variable) to a role mailbox such as `news@funds.ae`. It is added to the user-agent (`…; +https://funds.ae/about; news@funds.ae)`). The SEC requires a contact in the user-agent, and live runs warn while SEC sources are enabled without one.
+- Before going live, review each publisher's terms for commercial reuse of its RSS feed and remove any source whose terms you cannot meet. The research so far is in [`docs/source-terms-review.md`](../docs/source-terms-review.md).
 - Sponsored links carry `rel="sponsored"`; editorial career resources do not.
 - All demo names (sponsors, employers, events, stories) are fictional and marked "(demo)" or "Demo …". Replace them before launch.
 - The Privacy Policy should describe what the forms collect and the retention period before the forms are switched on.

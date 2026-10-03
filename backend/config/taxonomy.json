@@ -61,6 +61,25 @@
       }
     },
     {
+      "id": "energy",
+      "label": "Energy",
+      "keywords": {
+        "oil and gas": 3, "oil & gas": 3, "crude oil": 3, "natural gas": 3, "lng": 3, "opec": 3, "opec+": 3,
+        "upstream": 2, "downstream": 2, "refinery": 2, "refining": 2, "petrochemical": 2, "adnoc": 2, "aramco": 2,
+        "brent": 2, "oilfield": 2, "renewable energy": 2, "solar": 2, "wind farm": 2, "power plant": 2, "electricity": 1, "utilities": 1, "energy": 1, "drilling": 1, "pipeline": 1, "oil": 1, "gas": 1
+      }
+    },
+    {
+      "id": "ai-technology",
+      "label": "AI and technology",
+      "keywords": {
+        "artificial intelligence": 3, "generative ai": 3, "machine learning": 3, "large language model": 3,
+        "ai model": 3, "ai startup": 3, "ai": 2, "semiconductor": 2, "chip": 1, "data centre": 2, "data center": 2,
+        "cloud computing": 2, "cybersecurity": 2, "fintech": 2, "blockchain": 1, "robotics": 2, "g42": 2, "mgx": 2,
+        "openai": 2, "nvidia": 2, "technology": 1
+      }
+    },
+    {
       "id": "hedge-funds-alternatives",
       "label": "Hedge funds and alternatives",
       "keywords": {
@@ -120,6 +139,8 @@
   "_sectionsHelp": "Sections group topics for one area of the page (the tile grids on the home page). Each gets api/v1/news/sections/<id>.json. \"category\" (optional) limits a section to uae or world stories.",
   "sections": [
     { "id": "real-estate-infrastructure", "label": "Real Estate and Infrastructure", "topics": ["real-estate", "infrastructure"] },
+    { "id": "energy", "label": "Energy", "topics": ["energy"] },
+    { "id": "ai-technology", "label": "AI and Technology", "topics": ["ai-technology"] },
     { "id": "grants-funding", "label": "UAE Business Grants and Funding", "topics": ["grants-funding"], "category": "uae" }
   ],
   "genericInvestmentTerms": {

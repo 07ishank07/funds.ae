@@ -78,6 +78,8 @@ test('meta.json advertises versions, capabilities and every endpoint that exists
   for (const file of [meta.endpoints.jobs, meta.endpoints.employers, meta.endpoints.events, meta.endpoints.sponsors]) {
     assert.ok(existsSync(path.join(apiDir, file)), file);
   }
+  const sectionIds = taxonomy.sections.map((s) => s.id);
+  for (const id of ['real-estate-infrastructure', 'energy', 'ai-technology']) assert.ok(sectionIds.includes(id), `section ${id}`);
   const grants = api('news/sections/grants-funding.json');
   assert.ok(grants.items.length > 0);
   assert.ok(grants.items.every((s) => s.category === 'uae' && s.topics.includes('grants-funding')));
@@ -142,5 +144,8 @@ test('every website form posts only field names the API accepts', () => {
   const home = readFileSync(path.join(repo, 'frontend_demo', 'this.html'), 'utf8');
   assert.match(home, /data-fundsae-form', 'newsletter'/);
   for (const n of ["input.name = 'email'", "placement.name = 'placement'", "trapInput.name = 'website'"]) assert.ok(home.includes(n), n);
-  assert.deepEqual([...seen].sort(), ['advertise', 'contact', 'event', 'job']);
+  // "Post a role" was removed from Careers.dc.html (jobs are sourced from the pipeline and
+  // config/jobs.manual.json, not visitor submissions), so no page has a "job" form. The API
+  // still accepts POST /api/v1/submissions/job for a future paid-listing flow.
+  assert.deepEqual([...seen].sort(), ['advertise', 'contact', 'event']);
 });

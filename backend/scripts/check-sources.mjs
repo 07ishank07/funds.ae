@@ -15,16 +15,17 @@
 
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { CONFIG_DIR, readJson } from '../src/config.js';
+import { CONFIG_DIR, loadSettings, readJson } from '../src/config.js';
 import { fetchText, HttpError, mapLimit } from '../src/lib/http.js';
 import { parseFeed, FeedParseError } from '../src/lib/feedParser.js';
 
 export const STALE_DAYS = 14;
 const DAY = 86_400_000;
 
+// Same user-agent as the pipeline, including the contact email when one is set.
 function userAgent() {
   try {
-    return `${readJson(path.join(CONFIG_DIR, 'settings.json')).userAgent} source-check`;
+    return `${loadSettings().userAgent} source-check`;
   } catch {
     return 'FundsAeNewsBot/1.0 (+https://funds.ae/about) source-check';
   }

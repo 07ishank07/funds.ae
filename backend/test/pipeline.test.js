@@ -71,7 +71,7 @@ test('demo pipeline end to end', async (t) => {
 
   await t.test('publishes sponsors and health', () => {
     const sponsors = api('sponsors.json');
-    assert.equal(sponsors.slots.sponsoredPosts.length, 15);
+    assert.equal(sponsors.slots.sponsoredPosts.length, 20);
     assert.equal(sponsors.slots.platinum.length, 5);
     assert.ok(sponsors.slots.careerResources.every((i) => i.sponsored === false));
     assert.ok(sponsors.slots.gold.every((i) => i.sponsored === true && i.url === null));

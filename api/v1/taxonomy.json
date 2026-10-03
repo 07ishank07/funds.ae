@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-09-30T07:19:10.867Z",
+  "generatedAt": "2026-10-03T13:27:17.477Z",
   "notice": "Funds.ae public data API.",
   "categories": [
     {
@@ -35,6 +35,14 @@
     {
       "id": "real-estate",
       "label": "Real estate"
+    },
+    {
+      "id": "energy",
+      "label": "Energy"
+    },
+    {
+      "id": "ai-technology",
+      "label": "AI and technology"
     },
     {
       "id": "hedge-funds-alternatives",
@@ -76,6 +84,22 @@
       "topics": [
         "real-estate",
         "infrastructure"
+      ],
+      "category": null
+    },
+    {
+      "id": "energy",
+      "label": "Energy",
+      "topics": [
+        "energy"
+      ],
+      "category": null
+    },
+    {
+      "id": "ai-technology",
+      "label": "AI and Technology",
+      "topics": [
+        "ai-technology"
       ],
       "category": null
     },

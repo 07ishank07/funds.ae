@@ -32,6 +32,138 @@
       "employmentType": "Full-time",
       "featured": true,
       "demoOnly": true
+    },
+    {
+      "id": "manual-crescent-capital-ir",
+      "title": "Investor Relations Manager",
+      "company": "Crescent Capital Partners (demo)",
+      "location": "DIFC, Dubai",
+      "url": "https://example.com/careers/crescent-capital/investor-relations-manager",
+      "postedAt": "2026-09-25",
+      "expiresAt": "2026-12-31",
+      "department": "Investor Relations",
+      "employmentType": "Full-time",
+      "demoOnly": true
+    },
+    {
+      "id": "manual-al-noor-aml",
+      "title": "AML Compliance Analyst",
+      "company": "Al Noor Investments (demo)",
+      "location": "DIFC, Dubai",
+      "url": "https://example.com/careers/al-noor/aml-compliance-analyst",
+      "postedAt": "2026-09-24",
+      "expiresAt": "2026-12-31",
+      "department": "Compliance",
+      "employmentType": "Full-time",
+      "demoOnly": true
+    },
+    {
+      "id": "manual-mosaic-fund-accountant",
+      "title": "Fund Accountant",
+      "company": "Mosaic Fund Services (demo)",
+      "location": "Abu Dhabi Global Market",
+      "url": "https://example.com/careers/mosaic-fund-services/fund-accountant",
+      "postedAt": "2026-09-23",
+      "expiresAt": "2026-12-31",
+      "department": "Fund Administration",
+      "employmentType": "Full-time",
+      "demoOnly": true
+    },
+    {
+      "id": "manual-harborstone-treasury",
+      "title": "Treasury Analyst",
+      "company": "Harborstone Financial (demo)",
+      "location": "Dubai",
+      "url": "https://example.com/careers/harborstone-financial/treasury-analyst",
+      "postedAt": "2026-09-21",
+      "expiresAt": "2026-12-31",
+      "department": "Treasury",
+      "employmentType": "Full-time",
+      "demoOnly": true
+    },
+    {
+      "id": "manual-sahra-wealth-advisor",
+      "title": "Wealth Advisor",
+      "company": "Sahra Wealth (demo)",
+      "location": "DIFC, Dubai",
+      "url": "https://example.com/careers/sahra-wealth/wealth-advisor",
+      "postedAt": "2026-09-20",
+      "expiresAt": "2026-12-31",
+      "department": "Client Advisory",
+      "employmentType": "Full-time",
+      "demoOnly": true
+    },
+    {
+      "id": "manual-desert-seed-bd",
+      "title": "Business Development Manager",
+      "company": "Desert Seed Ventures (demo)",
+      "location": "Dubai",
+      "url": "https://example.com/careers/desert-seed-ventures/business-development-manager",
+      "postedAt": "2026-09-19",
+      "expiresAt": "2026-12-31",
+      "department": "Business Development",
+      "employmentType": "Full-time",
+      "demoOnly": true
+    },
+    {
+      "id": "manual-lighthouse-onboarding",
+      "title": "Client Onboarding Specialist",
+      "company": "Lighthouse Asset Partners (demo)",
+      "location": "Dubai",
+      "url": "https://example.com/careers/lighthouse-asset-partners/client-onboarding-specialist",
+      "postedAt": "2026-09-17",
+      "expiresAt": "2026-12-31",
+      "department": "Client Operations",
+      "employmentType": "Full-time",
+      "demoOnly": true
+    },
+    {
+      "id": "manual-atlas-operations",
+      "title": "Operations Analyst",
+      "company": "Atlas Fund Administration (demo)",
+      "location": "Abu Dhabi",
+      "url": "https://example.com/careers/atlas-fund-administration/operations-analyst",
+      "postedAt": "2026-09-16",
+      "expiresAt": "2026-12-31",
+      "department": "Operations",
+      "employmentType": "Full-time",
+      "demoOnly": true
+    },
+    {
+      "id": "manual-marhaba-credit-risk",
+      "title": "Credit Risk Analyst",
+      "company": "Marhaba Holdings (demo)",
+      "location": "Abu Dhabi",
+      "url": "https://example.com/careers/marhaba-holdings/credit-risk-analyst",
+      "postedAt": "2026-09-15",
+      "expiresAt": "2026-12-31",
+      "department": "Risk",
+      "employmentType": "Full-time",
+      "demoOnly": true
+    },
+    {
+      "id": "manual-vertex-alpha-data",
+      "title": "Data Analyst",
+      "company": "Vertex Alpha (demo)",
+      "location": "Dubai",
+      "url": "https://example.com/careers/vertex-alpha/data-analyst",
+      "postedAt": "2026-09-14",
+      "expiresAt": "2026-12-31",
+      "department": "Quantitative Research",
+      "employmentType": "Full-time",
+      "demoOnly": true
+    },
+    {
+      "id": "manual-meydan-legal-counsel",
+      "title": "Legal Counsel, Funds",
+      "company": "Meydan Legal (demo)",
+      "location": "DIFC, Dubai",
+      "url": "https://example.com/careers/meydan-legal/legal-counsel-funds",
+      "postedAt": "2026-09-13",
+      "expiresAt": "2026-12-31",
+      "department": "Legal",
+      "employmentType": "Full-time",
+      "demoOnly": true
     }
   ]
 }

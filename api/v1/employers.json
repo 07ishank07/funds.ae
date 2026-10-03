@@ -1,9 +1,9 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-09-30T07:19:10.867Z",
+  "generatedAt": "2026-10-03T13:27:17.477Z",
   "notice": "Employers are derived from the open roles listed on Funds.ae.",
-  "count": 8,
+  "count": 15,
   "items": [
     {
       "id": "emp_994ddd5d9c21a8e3",
@@ -34,9 +34,37 @@
       "featured": false
     },
     {
+      "id": "emp_ec64013710ac32d4",
+      "name": "Al Noor Investments (demo)",
+      "initials": "AN",
+      "openJobs": 1,
+      "featured": false
+    },
+    {
+      "id": "emp_3eaf12fb39625abe",
+      "name": "Atlas Fund Administration (demo)",
+      "initials": "AF",
+      "openJobs": 1,
+      "featured": false
+    },
+    {
+      "id": "emp_f975adca587a8ab8",
+      "name": "Crescent Capital Partners (demo)",
+      "initials": "CC",
+      "openJobs": 1,
+      "featured": false
+    },
+    {
       "id": "emp_365cb94e3e73d240",
       "name": "Crescent Peak Partners",
       "initials": "CP",
+      "openJobs": 1,
+      "featured": false
+    },
+    {
+      "id": "emp_0c77979b994a7b8f",
+      "name": "Desert Seed Ventures (demo)",
+      "initials": "DS",
       "openJobs": 1,
       "featured": false
     },
@@ -48,16 +76,37 @@
       "featured": false
     },
     {
-      "id": "emp_d753612008f91055",
-      "name": "Palm Gate Fund Administration",
-      "initials": "PG",
+      "id": "emp_bcca02ba4d119647",
+      "name": "Harborstone Financial (demo)",
+      "initials": "HF",
       "openJobs": 1,
       "featured": false
     },
     {
-      "id": "emp_be950ac478f7703f",
-      "name": "Qirsh",
-      "initials": "QI",
+      "id": "emp_c5ae24a23f21c8c0",
+      "name": "Lighthouse Asset Partners (demo)",
+      "initials": "LA",
+      "openJobs": 1,
+      "featured": false
+    },
+    {
+      "id": "emp_2b8bbc4188c553cb",
+      "name": "Marhaba Holdings (demo)",
+      "initials": "MH",
+      "openJobs": 1,
+      "featured": false
+    },
+    {
+      "id": "emp_cfbfd1f7de5eab7c",
+      "name": "Meydan Legal (demo)",
+      "initials": "ML",
+      "openJobs": 1,
+      "featured": false
+    },
+    {
+      "id": "emp_f85595c6cc777c36",
+      "name": "Mosaic Fund Services (demo)",
+      "initials": "MF",
       "openJobs": 1,
       "featured": false
     }

@@ -4,7 +4,7 @@ import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import http from 'node:http';
 import path from 'node:path';
-import { validateSources, withNewsDefaults, loadAll, readJson, CONFIG_DIR, NEWS_SOURCE_DEFAULTS } from '../src/config.js';
+import { validateSources, withNewsDefaults, withContact, loadAll, loadSettings, readJson, CONFIG_DIR, NEWS_SOURCE_DEFAULTS } from '../src/config.js';
 import { normaliseItem } from '../src/pipeline/news.js';
 import { toDate, parseFeed } from '../src/lib/feedParser.js';
 import { checkFeed, main, formatLine } from '../scripts/check-sources.mjs';
@@ -124,7 +124,41 @@ test('the live list holds the 100 verified sources, configured by the Phase 1 ru
   const bySection = Object.fromEntries(['A', 'B', 'C', 'D', 'E', 'F', 'G'].map((l) => [l, all.filter((s) => section.get(s.id) === l).length]));
   assert.deepEqual(bySection, { A: 12, B: 17, C: 17, D: 27, E: 15, F: 10, G: 2 });
   assert.equal(all.filter((s) => s.type === 'api').length, 4);
-  assert.equal(cfg.newsSources.length, 92, 'enabled = 96 RSS minus the 4 disabled on 2026-09-30');
+  assert.equal(cfg.newsSources.length, 88, 'enabled = 96 RSS minus 4 disabled for errors and 4 for robots.txt on 2026-09-30');
+});
+
+/* ------------------------------ contact email ------------------------------ */
+
+function withEnv(vars, fn) {
+  const previous = Object.fromEntries(Object.keys(vars).map((k) => [k, process.env[k]]));
+  for (const [k, v] of Object.entries(vars)) if (v === undefined) delete process.env[k]; else process.env[k] = v;
+  try { return fn(); } finally {
+    for (const [k, v] of Object.entries(previous)) if (v === undefined) delete process.env[k]; else process.env[k] = v;
+  }
+}
+
+test('the contact email is added inside the user-agent comment, once', () => {
+  const ua = 'Mozilla/5.0 (compatible; FundsAeNewsBot/1.0; +https://funds.ae/about)';
+  assert.equal(withContact(ua, 'news@funds.ae'), 'Mozilla/5.0 (compatible; FundsAeNewsBot/1.0; +https://funds.ae/about; news@funds.ae)');
+  assert.equal(withContact(withContact(ua, 'news@funds.ae'), 'news@funds.ae'), withContact(ua, 'news@funds.ae'));
+  assert.equal(withContact('FundsAeNewsBot/1.0', 'news@funds.ae'), 'FundsAeNewsBot/1.0 news@funds.ae');
+  assert.equal(withContact(ua, ''), ua);
+});
+
+test('FUNDSAE_CONTACT_EMAIL sets the contact, and a malformed address is rejected', () => {
+  const settings = withEnv({ FUNDSAE_CONTACT_EMAIL: 'news@funds.ae' }, () => loadSettings());
+  assert.equal(settings.contactEmail, 'news@funds.ae');
+  assert.match(settings.userAgent, /; news@funds\.ae\)$/);
+  assert.throws(() => withEnv({ FUNDSAE_CONTACT_EMAIL: 'not an email' }, () => loadSettings()), /contactEmail/);
+});
+
+test('live mode warns when SEC sources are enabled without a contact email', () => {
+  const live = (email) => withEnv({ FUNDSAE_MODE: 'live', FUNDSAE_CONTACT_EMAIL: email }, () => loadAll());
+  const warned = live('');
+  assert.equal(warned.warnings.length, 1);
+  assert.match(warned.warnings[0], /sec-press-releases, sec-edgar-form-d/);
+  assert.deepEqual(live('news@funds.ae').warnings, []);
+  assert.deepEqual(withEnv({ FUNDSAE_MODE: 'demo', FUNDSAE_CONTACT_EMAIL: '' }, () => loadAll()).warnings, [], 'demo mode fetches nothing');
 });
 
 /* --------------------------- excerpts and images --------------------------- */

@@ -3,6 +3,8 @@
   "mode": "demo",
   "siteName": "Funds.ae",
   "userAgent": "Mozilla/5.0 (compatible; FundsAeNewsBot/1.0; +https://funds.ae/about)",
+  "_contactEmail": "A mailbox publishers can use to reach you about the bot. Use a role address such as news@funds.ae, not a personal one. It is added to the user-agent; the SEC asks for one and may block requests without it. The FUNDSAE_CONTACT_EMAIL environment variable overrides it.",
+  "contactEmail": "",
   "http": {
     "timeoutMs": 15000,
     "retries": 3,

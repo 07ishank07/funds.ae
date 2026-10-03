@@ -73,6 +73,7 @@ async function main() {
     process.exitCode = 1;
     return;
   }
+  for (const detail of cfg.warnings) log.warn('config.warning', { detail });
   // Demo data lives in its own folder so fictional stories never mix with the
   // live database. It is rebuilt on every full run so demo dates stay current.
   const dataDir = cfg.demo ? path.join(DATA_DIR, 'demo') : DATA_DIR;

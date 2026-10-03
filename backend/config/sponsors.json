@@ -40,7 +40,12 @@
     { "id": "family-office-advisory", "enabled": true, "title": "Family office advisory services", "blurb": null, "url": "#", "image": null, "logoText": "FO", "colorFrom": "#1F6A6E", "colorTo": null },
     { "id": "digital-assets-custody", "enabled": true, "title": "Digital assets custody, explained", "blurb": null, "url": "#", "image": null, "logoText": "DA", "colorFrom": "#1F6A6E", "colorTo": null },
     { "id": "trade-finance-exporters", "enabled": true, "title": "Trade finance for growing exporters", "blurb": null, "url": "#", "image": null, "logoText": "TF", "colorFrom": "#1F6A6E", "colorTo": null },
-    { "id": "sustainable-investing", "enabled": true, "title": "Sustainable investing for institutions", "blurb": null, "url": "#", "image": null, "logoText": "SI", "colorFrom": "#1F6A6E", "colorTo": null }
+    { "id": "sustainable-investing", "enabled": true, "title": "Sustainable investing for institutions", "blurb": null, "url": "#", "image": null, "logoText": "SI", "colorFrom": "#1F6A6E", "colorTo": null },
+    { "id": "islamic-finance-primer", "enabled": true, "title": "Islamic finance: a primer for fund managers", "blurb": null, "url": "#", "image": null, "logoText": "IF", "colorFrom": "#1F6A6E", "colorTo": null },
+    { "id": "startup-visa-fast-track", "enabled": true, "title": "Fast-track visas for founders and teams", "blurb": null, "url": "#", "image": null, "logoText": "SV", "colorFrom": "#1F6A6E", "colorTo": null },
+    { "id": "cyber-risk-funds", "enabled": true, "title": "Cyber risk checklist for fund operators", "blurb": null, "url": "#", "image": null, "logoText": "CR", "colorFrom": "#1F6A6E", "colorTo": null },
+    { "id": "fx-hedging-gcc", "enabled": true, "title": "FX hedging for GCC portfolios", "blurb": null, "url": "#", "image": null, "logoText": "FX", "colorFrom": "#1F6A6E", "colorTo": null },
+    { "id": "regtech-compliance", "enabled": true, "title": "RegTech tools for faster compliance", "blurb": null, "url": "#", "image": null, "logoText": "RT", "colorFrom": "#1F6A6E", "colorTo": null }
   ],
   "sponsoredMedia": [
     { "id": "difc-platform-tour", "enabled": true, "label": "VIDEO", "title": "Inside a modern DIFC fund platform", "blurb": "A three-minute tour of the tools managers use every day.", "url": "#", "image": null },
@@ -74,7 +79,12 @@
     { "id": "desert-risk-analytics", "enabled": true, "title": "Desert Risk Analytics", "website": "www.desertrisk-dummy.ae", "url": "#", "image": null, "logoText": "RSK", "colorFrom": "#874E4B", "colorTo": "#C6A59B" },
     { "id": "marina-fund-tech", "enabled": true, "title": "Marina Fund Tech", "website": "www.marinafundtech-dummy.ae", "url": "#", "image": null, "logoText": "FT", "colorFrom": "#1F5560", "colorTo": "#4FB3B8" },
     { "id": "harbor-investor-services", "enabled": true, "title": "Harbor Investor Services", "website": "www.harborinvestor-dummy.ae", "url": "#", "image": null, "logoText": "INV", "colorFrom": "#31556D", "colorTo": "#6F8E8D" },
-    { "id": "falcon-advisory", "enabled": true, "title": "Falcon Advisory Partners", "website": "www.falconadvisory-dummy.ae", "url": "#", "image": null, "logoText": "ADV", "colorFrom": "#8A6330", "colorTo": "#B58B52" }
+    { "id": "falcon-advisory", "enabled": true, "title": "Falcon Advisory Partners", "website": "www.falconadvisory-dummy.ae", "url": "#", "image": null, "logoText": "ADV", "colorFrom": "#8A6330", "colorTo": "#B58B52" },
+    { "id": "summit-wealth-advisory", "enabled": true, "title": "Summit Wealth Advisory", "website": "www.summit-dummy.ae", "url": "#", "image": null, "logoText": "SWA", "colorFrom": "#31556D", "colorTo": "#8BA9C1" },
+    { "id": "bayan-capital-markets", "enabled": true, "title": "Bayan Capital Markets", "website": "www.bayan-dummy.ae", "url": "#", "image": null, "logoText": "BCM", "colorFrom": "#416C56", "colorTo": "#9EB9A5" },
+    { "id": "ridge-fund-governance", "enabled": true, "title": "Ridge Fund Governance", "website": "www.ridge-dummy.ae", "url": "#", "image": null, "logoText": "RFG", "colorFrom": "#5B4675", "colorTo": "#B4A4C9" },
+    { "id": "dune-payments-advisory", "enabled": true, "title": "Dune Payments Advisory", "website": "www.dune-dummy.ae", "url": "#", "image": null, "logoText": "DPA", "colorFrom": "#8A6330", "colorTo": "#D3B46A" },
+    { "id": "pearl-trust-services", "enabled": true, "title": "Pearl Trust Services", "website": "www.pearl-dummy.ae", "url": "#", "image": null, "logoText": "PTS", "colorFrom": "#874E4B", "colorTo": "#C6A59B" }
   ],
   "careerResources": [
     { "id": "licensing-guide", "enabled": true, "title": "Financial services licensing guide (demo)", "url": "#", "logoText": "LIC", "colorFrom": "#0E3A43", "colorTo": "#4FB3B8" },

@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-09-30T07:19:10.867Z",
+  "generatedAt": "2026-10-03T13:27:17.477Z",
   "notice": "Funds.ae public data API.",
   "count": 9,
   "items": [
@@ -15,7 +15,7 @@
       "verified": null,
       "region": "uae",
       "status": "ok",
-      "lastSuccessAt": "2026-09-30T07:19:10.867Z",
+      "lastSuccessAt": "2026-10-03T13:27:17.477Z",
       "lastError": null,
       "lastItemCount": 10,
       "pausedUntil": null
@@ -30,7 +30,7 @@
       "verified": null,
       "region": "uae",
       "status": "ok",
-      "lastSuccessAt": "2026-09-30T07:19:10.867Z",
+      "lastSuccessAt": "2026-10-03T13:27:17.477Z",
       "lastError": null,
       "lastItemCount": 7,
       "pausedUntil": null
@@ -45,7 +45,7 @@
       "verified": null,
       "region": "global",
       "status": "ok",
-      "lastSuccessAt": "2026-09-30T07:19:10.867Z",
+      "lastSuccessAt": "2026-10-03T13:27:17.477Z",
       "lastError": null,
       "lastItemCount": 7,
       "pausedUntil": null
@@ -60,7 +60,7 @@
       "verified": null,
       "region": "uae",
       "status": "ok",
-      "lastSuccessAt": "2026-09-30T07:19:10.867Z",
+      "lastSuccessAt": "2026-10-03T13:27:17.477Z",
       "lastError": null,
       "lastItemCount": 8,
       "pausedUntil": null
@@ -75,7 +75,7 @@
       "verified": null,
       "region": "global",
       "status": "ok",
-      "lastSuccessAt": "2026-09-30T07:19:10.867Z",
+      "lastSuccessAt": "2026-10-03T13:27:17.477Z",
       "lastError": null,
       "lastItemCount": 7,
       "pausedUntil": null
@@ -90,7 +90,7 @@
       "verified": null,
       "region": null,
       "status": "ok",
-      "lastSuccessAt": "2026-09-30T07:19:10.867Z",
+      "lastSuccessAt": "2026-10-03T13:27:17.477Z",
       "lastError": null,
       "lastItemCount": 8,
       "pausedUntil": null
@@ -105,7 +105,7 @@
       "verified": null,
       "region": null,
       "status": "ok",
-      "lastSuccessAt": "2026-09-30T07:19:10.867Z",
+      "lastSuccessAt": "2026-10-03T13:27:17.477Z",
       "lastError": null,
       "lastItemCount": 3,
       "pausedUntil": null
@@ -120,7 +120,7 @@
       "verified": null,
       "region": null,
       "status": "ok",
-      "lastSuccessAt": "2026-09-30T07:19:10.867Z",
+      "lastSuccessAt": "2026-10-03T13:27:17.477Z",
       "lastError": null,
       "lastItemCount": 3,
       "pausedUntil": null
@@ -135,7 +135,7 @@
       "verified": null,
       "region": null,
       "status": "ok",
-      "lastSuccessAt": "2026-09-30T07:19:10.867Z",
+      "lastSuccessAt": "2026-10-03T13:27:17.477Z",
       "lastError": null,
       "lastItemCount": 3,
       "pausedUntil": null

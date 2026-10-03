@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-09-30T07:19:10.867Z",
+  "generatedAt": "2026-10-03T13:27:17.477Z",
   "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
   "topic": "mergers-acquisitions",
   "label": "M&A",
@@ -14,8 +14,8 @@
       "url": "https://example.com/emirates-markets/harbourline-takeover",
       "source": "Demo Emirates Markets",
       "sourceId": "demo-emirates-markets",
-      "publishedAt": "2026-09-28T06:19:10.000Z",
-      "updatedAt": "2026-09-28T06:19:10.000Z",
+      "publishedAt": "2026-10-01T12:27:17.000Z",
+      "updatedAt": "2026-10-01T12:27:17.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -34,7 +34,7 @@
           "sourceId": "demo-emirates-markets",
           "title": "Abu Dhabi logistics group Harbourline agrees $1.2bn takeover of Omani port operator",
           "url": "https://example.com/emirates-markets/harbourline-takeover",
-          "publishedAt": "2026-09-28T06:19:10.000Z"
+          "publishedAt": "2026-10-01T12:27:17.000Z"
         }
       ]
     },
@@ -45,8 +45,8 @@
       "url": "https://example.com/private-capital-daily/secondaries-record",
       "source": "Demo Private Capital Daily",
       "sourceId": "demo-private-capital-daily",
-      "publishedAt": "2026-09-28T05:19:10.867Z",
-      "updatedAt": "2026-09-28T05:19:10.867Z",
+      "publishedAt": "2026-10-01T11:27:17.477Z",
+      "updatedAt": "2026-10-01T11:27:17.477Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -65,7 +65,7 @@
           "sourceId": "demo-private-capital-daily",
           "title": "Secondaries volume hits record as LPs seek liquidity",
           "url": "https://example.com/private-capital-daily/secondaries-record",
-          "publishedAt": "2026-09-28T05:19:10.867Z"
+          "publishedAt": "2026-10-01T11:27:17.477Z"
         }
       ]
     },
@@ -76,8 +76,8 @@
       "url": "https://example.com/gulf-wire/sandstone-majority-stake-dairy",
       "source": "Demo Gulf Wire",
       "sourceId": "demo-gulf-wire",
-      "publishedAt": "2026-09-27T05:19:10.000Z",
-      "updatedAt": "2026-09-27T05:19:10.000Z",
+      "publishedAt": "2026-09-30T11:27:17.000Z",
+      "updatedAt": "2026-09-30T11:27:17.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -95,7 +95,7 @@
           "sourceId": "demo-gulf-wire",
           "title": "Abu Dhabi's Sandstone Holdings takes majority stake in Egyptian dairy group",
           "url": "https://example.com/gulf-wire/sandstone-majority-stake-dairy",
-          "publishedAt": "2026-09-27T05:19:10.000Z"
+          "publishedAt": "2026-09-30T11:27:17.000Z"
         }
       ]
     }
