@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "sources": {
+    "demo-gulf-wire": {
+      "consecutiveFailures": 0,
+      "status": "ok",
+      "format": "rss",
+      "lastItemCount": 10,
+      "lastError": null,
+      "pausedUntil": null,
+      "lastFetchedAt": "2026-10-03T13:27:17.477Z",
+      "lastSuccessAt": "2026-10-03T13:27:17.477Z"
+    },
+    "demo-emirates-markets": {
+      "consecutiveFailures": 0,
+      "status": "ok",
+      "format": "rss",
+      "lastItemCount": 7,
+      "lastError": null,
+      "pausedUntil": null,
+      "lastFetchedAt": "2026-10-03T13:27:17.477Z",
+      "lastSuccessAt": "2026-10-03T13:27:17.477Z"
+    },
+    "demo-private-capital-daily": {
+      "consecutiveFailures": 0,
+      "status": "ok",
+      "format": "atom",
+      "lastItemCount": 7,
+      "lastError": null,
+      "pausedUntil": null,
+      "lastFetchedAt": "2026-10-03T13:27:17.477Z",
+      "lastSuccessAt": "2026-10-03T13:27:17.477Z"
+    },
+    "demo-property-sme-wire": {
+      "consecutiveFailures": 0,
+      "status": "ok",
+      "format": "rss",
+      "lastItemCount": 8,
+      "lastError": null,
+      "pausedUntil": null,
+      "lastFetchedAt": "2026-10-03T13:27:17.477Z",
+      "lastSuccessAt": "2026-10-03T13:27:17.477Z"
+    },
+    "demo-venture-ledger": {
+      "consecutiveFailures": 0,
+      "status": "ok",
+      "format": "rss",
+      "lastItemCount": 7,
+      "lastError": null,
+      "pausedUntil": null,
+      "lastFetchedAt": "2026-10-03T13:27:17.477Z",
+      "lastSuccessAt": "2026-10-03T13:27:17.477Z"
+    },
+    "jobs:demo-gulf-finance-jobs": {
+      "consecutiveFailures": 0,
+      "status": "ok",
+      "lastItemCount": 8,
+      "lastError": null,
+      "pausedUntil": null,
+      "lastFetchedAt": "2026-10-03T13:27:17.477Z",
+      "lastSuccessAt": "2026-10-03T13:27:17.477Z"
+    },
+    "jobs:demo-sandline-ventures": {
+      "consecutiveFailures": 0,
+      "status": "ok",
+      "lastItemCount": 3,
+      "lastError": null,
+      "pausedUntil": null,
+      "lastFetchedAt": "2026-10-03T13:27:17.477Z",
+      "lastSuccessAt": "2026-10-03T13:27:17.477Z"
+    },
+    "jobs:demo-qirsh": {
+      "consecutiveFailures": 0,
+      "status": "ok",
+      "lastItemCount": 3,
+      "lastError": null,
+      "pausedUntil": null,
+      "lastFetchedAt": "2026-10-03T13:27:17.477Z",
+      "lastSuccessAt": "2026-10-03T13:27:17.477Z"
+    },
+    "jobs:demo-harbourline": {
+      "consecutiveFailures": 0,
+      "status": "ok",
+      "lastItemCount": 3,
+      "lastError": null,
+      "pausedUntil": null,
+      "lastFetchedAt": "2026-10-03T13:27:17.477Z",
+      "lastSuccessAt": "2026-10-03T13:27:17.477Z"
+    }
+  }
+}

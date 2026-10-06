@@ -1,0 +1,5 @@
+[
+  { "id": "qirsh-001", "text": "Senior Treasury Analyst", "hostedUrl": "https://example.com/careers/qirsh/treasury-analyst", "createdAt": {{EPOCHMS:-2d}}, "categories": { "location": "Dubai, United Arab Emirates", "team": "Finance", "commitment": "Full-time" } },
+  { "id": "qirsh-002", "text": "Senior Backend Engineer", "hostedUrl": "https://example.com/careers/qirsh/backend-engineer", "createdAt": {{EPOCHMS:-3d}}, "categories": { "location": "Dubai, United Arab Emirates", "team": "Engineering", "commitment": "Full-time" } },
+  { "id": "qirsh-003", "text": "Credit Risk Analyst", "hostedUrl": "https://example.com/careers/qirsh/risk-analyst-riyadh", "createdAt": {{EPOCHMS:-1d}}, "categories": { "location": "Riyadh, Saudi Arabia", "team": "Risk", "commitment": "Full-time" } }
+]

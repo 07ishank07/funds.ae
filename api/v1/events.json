@@ -1,0 +1,153 @@
+{
+  "apiVersion": 1,
+  "mode": "demo",
+  "generatedAt": "2026-10-03T13:27:17.477Z",
+  "notice": "Event details are supplied by organisers. Check with the organiser before you travel.",
+  "count": 12,
+  "items": [
+    {
+      "id": "demo-past-breakfast",
+      "title": "Investor Breakfast (demo)",
+      "eventType": "Networking",
+      "startDate": "2026-09-27",
+      "endDate": null,
+      "city": "Dubai",
+      "venue": null,
+      "url": null,
+      "organiser": null,
+      "featured": false
+    },
+    {
+      "id": "demo-fund-managers-forum",
+      "title": "Fund Managers Forum (demo)",
+      "eventType": "Finance week",
+      "startDate": "2026-10-08",
+      "endDate": "2026-10-12",
+      "city": "Dubai",
+      "venue": "Demo Conference Hall",
+      "url": null,
+      "organiser": "Demo Events Co",
+      "featured": true
+    },
+    {
+      "id": "demo-fintech-summit",
+      "title": "Gulf Fintech Summit (demo)",
+      "eventType": "Fintech summit",
+      "startDate": "2026-10-15",
+      "endDate": "2026-10-16",
+      "city": "Dubai",
+      "venue": null,
+      "url": null,
+      "organiser": null,
+      "featured": false
+    },
+    {
+      "id": "demo-capital-week",
+      "title": "Capital Markets Week (demo)",
+      "eventType": "Finance week",
+      "startDate": "2026-10-22",
+      "endDate": "2026-10-26",
+      "city": "Abu Dhabi",
+      "venue": null,
+      "url": null,
+      "organiser": null,
+      "featured": false
+    },
+    {
+      "id": "demo-technology-expo",
+      "title": "Finance Technology Expo (demo)",
+      "eventType": "Technology expo",
+      "startDate": "2026-10-29",
+      "endDate": "2026-11-01",
+      "city": "Dubai",
+      "venue": null,
+      "url": null,
+      "organiser": null,
+      "featured": false
+    },
+    {
+      "id": "demo-investor-networking",
+      "title": "Investor Networking Evening (demo)",
+      "eventType": "Networking",
+      "startDate": "2026-11-05",
+      "endDate": null,
+      "city": "Dubai",
+      "venue": null,
+      "url": null,
+      "organiser": null,
+      "featured": false
+    },
+    {
+      "id": "demo-private-wealth",
+      "title": "Private Wealth Congress (demo)",
+      "eventType": "Wealth summit",
+      "startDate": "2026-11-12",
+      "endDate": "2026-11-13",
+      "city": "Dubai",
+      "venue": null,
+      "url": null,
+      "organiser": null,
+      "featured": false
+    },
+    {
+      "id": "demo-sustainable-finance",
+      "title": "Sustainable Finance Expo (demo)",
+      "eventType": "Sustainability expo",
+      "startDate": "2026-11-19",
+      "endDate": "2026-11-20",
+      "city": "Abu Dhabi",
+      "venue": null,
+      "url": null,
+      "organiser": null,
+      "featured": false
+    },
+    {
+      "id": "demo-capital-roundtable",
+      "title": "Capital Markets Roundtable (demo)",
+      "eventType": "Roundtable",
+      "startDate": "2026-11-26",
+      "endDate": null,
+      "city": "Dubai",
+      "venue": null,
+      "url": null,
+      "organiser": null,
+      "featured": false
+    },
+    {
+      "id": "demo-family-office-summit",
+      "title": "Family Office Summit (demo)",
+      "eventType": "Family office summit",
+      "startDate": "2026-12-03",
+      "endDate": null,
+      "city": "Abu Dhabi",
+      "venue": null,
+      "url": null,
+      "organiser": null,
+      "featured": false
+    },
+    {
+      "id": "demo-digital-assets",
+      "title": "Digital Assets Conference (demo)",
+      "eventType": "Digital assets expo",
+      "startDate": "2026-12-10",
+      "endDate": "2026-12-11",
+      "city": "Dubai",
+      "venue": null,
+      "url": null,
+      "organiser": null,
+      "featured": false
+    },
+    {
+      "id": "demo-demoonly-example",
+      "title": "Example-only listing (demo)",
+      "eventType": "Roundtable",
+      "startDate": "2026-12-17",
+      "endDate": null,
+      "city": "Sharjah",
+      "venue": null,
+      "url": null,
+      "organiser": null,
+      "featured": false
+    }
+  ]
+}

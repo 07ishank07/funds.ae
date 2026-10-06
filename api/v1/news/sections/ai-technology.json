@@ -1,0 +1,154 @@
+{
+  "apiVersion": 1,
+  "mode": "demo",
+  "generatedAt": "2026-10-03T13:27:17.477Z",
+  "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
+  "section": "ai-technology",
+  "label": "AI and Technology",
+  "count": 4,
+  "items": [
+    {
+      "id": "s_1ec502cf2475e3",
+      "headline": "Gulf sovereign investors join $1bn round for London AI infrastructure firm Northlight",
+      "summary": "Investors from Abu Dhabi and Riyadh took part alongside US pension funds, people familiar with the matter said.",
+      "url": "https://example.com/private-capital-daily/northlight-1bn-round",
+      "source": "Demo Private Capital Daily",
+      "sourceId": "demo-private-capital-daily",
+      "publishedAt": "2026-10-02T17:27:17.477Z",
+      "updatedAt": "2026-10-02T17:27:17.477Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "institutional-investors",
+      "topicLabel": "Sovereign and institutional investors",
+      "topics": [
+        "institutional-investors",
+        "ai-technology",
+        "infrastructure"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_845e42dfd074172f",
+          "source": "Demo Private Capital Daily",
+          "sourceId": "demo-private-capital-daily",
+          "title": "Gulf sovereign investors join $1bn round for London AI infrastructure firm Northlight",
+          "url": "https://example.com/private-capital-daily/northlight-1bn-round",
+          "publishedAt": "2026-10-02T17:27:17.477Z"
+        }
+      ]
+    },
+    {
+      "id": "s_7f39d1f83e5cfa",
+      "headline": "Dubai-based fintech Qirsh raises $45 million Series B led by Sandline Ventures",
+      "summary": "The buy-now-pay-later provider will use the capital to expand into Saudi Arabia and hire 120 staff in its DIFC office.",
+      "url": "https://example.com/gulf-wire/qirsh-series-b",
+      "source": "Demo Gulf Wire",
+      "sourceId": "demo-gulf-wire",
+      "publishedAt": "2026-10-02T07:27:17.000Z",
+      "updatedAt": "2026-10-02T17:27:17.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "venture-capital",
+      "topicLabel": "Venture capital",
+      "topics": [
+        "venture-capital",
+        "ai-technology",
+        "institutional-investors"
+      ],
+      "imageUrl": "https://example.com/images/qirsh.jpg",
+      "sourceCount": 3,
+      "sources": [
+        {
+          "articleId": "a_47f6735e591cea65",
+          "source": "Demo Gulf Wire",
+          "sourceId": "demo-gulf-wire",
+          "title": "Dubai-based fintech Qirsh raises $45 million Series B led by Sandline Ventures",
+          "url": "https://example.com/gulf-wire/qirsh-series-b",
+          "publishedAt": "2026-10-02T07:27:17.000Z"
+        },
+        {
+          "articleId": "a_d0a9ae63a58b381b",
+          "source": "Demo Emirates Markets",
+          "sourceId": "demo-emirates-markets",
+          "title": "Qirsh secures $45m in Series B round as Dubai payments start-up expands to Riyadh",
+          "url": "https://example.com/emirates-markets/qirsh-45m-series-b-riyadh",
+          "publishedAt": "2026-10-02T11:27:17.000Z"
+        },
+        {
+          "articleId": "a_e72c6985fb047deb",
+          "source": "Demo Venture Ledger",
+          "sourceId": "demo-venture-ledger",
+          "title": "Qirsh lands $45 million to take buy-now-pay-later across the Gulf",
+          "url": "https://example.com/venture-ledger/qirsh-45-million",
+          "publishedAt": "2026-10-02T17:27:17.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_a42cf20de9d2eb",
+      "headline": "Brindlecourt Infrastructure closes €1.2bn infrastructure fund for European data centres",
+      "summary": "The final close drew commitments from pension funds and insurers in Europe and Asia.",
+      "url": "https://example.com/property-sme-wire/brindlecourt-data-centre-fund",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-10-02T04:27:17.000Z",
+      "updatedAt": "2026-10-02T04:27:17.000Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "infrastructure",
+      "topicLabel": "Infrastructure",
+      "topics": [
+        "infrastructure",
+        "ai-technology",
+        "fundraising"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_58ca14532f4deae7",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "Brindlecourt Infrastructure closes €1.2bn infrastructure fund for European data centres",
+          "url": "https://example.com/property-sme-wire/brindlecourt-data-centre-fund",
+          "publishedAt": "2026-10-02T04:27:17.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_3569b3929adea8",
+      "headline": "VC funding to MENA start-ups rose 18% in the third quarter",
+      "summary": "Fintech and logistics companies took the largest share of capital, a data provider said.",
+      "url": "https://example.com/venture-ledger/mena-vc-q3",
+      "source": "Demo Venture Ledger",
+      "sourceId": "demo-venture-ledger",
+      "publishedAt": "2026-09-30T08:27:17.000Z",
+      "updatedAt": "2026-09-30T08:27:17.000Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "venture-capital",
+      "topicLabel": "Venture capital",
+      "topics": [
+        "venture-capital",
+        "ai-technology"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_eebd3c65455ed78a",
+          "source": "Demo Venture Ledger",
+          "sourceId": "demo-venture-ledger",
+          "title": "VC funding to MENA start-ups rose 18% in the third quarter",
+          "url": "https://example.com/venture-ledger/mena-vc-q3",
+          "publishedAt": "2026-09-30T08:27:17.000Z"
+        }
+      ]
+    }
+  ]
+}

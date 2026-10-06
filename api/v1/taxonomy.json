@@ -1,0 +1,115 @@
+{
+  "apiVersion": 1,
+  "mode": "demo",
+  "generatedAt": "2026-10-03T13:27:17.477Z",
+  "notice": "Funds.ae public data API.",
+  "categories": [
+    {
+      "id": "uae",
+      "label": "UAE",
+      "uiLabel": "UAE News"
+    },
+    {
+      "id": "world",
+      "label": "Rest of the World",
+      "uiLabel": "Global News"
+    }
+  ],
+  "topics": [
+    {
+      "id": "private-equity",
+      "label": "Private equity"
+    },
+    {
+      "id": "venture-capital",
+      "label": "Venture capital"
+    },
+    {
+      "id": "private-credit",
+      "label": "Private credit"
+    },
+    {
+      "id": "infrastructure",
+      "label": "Infrastructure"
+    },
+    {
+      "id": "real-estate",
+      "label": "Real estate"
+    },
+    {
+      "id": "energy",
+      "label": "Energy"
+    },
+    {
+      "id": "ai-technology",
+      "label": "AI and technology"
+    },
+    {
+      "id": "hedge-funds-alternatives",
+      "label": "Hedge funds and alternatives"
+    },
+    {
+      "id": "secondaries",
+      "label": "Secondaries"
+    },
+    {
+      "id": "fundraising",
+      "label": "Fund launches and closes"
+    },
+    {
+      "id": "mergers-acquisitions",
+      "label": "M&A"
+    },
+    {
+      "id": "institutional-investors",
+      "label": "Sovereign and institutional investors"
+    },
+    {
+      "id": "ipo-capital-markets",
+      "label": "IPOs and listings"
+    },
+    {
+      "id": "grants-funding",
+      "label": "Grants and funding"
+    },
+    {
+      "id": "general-investment",
+      "label": "Investment"
+    }
+  ],
+  "sections": [
+    {
+      "id": "real-estate-infrastructure",
+      "label": "Real Estate and Infrastructure",
+      "topics": [
+        "real-estate",
+        "infrastructure"
+      ],
+      "category": null
+    },
+    {
+      "id": "energy",
+      "label": "Energy",
+      "topics": [
+        "energy"
+      ],
+      "category": null
+    },
+    {
+      "id": "ai-technology",
+      "label": "AI and Technology",
+      "topics": [
+        "ai-technology"
+      ],
+      "category": null
+    },
+    {
+      "id": "grants-funding",
+      "label": "UAE Business Grants and Funding",
+      "topics": [
+        "grants-funding"
+      ],
+      "category": "uae"
+    }
+  ]
+}

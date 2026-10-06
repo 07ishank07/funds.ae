@@ -1,0 +1,74 @@
+{
+  "apiVersion": 1,
+  "mode": "demo",
+  "generatedAt": "2026-10-03T13:27:17.477Z",
+  "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
+  "section": "energy",
+  "label": "Energy",
+  "count": 2,
+  "items": [
+    {
+      "id": "s_50a38aa499d7a1",
+      "headline": "Sharjah infrastructure fund backs new solar and water projects",
+      "summary": "The infrastructure investment programme will co-finance utility-scale solar plants and a desalination upgrade.",
+      "url": "https://example.com/property-sme-wire/sharjah-infrastructure-fund-solar",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-10-01T09:27:17.000Z",
+      "updatedAt": "2026-10-01T09:27:17.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "infrastructure",
+      "topicLabel": "Infrastructure",
+      "topics": [
+        "infrastructure",
+        "energy"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_58e9d8f9b2c84445",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "Sharjah infrastructure fund backs new solar and water projects",
+          "url": "https://example.com/property-sme-wire/sharjah-infrastructure-fund-solar",
+          "publishedAt": "2026-10-01T09:27:17.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_b5381e51ce15cb",
+      "headline": "Abu Dhabi innovation fund awards startup grants to 40 climate-tech founders",
+      "summary": "Each founder receives a grant and access to pilot sites operated by local utilities.",
+      "url": "https://example.com/property-sme-wire/abu-dhabi-innovation-fund-grants",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-09-30T12:27:17.000Z",
+      "updatedAt": "2026-09-30T12:27:17.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "grants-funding",
+      "topicLabel": "Grants and funding",
+      "topics": [
+        "grants-funding",
+        "venture-capital",
+        "energy"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_9e5455e0d359fef7",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "Abu Dhabi innovation fund awards startup grants to 40 climate-tech founders",
+          "url": "https://example.com/property-sme-wire/abu-dhabi-innovation-fund-grants",
+          "publishedAt": "2026-09-30T12:27:17.000Z"
+        }
+      ]
+    }
+  ]
+}

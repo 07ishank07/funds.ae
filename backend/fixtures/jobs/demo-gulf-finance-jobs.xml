@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- FICTIONAL DEMO JOB FEED. Employers and links are invented for testing. -->
+<rss version="2.0">
+  <channel>
+    <title>Demo Gulf Finance Jobs</title>
+    <link>https://example.com/jobs</link>
+    <description>Fictional job board used by Funds.ae demo mode</description>
+    <item>
+      <title>Private Equity Associate at Falcon Ridge Capital (Abu Dhabi, UAE)</title>
+      <link>https://example.com/jobs/falcon-ridge-pe-associate</link>
+      <guid>demo-job-1</guid>
+      <pubDate>{{RFC822:-2d}}</pubDate>
+    </item>
+    <item>
+      <title>Investment Analyst at Crescent Peak Partners (DIFC, Dubai)</title>
+      <link>https://example.com/jobs/crescent-peak-investment-analyst</link>
+      <guid>demo-job-2</guid>
+      <pubDate>{{RFC822:-3d}}</pubDate>
+    </item>
+    <item>
+      <title>Investment Analyst at Crescent Peak Partners (DIFC, Dubai)</title>
+      <link>https://example.com/jobs/reposted/crescent-peak-investment-analyst-2</link>
+      <guid>demo-job-2-repost</guid>
+      <pubDate>{{RFC822:-1d}}</pubDate>
+    </item>
+    <item>
+      <title>Credit Risk Manager at Harbourview Partners (London, UK)</title>
+      <link>https://example.com/jobs/harbourview-credit-risk</link>
+      <guid>demo-job-3</guid>
+      <pubDate>{{RFC822:-2d}}</pubDate>
+    </item>
+    <item>
+      <title>Head Chef at Marina Bistro (Dubai)</title>
+      <link>https://example.com/jobs/marina-bistro-chef</link>
+      <guid>demo-job-4</guid>
+      <pubDate>{{RFC822:-1d}}</pubDate>
+    </item>
+    <item>
+      <title>Fund Accountant at Palm Gate Fund Administration (Dubai)</title>
+      <link>https://example.com/jobs/palm-gate-fund-accountant</link>
+      <guid>demo-job-5</guid>
+      <pubDate>{{RFC822:-5d}}</pubDate>
+    </item>
+    <item>
+      <title>Compliance Officer at Tidewater Ventures (Singapore)</title>
+      <link>https://example.com/jobs/tidewater-compliance</link>
+      <guid>demo-job-6</guid>
+      <pubDate>{{RFC822:-4d}}</pubDate>
+    </item>
+    <item>
+      <title>Investor Relations Director at Sandstone Holdings (Abu Dhabi)</title>
+      <link>https://example.com/jobs/sandstone-ir-director</link>
+      <guid>demo-job-7</guid>
+      <pubDate>{{RFC822:-60d}}</pubDate>
+    </item>
+  </channel>
+</rss>

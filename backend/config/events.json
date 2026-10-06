@@ -1,0 +1,11 @@
+{
+  "_help": [
+    "Events shown in 'Events and Expos' on the home page and the events list on the Careers page.",
+    "Required: id (lowercase, dashes), title, eventType (short label such as Roundtable), startDate (YYYY-MM-DD), city.",
+    "Optional: endDate (YYYY-MM-DD, multi-day events), venue, url (https:// link to the organiser's page), organiser, featured (true/false).",
+    "Past events drop off automatically. Suggestions sent through the website's 'Submit your event' form are stored for review; copy approved ones here.",
+    "In demo mode the site uses demoFixture instead (fictional events with dates relative to today)."
+  ],
+  "demoFixture": "events/demo-events.json",
+  "events": []
+}

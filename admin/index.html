@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src https://api.github.com; base-uri 'none'; form-action 'none'">
+<title>Sponsor manager · Funds.ae</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&family=Newsreader:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<header class="bar">
+  <a class="brand" href="../frontend_demo/this.html">
+    <svg viewBox="0 0 140 140" aria-hidden="true"><circle cx="70" cy="70" r="62.83"/><circle cx="53.03" cy="86.97" r="38.83"/><circle class="dot" cx="42.54" cy="97.46" r="29"/></svg>
+    <span>Funds.ae</span>
+  </a>
+  <span class="bar-title">Sponsor manager</span>
+  <div class="bar-actions">
+    <span id="repo-label" class="repo-label" hidden></span>
+    <span id="dirty" class="dirty" hidden>Unsaved changes</span>
+    <button id="save" class="btn btn-primary" type="button" hidden disabled>Save changes</button>
+    <button id="sign-out" class="btn btn-quiet" type="button" hidden>Disconnect</button>
+  </div>
+</header>
+
+<div id="status" class="status" role="status" aria-live="polite" hidden></div>
+
+<main id="connect" class="connect">
+  <h1>Connect to your website's repository</h1>
+  <p class="lead">Changes you make here are saved to GitHub, then the site updates itself within about two minutes.</p>
+  <div class="connect-grid">
+    <div class="fields">
+      <label for="owner">GitHub username or organisation</label>
+      <input id="owner" autocomplete="off" spellcheck="false">
+      <label for="repo">Repository name</label>
+      <input id="repo" autocomplete="off" spellcheck="false">
+      <label for="branch">Branch</label>
+      <input id="branch" value="main" autocomplete="off" spellcheck="false">
+      <label for="token">Access token</label>
+      <input id="token" type="password" autocomplete="off" spellcheck="false">
+      <label class="check"><input id="remember" type="checkbox"> Remember the token until I close this tab</label>
+      <button id="connect-btn" class="btn btn-primary" type="button">Connect</button>
+    </div>
+    <aside class="howto">
+      <h2>Getting an access token</h2>
+      <ol>
+        <li>On github.com, open your profile picture menu, then Settings, then Developer settings.</li>
+        <li>Choose Personal access tokens, then Fine-grained tokens, then Generate new token.</li>
+        <li>Under Repository access, pick Only select repositories and choose this website's repository.</li>
+        <li>Under Permissions, set Contents to Read and write. Leave everything else as No access.</li>
+        <li>Set an expiry date, generate the token, and paste it here.</li>
+      </ol>
+      <p>The token is only sent to GitHub. It is never stored in the repository, and it is forgotten when you close this tab.</p>
+    </aside>
+  </div>
+</main>
+
+<div id="editor" class="editor" hidden>
+  <nav class="groups" aria-label="Sponsor sections">
+    <ul id="group-list"></ul>
+  </nav>
+  <section class="workspace" aria-labelledby="group-title">
+    <div class="group-head">
+      <div>
+        <h1 id="group-title"></h1>
+        <p id="group-where" class="where"></p>
+      </div>
+      <button id="add-item" class="btn btn-secondary" type="button">Add item</button>
+    </div>
+    <div id="items"></div>
+  </section>
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>

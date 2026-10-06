@@ -1,0 +1,16 @@
+{
+  "events": [
+    { "id": "demo-fund-managers-forum", "title": "Fund Managers Forum (demo)", "eventType": "Finance week", "startDate": "{{DATE:+5d}}", "endDate": "{{DATE:+9d}}", "city": "Dubai", "venue": "Demo Conference Hall", "url": null, "organiser": "Demo Events Co", "featured": true },
+    { "id": "demo-fintech-summit", "title": "Gulf Fintech Summit (demo)", "eventType": "Fintech summit", "startDate": "{{DATE:+12d}}", "endDate": "{{DATE:+13d}}", "city": "Dubai", "venue": null, "url": null, "organiser": null, "featured": false },
+    { "id": "demo-capital-week", "title": "Capital Markets Week (demo)", "eventType": "Finance week", "startDate": "{{DATE:+19d}}", "endDate": "{{DATE:+23d}}", "city": "Abu Dhabi", "venue": null, "url": null, "organiser": null, "featured": false },
+    { "id": "demo-technology-expo", "title": "Finance Technology Expo (demo)", "eventType": "Technology expo", "startDate": "{{DATE:+26d}}", "endDate": "{{DATE:+29d}}", "city": "Dubai", "venue": null, "url": null, "organiser": null, "featured": false },
+    { "id": "demo-investor-networking", "title": "Investor Networking Evening (demo)", "eventType": "Networking", "startDate": "{{DATE:+33d}}", "endDate": null, "city": "Dubai", "venue": null, "url": null, "organiser": null, "featured": false },
+    { "id": "demo-private-wealth", "title": "Private Wealth Congress (demo)", "eventType": "Wealth summit", "startDate": "{{DATE:+40d}}", "endDate": "{{DATE:+41d}}", "city": "Dubai", "venue": null, "url": null, "organiser": null, "featured": false },
+    { "id": "demo-sustainable-finance", "title": "Sustainable Finance Expo (demo)", "eventType": "Sustainability expo", "startDate": "{{DATE:+47d}}", "endDate": "{{DATE:+48d}}", "city": "Abu Dhabi", "venue": null, "url": null, "organiser": null, "featured": false },
+    { "id": "demo-capital-roundtable", "title": "Capital Markets Roundtable (demo)", "eventType": "Roundtable", "startDate": "{{DATE:+54d}}", "endDate": null, "city": "Dubai", "venue": null, "url": null, "organiser": null, "featured": false },
+    { "id": "demo-family-office-summit", "title": "Family Office Summit (demo)", "eventType": "Family office summit", "startDate": "{{DATE:+61d}}", "endDate": null, "city": "Abu Dhabi", "venue": null, "url": null, "organiser": null, "featured": false },
+    { "id": "demo-digital-assets", "title": "Digital Assets Conference (demo)", "eventType": "Digital assets expo", "startDate": "{{DATE:+68d}}", "endDate": "{{DATE:+69d}}", "city": "Dubai", "venue": null, "url": null, "organiser": null, "featured": false },
+    { "id": "demo-past-breakfast", "title": "Investor Breakfast (demo)", "eventType": "Networking", "startDate": "{{DATE:-6d}}", "endDate": null, "city": "Dubai", "venue": null, "url": null, "organiser": null, "featured": false },
+    { "id": "demo-demoonly-example", "title": "Example-only listing (demo)", "eventType": "Roundtable", "startDate": "{{DATE:+75d}}", "endDate": null, "city": "Sharjah", "venue": null, "url": null, "organiser": null, "featured": false, "demoOnly": true }
+  ]
+}

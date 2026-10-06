@@ -1,0 +1,74 @@
+{
+  "apiVersion": 1,
+  "mode": "demo",
+  "generatedAt": "2026-10-03T13:27:17.477Z",
+  "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
+  "topic": "secondaries",
+  "label": "Secondaries",
+  "count": 2,
+  "items": [
+    {
+      "id": "s_1a1fbf34e56a27",
+      "headline": "Secondaries volume hits record as LPs seek liquidity",
+      "summary": "GP-led continuation vehicles accounted for almost half of first-half deal value, a broker report found.",
+      "url": "https://example.com/private-capital-daily/secondaries-record",
+      "source": "Demo Private Capital Daily",
+      "sourceId": "demo-private-capital-daily",
+      "publishedAt": "2026-10-01T11:27:17.477Z",
+      "updatedAt": "2026-10-01T11:27:17.477Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "secondaries",
+      "topicLabel": "Secondaries",
+      "topics": [
+        "secondaries",
+        "mergers-acquisitions"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_86b33d1bb6e472ba",
+          "source": "Demo Private Capital Daily",
+          "sourceId": "demo-private-capital-daily",
+          "title": "Secondaries volume hits record as LPs seek liquidity",
+          "url": "https://example.com/private-capital-daily/secondaries-record",
+          "publishedAt": "2026-10-01T11:27:17.477Z"
+        }
+      ]
+    },
+    {
+      "id": "s_5a385db0c12008",
+      "headline": "ADGM-registered Crescent Peak announces first close of GCC secondaries fund",
+      "summary": "The vehicle will buy LP stakes and back GP-led continuation vehicles in the region.",
+      "url": "https://example.com/emirates-markets/crescent-peak-secondaries-first-close",
+      "source": "Demo Emirates Markets",
+      "sourceId": "demo-emirates-markets",
+      "publishedAt": "2026-09-29T10:27:17.000Z",
+      "updatedAt": "2026-09-29T10:27:17.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "secondaries",
+      "topicLabel": "Secondaries",
+      "topics": [
+        "secondaries",
+        "fundraising",
+        "private-equity"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_fed27b364d038ad9",
+          "source": "Demo Emirates Markets",
+          "sourceId": "demo-emirates-markets",
+          "title": "ADGM-registered Crescent Peak announces first close of GCC secondaries fund",
+          "url": "https://example.com/emirates-markets/crescent-peak-secondaries-first-close",
+          "publishedAt": "2026-09-29T10:27:17.000Z"
+        }
+      ]
+    }
+  ]
+}

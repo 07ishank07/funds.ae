@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- FICTIONAL DEMO FEED. Companies, people and links are invented for testing. -->
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Demo Gulf Wire</title>
+    <link>https://example.com/gulf-wire</link>
+    <description>Fictional UAE business wire used by Funds.ae demo mode</description>
+
+    <item>
+      <title>Abu Dhabi's Falcon Ridge Capital closes $750m second private credit fund</title>
+      <link>https://example.com/gulf-wire/falcon-ridge-private-credit-fund-ii</link>
+      <guid isPermaLink="false">gw-1001</guid>
+      <pubDate>{{RFC822:-9h}}</pubDate>
+      <dc:creator>Demo Desk</dc:creator>
+      <category>Finance</category>
+      <description><![CDATA[<p>The ADGM-registered manager said the fund drew commitments from regional pension funds and family offices, and will lend to mid-sized companies across the GCC.</p><p>The post Falcon Ridge closes fund appeared first on Demo Gulf Wire.</p>]]></description>
+      <media:content url="https://example.com/images/falcon-ridge.jpg" medium="image" width="1200" height="675" />
+    </item>
+
+    <item>
+      <title>Dubai-based fintech Qirsh raises $45 million Series B led by Sandline Ventures</title>
+      <link>https://example.com/gulf-wire/qirsh-series-b</link>
+      <guid isPermaLink="false">gw-1002</guid>
+      <pubDate>{{RFC822:-30h}}</pubDate>
+      <category>Startups</category>
+      <description>The buy-now-pay-later provider will use the capital to expand into Saudi Arabia and hire 120 staff in its DIFC office.</description>
+      <media:content url="https://example.com/images/qirsh.jpg" medium="image" width="1200" height="675" />
+    </item>
+
+    <item>
+      <title>Dubai-based fintech Qirsh raises $45 million Series B led by Sandline Ventures</title>
+      <link>https://www.example.com/gulf-wire/qirsh-series-b/?utm_source=rss&amp;utm_medium=feed#comments</link>
+      <guid isPermaLink="false">gw-1002-syndicated</guid>
+      <pubDate>{{RFC822:-29h}}</pubDate>
+      <description>Duplicate of the item above with tracking parameters: must be removed by URL canonicalisation.</description>
+    </item>
+
+    <item>
+      <title>DIFC fund managers pass 500 as hedge funds and family offices keep arriving</title>
+      <link>https://example.com/gulf-wire/difc-fund-managers-500</link>
+      <guid isPermaLink="false">gw-1003</guid>
+      <pubDate>{{RFC822:-2d4h}}</pubDate>
+      <category>Markets</category>
+      <description>The financial centre said 38 hedge funds registered in the first half, with assets under management at resident firms up 21 per cent.</description>
+    </item>
+
+    <item>
+      <title>Abu Dhabi's Sandstone Holdings takes majority stake in Egyptian dairy group</title>
+      <link>https://example.com/gulf-wire/sandstone-majority-stake-dairy</link>
+      <guid isPermaLink="false">gw-1004</guid>
+      <pubDate>{{RFC822:-3d2h}}</pubDate>
+      <description>The acquisition values the Cairo-based company at about $310 million, according to people familiar with the deal.</description>
+    </item>
+
+    <item>
+      <title>Opinion: Why Gulf limited partners should rethink the J-curve</title>
+      <link>https://example.com/gulf-wire/opinion/gulf-lps-j-curve</link>
+      <guid isPermaLink="false">gw-1005</guid>
+      <pubDate>{{RFC822:-5h}}</pubDate>
+      <description>An opinion column. Must be filtered out because excludeOpinion is true.</description>
+    </item>
+
+    <item>
+      <title>Sponsored: Discover waterfront living at Palm Crest Residences</title>
+      <link>https://example.com/gulf-wire/sponsored/palm-crest</link>
+      <guid isPermaLink="false">gw-1006</guid>
+      <pubDate>{{RFC822:-6h}}</pubDate>
+      <description>Advertorial. Must be filtered out.</description>
+    </item>
+
+    <item>
+      <title>UAE football league announces new season schedule</title>
+      <link>https://example.com/gulf-wire/football-season-schedule</link>
+      <guid isPermaLink="false">gw-1007</guid>
+      <pubDate>{{RFC822:-7h}}</pubDate>
+      <description>Not about investment. Must be filtered out as not relevant.</description>
+    </item>
+
+    <item>
+      <title>Dubai off-plan property prices climb 12% as buyers return</title>
+      <link>https://example.com/gulf-wire/off-plan-prices</link>
+      <guid isPermaLink="false">gw-1008</guid>
+      <pubDate>{{RFC822:-8h}}</pubDate>
+      <description>Residential sales rose in the third quarter, brokers said.</description>
+    </item>
+
+    <item>
+      <title>Abu Dhabi fund of funds makes first private equity commitment</title>
+      <link>https://example.com/gulf-wire/old-fund-of-funds</link>
+      <guid isPermaLink="false">gw-0900</guid>
+      <pubDate>{{RFC822:-40d}}</pubDate>
+      <description>Older than maxAgeDays. Must be filtered out as too old.</description>
+    </item>
+  </channel>
+</rss>

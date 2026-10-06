@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- FICTIONAL DEMO FEED. Companies, schemes and links are invented for testing.
+     Feeds the "Real Estate and Infrastructure" and "UAE Business Grants and Funding" sections. -->
+<rss version="2.0">
+  <channel>
+    <title>Demo Property and SME Wire</title>
+    <link>https://example.com/property-sme-wire</link>
+    <description>Fictional property, infrastructure and SME funding wire used by Funds.ae demo mode</description>
+
+    <item>
+      <title>Dubai developer Sandhaven launches AED 500m real estate fund for build-to-rent homes</title>
+      <link>https://example.com/property-sme-wire/sandhaven-build-to-rent-fund</link>
+      <guid isPermaLink="false">psw-2001</guid>
+      <pubDate>{{RFC822:-5h}}</pubDate>
+      <description>The fund will buy completed apartment blocks in established Dubai communities and hold them for rental income.</description>
+    </item>
+
+    <item>
+      <title>Tidewell REIT raises AED 300m to buy logistics warehouses in Abu Dhabi</title>
+      <link>https://example.com/property-sme-wire/tidewell-reit-logistics</link>
+      <guid isPermaLink="false">psw-2002</guid>
+      <pubDate>{{RFC822:-20h}}</pubDate>
+      <description>The listed real estate investment trust said demand from e-commerce tenants remains strong across the emirate's industrial zones.</description>
+    </item>
+
+    <item>
+      <title>Sharjah infrastructure fund backs new solar and water projects</title>
+      <link>https://example.com/property-sme-wire/sharjah-infrastructure-fund-solar</link>
+      <guid isPermaLink="false">psw-2003</guid>
+      <pubDate>{{RFC822:-2d4h}}</pubDate>
+      <description>The infrastructure investment programme will co-finance utility-scale solar plants and a desalination upgrade.</description>
+    </item>
+
+    <item>
+      <title>Emirati SME grant scheme opens AED 100m funding programme for manufacturers</title>
+      <link>https://example.com/property-sme-wire/sme-grant-manufacturers</link>
+      <guid isPermaLink="false">psw-2004</guid>
+      <pubDate>{{RFC822:-8h}}</pubDate>
+      <description>Small manufacturers can apply for grants of up to AED 500,000 to modernise equipment and hire local staff.</description>
+    </item>
+
+    <item>
+      <title>Dubai SME fund offers soft loans to 200 early-stage food companies</title>
+      <link>https://example.com/property-sme-wire/dubai-sme-fund-soft-loans</link>
+      <guid isPermaLink="false">psw-2005</guid>
+      <pubDate>{{RFC822:-1d2h}}</pubDate>
+      <description>The SME support programme pairs interest-free soft loans with mentoring from established regional food brands.</description>
+    </item>
+
+    <item>
+      <title>Abu Dhabi innovation fund awards startup grants to 40 climate-tech founders</title>
+      <link>https://example.com/property-sme-wire/abu-dhabi-innovation-fund-grants</link>
+      <guid isPermaLink="false">psw-2006</guid>
+      <pubDate>{{RFC822:-3d1h}}</pubDate>
+      <description>Each founder receives a grant and access to pilot sites operated by local utilities.</description>
+    </item>
+
+    <item>
+      <title>Brindlecourt Infrastructure closes €1.2bn infrastructure fund for European data centres</title>
+      <link>https://example.com/property-sme-wire/brindlecourt-data-centre-fund</link>
+      <guid isPermaLink="false">psw-2007</guid>
+      <pubDate>{{RFC822:-1d9h}}</pubDate>
+      <description>The final close drew commitments from pension funds and insurers in Europe and Asia.</description>
+    </item>
+
+    <item>
+      <title>London property fund Wexmoor raises £400m for student housing</title>
+      <link>https://example.com/property-sme-wire/wexmoor-student-housing</link>
+      <guid isPermaLink="false">psw-2008</guid>
+      <pubDate>{{RFC822:-4d6h}}</pubDate>
+      <description>The real estate fund will target purpose-built student accommodation in university cities.</description>
+    </item>
+  </channel>
+</rss>

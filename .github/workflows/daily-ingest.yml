@@ -1,0 +1,85 @@
+# Runs the news and jobs ingestion once a day, commits the updated database
+# and API files, and refreshes the website.
+# You can also start it by hand: GitHub > Actions > "Daily news and jobs update" > Run workflow.
+name: Daily news and jobs update
+
+on:
+  schedule:
+    - cron: "0 3 * * *"   # 03:00 UTC = 07:00 UAE time. GitHub may start it a few minutes late.
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: fundsae-data
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install
+        run: npm ci --no-audit --no-fund --ignore-scripts
+
+      - name: Check configuration
+        run: npm run validate
+
+      - name: Run tests
+        run: npm test
+
+      - name: Fetch news, jobs, events and sponsors
+        id: ingest
+        continue-on-error: true
+        run: npm run ingest
+
+      - name: Save results to the repository
+        working-directory: .
+        run: |
+          git config user.name "funds-ae-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add backend/data api/v1
+          # Form submissions are personal data and git-ignored; refuse to commit them even if forced.
+          if git diff --cached --name-only | grep -q "submissions/"; then
+            echo "::error::Refusing to commit form submissions."
+            exit 1
+          fi
+          if git diff --cached --quiet; then
+            echo "Nothing changed."
+            exit 0
+          fi
+          git commit -m "Daily update $(date -u +'%Y-%m-%d %H:%M') UTC"
+          for attempt in 1 2 3; do
+            git pull --rebase origin "${GITHUB_REF_NAME}" && git push && exit 0
+            echo "Push failed (attempt ${attempt}); retrying in 15 seconds."
+            sleep 15
+          done
+          exit 1
+
+      - name: Refresh GitHub Pages
+        if: always()
+        working-directory: .
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds" >/dev/null 2>&1 || echo "Pages will rebuild on its own."
+
+      - name: Report failure
+        if: steps.ingest.outcome == 'failure'
+        run: |
+          echo "::error::The ingestion step failed. Open the 'Fetch news, jobs, events and sponsors' step above for details. The site kept its previous data."
+          exit 1

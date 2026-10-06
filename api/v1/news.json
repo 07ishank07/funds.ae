@@ -1,0 +1,785 @@
+{
+  "apiVersion": 1,
+  "mode": "demo",
+  "generatedAt": "2026-10-03T13:27:17.477Z",
+  "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
+  "count": 24,
+  "items": [
+    {
+      "id": "s_36c692072aa8b0",
+      "headline": "Dubai developer Sandhaven launches AED 500m real estate fund for build-to-rent homes",
+      "summary": "The fund will buy completed apartment blocks in established Dubai communities and hold them for rental income.",
+      "url": "https://example.com/property-sme-wire/sandhaven-build-to-rent-fund",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-10-03T08:27:17.000Z",
+      "updatedAt": "2026-10-03T08:27:17.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "real-estate",
+      "topicLabel": "Real estate",
+      "topics": [
+        "real-estate"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_9ee476a0874ae938",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "Dubai developer Sandhaven launches AED 500m real estate fund for build-to-rent homes",
+          "url": "https://example.com/property-sme-wire/sandhaven-build-to-rent-fund",
+          "publishedAt": "2026-10-03T08:27:17.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_ef84d65926adc3",
+      "headline": "Emirati SME grant scheme opens AED 100m funding programme for manufacturers",
+      "summary": "Small manufacturers can apply for grants of up to AED 500,000 to modernise equipment and hire local staff.",
+      "url": "https://example.com/property-sme-wire/sme-grant-manufacturers",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-10-03T05:27:17.000Z",
+      "updatedAt": "2026-10-03T05:27:17.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "grants-funding",
+      "topicLabel": "Grants and funding",
+      "topics": [
+        "grants-funding"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_0e2edf9e6e88aa44",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "Emirati SME grant scheme opens AED 100m funding programme for manufacturers",
+          "url": "https://example.com/property-sme-wire/sme-grant-manufacturers",
+          "publishedAt": "2026-10-03T05:27:17.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_5dbd32a8d22e9c",
+      "headline": "Abu Dhabi's Falcon Ridge Capital closes $750m second private credit fund",
+      "summary": "The ADGM-registered manager said the fund drew commitments from regional pension funds and family offices, and will lend to mid-sized companies across the GCC.",
+      "url": "https://example.com/gulf-wire/falcon-ridge-private-credit-fund-ii",
+      "source": "Demo Gulf Wire",
+      "sourceId": "demo-gulf-wire",
+      "publishedAt": "2026-10-03T04:27:17.000Z",
+      "updatedAt": "2026-10-03T08:27:17.477Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "private-credit",
+      "topicLabel": "Private credit",
+      "topics": [
+        "private-credit",
+        "fundraising",
+        "institutional-investors"
+      ],
+      "imageUrl": "https://example.com/images/falcon-ridge.jpg",
+      "sourceCount": 3,
+      "sources": [
+        {
+          "articleId": "a_f571fc8bf3c58049",
+          "source": "Demo Gulf Wire",
+          "sourceId": "demo-gulf-wire",
+          "title": "Abu Dhabi's Falcon Ridge Capital closes $750m second private credit fund",
+          "url": "https://example.com/gulf-wire/falcon-ridge-private-credit-fund-ii",
+          "publishedAt": "2026-10-03T04:27:17.000Z"
+        },
+        {
+          "articleId": "a_0767f4e44124c67e",
+          "source": "Demo Emirates Markets",
+          "sourceId": "demo-emirates-markets",
+          "title": "Falcon Ridge Capital raises $750 million for private credit strategy",
+          "url": "https://example.com/emirates-markets/falcon-ridge-750-million",
+          "publishedAt": "2026-10-03T06:27:17.000Z"
+        },
+        {
+          "articleId": "a_7ce855c52942d109",
+          "source": "Demo Private Capital Daily",
+          "sourceId": "demo-private-capital-daily",
+          "title": "Abu Dhabi manager Falcon Ridge wraps up $750m private credit fundraise",
+          "url": "https://example.com/private-capital-daily/falcon-ridge-wraps-up",
+          "publishedAt": "2026-10-03T08:27:17.477Z"
+        }
+      ]
+    },
+    {
+      "id": "s_cac881816e0b91",
+      "headline": "Seed round: Dubai-based Tahweel raises $4m to digitise remittances",
+      "summary": "The company is licensed in the DIFC innovation sandbox.",
+      "url": "https://example.com/venture-ledger/tahweel-seed",
+      "source": "Demo Venture Ledger",
+      "sourceId": "demo-venture-ledger",
+      "publishedAt": "2026-10-02T22:27:17.000Z",
+      "updatedAt": "2026-10-02T22:27:17.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "venture-capital",
+      "topicLabel": "Venture capital",
+      "topics": [
+        "venture-capital"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_d4731f5ae254f223",
+          "source": "Demo Venture Ledger",
+          "sourceId": "demo-venture-ledger",
+          "title": "Seed round: Dubai-based Tahweel raises $4m to digitise remittances",
+          "url": "https://example.com/venture-ledger/tahweel-seed",
+          "publishedAt": "2026-10-02T22:27:17.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_1ec502cf2475e3",
+      "headline": "Gulf sovereign investors join $1bn round for London AI infrastructure firm Northlight",
+      "summary": "Investors from Abu Dhabi and Riyadh took part alongside US pension funds, people familiar with the matter said.",
+      "url": "https://example.com/private-capital-daily/northlight-1bn-round",
+      "source": "Demo Private Capital Daily",
+      "sourceId": "demo-private-capital-daily",
+      "publishedAt": "2026-10-02T17:27:17.477Z",
+      "updatedAt": "2026-10-02T17:27:17.477Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "institutional-investors",
+      "topicLabel": "Sovereign and institutional investors",
+      "topics": [
+        "institutional-investors",
+        "ai-technology",
+        "infrastructure"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_845e42dfd074172f",
+          "source": "Demo Private Capital Daily",
+          "sourceId": "demo-private-capital-daily",
+          "title": "Gulf sovereign investors join $1bn round for London AI infrastructure firm Northlight",
+          "url": "https://example.com/private-capital-daily/northlight-1bn-round",
+          "publishedAt": "2026-10-02T17:27:17.477Z"
+        }
+      ]
+    },
+    {
+      "id": "s_46c15c6bee49f5",
+      "headline": "Tidewell REIT raises AED 300m to buy logistics warehouses in Abu Dhabi",
+      "summary": "The listed real estate investment trust said demand from e-commerce tenants remains strong across the emirate's industrial zones.",
+      "url": "https://example.com/property-sme-wire/tidewell-reit-logistics",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-10-02T17:27:17.000Z",
+      "updatedAt": "2026-10-02T17:27:17.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "real-estate",
+      "topicLabel": "Real estate",
+      "topics": [
+        "real-estate",
+        "venture-capital"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_28b8f0155619a511",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "Tidewell REIT raises AED 300m to buy logistics warehouses in Abu Dhabi",
+          "url": "https://example.com/property-sme-wire/tidewell-reit-logistics",
+          "publishedAt": "2026-10-02T17:27:17.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_cd4127d9c5f681",
+      "headline": "Dubai SME fund offers soft loans to 200 early-stage food companies",
+      "summary": "The SME support programme pairs interest-free soft loans with mentoring from established regional food brands.",
+      "url": "https://example.com/property-sme-wire/dubai-sme-fund-soft-loans",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-10-02T11:27:17.000Z",
+      "updatedAt": "2026-10-02T11:27:17.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "grants-funding",
+      "topicLabel": "Grants and funding",
+      "topics": [
+        "grants-funding"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_ed934ace8f14d9cd",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "Dubai SME fund offers soft loans to 200 early-stage food companies",
+          "url": "https://example.com/property-sme-wire/dubai-sme-fund-soft-loans",
+          "publishedAt": "2026-10-02T11:27:17.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_0f1c5b82ce1c1e",
+      "headline": "Berlin climate start-up Voltwerk raises $60m Series B",
+      "summary": "The grid-storage company will use the funding to open factories in Poland and Spain.",
+      "url": "https://example.com/venture-ledger/voltwerk-series-b",
+      "source": "Demo Venture Ledger",
+      "sourceId": "demo-venture-ledger",
+      "publishedAt": "2026-10-02T11:27:17.000Z",
+      "updatedAt": "2026-10-02T11:27:17.000Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "venture-capital",
+      "topicLabel": "Venture capital",
+      "topics": [
+        "venture-capital"
+      ],
+      "imageUrl": "https://example.com/images/voltwerk.jpg",
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_bc86c61f9f1706ee",
+          "source": "Demo Venture Ledger",
+          "sourceId": "demo-venture-ledger",
+          "title": "Berlin climate start-up Voltwerk raises $60m Series B",
+          "url": "https://example.com/venture-ledger/voltwerk-series-b",
+          "publishedAt": "2026-10-02T11:27:17.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_576aaea4077729",
+      "headline": "Harbourview Partners closes €4.2bn buyout fund above target",
+      "summary": "The London-based private equity firm said its seventh flagship fund hit its hard cap after nine months in market.",
+      "url": "https://example.com/private-capital-daily/harbourview-fund-vii",
+      "source": "Demo Private Capital Daily",
+      "sourceId": "demo-private-capital-daily",
+      "publishedAt": "2026-10-02T07:27:17.477Z",
+      "updatedAt": "2026-10-02T07:27:17.477Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "private-equity",
+      "topicLabel": "Private equity",
+      "topics": [
+        "private-equity",
+        "fundraising"
+      ],
+      "imageUrl": "https://example.com/images/harbourview.jpg",
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_a53bf2c46f8c3e01",
+          "source": "Demo Private Capital Daily",
+          "sourceId": "demo-private-capital-daily",
+          "title": "Harbourview Partners closes €4.2bn buyout fund above target",
+          "url": "https://example.com/private-capital-daily/harbourview-fund-vii",
+          "publishedAt": "2026-10-02T07:27:17.477Z"
+        }
+      ]
+    },
+    {
+      "id": "s_7f39d1f83e5cfa",
+      "headline": "Dubai-based fintech Qirsh raises $45 million Series B led by Sandline Ventures",
+      "summary": "The buy-now-pay-later provider will use the capital to expand into Saudi Arabia and hire 120 staff in its DIFC office.",
+      "url": "https://example.com/gulf-wire/qirsh-series-b",
+      "source": "Demo Gulf Wire",
+      "sourceId": "demo-gulf-wire",
+      "publishedAt": "2026-10-02T07:27:17.000Z",
+      "updatedAt": "2026-10-02T17:27:17.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "venture-capital",
+      "topicLabel": "Venture capital",
+      "topics": [
+        "venture-capital",
+        "ai-technology",
+        "institutional-investors"
+      ],
+      "imageUrl": "https://example.com/images/qirsh.jpg",
+      "sourceCount": 3,
+      "sources": [
+        {
+          "articleId": "a_47f6735e591cea65",
+          "source": "Demo Gulf Wire",
+          "sourceId": "demo-gulf-wire",
+          "title": "Dubai-based fintech Qirsh raises $45 million Series B led by Sandline Ventures",
+          "url": "https://example.com/gulf-wire/qirsh-series-b",
+          "publishedAt": "2026-10-02T07:27:17.000Z"
+        },
+        {
+          "articleId": "a_d0a9ae63a58b381b",
+          "source": "Demo Emirates Markets",
+          "sourceId": "demo-emirates-markets",
+          "title": "Qirsh secures $45m in Series B round as Dubai payments start-up expands to Riyadh",
+          "url": "https://example.com/emirates-markets/qirsh-45m-series-b-riyadh",
+          "publishedAt": "2026-10-02T11:27:17.000Z"
+        },
+        {
+          "articleId": "a_e72c6985fb047deb",
+          "source": "Demo Venture Ledger",
+          "sourceId": "demo-venture-ledger",
+          "title": "Qirsh lands $45 million to take buy-now-pay-later across the Gulf",
+          "url": "https://example.com/venture-ledger/qirsh-45-million",
+          "publishedAt": "2026-10-02T17:27:17.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_a42cf20de9d2eb",
+      "headline": "Brindlecourt Infrastructure closes €1.2bn infrastructure fund for European data centres",
+      "summary": "The final close drew commitments from pension funds and insurers in Europe and Asia.",
+      "url": "https://example.com/property-sme-wire/brindlecourt-data-centre-fund",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-10-02T04:27:17.000Z",
+      "updatedAt": "2026-10-02T04:27:17.000Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "infrastructure",
+      "topicLabel": "Infrastructure",
+      "topics": [
+        "infrastructure",
+        "ai-technology",
+        "fundraising"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_58ca14532f4deae7",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "Brindlecourt Infrastructure closes €1.2bn infrastructure fund for European data centres",
+          "url": "https://example.com/property-sme-wire/brindlecourt-data-centre-fund",
+          "publishedAt": "2026-10-02T04:27:17.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_20a6669eae460f",
+      "headline": "Sharjah family office launches $200m venture fund for climate start-ups",
+      "summary": "The fund will write cheques of $2 million to $10 million into seed and Series A companies.",
+      "url": "https://example.com/emirates-markets/sharjah-family-office-climate-fund",
+      "source": "Demo Emirates Markets",
+      "sourceId": "demo-emirates-markets",
+      "publishedAt": "2026-10-02T03:27:17.000Z",
+      "updatedAt": "2026-10-02T03:27:17.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "venture-capital",
+      "topicLabel": "Venture capital",
+      "topics": [
+        "venture-capital",
+        "institutional-investors"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_6e87c828112f76ec",
+          "source": "Demo Emirates Markets",
+          "sourceId": "demo-emirates-markets",
+          "title": "Sharjah family office launches $200m venture fund for climate start-ups",
+          "url": "https://example.com/emirates-markets/sharjah-family-office-climate-fund",
+          "publishedAt": "2026-10-02T03:27:17.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_89280b2a65569b",
+      "headline": "Abu Dhabi logistics group Harbourline agrees $1.2bn takeover of Omani port operator",
+      "summary": "The tender offer is backed by a consortium of regional institutional investors.",
+      "url": "https://example.com/emirates-markets/harbourline-takeover",
+      "source": "Demo Emirates Markets",
+      "sourceId": "demo-emirates-markets",
+      "publishedAt": "2026-10-01T12:27:17.000Z",
+      "updatedAt": "2026-10-01T12:27:17.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "mergers-acquisitions",
+      "topicLabel": "M&A",
+      "topics": [
+        "mergers-acquisitions",
+        "institutional-investors"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_a615b76c9f9d631c",
+          "source": "Demo Emirates Markets",
+          "sourceId": "demo-emirates-markets",
+          "title": "Abu Dhabi logistics group Harbourline agrees $1.2bn takeover of Omani port operator",
+          "url": "https://example.com/emirates-markets/harbourline-takeover",
+          "publishedAt": "2026-10-01T12:27:17.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_1a1fbf34e56a27",
+      "headline": "Secondaries volume hits record as LPs seek liquidity",
+      "summary": "GP-led continuation vehicles accounted for almost half of first-half deal value, a broker report found.",
+      "url": "https://example.com/private-capital-daily/secondaries-record",
+      "source": "Demo Private Capital Daily",
+      "sourceId": "demo-private-capital-daily",
+      "publishedAt": "2026-10-01T11:27:17.477Z",
+      "updatedAt": "2026-10-01T11:27:17.477Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "secondaries",
+      "topicLabel": "Secondaries",
+      "topics": [
+        "secondaries",
+        "mergers-acquisitions"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_86b33d1bb6e472ba",
+          "source": "Demo Private Capital Daily",
+          "sourceId": "demo-private-capital-daily",
+          "title": "Secondaries volume hits record as LPs seek liquidity",
+          "url": "https://example.com/private-capital-daily/secondaries-record",
+          "publishedAt": "2026-10-01T11:27:17.477Z"
+        }
+      ]
+    },
+    {
+      "id": "s_062e5f384d5c3e",
+      "headline": "DIFC fund managers pass 500 as hedge funds and family offices keep arriving",
+      "summary": "The financial centre said 38 hedge funds registered in the first half, with assets under management at resident firms up 21 per cent.",
+      "url": "https://example.com/gulf-wire/difc-fund-managers-500",
+      "source": "Demo Gulf Wire",
+      "sourceId": "demo-gulf-wire",
+      "publishedAt": "2026-10-01T09:27:17.000Z",
+      "updatedAt": "2026-10-01T09:27:17.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "hedge-funds-alternatives",
+      "topicLabel": "Hedge funds and alternatives",
+      "topics": [
+        "hedge-funds-alternatives",
+        "institutional-investors",
+        "fundraising"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_8ed8f6435a1746d4",
+          "source": "Demo Gulf Wire",
+          "sourceId": "demo-gulf-wire",
+          "title": "DIFC fund managers pass 500 as hedge funds and family offices keep arriving",
+          "url": "https://example.com/gulf-wire/difc-fund-managers-500",
+          "publishedAt": "2026-10-01T09:27:17.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_50a38aa499d7a1",
+      "headline": "Sharjah infrastructure fund backs new solar and water projects",
+      "summary": "The infrastructure investment programme will co-finance utility-scale solar plants and a desalination upgrade.",
+      "url": "https://example.com/property-sme-wire/sharjah-infrastructure-fund-solar",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-10-01T09:27:17.000Z",
+      "updatedAt": "2026-10-01T09:27:17.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "infrastructure",
+      "topicLabel": "Infrastructure",
+      "topics": [
+        "infrastructure",
+        "energy"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_58e9d8f9b2c84445",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "Sharjah infrastructure fund backs new solar and water projects",
+          "url": "https://example.com/property-sme-wire/sharjah-infrastructure-fund-solar",
+          "publishedAt": "2026-10-01T09:27:17.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_ca2a801ab5ba25",
+      "headline": "Singapore's Lumen Health raises $30 million led by Tidewater Ventures",
+      "summary": "The digital clinic operator plans to enter Indonesia and Vietnam next year.",
+      "url": "https://example.com/venture-ledger/lumen-health-30m",
+      "source": "Demo Venture Ledger",
+      "sourceId": "demo-venture-ledger",
+      "publishedAt": "2026-10-01T07:27:17.000Z",
+      "updatedAt": "2026-10-01T07:27:17.000Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "venture-capital",
+      "topicLabel": "Venture capital",
+      "topics": [
+        "venture-capital"
+      ],
+      "imageUrl": "https://example.com/images/lumen.png",
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_f91af6d016fe297c",
+          "source": "Demo Venture Ledger",
+          "sourceId": "demo-venture-ledger",
+          "title": "Singapore's Lumen Health raises $30 million led by Tidewater Ventures",
+          "url": "https://example.com/venture-ledger/lumen-health-30m",
+          "publishedAt": "2026-10-01T07:27:17.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_f6a599b474b486",
+      "headline": "Pension funds lift allocations to infrastructure debt",
+      "summary": "A survey of 140 institutional investors found most plan to raise private credit exposure over the next year.",
+      "url": "https://example.com/private-capital-daily/pensions-infrastructure-debt",
+      "source": "Demo Private Capital Daily",
+      "sourceId": "demo-private-capital-daily",
+      "publishedAt": "2026-09-30T13:27:17.477Z",
+      "updatedAt": "2026-09-30T13:27:17.477Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "institutional-investors",
+      "topicLabel": "Sovereign and institutional investors",
+      "topics": [
+        "institutional-investors",
+        "private-credit",
+        "infrastructure"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_abbfc331682f3f55",
+          "source": "Demo Private Capital Daily",
+          "sourceId": "demo-private-capital-daily",
+          "title": "Pension funds lift allocations to infrastructure debt",
+          "url": "https://example.com/private-capital-daily/pensions-infrastructure-debt",
+          "publishedAt": "2026-09-30T13:27:17.477Z"
+        }
+      ]
+    },
+    {
+      "id": "s_b5381e51ce15cb",
+      "headline": "Abu Dhabi innovation fund awards startup grants to 40 climate-tech founders",
+      "summary": "Each founder receives a grant and access to pilot sites operated by local utilities.",
+      "url": "https://example.com/property-sme-wire/abu-dhabi-innovation-fund-grants",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-09-30T12:27:17.000Z",
+      "updatedAt": "2026-09-30T12:27:17.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "grants-funding",
+      "topicLabel": "Grants and funding",
+      "topics": [
+        "grants-funding",
+        "venture-capital",
+        "energy"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_9e5455e0d359fef7",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "Abu Dhabi innovation fund awards startup grants to 40 climate-tech founders",
+          "url": "https://example.com/property-sme-wire/abu-dhabi-innovation-fund-grants",
+          "publishedAt": "2026-09-30T12:27:17.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_d5c44978d20304",
+      "headline": "Abu Dhabi's Sandstone Holdings takes majority stake in Egyptian dairy group",
+      "summary": "The acquisition values the Cairo-based company at about $310 million, according to people familiar with the deal.",
+      "url": "https://example.com/gulf-wire/sandstone-majority-stake-dairy",
+      "source": "Demo Gulf Wire",
+      "sourceId": "demo-gulf-wire",
+      "publishedAt": "2026-09-30T11:27:17.000Z",
+      "updatedAt": "2026-09-30T11:27:17.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "mergers-acquisitions",
+      "topicLabel": "M&A",
+      "topics": [
+        "mergers-acquisitions"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_47d29ce7539f1e7f",
+          "source": "Demo Gulf Wire",
+          "sourceId": "demo-gulf-wire",
+          "title": "Abu Dhabi's Sandstone Holdings takes majority stake in Egyptian dairy group",
+          "url": "https://example.com/gulf-wire/sandstone-majority-stake-dairy",
+          "publishedAt": "2026-09-30T11:27:17.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_3569b3929adea8",
+      "headline": "VC funding to MENA start-ups rose 18% in the third quarter",
+      "summary": "Fintech and logistics companies took the largest share of capital, a data provider said.",
+      "url": "https://example.com/venture-ledger/mena-vc-q3",
+      "source": "Demo Venture Ledger",
+      "sourceId": "demo-venture-ledger",
+      "publishedAt": "2026-09-30T08:27:17.000Z",
+      "updatedAt": "2026-09-30T08:27:17.000Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "venture-capital",
+      "topicLabel": "Venture capital",
+      "topics": [
+        "venture-capital",
+        "ai-technology"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_eebd3c65455ed78a",
+          "source": "Demo Venture Ledger",
+          "sourceId": "demo-venture-ledger",
+          "title": "VC funding to MENA start-ups rose 18% in the third quarter",
+          "url": "https://example.com/venture-ledger/mena-vc-q3",
+          "publishedAt": "2026-09-30T08:27:17.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_06453dd1915e5e",
+      "headline": "Kestrel Credit Partners hires bank veteran to lead European direct lending",
+      "summary": "The private credit manager is expanding its mid-market lending team in Frankfurt and Paris.",
+      "url": "https://example.com/private-capital-daily/kestrel-direct-lending-hire",
+      "source": "Demo Private Capital Daily",
+      "sourceId": "demo-private-capital-daily",
+      "publishedAt": "2026-09-30T05:27:17.477Z",
+      "updatedAt": "2026-09-30T05:27:17.477Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "private-credit",
+      "topicLabel": "Private credit",
+      "topics": [
+        "private-credit"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_10cc7d475fd91f3c",
+          "source": "Demo Private Capital Daily",
+          "sourceId": "demo-private-capital-daily",
+          "title": "Kestrel Credit Partners hires bank veteran to lead European direct lending",
+          "url": "https://example.com/private-capital-daily/kestrel-direct-lending-hire",
+          "publishedAt": "2026-09-30T05:27:17.477Z"
+        }
+      ]
+    },
+    {
+      "id": "s_5a385db0c12008",
+      "headline": "ADGM-registered Crescent Peak announces first close of GCC secondaries fund",
+      "summary": "The vehicle will buy LP stakes and back GP-led continuation vehicles in the region.",
+      "url": "https://example.com/emirates-markets/crescent-peak-secondaries-first-close",
+      "source": "Demo Emirates Markets",
+      "sourceId": "demo-emirates-markets",
+      "publishedAt": "2026-09-29T10:27:17.000Z",
+      "updatedAt": "2026-09-29T10:27:17.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "secondaries",
+      "topicLabel": "Secondaries",
+      "topics": [
+        "secondaries",
+        "fundraising",
+        "private-equity"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_fed27b364d038ad9",
+          "source": "Demo Emirates Markets",
+          "sourceId": "demo-emirates-markets",
+          "title": "ADGM-registered Crescent Peak announces first close of GCC secondaries fund",
+          "url": "https://example.com/emirates-markets/crescent-peak-secondaries-first-close",
+          "publishedAt": "2026-09-29T10:27:17.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_c8d19186907ab1",
+      "headline": "London property fund Wexmoor raises £400m for student housing",
+      "summary": "The real estate fund will target purpose-built student accommodation in university cities.",
+      "url": "https://example.com/property-sme-wire/wexmoor-student-housing",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-09-29T07:27:17.000Z",
+      "updatedAt": "2026-09-29T07:27:17.000Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "real-estate",
+      "topicLabel": "Real estate",
+      "topics": [
+        "real-estate",
+        "venture-capital"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_1cf9b64666a0727d",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "London property fund Wexmoor raises £400m for student housing",
+          "url": "https://example.com/property-sme-wire/wexmoor-student-housing",
+          "publishedAt": "2026-09-29T07:27:17.000Z"
+        }
+      ]
+    }
+  ]
+}

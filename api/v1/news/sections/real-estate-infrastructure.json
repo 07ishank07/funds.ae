@@ -1,0 +1,230 @@
+{
+  "apiVersion": 1,
+  "mode": "demo",
+  "generatedAt": "2026-10-03T13:27:17.477Z",
+  "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
+  "section": "real-estate-infrastructure",
+  "label": "Real Estate and Infrastructure",
+  "count": 7,
+  "items": [
+    {
+      "id": "s_36c692072aa8b0",
+      "headline": "Dubai developer Sandhaven launches AED 500m real estate fund for build-to-rent homes",
+      "summary": "The fund will buy completed apartment blocks in established Dubai communities and hold them for rental income.",
+      "url": "https://example.com/property-sme-wire/sandhaven-build-to-rent-fund",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-10-03T08:27:17.000Z",
+      "updatedAt": "2026-10-03T08:27:17.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "real-estate",
+      "topicLabel": "Real estate",
+      "topics": [
+        "real-estate"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_9ee476a0874ae938",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "Dubai developer Sandhaven launches AED 500m real estate fund for build-to-rent homes",
+          "url": "https://example.com/property-sme-wire/sandhaven-build-to-rent-fund",
+          "publishedAt": "2026-10-03T08:27:17.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_1ec502cf2475e3",
+      "headline": "Gulf sovereign investors join $1bn round for London AI infrastructure firm Northlight",
+      "summary": "Investors from Abu Dhabi and Riyadh took part alongside US pension funds, people familiar with the matter said.",
+      "url": "https://example.com/private-capital-daily/northlight-1bn-round",
+      "source": "Demo Private Capital Daily",
+      "sourceId": "demo-private-capital-daily",
+      "publishedAt": "2026-10-02T17:27:17.477Z",
+      "updatedAt": "2026-10-02T17:27:17.477Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "institutional-investors",
+      "topicLabel": "Sovereign and institutional investors",
+      "topics": [
+        "institutional-investors",
+        "ai-technology",
+        "infrastructure"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_845e42dfd074172f",
+          "source": "Demo Private Capital Daily",
+          "sourceId": "demo-private-capital-daily",
+          "title": "Gulf sovereign investors join $1bn round for London AI infrastructure firm Northlight",
+          "url": "https://example.com/private-capital-daily/northlight-1bn-round",
+          "publishedAt": "2026-10-02T17:27:17.477Z"
+        }
+      ]
+    },
+    {
+      "id": "s_46c15c6bee49f5",
+      "headline": "Tidewell REIT raises AED 300m to buy logistics warehouses in Abu Dhabi",
+      "summary": "The listed real estate investment trust said demand from e-commerce tenants remains strong across the emirate's industrial zones.",
+      "url": "https://example.com/property-sme-wire/tidewell-reit-logistics",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-10-02T17:27:17.000Z",
+      "updatedAt": "2026-10-02T17:27:17.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "real-estate",
+      "topicLabel": "Real estate",
+      "topics": [
+        "real-estate",
+        "venture-capital"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_28b8f0155619a511",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "Tidewell REIT raises AED 300m to buy logistics warehouses in Abu Dhabi",
+          "url": "https://example.com/property-sme-wire/tidewell-reit-logistics",
+          "publishedAt": "2026-10-02T17:27:17.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_a42cf20de9d2eb",
+      "headline": "Brindlecourt Infrastructure closes €1.2bn infrastructure fund for European data centres",
+      "summary": "The final close drew commitments from pension funds and insurers in Europe and Asia.",
+      "url": "https://example.com/property-sme-wire/brindlecourt-data-centre-fund",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-10-02T04:27:17.000Z",
+      "updatedAt": "2026-10-02T04:27:17.000Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "infrastructure",
+      "topicLabel": "Infrastructure",
+      "topics": [
+        "infrastructure",
+        "ai-technology",
+        "fundraising"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_58ca14532f4deae7",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "Brindlecourt Infrastructure closes €1.2bn infrastructure fund for European data centres",
+          "url": "https://example.com/property-sme-wire/brindlecourt-data-centre-fund",
+          "publishedAt": "2026-10-02T04:27:17.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_50a38aa499d7a1",
+      "headline": "Sharjah infrastructure fund backs new solar and water projects",
+      "summary": "The infrastructure investment programme will co-finance utility-scale solar plants and a desalination upgrade.",
+      "url": "https://example.com/property-sme-wire/sharjah-infrastructure-fund-solar",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-10-01T09:27:17.000Z",
+      "updatedAt": "2026-10-01T09:27:17.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "infrastructure",
+      "topicLabel": "Infrastructure",
+      "topics": [
+        "infrastructure",
+        "energy"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_58e9d8f9b2c84445",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "Sharjah infrastructure fund backs new solar and water projects",
+          "url": "https://example.com/property-sme-wire/sharjah-infrastructure-fund-solar",
+          "publishedAt": "2026-10-01T09:27:17.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_f6a599b474b486",
+      "headline": "Pension funds lift allocations to infrastructure debt",
+      "summary": "A survey of 140 institutional investors found most plan to raise private credit exposure over the next year.",
+      "url": "https://example.com/private-capital-daily/pensions-infrastructure-debt",
+      "source": "Demo Private Capital Daily",
+      "sourceId": "demo-private-capital-daily",
+      "publishedAt": "2026-09-30T13:27:17.477Z",
+      "updatedAt": "2026-09-30T13:27:17.477Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "institutional-investors",
+      "topicLabel": "Sovereign and institutional investors",
+      "topics": [
+        "institutional-investors",
+        "private-credit",
+        "infrastructure"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_abbfc331682f3f55",
+          "source": "Demo Private Capital Daily",
+          "sourceId": "demo-private-capital-daily",
+          "title": "Pension funds lift allocations to infrastructure debt",
+          "url": "https://example.com/private-capital-daily/pensions-infrastructure-debt",
+          "publishedAt": "2026-09-30T13:27:17.477Z"
+        }
+      ]
+    },
+    {
+      "id": "s_c8d19186907ab1",
+      "headline": "London property fund Wexmoor raises £400m for student housing",
+      "summary": "The real estate fund will target purpose-built student accommodation in university cities.",
+      "url": "https://example.com/property-sme-wire/wexmoor-student-housing",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-09-29T07:27:17.000Z",
+      "updatedAt": "2026-09-29T07:27:17.000Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "real-estate",
+      "topicLabel": "Real estate",
+      "topics": [
+        "real-estate",
+        "venture-capital"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_1cf9b64666a0727d",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "London property fund Wexmoor raises £400m for student housing",
+          "url": "https://example.com/property-sme-wire/wexmoor-student-housing",
+          "publishedAt": "2026-09-29T07:27:17.000Z"
+        }
+      ]
+    }
+  ]
+}

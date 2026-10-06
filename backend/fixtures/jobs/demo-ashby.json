@@ -1,0 +1,9 @@
+{
+  "_comment": "FICTIONAL demo response shaped like the Ashby Posting API (api.ashbyhq.com/posting-api/job-board/{name}).",
+  "jobs": [
+    { "id": "hb-01", "title": "M&A Manager", "location": "Abu Dhabi", "department": "Corporate Development", "employmentType": "FullTime", "jobUrl": "https://example.com/careers/harbourline/ma-manager", "publishedAt": "{{ISO:-6d}}", "isListed": true },
+    { "id": "hb-02", "title": "Port Operations Supervisor", "location": "Abu Dhabi", "department": "Operations", "employmentType": "FullTime", "jobUrl": "https://example.com/careers/harbourline/port-ops", "publishedAt": "{{ISO:-2d}}", "isListed": true },
+    { "id": "hb-03", "title": "Financial Controller", "location": "Remote - UAE", "department": "Finance", "employmentType": "FullTime", "jobUrl": "https://example.com/careers/harbourline/financial-controller", "publishedAt": "{{ISO:-8d}}", "isListed": true },
+    { "id": "hb-04", "title": "Treasury Intern", "location": "Abu Dhabi", "department": "Finance", "employmentType": "Intern", "jobUrl": "https://example.com/careers/harbourline/treasury-intern", "publishedAt": "{{ISO:-1d}}", "isListed": false }
+  ]
+}
