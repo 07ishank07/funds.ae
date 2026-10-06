@@ -203,7 +203,7 @@ function validateTaxonomy(taxonomy) {
 // Safe defaults so an older settings.json keeps working.
 const SETTINGS_DEFAULTS = {
   events: { maxPublished: 50, keepPastDays: 30 },
-  employers: { maxPublished: 15 },
+  employers: { maxPublished: 20 },
   submissions: {
     enabled: true,
     retentionDays: 180,

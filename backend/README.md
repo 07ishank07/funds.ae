@@ -128,7 +128,7 @@ Base URL: `https://<site>/api/v1/`, either GitHub Pages (static files) or the se
 | `jobs.json` | `GET /api/v1/jobs?q=&employer=&featured=&limit=&offset=` | Open roles, featured first |
 | `employers.json` | `GET /api/v1/employers` | Employers derived from open roles (top 15) |
 | `events.json` | `GET /api/v1/events?status=upcoming\|past&limit=&offset=` | Upcoming and recent events, soonest first |
-| `sponsors.json` | `GET /api/v1/sponsors` | `{ slots: { platinum, gold, sponsoredPosts, sponsoredMedia, professionalServices, careerResources } }` |
+| `sponsors.json` | `GET /api/v1/sponsors` | `{ slots: { founding, platinum, gold, sponsoredPosts, sponsoredMedia, professionalServices, careerResources } }` |
 | `sources.json`, `taxonomy.json` | `GET /api/v1/sources`, `/taxonomy` | Source health; categories, topics, sections |
 
 Query parameters are validated against an allow-list (`v` is always allowed for cache-busting). `category`, `topic` and `section` must exist in `taxonomy.json`; `q` ≤ 100 characters; `limit` 1–100 (default 20); `offset` 0–10000. Anything else returns 400.
@@ -167,11 +167,12 @@ Query parameters are validated against an allow-list (`v` is always allowed for 
 
 | Slot | Page area | Max | Fields used | `sponsored` |
 |---|---|---|---|---|
-| `platinum` | Home, top of the middle column | 5 | title, url, image, colorFrom/To | yes |
-| `gold` | Home right column and Careers page | 10 | title, label, url, image, colorFrom/To | yes |
+| `founding` | "Elite Founding Sponsor" banner under the masthead on every page except Careers. Empty shows the "Your firm here" advert for the slot | 1 | title, blurb, url, image (logo) | yes |
+| `platinum` | "Elite Partners" box: Home, top of the middle column | 5 | title, url, image, colorFrom/To | yes |
+| `gold` | "Gold Sponsors" box: Home right column | 10 | title, label, url, image, colorFrom/To | yes |
 | `sponsoredPosts` | Home "Sponsored Posts" | 20 | title, blurb, logoText, url, image, colorFrom/To | yes |
 | `sponsoredMedia` | Home "Videos and Podcasts" | 15 | title, label, blurb, url, image | yes |
-| `professionalServices` | Home "Featured Companies" (names only; website, logo and image are kept in the data but not shown) | 20 | title, website, logoText, url, image, colorFrom/To | yes |
+| `professionalServices` | Home "Featured Companies" (names only) and the scrolling strip at the bottom of the Careers page (logo or initials, name, website) | 20 | title, website, logoText, url, image, colorFrom/To | yes |
 | `careerResources` | Home and Careers "Career Resources" | 12 | title, logoText, url, colorFrom/To | no (editorial) |
 
 Unknown fields and old names (`headline`, `name`, `logo`, `thumbnail`, `logoBackground`, the `banners` group) are rejected with a message saying what they are now called.
@@ -184,7 +185,7 @@ Unknown fields and old names (`headline`, `name`, `logo`, `thumbnail`, `logoBack
 |---|---|---|
 | `contact` | `name` 2–80, `email`, `subject` 2–120, `message` 10–4000 | `new` |
 | `newsletter` | `email`, `placement` `home`\|`careers` (one sign-up per address) | `new` |
-| `advertise` | `name`, `email`, `company` 2–120, `tier` `silver`\|`gold`\|`platinum`, `message` ≤ 2000 (optional) | `new` |
+| `advertise` | `name`, `email`, `company` 2–120, `tier` `silver`\|`gold`\|`platinum`\|`exclusive` (shown as Partner, Gold Partner, Elite Partner, Elite Exclusive Partner), `message` ≤ 2000 (optional) | `new` |
 | `event` | `title` 3–90, `eventType` 2–40, `startDate`, `endDate` (optional, ≥ start, ≤ ~2 years ahead), `city` 2–60, `url` (optional, https), `organiser` 2–120, `email` | `pending-review` |
 | `job` | `title` 3–160, `company` 2–120, `location` 2–160, `url` (https), `employmentType` (optional, enum), `email` | `pending-review` |
 
@@ -201,13 +202,14 @@ The connector fills elements marked `data-fundsae-slot`. For each slot it clones
 
 | Slot | Where | Data |
 |---|---|---|
-| `news` | Home news column (region tabs, "View All", search box `#home-search`) | `news.json` |
+| `news` | Home news column: tabs "News" (UAE and global stories together) and "Fundraising" (stories tagged `fundraising`: fund launches and closes), "View All", search box `#home-search` | `news.json` |
 | `tiles-real-estate-infrastructure`, `tiles-energy`, `tiles-ai-technology`, `tiles-grants-funding` | Home tile grids | `news/sections/*.json` |
 | `top-jobs` | Careers page column 2, "Top Jobs" (20 roles) (featured first, then newest; links to the employer posting) | `jobs.json` |
 | `home-jobs` | Home "UAE Careers" (links to `Careers.dc.html#<jobId>`) | `jobs.json` |
-| `roles`, `employers` | Careers page (pager, `?employer=` filter, `#jobId` deep link) | `jobs.json`, `employers.json` |
-| `events` | Home "Events and Expos" and Careers events box (upcoming only) | `events.json` |
+| `roles`, `employers` | Careers page: roles in column 1 (pager, `?employer=` filter, `#jobId` deep link); "Top Employers" in column 2 (top 20 with initials logos, each linking to the `?employer=` filter) | `jobs.json`, `employers.json` |
+| `events` | Home "Events and Expos" box (next 10) and the Events page `Events.dc.html` (up to `data-fundsae-limit`, with event names); upcoming only | `events.json` |
 | `sponsor-platinum`, `sponsor-gold`, `sponsor-posts`, `sponsor-media`, `sponsor-companies`, `career-resources` | Sponsor areas on both pages | `sponsors.json` slots |
+| `sponsor-founding` | Banner under the masthead on every page except Careers (styles in `frontend_demo/founding-banner.css`). With no `founding` sponsor it keeps its "Your firm here" advert in every mode (never "Nothing to show yet") | `sponsors.json` `founding` |
 | `data-fundsae-date`, `data-fundsae-badge` | Masthead date, "Demo data" badge | `meta.json` |
 
 `data-fundsae-hide-placeholders` marks lists rendered by the home page's own component: placeholders there are hidden rather than removed. Forms are `<form data-fundsae-form="contact|newsletter|advertise|event|job">`, and their `name` attributes are exactly the API field names.

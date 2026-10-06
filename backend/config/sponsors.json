@@ -3,9 +3,12 @@
     "Edit this with the admin page (admin/index.html) or by hand. After you save, a GitHub Action publishes api/v1/sponsors.json within about two minutes.",
     "Each group is one area of the website. Every item uses the same field names: id, enabled, title, blurb, label, logoText, website, url, image, colorFrom, colorTo. Each group only accepts the fields it shows (see backend/README.md).",
     "url must start with https:// (use # as a placeholder). image must be a PNG, JPG or WebP in assets/sponsors/ or an https:// link. Colours are hex codes such as #137A72.",
+    "platinum is shown on the site as \"Elite Partners\".",
     "careerResources are editorial links, not paid placements, so they are not marked as sponsored.",
+    "founding is the Elite Founding Sponsor banner under the masthead on every page except Careers (one item: title, blurb, url, image). Leave it empty to show the \"Your firm here\" advert for the slot.",
     "All names below are fictional demo placeholders. Replace them with real, contracted sponsors before launch."
   ],
+  "founding": [],
   "platinum": [
     { "id": "sandhaven-capital", "enabled": true, "title": "Sandhaven Capital (demo)", "url": "#", "image": null, "colorFrom": null, "colorTo": null },
     { "id": "tidewell-holdings", "enabled": true, "title": "Tidewell Holdings (demo)", "url": "#", "image": null, "colorFrom": null, "colorTo": null },

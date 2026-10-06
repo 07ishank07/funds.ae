@@ -73,6 +73,7 @@ test('demo pipeline end to end', async (t) => {
     const sponsors = api('sponsors.json');
     assert.equal(sponsors.slots.sponsoredPosts.length, 20);
     assert.equal(sponsors.slots.platinum.length, 5);
+    assert.deepEqual(sponsors.slots.founding, [], 'no founding sponsor yet, so the home banner shows its own advert');
     assert.ok(sponsors.slots.careerResources.every((i) => i.sponsored === false));
     assert.ok(sponsors.slots.gold.every((i) => i.sponsored === true && i.url === null));
     assert.ok(api('sources.json').items.every((s) => s.status === 'ok' || s.status === 'disabled'));

@@ -164,6 +164,18 @@
       "department": "Legal",
       "employmentType": "Full-time",
       "demoOnly": true
+    },
+    {
+      "id": "manual-oasis-private-bank-treasury",
+      "title": "Treasury Manager",
+      "company": "Oasis Private Bank (demo)",
+      "location": "ADGM, Abu Dhabi",
+      "url": "https://example.com/careers/oasis-private-bank/treasury-manager",
+      "postedAt": "2026-10-01",
+      "expiresAt": "2026-12-31",
+      "department": "Treasury",
+      "employmentType": "Full-time",
+      "demoOnly": true
     }
   ]
 }

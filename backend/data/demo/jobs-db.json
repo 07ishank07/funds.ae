@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-03T13:27:17.477Z",
+  "updatedAt": "2026-10-06T11:25:56.055Z",
   "jobs": [
     {
       "jobId": "j_1e3c495acede7793",
@@ -18,7 +18,8 @@
       "postedAt": "2026-10-01T13:27:17.477Z",
       "status": "open",
       "firstSeenAt": "2026-10-03T13:27:17.477Z",
-      "lastSeenAt": "2026-10-03T13:27:17.477Z"
+      "lastSeenAt": "2026-10-06T11:25:56.055Z",
+      "closedAt": null
     },
     {
       "jobId": "j_34f72c28629e8784",
@@ -36,7 +37,27 @@
       "postedAt": "2026-10-01T13:27:17.000Z",
       "status": "open",
       "firstSeenAt": "2026-10-03T13:27:17.477Z",
-      "lastSeenAt": "2026-10-03T13:27:17.477Z"
+      "lastSeenAt": "2026-10-06T11:25:56.055Z",
+      "closedAt": null
+    },
+    {
+      "jobId": "j_4d03cec49bcc6367",
+      "sourceId": "manual",
+      "sourceName": "Funds.ae",
+      "externalId": "manual-oasis-private-bank-treasury",
+      "title": "Treasury Manager",
+      "company": "Oasis Private Bank (demo)",
+      "location": "ADGM, Abu Dhabi",
+      "url": "https://example.com/careers/oasis-private-bank/treasury-manager",
+      "department": "Treasury",
+      "employmentType": "Full-time",
+      "employerId": "emp_42deac7475bb3891",
+      "canonicalUrl": "https://example.com/careers/oasis-private-bank/treasury-manager",
+      "postedAt": "2026-10-01T00:00:00.000Z",
+      "expiresAt": "2026-12-31T00:00:00.000Z",
+      "status": "open",
+      "firstSeenAt": "2026-10-06T11:25:56.055Z",
+      "lastSeenAt": "2026-10-06T11:25:56.055Z"
     },
     {
       "jobId": "j_d43e9292f227c1cc",
@@ -54,7 +75,8 @@
       "postedAt": "2026-09-30T13:27:17.000Z",
       "status": "open",
       "firstSeenAt": "2026-10-03T13:27:17.477Z",
-      "lastSeenAt": "2026-10-03T13:27:17.477Z"
+      "lastSeenAt": "2026-10-06T11:25:56.055Z",
+      "closedAt": null
     },
     {
       "jobId": "j_6e03f121144ac761",
@@ -72,7 +94,8 @@
       "postedAt": "2026-09-29T13:27:17.477Z",
       "status": "open",
       "firstSeenAt": "2026-10-03T13:27:17.477Z",
-      "lastSeenAt": "2026-10-03T13:27:17.477Z"
+      "lastSeenAt": "2026-10-06T11:25:56.055Z",
+      "closedAt": null
     },
     {
       "jobId": "j_f5f92aa632f5f323",
@@ -90,7 +113,8 @@
       "postedAt": "2026-09-28T13:27:17.000Z",
       "status": "open",
       "firstSeenAt": "2026-10-03T13:27:17.477Z",
-      "lastSeenAt": "2026-10-03T13:27:17.477Z"
+      "lastSeenAt": "2026-10-06T11:25:56.055Z",
+      "closedAt": null
     },
     {
       "jobId": "j_84f18ddc6e73113e",
@@ -108,7 +132,8 @@
       "postedAt": "2026-09-27T13:27:17.477Z",
       "status": "open",
       "firstSeenAt": "2026-10-03T13:27:17.477Z",
-      "lastSeenAt": "2026-10-03T13:27:17.477Z"
+      "lastSeenAt": "2026-10-06T11:25:56.055Z",
+      "closedAt": null
     },
     {
       "jobId": "j_0d58bd1e46cd76e7",
@@ -126,7 +151,8 @@
       "postedAt": "2026-09-27T13:27:17.477Z",
       "status": "open",
       "firstSeenAt": "2026-10-03T13:27:17.477Z",
-      "lastSeenAt": "2026-10-03T13:27:17.477Z"
+      "lastSeenAt": "2026-10-06T11:25:56.055Z",
+      "closedAt": null
     },
     {
       "jobId": "j_9710f41b8373255f",
@@ -144,7 +170,8 @@
       "postedAt": "2026-09-25T13:27:17.477Z",
       "status": "open",
       "firstSeenAt": "2026-10-03T13:27:17.477Z",
-      "lastSeenAt": "2026-10-03T13:27:17.477Z"
+      "lastSeenAt": "2026-10-06T11:25:56.055Z",
+      "closedAt": null
     },
     {
       "jobId": "j_6bc4e154acca0ecd",
@@ -163,7 +190,8 @@
       "expiresAt": "2026-12-31T00:00:00.000Z",
       "status": "open",
       "firstSeenAt": "2026-10-03T13:27:17.477Z",
-      "lastSeenAt": "2026-10-03T13:27:17.477Z"
+      "lastSeenAt": "2026-10-06T11:25:56.055Z",
+      "closedAt": null
     },
     {
       "jobId": "j_4a9ed67518a03fb4",
@@ -182,7 +210,8 @@
       "expiresAt": "2026-12-31T00:00:00.000Z",
       "status": "open",
       "firstSeenAt": "2026-10-03T13:27:17.477Z",
-      "lastSeenAt": "2026-10-03T13:27:17.477Z"
+      "lastSeenAt": "2026-10-06T11:25:56.055Z",
+      "closedAt": null
     },
     {
       "jobId": "j_655cc653731a64d3",
@@ -201,7 +230,8 @@
       "expiresAt": "2026-12-31T00:00:00.000Z",
       "status": "open",
       "firstSeenAt": "2026-10-03T13:27:17.477Z",
-      "lastSeenAt": "2026-10-03T13:27:17.477Z"
+      "lastSeenAt": "2026-10-06T11:25:56.055Z",
+      "closedAt": null
     },
     {
       "jobId": "j_77a1b2e2ec06f25f",
@@ -221,7 +251,8 @@
       "featured": true,
       "status": "open",
       "firstSeenAt": "2026-10-03T13:27:17.477Z",
-      "lastSeenAt": "2026-10-03T13:27:17.477Z"
+      "lastSeenAt": "2026-10-06T11:25:56.055Z",
+      "closedAt": null
     },
     {
       "jobId": "j_52d20cab0c7b3b2f",
@@ -240,7 +271,8 @@
       "expiresAt": "2026-12-31T00:00:00.000Z",
       "status": "open",
       "firstSeenAt": "2026-10-03T13:27:17.477Z",
-      "lastSeenAt": "2026-10-03T13:27:17.477Z"
+      "lastSeenAt": "2026-10-06T11:25:56.055Z",
+      "closedAt": null
     },
     {
       "jobId": "j_dd6281a0b2a1324a",
@@ -259,7 +291,8 @@
       "expiresAt": "2026-12-31T00:00:00.000Z",
       "status": "open",
       "firstSeenAt": "2026-10-03T13:27:17.477Z",
-      "lastSeenAt": "2026-10-03T13:27:17.477Z"
+      "lastSeenAt": "2026-10-06T11:25:56.055Z",
+      "closedAt": null
     },
     {
       "jobId": "j_93fac4a60d1df133",
@@ -278,7 +311,8 @@
       "expiresAt": "2026-12-31T00:00:00.000Z",
       "status": "open",
       "firstSeenAt": "2026-10-03T13:27:17.477Z",
-      "lastSeenAt": "2026-10-03T13:27:17.477Z"
+      "lastSeenAt": "2026-10-06T11:25:56.055Z",
+      "closedAt": null
     },
     {
       "jobId": "j_68fa8bbb5ade82d2",
@@ -298,7 +332,8 @@
       "featured": true,
       "status": "open",
       "firstSeenAt": "2026-10-03T13:27:17.477Z",
-      "lastSeenAt": "2026-10-03T13:27:17.477Z"
+      "lastSeenAt": "2026-10-06T11:25:56.055Z",
+      "closedAt": null
     },
     {
       "jobId": "j_0541d1957a45a7d9",
@@ -317,7 +352,8 @@
       "expiresAt": "2026-12-31T00:00:00.000Z",
       "status": "open",
       "firstSeenAt": "2026-10-03T13:27:17.477Z",
-      "lastSeenAt": "2026-10-03T13:27:17.477Z"
+      "lastSeenAt": "2026-10-06T11:25:56.055Z",
+      "closedAt": null
     },
     {
       "jobId": "j_b3d269dc23f0c5f0",
@@ -336,7 +372,8 @@
       "expiresAt": "2026-12-31T00:00:00.000Z",
       "status": "open",
       "firstSeenAt": "2026-10-03T13:27:17.477Z",
-      "lastSeenAt": "2026-10-03T13:27:17.477Z"
+      "lastSeenAt": "2026-10-06T11:25:56.055Z",
+      "closedAt": null
     },
     {
       "jobId": "j_ab20d7ccdcefa6cf",
@@ -355,7 +392,8 @@
       "expiresAt": "2026-12-31T00:00:00.000Z",
       "status": "open",
       "firstSeenAt": "2026-10-03T13:27:17.477Z",
-      "lastSeenAt": "2026-10-03T13:27:17.477Z"
+      "lastSeenAt": "2026-10-06T11:25:56.055Z",
+      "closedAt": null
     },
     {
       "jobId": "j_1dd27f51e35f8370",
@@ -374,7 +412,8 @@
       "expiresAt": "2026-12-31T00:00:00.000Z",
       "status": "open",
       "firstSeenAt": "2026-10-03T13:27:17.477Z",
-      "lastSeenAt": "2026-10-03T13:27:17.477Z"
+      "lastSeenAt": "2026-10-06T11:25:56.055Z",
+      "closedAt": null
     },
     {
       "jobId": "j_0f7c1d5eda3c7da9",
@@ -393,7 +432,8 @@
       "expiresAt": "2026-12-31T00:00:00.000Z",
       "status": "open",
       "firstSeenAt": "2026-10-03T13:27:17.477Z",
-      "lastSeenAt": "2026-10-03T13:27:17.477Z"
+      "lastSeenAt": "2026-10-06T11:25:56.055Z",
+      "closedAt": null
     }
   ]
 }

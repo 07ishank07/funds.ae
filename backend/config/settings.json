@@ -41,8 +41,8 @@
     "maxPublished": 150
   },
   "employers": {
-    "_help": "Featured Employers on the Careers page are derived from open roles. The grid shows 15.",
-    "maxPublished": 15
+    "_help": "Top Employers on the Careers page (column 2) are derived from open roles. The list shows 20.",
+    "maxPublished": 20
   },
   "events": {
     "_help": "Events come from config/events.json. Upcoming events are published, plus anything that ended in the last keepPastDays.",

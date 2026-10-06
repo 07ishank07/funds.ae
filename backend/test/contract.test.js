@@ -10,7 +10,7 @@ import { mkdtempSync, readFileSync, readdirSync, existsSync, rmSync } from 'node
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { DB_MODELS, DTO_FIELDS, ENVELOPE_FIELDS, SPONSOR_SLOTS, SUBMISSION_KINDS } from '../src/contracts/models.js';
+import { ADVERTISING_TIERS, DB_MODELS, DTO_FIELDS, ENVELOPE_FIELDS, SPONSOR_SLOTS, SUBMISSION_KINDS } from '../src/contracts/models.js';
 import { SUBMISSION_SCHEMAS } from '../src/validation/submissions.js';
 
 const backend = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -52,6 +52,7 @@ test('list items have exactly the contract fields, with null (never "") for miss
   check('news.json', 'story', (s) => s.sources.forEach((src) => sameKeys(src, DTO_FIELDS.storySource, 'story source')));
   check('jobs.json', 'job', (j) => assert.match(j.employerId, /^emp_[a-f0-9]{16}$/));
   check('employers.json', 'employer');
+  assert.equal(api('employers.json').items.length, 20, 'the demo publishes 20 employers for the Careers Top Employers list');
   check('events.json', 'event', (e) => assert.match(e.startDate, /^\d{4}-\d{2}-\d{2}$/));
   check('sources.json', 'source');
 });
@@ -122,6 +123,71 @@ test('the website scripts and pages agree on data slots', () => {
   ]);
   for (const slot of used) assert.ok(declared.has(slot), `connector uses slot "${slot}" that no page declares`);
   for (const slot of declared) assert.ok(used.has(slot), `page declares slot "${slot}" that the connector never fills`);
+});
+
+test('every page but Careers shows the same Elite Founding Sponsor banner, and all link to the Events page', () => {
+  const read = (f) => readFileSync(path.join(repo, 'frontend_demo', f), 'utf8');
+  const pages = readdirSync(path.join(repo, 'frontend_demo')).filter((f) => f.endsWith('.html'));
+  assert.ok(pages.includes('Events.dc.html'), 'Events and Expos has its own page');
+  const bannerText = [
+    '>Elite Founding Sponsor<', '>Space available<', '>Your firm here<', '>Become a founding sponsor<',
+    ">Put your firm in front of the UAE's GPs, LPs, family offices and fund service providers, every day.<"
+  ];
+  for (const file of pages) {
+    const html = read(file);
+    assert.ok(html.includes('fundsae-connector.js'), `${file} does not load the connector, so sponsors would never show`);
+    assert.ok(!html.includes('Careers.dc.html#events'), `${file} still links to the old Careers events box`);
+    assert.ok(!/Platinum (Sponsors|Partner)/.test(html), `${file} still shows "Platinum" instead of "Elite"`);
+    if (file !== 'this.html') assert.match(html, /<a href="Events\.dc\.html"( aria-current="page")?>Events<\/a>/, `${file}: nav Events link`);
+    // Careers shows the Featured Companies strip under its masthead instead (checked below).
+    if (file === 'Careers.dc.html') continue;
+    for (const text of bannerText) assert.ok(html.includes(text), `${file}: banner lacks ${text}`);
+    assert.ok(html.includes('founding-banner.css'), `${file} does not load founding-banner.css`);
+    assert.match(html, /class="fx-founding-cta" href="(Advertise\.dc\.html)?#elite-partner"/, `${file}: banner button`);
+    if (file !== 'this.html') assert.ok(html.includes('data-fundsae-slot="sponsor-founding"'), `${file}: banner slot`);
+  }
+  const home = read('this.html');
+  // Home news tabs: the page script and the connector agree on the names; Fundraising is the fundraising topic.
+  const connector = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
+  assert.ok(home.includes("const REGION_NAMES = ['News', 'Fundraising'];"), 'home tabs are News and Fundraising');
+  assert.ok(connector.includes("var NEWS_REGIONS = ['News', 'Fundraising'];") && connector.includes("var FUNDRAISING_TOPIC = 'fundraising';"), 'connector tabs match');
+  assert.ok(!/'(UAE News|Global News|Business Funding)'/.test(home + connector), 'old tab names are gone');
+  assert.ok(home.includes("tab.href = 'Events.dc.html'") && home.includes("'Events.dc.html#submit-event'"), 'home links to the Events page');
+  assert.ok(read('Events.dc.html').includes('data-fundsae-slot="events"'), 'the Events page lists events');
+  const careers = read('Careers.dc.html');
+  assert.ok(!careers.includes('data-fundsae-slot="events"') && !careers.includes('data-fundsae-form="event"'), 'Careers no longer has events');
+  assert.match(careers, /<h1[^>]*>Search for a Career in Financial Services<\/h1>/);
+  // Featured Employers grid is gone; Top Employers in column 2 ranks employers and links to each one's roles.
+  assert.ok(!careers.includes('employer-grid') && !careers.includes('Featured Employers'), 'Careers has no Featured Employers grid');
+  assert.match(careers, /<aside>[\s\S]*<section class="top-employers"[\s\S]*?<ol class="top-jobs-list top-employers-list" data-fundsae-slot="employers">[\s\S]*<\/aside>/);
+  assert.match(careers, /<li><a href="\?employer=emp_[a-f0-9]{16}#opportunities-title"><span class="tj-rank">1<\/span>/);
+  // Exclusive Elite Sponsor: a dummy box leads column 2, with a real image file, and never shows in live mode.
+  assert.match(careers, /<aside>\s*<!--[\s\S]*?-->\s*<section class="elite-sponsor"[^>]*data-demo-only>/);
+  assert.ok(careers.includes('html[data-fundsae-connected="live"] [data-demo-only] { display: none !important; }'), 'demo-only content is hidden in live mode');
+  const sponsorImage = careers.match(/class="elite-sponsor-media"[^>]*><img src="\.\.\/(assets\/sponsors\/[a-z0-9-]+\.png)"/);
+  assert.ok(sponsorImage, 'the sponsor box shows an image from assets/sponsors/');
+  const png = readFileSync(path.join(repo, sponsorImage[1]));
+  assert.equal(png.subarray(1, 4).toString(), 'PNG', 'the sponsor image is a PNG');
+  assert.ok(png.length <= 500 * 1024, 'the sponsor image is within the 500 KB sponsor-image limit');
+  // The Elite Partners and Gold Sponsors boxes are on the home page only.
+  assert.ok(!careers.includes('data-fundsae-slot="sponsor-platinum"') && !careers.includes('data-fundsae-slot="sponsor-gold"'), 'Careers has no Elite Partners or Gold Sponsors box');
+  // Featured Companies strip at the foot of Careers (no Elite Founding Sponsor banner on this page): the scrolling
+  // track holds the sponsor slot, labelled as sponsored.
+  assert.ok(!careers.includes('sponsor-founding') && !careers.includes('founding-banner.css'), 'Careers has no Elite Founding Sponsor banner');
+  assert.match(careers, /<\/aside>\s*<\/div>\s*<!--[\s\S]*?-->\s*<section class="partners"[\s\S]*?<\/section>\s*<footer/);
+  // Job cards carry no logo tile or Featured tag; Top Employers lists 20, each with an initials logo.
+  assert.ok(!/role-logo|role-featured/.test(careers), 'job cards have no logo or Featured tag');
+  const topEmployers = careers.slice(careers.indexOf('data-fundsae-slot="employers"'), careers.indexOf('</ol>', careers.indexOf('data-fundsae-slot="employers"')));
+  assert.equal((topEmployers.match(/<li>/g) || []).length, 20, 'Top Employers shows 20');
+  assert.equal((topEmployers.match(/class="te-logo"/g) || []).length, 20, 'every Top Employer has a logo');
+  assert.equal(careers.split('class="partners"').length, 2, 'one Featured Companies strip');
+  assert.match(careers, /class="partners-track">\s*<div class="partners-list" data-fundsae-slot="sponsor-companies">/);
+  assert.match(careers, /aria-labelledby="partners-title"[\s\S]*?class="partners-tag">Sponsored</);
+  // Advertise: one package choice per API tier, and the Elite Exclusive Partner advert preselects its own.
+  const advertise = read('Advertise.dc.html');
+  const options = [...advertise.matchAll(/<option value="([a-z]+)"/g)].map((m) => m[1]);
+  assert.deepEqual(options.sort(), [...ADVERTISING_TIERS].sort());
+  assert.match(advertise, /id="elite-partner"[\s\S]*data-fundsae-tier="exclusive"/);
 });
 
 test('every website form posts only field names the API accepts', () => {

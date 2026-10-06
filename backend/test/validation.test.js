@@ -56,6 +56,17 @@ test('emails, links and choices are strictly checked', () => {
   assert.equal(validate(SUBMISSION_SCHEMAS.job, { ...job, employmentType: 'Contract' }, { now }).value.employmentType, 'Contract');
 });
 
+test('advertise enquiries accept the four packages, including Elite Exclusive Partner', () => {
+  const enquiry = { name: 'Sara Ali', email: 'sara@example.ae', company: 'Example Capital', tier: 'exclusive' };
+  // Shown on the Advertise page as Partner, Gold Partner, Elite Partner and Elite Exclusive Partner.
+  for (const tier of ['silver', 'gold', 'platinum', 'exclusive']) {
+    assert.equal(validate(SUBMISSION_SCHEMAS.advertise, { ...enquiry, tier }, { now }).value.tier, tier, tier);
+  }
+  for (const tier of ['elite', 'Exclusive', 'diamond', '']) {
+    assert.ok(validate(SUBMISSION_SCHEMAS.advertise, { ...enquiry, tier }, { now }).fields.tier, tier);
+  }
+});
+
 test('event dates must be real, in range and in order', () => {
   const ev = { title: 'Investor Breakfast', eventType: 'Networking', startDate: '2026-10-12', city: 'Dubai', organiser: 'Example Events', email: 'events@example.com' };
   assert.equal(validate(SUBMISSION_SCHEMAS.event, ev, { now }).ok, true);
@@ -97,6 +108,28 @@ test('sponsor slots: renamed fields get a helpful message, limits match the page
   assert.equal(ok.slots.careerResources[0].blurb, null, 'optional fields are null, never ""');
   const site = validateSponsors({ professionalServices: [{ id: 'x', title: 'X', website: '<script>' }] });
   assert.ok(site.errors.some((e) => /website/.test(e)));
+});
+
+test('founding sponsor slot: one sponsored banner with a name, message, https link and logo', () => {
+  const two = validateSponsors({ founding: [{ id: 'a', title: 'A' }, { id: 'b', title: 'B' }] });
+  assert.ok(two.errors.some((e) => /founding: 2 items .* room for 1/.test(e)));
+  const extra = validateSponsors({ founding: [{ id: 'a', title: 'A', label: 'Gold', colorFrom: '#137A72' }] });
+  assert.ok(extra.errors.some((e) => /"label" is not used in this slot/.test(e)));
+  assert.ok(extra.errors.some((e) => /"colorFrom" is not used in this slot/.test(e)));
+  const insecure = validateSponsors({ founding: [{ id: 'a', title: 'A', url: 'http://example.com' }] });
+  assert.ok(insecure.errors.some((e) => /https:\/\//.test(e)));
+  assert.ok(validateSponsors({ founding: [{ id: 'a', blurb: 'No name' }] }).errors.some((e) => /"title" is required/.test(e)));
+  const empty = validateSponsors({ founding: [] });
+  assert.deepEqual(empty.errors, []);
+  assert.deepEqual(empty.slots.founding, [], 'an empty slot is published empty, so the page keeps its own advert');
+  const ok = validateSponsors({ founding: [{ id: 'sandhaven', title: 'Sandhaven Capital', blurb: 'Private credit for the Gulf.', url: 'https://example.com/', image: 'https://example.com/logo.png' }] });
+  assert.deepEqual(ok.errors, []);
+  const [item] = ok.slots.founding;
+  assert.equal(item.sponsored, true);
+  assert.equal(item.blurb, 'Private credit for the Gulf.');
+  assert.equal(item.url, 'https://example.com/');
+  assert.equal(item.colorFrom, null);
+  assert.equal(item.label, null);
 });
 
 test('employers are derived from open roles, and employment types are normalised', () => {

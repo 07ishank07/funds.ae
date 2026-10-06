@@ -19,10 +19,10 @@ export const API_VERSION = 1;
 export const CATEGORY_IDS = ['uae', 'world'];
 export const EMPLOYMENT_TYPES = ['Full-time', 'Part-time', 'Contract', 'Internship', 'Temporary'];
 export const JOB_STATUSES = ['open', 'closed', 'expired'];
-export const SPONSOR_SLOTS = ['platinum', 'gold', 'sponsoredPosts', 'sponsoredMedia', 'professionalServices', 'careerResources'];
+export const SPONSOR_SLOTS = ['founding', 'platinum', 'gold', 'sponsoredPosts', 'sponsoredMedia', 'professionalServices', 'careerResources'];
 export const SUBMISSION_KINDS = ['contact', 'newsletter', 'advertise', 'event', 'job'];
 export const SUBMISSION_STATUSES = ['new', 'pending-review', 'approved', 'rejected', 'spam'];
-export const ADVERTISING_TIERS = ['silver', 'gold', 'platinum'];
+export const ADVERTISING_TIERS = ['silver', 'gold', 'platinum', 'exclusive'];
 
 /* -------------------------------- DB records ------------------------------- */
 
