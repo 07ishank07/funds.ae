@@ -1,10 +1,18 @@
 {
-  "_help": [
-    "Editorial content shown on the website: socialHighlights (home \"Top Tweets\"), advertiseTiers (Advertise page packages) and pages (About, Privacy, Terms body copy).",
-    "Normally written from Sanity by `npm run cms:pull`. While settings.json content.source is \"file\" you can edit it by hand; `npm run publish:content` validates and publishes it.",
-    "An empty list keeps the page's built-in content (Advertise packages, page copy) or, in live mode, shows a short \"nothing yet\" note (Top Tweets)."
+  "socialHighlights": [
+    { "id": "test-one", "accountName": "Test Capital", "handle": "testcapital", "text": "TEST: our own one-line summary of this post.", "url": "https://x.com/testcapital/status/1234567890", "initials": "TC", "color": "#B58B52" }
   ],
-  "socialHighlights": [],
-  "advertiseTiers": [],
-  "pages": []
+  "advertiseTiers": [
+    { "id": "silver", "name": "TEST Partner", "price": "AED 1,000", "priceNote": "/ month", "features": ["TEST feature one", "TEST feature two"] },
+    { "id": "gold", "name": "TEST Gold", "badge": "Best value", "price": "AED 2,000", "features": ["TEST gold feature"], "featured": true },
+    { "id": "exclusive", "name": "TEST Exclusive", "badge": "Only one", "price": "On request", "features": ["TEST perk"] }
+  ],
+  "pages": [
+    { "slug": "privacy", "title": "TEST Privacy Policy", "intro": "TEST intro.", "updatedAt": "2026-10-01",
+      "blocks": [
+        { "type": "h2", "list": null, "spans": [{ "text": "1. What we collect" }] },
+        { "type": "p", "list": null, "spans": [{ "text": "We keep your " }, { "text": "email", "bold": true }, { "text": ". " }, { "text": "Contact us", "href": "https://funds.ae/contact" }] },
+        { "type": "li", "list": "bullet", "spans": [{ "text": "TEST bullet" }] }
+      ] }
+  ]
 }
