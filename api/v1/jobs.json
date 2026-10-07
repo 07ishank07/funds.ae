@@ -1,9 +1,9 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-10-03T13:27:17.477Z",
+  "generatedAt": "2026-10-06T11:25:56.055Z",
   "notice": "Job listings link to the employer or original job board to apply.",
-  "count": 21,
+  "count": 22,
   "items": [
     {
       "id": "j_77a1b2e2ec06f25f",
@@ -60,6 +60,20 @@
       "featured": false,
       "source": "Demo Gulf Finance Jobs",
       "sourceId": "demo-gulf-finance-jobs"
+    },
+    {
+      "id": "j_4d03cec49bcc6367",
+      "title": "Treasury Manager",
+      "company": "Oasis Private Bank (demo)",
+      "employerId": "emp_42deac7475bb3891",
+      "location": "ADGM, Abu Dhabi",
+      "url": "https://example.com/careers/oasis-private-bank/treasury-manager",
+      "postedAt": "2026-10-01T00:00:00.000Z",
+      "department": "Treasury",
+      "employmentType": "Full-time",
+      "featured": false,
+      "source": "Funds.ae",
+      "sourceId": "manual"
     },
     {
       "id": "j_d43e9292f227c1cc",

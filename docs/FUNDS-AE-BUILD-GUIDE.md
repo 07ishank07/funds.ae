@@ -64,7 +64,7 @@ funds.ae is a curated news and intelligence site for people who work in or aroun
 |---|---|
 | Readers (GPs, LPs, founders, advisers, job-seekers) | A fast, trustworthy daily digest: UAE and Global news, topic pages (private credit, VC, real estate and more), jobs and events. Every item links to the original publisher |
 | Editors (you and your team) | An admin workspace where ingested stories wait in a **review queue**. Editors check the AI-suggested summary and topic, then press **Publish** (or reject). Published stories appear on the home and topic pages within about a minute |
-| Sponsors and advertisers | Clearly labelled placements (Platinum, Gold, Sponsored Posts, Videos, Featured Companies) managed by your team |
+| Sponsors and advertisers | Clearly labelled placements (Elite Founding Sponsor, Platinum, Gold, Sponsored Posts, Videos, Featured Companies) managed by your team |
 | Publishers you aggregate | Attribution and traffic: headlines and short excerpts only, always linking back. Nothing that substitutes for their article |
 
 ### A4. What it becomes long-term

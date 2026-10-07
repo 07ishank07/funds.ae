@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;600;700&family=Jost:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="founding-banner.css">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   /* Editorial theme tokens. Keep in sync with the theme block at the end of this.html's script. */
@@ -150,13 +151,25 @@
     <nav class="sections" aria-label="Sections">
     <a href="this.html">Top news</a>
     <a href="Careers.dc.html">Careers</a>
-    <a href="Careers.dc.html#events">Events</a>
+    <a href="Events.dc.html">Events</a>
     <a href="Advertise.dc.html">Advertise</a>
     <a href="About.dc.html">About</a>
     <a href="Contact.dc.html">Contact us</a>
     </nav>
   </div>
 </header>
+<!-- Elite Founding Sponsor banner: same markup and text as this.html; styles in founding-banner.css;
+     js/fundsae-connector.js (slot "sponsor-founding") swaps the advert for a signed sponsor. -->
+<section class="fx-founding" aria-label="Elite Founding Sponsor" data-fundsae-slot="sponsor-founding">
+  <div class="fx-founding-frame">
+    <p class="fx-founding-id">
+      <span class="fx-founding-tags"><span class="fx-founding-label">Elite Founding Sponsor</span><span class="fx-founding-status">Space available</span></span>
+      <span class="fx-founding-brand"><span class="fx-founding-name">Your firm here<span class="fx-caret" aria-hidden="true"></span></span></span>
+    </p>
+    <p class="fx-founding-pitch">Put your firm in front of the UAE's GPs, LPs, family offices and fund service providers, every day.</p>
+    <a class="fx-founding-cta" href="Advertise.dc.html#elite-partner"><span>Become a founding sponsor</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+  </div>
+</section>
 <main>
   <div class="intro">
     <h1>Privacy Policy</h1>
@@ -234,5 +247,7 @@
   </div>
 </footer>
 <script src="../i18n.js"></script>
+<script src="../js/fundsae-api.js" defer></script>
+<script src="../js/fundsae-connector.js" defer></script>
 </body>
 </html>

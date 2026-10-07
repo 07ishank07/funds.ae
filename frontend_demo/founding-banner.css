@@ -1,0 +1,66 @@
+/*
+ * Elite Founding Sponsor banner (after fundopshq.com), shared by every page.
+ * A double-ruled frame directly under the masthead, as wide as the page's columns (1288px masthead,
+ * 24px gutters). Pages carry the same markup; this.html builds it in its layout script. The connector
+ * (js/fundsae-connector.js, slot "sponsor-founding") swaps the "Your firm here" advert for the sponsor.
+ * Self-contained: the tokens below match the shared palette, so it looks the same on every page.
+ */
+.fx-founding {
+  --fb-ink: #0E3A43; --fb-ink-2: #3D5A5F; --fb-ink-3: #62797D; --fb-line: #D3DFDF;
+  --fb-accent: #1F6A6E; --fb-mint: #4FB3B8; --fb-raise: #FFFFFF;
+  flex-shrink: 0; box-sizing: border-box; width: calc(100% - 48px); max-width: 1240px;
+  margin: 20px auto 0; padding: 4px; border: 1px solid var(--fb-ink); background: var(--fb-raise);
+}
+.fx-founding *, .fx-founding *::before { box-sizing: border-box; }
+/* One typeface, like the rest of the site. Arabic mode keeps the font i18n.js sets. */
+html:not([lang="ar"]) .fx-founding, html:not([lang="ar"]) .fx-founding *:not(svg):not(svg *) {
+  font-family: 'Jost', 'Futura', 'Century Gothic', sans-serif !important;
+}
+.fx-founding-frame {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; padding: 11px 16px;
+  border: 1px solid color-mix(in oklab, var(--fb-ink) 28%, transparent);
+}
+.fx-founding-id { display: flex; flex-direction: column; gap: 6px; min-width: 0; margin: 0; }
+.fx-founding-tags {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 2px 10px;
+  font-size: 10.5px; font-weight: 500; line-height: 1.3; letter-spacing: 0.2em; text-transform: uppercase;
+}
+.fx-founding-label { font-weight: 600; color: var(--fb-accent); }
+.fx-founding-status { color: var(--fb-ink-3); }
+.fx-founding-status::before { content: '\00B7'; margin-inline-end: 10px; }
+.fx-founding-brand { display: flex; align-items: center; gap: 10px; }
+.fx-founding-logo {
+  width: 28px; height: 28px; flex-shrink: 0; border: 1px solid var(--fb-line); border-radius: 3px;
+  background: #FFFFFF center / contain no-repeat;
+}
+.fx-founding-name { font-size: 24px; font-style: italic; font-weight: 500; line-height: 1.05; letter-spacing: -0.015em; color: var(--fb-ink); }
+.fx-caret {
+  display: inline-block; width: 3px; height: 0.78em; margin-inline-start: 5px; background: var(--fb-mint);
+  transform: translateY(0.06em); animation: fx-caret-blink 1.15s step-end infinite;
+}
+@keyframes fx-caret-blink { 0%, 70%, 100% { opacity: 1; } 20%, 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .fx-caret { animation: none; } }
+.fx-founding-pitch {
+  flex: 1 1 240px; min-width: 0; margin: 0; padding-inline-start: 24px; border-inline-start: 1px solid var(--fb-line);
+  font-size: 15px; line-height: 1.4; color: var(--fb-ink-2);
+}
+.fx-founding-cta {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; flex-shrink: 0; height: 34px;
+  margin-inline-start: auto; padding: 0 14px; border-radius: 2px; background: var(--fb-ink); color: var(--fb-raise);
+  font-size: 11.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
+  text-decoration: none; transition: background-color 0.15s;
+}
+.fx-founding-cta:hover { background: var(--fb-accent); color: var(--fb-raise); text-decoration: none; }
+.fx-founding-cta:focus-visible { outline: 2px solid var(--fb-accent); outline-offset: 2px; }
+.fx-founding-cta svg {
+  width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+  transition: transform 0.15s;
+}
+.fx-founding-cta:hover svg { transform: translateX(2px); }
+[dir="rtl"] .fx-founding-cta svg { transform: scaleX(-1); }
+[dir="rtl"] .fx-founding-cta:hover svg { transform: scaleX(-1) translateX(2px); }
+@media (max-width: 768px) { .fx-founding-pitch { display: none; } }
+@media (max-width: 560px) {
+  .fx-founding-name { font-size: 21px; }
+  .fx-founding-cta { width: 100%; height: auto; min-height: 34px; padding: 8px 14px; white-space: normal; text-align: center; }
+}

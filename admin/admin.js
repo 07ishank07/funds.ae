@@ -20,8 +20,19 @@
   var LOGO_HINT = 'Square PNG, JPG or WebP up to 500 KB.';
   var GROUPS = [
     {
-      key: 'platinum', label: 'Platinum sponsors', noun: 'sponsor', prefix: 'platinum', max: 5,
-      where: 'Home page, top of the middle column, under “Platinum Sponsors” (5 tiles).',
+      key: 'founding', label: 'Elite founding sponsor', noun: 'sponsor', prefix: 'founding', max: 1,
+      where: 'The banner directly under the masthead on every page except Careers. Leave this empty to show the “Your firm here” advert for the slot.',
+      fields: [
+        { name: 'title', label: 'Sponsor name', type: 'text', max: 60, required: true },
+        { name: 'blurb', label: 'One-line message', type: 'textarea', max: 140, hint: 'Hidden on phones.' },
+        { name: 'url', label: 'Link', type: 'url' },
+        { name: 'image', label: 'Logo (optional)', type: 'image', hint: LOGO_HINT + ' Shown 28 pixels high, next to the name.' }
+      ],
+      defaults: { title: '', blurb: '', url: '#', image: null }
+    },
+    {
+      key: 'platinum', label: 'Elite partners', noun: 'partner', prefix: 'platinum', max: 5,
+      where: 'Home page, top of the middle column, under “Elite Partners” (5 tiles).',
       fields: [
         { name: 'title', label: 'Sponsor name', type: 'text', max: 60, required: true },
         { name: 'url', label: 'Link', type: 'url' },
@@ -35,7 +46,7 @@
     },
     {
       key: 'gold', label: 'Gold sponsors', noun: 'sponsor', prefix: 'gold', max: 10,
-      where: 'Home page right-hand column and the Careers page, under “Gold Sponsors” (10 tiles).',
+      where: 'Home page right-hand column, under “Gold Sponsors” (10 tiles).',
       fields: [
         { name: 'title', label: 'Tagline', type: 'text', max: 70, required: true },
         { name: 'url', label: 'Link', type: 'url' },
@@ -79,12 +90,12 @@
     },
     {
       key: 'professionalServices', label: 'Featured companies', noun: 'company', prefix: 'service', max: 15,
-      where: 'Home page, right-hand column, under “Featured Companies”.',
+      where: 'Home page, right-hand column, under “Featured Companies”, and the scrolling strip at the bottom of the Careers page.',
       fields: [
         { name: 'title', label: 'Company name', type: 'text', max: 70, required: true },
         { name: 'website', label: 'Website shown under the name (text only)', type: 'text', max: 80, hint: 'For example www.example.ae' },
         { name: 'url', label: 'Link', type: 'url' },
-        { name: 'image', label: 'Logo', type: 'image', hint: LOGO_HINT + ' Shown at 34 × 34 pixels.' },
+        { name: 'image', label: 'Logo', type: 'image', hint: LOGO_HINT + ' Shown at 34 × 34 pixels, and 44 × 44 on the Careers page.' },
         { row: [
           { name: 'logoText', label: 'Initials when there is no logo', type: 'text', max: 4 },
           { name: 'colorFrom', label: 'Initials background', type: 'color' },
@@ -363,6 +374,20 @@
   }
 
   var PREVIEWS = {
+    founding: function (item) {
+      var frame = el('div', 'pv-founding');
+      var id = el('div', 'pv-founding-id');
+      id.appendChild(el('span', 'pv-founding-label', 'Elite Founding Sponsor'));
+      var brand = el('div', 'pv-founding-brand');
+      var src = imageSrc(item.image);
+      if (src) { var img = el('img', 'pv-founding-logo'); img.src = src; img.alt = ''; brand.appendChild(img); }
+      brand.appendChild(el('span', 'pv-founding-name', item.title || 'Sponsor name'));
+      id.appendChild(brand);
+      frame.appendChild(id);
+      if (item.blurb) frame.appendChild(el('p', 'pv-founding-pitch', item.blurb));
+      frame.appendChild(el('span', 'pv-founding-cta', 'Learn more →'));
+      return frame;
+    },
     platinum: function (item) { return tilePreview(item, '#F1F3F4', '#B9C0C6', 'light'); },
     gold: function (item) { return tilePreview(item, '#DDB86F', '#B88B3E', 'light'); },
     sponsoredPosts: function (item) {

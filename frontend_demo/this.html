@@ -372,7 +372,7 @@ document.addEventListener('DOMContentLoaded', async function() {
       const allowedSections = new Set(['Top news', 'Events', 'Careers', 'Sponsor', 'About', 'Contact us']);
       Array.from(sectionsNav.querySelectorAll('a')).forEach((tab) => {
         if (!allowedSections.has(tab.textContent.trim())) tab.remove();
-        if (tab.textContent.trim() === 'Events') tab.href = 'Careers.dc.html#events';
+        if (tab.textContent.trim() === 'Events') tab.href = 'Events.dc.html';
         if (tab.textContent.trim() === 'Sponsor') { tab.textContent = 'Advertise'; tab.href = 'Advertise.dc.html'; }
         if (tab.textContent.trim() === 'About') tab.href = 'About.dc.html';
         if (tab.textContent.trim() === 'Contact us') tab.href = 'Contact.dc.html';
@@ -425,6 +425,11 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
       }
     }
+
+    // The mobile section nav's Events tab opens the Events and Expos page too.
+    document.querySelectorAll('nav.m-only a').forEach((tab) => {
+      if (tab.textContent.trim() === 'Events') tab.href = 'Events.dc.html';
+    });
 
     const morningBriefCta = document.querySelector('header.d-only a[href="#newsletter"]');
     if (morningBriefCta) {
@@ -578,7 +583,7 @@ document.addEventListener('DOMContentLoaded', async function() {
       }
       if (events && !events.querySelector('[data-submit-event]')) {
         const submitEvent = document.createElement('a');
-        submitEvent.href = 'Careers.dc.html#submit-event';
+        submitEvent.href = 'Events.dc.html#submit-event';
         submitEvent.textContent = 'Submit your event';
         submitEvent.setAttribute('data-submit-event', 'true');
         submitEvent.style.cssText = 'display: block; margin-top: 20px; font-size: 14px; font-weight: 600; color: #1F6A6E';
@@ -803,13 +808,13 @@ document.addEventListener('DOMContentLoaded', async function() {
         } else {
           sidebar.appendChild(tweets);
         }
-        // Platinum Sponsors: five platinum tiles under a box title, directly above Gold Sponsors
-        // in the third column (careersColumn). Both are <aside> elements, so the generic
+        // Elite Partners (the "platinum" sponsor slot): five platinum tiles under a box title, directly above
+        // Gold Sponsors in the third column (careersColumn). Both are <aside> elements, so the generic
         // "main.wrap aside > section" card styling applies the same either way.
         const platinumSponsors = ['Sandhaven Capital (demo)', 'Tidewell Holdings (demo)', 'Qamar Ridge Partners (demo)', 'Almira Private Bank (demo)', 'Saltmarsh Investments (demo)'];
         const platinumSection = document.createElement('section');
         platinumSection.setAttribute('aria-labelledby', 'platinum-sponsors-title');
-        platinumSection.innerHTML = `<h2 id="platinum-sponsors-title">Platinum Sponsors</h2><div class="fx-platinum-list">${platinumSponsors.map((name) => `<a href="#" class="fx-platinum-tile" aria-label="Platinum sponsor: ${name}">${name}</a>`).join('')}</div>`;
+        platinumSection.innerHTML = `<h2 id="platinum-sponsors-title">Elite Partners</h2><div class="fx-platinum-list">${platinumSponsors.map((name) => `<a href="#" class="fx-platinum-tile" aria-label="Elite partner: ${name}">${name}</a>`).join('')}</div>`;
         careersColumn.insertBefore(platinumSection, goldSection);
         // The original (undecorated) Subscribe box is removed now that its relabelled copy
         // (morningBriefCopy, above UAE Careers) is the one shown in the second column.
@@ -841,7 +846,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Dune Payments Advisory</span></span></a>
             <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Pearl Trust Services</span></span></a>
           </div>`;
-        // Column 3 order: Videos and Podcasts (moved here from the second column) on top, then Platinum Sponsors,
+        // Column 3 order: Videos and Podcasts (moved here from the second column) on top, then Elite Partners,
         // Sponsored Posts (in the spot Videos used to hold), Gold Sponsors and Featured Companies.
         const videosPodcastsBox = document.querySelector('[aria-labelledby="sponsored-podcasts-title"]');
         if (videosPodcastsBox) careersColumn.insertBefore(videosPodcastsBox, careersColumn.firstChild);
@@ -885,7 +890,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
       const news = main && main.querySelector('.news');
       if (news) {
-        let activeNewsRegion = 'UAE News';
+        let activeNewsRegion = 'News';
         const applyNewsRegion = (region) => {
           document.querySelectorAll('.news > article').forEach((article) => {
             article.style.display = article.dataset.newsRegion === region ? '' : 'none';
@@ -893,14 +898,13 @@ document.addEventListener('DOMContentLoaded', async function() {
           document.querySelectorAll('[data-more-news-region]').forEach((link) => {
             link.style.display = link.dataset.moreNewsRegion === region ? 'inline-block' : 'none';
           });
-          // Real Estate and Infrastructure News stays under UAE News and Global News, but not
-          // under Business Funding. Queried each call (not closed over) because the box is
+          // Real Estate and Infrastructure News stays under News, but not under Fundraising. Queried each call (not closed over) because the box is
           // created later, further down this same script.
           // Energy News and AI and Technology News follow the same rule.
           ['Real Estate and Infrastructure News', 'Energy News', 'AI and Technology News'].forEach((label) => {
             const tileBox = document.querySelector('.news > section[aria-label="' + label + '"]');
             if (!tileBox) return;
-            const show = region !== 'Business Funding';
+            const show = region !== 'Fundraising';
             // 'grid', not '': the box's own inline style sets display:grid (for the tile
             // columns), so clearing it back to '' would fall through to the browser default
             // (block), stacking every tile in one column instead of three.
@@ -917,7 +921,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             if (/^(all|markets?|funds?)$/i.test(tab.textContent.trim())) tab.remove();
           });
           let tabs = Array.from(tabRow.querySelectorAll('button'));
-          const REGION_NAMES = ['UAE News', 'Global News', 'Business Funding'];
+          const REGION_NAMES = ['News', 'Fundraising'];
           if (tabs.length >= 2) {
             // The region is kept in a data attribute, not read back from the label, so the label can be translated (i18n.js).
             const translate = window.__fundsTr || ((text) => text);
@@ -964,7 +968,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         new MutationObserver(limitNewsTabs).observe(document.body, { childList: true, subtree: true });
         setInterval(limitNewsTabs, 250);
         const articles = Array.from(news.querySelectorAll('article'));
-        articles.forEach((article) => { article.dataset.newsRegion = 'UAE News'; });
+        articles.forEach((article) => { article.dataset.newsRegion = 'News'; });
         news.querySelectorAll('span[aria-hidden="true"]').forEach((bullet) => bullet.remove());
         news.querySelectorAll('article > div[style*="margin-top: 6px"]').forEach((relatedStory) => relatedStory.remove());
         news.querySelectorAll('article > div[style*="line-height: 1.6"]').forEach((moreLinksRow) => moreLinksRow.remove());
@@ -979,19 +983,19 @@ document.addEventListener('DOMContentLoaded', async function() {
           }
         });
         const dummyStories = [
-          ['UAE News', 'UAE launches new green finance initiative for local businesses', 'Emirates Business Journal'],
-          ['UAE News', 'Abu Dhabi investment community prepares for a busy final quarter', 'Gulf Finance Wire'],
-          ['UAE News', 'Dubai fintech firms report stronger demand from institutional clients', 'The National Ledger'],
-          ['UAE News', 'Sharjah free zones report rising demand from SME founders', 'UAE Markets Today'],
-          ['UAE News', 'RAK industrial parks see fresh manufacturing investment', 'Khaleej Capital Report'],
-          ['UAE News', 'UAE banks report steady growth in SME lending', 'Dirham Daily'],
-          ['UAE News', 'Federal authorities outline new rules for fund managers', 'Federal Finance Bulletin'],
-          ['UAE News', 'Dubai family offices increase allocations to regional startups', 'Emirates Business Journal'],
-          ['UAE News', 'Abu Dhabi sovereign wealth vehicles expand local investments', 'Gulf Finance Wire'],
-          ['UAE News', 'UAE insurers roll out new products for small businesses', 'The National Ledger'],
-          ['UAE News', 'Free zone authorities simplify licensing for fintech firms', 'UAE Markets Today'],
-          ['UAE News', 'UAE exchanges report higher trading volumes this quarter', 'Khaleej Capital Report'],
-          ['UAE News', 'Regional banks expand green financing programmes', 'Dirham Daily']
+          ['News', 'UAE launches new green finance initiative for local businesses', 'Emirates Business Journal'],
+          ['News', 'Abu Dhabi investment community prepares for a busy final quarter', 'Gulf Finance Wire'],
+          ['News', 'Dubai fintech firms report stronger demand from institutional clients', 'The National Ledger'],
+          ['News', 'Sharjah free zones report rising demand from SME founders', 'UAE Markets Today'],
+          ['News', 'RAK industrial parks see fresh manufacturing investment', 'Khaleej Capital Report'],
+          ['News', 'UAE banks report steady growth in SME lending', 'Dirham Daily'],
+          ['News', 'Federal authorities outline new rules for fund managers', 'Federal Finance Bulletin'],
+          ['News', 'Dubai family offices increase allocations to regional startups', 'Emirates Business Journal'],
+          ['News', 'Abu Dhabi sovereign wealth vehicles expand local investments', 'Gulf Finance Wire'],
+          ['News', 'UAE insurers roll out new products for small businesses', 'The National Ledger'],
+          ['News', 'Free zone authorities simplify licensing for fintech firms', 'UAE Markets Today'],
+          ['News', 'UAE exchanges report higher trading volumes this quarter', 'Khaleej Capital Report'],
+          ['News', 'Regional banks expand green financing programmes', 'Dirham Daily']
         ];
         const globalStories = [
           ['European markets edge higher as investors assess new inflation data', 'Global Markets Wire'],
@@ -1015,43 +1019,44 @@ document.addEventListener('DOMContentLoaded', async function() {
           ['Chinese asset managers expand offshore fund offerings', 'Global Business Wire'],
           ['Nordic pension funds increase allocations to private equity', 'Finance & Markets Today']
         ];
-        globalStories.forEach(([title, source]) => {
-          dummyStories.push(['Global News', title, source]);
+        // One News tab: the UAE and global dummy stories alternate, so the first fifteen show both.
+        const uaeDummies = dummyStories.splice(0);
+        uaeDummies.forEach((story, i) => {
+          dummyStories.push(story);
+          if (globalStories[i]) dummyStories.push(['News', ...globalStories[i]]);
         });
-        const businessFundingStories = [
-          ['Federal SME support scheme opens applications for a second round', 'Federal Finance Bulletin'],
-          ['Seed funds open new cheque sizes for early-stage UAE startups', 'Emirates Business Journal'],
-          ['Green finance grants back a fresh round of clean-energy ventures', 'Gulf Finance Wire'],
-          ['New fund backs women-led businesses across the Gulf', 'The National Ledger'],
-          ['Fintech accelerators open their next cohort in DIFC', 'UAE Markets Today'],
-          ['Venture debt gains ground for growth-stage UAE firms', 'Khaleej Capital Report'],
-          ['Free zone authorities expand grant funding for manufacturers', 'Dirham Daily'],
-          ['Abu Dhabi launches matched-funding scheme for tech founders', 'Gulf Finance Wire'],
-          ['SME lending guarantees widen eligibility for small exporters', 'Federal Finance Bulletin'],
-          ['Dubai innovation fund adds a dedicated healthtech track', 'Emirates Business Journal'],
-          ['Sharjah entrepreneurship centre expands its grant pool', 'UAE Markets Today'],
-          ['Family offices co-invest alongside a new founder grant programme', 'The National Ledger'],
-          ['Federal authorities streamline applications for R&D grants', 'Khaleej Capital Report']
+        globalStories.slice(uaeDummies.length).forEach(([title, source]) => dummyStories.push(['News', title, source]));
+        // Fundraising tab: fund launches and closes.
+        const fundraisingStories = [
+          ['Abu Dhabi private credit manager holds first close of its second fund', 'Gulf Finance Wire'],
+          ['DIFC venture firm launches a $150m early-stage fund for GCC founders', 'Emirates Business Journal'],
+          ['Dubai real estate investor reaches final close above its hard cap', 'The National Ledger'],
+          ['Regional infrastructure fund secures anchor commitments from family offices', 'UAE Markets Today'],
+          ['ADGM-based secondaries manager raises a continuation vehicle', 'Khaleej Capital Report'],
+          ['Oversubscribed growth equity fund closes for Gulf mid-market deals', 'Dirham Daily'],
+          ['New Shariah-compliant private credit fund opens to institutional investors', 'Federal Finance Bulletin'],
+          ['Family office platform launches a co-investment fund in DIFC', 'Emirates Business Journal'],
+          ['Climate-tech venture fund announces a first close with sovereign backing', 'Gulf Finance Wire'],
+          ['Healthcare private equity fund holds its final close in Abu Dhabi', 'The National Ledger'],
+          ['Fintech venture studio raises its debut fund from regional LPs', 'UAE Markets Today'],
+          ['Logistics infrastructure fund launches with a $300m target', 'Khaleej Capital Report'],
+          ['Gulf hedge fund manager opens a new multi-strategy vehicle', 'Dirham Daily']
         ];
-        businessFundingStories.forEach(([title, source]) => {
-          dummyStories.push(['Business Funding', title, source]);
+        fundraisingStories.forEach(([title, source]) => {
+          dummyStories.push(['Fundraising', title, source]);
         });
         dummyStories.forEach(([region, title, source]) => {
           const article = document.createElement('article');
           article.dataset.newsRegion = region;
-          if (region === 'Global News' && !news.querySelector('#global-news')) article.id = 'global-news';
           article.style.cssText = 'padding: 7px 0; border-bottom: 1px solid #DAE5E4; display: flex; flex-direction: column; gap: 4px';
           const detailLine = `<p style="margin: 0; font-size: 13px; font-weight: 500; color: #7F9A97">Source: ${source} (dummy)</p>`;
           article.innerHTML = `<h2 style="margin: 0; font-family: 'Newsreader', 'Georgia', serif; font-size: 20px; font-weight: 600; line-height: 1.25; color: #0E3A43"><a href="#" style="color: #0E3A43">${title}</a></h2>${detailLine}`;
           news.appendChild(article);
         });
         const allArticles = Array.from(news.querySelectorAll('article'));
-        const uaeArticles = allArticles.filter((article) => article.dataset.newsRegion === 'UAE News');
-        const globalArticles = allArticles.filter((article) => article.dataset.newsRegion === 'Global News');
-        const businessFundingArticles = allArticles.filter((article) => article.dataset.newsRegion === 'Business Funding');
-        uaeArticles.slice(15).forEach((article) => article.remove());
-        globalArticles.slice(15).forEach((article) => article.remove());
-        businessFundingArticles.slice(15).forEach((article) => article.remove());
+        ['News', 'Fundraising'].forEach((region) => {
+          allArticles.filter((article) => article.dataset.newsRegion === region).slice(15).forEach((article) => article.remove());
+        });
         Array.from(news.querySelectorAll('article')).forEach((article) => {
           const headline = article.querySelector('h2 a');
           const summary = article.querySelector('p');
@@ -1065,7 +1070,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
         const moreNewsLinks = document.createElement('div');
         moreNewsLinks.style.cssText = 'display: flex; gap: 16px; padding: 20px 0 8px';
-        moreNewsLinks.innerHTML = '<a href="#" data-more-news-region="UAE News" style="display: inline-block; font-size: 14px; font-weight: 600; color: #1F6A6E">View All</a><a href="#" data-more-news-region="Global News" style="display: none; font-size: 14px; font-weight: 600; color: #1F6A6E">View All</a><a href="#" data-more-news-region="Business Funding" style="display: none; font-size: 14px; font-weight: 600; color: #1F6A6E">View All</a>';
+        moreNewsLinks.innerHTML = '<a href="#" data-more-news-region="News" style="display: inline-block; font-size: 14px; font-weight: 600; color: #1F6A6E">View All</a><a href="#" data-more-news-region="Fundraising" style="display: none; font-size: 14px; font-weight: 600; color: #1F6A6E">View All</a>';
         news.appendChild(moreNewsLinks);
         applyNewsRegion(activeNewsRegion);
         const eventsPanel = sidebar && sidebar.querySelector('[aria-labelledby="events-title"]');
@@ -1363,6 +1368,35 @@ document.addEventListener('DOMContentLoaded', async function() {
       }
     }
 
+    // Elite Founding Sponsor banner: full width, directly under the masthead (and the mobile nav), above the
+    // columns (after fundopshq.com). Until a sponsor is signed it advertises the slot itself; the connector
+    // swaps in the sponsor from the "founding" slot of sponsors.json. Every page carries the same markup and
+    // shares founding-banner.css, so the banner looks and reads the same site-wide.
+    {
+      if (!document.querySelector('link[href="founding-banner.css"]')) {
+        const bannerStyles = document.createElement('link');
+        bannerStyles.rel = 'stylesheet';
+        bannerStyles.href = 'founding-banner.css';
+        document.head.appendChild(bannerStyles);
+      }
+      const mainColumns = document.querySelector('main.wrap');
+      if (mainColumns && !document.querySelector('.fx-founding')) {
+        const founding = document.createElement('section');
+        founding.className = 'fx-founding';
+        founding.setAttribute('aria-label', 'Elite Founding Sponsor');
+        founding.innerHTML = `
+          <div class="fx-founding-frame">
+            <p class="fx-founding-id">
+              <span class="fx-founding-tags"><span class="fx-founding-label">Elite Founding Sponsor</span><span class="fx-founding-status">Space available</span></span>
+              <span class="fx-founding-brand"><span class="fx-founding-name">Your firm here<span class="fx-caret" aria-hidden="true"></span></span></span>
+            </p>
+            <p class="fx-founding-pitch">Put your firm in front of the UAE's GPs, LPs, family offices and fund service providers, every day.</p>
+            <a class="fx-founding-cta" href="Advertise.dc.html#elite-partner"><span>Become a founding sponsor</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+          </div>`;
+        mainColumns.before(founding);
+      }
+    }
+
     // ── Editorial theme ─────────────────────────────────────────────────────
     // A newspaper-style skin: a centred masthead and double-ruled section nav
     // (after nytimes.com), plus hairline column rules, small-caps section labels
@@ -1583,7 +1617,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         /* UAE Influencers in the news column: same treatment as Top Tweets (dark rule, small-caps title), profiles two across. */
 
-        /* Platinum Sponsors: five platinum (cool silver) tiles stacked in the third column, above Gold Sponsors, dark text for contrast. */
+        /* Elite Partners (platinum slot): five platinum (cool silver) tiles stacked in the third column, above Gold Sponsors, dark text for contrast. */
         .fx-platinum-list { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
         .fx-platinum-tile { display: flex; align-items: center; min-height: 56px; padding: 10px 14px; border-radius: 3px; background: linear-gradient(145deg, #F1F3F4, #B9C0C6); color: #0E3A43 !important; font-size: 14px; font-weight: 600; line-height: 1.25; text-decoration: none; }
         .fx-platinum-tile:hover { filter: brightness(1.04); text-decoration: underline; text-underline-offset: 3px; }
@@ -1661,6 +1695,7 @@ document.addEventListener('DOMContentLoaded', async function() {
       tag(inBox('sponsored-podcasts-title', ':scope > div:nth-of-type(2)'), 'sponsor-media');
       tag(inBox('professional-services-title', ':scope > div'), 'sponsor-companies');
       tag(document.querySelector('.fx-gold-grid'), 'sponsor-gold');
+      tag(document.querySelector('.fx-founding'), 'sponsor-founding');
       tag(document.querySelector('.fx-platinum-list'), 'sponsor-platinum');
       tag(document.querySelector('.news > section[aria-label="Real Estate and Infrastructure News"]'), 'tiles-real-estate-infrastructure');
       tag(document.querySelector('.news > section[aria-label="Energy News"]'), 'tiles-energy');

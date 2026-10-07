@@ -194,7 +194,7 @@
         if (!form) return;
         var select = form.elements.namedItem('tier');
         var tier = button.getAttribute('data-fundsae-tier');
-        if (select && /^(silver|gold|platinum)$/.test(tier)) select.value = tier;
+        if (select && /^(silver|gold|platinum|exclusive)$/.test(tier)) select.value = tier;
         setTimeout(function () {
           var first = form.elements.namedItem('name');
           if (first) first.focus({ preventScroll: true });
