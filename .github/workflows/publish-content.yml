@@ -1,13 +1,26 @@
-# Publishes sponsor and event changes. Runs automatically when the sponsor manager
-# (admin page) saves, or when you edit backend/config/sponsors.json or events.json by hand.
-name: Publish sponsors and events
+# Publishes sponsors, events and editorial content (Top Tweets, Advertise packages, page copy).
+#
+# Runs when:
+#   - an editor presses Publish in the Sanity Studio: Sanity's webhook sends a
+#     repository_dispatch "cms-publish" event (setup: docs/SANITY-CMS-GUIDE.md);
+#   - someone saves backend/config/{sponsors,events,content}.json (admin page or by hand);
+#   - you run it from the Actions tab.
+#
+# With backend/config/settings.json content.source = "sanity", it first copies the
+# published Sanity content into backend/config/ (`npm run cms:pull`). Every file is
+# validated before anything is written; on any problem the step fails, the run is
+# marked red with the reasons, and the site keeps its current content.
+name: Publish content
 
 on:
+  repository_dispatch:
+    types: [cms-publish]
   push:
     branches: [main]
     paths:
       - "backend/config/sponsors.json"
       - "backend/config/events.json"
+      - "backend/config/content.json"
       - "assets/sponsors/**"
   workflow_dispatch:
 
@@ -31,13 +44,25 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: "24"
           cache: npm
           cache-dependency-path: backend/package-lock.json
 
       - run: npm ci --no-audit --no-fund --ignore-scripts
 
-      - name: Validate and publish sponsors and events
+      - name: Read where content comes from
+        id: source
+        run: echo "source=$(node -p "require('./config/settings.json').content?.source || 'file'")" >> "$GITHUB_OUTPUT"
+
+      - name: Pull published content from Sanity
+        if: steps.source.outputs.source == 'sanity' && github.event_name != 'push'
+        env:
+          SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
+          SANITY_DATASET: ${{ secrets.SANITY_DATASET }}
+          SANITY_READ_TOKEN: ${{ secrets.SANITY_READ_TOKEN }}
+        run: npm run cms:pull
+
+      - name: Validate and publish sponsors, events and content
         run: npm run publish:content
 
       - name: Save to the repository
@@ -45,12 +70,13 @@ jobs:
         run: |
           git config user.name "funds-ae-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add api/v1/sponsors.json api/v1/events.json api/v1/meta.json
+          git add backend/config/sponsors.json backend/config/events.json backend/config/content.json \
+                  api/v1/sponsors.json api/v1/events.json api/v1/content.json api/v1/meta.json
           if git diff --cached --quiet; then
             echo "Nothing changed."
             exit 0
           fi
-          git commit -m "Publish sponsors and events"
+          git commit -m "Publish content${{ github.event_name == 'repository_dispatch' && ' from Sanity' || '' }}"
           for attempt in 1 2 3; do
             git pull --rebase origin "${GITHUB_REF_NAME}" && git push && exit 0
             sleep 10

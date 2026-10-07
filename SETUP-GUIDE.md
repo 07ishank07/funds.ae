@@ -34,7 +34,7 @@ Whenever this guide says **save to GitHub**, do this in vscode.dev:
 2. Make sure the file list has everything in the table above at the top level (`.github`, `admin`, `api`, `assets`, `backend`, `frontend_demo`, `js`, `index.html`, `i18n.js`, `.gitignore`, `.nojekyll`).
    - Mac users: folders starting with a dot are hidden in Finder. Press **Cmd + Shift + .** to show them.
 3. **Save to GitHub**.
-4. On github.com, check that `.github/workflows` contains three files: `daily-ingest.yml`, `publish-sponsors.yml` and `tests.yml`.
+4. On github.com, check that `.github/workflows` contains four files: `ci.yml`, `daily-ingest.yml`, `publish-content.yml` and `tests.yml`.
 
 ## 2. Turn on GitHub Pages
 
@@ -129,7 +129,7 @@ Submissions contain personal data. They are stored outside `api/`, are never pub
 | Site still shows old content | Wait 5–10 minutes, then Ctrl + Shift + R |
 | The Arabic button is missing | Check that `i18n.js` is at the top level of the repository, next to `index.html` |
 | Workflow has a red cross | Open it and read the failed step. A message such as `settings.json is not valid JSON` means a missing or extra comma |
-| Sponsors did not update | Actions → **Publish sponsors and events** → read the failed step; each problem is described in plain words |
+| Sponsors, events or CMS content did not update | Actions → **Publish content** → read the failed step; each problem is described in plain words |
 | Sponsor manager says the token is not accepted | The token was copied incompletely or has expired. Create a new one |
 | Sponsor manager says "not allowed" | The token needs Contents: Read and write on this repository |
 | A news source keeps failing | See step 6.4. Failing sources pause themselves for 7 days |

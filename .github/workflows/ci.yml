@@ -19,3 +19,22 @@ jobs:
       - run: npm run validate
       - run: npm test
       - run: npm audit --omit=dev --audit-level=high
+
+  # The Sanity Studio (studio/) must keep compiling. The project id is a placeholder:
+  # nothing here talks to Sanity.
+  studio:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults: { run: { working-directory: studio } }
+    env:
+      SANITY_STUDIO_PROJECT_ID: ci000000
+      SANITY_STUDIO_DATASET: production
+      SANITY_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with: { persist-credentials: false }
+      - uses: actions/setup-node@v4
+        with: { node-version: '24', cache: npm, cache-dependency-path: studio/package-lock.json }
+      - run: npm ci --no-audit --no-fund
+      - run: npm run schema:validate
+      - run: npm run build -- --yes

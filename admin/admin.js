@@ -3,7 +3,7 @@
  * Reads and writes backend/config/sponsors.json and uploads images to
  * assets/sponsors/ through the GitHub REST API, using a fine-grained access
  * token that only the person using this page holds. After a save, the
- * "Publish sponsors" GitHub Action validates the file and updates the site.
+ * "Publish content" GitHub Action validates the file and updates the site.
  */
 (function () {
   'use strict';
@@ -709,7 +709,7 @@
       state.sha = result.content.sha;
       state.pending = {};
       setDirty(false);
-      statusLink('Saved. The site updates in about two minutes, once the “Publish sponsors” job finishes.',
+      statusLink('Saved. The site updates in about two minutes, once the “Publish content” job finishes.',
         'https://github.com/' + encodeURIComponent(state.owner) + '/' + encodeURIComponent(state.repo) + '/actions', 'Watch the job on GitHub');
     }).catch(function (err) {
       showStatus(err.message, 'error');
