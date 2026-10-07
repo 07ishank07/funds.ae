@@ -208,6 +208,9 @@
   section { padding-top: 12px; border-top: 2px solid var(--ink); }
   section h2 { font-family: 'Jost', 'Futura', 'Century Gothic', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
   section p { font-family: var(--serif); font-size: 17px; line-height: 1.6; }
+  /* Lists in page copy published from the CMS (same as Privacy and Terms). */
+  section ul, section ol { margin: 10px 0 0 20px; }
+  section li { margin-top: 6px; font-family: var(--serif); font-size: 17px; line-height: 1.6; }
   .team-member .role { font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em; }
   .contact-box { border-top: 3px solid var(--mint); }
   @media (max-width: 620px) { .stat + .stat { border-left: 0; border-top: 1px solid var(--line); } }
@@ -272,7 +275,7 @@
     <a class="fx-founding-cta" href="Advertise.dc.html#elite-partner"><span>Become a founding sponsor</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
   </div>
 </section>
-<main>
+<main data-fundsae-slot="page-body" data-fundsae-page="about">
   <div class="intro">
     <h1>About Funds.ae</h1>
     <p class="lead">Dummy placeholder copy. Funds.ae is a fictional UAE finance news and resource hub covering markets, funds, careers and sponsorship &mdash; built for demonstration purposes only.</p>
@@ -303,7 +306,7 @@
     <p>Dummy text: daily UAE and global finance news, a live markets ticker, fund and career resources, business grants and funding directories, sponsor and advertiser placements, and a curated events calendar for the region's finance community.</p>
   </section>
 
-  <section>
+  <section data-fundsae-keep>
     <h2>Our team</h2>
     <div class="team">
       <div class="team-member">

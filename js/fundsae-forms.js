@@ -186,20 +186,23 @@
     });
   }
 
-  /** Advertise page: "Get started" on a tier preselects it in the enquiry form. */
+  /**
+   * Advertise page: "Get started" on a tier preselects it in the enquiry form.
+   * One delegated listener, so package cards the connector renders from the API work too.
+   */
   function bindTierButtons() {
-    document.querySelectorAll('[data-fundsae-tier]').forEach(function (button) {
-      button.addEventListener('click', function () {
-        var form = document.querySelector('[data-fundsae-form="advertise"]');
-        if (!form) return;
-        var select = form.elements.namedItem('tier');
-        var tier = button.getAttribute('data-fundsae-tier');
-        if (select && /^(silver|gold|platinum|exclusive)$/.test(tier)) select.value = tier;
-        setTimeout(function () {
-          var first = form.elements.namedItem('name');
-          if (first) first.focus({ preventScroll: true });
-        }, 0);
-      });
+    document.addEventListener('click', function (event) {
+      var button = event.target instanceof Element ? event.target.closest('[data-fundsae-tier]') : null;
+      if (!button) return;
+      var form = document.querySelector('[data-fundsae-form="advertise"]');
+      if (!form) return;
+      var select = form.elements.namedItem('tier');
+      var tier = button.getAttribute('data-fundsae-tier');
+      if (select && /^(silver|gold|platinum|exclusive)$/.test(tier)) select.value = tier;
+      setTimeout(function () {
+        var first = form.elements.namedItem('name');
+        if (first) first.focus({ preventScroll: true });
+      }, 0);
     });
   }
 

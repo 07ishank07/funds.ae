@@ -12,6 +12,7 @@ export const NOTICES = {
   sponsors: 'Sponsored placements are marked and link with rel="sponsored". Career resources are editorial.',
   events: 'Event details are supplied by organisers. Check with the organiser before you travel.',
   employers: 'Employers are derived from the open roles listed on Funds.ae.',
+  content: 'Editorial content written by the Funds.ae team. Top Tweets items link to the original posts.',
   general: 'Funds.ae public data API.'
 };
 

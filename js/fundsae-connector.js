@@ -647,6 +647,178 @@
     });
   }
 
+  /* ------------------------- editorial content (Sanity) ------------------------ */
+  // content.json is written from the Sanity Studio. Advertise packages and page copy are
+  // our own text, so with nothing published the page keeps its built-in version in every mode.
+
+  function appendText(node, text, small) {
+    if (!small) { node.textContent = text; return; }
+    node.textContent = text + ' ';
+    var note = document.createElement('small');
+    note.textContent = small;
+    node.appendChild(note);
+  }
+
+  function fillLines(ul, lines) {
+    if (!ul) return;
+    ul.textContent = '';
+    lines.forEach(function (line) {
+      var li = document.createElement('li');
+      li.textContent = line;
+      ul.appendChild(li);
+    });
+  }
+
+  /** Home "Top Tweets": avatar initials, account name, @handle, our one-line summary, link to the post. */
+  function renderHighlights(items) {
+    slots('social-highlights').forEach(function (list) {
+      fillList(list, ':scope > a', items, function (a, item) {
+        var avatar = a.querySelector(':scope > span:first-child');
+        if (avatar) {
+          avatar.textContent = item.initials;
+          avatar.removeAttribute('role');
+          avatar.removeAttribute('aria-label');
+          avatar.setAttribute('aria-hidden', 'true');
+          var color = api.hex(item.color);
+          if (color) avatar.style.background = color;
+        }
+        var body = a.querySelector(':scope > span:last-child');
+        if (body && body !== avatar) {
+          var handleTemplate = body.querySelector('span');
+          body.textContent = '';
+          var name = document.createElement('strong');
+          name.textContent = item.accountName;
+          var handle = handleTemplate ? handleTemplate.cloneNode(false) : document.createElement('span');
+          handle.textContent = '@' + item.handle;
+          body.appendChild(name);
+          body.appendChild(document.createTextNode(' '));
+          body.appendChild(handle);
+          body.appendChild(document.createElement('br'));
+          body.appendChild(document.createTextNode(item.text));
+        }
+        a.setAttribute('aria-label', item.accountName + ' (@' + item.handle + ') on X: ' + item.text);
+        api.setLink(a, item.url, { httpsOnly: true });
+      });
+    });
+  }
+
+  /** Advertise page: the package cards, and the Elite Exclusive Partner hero for the "exclusive" tier. */
+  function renderTiers(tiers) {
+    var cards = tiers.filter(function (t) { return t.id !== 'exclusive'; });
+    if (cards.length) {
+      slots('advertise-tiers').forEach(function (box) {
+        fillList(box, ':scope > .tier', cards, function (card, tier) {
+          card.classList.toggle('featured', tier.featured);
+          var badge = card.querySelector('.badge');
+          if (badge) {
+            badge.textContent = tier.badge || '';
+            badge.hidden = !tier.badge;
+          }
+          var title = card.querySelector('h2');
+          if (title) title.textContent = tier.name;
+          var price = card.querySelector('.price');
+          if (price) appendText(price, tier.price, tier.priceNote);
+          fillLines(card.querySelector('ul'), tier.features);
+          var cta = card.querySelector('[data-fundsae-tier]');
+          if (cta) {
+            cta.setAttribute('data-fundsae-tier', tier.id);
+            cta.setAttribute('aria-label', 'Get started with ' + tier.name);
+          }
+        });
+      });
+    }
+    var exclusive = tiers.filter(function (t) { return t.id === 'exclusive'; })[0];
+    if (!exclusive) return;
+    slots('advertise-exclusive').forEach(function (hero) {
+      var eyebrow = hero.querySelectorAll('.elite-hero-eyebrow > span');
+      if (eyebrow[0]) eyebrow[0].textContent = exclusive.name;
+      if (eyebrow[1]) {
+        eyebrow[1].textContent = exclusive.badge || '';
+        eyebrow[1].hidden = !exclusive.badge;
+      }
+      var price = hero.querySelector('.elite-hero-price');
+      if (price) appendText(price, exclusive.price, exclusive.priceNote);
+      fillLines(hero.querySelector('.elite-hero-perks'), exclusive.features);
+    });
+  }
+
+  var updatedFmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+
+  /** One rich-text block's spans: bold, italic and links, built with createElement and textContent only. */
+  function spansInto(node, spans) {
+    spans.forEach(function (span) {
+      var out = document.createTextNode(span.text);
+      if (span.italic) { var em = document.createElement('em'); em.appendChild(out); out = em; }
+      if (span.bold) { var strong = document.createElement('strong'); strong.appendChild(out); out = strong; }
+      if (span.href) {
+        var a = document.createElement('a');
+        if (api.setCopyLink(a, span.href)) { a.appendChild(out); out = a; }
+      }
+      node.appendChild(out);
+    });
+    return node;
+  }
+
+  /** Blocks -> <section>s, one per h2, with list items grouped into <ul>/<ol>. */
+  function pageSections(blocks) {
+    var sections = [];
+    var section = null;
+    var list = null;
+    blocks.forEach(function (block) {
+      if (block.type === 'h2' || !section) {
+        section = document.createElement('section');
+        sections.push(section);
+        list = null;
+      }
+      if (block.type === 'li') {
+        var tag = block.list === 'number' ? 'OL' : 'UL';
+        if (!list || list.tagName !== tag) {
+          list = document.createElement(tag);
+          section.appendChild(list);
+        }
+        list.appendChild(spansInto(document.createElement('li'), block.spans));
+        return;
+      }
+      list = null;
+      section.appendChild(spansInto(document.createElement(block.type === 'p' ? 'p' : block.type), block.spans));
+    });
+    return sections;
+  }
+
+  /** About, Privacy, Terms: title, lead, "Last updated" and the body sections (sections marked data-fundsae-keep stay). */
+  function renderPage(pages) {
+    slots('page-body').forEach(function (main) {
+      var page = pages[main.getAttribute('data-fundsae-page')];
+      if (!page || !api.valid.page(page)) return;
+      var title = main.querySelector('.intro h1');
+      if (title) title.textContent = page.title;
+      var lead = main.querySelector('.intro .lead');
+      if (lead) {
+        if (page.intro) lead.textContent = page.intro;
+        else lead.remove();
+      }
+      var updated = main.querySelector('.intro .updated');
+      if (updated) {
+        if (page.updatedAt) updated.textContent = api.tr('Last updated') + ' ' + updatedFmt.format(new Date(page.updatedAt + 'T00:00:00Z'));
+        else updated.remove();
+      }
+      var old = children(main, ':scope > section:not([data-fundsae-keep])');
+      var anchor = old[0] || main.querySelector(':scope > .related');
+      pageSections(page.blocks).forEach(function (section) {
+        section.setAttribute('data-fundsae-row', '');
+        main.insertBefore(section, anchor);
+      });
+      old.forEach(function (section) { section.remove(); });
+    });
+  }
+
+  function renderContent(doc) {
+    var s = doc.slots || {};
+    renderHighlights(api.items(s.socialHighlights, api.valid.socialHighlight, 'Top Tweets items'));
+    renderTiers(api.items(s.advertiseTiers, api.valid.advertiseTier, 'Advertise packages'));
+    renderPage(doc.pages && typeof doc.pages === 'object' ? doc.pages : {});
+  }
+
   /* ------------------------------------ main ----------------------------------- */
 
   function guard(label, promise) {
@@ -686,6 +858,9 @@
       if (hasSlot('events')) guard('Events', load('events.json', 'events').then(renderEvents));
       var sponsorSlots = ['sponsor-founding', 'sponsor-platinum', 'sponsor-gold', 'sponsor-posts', 'sponsor-media', 'sponsor-companies', 'career-resources'];
       if (sponsorSlots.some(hasSlot)) guard('Sponsors', load('sponsors.json', 'sponsors').then(renderSponsors));
+      if (hasSlot('social-highlights') || hasSlot('advertise-tiers') || hasSlot('advertise-exclusive') || hasSlot('page-body')) {
+        guard('Editorial content', load('content.json', 'content').then(renderContent));
+      }
     }).catch(function (err) {
       api.warn('The API could not be reached; the page keeps its built-in content', err);
     });

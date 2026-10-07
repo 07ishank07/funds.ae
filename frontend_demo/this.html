@@ -1701,6 +1701,7 @@ document.addEventListener('DOMContentLoaded', async function() {
       tag(document.querySelector('.news > section[aria-label="Energy News"]'), 'tiles-energy');
       tag(document.querySelector('.news > section[aria-label="AI and Technology News"]'), 'tiles-ai-technology');
       tag(document.querySelector('.news > section[aria-label="UAE Business Grants and Funding news"]'), 'tiles-grants-funding');
+      tag(inBox('tweets-title', ':scope > div'), 'social-highlights');
       const dateLine = document.querySelector('.fx-topline > span:first-child');
       if (dateLine) {
         dateLine.setAttribute('data-fundsae-date', '');

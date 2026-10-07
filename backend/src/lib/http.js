@@ -86,12 +86,14 @@ export async function fetchText(url, opts = {}) {
     maxResponseBytes = 5_000_000,
     etag,
     lastModified,
+    headers: extraHeaders = {},
     accept = 'application/rss+xml, application/atom+xml, application/xml, text/xml, application/json;q=0.9, */*;q=0.5'
   } = opts;
 
   if (!isSafePublicUrl(url)) throw new HttpError(`Refusing to fetch non-public URL`, { url, permanent: true });
 
-  const headers = { 'User-Agent': userAgent, Accept: accept, 'Accept-Encoding': 'gzip, deflate, br' };
+  // extraHeaders may carry a credential (the Sanity read token): it is sent, never logged.
+  const headers = { ...extraHeaders, 'User-Agent': userAgent, Accept: accept, 'Accept-Encoding': 'gzip, deflate, br' };
   if (etag) headers['If-None-Match'] = etag;
   if (lastModified) headers['If-Modified-Since'] = lastModified;
 

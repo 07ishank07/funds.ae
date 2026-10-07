@@ -130,8 +130,26 @@
     },
     sponsorItem: function (i) {
       return !!i && str(i.id) && optStr(i.title) && optStr(i.url) && typeof i.sponsored === 'boolean';
+    },
+    socialHighlight: function (h) {
+      return !!h && str(h.id) && str(h.accountName) && str(h.handle) && str(h.text) && str(h.url) && str(h.initials) && optStr(h.color);
+    },
+    advertiseTier: function (t) {
+      return !!t && /^(silver|gold|platinum|exclusive)$/.test(t.id) && str(t.name) && str(t.price) && optStr(t.badge) &&
+        optStr(t.priceNote) && Array.isArray(t.features) && t.features.every(str) && typeof t.featured === 'boolean';
+    },
+    page: function (p) {
+      return !!p && str(p.slug) && str(p.title) && optStr(p.intro) && (p.updatedAt === null || DATE.test(p.updatedAt)) &&
+        Array.isArray(p.blocks) && p.blocks.length > 0 && p.blocks.every(pageBlock);
     }
   };
+
+  function pageBlock(b) {
+    return !!b && /^(p|h2|h3|li)$/.test(b.type) && (b.list === null || b.list === 'bullet' || b.list === 'number') &&
+      Array.isArray(b.spans) && b.spans.every(function (s) {
+        return !!s && typeof s.text === 'string' && typeof s.bold === 'boolean' && typeof s.italic === 'boolean' && optStr(s.href);
+      });
+  }
 
   function items(list, check, label) {
     if (!Array.isArray(list)) return [];
@@ -169,6 +187,15 @@
     a.target = '_blank';
     a.rel = (opts.sponsored ? 'sponsored ' : '') + 'noopener noreferrer';
     return true;
+  }
+
+  /** A link inside CMS page copy: http(s) (opens in a new tab) or a plain mailto address. */
+  function setCopyLink(a, value) {
+    if (typeof value === 'string' && /^mailto:[^\s"'<>()\\]+@[^\s"'<>()\\]+$/i.test(value)) {
+      a.href = value;
+      return true;
+    }
+    return setLink(a, value, { httpsOnly: true });
   }
 
   function hex(value) {
@@ -216,6 +243,7 @@
     items: items,
     httpUrl: httpUrl,
     setLink: setLink,
+    setCopyLink: setCopyLink,
     hex: hex,
     imageUrl: imageUrl,
     dubaiToday: dubaiToday,

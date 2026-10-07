@@ -11,6 +11,7 @@
 //   api/v1/employers.json              employers derived from open roles
 //   api/v1/events.json                 upcoming and recent events
 //   api/v1/sponsors.json               sponsor slots
+//   api/v1/content.json                Top Tweets, Advertise packages, About/Privacy/Terms copy (from Sanity)
 //   api/v1/sources.json                every source and its health
 //   api/v1/taxonomy.json               category, topic and section labels
 
@@ -118,6 +119,15 @@ export function publishSponsors(ctx, slots) {
   };
 }
 
+/** content: the validated output of pipeline/content.js, { slots, pages }. */
+export function publishContent(ctx, content) {
+  write('content.json', envelope(base(ctx, NOTICES.content), content));
+  return {
+    counts: { ...Object.fromEntries(Object.entries(content.slots).map(([k, v]) => [k, v.length])), pages: Object.keys(content.pages).length },
+    version: versionOf(content)
+  };
+}
+
 export function publishSources(ctx, feedState) {
   const health = (id) => feedState?.sources?.[id] || {};
   const items = [
@@ -158,6 +168,7 @@ export function publishMeta(ctx, { versions = {}, counts = {}, lastRun } = {}) {
       employers: 'employers.json',
       events: 'events.json',
       sponsors: 'sponsors.json',
+      content: 'content.json',
       sources: 'sources.json',
       taxonomy: 'taxonomy.json'
     }

@@ -145,7 +145,7 @@ CREATE INDEX IF NOT EXISTS events_start ON events (start_date);
 
 -- Editor-maintained (config/sponsors.json, usually through admin/).
 CREATE TABLE IF NOT EXISTS sponsor_items (
-    slot        TEXT NOT NULL CHECK (slot IN ('platinum', 'gold', 'sponsoredPosts', 'sponsoredMedia', 'professionalServices', 'careerResources')),
+    slot        TEXT NOT NULL CHECK (slot IN ('founding', 'platinum', 'gold', 'sponsoredPosts', 'sponsoredMedia', 'professionalServices', 'careerResources')),
     id          TEXT NOT NULL CHECK (id ~ '^[a-z0-9][a-z0-9-]{0,60}$'),
     position    INTEGER NOT NULL DEFAULT 0,
     enabled     BOOLEAN NOT NULL DEFAULT TRUE,
@@ -159,6 +159,42 @@ CREATE TABLE IF NOT EXISTS sponsor_items (
     color_from  TEXT CHECK (color_from IS NULL OR color_from ~* '^#[0-9a-f]{6}$'),
     color_to    TEXT CHECK (color_to IS NULL OR color_to ~* '^#[0-9a-f]{6}$'),
     PRIMARY KEY (slot, id)
+);
+
+-- Editorial content managed in Sanity (studio/), pulled into config/content.json by `npm run cms:pull`.
+-- Home "Top Tweets": an editor-written line and a link to the post, never the post's text.
+CREATE TABLE IF NOT EXISTS social_highlights (
+    id            TEXT PRIMARY KEY CHECK (id ~ '^[a-z0-9][a-z0-9-]{1,60}$'),
+    position      INTEGER NOT NULL DEFAULT 0,
+    enabled       BOOLEAN NOT NULL DEFAULT TRUE,
+    account_name  TEXT NOT NULL CHECK (char_length(account_name) BETWEEN 2 AND 40),
+    handle        TEXT NOT NULL CHECK (handle ~ '^[A-Za-z0-9_]{2,16}$'),
+    text          TEXT NOT NULL CHECK (char_length(text) BETWEEN 10 AND 140),
+    url           TEXT NOT NULL CHECK (url ~* '^https://(www\.)?(x|twitter)\.com/'),
+    initials      TEXT NOT NULL CHECK (initials ~ '^[A-Z0-9]{1,3}$'),
+    color         TEXT CHECK (color IS NULL OR color ~* '^#[0-9a-f]{6}$')
+);
+
+-- Advertise page package cards. id is the tier the enquiry form sends.
+CREATE TABLE IF NOT EXISTS advertise_tiers (
+    id          TEXT PRIMARY KEY CHECK (id IN ('silver', 'gold', 'platinum', 'exclusive')),
+    position    INTEGER NOT NULL DEFAULT 0,
+    enabled     BOOLEAN NOT NULL DEFAULT TRUE,
+    name        TEXT NOT NULL CHECK (char_length(name) BETWEEN 2 AND 40),
+    badge       TEXT CHECK (badge IS NULL OR char_length(badge) BETWEEN 2 AND 20),
+    price       TEXT NOT NULL CHECK (char_length(price) BETWEEN 2 AND 30),
+    price_note  TEXT CHECK (price_note IS NULL OR char_length(price_note) BETWEEN 2 AND 40),
+    features    TEXT[] NOT NULL CHECK (cardinality(features) BETWEEN 1 AND 8),
+    featured    BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+-- About, Privacy and Terms body copy: a safe subset of Portable Text (see PageBlock in models.js).
+CREATE TABLE IF NOT EXISTS pages (
+    slug        TEXT PRIMARY KEY CHECK (slug IN ('about', 'privacy', 'terms')),
+    title       TEXT NOT NULL CHECK (char_length(title) BETWEEN 2 AND 80),
+    intro       TEXT CHECK (intro IS NULL OR char_length(intro) <= 400),
+    updated_at  DATE,
+    blocks      JSONB NOT NULL
 );
 
 -- Website form submissions. Personal data: never published, never logged,
