@@ -1,0 +1,24 @@
+{
+  "name": "fundsae-studio",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Sanity Studio for funds.ae editorial content (sponsors, events, Top Tweets, Advertise packages, page copy)",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "dev": "sanity dev",
+    "build": "sanity build",
+    "deploy": "sanity deploy",
+    "start": "sanity start",
+    "schema:validate": "sanity schemas validate"
+  },
+  "dependencies": {
+    "@sanity/vision": "^6.18.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "sanity": "^6.18.0",
+    "styled-components": "^6.1.18"
+  }
+}
