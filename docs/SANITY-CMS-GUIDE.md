@@ -210,7 +210,7 @@ Until you do this, nothing changes: `content.source` is `"file"`, so `cms:pull` 
 1. Make sure production holds the content you want live (step 4.2), the webhook works (step 4.5) and the GitHub secrets are set (step 4.4).
 2. In `backend/config/settings.json`, set `"content": { "source": "sanity" }`. Commit and push to `main`.
 3. Go to GitHub → Actions → **Publish content** → **Run workflow**. Check the run is green and the site shows the content.
-4. Retire the old sponsor editor (`admin/`). From now on, edits there are overwritten by the next Sanity publish. Remove the page, or add a notice pointing editors to the Studio.
+4. Retire the old sponsor editor (`admin/`), whose edits the next Sanity publish would overwrite. Done: it was removed on 2026-10-18 when the site switched to Sanity.
 
 ### 4.7 Invite editors
 

@@ -4,9 +4,7 @@
 //   /frontend_demo/*   the pages          /js/*       the website scripts
 //   /assets/*          sponsor images     /i18n.js    the language switch
 //   /                  redirects to /frontend_demo/this.html
-// backend/, admin/, .github/, dotfiles and any extension not listed below are
-// never served. admin/ is deliberately excluded: it holds a GitHub token in
-// the browser and should not share an origin with the public site's API.
+// backend/, .github/, dotfiles and any extension not listed below are never served.
 
 import { createReadStream, existsSync, statSync } from 'node:fs';
 import path from 'node:path';
