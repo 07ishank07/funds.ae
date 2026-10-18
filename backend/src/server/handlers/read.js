@@ -11,10 +11,10 @@ import { HttpProblem, sendJson } from '../http.js';
 
 const STATIC_FILES = new Set([
   'meta.json', 'news.json', 'jobs.json', 'employers.json', 'events.json',
-  'sponsors.json', 'sources.json', 'taxonomy.json'
+  'sponsors.json', 'sources.json', 'taxonomy.json', 'content.json'
 ]);
 const STATIC_PATTERNS = [/^news\/[a-z0-9-]{2,40}\.json$/, /^news\/topics\/[a-z0-9-]{2,40}\.json$/, /^news\/sections\/[a-z0-9-]{2,60}\.json$/];
-const NAMED = { meta: 'meta.json', sponsors: 'sponsors.json', sources: 'sources.json', taxonomy: 'taxonomy.json', employers: 'employers.json' };
+const NAMED = { meta: 'meta.json', sponsors: 'sponsors.json', sources: 'sources.json', taxonomy: 'taxonomy.json', employers: 'employers.json', content: 'content.json' };
 
 // "v" is the cache-busting parameter the website adds; it is always allowed.
 const ALLOWED_PARAMS = {

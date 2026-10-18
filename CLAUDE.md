@@ -19,6 +19,10 @@ Items marked "(Phase N)" below do not exist yet.
 - npm run validate         check config files
 - npm run ingest           one ingestion run (demo mode by default)
 - npm run serve            optional server: pages + API + forms on http://localhost:8080
+- npm run publish:content  validate + publish sponsors, events and content.json
+- npm run cms:pull         copy published Sanity content into config/ (needs content.source "sanity" + SANITY_* env)
+- npm run cms:seed         build studio/seed/fundsae-seed.ndjson from today's content (for sanity dataset import)
+- (from studio/) npm run dev | build | deploy | schema:validate   Sanity Studio (docs/SANITY-CMS-GUIDE.md)
 - npm run migrate up       apply database migrations, local/staging only (Phase 2)
 - npm run dev:web / dev:worker   run web and worker processes locally (Phases 3 and 5)
 
@@ -31,6 +35,10 @@ Items marked "(Phase N)" below do not exist yet.
 - Web process (src/server, src/admin) never runs ingestion; worker (src/worker, Phase 3) does.
 - Status changes of stories go through src/editorial/transitions.js (Phase 6): state machine +
   audit log.
+- Sanity (studio/) holds editorial content only: sponsors, events, Top Tweets, Advertise packages,
+  About/Privacy/Terms copy. Never news or jobs. Sanity data enters ONLY through src/cms/mapping.js and
+  is validated by the existing pipeline validators before any file is written. Studio limits live in
+  studio/schemaTypes/rules.js and must equal the backend's (test/cms.test.js enforces this).
 - Website scripts insert data with textContent only; pages expose data-fundsae-slot hooks and
   forms use data-fundsae-form with field names equal to the API's.
 

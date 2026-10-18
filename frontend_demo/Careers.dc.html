@@ -127,75 +127,16 @@
     font-weight: 600;
     line-height: 1.3;
   }
-  .events-box {
-    padding: 22px 24px 20px;
-    border-radius: 3px;
-    background: #F1F5F4;
-  }
-  .events-box h2 {
-    font-size: 19px;
-    font-weight: 600;
-    color: var(--ink);
-  }
-  .events-headings {
-    display: grid;
-    grid-template-columns: 56px minmax(0, 1fr) 96px;
-    gap: 24px;
-    margin: 14px 0 -2px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--ghost);
-  }
-  .events-headings span:last-child { text-align: right; }
-  .events-list {
-    list-style: none;
-    margin: 8px 0 0;
-    padding: 0;
-  }
-  .events-list li {
-    display: grid;
-    grid-template-columns: 56px minmax(0, 1fr) 96px;
-    align-items: center;
-    gap: 24px;
-    padding: 7px 0;
-    border-bottom: 1px solid var(--line);
-  }
-  .events-list li:last-child { border-bottom: none; }
-  .events-list .day { font-size: 20px; font-weight: 600; line-height: 1.15; color: var(--ink); display: block; }
-  .events-list .month { font-size: 14px; color: var(--muted); }
-  .events-list .event-type { font-family: 'Newsreader', Georgia, serif; font-size: 15px; font-weight: 600; color: var(--ink); }
-  .events-list .city { font-size: 14px; font-weight: 500; color: var(--muted); text-align: right; }
-  .submit-event {
-    display: block;
-    margin-top: 16px;
-    font-size: 14px;
-    font-weight: 600;
-    color: #1F6A6E;
-    text-decoration: none;
-  }
-  /* The page heading is hidden visually but kept for screen readers and the page outline. */
-  .intro { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-  /* Platinum Sponsors: five wide platinum tiles stacked in a single column, above Gold Sponsors (same as the home page) */
-  .platinum-sponsors { padding: 12px 0 0; border-top: 2px solid var(--ink); }
-  .platinum-sponsors h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
-  .platinum-list { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
-  .platinum-tile { display: flex; align-items: center; min-height: 56px; padding: 10px 14px; border-radius: 3px; background: linear-gradient(145deg, #F1F3F4, #B9C0C6); color: #0E3A43; font-size: 14px; font-weight: 600; line-height: 1.25; text-decoration: none; }
-  .platinum-tile:hover { filter: brightness(1.04); text-decoration: underline; text-underline-offset: 3px; }
-  /* Gold Sponsors: ten small gold tiles, two across (same as the home page) */
-  .gold-sponsors { padding: 12px 0 0; border-top: 2px solid var(--ink); }
-  .gold-sponsors h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
-  .gold-grid { margin-top: 14px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-  .gold-tile { display: flex; align-items: flex-end; min-height: 68px; padding: 10px 12px; border-radius: 3px; background: linear-gradient(145deg, #DDB86F, #B88B3E); color: #0E3A43; font-size: 14px; font-weight: 600; line-height: 1.25; text-decoration: none; }
-  .gold-tile:hover { filter: brightness(1.06); text-decoration: underline; text-underline-offset: 3px; }
   @media (max-width: 860px) {
     .page { grid-template-columns: minmax(0, 1fr); }
   }
+  /* Page heading: "Search for a Career in Financial Services", above Current Opportunities */
+  .intro { margin-bottom: 24px; }
   .intro h1 {
     font-family: 'Newsreader', Georgia, serif;
-    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-size: clamp(1.75rem, 3.2vw, 2.25rem);
     font-weight: 600;
+    line-height: 1.15;
     letter-spacing: -0.015em;
     color: var(--ink);
   }
@@ -205,20 +146,8 @@
     color: var(--muted);
     font-size: 16px;
   }
-  .employers {
-    margin-top: 0;
-    padding: 12px 0 0;
-    border-top: 2px solid var(--ink);
-  }
-  .employers h2 {
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--ink);
-  }
-  /* Current Opportunities: same heading treatment as Featured Employers (rule above, small-caps title) */
-  .opportunities { margin-top: 28px; padding: 12px 0 0; border-top: 2px solid var(--ink); }
+  /* Current Opportunities: rule above, small-caps title (like the boxes in column 2), directly under the page heading */
+  .opportunities { margin-top: 0; padding: 12px 0 0; border-top: 2px solid var(--ink); }
   .opportunities > h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
   /* Job search: filters the role cards below by title, company or location (js at the foot of the page). */
   .job-search { margin-top: 16px; }
@@ -236,38 +165,6 @@
   .job-search-row button:hover { border-color: var(--ink); }
   .job-search-status { margin-top: 8px; min-height: 20px; font-size: 13px; color: var(--muted); }
   .opportunities .roles { margin-top: 16px; border-top: 1px solid var(--line); }
-  .employer-grid {
-    margin-top: 16px;
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 20px 12px;
-    list-style: none;
-  }
-  .employer-grid a {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    text-align: center;
-    color: var(--ink);
-    text-decoration: none;
-  }
-  .employer-grid .logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 56px;
-    height: 56px;
-    border-radius: 3px;
-    color: #FFFFFF;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-  }
-  .employer-grid .name { font-size: 13px; font-weight: 600; line-height: 1.3; min-height: 2.6em; }
-  .employer-grid .jobs { margin-top: -6px; font-size: 12px; font-weight: 600; color: var(--accent); }
-  .employer-grid a:hover .name { color: var(--accent); }
-  @media (max-width: 620px) { .employer-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   .roles {
     margin-top: 32px;
     display: flex;
@@ -327,16 +224,10 @@
     .apply-btn { width: 100%; }
   }
   /* Editorial theme: ruled sidebar blocks, mono metadata, sand-marked sponsored banners */
-  .intro { padding-bottom: 24px; border-bottom: 1px solid var(--line); }
   .page { gap: 0 28px; }
   aside { border-left: 1px solid var(--line); padding-left: 28px; gap: 32px; }
-  .events-box, .resources-box { padding: 12px 0 0; border: 0; border-top: 2px solid var(--ink); border-radius: 0; background: transparent; }
-  .events-box h2, .resources-box h2 { font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; }
-  .events-headings { font-family: var(--mono); font-weight: 500; grid-template-columns: 52px minmax(0, 1fr) 76px; gap: 12px; }
-  .events-list li { grid-template-columns: 52px minmax(0, 1fr) 76px; gap: 12px; padding: 10px 0; border-bottom-color: var(--line-2); }
-  .events-list .day { font-size: 17px; font-weight: 600; line-height: 1.15; white-space: nowrap; letter-spacing: 0; }
-  .events-list .month { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; }
-  .submit-event { font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .resources-box { padding: 12px 0 0; border: 0; border-top: 2px solid var(--ink); border-radius: 0; background: transparent; }
+  .resources-box h2 { font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; }
   .roles { border-top: 2px solid var(--ink); }
   .role:hover { background: var(--panel); }
   .role-info .company { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: 0.02em; }
@@ -376,9 +267,45 @@
   .opportunities .role-info .company { margin-top: 4px; }
   .opportunities .apply-btn { width: auto; height: 32px; padding: 0 14px; font-size: 13px; }
   @media (max-width: 720px) { .opportunities .roles { grid-template-columns: minmax(0, 1fr); } }
-  /* Top Jobs (column 2, above Events and Expos): ranked list, each row links to the employer's own posting */
-  .top-jobs { padding: 12px 0 0; border-top: 2px solid var(--ink); margin-bottom: 28px; }
-  .top-jobs h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
+  /* Exclusive Elite Sponsor (top of column 2): the site banner's double-ruled frame around a sponsor card with an
+     image, name, one line and a button to the employer's roles. Dummy content, so it is hidden in live mode. */
+  .elite-sponsor { margin-bottom: 4px; }
+  .elite-sponsor-frame { padding: 4px; border: 1px solid var(--ink); background: var(--surface); }
+  .elite-sponsor-inner { padding: 12px 14px 14px; border: 1px solid color-mix(in oklab, var(--ink) 28%, transparent); }
+  .elite-sponsor-tags {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 2px 10px;
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent);
+  }
+  .elite-sponsor-tags span + span { font-weight: 500; color: var(--ghost); }
+  .elite-sponsor-tags span + span::before { content: '·'; margin-inline-end: 10px; }
+  .elite-sponsor-media { display: block; margin-top: 10px; border-radius: 3px; overflow: hidden; }
+  .elite-sponsor-media img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; transition: transform 0.3s; }
+  .elite-sponsor-media:hover img { transform: scale(1.02); }
+  .elite-sponsor h2 { margin-top: 12px; font-size: 18px; font-weight: 600; line-height: 1.25; color: var(--ink); }
+  .elite-sponsor-pitch { margin-top: 4px; font-size: 14px; line-height: 1.45; color: var(--muted); }
+  .elite-sponsor-cta {
+    display: flex; align-items: center; justify-content: center; gap: 8px; height: 40px; margin-top: 14px;
+    border-radius: 2px; background: var(--ink); color: #FFFFFF; font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; text-decoration: none; transition: background-color 0.15s;
+  }
+  .elite-sponsor-cta:hover { background: var(--accent); }
+  .elite-sponsor-cta svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.15s; }
+  .elite-sponsor-cta:hover svg { transform: translateX(2px); }
+  [dir="rtl"] .elite-sponsor-cta svg { transform: scaleX(-1); }
+  [dir="rtl"] .elite-sponsor-cta:hover svg { transform: scaleX(-1) translateX(2px); }
+  .elite-sponsor-own { display: inline-block; margin-top: 8px; font-size: 13px; font-weight: 600; color: var(--accent); text-decoration: none; }
+  .elite-sponsor-own:hover { text-decoration: underline; text-underline-offset: 3px; }
+  /* Demo-only content (fictional sponsors) never shows once the site runs on live data. */
+  html[data-fundsae-connected="live"] [data-demo-only] { display: none !important; }
+  /* Top Jobs (aside, under the sponsor box) and Top Employers (under it): ranked lists. Top Jobs rows link to the employer's own
+     posting; Top Employers rows open this page filtered to that employer's roles. */
+  .top-jobs, .top-employers { padding: 12px 0 0; border-top: 2px solid var(--ink); margin-bottom: 28px; }
+  .top-employers-list a { align-items: center; }
+  .te-logo {
+    flex: 0 0 32px; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 3px;
+    background: linear-gradient(145deg, #0E3A43, #2F8A8C); color: #FFFFFF; font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
+  }
+  .top-jobs h2, .top-employers h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
   .top-jobs-list { list-style: none; margin: 8px 0 0; padding: 0; }
   .top-jobs-list li { border-bottom: 1px solid var(--line-2); }
   .top-jobs-list a { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; color: var(--ink); text-decoration: none; }
@@ -399,14 +326,12 @@
   .job-filters button[hidden] { display: none; }
   .job-filters button:hover { border-color: var(--ink); }
   @media (max-width: 720px) { .job-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  /* Richer job cards: company logo, title, company, location and type, then Featured tag, function and posted date */
-  .opportunities .role { display: grid; grid-template-columns: 40px minmax(0, 1fr); grid-template-areas: "logo info" "apply apply"; column-gap: 12px; row-gap: 12px; align-items: start; }
-  .opportunities .role-logo { grid-area: logo; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 3px; background: linear-gradient(145deg, #0E3A43, #2F8A8C); color: #FFFFFF; font-size: 13px; font-weight: 700; letter-spacing: 0.02em; }
+  /* Job cards: title, company, location and type, then function and posted date */
+  .opportunities .role { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: "info" "apply"; row-gap: 12px; align-items: start; }
   .opportunities .role-info { grid-area: info; min-width: 0; }
   .opportunities .apply-btn { grid-area: apply; }
   .opportunities .role-meta { margin-top: 8px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font-size: 12px; color: var(--muted); }
   .opportunities .role-meta:empty { display: none; }
-  .opportunities .role-featured { padding: 2px 7px; border-radius: 2px; background: var(--ink); color: #FFFFFF; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
   .pager { margin-top: 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; }
   .pager button {
     min-width: 36px; height: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 3px;
@@ -415,30 +340,47 @@
   .pager button:hover:not([disabled]):not([aria-current="page"]) { border-color: var(--ink); }
   .pager button[aria-current="page"] { background: var(--ink); border-color: var(--ink); color: #FFFFFF; cursor: default; }
   .pager button[disabled] { color: var(--ghost); cursor: default; opacity: 0.6; }
-  /* "Submit your event" review form (in the aside; see .events-box overrides below) */
-  .submit-forms { margin-top: 36px; display: flex; flex-direction: column; gap: 12px; }
-  .submit-forms details { border: 1px solid var(--line); border-top: 2px solid var(--ink); border-radius: 3px; background: var(--surface); }
-  .submit-forms summary { padding: 14px 16px; font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; }
-  .submit-forms details > p { padding: 0 16px; font-size: 14px; color: var(--muted); }
-  .submit-forms form { display: flex; flex-direction: column; gap: 12px; padding: 14px 16px 18px; }
-  .submit-forms .field { display: flex; flex-direction: column; gap: 6px; }
-  .submit-forms .field-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .submit-forms label { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
-  .submit-forms input, .submit-forms select { width: 100%; padding: 9px 12px; border: 1px solid var(--line); border-radius: 3px; font: inherit; font-size: 15px; color: var(--ink); background: var(--surface); }
-  .submit-forms .submit-btn { align-self: flex-start; height: 40px; padding: 0 18px; border: 0; border-radius: 3px; background: var(--ink); color: #F1F5F4; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
-  .submit-forms .submit-btn:hover { background: var(--accent); }
-  summary:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  @media (max-width: 620px) { .submit-forms .field-row { grid-template-columns: minmax(0, 1fr); } }
-  /* The event-submission box reuses .submit-forms styling but sits in the narrower aside column
-     (aside is ~1fr vs main's ~2fr, min 240px), so it always stacks and uses tighter spacing
-     rather than waiting for the 620px viewport breakpoint above. */
-  .events-box .submit-forms { margin-top: 20px; }
-  .events-box .submit-forms .field-row { grid-template-columns: minmax(0, 1fr); }
-  .events-box .submit-forms summary { padding: 12px 14px; font-size: 12px; }
-  .events-box .submit-forms details > p { font-size: 13px; }
-  .events-box .submit-forms form { padding: 12px 14px 16px; gap: 10px; }
-  .events-box .submit-forms input, .events-box .submit-forms select { padding: 8px 10px; font-size: 14px; }
-  .events-box .submit-forms .submit-btn { width: 100%; }
+  /* Featured Companies: a partners strip at the foot of the page. One row of logo cards glides right to left in an
+     endless loop over two identical lists (the second is an aria-hidden copy made by the script at the foot of the page).
+     It pauses on hover or keyboard focus, and stands still, scrollable by hand, for people who ask for reduced motion. */
+  .partners { flex-shrink: 0; width: 100%; max-width: 1288px; margin: 8px auto 0; padding: 0 24px; }
+  .partners-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding-top: 12px; border-top: 2px solid var(--ink); }
+  .partners-head h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
+  .partners-tag { padding: 1px 8px; border: 1px solid var(--line); border-radius: 2px; font-size: 10.5px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ghost); }
+  .partners-more { margin-inline-start: auto; font-size: 14px; font-weight: 600; color: var(--accent); text-decoration: none; }
+  .partners-more:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .partners-viewport {
+    margin-top: 16px; overflow: hidden; direction: ltr;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 72px, #000 calc(100% - 72px), transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 72px, #000 calc(100% - 72px), transparent);
+  }
+  .partners-track { display: flex; width: max-content; animation: partners-scroll var(--partners-duration, 120s) linear infinite; }
+  .partners-viewport:hover .partners-track, .partners-viewport:focus-within .partners-track { animation-play-state: paused; }
+  @keyframes partners-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .partners-list { display: flex; gap: 16px; padding: 4px 16px 6px 0; }
+  .partner {
+    flex: 0 0 250px; display: flex; align-items: center; gap: 12px; min-height: 76px; padding: 14px 16px;
+    border: 1px solid var(--line); border-radius: 3px; background: var(--surface); color: var(--ink); text-decoration: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .partner:hover { border-color: var(--ink); box-shadow: 0 6px 18px rgba(14, 58, 67, 0.08); }
+  .partner .logo {
+    flex: 0 0 44px; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 3px;
+    background: linear-gradient(145deg, #0E3A43, #4FB3B8); color: #FFFFFF; font-size: 12px; font-weight: 700; letter-spacing: 0.04em;
+  }
+  .partner > span { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .partner .name { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 14px; font-weight: 600; line-height: 1.3; }
+  .partner .site { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; color: var(--muted); }
+  .partner .site:empty { display: none; }
+  .partners[data-still] .partners-track { animation: none; }
+  .partners[data-still] .partners-viewport { -webkit-mask-image: none; mask-image: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .partners-track { animation: none; }
+    .partners-viewport { overflow-x: auto; scroll-snap-type: x mandatory; -webkit-mask-image: none; mask-image: none; }
+    .partners-list[aria-hidden="true"] { display: none; }
+    .partner { scroll-snap-align: start; }
+  }
+  @media (max-width: 620px) { .partners { padding: 0 16px; } .partner { flex-basis: 220px; } }
 </style>
 </head>
 <body>
@@ -457,7 +399,7 @@
     <nav class="sections" aria-label="Sections">
     <a href="this.html">Top news</a>
     <a href="Careers.dc.html" aria-current="page">Careers</a>
-    <a href="Careers.dc.html#events">Events</a>
+    <a href="Events.dc.html">Events</a>
     <a href="Advertise.dc.html">Advertise</a>
     <a href="About.dc.html">About</a>
     <a href="Contact.dc.html">Contact us</a>
@@ -467,29 +409,8 @@
 <div class="page">
 <main>
   <div class="intro">
-    <h1 data-fundsae-badge>Events and Career Opportunities</h1>
+    <h1 data-fundsae-badge>Search for a Career in Financial Services</h1>
   </div>
-
-  <section class="employers" aria-labelledby="employers-title">
-    <h2 id="employers-title">Featured Employers</h2>
-    <ul class="employer-grid" data-fundsae-slot="employers">
-      <li><a href="#"><span class="logo" role="img" aria-label="Dummy Gulf Horizon Asset Management logo" style="background: linear-gradient(145deg, #0E3A43, #2F8A8C)">GH</span><span class="name">Gulf Horizon Asset Management</span><span class="jobs">14 jobs</span></a></li>
-      <li><a href="#"><span class="logo" role="img" aria-label="Dummy Emirates Private Credit logo" style="background: linear-gradient(145deg, #B58B52, #6B4E32)">EP</span><span class="name">Emirates Private Credit</span><span class="jobs">9 jobs</span></a></li>
-      <li><a href="#"><span class="logo" role="img" aria-label="Dummy Nexa Digital Exchange logo" style="background: linear-gradient(145deg, #1F5560, #4FB3B8)">NX</span><span class="name">Nexa Digital Exchange</span><span class="jobs">7 jobs</span></a></li>
-      <li><a href="#"><span class="logo" role="img" aria-label="Dummy FlowPay Technologies logo" style="background: linear-gradient(145deg, #5B4675, #B4A4C9)">FP</span><span class="name">FlowPay Technologies</span><span class="jobs">11 jobs</span></a></li>
-      <li><a href="#"><span class="logo" role="img" aria-label="Dummy Crescent Capital Partners logo" style="background: linear-gradient(145deg, #31556D, #8BA9C1)">CC</span><span class="name">Crescent Capital Partners</span><span class="jobs">6 jobs</span></a></li>
-      <li><a href="#"><span class="logo" role="img" aria-label="Dummy Al Noor Investments logo" style="background: linear-gradient(145deg, #416C56, #9EB9A5)">AN</span><span class="name">Al Noor Investments</span><span class="jobs">5 jobs</span></a></li>
-      <li><a href="#"><span class="logo" role="img" aria-label="Dummy Mosaic Fund Services logo" style="background: linear-gradient(145deg, #874E4B, #C9A9A0)">MF</span><span class="name">Mosaic Fund Services</span><span class="jobs">8 jobs</span></a></li>
-      <li><a href="#"><span class="logo" role="img" aria-label="Dummy Harborstone Financial logo" style="background: linear-gradient(145deg, #134A50, #1F6A6E)">HF</span><span class="name">Harborstone Financial</span><span class="jobs">4 jobs</span></a></li>
-      <li><a href="#"><span class="logo" role="img" aria-label="Dummy Sahra Wealth logo" style="background: linear-gradient(145deg, #8A6330, #D3B46A)">SW</span><span class="name">Sahra Wealth</span><span class="jobs">10 jobs</span></a></li>
-      <li><a href="#"><span class="logo" role="img" aria-label="Dummy Desert Seed Ventures logo" style="background: linear-gradient(145deg, #4F8A8B, #1C5965)">DS</span><span class="name">Desert Seed Ventures</span><span class="jobs">3 jobs</span></a></li>
-      <li><a href="#"><span class="logo" role="img" aria-label="Dummy Lighthouse Asset Partners logo" style="background: linear-gradient(145deg, #1F5560, #4FB3B8)">LA</span><span class="name">Lighthouse Asset Partners</span><span class="jobs">12 jobs</span></a></li>
-      <li><a href="#"><span class="logo" role="img" aria-label="Dummy Atlas Fund Administration logo" style="background: linear-gradient(145deg, #8A6330, #D3B46A)">AF</span><span class="name">Atlas Fund Administration</span><span class="jobs">6 jobs</span></a></li>
-      <li><a href="#"><span class="logo" role="img" aria-label="Dummy Marhaba Holdings logo" style="background: linear-gradient(145deg, #5B4675, #B4A4C9)">MH</span><span class="name">Marhaba Holdings</span><span class="jobs">5 jobs</span></a></li>
-      <li><a href="#"><span class="logo" role="img" aria-label="Dummy Vertex Alpha logo" style="background: linear-gradient(145deg, #31556D, #8BA9C1)">VA</span><span class="name">Vertex Alpha</span><span class="jobs">8 jobs</span></a></li>
-      <li><a href="#"><span class="logo" role="img" aria-label="Dummy Oasis Private Bank logo" style="background: linear-gradient(145deg, #0E3A43, #2F8A8C)">OB</span><span class="name">Oasis Private Bank</span><span class="jobs">13 jobs</span></a></li>
-    </ul>
-  </section>
 
   <section class="opportunities" aria-labelledby="opportunities-title">
     <h2 id="opportunities-title">Current Opportunities</h2>
@@ -670,6 +591,18 @@
 </main>
 
 <aside>
+  <!-- Exclusive Elite Sponsor: a dummy sponsor box (fictional employer and image) showing what the Elite Exclusive
+       Partner gets on this page. Demo content only: hidden in live mode (see [data-demo-only] in the styles). -->
+  <section class="elite-sponsor" aria-labelledby="elite-sponsor-title" data-demo-only>
+    <div class="elite-sponsor-frame"><div class="elite-sponsor-inner">
+      <p class="elite-sponsor-tags"><span>Exclusive Elite Sponsor</span><span>Sponsored</span></p>
+      <a class="elite-sponsor-media" href="?employer=emp_44cd123125645764#opportunities-title" tabindex="-1" aria-hidden="true"><img src="../assets/sponsors/gulf-horizon-demo.png" width="800" height="450" alt="" loading="lazy" decoding="async"></a>
+      <h2 id="elite-sponsor-title">Gulf Horizon Asset Management (demo)</h2>
+      <p class="elite-sponsor-pitch">Hiring across portfolio management, risk and operations in DIFC and ADGM.</p>
+      <a class="elite-sponsor-cta" href="?employer=emp_44cd123125645764#opportunities-title"><span>See open roles</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+    </div></div>
+    <a class="elite-sponsor-own" href="Advertise.dc.html#elite-partner">Become the Exclusive Elite Sponsor</a>
+  </section>
   <section class="top-jobs" aria-labelledby="top-jobs-title">
     <h2 id="top-jobs-title">Top Jobs</h2>
     <ol class="top-jobs-list" data-fundsae-slot="top-jobs">
@@ -696,117 +629,33 @@
     </ol>
     <a class="top-jobs-all" href="#opportunities-title">See all roles</a>
   </section>
-  <section class="events-box" id="events" aria-labelledby="events-box-title">
-    <h2 id="events-box-title">Events and Expos</h2>
-    <div class="events-headings">
-      <span>Date</span><span>Event Type</span><span>City</span>
-    </div>
-    <ul class="events-list" data-fundsae-slot="events">
-      <li>
-        <div><span class="day">26</span><span class="month">Nov</span></div>
-        <span class="event-type">Finance week</span>
-        <span class="city">Dubai</span>
-      </li>
-      <li>
-        <div><span class="day">23</span><span class="month">Nov</span></div>
-        <span class="event-type">Fintech summit</span>
-        <span class="city">Dubai</span>
-      </li>
-      <li>
-        <div><span class="day">7-10</span><span class="month">Dec</span></div>
-        <span class="event-type">Finance week</span>
-        <span class="city">Abu Dhabi</span>
-      </li>
-      <li>
-        <div><span class="day">7-11</span><span class="month">Dec</span></div>
-        <span class="event-type">Technology expo</span>
-        <span class="city">Dubai</span>
-      </li>
-      <li>
-        <div><span class="day">12</span><span class="month">Dec</span></div>
-        <span class="event-type">Networking</span>
-        <span class="city">Dubai</span>
-      </li>
-      <li>
-        <div><span class="day">16</span><span class="month">Dec</span></div>
-        <span class="event-type">Wealth summit</span>
-        <span class="city">Dubai</span>
-      </li>
-      <li>
-        <div><span class="day">3</span><span class="month">Jan</span></div>
-        <span class="event-type">Sustainability expo</span>
-        <span class="city">Abu Dhabi</span>
-      </li>
-      <li>
-        <div><span class="day">9</span><span class="month">Jan</span></div>
-        <span class="event-type">Roundtable</span>
-        <span class="city">Dubai</span>
-      </li>
-      <li>
-        <div><span class="day">15</span><span class="month">Jan</span></div>
-        <span class="event-type">Family office summit</span>
-        <span class="city">Abu Dhabi</span>
-      </li>
-      <li>
-        <div><span class="day">22</span><span class="month">Jan</span></div>
-        <span class="event-type">Digital assets expo</span>
-        <span class="city">Dubai</span>
-      </li>
-    </ul>
-    <a href="#submit-event" class="submit-event">Submit your event</a>
-
-    <!-- Field names are the API contract (POST /api/v1/submissions/event). Reuses .submit-forms
-         styling from the main column; .events-box overrides below shrink it to fit this box. -->
-    <div class="submit-forms">
-      <details id="submit-event">
-        <summary>Submit your event</summary>
-        <p>Organising a finance event in the UAE? Send us the details. We review every event before it appears.</p>
-        <form method="post" data-fundsae-form="event">
-          <div class="field"><label for="event-title">Event name</label><input id="event-title" name="title" type="text" required minlength="3" maxlength="90"></div>
-          <div class="field"><label for="event-type">Event type</label><input id="event-type" name="eventType" type="text" required minlength="2" maxlength="40" placeholder="e.g. Roundtable"></div>
-          <div class="field-row">
-            <div class="field"><label for="event-start">Start date</label><input id="event-start" name="startDate" type="date" required></div>
-            <div class="field"><label for="event-end">End date (optional)</label><input id="event-end" name="endDate" type="date"></div>
-          </div>
-          <div class="field"><label for="event-city">City</label><input id="event-city" name="city" type="text" required minlength="2" maxlength="60"></div>
-          <div class="field"><label for="event-url">Event website (optional)</label><input id="event-url" name="url" type="url" maxlength="500" pattern="https://.+" placeholder="https://"></div>
-          <div class="field"><label for="event-organiser">Organiser</label><input id="event-organiser" name="organiser" type="text" required minlength="2" maxlength="120" autocomplete="organization"></div>
-          <div class="field"><label for="event-email">Your email</label><input id="event-email" name="email" type="email" required maxlength="254" autocomplete="email"></div>
-          <div class="fx-hp" aria-hidden="true"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
-          <button type="submit" class="submit-btn">Send event for review</button>
-          <p class="fx-form-status" data-fundsae-form-status role="status" aria-live="polite"></p>
-        </form>
-      </details>
-    </div>
+  <!-- Top Employers: ranked like Top Jobs (featured employers first, then most open roles). Each row opens this page
+       filtered to that employer's roles (?employer=, handled by js/fundsae-connector.js), which fills the list from employers.json. -->
+  <section class="top-employers" aria-labelledby="top-employers-title">
+    <h2 id="top-employers-title">Top Employers</h2>
+    <ol class="top-jobs-list top-employers-list" data-fundsae-slot="employers">
+      <li><a href="?employer=emp_994ddd5d9c21a8e3#opportunities-title"><span class="tj-rank">1</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #0E3A43, #2F8A8C)">EP</span><span class="tj-main"><span class="tj-title">Emirates Private Credit (demo)</span><span class="tj-co">1 job</span></span></a></li>
+      <li><a href="?employer=emp_44cd123125645764#opportunities-title"><span class="tj-rank">2</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #B58B52, #6B4E32)">GH</span><span class="tj-main"><span class="tj-title">Gulf Horizon Asset Management (demo)</span><span class="tj-co">1 job</span></span></a></li>
+      <li><a href="?employer=emp_b0a8a2e3895137ef#opportunities-title"><span class="tj-rank">3</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #1F5560, #4FB3B8)">HG</span><span class="tj-main"><span class="tj-title">Harbourline Group</span><span class="tj-co">2 jobs</span></span></a></li>
+      <li><a href="?employer=emp_9142e7d4b96b201c#opportunities-title"><span class="tj-rank">4</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #5B4675, #B4A4C9)">SV</span><span class="tj-main"><span class="tj-title">Sandline Ventures</span><span class="tj-co">2 jobs</span></span></a></li>
+      <li><a href="?employer=emp_ec64013710ac32d4#opportunities-title"><span class="tj-rank">5</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #31556D, #8BA9C1)">AN</span><span class="tj-main"><span class="tj-title">Al Noor Investments (demo)</span><span class="tj-co">1 job</span></span></a></li>
+      <li><a href="?employer=emp_3eaf12fb39625abe#opportunities-title"><span class="tj-rank">6</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #416C56, #9EB9A5)">AF</span><span class="tj-main"><span class="tj-title">Atlas Fund Administration (demo)</span><span class="tj-co">1 job</span></span></a></li>
+      <li><a href="?employer=emp_f975adca587a8ab8#opportunities-title"><span class="tj-rank">7</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #874E4B, #C9A9A0)">CC</span><span class="tj-main"><span class="tj-title">Crescent Capital Partners (demo)</span><span class="tj-co">1 job</span></span></a></li>
+      <li><a href="?employer=emp_365cb94e3e73d240#opportunities-title"><span class="tj-rank">8</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #134A50, #1F6A6E)">CP</span><span class="tj-main"><span class="tj-title">Crescent Peak Partners</span><span class="tj-co">1 job</span></span></a></li>
+      <li><a href="?employer=emp_0c77979b994a7b8f#opportunities-title"><span class="tj-rank">9</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #8A6330, #D3B46A)">DS</span><span class="tj-main"><span class="tj-title">Desert Seed Ventures (demo)</span><span class="tj-co">1 job</span></span></a></li>
+      <li><a href="?employer=emp_7d4bc3a93267084e#opportunities-title"><span class="tj-rank">10</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #4F8A8B, #1C5965)">FR</span><span class="tj-main"><span class="tj-title">Falcon Ridge Capital</span><span class="tj-co">1 job</span></span></a></li>
+      <li><a href="?employer=emp_bcca02ba4d119647#opportunities-title"><span class="tj-rank">11</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #7F9A97, #164B55)">HF</span><span class="tj-main"><span class="tj-title">Harborstone Financial (demo)</span><span class="tj-co">1 job</span></span></a></li>
+      <li><a href="?employer=emp_c5ae24a23f21c8c0#opportunities-title"><span class="tj-rank">12</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #6F8E8D, #2B6A74)">LA</span><span class="tj-main"><span class="tj-title">Lighthouse Asset Partners (demo)</span><span class="tj-co">1 job</span></span></a></li>
+      <li><a href="?employer=emp_2b8bbc4188c553cb#opportunities-title"><span class="tj-rank">13</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #C6A59B, #794C47)">MH</span><span class="tj-main"><span class="tj-title">Marhaba Holdings (demo)</span><span class="tj-co">1 job</span></span></a></li>
+      <li><a href="?employer=emp_cfbfd1f7de5eab7c#opportunities-title"><span class="tj-rank">14</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #8BA9C1, #31556D)">ML</span><span class="tj-main"><span class="tj-title">Meydan Legal (demo)</span><span class="tj-co">1 job</span></span></a></li>
+      <li><a href="?employer=emp_f85595c6cc777c36#opportunities-title"><span class="tj-rank">15</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #9EB9A5, #416C56)">MF</span><span class="tj-main"><span class="tj-title">Mosaic Fund Services (demo)</span><span class="tj-co">1 job</span></span></a></li>
+      <li><a href="?employer=emp_42deac7475bb3891#opportunities-title"><span class="tj-rank">16</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #B4A4C9, #5B4675)">OP</span><span class="tj-main"><span class="tj-title">Oasis Private Bank (demo)</span><span class="tj-co">1 job</span></span></a></li>
+      <li><a href="?employer=emp_d753612008f91055#opportunities-title"><span class="tj-rank">17</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #D3B46A, #8A6330)">PG</span><span class="tj-main"><span class="tj-title">Palm Gate Fund Administration</span><span class="tj-co">1 job</span></span></a></li>
+      <li><a href="?employer=emp_be950ac478f7703f#opportunities-title"><span class="tj-rank">18</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #2F8A8C, #0E3A43)">QI</span><span class="tj-main"><span class="tj-title">Qirsh</span><span class="tj-co">1 job</span></span></a></li>
+      <li><a href="?employer=emp_08abd55fa091bd63#opportunities-title"><span class="tj-rank">19</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #C9A9A0, #874E4B)">SW</span><span class="tj-main"><span class="tj-title">Sahra Wealth (demo)</span><span class="tj-co">1 job</span></span></a></li>
+      <li><a href="?employer=emp_a1774852cad63c48#opportunities-title"><span class="tj-rank">20</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #1C5965, #4F8A8B)">VA</span><span class="tj-main"><span class="tj-title">Vertex Alpha (demo)</span><span class="tj-co">1 job</span></span></a></li>
+    </ol>
   </section>
-
-  <section class="platinum-sponsors" aria-labelledby="platinum-sponsors-title">
-    <h2 id="platinum-sponsors-title">Platinum Sponsors</h2>
-    <div class="platinum-list" data-fundsae-slot="sponsor-platinum">
-      <a href="#" class="platinum-tile" aria-label="Platinum sponsor: Sandhaven Capital (demo)">Sandhaven Capital (demo)</a>
-      <a href="#" class="platinum-tile" aria-label="Platinum sponsor: Tidewell Holdings (demo)">Tidewell Holdings (demo)</a>
-      <a href="#" class="platinum-tile" aria-label="Platinum sponsor: Qamar Ridge Partners (demo)">Qamar Ridge Partners (demo)</a>
-      <a href="#" class="platinum-tile" aria-label="Platinum sponsor: Almira Private Bank (demo)">Almira Private Bank (demo)</a>
-      <a href="#" class="platinum-tile" aria-label="Platinum sponsor: Saltmarsh Investments (demo)">Saltmarsh Investments (demo)</a>
-    </div>
-  </section>
-
-  <section class="gold-sponsors" aria-labelledby="gold-sponsors-title">
-    <h2 id="gold-sponsors-title">Gold Sponsors</h2>
-    <div class="gold-grid" data-fundsae-slot="sponsor-gold">
-      <a href="#" class="gold-tile" aria-label="Gold sponsor: Fund research made clearer">Fund research made clearer</a>
-      <a href="#" class="gold-tile" aria-label="Gold sponsor: Grow your UAE portfolio">Grow your UAE portfolio</a>
-      <a href="#" class="gold-tile" aria-label="Gold sponsor: Invest with local insight">Invest with local insight</a>
-      <a href="#" class="gold-tile" aria-label="Gold sponsor: The future of private markets">The future of private markets</a>
-      <a href="#" class="gold-tile" aria-label="Gold sponsor: Connect with GCC capital">Connect with GCC capital</a>
-      <a href="#" class="gold-tile" aria-label="Gold sponsor: Private credit, simplified">Private credit, simplified</a>
-      <a href="#" class="gold-tile" aria-label="Gold sponsor: Wealth without borders">Wealth without borders</a>
-      <a href="#" class="gold-tile" aria-label="Gold sponsor: Fintech built for the Gulf">Fintech built for the Gulf</a>
-      <a href="#" class="gold-tile" aria-label="Gold sponsor: Smarter fund operations">Smarter fund operations</a>
-      <a href="#" class="gold-tile" aria-label="Gold sponsor: Capital for growing firms">Capital for growing firms</a>
-    </div>
-  </section>
-
   <section class="resources-box">
     <h2>Career Resources</h2>
     <div class="links" data-fundsae-slot="career-resources">
@@ -825,6 +674,42 @@
   </section>
 </aside>
 </div>
+<!-- Featured Companies (sponsor slot "professionalServices"): a partners strip at the foot of the page that scrolls
+     right to left in an endless loop. js/fundsae-connector.js fills the list from sponsors.json; the script at the foot
+     of the page adds the aria-hidden copy the loop needs. These cards are the built-in content shown until the API answers. -->
+<section class="partners" aria-labelledby="partners-title">
+  <div class="partners-head">
+    <h2 id="partners-title">Featured Companies</h2>
+    <span class="partners-tag">Sponsored</span>
+    <a class="partners-more" href="Advertise.dc.html">Feature your firm</a>
+  </div>
+  <div class="partners-viewport">
+    <div class="partners-track">
+      <div class="partners-list" data-fundsae-slot="sponsor-companies">
+        <a href="#" class="partner"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #0E3A43, #4FB3B8)">LAW</div><span><span class="name">Meydan Legal Advisors</span><span class="site">www.meydanlegal-dummy.ae</span></span></a>
+        <a href="#" class="partner"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #B58B52, #6B4E32)">AUD</div><span><span class="name">Atlas Fund Auditors</span><span class="site">www.atlasauditors-dummy.ae</span></span></a>
+        <a href="#" class="partner"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #7F9A97, #164B55)">TAX</div><span><span class="name">Oasis Tax Advisory</span><span class="site">www.oasistax-dummy.ae</span></span></a>
+        <a href="#" class="partner"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #C9A9A0, #874E4B)">ADM</div><span><span class="name">Palm Gate Fund Administration</span><span class="site">www.palmgateadmin-dummy.ae</span></span></a>
+        <a href="#" class="partner"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #6F8E8D, #2B6A74)">CON</div><span><span class="name">Namaa Strategy Consulting</span><span class="site">www.namaaconsulting-dummy.ae</span></span></a>
+        <a href="#" class="partner"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #4F8A8B, #1C5965)">IT</div><span><span class="name">Vertex Fund Tech Services</span><span class="site">www.vertexfundtech-dummy.ae</span></span></a>
+        <a href="#" class="partner"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #31556D, #8BA9C1)">CMP</div><span><span class="name">Crescent Compliance Partners</span><span class="site">www.crescentcompliance-dummy.ae</span></span></a>
+        <a href="#" class="partner"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #5B4675, #B4A4C9)">ACT</div><span><span class="name">Gulf Actuarial Group</span><span class="site">www.gulfactuarial-dummy.ae</span></span></a>
+        <a href="#" class="partner"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #416C56, #9EB9A5)">CUS</div><span><span class="name">Emirates Custody Services</span><span class="site">www.emiratescustody-dummy.ae</span></span></a>
+        <a href="#" class="partner"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #8A6330, #D3B46A)">CF</div><span><span class="name">Noor Corporate Finance</span><span class="site">www.noorcorpfin-dummy.ae</span></span></a>
+        <a href="#" class="partner"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #134A50, #2F8A8C)">TRU</div><span><span class="name">Sahra Legal &amp; Trust</span><span class="site">www.sahratrust-dummy.ae</span></span></a>
+        <a href="#" class="partner"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #874E4B, #C6A59B)">RSK</div><span><span class="name">Desert Risk Analytics</span><span class="site">www.desertrisk-dummy.ae</span></span></a>
+        <a href="#" class="partner"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #1F5560, #4FB3B8)">FT</div><span><span class="name">Marina Fund Tech</span><span class="site">www.marinafundtech-dummy.ae</span></span></a>
+        <a href="#" class="partner"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #31556D, #6F8E8D)">INV</div><span><span class="name">Harbor Investor Services</span><span class="site">www.harborinvestor-dummy.ae</span></span></a>
+        <a href="#" class="partner"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #8A6330, #B58B52)">ADV</div><span><span class="name">Falcon Advisory Partners</span><span class="site">www.falconadvisory-dummy.ae</span></span></a>
+        <a href="#" class="partner"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #31556D, #8BA9C1)">SWA</div><span><span class="name">Summit Wealth Advisory</span><span class="site">www.summit-dummy.ae</span></span></a>
+        <a href="#" class="partner"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #416C56, #9EB9A5)">BCM</div><span><span class="name">Bayan Capital Markets</span><span class="site">www.bayan-dummy.ae</span></span></a>
+        <a href="#" class="partner"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #5B4675, #B4A4C9)">RFG</div><span><span class="name">Ridge Fund Governance</span><span class="site">www.ridge-dummy.ae</span></span></a>
+        <a href="#" class="partner"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #8A6330, #D3B46A)">DPA</div><span><span class="name">Dune Payments Advisory</span><span class="site">www.dune-dummy.ae</span></span></a>
+        <a href="#" class="partner"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #874E4B, #C6A59B)">PTS</div><span><span class="name">Pearl Trust Services</span><span class="site">www.pearl-dummy.ae</span></span></a>
+      </div>
+    </div>
+  </div>
+</section>
 <footer class="site-footer">
   <div class="foot-inner">
     <a href="this.html" class="foot-brand" aria-label="Funds.ae home">
@@ -866,19 +751,10 @@
     ['Marhaba Holdings', 'Family office, Abu Dhabi'], ['Vertex Alpha', 'Systematic strategies, Dubai'],
     ['Oasis Private Bank', 'Private banking, Abu Dhabi']];
 
-  /* Richer card: company logo (initials) before the text and an empty meta line the connector fills with
-     the Featured tag, function and posted date. */
+  /* Card: an empty meta line the connector fills with the function and posted date. */
   function enhanceRole(row) {
-    if (row.querySelector('.role-logo')) return;
     var info = row.querySelector('.role-info');
-    var co = row.querySelector('.company');
-    if (!info) return;
-    var words = (co ? co.textContent : '').replace(/\([^)]*\)/g, ' ').split(/\s+/).filter(Boolean);
-    var logo = document.createElement('span');
-    logo.className = 'role-logo';
-    logo.setAttribute('aria-hidden', 'true');
-    logo.textContent = ((words[0] || '?').charAt(0) + (words[1] || '').charAt(0)).toUpperCase();
-    row.insertBefore(logo, info);
+    if (!info || info.querySelector('.role-meta')) return;
     var meta = document.createElement('div');
     meta.className = 'role-meta';
     info.appendChild(meta);
@@ -1071,6 +947,33 @@
     Object.keys(selects).forEach(function (k) { if (selects[k]) selects[k].value = ''; });
     apply();
   });
+})();
+</script>
+<script>
+/* Featured Companies strip: keeps an aria-hidden copy of the list beside it so the right-to-left loop is seamless,
+   and makes a fresh copy whenever js/fundsae-connector.js swaps the placeholder cards for sponsors.json data.
+   The speed stays the same whatever the number of companies (about 6 seconds each, an unhurried ~45 px/s). */
+(function () {
+  var section = document.querySelector('.partners');
+  var track = section && section.querySelector('.partners-track');
+  var list = track && track.querySelector('[data-fundsae-slot="sponsor-companies"]');
+  if (!list) return;
+  var copy = null;
+  function sync() {
+    if (copy) copy.remove();
+    copy = null;
+    var count = list.querySelectorAll(':scope > a').length;
+    section.toggleAttribute('data-still', count < 2);
+    if (count < 2) return;
+    copy = list.cloneNode(true);
+    copy.removeAttribute('data-fundsae-slot');
+    copy.setAttribute('aria-hidden', 'true');
+    copy.querySelectorAll('a').forEach(function (a) { a.tabIndex = -1; });
+    track.appendChild(copy);
+    track.style.setProperty('--partners-duration', (count * 6) + 's');
+  }
+  sync();
+  new MutationObserver(sync).observe(list, { childList: true });
 })();
 </script>
 <script src="../i18n.js"></script>

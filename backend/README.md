@@ -40,7 +40,8 @@ Folder map:
 src/contracts/     models.js (records + DTO field lists), serializers.js (record -> API), envelope.js
 src/validation/    validate.js (rules), submissions.js (the five form schemas)
 src/repositories/  index.js (JSON tables), submissions.js (form store)
-src/pipeline/      news, jobs, events, employers, sponsors, publish
+src/pipeline/      news, jobs, events, employers, sponsors, content, publish
+src/cms/           Sanity: sanity.js (query client), queries.js (GROQ), mapping.js (docs -> config shapes), pull.js
 src/server/        index.js, routes.js, http.js, rateLimit.js, static.js, scheduler.js, handlers/{read,submissions,admin}.js
 src/lib/           feed parsing, HTTP client, text, URL, classification, grouping, quality rules, logging
 src/cli.js         command line;  src/server.js  server entry point
@@ -86,7 +87,10 @@ Each source is fetched independently: one broken feed never stops the others. A 
 | `jobs.manual.json` | Roles you post yourself (featured roles are listed first; `demoOnly` examples never go live) |
 | `events.json` | Events for "Events and Expos" (`events` for live, `demoFixture` for demo) |
 | `taxonomy.json` | Categories, UAE terms, topics and keywords, **sections**, filters, job rules |
-| `sponsors.json` | Sponsor slots (normally edited with `admin/`) |
+| `sponsors.json` | Sponsor slots (edited with `admin/`, or written from Sanity by `npm run cms:pull`) |
+| `content.json` | Editorial content from the Sanity Studio: `socialHighlights` (home "Top Tweets"), `advertiseTiers` (Advertise packages), `pages` (About, Privacy, Terms copy) |
+
+`settings.json` `content.source` says where `sponsors.json`, `events.json` and `content.json` come from: `"file"` (default; edit them by hand) or `"sanity"` (the Studio in `studio/` is the source and `npm run cms:pull` overwrites them). See [`../docs/SANITY-CMS-GUIDE.md`](../docs/SANITY-CMS-GUIDE.md).
 
 Keys starting with `_` are notes for people and are ignored. `npm run validate` checks every file and explains mistakes in plain language.
 
@@ -122,13 +126,14 @@ Base URL: `https://<site>/api/v1/`, either GitHub Pages (static files) or the se
 
 | Static file | Server route | Contents |
 |---|---|---|
-| `meta.json` | `GET /api/v1/meta` | `buildId`, `counts`, `lastRun`, `versions` {news, jobs, employers, events, sponsors} (content hashes used for cache-busting), `capabilities.submissions` (`false` in the static file; the server reports the truth), `endpoints` |
+| `meta.json` | `GET /api/v1/meta` | `buildId`, `counts`, `lastRun`, `versions` {news, jobs, employers, events, sponsors, content} (content hashes used for cache-busting), `capabilities.submissions` (`false` in the static file; the server reports the truth), `endpoints` |
 | `news.json`, `news/uae.json`, `news/world.json`, `news/topics/{topic}.json`, `news/sections/{section}.json` | `GET /api/v1/news?category=&topic=&section=&q=&limit=&offset=` | Stories, newest first |
 | — | `GET /api/v1/news/{id}` | One story (`s_` + hex) |
 | `jobs.json` | `GET /api/v1/jobs?q=&employer=&featured=&limit=&offset=` | Open roles, featured first |
 | `employers.json` | `GET /api/v1/employers` | Employers derived from open roles (top 15) |
 | `events.json` | `GET /api/v1/events?status=upcoming\|past&limit=&offset=` | Upcoming and recent events, soonest first |
 | `sponsors.json` | `GET /api/v1/sponsors` | `{ slots: { founding, platinum, gold, sponsoredPosts, sponsoredMedia, professionalServices, careerResources } }` |
+| `content.json` | `GET /api/v1/content` | `{ slots: { socialHighlights, advertiseTiers }, pages: { about?, privacy?, terms? } }` (only published pages are present) |
 | `sources.json`, `taxonomy.json` | `GET /api/v1/sources`, `/taxonomy` | Source health; categories, topics, sections |
 
 Query parameters are validated against an allow-list (`v` is always allowed for cache-busting). `category`, `topic` and `section` must exist in `taxonomy.json`; `q` ≤ 100 characters; `limit` 1–100 (default 20); `offset` 0–10000. Anything else returns 400.
@@ -161,6 +166,19 @@ Query parameters are validated against an allow-list (`v` is always allowed for 
 { "id": "…", "title": "…" | null, "blurb": … | null, "label": … | null, "logoText": … | null,
   "website": "www.example.ae" | null, "url": "https://…" | null, "image": "assets/sponsors/x.png" | "https://…" | null,
   "colorFrom": "#RRGGBB" | null, "colorTo": "#RRGGBB" | null, "sponsored": true }
+
+// social highlight (content.json slots.socialHighlights: home "Top Tweets", max 5)
+{ "id": "…", "accountName": "…", "handle": "adfinance", "text": "our own one-line summary (≤ 140)",
+  "url": "https://x.com/<handle>/status/<n>", "initials": "AF", "color": "#RRGGBB" | null }
+
+// advertise tier (content.json slots.advertiseTiers; id is the enquiry form's tier)
+{ "id": "silver" | "gold" | "platinum" | "exclusive", "name": "…", "badge": "…" | null, "price": "AED 9,500",
+  "priceNote": "/ month" | null, "features": ["…"], "featured": true }
+
+// page (content.json pages.{about,privacy,terms}): a safe subset of Portable Text
+{ "slug": "privacy", "title": "…", "intro": "…" | null, "updatedAt": "2026-10-01" | null,
+  "blocks": [ { "type": "p" | "h2" | "h3" | "li", "list": "bullet" | "number" | null,
+                "spans": [ { "text": "…", "bold": false, "italic": false, "href": "https://…" | "mailto:…" | null } ] } ] }
 ```
 
 ### Sponsor slots
@@ -210,6 +228,9 @@ The connector fills elements marked `data-fundsae-slot`. For each slot it clones
 | `events` | Home "Events and Expos" box (next 10) and the Events page `Events.dc.html` (up to `data-fundsae-limit`, with event names); upcoming only | `events.json` |
 | `sponsor-platinum`, `sponsor-gold`, `sponsor-posts`, `sponsor-media`, `sponsor-companies`, `career-resources` | Sponsor areas on both pages | `sponsors.json` slots |
 | `sponsor-founding` | Banner under the masthead on every page except Careers (styles in `frontend_demo/founding-banner.css`). With no `founding` sponsor it keeps its "Your firm here" advert in every mode (never "Nothing to show yet") | `sponsors.json` `founding` |
+| `social-highlights` | Home "Top Tweets" (first 5): avatar initials, name, @handle, our one-line summary, link to the post | `content.json` `slots.socialHighlights` |
+| `advertise-tiers`, `advertise-exclusive` | Advertise page package cards (`silver`, `gold`, `platinum`) and the Elite Exclusive Partner hero (`exclusive`). "Get started" keeps `data-fundsae-tier`, so the enquiry form preselects the package. With no packages published the built-in cards stay | `content.json` `slots.advertiseTiers` |
+| `page-body` (`data-fundsae-page="about\|privacy\|terms"` on `<main>`) | Title, lead, "Last updated" and the body `<section>`s (sections marked `data-fundsae-keep`, such as About's team grid, stay). With no page published the built-in copy stays, in every mode | `content.json` `pages` |
 | `data-fundsae-date`, `data-fundsae-badge` | Masthead date, "Demo data" badge | `meta.json` |
 
 `data-fundsae-hide-placeholders` marks lists rendered by the home page's own component: placeholders there are hidden rather than removed. Forms are `<form data-fundsae-form="contact|newsletter|advertise|event|job">`, and their `name` attributes are exactly the API field names.

@@ -40,6 +40,10 @@
     "relevanceThreshold": 1,
     "maxPublished": 150
   },
+  "content": {
+    "_help": "Where sponsors.json, events.json and content.json come from. \"file\": edit them by hand (or sponsors with admin/). \"sanity\": the Sanity Studio is the source and `npm run cms:pull` (run by the Publish content workflow) overwrites them. Switch only after importing the current content into Sanity: see docs/SANITY-CMS-GUIDE.md.",
+    "source": "file"
+  },
   "employers": {
     "_help": "Top Employers on the Careers page (column 2) are derived from open roles. The list shows 20.",
     "maxPublished": 20

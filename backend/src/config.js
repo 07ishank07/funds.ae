@@ -202,6 +202,9 @@ function validateTaxonomy(taxonomy) {
 
 // Safe defaults so an older settings.json keeps working.
 const SETTINGS_DEFAULTS = {
+  // "file": config/sponsors.json, events.json and content.json are edited by hand (or with admin/).
+  // "sanity": they are written by `npm run cms:pull` from the Sanity Studio (studio/).
+  content: { source: 'file' },
   events: { maxPublished: 50, keepPastDays: 30 },
   employers: { maxPublished: 20 },
   submissions: {
@@ -229,6 +232,10 @@ export function loadSettings() {
   for (const [key, defaults] of Object.entries(SETTINGS_DEFAULTS)) settings[key] = { ...defaults, ...(settings[key] || {}) };
   const envMode = process.env.FUNDSAE_MODE;
   if (envMode) settings.mode = envMode;
+  if (process.env.FUNDSAE_CONTENT_SOURCE) settings.content.source = process.env.FUNDSAE_CONTENT_SOURCE;
+  if (!['file', 'sanity'].includes(settings.content.source)) {
+    throw new ConfigError('settings.json: "content.source" must be "file" or "sanity".');
+  }
   if (!['demo', 'live'].includes(settings.mode)) {
     throw new ConfigError('settings.json: "mode" must be "demo" or "live".');
   }

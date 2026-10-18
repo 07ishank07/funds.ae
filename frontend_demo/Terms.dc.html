@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;600;700&family=Jost:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="founding-banner.css">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   /* Editorial theme tokens. Keep in sync with the theme block at the end of this.html's script. */
@@ -107,7 +108,7 @@
   section { padding-top: 12px; border-top: 2px solid var(--ink); }
   section h2 { font-family: 'Jost', 'Futura', 'Century Gothic', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
   section p, section li { font-family: var(--serif); font-size: 17px; line-height: 1.6; color: #33494E; max-width: 640px; }
-  section ul { margin: 10px 0 0 20px; }
+  section ul, section ol { margin: 10px 0 0 20px; }
   section li { margin-top: 6px; }
   section a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
   .related { margin-top: 48px; padding: 20px 24px; border: 1px solid var(--line); border-top: 2px solid var(--accent-2); border-radius: 3px; background: var(--surface); font-size: 14px; color: var(--muted); }
@@ -150,14 +151,26 @@
     <nav class="sections" aria-label="Sections">
     <a href="this.html">Top news</a>
     <a href="Careers.dc.html">Careers</a>
-    <a href="Careers.dc.html#events">Events</a>
+    <a href="Events.dc.html">Events</a>
     <a href="Advertise.dc.html">Advertise</a>
     <a href="About.dc.html">About</a>
     <a href="Contact.dc.html">Contact us</a>
     </nav>
   </div>
 </header>
-<main>
+<!-- Elite Founding Sponsor banner: same markup and text as this.html; styles in founding-banner.css;
+     js/fundsae-connector.js (slot "sponsor-founding") swaps the advert for a signed sponsor. -->
+<section class="fx-founding" aria-label="Elite Founding Sponsor" data-fundsae-slot="sponsor-founding">
+  <div class="fx-founding-frame">
+    <p class="fx-founding-id">
+      <span class="fx-founding-tags"><span class="fx-founding-label">Elite Founding Sponsor</span><span class="fx-founding-status">Space available</span></span>
+      <span class="fx-founding-brand"><span class="fx-founding-name">Your firm here<span class="fx-caret" aria-hidden="true"></span></span></span>
+    </p>
+    <p class="fx-founding-pitch">Put your firm in front of the UAE's GPs, LPs, family offices and fund service providers, every day.</p>
+    <a class="fx-founding-cta" href="Advertise.dc.html#elite-partner"><span>Become a founding sponsor</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+  </div>
+</section>
+<main data-fundsae-slot="page-body" data-fundsae-page="terms">
   <div class="intro">
     <h1>Terms of Service</h1>
     <p class="lead">Dummy placeholder terms. Funds.ae is a fictional UAE finance news and resource hub, and nothing on this page is legal advice or a binding agreement.</p>
@@ -234,5 +247,7 @@
   </div>
 </footer>
 <script src="../i18n.js"></script>
+<script src="../js/fundsae-api.js" defer></script>
+<script src="../js/fundsae-connector.js" defer></script>
 </body>
 </html>

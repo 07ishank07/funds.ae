@@ -90,9 +90,11 @@ test('jobs by employer, events by status, and the static file names', async () =
   const past = (await json('/api/v1/events?status=past')).body.items;
   assert.ok(past.every((e) => (e.endDate || e.startDate) < today));
 
-  for (const f of ['news.json', 'news/uae.json', 'news/topics/private-credit.json', 'news/sections/real-estate-infrastructure.json', 'news/sections/energy.json', 'news/sections/ai-technology.json', 'employers.json', 'events.json', 'sponsors.json']) {
+  for (const f of ['news.json', 'news/uae.json', 'news/topics/private-credit.json', 'news/sections/real-estate-infrastructure.json', 'news/sections/energy.json', 'news/sections/ai-technology.json', 'employers.json', 'events.json', 'sponsors.json', 'content.json']) {
     assert.equal((await get(`/api/v1/${f}?v=abc123`)).status, 200, f);
   }
+  const content = (await json('/api/v1/content')).body;
+  assert.deepEqual(Object.keys(content.slots).sort(), ['advertiseTiers', 'socialHighlights']);
 });
 
 test('meta says forms work here, ETags and HEAD work, and unknown methods are refused', async () => {

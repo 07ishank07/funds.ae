@@ -106,6 +106,44 @@ export function toSponsorItemDto(item, { sponsored }) {
   };
 }
 
+export function toSocialHighlightDto(item) {
+  return {
+    id: item.id,
+    accountName: item.accountName,
+    handle: item.handle,
+    text: item.text,
+    url: item.url,
+    initials: item.initials,
+    color: nullable(item.color)
+  };
+}
+
+export function toAdvertiseTierDto(tier) {
+  return {
+    id: tier.id,
+    name: tier.name,
+    badge: nullable(tier.badge),
+    price: tier.price,
+    priceNote: nullable(tier.priceNote),
+    features: [...tier.features],
+    featured: Boolean(tier.featured)
+  };
+}
+
+export function toPageDto(page) {
+  return {
+    slug: page.slug,
+    title: page.title,
+    intro: nullable(page.intro),
+    updatedAt: nullable(page.updatedAt),
+    blocks: page.blocks.map((b) => ({
+      type: b.type,
+      list: b.type === 'li' ? b.list : null,
+      spans: b.spans.map((s) => ({ text: s.text, bold: Boolean(s.bold), italic: Boolean(s.italic), href: nullable(s.href) }))
+    }))
+  };
+}
+
 export function toSourceDto(source, kind, health = {}) {
   return {
     id: source.id,

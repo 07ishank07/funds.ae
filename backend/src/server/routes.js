@@ -1,7 +1,7 @@
 // Method + path dispatch. Anything not matched here is 404.
 //
 //   GET  /health
-//   GET  /api/v1/meta | news | news/:id | jobs | employers | events | sponsors | sources | taxonomy
+//   GET  /api/v1/meta | news | news/:id | jobs | employers | events | sponsors | content | sources | taxonomy
 //   GET  /api/v1/<static file name>.json          (same names as GitHub Pages)
 //   POST /api/v1/submissions/:kind                 (contact, newsletter, advertise, event, job)
 //   GET  /api/v1/admin/submissions                 (bearer token)

@@ -1,18 +1,19 @@
 #!/usr/bin/env node
 // Command-line entry point.
 //
-//   node src/cli.js all               news + jobs + events + sponsors, then publish (used by the daily job)
+//   node src/cli.js all               news + jobs + events + sponsors + content, then publish (used by the daily job)
 //   node src/cli.js news              news only (republishes news, jobs, sources and meta)
 //   node src/cli.js jobs              jobs only (same publishing as above)
 //   node src/cli.js sponsors          validate and publish sponsors only
 //   node src/cli.js events            validate and publish events only
-//   node src/cli.js content           sponsors + events (used when an editor changes either)
+//   node src/cli.js content           sponsors + events + content.json (used when an editor changes any of them)
+//   node src/cli.js cms:pull          copy published Sanity content into config/ (needs content.source "sanity")
 //   node src/cli.js validate          check every config file, change nothing
 //   node src/cli.js reset-feed ID     un-pause a source after you fix its URL
 //   node src/cli.js submissions:prune delete form submissions older than settings.submissions.retentionDays
 //
 // Exit codes: 0 = success (including partial source failures),
-//             1 = configuration or code error (invalid sponsors/events keep the previous file live),
+//             1 = configuration or code error (invalid sponsors/events/content keep the previous file live),
 //             2 = every enabled source failed (the daily job is marked failed so you get an email).
 
 import path from 'node:path';
@@ -26,9 +27,11 @@ import { runNews } from './pipeline/news.js';
 import { runJobs } from './pipeline/jobs.js';
 import { runEvents } from './pipeline/events.js';
 import { publishableSponsors } from './pipeline/sponsors.js';
-import { publishNews, publishJobs, publishEvents, publishSponsors, publishSources, publishMeta } from './pipeline/publish.js';
+import { runContent } from './pipeline/content.js';
+import { pullFromSanity } from './cms/pull.js';
+import { publishNews, publishJobs, publishEvents, publishSponsors, publishContent, publishSources, publishMeta } from './pipeline/publish.js';
 
-const COMMANDS = ['all', 'news', 'jobs', 'sponsors', 'events', 'content', 'validate', 'reset-feed', 'submissions:prune'];
+const COMMANDS = ['all', 'news', 'jobs', 'sponsors', 'events', 'content', 'validate', 'reset-feed', 'submissions:prune', 'cms:pull'];
 
 /** Republishes everything derived from the news and jobs databases. */
 function publishData(ctx) {
@@ -55,6 +58,14 @@ function eventsStep(ctx) {
   const published = publishEvents(ctx, result.events);
   log.info('events.published', { events: published.events });
   return { ok: true, events: published.events, version: published.version };
+}
+
+function contentStep(ctx) {
+  const result = runContent(ctx);
+  if (!result.ok) return { ok: false, errors: result.errors };
+  const published = publishContent(ctx, result.content);
+  log.info('content.published', published.counts);
+  return { ok: true, counts: published.counts, version: published.version };
 }
 
 async function main() {
@@ -86,7 +97,8 @@ async function main() {
   if (command === 'validate') {
     const sponsors = publishableSponsors(loadSponsorsConfig());
     const events = runEvents(ctx);
-    if (!sponsors.ok || !events.ok) { process.exitCode = 1; return; }
+    const content = runContent(ctx);
+    if (!sponsors.ok || !events.ok || !content.ok) { process.exitCode = 1; return; }
     log.info('config.valid', { mode: cfg.settings.mode, newsSources: cfg.newsSources.length, jobSources: cfg.jobSources.length, events: events.events.length });
     return;
   }
@@ -97,6 +109,28 @@ async function main() {
     const found = resetState(state, arg) || resetState(state, `jobs:${arg}`);
     repos.feedState.save(state);
     log.info(found ? 'reset-feed.done' : 'reset-feed.not-found', { source: arg });
+    return;
+  }
+
+  if (command === 'cms:pull') {
+    if (cfg.settings.content.source !== 'sanity') {
+      log.error('cms.disabled', { detail: 'settings.json content.source is "file", so config/ is edited by hand and nothing is pulled. Import the content into Sanity first (docs/SANITY-CMS-GUIDE.md), then set it to "sanity".' });
+      process.exitCode = 1;
+      return;
+    }
+    try {
+      const r = await pullFromSanity({ settings: cfg.settings, now: startedAt });
+      if (!r.ok) {
+        for (const detail of r.errors) log.error('cms.invalid', { detail });
+        log.error('cms.not-written', { detail: 'Nothing was written; the site keeps its current content. Fix the items above in the Studio and publish again.' });
+        process.exitCode = 1;
+        return;
+      }
+      log.info('cms.pulled', r.counts);
+    } catch (err) {
+      log.error('cms.failed', { detail: err?.message || String(err) });
+      process.exitCode = 1;
+    }
     return;
   }
 
@@ -142,6 +176,11 @@ async function main() {
       run.steps.sponsors = r;
       if (r.ok) versions.sponsors = r.version; else contentFailed = true;
     }
+    if (['all', 'content'].includes(command)) {
+      const r = contentStep(ctx);
+      run.steps.content = r;
+      if (r.ok) versions.content = r.version; else contentFailed = true;
+    }
 
     run.finishedAt = new Date().toISOString();
     if (runsData) {
@@ -157,7 +196,7 @@ async function main() {
       // Bump only the versions of what was republished so browsers refetch it.
       publishMeta(ctx, { versions, counts });
     }
-    if (contentFailed) process.exitCode = 1; // the previous sponsors/events files stay live
+    if (contentFailed) process.exitCode = 1; // the previous sponsors/events/content files stay live
   } catch (err) {
     run.status = 'crashed';
     run.error = String(err?.stack || err).slice(0, 2000);

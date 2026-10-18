@@ -1,9 +1,9 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-10-03T13:27:17.477Z",
+  "generatedAt": "2026-10-06T11:25:56.055Z",
   "notice": "Employers are derived from the open roles listed on Funds.ae.",
-  "count": 15,
+  "count": 20,
   "items": [
     {
       "id": "emp_994ddd5d9c21a8e3",
@@ -107,6 +107,41 @@
       "id": "emp_f85595c6cc777c36",
       "name": "Mosaic Fund Services (demo)",
       "initials": "MF",
+      "openJobs": 1,
+      "featured": false
+    },
+    {
+      "id": "emp_42deac7475bb3891",
+      "name": "Oasis Private Bank (demo)",
+      "initials": "OP",
+      "openJobs": 1,
+      "featured": false
+    },
+    {
+      "id": "emp_d753612008f91055",
+      "name": "Palm Gate Fund Administration",
+      "initials": "PG",
+      "openJobs": 1,
+      "featured": false
+    },
+    {
+      "id": "emp_be950ac478f7703f",
+      "name": "Qirsh",
+      "initials": "QI",
+      "openJobs": 1,
+      "featured": false
+    },
+    {
+      "id": "emp_08abd55fa091bd63",
+      "name": "Sahra Wealth (demo)",
+      "initials": "SW",
+      "openJobs": 1,
+      "featured": false
+    },
+    {
+      "id": "emp_a1774852cad63c48",
+      "name": "Vertex Alpha (demo)",
+      "initials": "VA",
       "openJobs": 1,
       "featured": false
     }

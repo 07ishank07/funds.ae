@@ -29,7 +29,7 @@ before(() => {
 after(() => rmSync(tmp, { recursive: true, force: true }));
 
 test('every API document carries the shared envelope', () => {
-  const files = ['meta.json', 'news.json', 'jobs.json', 'employers.json', 'events.json', 'sponsors.json', 'sources.json', 'taxonomy.json'];
+  const files = ['meta.json', 'news.json', 'jobs.json', 'employers.json', 'events.json', 'sponsors.json', 'content.json', 'sources.json', 'taxonomy.json'];
   for (const f of files) {
     const doc = api(f);
     for (const key of ENVELOPE_FIELDS) assert.ok(key in doc, `${f} lacks ${key}`);
@@ -68,15 +68,23 @@ test('sponsors.json has one list per page slot with the unified item fields', ()
   }
 });
 
+test('content.json has the Sanity-managed slots and pages, with the contract fields (fuller checks in cms.test.js)', () => {
+  const doc = api('content.json');
+  assert.deepEqual(Object.keys(doc.slots).sort(), ['advertiseTiers', 'socialHighlights']);
+  for (const item of doc.slots.socialHighlights) sameKeys(item, DTO_FIELDS.socialHighlight, item.id);
+  for (const tier of doc.slots.advertiseTiers) sameKeys(tier, DTO_FIELDS.advertiseTier, tier.id);
+  for (const [slug, page] of Object.entries(doc.pages)) sameKeys(page, DTO_FIELDS.page, slug);
+});
+
 test('meta.json advertises versions, capabilities and every endpoint that exists', () => {
   const meta = api('meta.json');
-  assert.deepEqual(Object.keys(meta.versions).sort(), ['employers', 'events', 'jobs', 'news', 'sponsors']);
+  assert.deepEqual(Object.keys(meta.versions).sort(), ['content', 'employers', 'events', 'jobs', 'news', 'sponsors']);
   assert.deepEqual(meta.capabilities, { submissions: false }, 'static hosting cannot take forms');
   const taxonomy = api('taxonomy.json');
   for (const t of taxonomy.topics) assert.ok(existsSync(path.join(apiDir, 'news', 'topics', `${t.id}.json`)), t.id);
   for (const s of taxonomy.sections) assert.ok(existsSync(path.join(apiDir, 'news', 'sections', `${s.id}.json`)), s.id);
   for (const c of taxonomy.categories) assert.ok(existsSync(path.join(apiDir, 'news', `${c.id}.json`)), c.id);
-  for (const file of [meta.endpoints.jobs, meta.endpoints.employers, meta.endpoints.events, meta.endpoints.sponsors]) {
+  for (const file of [meta.endpoints.jobs, meta.endpoints.employers, meta.endpoints.events, meta.endpoints.sponsors, meta.endpoints.content]) {
     assert.ok(existsSync(path.join(apiDir, file)), file);
   }
   const sectionIds = taxonomy.sections.map((s) => s.id);

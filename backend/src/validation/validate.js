@@ -27,6 +27,11 @@ export function cleanText(value, { multiline = false } = {}) {
   return s.trim();
 }
 
+/** cleanText for part of a line (a rich-text span): the same cleaning, but spaces at the edges are kept. */
+export function cleanInline(value) {
+  return String(value).normalize('NFC').replace(INVISIBLE, '').replace(/\s+/g, ' ');
+}
+
 export const EMAIL_RE = /^[^\s@"<>()[\]\\,;:]{1,64}@(?=.{1,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/i;
 const DATE_RE = /^(\d{4})-(\d{2})-(\d{2})$/;
 const DAY = 86_400_000;

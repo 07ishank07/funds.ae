@@ -23,6 +23,11 @@ export const SPONSOR_SLOTS = ['founding', 'platinum', 'gold', 'sponsoredPosts', 
 export const SUBMISSION_KINDS = ['contact', 'newsletter', 'advertise', 'event', 'job'];
 export const SUBMISSION_STATUSES = ['new', 'pending-review', 'approved', 'rejected', 'spam'];
 export const ADVERTISING_TIERS = ['silver', 'gold', 'platinum', 'exclusive'];
+// Editorial content managed in Sanity (studio/) and published as api/v1/content.json.
+export const CONTENT_SLOTS = ['socialHighlights', 'advertiseTiers'];
+export const PAGE_SLUGS = ['about', 'privacy', 'terms'];
+export const PAGE_BLOCK_TYPES = ['p', 'h2', 'h3', 'li'];
+export const PAGE_LIST_TYPES = ['bullet', 'number'];
 
 /* -------------------------------- DB records ------------------------------- */
 
@@ -122,6 +127,44 @@ export const ADVERTISING_TIERS = ['silver', 'gold', 'platinum', 'exclusive'];
  */
 
 /**
+ * @typedef {Object} SocialHighlightRecord  (config/content.json "socialHighlights"; home "Top Tweets")
+ * @property {string} id
+ * @property {boolean} [enabled]
+ * @property {string} accountName
+ * @property {string} handle        without the @
+ * @property {string} text          editor-written line about the post, never the post itself
+ * @property {string} url           https link to one post on x.com / twitter.com
+ * @property {string} initials      avatar text, 1-3 capitals
+ * @property {string|null} color    avatar #RRGGBB
+ */
+
+/**
+ * @typedef {Object} AdvertiseTierRecord  (config/content.json "advertiseTiers"; Advertise page cards)
+ * @property {string} id            one of ADVERTISING_TIERS (the value the enquiry form sends)
+ * @property {boolean} [enabled]
+ * @property {string} name
+ * @property {string|null} badge
+ * @property {string} price         display text, e.g. "AED 9,500"
+ * @property {string|null} priceNote
+ * @property {string[]} features
+ * @property {boolean} featured
+ */
+
+/**
+ * @typedef {Object} PageRecord     (config/content.json "pages"; About, Privacy, Terms body copy)
+ * @property {string} slug          one of PAGE_SLUGS
+ * @property {string} title
+ * @property {string|null} intro
+ * @property {string|null} updatedAt  YYYY-MM-DD
+ * @property {PageBlock[]} blocks
+ *
+ * @typedef {Object} PageBlock      safe subset of Sanity Portable Text, rendered with textContent
+ * @property {'p'|'h2'|'h3'|'li'} type
+ * @property {'bullet'|'number'|null} list   set for 'li' only
+ * @property {{text:string, bold:boolean, italic:boolean, href:string|null}[]} spans
+ */
+
+/**
  * @typedef {Object} SubmissionRecord (data/submissions/<kind>.jsonl, never committed)
  * @property {string} id            'sub_' + 20 hex
  * @property {string} kind          one of SUBMISSION_KINDS
@@ -178,6 +221,18 @@ export const DB_MODELS = {
     table: 'sponsor_items',
     fields: ['id', 'slot', 'position', 'enabled', 'title', 'blurb', 'label', 'logoText', 'website', 'url', 'image', 'colorFrom', 'colorTo']
   },
+  socialHighlights: {
+    table: 'social_highlights',
+    fields: ['id', 'position', 'enabled', 'accountName', 'handle', 'text', 'url', 'initials', 'color']
+  },
+  advertiseTiers: {
+    table: 'advertise_tiers',
+    fields: ['id', 'position', 'enabled', 'name', 'badge', 'price', 'priceNote', 'features', 'featured']
+  },
+  pages: {
+    table: 'pages',
+    fields: ['slug', 'title', 'intro', 'updatedAt', 'blocks']
+  },
   submissions: {
     table: 'submissions',
     fields: ['id', 'kind', 'status', 'payload', 'email', 'ipHash', 'userAgent', 'createdAt']
@@ -205,6 +260,11 @@ export const DTO_FIELDS = {
   employer: ['id', 'name', 'initials', 'openJobs', 'featured'],
   event: ['id', 'title', 'eventType', 'startDate', 'endDate', 'city', 'venue', 'url', 'organiser', 'featured'],
   sponsorItem: ['id', 'title', 'blurb', 'label', 'logoText', 'website', 'url', 'image', 'colorFrom', 'colorTo', 'sponsored'],
+  socialHighlight: ['id', 'accountName', 'handle', 'text', 'url', 'initials', 'color'],
+  advertiseTier: ['id', 'name', 'badge', 'price', 'priceNote', 'features', 'featured'],
+  page: ['slug', 'title', 'intro', 'updatedAt', 'blocks'],
+  pageBlock: ['type', 'list', 'spans'],
+  pageSpan: ['text', 'bold', 'italic', 'href'],
   source: [
     'id', 'kind', 'name', 'homepage', 'type', 'enabled', 'verified', 'region', 'status', 'lastSuccessAt',
     'lastError', 'lastItemCount', 'pausedUntil'

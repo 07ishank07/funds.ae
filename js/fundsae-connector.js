@@ -23,16 +23,16 @@
     return;
   }
 
-  var LIMITS = { newsPerRegion: 15, newsMore: 35, headline: 92, tileHeadline: 110, homeJobs: 20, tiles: 15, eventsPerList: 10, topJobs: 20 };
+  var LIMITS = { newsPerRegion: 15, newsMore: 35, headline: 92, tileHeadline: 110, homeJobs: 20, tiles: 15, eventsPerList: 10, eventsMax: 100, topJobs: 20, topEmployers: 20 };
   var ROLES_DEMO_TOTAL = 120; // Careers page, demo mode: live roles are topped up with dummy roles to this many (3 pages of PER_PAGE = 40 in Careers.dc.html)
   var TILES_SHOWN = 12; // Real Estate, Energy, AI and Technology and Grants boxes
-  var REGIONS = { uae: 'UAE News', world: 'Global News' };
-  // Business Funding is a third news tab, alongside UAE/Global. It is not a category like the
-  // other two: it pulls in any story tagged with the "grants-funding" topic, regardless of
-  // category, in addition to (not instead of) that story's normal UAE/Global News tab.
-  var BUSINESS_FUNDING_TOPIC = 'grants-funding';
-  var BUSINESS_FUNDING_REGION = 'Business Funding';
-  var NEWS_REGIONS = ['UAE News', 'Global News', 'Business Funding'];
+  // Home news tabs. UAE and global stories share the News tab, in the API's order.
+  var REGIONS = { uae: 'News', world: 'News' };
+  // Fundraising is the second tab. It is not a category: it pulls in any story tagged with the
+  // "fundraising" topic (fund launches and closes), in addition to (not instead of) the News tab.
+  var FUNDRAISING_TOPIC = 'fundraising';
+  var FUNDRAISING_REGION = 'Fundraising';
+  var NEWS_REGIONS = ['News', 'Fundraising'];
   var EMPTY_TEXT = 'Nothing to show yet. Check back soon.';
   var state = { mode: null };
   var loads = {};
@@ -131,7 +131,7 @@
   }
 
   function sponsorLink(a, item) {
-    api.setLink(a, item.url, { sponsored: item.sponsored, httpsOnly: true });
+    return api.setLink(a, item.url, { sponsored: item.sponsored, httpsOnly: true });
   }
 
   function jobCount(n) {
@@ -171,7 +171,7 @@
 
   /* ------------------------------------ news ----------------------------------- */
   // Region tabs belong to the page script (this.html), which shows articles whose
-  // data-news-region equals the active tab ("UAE News" / "Global News") every 250 ms.
+  // data-news-region equals the active tab ("News" / "Fundraising") every 250 ms.
   // Articles the connector wants hidden therefore get a region value that never
   // matches a tab; the page's own placeholders get "placeholder".
 
@@ -228,9 +228,9 @@
     stories.forEach(function (s) {
       var region = REGIONS[s.category];
       if (region) addTo(region, s);
-      // Cross-listed, not exclusive: a grants-funding story still appears in its own UAE/Global tab too.
-      if (s.topic === BUSINESS_FUNDING_TOPIC || (s.topics || []).indexOf(BUSINESS_FUNDING_TOPIC) !== -1) {
-        addTo(BUSINESS_FUNDING_REGION, s);
+      // Cross-listed, not exclusive: a fundraising story still appears in the News tab too.
+      if (s.topic === FUNDRAISING_TOPIC || (s.topics || []).indexOf(FUNDRAISING_TOPIC) !== -1) {
+        addTo(FUNDRAISING_REGION, s);
       }
     });
 
@@ -251,7 +251,6 @@
         art.removeAttribute('aria-hidden');
         art.removeAttribute('data-fundsae-placeholder');
         art.style.display = '';
-        if (region === 'Global News' && i === 0) art.id = 'global-news';
         art.setAttribute('data-fundsae-row', '');
         art.setAttribute('data-fundsae-story', story.id);
         art.setAttribute('data-fundsae-region', region);
@@ -396,17 +395,9 @@
       row.querySelector('h2').textContent = job.title;
       row.querySelector('.company').textContent = job.company;
       row.querySelector('.location').textContent = [job.location, job.employmentType].filter(Boolean).join(' · ');
-      var logo = row.querySelector('.role-logo');
-      if (logo) logo.textContent = initials(job.company);
       var meta = row.querySelector('.role-meta');
       if (meta) {
         meta.textContent = '';
-        if (job.featured) {
-          var tag = document.createElement('span');
-          tag.className = 'role-featured';
-          tag.textContent = api.tr('Featured');
-          meta.appendChild(tag);
-        }
         var bits = [job.department, postedAgo(job.postedAt)].filter(Boolean).join(' · ');
         if (bits) {
           var text = document.createElement('span');
@@ -451,7 +442,7 @@
     });
   }
 
-  /** ?employer=emp_... (from a Featured Employers tile) shows only that employer's roles. */
+  /** ?employer=emp_... (from a Top Employers row) shows only that employer's roles. */
   function applyEmployerFilter(list, employers) {
     var id = new URLSearchParams(location.search).get('employer');
     if (!id || !/^emp_[a-f0-9]{16}$/.test(id)) return;
@@ -480,21 +471,24 @@
     list.parentNode.insertBefore(note, list);
   }
 
+  /** Careers page, column 2: Top Employers (logo tile, name, open roles), in employers.json order (featured first, then most open roles). Each row
+   *  opens the page filtered to that employer's roles (see applyEmployerFilter). */
   function renderEmployers(doc) {
-    var employers = api.items(doc.items, api.valid.employer, 'employers');
-    slots('employers').forEach(function (grid) {
-      var palette = backgroundsOf(children(grid, ':scope > li .logo'));
-      fillList(grid, ':scope > li', employers, function (li, employer, i) {
+    var employers = api.items(doc.items, api.valid.employer, 'employers').slice(0, LIMITS.topEmployers);
+    slots('employers').forEach(function (list) {
+      var palette = backgroundsOf(children(list, ':scope > li .te-logo'));
+      fillList(list, ':scope > li', employers, function (li, employer, i) {
         var a = li.querySelector('a');
         a.setAttribute('href', '?employer=' + encodeURIComponent(employer.id) + '#opportunities-title');
-        var logo = li.querySelector('.logo');
-        logo.textContent = employer.initials;
-        logo.removeAttribute('role');
-        logo.removeAttribute('aria-label');
-        logo.setAttribute('aria-hidden', 'true');
-        if (palette.length) logo.style.background = palette[i % palette.length];
-        li.querySelector('.name').textContent = employer.name;
-        var count = li.querySelector('.jobs');
+        a.title = 'Open roles at ' + employer.name;
+        li.querySelector('.tj-rank').textContent = String(i + 1);
+        var logo = li.querySelector('.te-logo');
+        if (logo) {
+          logo.textContent = employer.initials;
+          if (palette.length) logo.style.background = palette[i % palette.length];
+        }
+        li.querySelector('.tj-title').textContent = employer.name;
+        var count = li.querySelector('.tj-co');
         count.setAttribute('data-fundsae-count', String(employer.openJobs));
         count.textContent = jobCount(employer.openJobs);
       });
@@ -520,17 +514,25 @@
     var today = api.dubaiToday();
     var upcoming = api.items(doc.items, api.valid.event, 'events').filter(function (ev) {
       return (ev.endDate || ev.startDate) >= today;
-    }).slice(0, LIMITS.eventsPerList);
+    });
     slots('events').forEach(function (list) {
-      fillList(list, ':scope > li', upcoming, function (li, ev) {
+      // The home page box shows the next few; the Events page asks for more with data-fundsae-limit.
+      var limit = parseInt(list.getAttribute('data-fundsae-limit'), 10);
+      limit = limit > 0 ? Math.min(limit, LIMITS.eventsMax) : LIMITS.eventsPerList;
+      fillList(list, ':scope > li', upcoming.slice(0, limit), function (li, ev) {
         var when = eventDate(ev);
-        // Careers page rows use classes; the home page rows are styled inline.
+        // Events page rows use classes; the home page rows are styled inline.
         var day = li.querySelector('.day') || li.querySelector(':scope > div:first-child > span:first-child');
         var month = li.querySelector('.month') || li.querySelector(':scope > div:first-child > span:last-child');
+        var name = li.querySelector('.event-title');
         var type = li.querySelector('.event-type') || li.querySelector(':scope > div:nth-child(2) a');
         var city = li.querySelector('.city') || li.querySelector(':scope > div:nth-child(2) span');
         if (day) day.textContent = when.day;
         if (month) month.textContent = when.month;
+        if (name) {
+          name.textContent = ev.title;
+          if (name.tagName === 'A') api.setLink(name, ev.url, { httpsOnly: true });
+        }
         if (type) {
           type.textContent = ev.eventType;
           type.title = ev.title + (ev.venue ? ', ' + ev.venue : '');
@@ -547,10 +549,44 @@
     var s = doc.slots || {};
     var pick = function (name) { return api.items(s[name], api.valid.sponsorItem, name + ' items'); };
 
+    // Elite Founding Sponsor banner. With no sponsor it keeps its "Your firm here" advert in every
+    // mode (that advert is ours, not demo data), so it never shows the "nothing yet" note.
+    slots('sponsor-founding').forEach(function (banner) {
+      var item = pick('founding')[0];
+      if (!item || !item.title) return;
+      banner.classList.add('is-sponsor');
+      banner.setAttribute('aria-label', 'Elite Founding Sponsor: ' + item.title);
+      var status = banner.querySelector('.fx-founding-status');
+      if (status) status.remove();
+      var name = banner.querySelector('.fx-founding-name');
+      if (name) {
+        name.textContent = item.title;
+        var image = api.imageUrl(item.image);
+        if (image) {
+          var logo = document.createElement('span');
+          logo.className = 'fx-founding-logo';
+          logo.setAttribute('aria-hidden', 'true');
+          logo.style.backgroundImage = 'url("' + image + '")';
+          name.parentNode.insertBefore(logo, name);
+        }
+      }
+      var pitch = banner.querySelector('.fx-founding-pitch');
+      if (pitch) {
+        if (item.blurb) pitch.textContent = item.blurb;
+        else pitch.remove();
+      }
+      var cta = banner.querySelector('.fx-founding-cta');
+      if (cta) {
+        var ctaText = cta.querySelector('span');
+        if (ctaText) ctaText.textContent = api.tr('Learn more');
+        if (!sponsorLink(cta, item)) cta.remove();
+      }
+    });
+
     slots('sponsor-platinum').forEach(function (box) {
       fillList(box, ':scope > a', pick('platinum'), function (a, item) {
         a.textContent = item.title;
-        a.setAttribute('aria-label', 'Platinum sponsor: ' + item.title);
+        a.setAttribute('aria-label', 'Elite partner: ' + item.title);
         var from = api.hex(item.colorFrom);
         var to = api.hex(item.colorTo);
         if (from && to) a.style.background = 'linear-gradient(145deg, ' + from + ', ' + to + ')';
@@ -611,6 +647,178 @@
     });
   }
 
+  /* ------------------------- editorial content (Sanity) ------------------------ */
+  // content.json is written from the Sanity Studio. Advertise packages and page copy are
+  // our own text, so with nothing published the page keeps its built-in version in every mode.
+
+  function appendText(node, text, small) {
+    if (!small) { node.textContent = text; return; }
+    node.textContent = text + ' ';
+    var note = document.createElement('small');
+    note.textContent = small;
+    node.appendChild(note);
+  }
+
+  function fillLines(ul, lines) {
+    if (!ul) return;
+    ul.textContent = '';
+    lines.forEach(function (line) {
+      var li = document.createElement('li');
+      li.textContent = line;
+      ul.appendChild(li);
+    });
+  }
+
+  /** Home "Top Tweets": avatar initials, account name, @handle, our one-line summary, link to the post. */
+  function renderHighlights(items) {
+    slots('social-highlights').forEach(function (list) {
+      fillList(list, ':scope > a', items, function (a, item) {
+        var avatar = a.querySelector(':scope > span:first-child');
+        if (avatar) {
+          avatar.textContent = item.initials;
+          avatar.removeAttribute('role');
+          avatar.removeAttribute('aria-label');
+          avatar.setAttribute('aria-hidden', 'true');
+          var color = api.hex(item.color);
+          if (color) avatar.style.background = color;
+        }
+        var body = a.querySelector(':scope > span:last-child');
+        if (body && body !== avatar) {
+          var handleTemplate = body.querySelector('span');
+          body.textContent = '';
+          var name = document.createElement('strong');
+          name.textContent = item.accountName;
+          var handle = handleTemplate ? handleTemplate.cloneNode(false) : document.createElement('span');
+          handle.textContent = '@' + item.handle;
+          body.appendChild(name);
+          body.appendChild(document.createTextNode(' '));
+          body.appendChild(handle);
+          body.appendChild(document.createElement('br'));
+          body.appendChild(document.createTextNode(item.text));
+        }
+        a.setAttribute('aria-label', item.accountName + ' (@' + item.handle + ') on X: ' + item.text);
+        api.setLink(a, item.url, { httpsOnly: true });
+      });
+    });
+  }
+
+  /** Advertise page: the package cards, and the Elite Exclusive Partner hero for the "exclusive" tier. */
+  function renderTiers(tiers) {
+    var cards = tiers.filter(function (t) { return t.id !== 'exclusive'; });
+    if (cards.length) {
+      slots('advertise-tiers').forEach(function (box) {
+        fillList(box, ':scope > .tier', cards, function (card, tier) {
+          card.classList.toggle('featured', tier.featured);
+          var badge = card.querySelector('.badge');
+          if (badge) {
+            badge.textContent = tier.badge || '';
+            badge.hidden = !tier.badge;
+          }
+          var title = card.querySelector('h2');
+          if (title) title.textContent = tier.name;
+          var price = card.querySelector('.price');
+          if (price) appendText(price, tier.price, tier.priceNote);
+          fillLines(card.querySelector('ul'), tier.features);
+          var cta = card.querySelector('[data-fundsae-tier]');
+          if (cta) {
+            cta.setAttribute('data-fundsae-tier', tier.id);
+            cta.setAttribute('aria-label', 'Get started with ' + tier.name);
+          }
+        });
+      });
+    }
+    var exclusive = tiers.filter(function (t) { return t.id === 'exclusive'; })[0];
+    if (!exclusive) return;
+    slots('advertise-exclusive').forEach(function (hero) {
+      var eyebrow = hero.querySelectorAll('.elite-hero-eyebrow > span');
+      if (eyebrow[0]) eyebrow[0].textContent = exclusive.name;
+      if (eyebrow[1]) {
+        eyebrow[1].textContent = exclusive.badge || '';
+        eyebrow[1].hidden = !exclusive.badge;
+      }
+      var price = hero.querySelector('.elite-hero-price');
+      if (price) appendText(price, exclusive.price, exclusive.priceNote);
+      fillLines(hero.querySelector('.elite-hero-perks'), exclusive.features);
+    });
+  }
+
+  var updatedFmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+
+  /** One rich-text block's spans: bold, italic and links, built with createElement and textContent only. */
+  function spansInto(node, spans) {
+    spans.forEach(function (span) {
+      var out = document.createTextNode(span.text);
+      if (span.italic) { var em = document.createElement('em'); em.appendChild(out); out = em; }
+      if (span.bold) { var strong = document.createElement('strong'); strong.appendChild(out); out = strong; }
+      if (span.href) {
+        var a = document.createElement('a');
+        if (api.setCopyLink(a, span.href)) { a.appendChild(out); out = a; }
+      }
+      node.appendChild(out);
+    });
+    return node;
+  }
+
+  /** Blocks -> <section>s, one per h2, with list items grouped into <ul>/<ol>. */
+  function pageSections(blocks) {
+    var sections = [];
+    var section = null;
+    var list = null;
+    blocks.forEach(function (block) {
+      if (block.type === 'h2' || !section) {
+        section = document.createElement('section');
+        sections.push(section);
+        list = null;
+      }
+      if (block.type === 'li') {
+        var tag = block.list === 'number' ? 'OL' : 'UL';
+        if (!list || list.tagName !== tag) {
+          list = document.createElement(tag);
+          section.appendChild(list);
+        }
+        list.appendChild(spansInto(document.createElement('li'), block.spans));
+        return;
+      }
+      list = null;
+      section.appendChild(spansInto(document.createElement(block.type === 'p' ? 'p' : block.type), block.spans));
+    });
+    return sections;
+  }
+
+  /** About, Privacy, Terms: title, lead, "Last updated" and the body sections (sections marked data-fundsae-keep stay). */
+  function renderPage(pages) {
+    slots('page-body').forEach(function (main) {
+      var page = pages[main.getAttribute('data-fundsae-page')];
+      if (!page || !api.valid.page(page)) return;
+      var title = main.querySelector('.intro h1');
+      if (title) title.textContent = page.title;
+      var lead = main.querySelector('.intro .lead');
+      if (lead) {
+        if (page.intro) lead.textContent = page.intro;
+        else lead.remove();
+      }
+      var updated = main.querySelector('.intro .updated');
+      if (updated) {
+        if (page.updatedAt) updated.textContent = api.tr('Last updated') + ' ' + updatedFmt.format(new Date(page.updatedAt + 'T00:00:00Z'));
+        else updated.remove();
+      }
+      var old = children(main, ':scope > section:not([data-fundsae-keep])');
+      var anchor = old[0] || main.querySelector(':scope > .related');
+      pageSections(page.blocks).forEach(function (section) {
+        section.setAttribute('data-fundsae-row', '');
+        main.insertBefore(section, anchor);
+      });
+      old.forEach(function (section) { section.remove(); });
+    });
+  }
+
+  function renderContent(doc) {
+    var s = doc.slots || {};
+    renderHighlights(api.items(s.socialHighlights, api.valid.socialHighlight, 'Top Tweets items'));
+    renderTiers(api.items(s.advertiseTiers, api.valid.advertiseTier, 'Advertise packages'));
+    renderPage(doc.pages && typeof doc.pages === 'object' ? doc.pages : {});
+  }
+
   /* ------------------------------------ main ----------------------------------- */
 
   function guard(label, promise) {
@@ -648,8 +856,11 @@
         ]).then(function (docs) { renderRoles(docs[0], docs[1]); renderTopJobs(docs[0]); }));
       }
       if (hasSlot('events')) guard('Events', load('events.json', 'events').then(renderEvents));
-      var sponsorSlots = ['sponsor-platinum', 'sponsor-gold', 'sponsor-posts', 'sponsor-media', 'sponsor-companies', 'career-resources'];
+      var sponsorSlots = ['sponsor-founding', 'sponsor-platinum', 'sponsor-gold', 'sponsor-posts', 'sponsor-media', 'sponsor-companies', 'career-resources'];
       if (sponsorSlots.some(hasSlot)) guard('Sponsors', load('sponsors.json', 'sponsors').then(renderSponsors));
+      if (hasSlot('social-highlights') || hasSlot('advertise-tiers') || hasSlot('advertise-exclusive') || hasSlot('page-body')) {
+        guard('Editorial content', load('content.json', 'content').then(renderContent));
+      }
     }).catch(function (err) {
       api.warn('The API could not be reached; the page keeps its built-in content', err);
     });
