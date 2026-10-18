@@ -87,7 +87,7 @@ Each source is fetched independently: one broken feed never stops the others. A 
 | `jobs.manual.json` | Roles you post yourself (featured roles are listed first; `demoOnly` examples never go live) |
 | `events.json` | Events for "Events and Expos" (`events` for live, `demoFixture` for demo) |
 | `taxonomy.json` | Categories, UAE terms, topics and keywords, **sections**, filters, job rules |
-| `sponsors.json` | Sponsor slots (edited with `admin/`, or written from Sanity by `npm run cms:pull`) |
+| `sponsors.json` | Sponsor slots (written from Sanity by `npm run cms:pull`, or by hand while `content.source` is `"file"`) |
 | `content.json` | Editorial content from the Sanity Studio: `socialHighlights` (home "Top Tweets"), `advertiseTiers` (Advertise packages), `pages` (About, Privacy, Terms copy) |
 
 `settings.json` `content.source` says where `sponsors.json`, `events.json` and `content.json` come from: `"file"` (default; edit them by hand) or `"sanity"` (the Studio in `studio/` is the source and `npm run cms:pull` overwrites them). See [`../docs/SANITY-CMS-GUIDE.md`](../docs/SANITY-CMS-GUIDE.md).
@@ -285,7 +285,7 @@ Record shapes are defined once in `src/contracts/models.js`. `schema/schema.sql`
 
 **Website hosting**
 - Only `frontend_demo/`, `js/`, `assets/` and `/i18n.js` are served. Each path segment is decoded separately; `..`, dotfiles, backslashes, colons, NUL and unlisted extensions return 404.
-- `backend/`, `admin/` and `.github/` are never served.
+- `backend/` and `.github/` are never served.
 - HTML pages get a CSP. It must allow `'unsafe-inline'`, `'unsafe-eval'` and `blob:` because `this.html` is a design-tool bundle that unpacks itself. `STATIC_CSP` overrides it.
 
 **Outbound**
@@ -293,9 +293,6 @@ Record shapes are defined once in `src/contracts/models.js`. `schema/schema.sql`
 
 **Content**
 - Sponsor links must be `https://`. Images must be PNG, JPG or WebP in `assets/sponsors/` or on https; SVG is refused. Colours must be hex. Invalid files are not published.
-
-**Admin page**
-- It talks only to `api.github.com` with a fine-grained token held in memory (or this tab's session storage if you tick Remember), under a strict CSP.
 
 **Workflows**
 - They request only the permissions they use, install with `--ignore-scripts`, and publish sponsors and events only from `main`.

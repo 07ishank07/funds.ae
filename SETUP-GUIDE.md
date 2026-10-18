@@ -2,7 +2,7 @@
 
 Most of this is done in a web browser. Nothing needs to be installed unless you want the website forms to work (section 7).
 
-You will: (1) put the files on GitHub, (2) turn on GitHub Pages, (3) let GitHub run the daily job, (4) check the site, (5) manage sponsors and events, (6) switch from demo data to real news, and optionally (7) run the Funds.ae server so the contact, newsletter, sponsorship, "Post a role" and "Submit your event" forms are received.
+You will: (1) put the files on GitHub, (2) turn on GitHub Pages, (3) let GitHub run the daily job, (4) check the site, (5) manage sponsors, events and page content, (6) switch from demo data to real news, and optionally (7) run the Funds.ae server so the contact, newsletter, sponsorship, "Post a role" and "Submit your event" forms are received.
 
 Whenever this guide says **save to GitHub**, do this in vscode.dev:
 
@@ -24,14 +24,13 @@ Whenever this guide says **save to GitHub**, do this in vscode.dev:
 | `js/` | The scripts that fill the pages with data and send the forms. The pages already load them; there is nothing to paste |
 | `api/v1/` | The data the pages read (news, jobs, events, sponsors), rebuilt every day |
 | `backend/` | The programs that build `api/v1/`, plus the optional server |
-| `admin/` | The sponsor manager |
-| `assets/sponsors/` | Sponsor logos and images uploaded by the sponsor manager |
-| `.github/workflows/` | The daily job, the sponsor/events publisher and the tests |
+| `assets/sponsors/` | Older sponsor images. New images are uploaded in the Sanity Studio |
+| `.github/workflows/` | The daily job, the content publisher and the tests |
 
 ## 1. Put the files on GitHub
 
 1. Open your repository in vscode.dev.
-2. Make sure the file list has everything in the table above at the top level (`.github`, `admin`, `api`, `assets`, `backend`, `frontend_demo`, `js`, `index.html`, `i18n.js`, `.gitignore`, `.nojekyll`).
+2. Make sure the file list has everything in the table above at the top level (`.github`, `api`, `assets`, `backend`, `frontend_demo`, `js`, `index.html`, `i18n.js`, `.gitignore`, `.nojekyll`).
    - Mac users: folders starting with a dot are hidden in Finder. Press **Cmd + Shift + .** to show them.
 3. **Save to GitHub**.
 4. On github.com, check that `.github/workflows` contains four files: `ci.yml`, `daily-ingest.yml`, `publish-content.yml` and `tests.yml`.
@@ -68,25 +67,17 @@ If you still see old content, wait five minutes (GitHub Pages caches files) and 
 
 You can see the raw data too, for example `.../api/v1/news.json` or `.../api/v1/events.json`.
 
-## 5. Manage sponsors and events
+## 5. Manage sponsors, events and page content
 
-### Create an access token (once)
-1. On github.com, click your profile picture (top right) → **Settings** → **Developer settings** (bottom of the left menu).
-2. **Personal access tokens** → **Fine-grained tokens** → **Generate new token**.
-3. Name it `Funds.ae sponsor manager` and set an expiry date.
-4. **Repository access**: **Only select repositories** → pick your website repository.
-5. **Permissions** → **Repository permissions** → **Contents**: **Read and write**. Leave everything else as **No access**.
-6. Click **Generate token** and copy it. GitHub shows it only once. Keep it in a password manager. Never paste it into a file in the repository.
+Sponsors, events, the home page "Top Tweets", the Advertise packages and the About, Privacy and Terms copy are edited in the Sanity Studio at `https://fundsae.sanity.studio`.
 
-### Use the sponsor manager
-1. Open `https://YOUR-USERNAME.github.io/YOUR-REPOSITORY/admin/`.
-2. Check the username, repository and branch, paste the token, click **Connect**. Leave **Remember** unticked on shared computers.
-3. Choose an area on the left: **Platinum sponsors**, **Gold sponsors**, **Sponsored posts**, **Videos and podcasts**, **Featured companies** or **Career resources**. Each shows where it appears and how many items fit.
-4. Edit text and links (links must start with `https://`, or use `#` for "no link yet"), upload logos or images (PNG, JPG or WebP, up to 500 KB), reorder, hide or add items.
-5. Click **Save changes**. The site updates in about two minutes. If the publish step finds a problem, the previous sponsors stay live and the **Actions** tab explains what to fix.
+1. Open the Studio and sign in with the account you were invited with.
+2. Choose an area on the left, make your change and click **Publish**. Drafts are never shown on the site.
+3. The site updates in about two minutes. If the publish step finds a problem, the previous content stays live and the **Actions** tab explains what to fix.
 
-### Events
-Events are listed in `backend/config/events.json`. Copy the example from the notes at the top of that file, one block per event, and **save to GitHub**. The site updates in about two minutes; past events drop off by themselves. While the site is in demo mode it shows sample events instead.
+- Editor guide: [`docs/SANITY-CMS-GUIDE.md`](docs/SANITY-CMS-GUIDE.md), Part 9. Setting up the Studio, the webhook and the GitHub secrets: Part 4.
+- Don't edit `backend/config/sponsors.json`, `events.json` or `content.json` by hand. The next publish from the Studio overwrites them.
+- While the site is in demo mode it shows sample events instead of the ones in the Studio. Past events drop off by themselves.
 
 ## 6. Switch to real news (live mode)
 
@@ -99,7 +90,7 @@ Events are listed in `backend/config/events.json`. Copy the example from the not
 5. Before relying on a publisher, read its terms of use for RSS feeds. Some allow personal use only. Disable any source whose terms don't fit a commercial site.
 6. To add job listings, follow the notes at the top of `backend/config/sources.jobs.json`. To post your own roles, edit `backend/config/jobs.manual.json` (the example roles are hidden automatically in live mode).
 7. In live mode the **Demo data** label disappears, and any area without real data shows "Nothing to show yet" instead of sample content.
-8. Replace the sample sponsors (all marked "(demo)") with real, contracted sponsors, and add real events to `events.json`.
+8. In the Sanity Studio, replace the sample sponsors (all marked "(demo)") with real, contracted sponsors, and add real events.
 
 ## 7. Receive the website forms (optional)
 
@@ -117,7 +108,7 @@ GitHub Pages only serves files, so it cannot receive forms. To accept them, run 
 5. Read submissions either in `backend/data/submissions/*.jsonl` on the server, or with
    `curl -H "Authorization: Bearer YOUR_ADMIN_API_TOKEN" "https://your-domain.ae/api/v1/admin/submissions?kind=contact"`
    (`kind` is `contact`, `newsletter`, `advertise`, `event` or `job`).
-6. "Post a role" and "Submit your event" entries are never published automatically. Review them and copy the ones you approve into `backend/config/jobs.manual.json` or `backend/config/events.json`.
+6. "Post a role" and "Submit your event" entries are never published automatically. Review them. Add the roles you approve to `backend/config/jobs.manual.json` and the events to the Sanity Studio.
 7. Delete old submissions regularly with `npm run submissions:prune` (keeps 180 days by default; change `submissions.retentionDays` in `settings.json`). Update the Privacy Policy page to say what the forms collect and how long it is kept.
 
 Submissions contain personal data. They are stored outside `api/`, are never published, and `.gitignore` keeps them out of GitHub.
@@ -130,8 +121,6 @@ Submissions contain personal data. They are stored outside `api/`, are never pub
 | The Arabic button is missing | Check that `i18n.js` is at the top level of the repository, next to `index.html` |
 | Workflow has a red cross | Open it and read the failed step. A message such as `settings.json is not valid JSON` means a missing or extra comma |
 | Sponsors, events or CMS content did not update | Actions → **Publish content** → read the failed step; each problem is described in plain words |
-| Sponsor manager says the token is not accepted | The token was copied incompletely or has expired. Create a new one |
-| Sponsor manager says "not allowed" | The token needs Contents: Read and write on this repository |
 | A news source keeps failing | See step 6.4. Failing sources pause themselves for 7 days |
 | Forms say "Too many attempts" | Each visitor can send 5 forms a minute and 30 an hour. Adjust in `settings.json` if needed |
 | No daily updates for a while | GitHub pauses schedules on inactive repositories. Go to Actions, open the workflow, and click **Enable workflow** if shown |

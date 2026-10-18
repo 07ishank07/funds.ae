@@ -202,7 +202,7 @@ function validateTaxonomy(taxonomy) {
 
 // Safe defaults so an older settings.json keeps working.
 const SETTINGS_DEFAULTS = {
-  // "file": config/sponsors.json, events.json and content.json are edited by hand (or with admin/).
+  // "file": config/sponsors.json, events.json and content.json are edited by hand.
   // "sanity": they are written by `npm run cms:pull` from the Sanity Studio (studio/).
   content: { source: 'file' },
   events: { maxPublished: 50, keepPastDays: 30 },

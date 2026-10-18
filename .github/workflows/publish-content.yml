@@ -3,7 +3,7 @@
 # Runs when:
 #   - an editor presses Publish in the Sanity Studio: Sanity's webhook sends a
 #     repository_dispatch "cms-publish" event (setup: docs/SANITY-CMS-GUIDE.md);
-#   - someone saves backend/config/{sponsors,events,content}.json (admin page or by hand);
+#   - someone saves backend/config/{sponsors,events,content}.json by hand (content.source "file");
 #   - you run it from the Actions tab.
 #
 # With backend/config/settings.json content.source = "sanity", it first copies the

@@ -143,7 +143,7 @@ CREATE TABLE IF NOT EXISTS events (
 );
 CREATE INDEX IF NOT EXISTS events_start ON events (start_date);
 
--- Editor-maintained (config/sponsors.json, usually through admin/).
+-- Editor-maintained in the Sanity Studio (written to config/sponsors.json by cms:pull).
 CREATE TABLE IF NOT EXISTS sponsor_items (
     slot        TEXT NOT NULL CHECK (slot IN ('founding', 'platinum', 'gold', 'sponsoredPosts', 'sponsoredMedia', 'professionalServices', 'careerResources')),
     id          TEXT NOT NULL CHECK (id ~ '^[a-z0-9][a-z0-9-]{0,60}$'),
