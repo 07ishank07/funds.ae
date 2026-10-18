@@ -1,0 +1,672 @@
+{
+  "apiVersion": 1,
+  "mode": "demo",
+  "generatedAt": "2026-10-18T04:10:55.605Z",
+  "notice": "Editorial content written by the Funds.ae team. Top Tweets items link to the original posts.",
+  "slots": {
+    "socialHighlights": [],
+    "advertiseTiers": [
+      {
+        "id": "silver",
+        "name": "Partner",
+        "badge": "Partner",
+        "price": "AED 4,500",
+        "priceNote": "/ month (dummy)",
+        "features": [
+          "Listing in \"Featured Companies\" (home page column 3 and the Careers page)",
+          "One \"Sponsored Posts\" slot (column 3), rotating weekly",
+          "Monthly performance summary (dummy)",
+          "Limited to 15 partners"
+        ],
+        "featured": false
+      },
+      {
+        "id": "gold",
+        "name": "Gold Partner",
+        "badge": "Most popular",
+        "price": "AED 9,500",
+        "priceNote": "/ month (dummy)",
+        "features": [
+          "Everything in Partner, plus:",
+          "A \"Gold Sponsors\" tile (column 3) on the home page",
+          "One placement in \"Videos and Podcasts\" (column 3), rotating weekly",
+          "A listing in \"Career Resources\" on the Careers page",
+          "Limited to 10 partners"
+        ],
+        "featured": true
+      },
+      {
+        "id": "platinum",
+        "name": "Elite Partner",
+        "badge": "Elite",
+        "price": "AED 18,000",
+        "priceNote": "/ month (dummy)",
+        "features": [
+          "Everything in Gold, plus:",
+          "An \"Elite Partners\" tile (column 3), limited to 5 partners",
+          "The lead spot in \"Videos and Podcasts\" (column 3)",
+          "Branding in the \"Subscribe to stay ahead\" newsletter box",
+          "Priority placement on the Careers page",
+          "Dedicated account manager (dummy)"
+        ],
+        "featured": false
+      },
+      {
+        "id": "exclusive",
+        "name": "Elite Exclusive Partner",
+        "badge": "One partner only",
+        "price": "On request",
+        "priceNote": "(dummy)",
+        "features": [
+          "Your firm in the Elite Founding Sponsor banner, under the masthead on every Funds.ae page except Careers",
+          "The Exclusive Elite Sponsor box, with your image, at the top of the Careers sidebar",
+          "Everything in the Elite Partner package",
+          "Exclusive: one partner at a time"
+        ],
+        "featured": false
+      }
+    ]
+  },
+  "pages": {
+    "about": {
+      "slug": "about",
+      "title": "About Funds.ae",
+      "intro": "Dummy placeholder copy. Funds.ae is a fictional UAE finance news and resource hub covering markets, funds, careers and sponsorship — built for demonstration purposes only.",
+      "updatedAt": null,
+      "blocks": [
+        {
+          "type": "h2",
+          "list": null,
+          "spans": [
+            {
+              "text": "Our mission",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "list": null,
+          "spans": [
+            {
+              "text": "Dummy text: Funds.ae exists to give UAE-based investors, founders and finance professionals a single place to track markets, discover funding, find talent, and connect with sponsors across the region.",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "h2",
+          "list": null,
+          "spans": [
+            {
+              "text": "What we cover",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "list": null,
+          "spans": [
+            {
+              "text": "Dummy text: daily UAE and global finance news, a live markets ticker, fund and career resources, business grants and funding directories, sponsor and advertiser placements, and a curated events calendar for the region's finance community.",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        }
+      ]
+    },
+    "privacy": {
+      "slug": "privacy",
+      "title": "Privacy Policy",
+      "intro": "Dummy placeholder policy. Funds.ae is a fictional site, and this page shows how a privacy policy could be laid out. It is not a real statement of data practices.",
+      "updatedAt": null,
+      "blocks": [
+        {
+          "type": "h2",
+          "list": null,
+          "spans": [
+            {
+              "text": "1. What we collect",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "list": null,
+          "spans": [
+            {
+              "text": "Dummy text: we may collect the information you give us, such as your name and email address when you subscribe or contact us, and basic usage data such as pages viewed and device type.",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "h2",
+          "list": null,
+          "spans": [
+            {
+              "text": "2. How we use it",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "list": null,
+          "spans": [
+            {
+              "text": "Dummy text: we use this information to:",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "li",
+          "list": "bullet",
+          "spans": [
+            {
+              "text": "send the morning brief and other updates you ask for (dummy)",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "li",
+          "list": "bullet",
+          "spans": [
+            {
+              "text": "respond to enquiries and job or event submissions (dummy)",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "li",
+          "list": "bullet",
+          "spans": [
+            {
+              "text": "understand how the site is used and improve it (dummy)",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "h2",
+          "list": null,
+          "spans": [
+            {
+              "text": "3. Cookies and analytics",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "list": null,
+          "spans": [
+            {
+              "text": "Dummy text: the site may use cookies and similar tools to remember preferences and measure traffic. You can control cookies through your browser settings.",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "h2",
+          "list": null,
+          "spans": [
+            {
+              "text": "4. Sharing your information",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "list": null,
+          "spans": [
+            {
+              "text": "Dummy text: we do not sell your personal data. We may share it with service providers who help run the site, or where the law requires it.",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "h2",
+          "list": null,
+          "spans": [
+            {
+              "text": "5. Third-party links",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "list": null,
+          "spans": [
+            {
+              "text": "Dummy text: headlines and listings link to other websites. Those sites have their own privacy practices, and Funds.ae is not responsible for them.",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "h2",
+          "list": null,
+          "spans": [
+            {
+              "text": "6. Retention and security",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "list": null,
+          "spans": [
+            {
+              "text": "Dummy text: we keep personal data only as long as needed for the purposes above and use reasonable measures to protect it.",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "h2",
+          "list": null,
+          "spans": [
+            {
+              "text": "7. Your choices",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "list": null,
+          "spans": [
+            {
+              "text": "Dummy text: you can unsubscribe from emails at any time, and you may ask to access, correct or delete your personal data (dummy).",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "h2",
+          "list": null,
+          "spans": [
+            {
+              "text": "8. Changes to this policy",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "list": null,
+          "spans": [
+            {
+              "text": "Dummy text: we may update this policy from time to time and will post the new version on this page.",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "h2",
+          "list": null,
+          "spans": [
+            {
+              "text": "9. Contact",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "list": null,
+          "spans": [
+            {
+              "text": "Dummy text: privacy questions can be sent through our ",
+              "bold": false,
+              "italic": false,
+              "href": null
+            },
+            {
+              "text": "contact page",
+              "bold": false,
+              "italic": false,
+              "href": "https://funds.ae/frontend_demo/Contact.dc.html"
+            },
+            {
+              "text": ".",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "slug": "terms",
+      "title": "Terms of Service",
+      "intro": "Dummy placeholder terms. Funds.ae is a fictional UAE finance news and resource hub, and nothing on this page is legal advice or a binding agreement.",
+      "updatedAt": null,
+      "blocks": [
+        {
+          "type": "h2",
+          "list": null,
+          "spans": [
+            {
+              "text": "1. Acceptance of these terms",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "list": null,
+          "spans": [
+            {
+              "text": "Dummy text: by visiting or using Funds.ae you agree to these placeholder terms. If you do not agree, please stop using the site. This wording is for demonstration only.",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "h2",
+          "list": null,
+          "spans": [
+            {
+              "text": "2. About the service",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "list": null,
+          "spans": [
+            {
+              "text": "Dummy text: Funds.ae aggregates UAE and global finance headlines, events, careers, sponsored content and resource directories. Headlines link to the original publishers, and Funds.ae does not own that third-party content.",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "h2",
+          "list": null,
+          "spans": [
+            {
+              "text": "3. Using the site",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "list": null,
+          "spans": [
+            {
+              "text": "Dummy text: you agree to use the site lawfully and not to:",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "li",
+          "list": "bullet",
+          "spans": [
+            {
+              "text": "copy, scrape or resell content without permission (dummy)",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "li",
+          "list": "bullet",
+          "spans": [
+            {
+              "text": "attempt to disrupt or gain unauthorised access to the service (dummy)",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "li",
+          "list": "bullet",
+          "spans": [
+            {
+              "text": "post misleading job, event or sponsor listings (dummy)",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "h2",
+          "list": null,
+          "spans": [
+            {
+              "text": "4. Not financial advice",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "list": null,
+          "spans": [
+            {
+              "text": "Dummy text: news, market data, fund listings and sponsored posts are provided for information only. Nothing on Funds.ae is investment, legal or tax advice, and you should consult a licensed professional before making decisions.",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "h2",
+          "list": null,
+          "spans": [
+            {
+              "text": "5. Sponsored and promoted content",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "list": null,
+          "spans": [
+            {
+              "text": "Dummy text: items marked “Sponsored” or “Promoted” are paid placements. Their inclusion is not an endorsement by Funds.ae.",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "h2",
+          "list": null,
+          "spans": [
+            {
+              "text": "6. Intellectual property",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "list": null,
+          "spans": [
+            {
+              "text": "Dummy text: the Funds.ae name, logo and original site design belong to Funds.ae Media Ltd (dummy). Third-party names and logos belong to their respective owners.",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "h2",
+          "list": null,
+          "spans": [
+            {
+              "text": "7. Limitation of liability",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "list": null,
+          "spans": [
+            {
+              "text": "Dummy text: to the fullest extent permitted by law, Funds.ae is provided “as is” without warranties, and is not liable for losses arising from use of the site or reliance on its content.",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "h2",
+          "list": null,
+          "spans": [
+            {
+              "text": "8. Changes to these terms",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "list": null,
+          "spans": [
+            {
+              "text": "Dummy text: we may update these terms from time to time. Continued use of the site after changes means you accept the updated terms.",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "h2",
+          "list": null,
+          "spans": [
+            {
+              "text": "9. Contact",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "list": null,
+          "spans": [
+            {
+              "text": "Dummy text: questions about these terms can be sent through our ",
+              "bold": false,
+              "italic": false,
+              "href": null
+            },
+            {
+              "text": "contact page",
+              "bold": false,
+              "italic": false,
+              "href": "https://funds.ae/frontend_demo/Contact.dc.html"
+            },
+            {
+              "text": ".",
+              "bold": false,
+              "italic": false,
+              "href": null
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

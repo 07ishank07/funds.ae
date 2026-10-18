@@ -1,4 +1,5 @@
 {
+  "_generated": "Written by `npm run cms:pull` from Sanity. Edit the content in the Studio (studio/), not here: the next publish overwrites this file. See docs/SANITY-CMS-GUIDE.md.",
   "_help": [
     "Events shown in 'Events and Expos' on the home page and the events list on the Careers page.",
     "Required: id (lowercase, dashes), title, eventType (short label such as Roundtable), startDate (YYYY-MM-DD), city.",
