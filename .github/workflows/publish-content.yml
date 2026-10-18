@@ -77,8 +77,10 @@ jobs:
             exit 0
           fi
           git commit -m "Publish content${{ github.event_name == 'repository_dispatch' && ' from Sanity' || '' }}"
+          # publish:content also updates backend/data/*/run-history.json, which is not committed
+          # here; --autostash sets it aside so the rebase can run (without it every run fails).
           for attempt in 1 2 3; do
-            git pull --rebase origin "${GITHUB_REF_NAME}" && git push && exit 0
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push && exit 0
             sleep 10
           done
           exit 1
