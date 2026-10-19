@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-10-18T07:51:09.647Z",
+  "generatedAt": "2026-10-19T08:35:48.657Z",
   "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
   "topic": "venture-capital",
   "label": "Venture capital",
@@ -14,8 +14,8 @@
       "url": "https://example.com/venture-ledger/tahweel-seed",
       "source": "Demo Venture Ledger",
       "sourceId": "demo-venture-ledger",
-      "publishedAt": "2026-10-17T16:51:09.000Z",
-      "updatedAt": "2026-10-17T16:51:09.000Z",
+      "publishedAt": "2026-10-18T17:35:48.000Z",
+      "updatedAt": "2026-10-18T17:35:48.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -33,7 +33,7 @@
           "sourceId": "demo-venture-ledger",
           "title": "Seed round: Dubai-based Tahweel raises $4m to digitise remittances",
           "url": "https://example.com/venture-ledger/tahweel-seed",
-          "publishedAt": "2026-10-17T16:51:09.000Z"
+          "publishedAt": "2026-10-18T17:35:48.000Z"
         }
       ]
     },
@@ -44,8 +44,8 @@
       "url": "https://example.com/property-sme-wire/tidewell-reit-logistics",
       "source": "Demo Property and SME Wire",
       "sourceId": "demo-property-sme-wire",
-      "publishedAt": "2026-10-17T11:51:09.000Z",
-      "updatedAt": "2026-10-17T11:51:09.000Z",
+      "publishedAt": "2026-10-18T12:35:48.000Z",
+      "updatedAt": "2026-10-18T12:35:48.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -64,7 +64,7 @@
           "sourceId": "demo-property-sme-wire",
           "title": "Tidewell REIT raises AED 300m to buy logistics warehouses in Abu Dhabi",
           "url": "https://example.com/property-sme-wire/tidewell-reit-logistics",
-          "publishedAt": "2026-10-17T11:51:09.000Z"
+          "publishedAt": "2026-10-18T12:35:48.000Z"
         }
       ]
     },
@@ -75,8 +75,8 @@
       "url": "https://example.com/venture-ledger/voltwerk-series-b",
       "source": "Demo Venture Ledger",
       "sourceId": "demo-venture-ledger",
-      "publishedAt": "2026-10-17T05:51:09.000Z",
-      "updatedAt": "2026-10-17T05:51:09.000Z",
+      "publishedAt": "2026-10-18T06:35:48.000Z",
+      "updatedAt": "2026-10-18T06:35:48.000Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -94,7 +94,7 @@
           "sourceId": "demo-venture-ledger",
           "title": "Berlin climate start-up Voltwerk raises $60m Series B",
           "url": "https://example.com/venture-ledger/voltwerk-series-b",
-          "publishedAt": "2026-10-17T05:51:09.000Z"
+          "publishedAt": "2026-10-18T06:35:48.000Z"
         }
       ]
     },
@@ -105,8 +105,8 @@
       "url": "https://example.com/gulf-wire/qirsh-series-b",
       "source": "Demo Gulf Wire",
       "sourceId": "demo-gulf-wire",
-      "publishedAt": "2026-10-17T01:51:09.000Z",
-      "updatedAt": "2026-10-17T11:51:09.000Z",
+      "publishedAt": "2026-10-18T02:35:48.000Z",
+      "updatedAt": "2026-10-18T12:35:48.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -126,7 +126,7 @@
           "sourceId": "demo-gulf-wire",
           "title": "Dubai-based fintech Qirsh raises $45 million Series B led by Sandline Ventures",
           "url": "https://example.com/gulf-wire/qirsh-series-b",
-          "publishedAt": "2026-10-17T01:51:09.000Z"
+          "publishedAt": "2026-10-18T02:35:48.000Z"
         },
         {
           "articleId": "a_d0a9ae63a58b381b",
@@ -134,7 +134,7 @@
           "sourceId": "demo-emirates-markets",
           "title": "Qirsh secures $45m in Series B round as Dubai payments start-up expands to Riyadh",
           "url": "https://example.com/emirates-markets/qirsh-45m-series-b-riyadh",
-          "publishedAt": "2026-10-17T05:51:09.000Z"
+          "publishedAt": "2026-10-18T06:35:48.000Z"
         },
         {
           "articleId": "a_e72c6985fb047deb",
@@ -142,7 +142,7 @@
           "sourceId": "demo-venture-ledger",
           "title": "Qirsh lands $45 million to take buy-now-pay-later across the Gulf",
           "url": "https://example.com/venture-ledger/qirsh-45-million",
-          "publishedAt": "2026-10-17T11:51:09.000Z"
+          "publishedAt": "2026-10-18T12:35:48.000Z"
         }
       ]
     },
@@ -153,8 +153,8 @@
       "url": "https://example.com/emirates-markets/sharjah-family-office-climate-fund",
       "source": "Demo Emirates Markets",
       "sourceId": "demo-emirates-markets",
-      "publishedAt": "2026-10-16T21:51:09.000Z",
-      "updatedAt": "2026-10-16T21:51:09.000Z",
+      "publishedAt": "2026-10-17T22:35:48.000Z",
+      "updatedAt": "2026-10-17T22:35:48.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -173,7 +173,7 @@
           "sourceId": "demo-emirates-markets",
           "title": "Sharjah family office launches $200m venture fund for climate start-ups",
           "url": "https://example.com/emirates-markets/sharjah-family-office-climate-fund",
-          "publishedAt": "2026-10-16T21:51:09.000Z"
+          "publishedAt": "2026-10-17T22:35:48.000Z"
         }
       ]
     },
@@ -184,8 +184,8 @@
       "url": "https://example.com/venture-ledger/lumen-health-30m",
       "source": "Demo Venture Ledger",
       "sourceId": "demo-venture-ledger",
-      "publishedAt": "2026-10-16T01:51:09.000Z",
-      "updatedAt": "2026-10-16T01:51:09.000Z",
+      "publishedAt": "2026-10-17T02:35:48.000Z",
+      "updatedAt": "2026-10-17T02:35:48.000Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -203,7 +203,7 @@
           "sourceId": "demo-venture-ledger",
           "title": "Singapore's Lumen Health raises $30 million led by Tidewater Ventures",
           "url": "https://example.com/venture-ledger/lumen-health-30m",
-          "publishedAt": "2026-10-16T01:51:09.000Z"
+          "publishedAt": "2026-10-17T02:35:48.000Z"
         }
       ]
     },
@@ -214,8 +214,8 @@
       "url": "https://example.com/property-sme-wire/abu-dhabi-innovation-fund-grants",
       "source": "Demo Property and SME Wire",
       "sourceId": "demo-property-sme-wire",
-      "publishedAt": "2026-10-15T06:51:09.000Z",
-      "updatedAt": "2026-10-15T06:51:09.000Z",
+      "publishedAt": "2026-10-16T07:35:48.000Z",
+      "updatedAt": "2026-10-16T07:35:48.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -235,7 +235,7 @@
           "sourceId": "demo-property-sme-wire",
           "title": "Abu Dhabi innovation fund awards startup grants to 40 climate-tech founders",
           "url": "https://example.com/property-sme-wire/abu-dhabi-innovation-fund-grants",
-          "publishedAt": "2026-10-15T06:51:09.000Z"
+          "publishedAt": "2026-10-16T07:35:48.000Z"
         }
       ]
     },
@@ -246,8 +246,8 @@
       "url": "https://example.com/venture-ledger/mena-vc-q3",
       "source": "Demo Venture Ledger",
       "sourceId": "demo-venture-ledger",
-      "publishedAt": "2026-10-15T02:51:09.000Z",
-      "updatedAt": "2026-10-15T02:51:09.000Z",
+      "publishedAt": "2026-10-16T03:35:48.000Z",
+      "updatedAt": "2026-10-16T03:35:48.000Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -266,7 +266,7 @@
           "sourceId": "demo-venture-ledger",
           "title": "VC funding to MENA start-ups rose 18% in the third quarter",
           "url": "https://example.com/venture-ledger/mena-vc-q3",
-          "publishedAt": "2026-10-15T02:51:09.000Z"
+          "publishedAt": "2026-10-16T03:35:48.000Z"
         }
       ]
     },
@@ -277,8 +277,8 @@
       "url": "https://example.com/property-sme-wire/wexmoor-student-housing",
       "source": "Demo Property and SME Wire",
       "sourceId": "demo-property-sme-wire",
-      "publishedAt": "2026-10-14T01:51:09.000Z",
-      "updatedAt": "2026-10-14T01:51:09.000Z",
+      "publishedAt": "2026-10-15T02:35:48.000Z",
+      "updatedAt": "2026-10-15T02:35:48.000Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -297,7 +297,7 @@
           "sourceId": "demo-property-sme-wire",
           "title": "London property fund Wexmoor raises £400m for student housing",
           "url": "https://example.com/property-sme-wire/wexmoor-student-housing",
-          "publishedAt": "2026-10-14T01:51:09.000Z"
+          "publishedAt": "2026-10-15T02:35:48.000Z"
         }
       ]
     }
