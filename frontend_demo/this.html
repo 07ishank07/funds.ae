@@ -741,7 +741,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         const careersColumn = document.createElement('aside');
         careersColumn.setAttribute('aria-label', 'Careers');
         careersColumn.style.cssText = 'min-width: 0; display: flex; flex-direction: column; gap: 28px';
-        // Sponsored Posts stays in the second column; it is placed under the newsletter box further down.
+        // Sponsored Posts moves to the top of the third column further down.
         const sponsoredPostsBox = sidebar.querySelector('[aria-labelledby="sponsored-title"]');
         careers.style.minHeight = '720px';
         // Careers leads the second column (sidebar) for now; Subscribe to stay ahead is
@@ -845,14 +845,13 @@ document.addEventListener('DOMContentLoaded', async function() {
             <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Dune Payments Advisory</span></span></a>
             <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Pearl Trust Services</span></span></a>
           </div>`;
-        // Column 3 order: Videos and Podcasts (moved here from the second column) on top, then Elite Partners,
-        // Gold Sponsors and Featured Companies.
+        // Column 3 order: Sponsored Posts on top, then Elite Partners, Gold Sponsors and Featured Companies.
+        if (sponsoredPostsBox) careersColumn.insertBefore(sponsoredPostsBox, careersColumn.firstChild);
+        // Videos and Podcasts sits in the second column, directly under the Subscribe to stay ahead newsletter box.
         const videosPodcastsBox = document.querySelector('[aria-labelledby="sponsored-podcasts-title"]');
-        if (videosPodcastsBox) careersColumn.insertBefore(videosPodcastsBox, careersColumn.firstChild);
-        // Sponsored Posts sits in the second column, directly under the Subscribe to stay ahead newsletter box.
         const newsletterBox = sidebar.querySelector('[aria-labelledby="brief-title-careers"]');
-        if (sponsoredPostsBox && newsletterBox) newsletterBox.insertAdjacentElement('afterend', sponsoredPostsBox);
-        else if (sponsoredPostsBox) sidebar.insertBefore(sponsoredPostsBox, sidebar.firstElementChild);
+        if (videosPodcastsBox && newsletterBox) newsletterBox.insertAdjacentElement('afterend', videosPodcastsBox);
+        else if (videosPodcastsBox) sidebar.insertBefore(videosPodcastsBox, sidebar.firstElementChild);
         careersColumn.appendChild(professionalServicesBox);
         window.__careersColumn = careersColumn;
         main.appendChild(careersColumn);
