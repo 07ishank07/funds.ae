@@ -96,6 +96,7 @@
     'Featured Companies': 'شركات مميزة',
     'Featured Partners': 'شركاء مميزون',
     'Featured event': 'فعالية مميزة',
+    'Top voice': 'الصوت الأبرز',
     'Feature your firm': 'اعرض شركتك هنا',
     'Sponsored': 'مموّل',
     'Sponsored Posts': 'منشورات مموّلة',

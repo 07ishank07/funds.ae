@@ -1317,6 +1317,17 @@ document.addEventListener('DOMContentLoaded', async function() {
             influencerList.appendChild(person);
           });
         }
+        // The top voice (first in the list, and only that one) leads with a picture, like the lead video.
+        // The picture is a dummy until influencers carry their own.
+        const leadVoice = influencerList.querySelector('a');
+        if (leadVoice && !leadVoice.querySelector('.fx-voice-img')) {
+          leadVoice.classList.add('fx-voice-lead');
+          const picture = document.createElement('span');
+          picture.className = 'fx-voice-img';
+          picture.setAttribute('aria-hidden', 'true');
+          picture.innerHTML = '<span class="fx-voice-tag">Top voice</span>';
+          leadVoice.insertBefore(picture, leadVoice.firstChild);
+        }
         influencersBox.appendChild(makeViewAll());
       }
       // Top Tweets closes the second column, directly under Thought Leaders and Influencers, with its View All link
@@ -1714,6 +1725,11 @@ document.addEventListener('DOMContentLoaded', async function() {
         .fx-voices > a > span:last-of-type { min-width: 0; }
         .fx-voices > a > span:last-of-type > span:first-child { font-family: 'Newsreader', Georgia, serif; font-size: 16px !important; line-height: 1.25 !important; }
         .fx-voices > a:hover > span:last-of-type > span:first-child { color: var(--fx-accent); }
+        .fx-voices > a.fx-voice-lead { flex-wrap: wrap !important; padding-top: 0; }
+        .fx-voice-img { position: relative; display: block; flex: 0 0 100%; aspect-ratio: 16 / 9; margin-bottom: 2px; border-radius: 3px; background: #E8F0EF url('img/influencers/top-voice.png') center / cover no-repeat; }
+        .fx-voice-tag { position: absolute; top: 10px; left: 10px; padding: 3px 8px; border-radius: 2px; background: #4FB3B8; color: #0E3A43; font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
+        .fx-voices > a.fx-voice-lead > span:last-of-type > span:first-child { font-size: 18px !important; }
+        .fx-voices > a.fx-voice-lead:hover .fx-voice-img { filter: brightness(1.05); }
         main.wrap aside > section[aria-labelledby="uae-influencers-title"] > p { margin-top: 6px !important; }
 
         /* Top Tweets (second column, bottom): social-feed list. Avatar, bold name and tweet text per row with hairline
