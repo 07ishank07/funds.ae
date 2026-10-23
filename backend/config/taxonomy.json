@@ -147,6 +147,31 @@
       }
     },
     {
+      "id": "people",
+      "label": "People",
+      "keywords": {
+        "appoints": 3, "appointed": 3, "appointment": 2, "hires": 3, "hired": 2, "names new": 3, "promotes": 3, "promoted": 2,
+        "joins as": 3, "steps down": 3, "new chief executive": 3, "new ceo": 3, "managing director": 1, "partner": 1
+      }
+    },
+    {
+      "id": "regulation",
+      "label": "Regulation",
+      "keywords": {
+        "regulator": 3, "regulatory": 2, "regulation": 2, "dfsa": 3, "fsra": 3, "securities and commodities authority": 3,
+        "sec": 2, "esma": 3, "fca": 2, "licence": 2, "license": 2, "compliance": 2, "anti-money laundering": 3, "aml": 2,
+        "new rules": 2, "rulebook": 3, "fined": 2, "sanctioned": 2
+      }
+    },
+    {
+      "id": "service-providers",
+      "label": "Service providers",
+      "keywords": {
+        "fund administrator": 3, "fund administration": 3, "fund services": 3, "service provider": 2, "custodian": 3,
+        "custody": 2, "depositary": 3, "transfer agent": 3, "auditor": 2, "law firm": 2, "outsourcing": 1, "fund platform": 2
+      }
+    },
+    {
       "id": "grants-funding",
       "label": "Grants and funding",
       "keywords": {

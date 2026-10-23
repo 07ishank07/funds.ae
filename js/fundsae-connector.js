@@ -175,7 +175,13 @@
   // Articles the connector wants hidden therefore get a region value that never
   // matches a tab; the page's own placeholders get "placeholder".
 
-  var newsView = { query: '', expanded: {} };
+  // topics/topicLabel: the category bar's filter (this.html dispatches "fundsae:news-topics"); null shows every story.
+  var newsView = { query: '', expanded: {}, topics: null, topicLabel: '' };
+
+  function inTopics(art) {
+    if (!newsView.topics) return true;
+    return art.getAttribute('data-fundsae-topics').split(' ').some(function (t) { return newsView.topics.indexOf(t) !== -1; });
+  }
 
   function applyNewsVisibility(news) {
     var query = newsView.query;
@@ -183,11 +189,14 @@
     var matches = 0;
     news.querySelectorAll('[data-fundsae-story]').forEach(function (art) {
       var region = art.getAttribute('data-fundsae-region');
-      var index = Number(art.getAttribute('data-fundsae-index'));
-      totals[region] = (totals[region] || 0) + 1;
-      var visible = query
+      var wanted = inTopics(art);
+      // Position among the stories the category filter keeps, so each category shows its first 15.
+      var index = wanted ? (totals[region] || 0) : -1;
+      if (wanted) totals[region] = index + 1;
+      art.setAttribute('data-fundsae-index', String(index));
+      var visible = wanted && (query
         ? art.getAttribute('data-fundsae-text').indexOf(query) !== -1
-        : newsView.expanded[region] || index < LIMITS.newsPerRegion;
+        : newsView.expanded[region] || index < LIMITS.newsPerRegion);
       if (visible && query) matches++;
       art.setAttribute('data-news-region', visible ? region : region + ':hidden');
     });
@@ -198,10 +207,23 @@
     });
     var status = news.querySelector('[data-fundsae-search-status]');
     if (status) {
-      status.textContent = !query ? '' : matches ? matches + (matches === 1 ? ' story matches' : ' stories match') + ' "' + query + '".' : 'No stories match "' + query + '".';
-      status.style.display = query ? '' : 'none';
+      var label = newsView.topicLabel;
+      var count = totals[REGIONS.uae] || 0;
+      status.textContent = query
+        ? (matches ? matches + (matches === 1 ? ' story matches' : ' stories match') + ' "' + query + '"' : 'No stories match "' + query + '"') + (newsView.topics ? ' in ' + label + '.' : '.')
+        : newsView.topics ? (count ? 'Showing ' + label + ' stories.' : 'No ' + label + ' stories yet. Check back soon.') : '';
+      status.style.display = query || newsView.topics ? '' : 'none';
     }
   }
+
+  document.addEventListener('fundsae:news-topics', function (event) {
+    var detail = event.detail;
+    newsView.topics = detail && Array.isArray(detail.topics) ? detail.topics.map(String) : null;
+    newsView.topicLabel = newsView.topics ? String(detail.label || '') : '';
+    newsView.expanded = {};
+    var news = slots('news')[0];
+    if (news) applyNewsVisibility(news);
+  });
 
   function renderNews(doc) {
     var news = slots('news')[0];
@@ -255,6 +277,7 @@
         art.setAttribute('data-fundsae-story', story.id);
         art.setAttribute('data-fundsae-region', region);
         art.setAttribute('data-fundsae-index', String(i));
+        art.setAttribute('data-fundsae-topics', [story.topic].concat(story.topics || []).join(' '));
         art.setAttribute('data-fundsae-text', (story.headline + ' ' + story.source).toLowerCase());
         var a = art.querySelector('h2 a');
         a.textContent = truncate(story.headline, LIMITS.headline);

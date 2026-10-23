@@ -1400,6 +1400,112 @@ document.addEventListener('DOMContentLoaded', async function() {
       }
     }
 
+    // Category bar (after fundopshq.com's section row): a thin row directly under the menu that stays at the
+    // top while scrolling and scrolls sideways on narrow screens. Each category filters the Latest Stories
+    // column to its topics (js/fundsae-connector.js listens for "fundsae:news-topics"); Top and Latest clear
+    // the filter. Clicking a Latest Stories / Fundraising tab also clears it.
+    {
+      const mainColumns = document.querySelector('main.wrap');
+      if (mainColumns && !document.querySelector('.fx-catbar')) {
+        const CATEGORY_GROUPS = [
+          [['Top', null], ['Latest', null]],
+          [['Fundraising', ['fundraising']], ['Deals', ['mergers-acquisitions']], ['People', ['people']]],
+          [['Private Equity', ['private-equity']], ['Venture', ['venture-capital']], ['Credit', ['private-credit']],
+            ['Real Estate', ['real-estate', 'residential-real-estate', 'commercial-real-estate']], ['Infrastructure', ['infrastructure']],
+            ['Secondaries', ['secondaries']], ['Hedge Funds', ['hedge-funds-alternatives']]],
+          [['LPs', ['institutional-investors']], ['Regulation', ['regulation']], ['Providers', ['service-providers']]]
+        ];
+        const bar = document.createElement('nav');
+        bar.className = 'fx-catbar';
+        bar.setAttribute('aria-label', 'News categories');
+        const row = document.createElement('div');
+        row.className = 'fx-catbar-row';
+        bar.appendChild(row);
+        // The design runtime re-creates page elements, so clicks are handled by one listener on the document
+        // (as delegation) and the links are looked up afresh each time, never held in variables.
+        let switchingTab = false;
+        const select = (label, topics) => {
+          document.querySelectorAll('.fx-catbar a').forEach((link) => {
+            if (link.dataset.category === label) link.setAttribute('aria-current', 'true');
+            else link.removeAttribute('aria-current');
+          });
+          document.dispatchEvent(new CustomEvent('fundsae:news-topics', { detail: topics ? { topics, label } : null }));
+        };
+        CATEGORY_GROUPS.forEach((group, g) => {
+          if (g > 0) {
+            const rule = document.createElement('span');
+            rule.className = 'fx-catbar-rule';
+            rule.setAttribute('aria-hidden', 'true');
+            row.appendChild(rule);
+          }
+          group.forEach(([label, topics]) => {
+            const link = document.createElement('a');
+            link.href = label === 'Top' ? '#' : '#top-news';
+            link.textContent = label;
+            link.dataset.category = label;
+            if (topics) link.dataset.topics = topics.join(' ');
+            if (label === 'Top') link.setAttribute('aria-current', 'true');
+            row.appendChild(link);
+          });
+        });
+        // Capture phase, because the news tabs stop propagation.
+        document.addEventListener('click', (event) => {
+          const target = event.target.closest ? event.target : event.target.parentElement;
+          const link = target && target.closest('.fx-catbar a[data-category]');
+          if (link) {
+            event.preventDefault();
+            const label = link.dataset.category;
+            const topics = link.dataset.topics ? link.dataset.topics.split(' ') : null;
+            if (label !== 'Top') {
+              const latestTab = document.querySelector('.news .tabs-row [data-news-region-name="News"]');
+              if (latestTab && latestTab.getAttribute('aria-pressed') !== 'true') {
+                switchingTab = true;
+                latestTab.click();
+                switchingTab = false;
+              }
+            }
+            select(label, topics);
+            const news = document.querySelector('main.wrap > .news');
+            if (label === 'Top' || !news) window.scrollTo({ top: 0, behavior: 'smooth' });
+            else news.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            return;
+          }
+          // A Latest Stories / Fundraising tab click clears the category.
+          if (!switchingTab && target && target.closest('.news .tabs-row [data-news-region-name]')) select('Top', null);
+        }, true);
+        const catbarStyle = document.createElement('style');
+        catbarStyle.id = 'fx-catbar-style';
+        catbarStyle.textContent = `
+          .fx-catbar {
+            position: sticky; top: 0; z-index: 50; flex-shrink: 0; box-sizing: border-box; width: 100%;
+            border-top: 1px solid rgba(14, 58, 67, 0.15); border-bottom: 1px solid rgba(14, 58, 67, 0.15);
+            background: rgba(250, 251, 250, 0.94); box-shadow: 0 1px 0 rgba(14, 58, 67, 0.08);
+            -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+          }
+          .fx-catbar-row {
+            display: flex; align-items: stretch; box-sizing: border-box; max-width: 1288px; margin: 0 auto; padding: 0 14px;
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+          }
+          .fx-catbar-row::-webkit-scrollbar { display: none; }
+          .fx-catbar a {
+            position: relative; display: flex; flex-shrink: 0; align-items: center; height: 40px; padding: 0 10px; white-space: nowrap;
+            font-family: 'Jost', 'Futura', 'Century Gothic', sans-serif; font-size: 13px; font-weight: 500;
+            color: rgba(14, 58, 67, 0.65); text-decoration: none; transition: color 0.15s;
+          }
+          .fx-catbar a:hover { color: #0E3A43; }
+          .fx-catbar a:focus-visible { outline: 2px solid #1F6A6E; outline-offset: -2px; }
+          .fx-catbar a[aria-current="true"] { color: #0E3A43; font-weight: 600; }
+          .fx-catbar a[aria-current="true"]::after { content: ''; position: absolute; right: 10px; bottom: -1px; left: 10px; height: 2px; background: #1F6A6E; }
+          .fx-catbar-rule { flex-shrink: 0; width: 1px; margin: 10px 6px; background: rgba(14, 58, 67, 0.15); }
+          main.wrap > .news { scroll-margin-top: 56px; }
+          @media (max-width: 620px) { .fx-catbar-row { padding: 0 6px; } }
+          html[lang="ar"] .fx-catbar a { font-family: inherit; }
+        `;
+        document.head.appendChild(catbarStyle);
+        (document.querySelector('.fx-founding') || mainColumns).before(bar);
+      }
+    }
+
     // ── Editorial theme ─────────────────────────────────────────────────────
     // A newspaper-style skin: a centred masthead and double-ruled section nav
     // (after nytimes.com), plus hairline column rules, small-caps section labels

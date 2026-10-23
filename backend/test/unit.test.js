@@ -103,6 +103,14 @@ test('home tile sections split residential and commercial real estate, and tech 
   assert.ok(!sectionOf('ADNOC signs new LNG supply deal').some((id) => id.endsWith('real-estate')), 'energy stories no longer reach a real estate box');
 });
 
+test('category bar topics: people, regulation and service providers are classified', () => {
+  const c = buildClassifier(taxonomy);
+  const topicsOf = (title) => classifyArticle(c, { title, summary: '' }, { region: 'uae' }, settings).topics;
+  assert.ok(topicsOf('Abu Dhabi fund manager appoints new chief executive').includes('people'));
+  assert.ok(topicsOf('DFSA consults on new rules for fund managers').includes('regulation'));
+  assert.ok(topicsOf('Fund administrator opens DIFC office as custodian demand grows').includes('service-providers'));
+});
+
 test('quality rules drop opinion, advertorials, podcasts and stale items but keep ordinary news', () => {
   const rules = buildQualityRules(taxonomy);
   const now = new Date();

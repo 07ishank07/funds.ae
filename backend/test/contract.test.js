@@ -159,6 +159,13 @@ test('every page but Careers shows the same Elite Founding Sponsor banner, and a
   const connector = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
   assert.ok(home.includes("const REGION_NAMES = ['News', 'Fundraising'];"), 'home tabs are News and Fundraising');
   assert.ok(home.includes("News: 'Latest Stories'"), 'News tab is labelled Latest Stories');
+  for (const label of ['Top', 'Latest', 'Fundraising', 'Deals', 'People', 'Private Equity', 'Venture', 'Credit', 'Real Estate', 'Infrastructure', 'Secondaries', 'Hedge Funds', 'LPs', 'Regulation', 'Providers']) {
+    assert.ok(home.includes(`['${label}', `), `category bar has ${label}`);
+  }
+  const taxonomyTopics = JSON.parse(readFileSync(path.join(backend, 'config', 'taxonomy.json'), 'utf8')).topics.map((t) => t.id);
+  const barBlock = home.slice(home.indexOf('const CATEGORY_GROUPS'), home.indexOf('const bar = document.createElement'));
+  for (const [, id] of barBlock.matchAll(/'([a-z]+(?:-[a-z]+)+|[a-z]{4,})'/g)) assert.ok(taxonomyTopics.includes(id), `category bar topic ${id} exists in taxonomy.json`);
+  assert.ok(connector.includes("document.addEventListener('fundsae:news-topics'") && home.includes("new CustomEvent('fundsae:news-topics'"), 'category bar filters Latest Stories through the connector');
   assert.ok(!home.includes('Tech and Data Centre News') && !connector.includes('tiles-ai-technology'), 'home has no Tech and Data Centre box');
   assert.ok(home.includes('if (careersBox) careersBox.remove();') && !home.includes("'home-jobs'"), 'home has no UAE Careers box');
   assert.ok(home.includes('careersColumn.insertBefore(newsletterBox, careersColumn.firstChild)'), 'Subscribe to stay ahead leads column 3');
