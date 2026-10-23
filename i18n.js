@@ -34,6 +34,7 @@
     'Privacy Policy': 'سياسة الخصوصية',
     // News column
     'News': 'الأخبار',
+    'Latest Stories': 'أحدث القصص',
     'Fundraising': 'جمع التمويل',
     'UAE Business Grants & Funding Resources': 'المنح ومصادر التمويل لأعمال الإمارات',
     'Other Funding Resources': 'مصادر تمويل أخرى',

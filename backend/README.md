@@ -220,7 +220,7 @@ The connector fills elements marked `data-fundsae-slot`. For each slot it clones
 
 | Slot | Where | Data |
 |---|---|---|
-| `news` | Home news column: tabs "News" (UAE and global stories together) and "Fundraising" (stories tagged `fundraising`: fund launches and closes), "View All", search box `#home-search` | `news.json` |
+| `news` | Home news column: tabs "Latest Stories" (key `News`: UAE and global stories together) and "Fundraising" (stories tagged `fundraising`: fund launches and closes), "View All", search box `#home-search` | `news.json` |
 | `tiles-real-estate-infrastructure`, `tiles-energy`, `tiles-ai-technology`, `tiles-grants-funding` | Home tile grids | `news/sections/*.json` |
 | `top-jobs` | Careers page column 2, "Top Jobs" (20 roles) (featured first, then newest; links to the employer posting) | `jobs.json` |
 | `home-jobs` | Home "UAE Careers" (links to `Careers.dc.html#<jobId>`) | `jobs.json` |
