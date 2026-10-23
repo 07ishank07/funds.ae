@@ -192,7 +192,7 @@ test('every page but Careers shows the same Elite Founding Sponsor banner, and a
   assert.ok(home.includes('if (careersBox) careersBox.remove();') && !home.includes("'home-jobs'"), 'home has no UAE Careers box');
   assert.ok(home.includes('careersColumn.insertBefore(newsletterBox, careersColumn.firstChild)'), 'Subscribe to stay ahead leads column 3');
   assert.ok(home.includes('sidebar.insertBefore(videosPodcastsBox, sidebar.firstElementChild)'), 'Videos and Podcasts leads column 2');
-  assert.ok(home.includes('careersColumn.insertBefore(sponsoredPostsBox, careersColumn.firstChild)'), 'Sponsored Posts sits in column 3');
+  assert.ok(home.includes('videosPodcastsBox.after(sponsoredPostsBox)') && !home.includes('careersColumn.insertBefore(sponsoredPostsBox'), 'Sponsored Posts sits in column 2 under Videos and Podcasts');
   assert.ok(home.includes("eventsBoxForVoices.insertAdjacentElement('beforebegin', influencersBox)"), 'Thought Leaders and Influencers sits above Events in column 2');
   assert.ok(connector.includes("var NEWS_REGIONS = ['News', 'Global'];") && connector.includes("var REGIONS = { uae: 'News', world: 'Global' };"), 'connector tabs match');
   assert.ok(!/'(UAE News|Global News|Business Funding)'/.test(home + connector), 'old tab names are gone');

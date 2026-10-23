@@ -723,7 +723,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         const careersColumn = document.createElement('aside');
         careersColumn.setAttribute('aria-label', 'Careers');
         careersColumn.style.cssText = 'min-width: 0; display: flex; flex-direction: column; gap: 28px';
-        // Sponsored Posts moves to the top of the third column further down.
+        // Sponsored Posts sits in the second column, under Videos and Podcasts (placed further down).
         const sponsoredPostsBox = sidebar.querySelector('[aria-labelledby="sponsored-title"]');
         careers.style.minHeight = '720px';
         // Careers leads the second column (sidebar) for now; Subscribe to stay ahead is
@@ -816,13 +816,13 @@ document.addEventListener('DOMContentLoaded', async function() {
             <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Dune Payments Advisory</span></span></a>
             <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Pearl Trust Services</span></span></a>
           </div>`;
-        // Column 3 order: Subscribe to stay ahead on top, then Sponsored Posts, Gold Partners and Featured Companies.
-        if (sponsoredPostsBox) careersColumn.insertBefore(sponsoredPostsBox, careersColumn.firstChild);
+        // Column 3 order: Subscribe to stay ahead on top, then Gold Partners and Featured Companies.
         const newsletterBox = sidebar.querySelector('[aria-labelledby="brief-title-careers"]');
         if (newsletterBox) careersColumn.insertBefore(newsletterBox, careersColumn.firstChild);
-        // Videos and Podcasts leads the second column.
+        // Videos and Podcasts leads the second column, with Sponsored Posts directly under it.
         const videosPodcastsBox = document.querySelector('[aria-labelledby="sponsored-podcasts-title"]');
         if (videosPodcastsBox) sidebar.insertBefore(videosPodcastsBox, sidebar.firstElementChild);
+        if (videosPodcastsBox && sponsoredPostsBox) videosPodcastsBox.after(sponsoredPostsBox);
         careersColumn.appendChild(professionalServicesBox);
         window.__careersColumn = careersColumn;
         main.appendChild(careersColumn);
