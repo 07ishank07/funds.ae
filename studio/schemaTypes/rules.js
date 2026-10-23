@@ -60,7 +60,7 @@ export const EVENT_LIMITS = {
 export const HIGHLIGHT_LIMITS = { maxItems: 5, accountName: [2, 40], handle: [2, 16], text: [10, 140], initials: [1, 3] };
 
 /** Advertise page packages. tier ids are ADVERTISING_TIERS in backend/src/contracts/models.js. */
-export const TIER_IDS = ['silver', 'gold', 'platinum', 'exclusive'];
+export const TIER_IDS = ['silver', 'gold', 'exclusive'];
 export const TIER_LIMITS = { maxItems: 4, name: [2, 40], badge: [2, 20], price: [2, 30], priceNote: [2, 40], features: 8, feature: [2, 120] };
 
 /** About, Privacy and Terms page copy. */

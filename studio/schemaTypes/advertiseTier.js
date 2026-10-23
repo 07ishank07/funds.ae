@@ -6,7 +6,8 @@ import {defineArrayMember, defineField, defineType} from 'sanity'
 import {TIER_IDS, TIER_LIMITS} from './rules.js'
 import {maxPerGroup, textRule} from './validators.js'
 
-const TIER_TITLES = {silver: 'Partner', gold: 'Gold Partner', platinum: 'Elite Partner', exclusive: 'Elite Exclusive Partner'}
+// 'platinum' (Elite Partner) is retired; an old entry shows as such so editors know to delete it.
+const TIER_TITLES = {silver: 'Partner', gold: 'Gold Partner', platinum: 'Elite Partner (retired: delete this)', exclusive: 'Elite Exclusive Partner'}
 
 export const advertiseTier = defineType({
   name: 'advertiseTier',

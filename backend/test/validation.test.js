@@ -56,13 +56,14 @@ test('emails, links and choices are strictly checked', () => {
   assert.equal(validate(SUBMISSION_SCHEMAS.job, { ...job, employmentType: 'Contract' }, { now }).value.employmentType, 'Contract');
 });
 
-test('advertise enquiries accept the four packages, including Elite Exclusive Partner', () => {
+test('advertise enquiries accept the three packages, including Elite Exclusive Partner', () => {
   const enquiry = { name: 'Sara Ali', email: 'sara@example.ae', company: 'Example Capital', tier: 'exclusive' };
-  // Shown on the Advertise page as Partner, Gold Partner, Elite Partner and Elite Exclusive Partner.
-  for (const tier of ['silver', 'gold', 'platinum', 'exclusive']) {
+  // Shown on the Advertise page as Partner, Gold Partner and Elite Exclusive Partner.
+  for (const tier of ['silver', 'gold', 'exclusive']) {
     assert.equal(validate(SUBMISSION_SCHEMAS.advertise, { ...enquiry, tier }, { now }).value.tier, tier, tier);
   }
-  for (const tier of ['elite', 'Exclusive', 'diamond', '']) {
+  // 'platinum' was the Elite Partner package, now retired.
+  for (const tier of ['platinum', 'elite', 'Exclusive', 'diamond', '']) {
     assert.ok(validate(SUBMISSION_SCHEMAS.advertise, { ...enquiry, tier }, { now }).fields.tier, tier);
   }
 });

@@ -122,7 +122,7 @@ export function pageFromHtml(html, slug, siteUrl) {
 
 /* ---------------------------------- packages ----------------------------------- */
 
-const TIER_POSITIONS = { silver: 10, gold: 20, platinum: 30, exclusive: 40 };
+const TIER_POSITIONS = { silver: 10, gold: 20, exclusive: 40 };
 
 /** The package cards and the Elite Exclusive hero on the Advertise page. */
 export function tiersFromHtml(html) {

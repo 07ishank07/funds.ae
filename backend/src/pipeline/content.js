@@ -14,7 +14,7 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { CONFIG_DIR, readJson } from '../config.js';
 import { log } from '../lib/logger.js';
-import { ADVERTISING_TIERS, PAGE_BLOCK_TYPES, PAGE_LIST_TYPES, PAGE_SLUGS } from '../contracts/models.js';
+import { ADVERTISING_TIERS, PAGE_BLOCK_TYPES, PAGE_LIST_TYPES, PAGE_SLUGS, RETIRED_ADVERTISING_TIERS } from '../contracts/models.js';
 import { toAdvertiseTierDto, toPageDto, toSocialHighlightDto } from '../contracts/serializers.js';
 import { EMAIL_RE, cleanInline, cleanText, rules, validate } from '../validation/validate.js';
 import { isSafePublicUrl } from '../lib/http.js';
@@ -176,7 +176,15 @@ export function validateContent(config, { now = new Date() } = {}) {
     if (!['socialHighlights', 'advertiseTiers', 'pages'].includes(key)) errors.push(`Unknown group "${key}". Use socialHighlights, advertiseTiers or pages.`);
   }
   const highlights = validateList(config?.socialHighlights, HIGHLIGHT_SCHEMA, 'socialHighlights', { now, maxItems: L.highlights.maxItems });
-  const tiers = validateList(config?.advertiseTiers, TIER_SCHEMA, 'advertiseTiers', { now, maxItems: L.tiers.maxItems });
+  // A retired package still enabled in Sanity is skipped rather than rejected, so it never blocks publishing.
+  const tierList = Array.isArray(config?.advertiseTiers)
+    ? config.advertiseTiers.filter((t) => {
+      const retired = RETIRED_ADVERTISING_TIERS.includes(t?.id);
+      if (retired) log.warn('content.tier.retired', { tier: t.id });
+      return !retired;
+    })
+    : config?.advertiseTiers;
+  const tiers = validateList(tierList, TIER_SCHEMA, 'advertiseTiers', { now, maxItems: L.tiers.maxItems });
   const pages = validateList(config?.pages, PAGE_SCHEMA, 'pages', { now, key: 'slug' });
   errors.push(...highlights.errors, ...tiers.errors, ...pages.errors);
   return {

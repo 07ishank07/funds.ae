@@ -22,7 +22,10 @@ export const JOB_STATUSES = ['open', 'closed', 'expired'];
 export const SPONSOR_SLOTS = ['founding', 'platinum', 'gold', 'sponsoredPosts', 'sponsoredMedia', 'professionalServices', 'careerResources'];
 export const SUBMISSION_KINDS = ['contact', 'newsletter', 'advertise', 'event', 'job'];
 export const SUBMISSION_STATUSES = ['new', 'pending-review', 'approved', 'rejected', 'spam'];
-export const ADVERTISING_TIERS = ['silver', 'gold', 'platinum', 'exclusive'];
+export const ADVERTISING_TIERS = ['silver', 'gold', 'exclusive'];
+// Packages no longer offered. An entry still in Sanity is skipped when content is published (not an error),
+// and the enquiry form no longer accepts it. 'platinum' was the Elite Partner package.
+export const RETIRED_ADVERTISING_TIERS = ['platinum'];
 // Editorial content managed in Sanity (studio/) and published as api/v1/content.json.
 export const CONTENT_SLOTS = ['socialHighlights', 'advertiseTiers'];
 export const PAGE_SLUGS = ['about', 'privacy', 'terms'];

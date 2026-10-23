@@ -37,22 +37,6 @@
       "featured": true
     },
     {
-      "id": "platinum",
-      "name": "Elite Partner",
-      "badge": "Elite",
-      "price": "AED 18,000",
-      "priceNote": "/ month (dummy)",
-      "features": [
-        "Everything in Gold, plus:",
-        "An \"Elite Partners\" tile (column 3), limited to 5 partners",
-        "The lead spot in \"Videos and Podcasts\" (column 3)",
-        "Branding in the \"Subscribe to stay ahead\" newsletter box",
-        "Priority placement on the Careers page",
-        "Dedicated account manager (dummy)"
-      ],
-      "featured": false
-    },
-    {
       "id": "exclusive",
       "name": "Elite Exclusive Partner",
       "badge": "One partner only",
