@@ -76,6 +76,8 @@
   .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
   .section { margin-top: 72px; }
   .section-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); align-items: end; gap: 12px 48px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+  /* A heading with no description beside it uses the full width. */
+  .section-head > div:only-child { grid-column: 1 / -1; }
   .section-head h2 { margin-top: 8px; font-size: clamp(1.7rem, 3vw, 2.3rem); font-weight: 600; line-height: 1.12; letter-spacing: -0.02em; color: var(--ink); }
   .section-head > p { font-size: 16px; line-height: 1.55; color: var(--muted); }
 
