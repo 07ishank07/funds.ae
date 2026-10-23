@@ -26,12 +26,9 @@
   var LIMITS = { newsPerRegion: 15, newsMore: 35, headline: 92, tileHeadline: 110, tiles: 15, eventsPerList: 10, eventsMax: 100, topJobs: 20, topEmployers: 20 };
   var ROLES_DEMO_TOTAL = 120; // Careers page, demo mode: live roles are topped up with dummy roles to this many (3 pages of PER_PAGE = 40 in Careers.dc.html)
   var TILES_SHOWN = 12; // Residential, Commercial Real Estate, Infrastructure and Grants boxes
-  // Home news tabs. UAE and global stories share the News tab, in the API's order.
-  var REGIONS = { uae: 'News', world: 'News' };
-  // Global Stories is the second tab: stories from outside the UAE (category "world"), in addition to
-  // (not instead of) the News tab.
-  var GLOBAL_CATEGORY = 'world';
-  var GLOBAL_REGION = 'Global';
+  // Home news tabs: UAE Stories (key "News", category "uae") and Global Stories (key "Global", category
+  // "world"), each in the API's order.
+  var REGIONS = { uae: 'News', world: 'Global' };
   var NEWS_REGIONS = ['News', 'Global'];
   var EMPTY_TEXT = 'Nothing to show yet. Check back soon.';
   var state = { mode: null };
@@ -206,12 +203,17 @@
       link.setAttribute('data-more-news-region', show ? region : region + ':none');
     });
     var status = news.querySelector('[data-fundsae-search-status]');
+    var label = newsView.topicLabel;
+    news.querySelectorAll('[data-fundsae-filter-empty]').forEach(function (row) {
+      var region = row.getAttribute('data-fundsae-filter-empty');
+      var empty = newsView.topics && !query && !totals[region];
+      row.querySelector('p').textContent = empty ? 'No ' + label + ' stories here yet. Check back soon.' : '';
+      row.setAttribute('data-news-region', empty ? region : region + ':hidden');
+    });
     if (status) {
-      var label = newsView.topicLabel;
-      var count = totals[REGIONS.uae] || 0;
       status.textContent = query
         ? (matches ? matches + (matches === 1 ? ' story matches' : ' stories match') + ' "' + query + '"' : 'No stories match "' + query + '"') + (newsView.topics ? ' in ' + label + '.' : '.')
-        : newsView.topics ? (count ? 'Showing ' + label + ' stories.' : 'No ' + label + ' stories yet. Check back soon.') : '';
+        : newsView.topics ? 'Showing ' + label + ' stories.' : '';
       status.style.display = query || newsView.topics ? '' : 'none';
     }
   }
@@ -250,12 +252,19 @@
     stories.forEach(function (s) {
       var region = REGIONS[s.category];
       if (region) addTo(region, s);
-      // Cross-listed, not exclusive: a global story still appears in the News tab too.
-      if (s.category === GLOBAL_CATEGORY) addTo(GLOBAL_REGION, s);
     });
 
     NEWS_REGIONS.forEach(function (region) {
       var list = (byRegion[region] || []).slice(0, LIMITS.newsPerRegion + LIMITS.newsMore);
+      var filtered = document.createElement('article');
+      filtered.setAttribute('data-fundsae-row', '');
+      filtered.setAttribute('data-fundsae-filter-empty', region);
+      filtered.setAttribute('data-news-region', region + ':hidden');
+      var fp = document.createElement('p');
+      fp.style.cssText = 'margin: 12px 0; font-size: 14px; color: #62797D';
+      filtered.appendChild(fp);
+      // Only for a tab that has stories; an empty tab already shows EMPTY_TEXT.
+      if (list.length) news.insertBefore(filtered, anchor);
       if (!list.length) {
         var none = document.createElement('article');
         none.setAttribute('data-news-region', region);

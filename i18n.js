@@ -34,7 +34,7 @@
     'Privacy Policy': 'سياسة الخصوصية',
     // News column
     'News': 'الأخبار',
-    'Latest Stories': 'أحدث القصص',
+    'UAE Stories': 'أخبار الإمارات',
     'Fundraising': 'جمع التمويل',
     'Global Stories': 'أخبار عالمية',
     // Category bar

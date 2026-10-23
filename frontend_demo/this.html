@@ -898,7 +898,7 @@ document.addEventListener('DOMContentLoaded', async function() {
           document.querySelectorAll('[data-more-news-region]').forEach((link) => {
             link.style.display = link.dataset.moreNewsRegion === region ? 'inline-block' : 'none';
           });
-          // Residential Estate News stays under Latest Stories, but not under Global Stories. Queried each call (not closed over) because the box is
+          // Residential Estate News stays under UAE Stories, but not under Global Stories. Queried each call (not closed over) because the box is
           // created later, further down this same script.
           // Commercial Real Estate News and Infrastructure News follow the same rule.
           ['Residential Estate News', 'Commercial Real Estate News', 'Infrastructure News'].forEach((label) => {
@@ -923,7 +923,7 @@ document.addEventListener('DOMContentLoaded', async function() {
           let tabs = Array.from(tabRow.querySelectorAll('button'));
           const REGION_NAMES = ['News', 'Global'];
           // Visible tab labels; the region key stays 'News' because the connector filters on it.
-          const REGION_LABELS = { News: 'Latest Stories', Global: 'Global Stories' };
+          const REGION_LABELS = { News: 'UAE Stories', Global: 'Global Stories' };
           if (tabs.length >= 2) {
             // The region is kept in a data attribute, not read back from the label, so the label can be translated (i18n.js).
             const translate = window.__fundsTr || ((text) => text);
@@ -1022,13 +1022,6 @@ document.addEventListener('DOMContentLoaded', async function() {
           ['Chinese asset managers expand offshore fund offerings', 'Global Business Wire'],
           ['Nordic pension funds increase allocations to private equity', 'Finance & Markets Today']
         ];
-        // One News tab: the UAE and global dummy stories alternate, so the first fifteen show both.
-        const uaeDummies = dummyStories.splice(0);
-        uaeDummies.forEach((story, i) => {
-          dummyStories.push(story);
-          if (globalStories[i]) dummyStories.push(['News', ...globalStories[i]]);
-        });
-        globalStories.slice(uaeDummies.length).forEach(([title, source]) => dummyStories.push(['News', title, source]));
         // Global Stories tab: stories from outside the UAE.
         globalStories.forEach(([title, source]) => dummyStories.push(['Global', title, source]));
         dummyStories.forEach(([region, title, source]) => {
@@ -1384,9 +1377,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     // Category bar (after fundopshq.com's section row): a thin row directly under the menu that stays at the
-    // top while scrolling and scrolls sideways on narrow screens. Each category filters the Latest Stories
-    // column to its topics (js/fundsae-connector.js listens for "fundsae:news-topics"); Top and Latest clear
-    // the filter. Clicking a Latest Stories / Global Stories tab also clears it.
+    // top while scrolling and scrolls sideways on narrow screens. Each category filters the news column (both
+    // the UAE Stories and Global Stories tabs) to its topics (js/fundsae-connector.js listens for
+    // "fundsae:news-topics"); Top and Latest clear the filter. Switching tabs keeps the category.
     {
       const mainColumns = document.querySelector('main.wrap');
       if (mainColumns && !document.querySelector('.fx-catbar')) {
@@ -1406,7 +1399,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         bar.appendChild(row);
         // The design runtime re-creates page elements, so clicks are handled by one listener on the document
         // (as delegation) and the links are looked up afresh each time, never held in variables.
-        let switchingTab = false;
         const select = (label, topics) => {
           document.querySelectorAll('.fx-catbar a').forEach((link) => {
             if (link.dataset.category === label) link.setAttribute('aria-current', 'true');
@@ -1431,7 +1423,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             row.appendChild(link);
           });
         });
-        // Capture phase, because the news tabs stop propagation.
+        // Capture phase, so nothing on the page can stop it first.
         document.addEventListener('click', (event) => {
           const target = event.target.closest ? event.target : event.target.parentElement;
           const link = target && target.closest('.fx-catbar a[data-category]');
@@ -1439,22 +1431,11 @@ document.addEventListener('DOMContentLoaded', async function() {
             event.preventDefault();
             const label = link.dataset.category;
             const topics = link.dataset.topics ? link.dataset.topics.split(' ') : null;
-            if (label !== 'Top') {
-              const latestTab = document.querySelector('.news .tabs-row [data-news-region-name="News"]');
-              if (latestTab && latestTab.getAttribute('aria-pressed') !== 'true') {
-                switchingTab = true;
-                latestTab.click();
-                switchingTab = false;
-              }
-            }
             select(label, topics);
             const news = document.querySelector('main.wrap > .news');
             if (label === 'Top' || !news) window.scrollTo({ top: 0, behavior: 'smooth' });
             else news.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            return;
           }
-          // A Latest Stories / Global Stories tab click clears the category.
-          if (!switchingTab && target && target.closest('.news .tabs-row [data-news-region-name]')) select('Top', null);
         }, true);
         const catbarStyle = document.createElement('style');
         catbarStyle.id = 'fx-catbar-style';
