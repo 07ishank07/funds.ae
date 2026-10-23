@@ -1142,11 +1142,11 @@ document.addEventListener('DOMContentLoaded', async function() {
             ['INFRA DEBT', 'Private lenders finance new infrastructure pipelines', '#416C56, #9EB9A5'],
             ['METRO', 'Metro extensions add new stations and contracts', '#7A5C3E, #D3C4A6']
           ]);
-          // Events and Expos sit in the third column, directly above Featured Partners (the column's gap spaces it).
+          // Events and Expos close the third column, directly under Featured Partners (the column's gap spaces it).
           eventsPanel.style.marginTop = '0';
           const featuredPartnersBox = document.querySelector('[aria-labelledby="professional-services-title"]');
           if (featuredPartnersBox) {
-            featuredPartnersBox.before(eventsPanel);
+            featuredPartnersBox.after(eventsPanel);
           } else {
             news.appendChild(eventsPanel);
           }
