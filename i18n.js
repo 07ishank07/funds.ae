@@ -37,6 +37,14 @@
     'UAE Stories': 'أخبار الإمارات',
     'Fundraising': 'جمع التمويل',
     'Global Stories': 'أخبار عالمية',
+    // Investor-type row
+    'Sovereign': 'الصناديق السيادية',
+    'Pension': 'صناديق التقاعد',
+    'REITs': 'صناديق الاستثمار العقاري',
+    'Family Offices': 'المكاتب العائلية',
+    'Banks': 'البنوك',
+    'Government': 'الحكومة',
+    'Endowments': 'الأوقاف',
     // Category bar
     'Top': 'الأبرز',
     'Latest': 'الأحدث',

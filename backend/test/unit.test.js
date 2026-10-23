@@ -109,6 +109,14 @@ test('category bar topics: people, regulation and service providers are classifi
   assert.ok(topicsOf('Abu Dhabi fund manager appoints new chief executive').includes('people'));
   assert.ok(topicsOf('DFSA consults on new rules for fund managers').includes('regulation'));
   assert.ok(topicsOf('Fund administrator opens DIFC office as custodian demand grows').includes('service-providers'));
+  // Investor-type row in the header
+  assert.ok(topicsOf('Mubadala and ADIA back new GCC infrastructure fund').includes('sovereign-wealth'));
+  assert.ok(topicsOf('Canadian pension fund raises allocation to private credit').includes('pension-funds'));
+  assert.ok(topicsOf('Abu Dhabi REIT buys logistics portfolio').includes('reits'));
+  assert.ok(topicsOf('Dubai family office launches venture arm').includes('family-offices'));
+  assert.ok(topicsOf('Emirates NBD expands private banking team').includes('banks'));
+  assert.ok(topicsOf('Ministry of Finance outlines new fund rules').includes('government'));
+  assert.ok(topicsOf('University endowment commits to Gulf private equity').includes('endowments'));
 });
 
 test('quality rules drop opinion, advertorials, podcasts and stale items but keep ordinary news', () => {

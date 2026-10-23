@@ -147,6 +147,53 @@
       }
     },
     {
+      "id": "sovereign-wealth",
+      "label": "Sovereign wealth",
+      "keywords": {
+        "sovereign wealth": 3, "sovereign fund": 3, "sovereign investor": 3, "swf": 3, "mubadala": 3, "adia": 3, "adq": 3,
+        "pif": 3, "qia": 3, "kia": 2, "temasek": 3, "gic": 2, "l'imad": 3, "investment corporation of dubai": 3
+      }
+    },
+    {
+      "id": "pension-funds",
+      "label": "Pension funds",
+      "keywords": {
+        "pension fund": 3, "pension": 2, "pensions": 2, "retirement fund": 3, "superannuation": 3, "super fund": 3,
+        "calpers": 3, "calstrs": 3, "cppib": 3, "ontario teachers": 3, "gpif": 3
+      }
+    },
+    {
+      "id": "reits",
+      "label": "REITs",
+      "keywords": { "reit": 3, "real estate investment trust": 3 }
+    },
+    {
+      "id": "family-offices",
+      "label": "Family offices",
+      "keywords": { "family office": 3, "single family office": 3, "multi-family office": 3, "family-owned investment": 2 }
+    },
+    {
+      "id": "banks",
+      "label": "Banks",
+      "keywords": {
+        "bank": 2, "banks": 2, "banking": 2, "lender": 1, "central bank": 3, "emirates nbd": 3, "first abu dhabi bank": 3,
+        "adcb": 3, "mashreq": 3, "investment bank": 3
+      }
+    },
+    {
+      "id": "government",
+      "label": "Government",
+      "keywords": {
+        "government": 2, "ministry of finance": 3, "ministry of economy": 3, "ministry": 1, "state-owned": 2,
+        "public investment": 2, "federal government": 3, "public-private partnership": 1
+      }
+    },
+    {
+      "id": "endowments",
+      "label": "Endowments",
+      "keywords": { "endowment": 3, "endowments": 3, "university endowment": 3, "foundation": 1, "charitable foundation": 3, "waqf": 3 }
+    },
+    {
       "id": "people",
       "label": "People",
       "keywords": {
