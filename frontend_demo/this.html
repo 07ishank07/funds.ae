@@ -898,13 +898,13 @@ document.addEventListener('DOMContentLoaded', async function() {
           document.querySelectorAll('[data-more-news-region]').forEach((link) => {
             link.style.display = link.dataset.moreNewsRegion === region ? 'inline-block' : 'none';
           });
-          // Residential Estate News stays under Latest Stories, but not under Fundraising. Queried each call (not closed over) because the box is
+          // Residential Estate News stays under Latest Stories, but not under Global Stories. Queried each call (not closed over) because the box is
           // created later, further down this same script.
           // Commercial Real Estate News and Infrastructure News follow the same rule.
           ['Residential Estate News', 'Commercial Real Estate News', 'Infrastructure News'].forEach((label) => {
             const tileBox = document.querySelector('.news > section[aria-label="' + label + '"]');
             if (!tileBox) return;
-            const show = region !== 'Fundraising';
+            const show = region !== 'Global';
             // 'grid', not '': the box's own inline style sets display:grid (for the tile
             // columns), so clearing it back to '' would fall through to the browser default
             // (block), stacking every tile in one column instead of three.
@@ -921,9 +921,9 @@ document.addEventListener('DOMContentLoaded', async function() {
             if (/^(all|markets?|funds?)$/i.test(tab.textContent.trim())) tab.remove();
           });
           let tabs = Array.from(tabRow.querySelectorAll('button'));
-          const REGION_NAMES = ['News', 'Fundraising'];
+          const REGION_NAMES = ['News', 'Global'];
           // Visible tab labels; the region key stays 'News' because the connector filters on it.
-          const REGION_LABELS = { News: 'Latest Stories', Fundraising: 'Fundraising' };
+          const REGION_LABELS = { News: 'Latest Stories', Global: 'Global Stories' };
           if (tabs.length >= 2) {
             // The region is kept in a data attribute, not read back from the label, so the label can be translated (i18n.js).
             const translate = window.__fundsTr || ((text) => text);
@@ -1029,25 +1029,8 @@ document.addEventListener('DOMContentLoaded', async function() {
           if (globalStories[i]) dummyStories.push(['News', ...globalStories[i]]);
         });
         globalStories.slice(uaeDummies.length).forEach(([title, source]) => dummyStories.push(['News', title, source]));
-        // Fundraising tab: fund launches and closes.
-        const fundraisingStories = [
-          ['Abu Dhabi private credit manager holds first close of its second fund', 'Gulf Finance Wire'],
-          ['DIFC venture firm launches a $150m early-stage fund for GCC founders', 'Emirates Business Journal'],
-          ['Dubai real estate investor reaches final close above its hard cap', 'The National Ledger'],
-          ['Regional infrastructure fund secures anchor commitments from family offices', 'UAE Markets Today'],
-          ['ADGM-based secondaries manager raises a continuation vehicle', 'Khaleej Capital Report'],
-          ['Oversubscribed growth equity fund closes for Gulf mid-market deals', 'Dirham Daily'],
-          ['New Shariah-compliant private credit fund opens to institutional investors', 'Federal Finance Bulletin'],
-          ['Family office platform launches a co-investment fund in DIFC', 'Emirates Business Journal'],
-          ['Climate-tech venture fund announces a first close with sovereign backing', 'Gulf Finance Wire'],
-          ['Healthcare private equity fund holds its final close in Abu Dhabi', 'The National Ledger'],
-          ['Fintech venture studio raises its debut fund from regional LPs', 'UAE Markets Today'],
-          ['Logistics infrastructure fund launches with a $300m target', 'Khaleej Capital Report'],
-          ['Gulf hedge fund manager opens a new multi-strategy vehicle', 'Dirham Daily']
-        ];
-        fundraisingStories.forEach(([title, source]) => {
-          dummyStories.push(['Fundraising', title, source]);
-        });
+        // Global Stories tab: stories from outside the UAE.
+        globalStories.forEach(([title, source]) => dummyStories.push(['Global', title, source]));
         dummyStories.forEach(([region, title, source]) => {
           const article = document.createElement('article');
           article.dataset.newsRegion = region;
@@ -1057,7 +1040,7 @@ document.addEventListener('DOMContentLoaded', async function() {
           news.appendChild(article);
         });
         const allArticles = Array.from(news.querySelectorAll('article'));
-        ['News', 'Fundraising'].forEach((region) => {
+        ['News', 'Global'].forEach((region) => {
           allArticles.filter((article) => article.dataset.newsRegion === region).slice(15).forEach((article) => article.remove());
         });
         Array.from(news.querySelectorAll('article')).forEach((article) => {
@@ -1073,7 +1056,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
         const moreNewsLinks = document.createElement('div');
         moreNewsLinks.style.cssText = 'display: flex; gap: 16px; padding: 20px 0 8px';
-        moreNewsLinks.innerHTML = '<a href="#" data-more-news-region="News" style="display: inline-block; font-size: 14px; font-weight: 600; color: #1F6A6E">View All</a><a href="#" data-more-news-region="Fundraising" style="display: none; font-size: 14px; font-weight: 600; color: #1F6A6E">View All</a>';
+        moreNewsLinks.innerHTML = '<a href="#" data-more-news-region="News" style="display: inline-block; font-size: 14px; font-weight: 600; color: #1F6A6E">View All</a><a href="#" data-more-news-region="Global" style="display: none; font-size: 14px; font-weight: 600; color: #1F6A6E">View All</a>';
         news.appendChild(moreNewsLinks);
         applyNewsRegion(activeNewsRegion);
         const eventsPanel = sidebar && sidebar.querySelector('[aria-labelledby="events-title"]');
@@ -1403,7 +1386,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Category bar (after fundopshq.com's section row): a thin row directly under the menu that stays at the
     // top while scrolling and scrolls sideways on narrow screens. Each category filters the Latest Stories
     // column to its topics (js/fundsae-connector.js listens for "fundsae:news-topics"); Top and Latest clear
-    // the filter. Clicking a Latest Stories / Fundraising tab also clears it.
+    // the filter. Clicking a Latest Stories / Global Stories tab also clears it.
     {
       const mainColumns = document.querySelector('main.wrap');
       if (mainColumns && !document.querySelector('.fx-catbar')) {
@@ -1470,7 +1453,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             else news.scrollIntoView({ behavior: 'smooth', block: 'start' });
             return;
           }
-          // A Latest Stories / Fundraising tab click clears the category.
+          // A Latest Stories / Global Stories tab click clears the category.
           if (!switchingTab && target && target.closest('.news .tabs-row [data-news-region-name]')) select('Top', null);
         }, true);
         const catbarStyle = document.createElement('style');

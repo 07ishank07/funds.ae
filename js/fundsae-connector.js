@@ -28,11 +28,11 @@
   var TILES_SHOWN = 12; // Residential, Commercial Real Estate, Infrastructure and Grants boxes
   // Home news tabs. UAE and global stories share the News tab, in the API's order.
   var REGIONS = { uae: 'News', world: 'News' };
-  // Fundraising is the second tab. It is not a category: it pulls in any story tagged with the
-  // "fundraising" topic (fund launches and closes), in addition to (not instead of) the News tab.
-  var FUNDRAISING_TOPIC = 'fundraising';
-  var FUNDRAISING_REGION = 'Fundraising';
-  var NEWS_REGIONS = ['News', 'Fundraising'];
+  // Global Stories is the second tab: stories from outside the UAE (category "world"), in addition to
+  // (not instead of) the News tab.
+  var GLOBAL_CATEGORY = 'world';
+  var GLOBAL_REGION = 'Global';
+  var NEWS_REGIONS = ['News', 'Global'];
   var EMPTY_TEXT = 'Nothing to show yet. Check back soon.';
   var state = { mode: null };
   var loads = {};
@@ -171,7 +171,7 @@
 
   /* ------------------------------------ news ----------------------------------- */
   // Region tabs belong to the page script (this.html), which shows articles whose
-  // data-news-region equals the active tab ("News" / "Fundraising") every 250 ms.
+  // data-news-region equals the active tab ("News" / "Global") every 250 ms.
   // Articles the connector wants hidden therefore get a region value that never
   // matches a tab; the page's own placeholders get "placeholder".
 
@@ -250,10 +250,8 @@
     stories.forEach(function (s) {
       var region = REGIONS[s.category];
       if (region) addTo(region, s);
-      // Cross-listed, not exclusive: a fundraising story still appears in the News tab too.
-      if (s.topic === FUNDRAISING_TOPIC || (s.topics || []).indexOf(FUNDRAISING_TOPIC) !== -1) {
-        addTo(FUNDRAISING_REGION, s);
-      }
+      // Cross-listed, not exclusive: a global story still appears in the News tab too.
+      if (s.category === GLOBAL_CATEGORY) addTo(GLOBAL_REGION, s);
     });
 
     NEWS_REGIONS.forEach(function (region) {

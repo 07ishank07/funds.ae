@@ -155,9 +155,9 @@ test('every page but Careers shows the same Elite Founding Sponsor banner, and a
     if (file !== 'this.html') assert.ok(html.includes('data-fundsae-slot="sponsor-founding"'), `${file}: banner slot`);
   }
   const home = read('this.html');
-  // Home news tabs: the page script and the connector agree on the names; Fundraising is the fundraising topic.
+  // Home news tabs: the page script and the connector agree on the names; Global Stories is the world category.
   const connector = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
-  assert.ok(home.includes("const REGION_NAMES = ['News', 'Fundraising'];"), 'home tabs are News and Fundraising');
+  assert.ok(home.includes("const REGION_NAMES = ['News', 'Global'];") && home.includes("Global: 'Global Stories'"), 'home tabs are Latest Stories and Global Stories');
   assert.ok(home.includes("News: 'Latest Stories'"), 'News tab is labelled Latest Stories');
   for (const label of ['Top', 'Latest', 'Fundraising', 'Deals', 'People', 'Private Equity', 'Venture', 'Credit', 'Real Estate', 'Infrastructure', 'Secondaries', 'Hedge Funds', 'LPs', 'Regulation', 'Providers']) {
     assert.ok(home.includes(`['${label}', `), `category bar has ${label}`);
@@ -172,7 +172,7 @@ test('every page but Careers shows the same Elite Founding Sponsor banner, and a
   assert.ok(home.includes('sidebar.insertBefore(videosPodcastsBox, sidebar.firstElementChild)'), 'Videos and Podcasts leads column 2');
   assert.ok(home.includes('careersColumn.insertBefore(sponsoredPostsBox, careersColumn.firstChild)'), 'Sponsored Posts sits in column 3');
   assert.ok(home.includes("eventsBoxForVoices.insertAdjacentElement('beforebegin', influencersBox)"), 'Thought Leaders and Influencers sits above Events in column 2');
-  assert.ok(connector.includes("var NEWS_REGIONS = ['News', 'Fundraising'];") && connector.includes("var FUNDRAISING_TOPIC = 'fundraising';"), 'connector tabs match');
+  assert.ok(connector.includes("var NEWS_REGIONS = ['News', 'Global'];") && connector.includes("var GLOBAL_CATEGORY = 'world';"), 'connector tabs match');
   assert.ok(!/'(UAE News|Global News|Business Funding)'/.test(home + connector), 'old tab names are gone');
   assert.ok(home.includes("tab.href = 'Events.dc.html'") && home.includes("'Events.dc.html#submit-event'"), 'home links to the Events page');
   assert.ok(read('Events.dc.html').includes('data-fundsae-slot="events"'), 'the Events page lists events');

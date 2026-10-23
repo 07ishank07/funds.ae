@@ -36,6 +36,7 @@
     'News': 'الأخبار',
     'Latest Stories': 'أحدث القصص',
     'Fundraising': 'جمع التمويل',
+    'Global Stories': 'أخبار عالمية',
     // Category bar
     'Top': 'الأبرز',
     'Latest': 'الأحدث',
