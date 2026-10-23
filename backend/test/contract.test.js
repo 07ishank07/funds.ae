@@ -187,7 +187,7 @@ test('every page but Careers shows the same Elite Founding Sponsor banner, and a
     }
   }
   // One bar under the masthead: Top | the investor types | Advertise (a link to the Advertise page).
-  for (const label of ['Top', 'Sovereign', 'Pension', 'Private Equity', 'REITs', 'Family Offices', 'Banks', 'Government', 'Endowments']) {
+  for (const label of ['Top Stories', 'Sovereign', 'Pension', 'Private Equity', 'REITs', 'Family Offices', 'Banks', 'Government', 'Endowments']) {
     assert.ok(home.includes(`['${label}', `), `category bar has ${label}`);
   }
   assert.ok(home.includes("[['Advertise', { href: 'Advertise.dc.html' }], ['Careers', { href: 'Careers.dc.html' }], ['Events', { href: 'Events.dc.html' }]]"), 'category bar ends with Advertise, Careers and Events links');

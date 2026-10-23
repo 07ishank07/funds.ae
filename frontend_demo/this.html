@@ -1381,7 +1381,7 @@ document.addEventListener('DOMContentLoaded', async function() {
       if (mainColumns && !document.querySelector('.fx-catbar')) {
         // Groups, split by thin rules: [label, topic ids] filters the news; [label, { href }] is a plain link.
         const CATEGORY_GROUPS = [
-          [['Top', null]],
+          [['Top Stories', null]],
           [['Sovereign', ['sovereign-wealth']], ['Pension', ['pension-funds']], ['Private Equity', ['private-equity']],
             ['REITs', ['reits']], ['Family Offices', ['family-offices']], ['Banks', ['banks']], ['Government', ['government']],
             ['Endowments', ['endowments']]],
@@ -1415,10 +1415,10 @@ document.addEventListener('DOMContentLoaded', async function() {
             if (target && target.href) {
               link.href = target.href;
             } else {
-              link.href = label === 'Top' ? '#' : '#top-news';
+              link.href = label === 'Top Stories' ? '#' : '#top-news';
               link.dataset.category = label;
               if (target) link.dataset.topics = target.join(' ');
-              if (label === 'Top') link.setAttribute('aria-current', 'true');
+              if (label === 'Top Stories') link.setAttribute('aria-current', 'true');
             }
             row.appendChild(link);
           });
@@ -1433,7 +1433,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             const topics = link.dataset.topics ? link.dataset.topics.split(' ') : null;
             select(label, topics);
             const news = document.querySelector('main.wrap > .news');
-            if (label === 'Top' || !news) window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (label === 'Top Stories' || !news) window.scrollTo({ top: 0, behavior: 'smooth' });
             else news.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
         }, true);
