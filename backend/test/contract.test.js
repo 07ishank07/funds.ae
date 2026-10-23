@@ -159,6 +159,14 @@ test('every page but Careers shows the same Elite Founding Sponsor banner, and a
   const connector = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
   assert.ok(home.includes("const REGION_NAMES = ['News', 'Global'];") && home.includes("Global: 'Global Stories'"), 'home tabs are UAE Stories and Global Stories');
   assert.ok(home.includes("News: 'UAE Stories'"), 'News tab is labelled UAE Stories');
+  // The site menu is in the footer on every page, not in the header.
+  assert.ok(home.includes(`nav.m-only[aria-label="Sections"]').forEach((nav) => nav.remove())`), 'home removes both header menus');
+  for (const page of ['About', 'Advertise', 'Careers', 'Contact', 'Events', 'Privacy', 'Terms']) {
+    const html = read(`${page}.dc.html`);
+    assert.ok(!html.includes('aria-label="Sections"'), `${page} has no header menu`);
+    const footNav = html.slice(html.indexOf('<nav class="foot-nav"'), html.indexOf('</nav>', html.indexOf('<nav class="foot-nav"')));
+    for (const label of ['Top news', 'Careers', 'Events', 'Advertise', 'About', 'Contact us', 'Terms of Service', 'Privacy Policy']) assert.ok(footNav.includes(`>${label}</a>`), `${page} footer links to ${label}`);
+  }
   for (const label of ['Top', 'Latest', 'Fundraising', 'Deals', 'People', 'Private Equity', 'Venture', 'Credit', 'Real Estate', 'Infrastructure', 'Secondaries', 'Hedge Funds', 'LPs', 'Regulation', 'Providers']) {
     assert.ok(home.includes(`['${label}', `), `category bar has ${label}`);
   }
@@ -174,7 +182,7 @@ test('every page but Careers shows the same Elite Founding Sponsor banner, and a
   assert.ok(home.includes("eventsBoxForVoices.insertAdjacentElement('beforebegin', influencersBox)"), 'Thought Leaders and Influencers sits above Events in column 2');
   assert.ok(connector.includes("var NEWS_REGIONS = ['News', 'Global'];") && connector.includes("var REGIONS = { uae: 'News', world: 'Global' };"), 'connector tabs match');
   assert.ok(!/'(UAE News|Global News|Business Funding)'/.test(home + connector), 'old tab names are gone');
-  assert.ok(home.includes("tab.href = 'Events.dc.html'") && home.includes("'Events.dc.html#submit-event'"), 'home links to the Events page');
+  assert.ok(home.includes("['Events', 'Events.dc.html']") && home.includes("'Events.dc.html#submit-event'"), 'home links to the Events page');
   assert.ok(read('Events.dc.html').includes('data-fundsae-slot="events"'), 'the Events page lists events');
   const careers = read('Careers.dc.html');
   assert.ok(!careers.includes('data-fundsae-slot="events"') && !careers.includes('data-fundsae-form="event"'), 'Careers no longer has events');

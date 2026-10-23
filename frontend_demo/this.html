@@ -365,34 +365,10 @@ document.addEventListener('DOMContentLoaded', async function() {
       window.Babel.transformScriptTags();
     }
 
-    const sectionsNav = document.querySelector('header.d-only nav[aria-label="Sections"]');
-    if (sectionsNav) {
-      // The design tool renders this tab as "Sponsor"; matching on that original text keeps it
-      // in its original nav position while we relabel it to "Advertise" for display.
-      const allowedSections = new Set(['Top news', 'Events', 'Careers', 'Sponsor', 'About', 'Contact us']);
-      Array.from(sectionsNav.querySelectorAll('a')).forEach((tab) => {
-        if (!allowedSections.has(tab.textContent.trim())) tab.remove();
-        if (tab.textContent.trim() === 'Events') tab.href = 'Events.dc.html';
-        if (tab.textContent.trim() === 'Sponsor') { tab.textContent = 'Advertise'; tab.href = 'Advertise.dc.html'; }
-        if (tab.textContent.trim() === 'About') tab.href = 'About.dc.html';
-        if (tab.textContent.trim() === 'Contact us') tab.href = 'Contact.dc.html';
-      });
-      // Careers before Events (same order as the .dc.html pages' header nav).
-      const tabsNow = Array.from(sectionsNav.querySelectorAll('a'));
-      const eventsTab = tabsNow.find((tab) => tab.textContent.trim() === 'Events');
-      const careersTab = tabsNow.find((tab) => tab.textContent.trim() === 'Careers');
-      if (eventsTab && careersTab) sectionsNav.insertBefore(careersTab, eventsTab);
-      const addSectionLink = (label, href) => {
-        if (Array.from(sectionsNav.querySelectorAll('a')).some((tab) => tab.textContent.trim() === label)) return;
-        const link = document.createElement('a');
-        link.href = href;
-        link.textContent = label;
-        link.style.cssText = 'display: flex; align-items: center; font-size: 16px; font-weight: 500; color: #CFE0DE';
-        sectionsNav.appendChild(link);
-      };
-      addSectionLink('Advertise', 'Advertise.dc.html');
-      addSectionLink('About', 'About.dc.html');
-      addSectionLink('Contact us', 'Contact.dc.html');
+    // The site menu (Top news, Careers, Events, Advertise, About, Contact us) is in the footer, not the header:
+    // both header menus (desktop and mobile) are removed.
+    document.querySelectorAll('header.d-only nav[aria-label="Sections"], nav.m-only[aria-label="Sections"]').forEach((nav) => nav.remove());
+    {
       const footer = document.querySelector('footer');
       if (footer) {
         if (!footer.id) footer.id = 'about';
@@ -418,18 +394,24 @@ document.addEventListener('DOMContentLoaded', async function() {
             footerNav.appendChild(legalLink);
           });
         }
-        // About, Contact and Sponsor (Advertise) are dropped from the footer nav, leaving just
-        // the legal links appended above.
+        // The template's own footer links (placeholder hrefs) are dropped, leaving just the legal links
+        // appended above.
         Array.from(footer.querySelectorAll('a')).forEach((link) => {
           if (['Submit a story', 'About', 'Contact', 'Advertise'].includes(link.textContent.trim())) link.remove();
         });
+        // The site menu sits in the footer, ahead of the legal links (same order as the .dc.html pages).
+        if (footerNav && !footerNav.querySelector('a[href="Careers.dc.html"]')) {
+          const firstLegal = footerNav.querySelector('a[href="Terms.dc.html"]');
+          [['Top news', 'this.html'], ['Careers', 'Careers.dc.html'], ['Events', 'Events.dc.html'], ['Advertise', 'Advertise.dc.html'], ['About', 'About.dc.html'], ['Contact us', 'Contact.dc.html']].forEach(([label, href]) => {
+            const link = document.createElement('a');
+            link.href = href;
+            link.textContent = label;
+            if (href === 'this.html') link.setAttribute('aria-current', 'page');
+            footerNav.insertBefore(link, firstLegal);
+          });
+        }
       }
     }
-
-    // The mobile section nav's Events tab opens the Events and Expos page too.
-    document.querySelectorAll('nav.m-only a').forEach((tab) => {
-      if (tab.textContent.trim() === 'Events') tab.href = 'Events.dc.html';
-    });
 
     const morningBriefCta = document.querySelector('header.d-only a[href="#newsletter"]');
     if (morningBriefCta) {
@@ -1534,16 +1516,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         header.d-only a[aria-label="Funds.ae home"] > span:first-of-type { font-size: 40px !important; letter-spacing: -0.025em !important; }
         header.d-only svg circle[style*="stroke"], header.m-only svg circle[style*="stroke"] { stroke: var(--fx-ink) !important; }
         [data-brand-tagline] { font-family: var(--fx-mono); font-size: 10px !important; letter-spacing: 0.22em !important; text-transform: uppercase; color: var(--fx-ink-3) !important; margin-top: 6px !important; }
-        header.d-only nav[aria-label="Sections"] {
-          grid-column: 1 / -1; grid-row: 3; justify-content: center; gap: 36px !important; height: 44px;
-          border-top: 1px solid var(--fx-ink); border-bottom: 3px double var(--fx-ink);
-        }
-        header.d-only nav[aria-label="Sections"] a {
-          font-size: 13px !important; font-weight: 500 !important; letter-spacing: 0.12em; text-transform: uppercase;
-          color: var(--fx-ink-2) !important; text-decoration: none !important; box-shadow: none !important; position: relative;
-        }
-        header.d-only nav[aria-label="Sections"] a:hover { color: var(--fx-ink) !important; }
-        header.d-only nav[aria-label="Sections"] a[aria-current="page"] { color: var(--fx-ink) !important; font-weight: 600 !important; }
         #home-search {
           width: 260px !important; height: 38px !important; background: var(--fx-raise) !important; color: var(--fx-ink) !important;
           border: 1px solid var(--fx-line) !important; border-radius: 3px !important; font-size: 14px !important;
@@ -1558,9 +1530,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         /* Mobile masthead keeps the brand teal bar. 861–980px previously showed no header at all. */
         header.m-only svg circle[style*="stroke"] { stroke: #F1F5F4 !important; }
-        nav.m-only { background: var(--fx-paper) !important; border-bottom: 3px double var(--fx-ink) !important; }
-        nav.m-only a { font-size: 13px !important; letter-spacing: 0.1em; text-transform: uppercase; }
-        @media (max-width: 980px) { header.m-only, nav.m-only { display: flex !important; } }
+        @media (max-width: 980px) { header.m-only { display: flex !important; } }
 
         /* Three ruled columns, aligned to the masthead's width and gutters */
         main.wrap { max-width: var(--fx-max) !important; padding: 28px var(--fx-gutter) 72px !important; gap: 0 var(--fx-col-gap) !important; }
