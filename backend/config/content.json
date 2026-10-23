@@ -9,8 +9,8 @@
   "advertiseTiers": [
     {
       "id": "silver",
-      "name": "Partner",
-      "badge": "Partner",
+      "name": "Featured Partner",
+      "badge": "Get listed",
       "price": "AED 4,504",
       "priceNote": "/ month (dummy)",
       "features": [
@@ -28,11 +28,11 @@
       "price": "AED 10000",
       "priceNote": "/ month (dummy)",
       "features": [
-        "Everything in Partner, plus:",
-        "A \"Gold Sponsors\" tile (column 3) on the home page",
+        "Everything in Featured Partner, plus:",
+        "A picture tile in \"Gold Partners\" (home page column 3)",
         "One placement in \"Videos and Podcasts\" (column 3), rotating weekly",
         "A listing in \"Career Resources\" on the Careers page",
-        "Limited to 10 partners"
+        "Limited to 5 partners"
       ],
       "featured": true
     },
@@ -45,7 +45,7 @@
       "features": [
         "Your firm in the Elite Founding Sponsor banner, under the masthead on every Funds.ae page except Careers",
         "The Exclusive Elite Sponsor box, with your image, at the top of the Careers sidebar",
-        "Everything in the Elite Partner package",
+        "Everything in the Gold Partner package",
         "Exclusive: one partner at a time"
       ],
       "featured": false

@@ -127,7 +127,8 @@ const TIER_POSITIONS = { silver: 10, gold: 20, exclusive: 40 };
 /** The package cards and the Elite Exclusive hero on the Advertise page. */
 export function tiersFromHtml(html) {
   const tiers = [];
-  for (const [, classes, card] of html.matchAll(/<div class="(tier(?: featured)?)">([\s\S]*?)<\/div>\s*(?=<div class="tier|<\/div>)/g)) {
+  // One card per package; the Elite Exclusive card is "tier exclusive" with id="elite-partner".
+  for (const [, classes, card] of html.matchAll(/<div class="(tier(?: featured| exclusive)?)"(?: id="[a-z-]+")?>([\s\S]*?)<\/div>\s*(?=<div class="tier|<\/div>)/g)) {
     const id = (card.match(/data-fundsae-tier="([a-z]+)"/) || [])[1];
     const price = card.match(/<div class="price">([\s\S]*?)(?:<small>([\s\S]*?)<\/small>)?<\/div>/) || [];
     tiers.push({
@@ -141,25 +142,6 @@ export function tiersFromHtml(html) {
       features: [...card.matchAll(/<li>([\s\S]*?)<\/li>/g)].map((m) => plain(m[1])),
       featured: classes.includes('featured'),
       position: TIER_POSITIONS[id],
-      enabled: true
-    });
-  }
-  const hero = (html.match(/<section class="elite-hero"[\s\S]*?<\/section>/) || [])[0];
-  if (hero) {
-    const eyebrow = [...hero.matchAll(/<p class="elite-hero-eyebrow">[\s\S]*?<\/p>/g)][0]?.[0] || '';
-    const spans = [...eyebrow.matchAll(/<span>([\s\S]*?)<\/span>/g)].map((m) => plain(m[1]));
-    const price = hero.match(/<span class="elite-hero-price">([\s\S]*?)(?:<small>([\s\S]*?)<\/small>)?<\/span>/) || [];
-    tiers.push({
-      _id: 'tier-exclusive',
-      _type: 'advertiseTier',
-      tier: 'exclusive',
-      name: spans[0] || 'Elite Exclusive Partner',
-      badge: spans[1] || undefined,
-      price: plain(price[1] || 'On request'),
-      priceNote: plain(price[2] || '') || undefined,
-      features: [...(hero.match(/<ul class="elite-hero-perks">([\s\S]*?)<\/ul>/) || ['', ''])[1].matchAll(/<li>([\s\S]*?)<\/li>/g)].map((m) => plain(m[1])),
-      featured: false,
-      position: TIER_POSITIONS.exclusive,
       enabled: true
     });
   }

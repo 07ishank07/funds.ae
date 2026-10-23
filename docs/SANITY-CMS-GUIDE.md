@@ -103,8 +103,8 @@ backend/
 
 js/fundsae-api.js                    valid.socialHighlight / advertiseTier / page, setCopyLink
 js/fundsae-connector.js              renderHighlights, renderTiers, renderPage (createElement + textContent)
-frontend_demo/                       Slots: this.html (social-highlights), Advertise (advertise-tiers,
-                                     advertise-exclusive), About/Privacy/Terms (page-body on <main>)
+frontend_demo/                       Slots: this.html (social-highlights), Advertise (advertise-tiers),
+                                     About/Privacy/Terms (page-body on <main>)
 .github/workflows/publish-content.yml  repository_dispatch "cms-publish" → cms:pull → publish → commit
 .github/workflows/ci.yml             "studio" job: schema validate + build
 ```

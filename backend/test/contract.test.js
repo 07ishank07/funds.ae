@@ -232,6 +232,11 @@ test('every page but Careers shows the same Elite Founding Sponsor banner, and a
   const options = [...advertise.matchAll(/<option value="([a-z]+)"/g)].map((m) => m[1]);
   assert.deepEqual(options.sort(), [...ADVERTISING_TIERS].sort());
   assert.match(advertise, /id="elite-partner"[\s\S]*data-fundsae-tier="exclusive"/);
+  // Three package cards (Featured Partner, Gold Partner, Elite Exclusive Partner) under a benefits pitch.
+  assert.equal([...advertise.matchAll(/<div class="tier[ "]/g)].length, 3, 'three package cards');
+  for (const name of ['Featured Partner', 'Gold Partner', 'Elite Exclusive Partner']) assert.ok(advertise.includes(`<h2>${name}</h2>`), name);
+  assert.ok(advertise.includes('Benefits of partnering with Funds.ae') && advertise.indexOf('id="pitch-title"') < advertise.indexOf('id="packages"'), 'pitch sits above the packages');
+  assert.ok(!advertise.includes('advertise-exclusive') && !connector.includes("'advertise-exclusive'"), 'no separate Elite Exclusive hero');
 });
 
 test('every website form posts only field names the API accepts', () => {

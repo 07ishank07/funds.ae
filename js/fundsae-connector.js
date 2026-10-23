@@ -714,43 +714,34 @@
     });
   }
 
-  /** Advertise page: the package cards, and the Elite Exclusive Partner hero for the "exclusive" tier. */
+  /** Advertise page: one card per package, in the published order (Featured Partner, Gold Partner, Elite
+   *  Exclusive Partner). The Elite Exclusive card is the dark one and carries id="elite-partner", which the Elite
+   *  Founding Sponsor banner links to. */
   function renderTiers(tiers) {
-    var cards = tiers.filter(function (t) { return t.id !== 'exclusive'; });
-    if (cards.length) {
-      slots('advertise-tiers').forEach(function (box) {
-        fillList(box, ':scope > .tier', cards, function (card, tier) {
-          card.classList.toggle('featured', tier.featured);
-          var badge = card.querySelector('.badge');
-          if (badge) {
-            badge.textContent = tier.badge || '';
-            badge.hidden = !tier.badge;
-          }
-          var title = card.querySelector('h2');
-          if (title) title.textContent = tier.name;
-          var price = card.querySelector('.price');
-          if (price) appendText(price, tier.price, tier.priceNote);
-          fillLines(card.querySelector('ul'), tier.features);
-          var cta = card.querySelector('[data-fundsae-tier]');
-          if (cta) {
-            cta.setAttribute('data-fundsae-tier', tier.id);
-            cta.setAttribute('aria-label', 'Get started with ' + tier.name);
-          }
-        });
+    if (!tiers.length) return;
+    slots('advertise-tiers').forEach(function (box) {
+      fillList(box, ':scope > .tier', tiers, function (card, tier) {
+        var exclusive = tier.id === 'exclusive';
+        card.classList.toggle('featured', tier.featured);
+        card.classList.toggle('exclusive', exclusive);
+        if (exclusive) card.id = 'elite-partner';
+        var badge = card.querySelector('.badge');
+        if (badge) {
+          badge.textContent = tier.badge || '';
+          badge.hidden = !tier.badge;
+        }
+        var title = card.querySelector('h2');
+        if (title) title.textContent = tier.name;
+        var price = card.querySelector('.price');
+        if (price) appendText(price, tier.price, tier.priceNote);
+        fillLines(card.querySelector('ul'), tier.features);
+        var cta = card.querySelector('[data-fundsae-tier]');
+        if (cta) {
+          cta.setAttribute('data-fundsae-tier', tier.id);
+          cta.textContent = api.tr(exclusive ? 'Enquire' : 'Get started');
+          cta.setAttribute('aria-label', (exclusive ? 'Enquire about ' : 'Get started with ') + tier.name);
+        }
       });
-    }
-    var exclusive = tiers.filter(function (t) { return t.id === 'exclusive'; })[0];
-    if (!exclusive) return;
-    slots('advertise-exclusive').forEach(function (hero) {
-      var eyebrow = hero.querySelectorAll('.elite-hero-eyebrow > span');
-      if (eyebrow[0]) eyebrow[0].textContent = exclusive.name;
-      if (eyebrow[1]) {
-        eyebrow[1].textContent = exclusive.badge || '';
-        eyebrow[1].hidden = !exclusive.badge;
-      }
-      var price = hero.querySelector('.elite-hero-price');
-      if (price) appendText(price, exclusive.price, exclusive.priceNote);
-      fillLines(hero.querySelector('.elite-hero-perks'), exclusive.features);
     });
   }
 
@@ -869,7 +860,7 @@
       if (hasSlot('events')) guard('Events', load('events.json', 'events').then(renderEvents));
       var sponsorSlots = ['sponsor-founding', 'sponsor-platinum', 'sponsor-posts', 'sponsor-media', 'sponsor-companies', 'career-resources'];
       if (sponsorSlots.some(hasSlot)) guard('Sponsors', load('sponsors.json', 'sponsors').then(renderSponsors));
-      if (hasSlot('social-highlights') || hasSlot('advertise-tiers') || hasSlot('advertise-exclusive') || hasSlot('page-body')) {
+      if (hasSlot('social-highlights') || hasSlot('advertise-tiers') || hasSlot('page-body')) {
         guard('Editorial content', load('content.json', 'content').then(renderContent));
       }
     }).catch(function (err) {

@@ -37,6 +37,18 @@
     'UAE Stories': 'أخبار الإمارات',
     'Fundraising': 'جمع التمويل',
     'Global Stories': 'أخبار عالمية',
+    // Advertise page
+    'Featured Partner': 'شريك مميز',
+    'Partner with Funds.ae': 'شارك مع Funds.ae',
+    'View packages': 'اعرض الباقات',
+    'Talk to our team': 'تحدث إلى فريقنا',
+    'Our readers': 'قراؤنا',
+    'Why partner with us': 'لماذا تشارك معنا',
+    'Benefits of partnering with Funds.ae': 'مزايا الشراكة مع Funds.ae',
+    'Packages': 'الباقات',
+    'Choose your partnership': 'اختر شراكتك',
+    'Talk to our partnerships team': 'تحدث إلى فريق الشراكات',
+    'Enquire': 'استفسر',
     // Investor-type row
     'Sovereign': 'الصناديق السيادية',
     'Pension': 'صناديق التقاعد',

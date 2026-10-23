@@ -7,7 +7,7 @@ import {TIER_IDS, TIER_LIMITS} from './rules.js'
 import {maxPerGroup, textRule} from './validators.js'
 
 // 'platinum' (Elite Partner) is retired; an old entry shows as such so editors know to delete it.
-const TIER_TITLES = {silver: 'Partner', gold: 'Gold Partner', platinum: 'Elite Partner (retired: delete this)', exclusive: 'Elite Exclusive Partner'}
+const TIER_TITLES = {silver: 'Featured Partner', gold: 'Gold Partner', platinum: 'Elite Partner (retired: delete this)', exclusive: 'Elite Exclusive Partner'}
 
 export const advertiseTier = defineType({
   name: 'advertiseTier',
