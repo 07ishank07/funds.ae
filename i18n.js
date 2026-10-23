@@ -94,6 +94,8 @@
     'UAE Thought Leaders and Influencers': 'قادة الفكر والمؤثرون في الإمارات',
     'Career Resources': 'مصادر مهنية',
     'Featured Companies': 'شركات مميزة',
+    'Featured Partners': 'شركاء مميزون',
+    'Featured event': 'فعالية مميزة',
     'Feature your firm': 'اعرض شركتك هنا',
     'Sponsored': 'مموّل',
     'Sponsored Posts': 'منشورات مموّلة',

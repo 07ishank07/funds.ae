@@ -516,6 +516,18 @@ document.addEventListener('DOMContentLoaded', async function() {
         const eventsList = events.querySelector('ul');
         if (eventsList) events.insertBefore(eventHeadings, eventsList);
       }
+      // Highlighted event, like the lead video: a large picture card above the list. The connector (slot
+      // "events-feature") shows the first upcoming event marked featured, else the next one, and the list under
+      // it starts from the following event. The picture is a dummy until events carry images.
+      if (events && !events.querySelector('.fx-event-feature')) {
+        const feature = document.createElement('a');
+        feature.className = 'fx-event-feature';
+        feature.href = 'Events.dc.html';
+        feature.innerHTML = '<span class="fx-event-feature-img" aria-hidden="true"><span class="fx-event-feature-tag">Featured event</span></span>'
+          + '<span class="fx-event-feature-title">Fund Managers Forum (demo)</span>'
+          + '<span class="fx-event-feature-meta">2-6 Nov · Dubai · Finance week</span>';
+        events.insertBefore(feature, events.querySelector('[data-city-heading]') || events.querySelector('ul'));
+      }
       if (events) {
         const eventRows = Array.from(events.querySelectorAll('ul > li'));
         const eventDetails = [
@@ -793,7 +805,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         professionalServicesBox.setAttribute('aria-labelledby', 'professional-services-title');
         professionalServicesBox.style.cssText = 'margin-top: 14px; padding: 22px 24px 24px; border: 1px solid #DAE5E4; border-radius: 14px; background: #FFFFFF; box-shadow: 0 8px 24px rgba(14, 58, 67, 0.06); flex: 1 1 auto; display: flex; flex-direction: column';
         professionalServicesBox.innerHTML = `
-          <h2 id="professional-services-title" style="margin: 0; font-size: 15px; font-weight: 600; color: #0E3A43">Featured Companies</h2>
+          <h2 id="professional-services-title" style="margin: 0; font-size: 15px; font-weight: 600; color: #0E3A43">Featured Partners</h2>
           <div style="display: flex; flex-direction: column; margin-top: 10px">
             <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Meydan Legal Advisors</span></span></a>
             <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Atlas Fund Auditors</span></span></a>
@@ -816,7 +828,8 @@ document.addEventListener('DOMContentLoaded', async function() {
             <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Dune Payments Advisory</span></span></a>
             <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Pearl Trust Services</span></span></a>
           </div>`;
-        // Column 3 order: Subscribe to stay ahead on top, then Gold Partners and Featured Companies.
+        // Column 3 order: Subscribe to stay ahead on top, then Gold Partners, Events and Expos (placed further down)
+        // and Featured Partners.
         const newsletterBox = sidebar.querySelector('[aria-labelledby="brief-title-careers"]');
         if (newsletterBox) careersColumn.insertBefore(newsletterBox, careersColumn.firstChild);
         // Videos and Podcasts leads the second column, with Sponsored Posts directly under it.
@@ -1130,11 +1143,11 @@ document.addEventListener('DOMContentLoaded', async function() {
             ['INFRA DEBT', 'Private lenders finance new infrastructure pipelines', '#416C56, #9EB9A5'],
             ['METRO', 'Metro extensions add new stations and contracts', '#7A5C3E, #D3C4A6']
           ]);
-          // Events and Expos sit in the second column, directly under UAE Careers.
-          eventsPanel.style.marginTop = '28px';
-          const careersInSidebar = sidebar.querySelector('[aria-labelledby="careers-title"]');
-          if (careersInSidebar) {
-            careersInSidebar.insertAdjacentElement('afterend', eventsPanel);
+          // Events and Expos sit in the third column, directly above Featured Partners (the column's gap spaces it).
+          eventsPanel.style.marginTop = '0';
+          const featuredPartnersBox = document.querySelector('[aria-labelledby="professional-services-title"]');
+          if (featuredPartnersBox) {
+            featuredPartnersBox.before(eventsPanel);
           } else {
             news.appendChild(eventsPanel);
           }
@@ -1275,14 +1288,14 @@ document.addEventListener('DOMContentLoaded', async function() {
         const box = document.querySelector('.news > section[aria-label="' + label + '"]');
         if (box && !(box.nextElementSibling && box.nextElementSibling.classList.contains('fx-view-all'))) box.after(makeViewAll());
       });
-      // UAE Thought Leaders and Influencers sits in the second column, directly above Events and Expos,
+      // UAE Thought Leaders and Influencers sits in the second column, directly under Sponsored Posts,
       // with its View All link inside the card. Fifteen people are listed (the first ten show, see .fx-voices).
       const influencersBox = document.querySelector('#uae-influencers-title') && document.querySelector('#uae-influencers-title').closest('section');
-      const eventsBoxForVoices = document.querySelector('[aria-labelledby="events-title"]');
+      const sponsoredForVoices = document.querySelector('[aria-labelledby="sponsored-title"]');
       if (influencersBox) {
-        if (eventsBoxForVoices) {
+        if (sponsoredForVoices) {
           influencersBox.style.marginTop = '28px';
-          eventsBoxForVoices.insertAdjacentElement('beforebegin', influencersBox);
+          sponsoredForVoices.after(influencersBox);
         }
         const influencerList = influencersBox.querySelector('div');
         influencerList.classList.add('fx-voices');
@@ -1307,13 +1320,13 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
         influencersBox.appendChild(makeViewAll());
       }
-      // Top Tweets closes the second column, directly under Events and Expos, with its View All link
+      // Top Tweets closes the second column, directly under Thought Leaders and Influencers, with its View All link
       // inside the card. Five tweets show (see .fx-tweets).
       const tweetsBox = document.querySelector('#tweets-title') && document.querySelector('#tweets-title').closest('section');
       if (tweetsBox) {
         tweetsBox.style.marginTop = '28px';
         tweetsBox.classList.add('fx-tweets');
-        const tweetsAnchor = eventsBoxForVoices || influencersBox;
+        const tweetsAnchor = influencersBox || sponsoredForVoices;
         if (tweetsAnchor) tweetsAnchor.insertAdjacentElement('afterend', tweetsBox);
         tweetsBox.appendChild(makeViewAll());
       }
@@ -1662,7 +1675,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         .fx-platinum-tile:hover .fx-platinum-img { filter: brightness(1.05); }
         .fx-platinum-tile:hover .fx-platinum-name { text-decoration: underline; text-underline-offset: 3px; }
 
-        /* Videos and Podcasts (third column, above Featured Companies): news-site video hub. First item is a large
+        /* Videos and Podcasts (second column, top): news-site video hub. First item is a large
            16:9 lead with a play button; the rest are compact rows with a small thumbnail. Ten show, View All opens the rest. */
         .fx-vid-list { margin-top: 12px; display: flex; flex-direction: column; }
         .fx-vid { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--fx-line-2); color: #0E3A43; text-decoration: none; }
@@ -1685,7 +1698,16 @@ document.addEventListener('DOMContentLoaded', async function() {
         .fx-vid:first-child .fx-vid-play { width: 44px; height: 44px; font-size: 15px; padding-left: 3px; }
         .fx-vid:first-child .fx-vid-title { font-size: 18px; }
 
-        /* UAE Thought Leaders and Influencers (second column, under Events and Expos): "voices to follow" list.
+        /* Events and Expos (third column, above Featured Partners): the highlighted event leads, like the top video. */
+        .fx-event-feature { display: flex; flex-direction: column; gap: 6px; margin-top: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--fx-line-2); color: #0E3A43; text-decoration: none; }
+        .fx-event-feature-img { position: relative; display: block; aspect-ratio: 16 / 9; margin-bottom: 4px; border-radius: 3px; background: #0E3A43 url('img/events/featured-event.png') center / cover no-repeat; }
+        .fx-event-feature-tag { position: absolute; top: 10px; left: 10px; padding: 3px 8px; border-radius: 2px; background: #4FB3B8; color: #0E3A43; font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
+        .fx-event-feature-title { font-size: 18px; font-weight: 600; line-height: 1.25; }
+        .fx-event-feature-meta { font-size: 13px; color: var(--fx-ink-3); }
+        .fx-event-feature:hover .fx-event-feature-title { color: var(--fx-accent); }
+        .fx-event-feature:hover .fx-event-feature-img { filter: brightness(1.06); }
+
+        /* UAE Thought Leaders and Influencers (second column, under Sponsored Posts): "voices to follow" list.
            Avatar, name and role per row with hairline dividers; the first ten show, View All opens the rest. */
         .fx-voices { gap: 0 !important; margin-top: 10px !important; }
         .fx-voices > a { padding: 11px 0; border-bottom: 1px solid var(--fx-line-2); }
@@ -1730,6 +1752,7 @@ document.addEventListener('DOMContentLoaded', async function() {
       };
       tag(document.querySelector('.news'), 'news', true);
       tag(inBox('events-title', 'ul'), 'events', true);
+      tag(document.querySelector('.fx-event-feature'), 'events-feature');
       tag(inBox('sponsored-title', 'ul'), 'sponsor-posts');
       tag(inBox('sponsored-podcasts-title', ':scope > div:nth-of-type(2)'), 'sponsor-media');
       tag(inBox('professional-services-title', ':scope > div'), 'sponsor-companies');

@@ -34,8 +34,8 @@ export const SPONSOR_SLOTS = {
     maxItems: 15, sponsored: true, text: { label: 20, title: 90, blurb: 160 }, required: ['title'], images: ['image'], colors: []
   },
   professionalServices: {
-    label: 'Featured Companies',
-    where: 'Home page "Featured Companies" and the scrolling strip at the foot of the Careers page.',
+    label: 'Featured Partners',
+    where: 'Home page "Featured Partners" and the scrolling strip at the foot of the Careers page.',
     maxItems: 20, sponsored: true, text: { title: 70, website: 80, logoText: 4 }, required: ['title'], images: ['image'], colors: ['colorFrom', 'colorTo']
   },
   careerResources: {

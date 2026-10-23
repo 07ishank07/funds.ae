@@ -528,11 +528,38 @@
     var upcoming = api.items(doc.items, api.valid.event, 'events').filter(function (ev) {
       return (ev.endDate || ev.startDate) >= today;
     });
+    // Home page highlight card: the first upcoming event marked featured, else the next one. A list in the same box
+    // then starts after it, so the highlighted event is not shown twice.
+    var highlight = upcoming.filter(function (ev) { return ev.featured; })[0] || upcoming[0] || null;
+    slots('events-feature').forEach(function (card) {
+      if (!highlight) {
+        if (state.mode === 'live') card.hidden = true;
+        return;
+      }
+      var when = eventDate(highlight);
+      // "28 Oct \u2013 1 Nov" when the event spans two months, else "2-6 Nov".
+      var days = when.day.split('-');
+      var months = when.month.split('-');
+      var dateText = months.length === 2 && days.length === 2
+        ? days[0] + ' ' + months[0] + ' \u2013 ' + days[1] + ' ' + months[1]
+        : when.day + ' ' + when.month;
+      var title = card.querySelector('.fx-event-feature-title');
+      if (title) title.textContent = highlight.title;
+      var meta = card.querySelector('.fx-event-feature-meta');
+      if (meta) meta.textContent = [dateText, highlight.city, highlight.eventType].filter(Boolean).join(' \u00b7 ');
+      card.setAttribute('aria-label', 'Featured event: ' + highlight.title);
+      // Its own page when it has one, otherwise the Events page.
+      if (!api.setLink(card, highlight.url, { httpsOnly: true })) card.setAttribute('href', 'Events.dc.html');
+    });
     slots('events').forEach(function (list) {
       // The home page box shows the next few; the Events page asks for more with data-fundsae-limit.
       var limit = parseInt(list.getAttribute('data-fundsae-limit'), 10);
       limit = limit > 0 ? Math.min(limit, LIMITS.eventsMax) : LIMITS.eventsPerList;
-      fillList(list, ':scope > li', upcoming.slice(0, limit), function (li, ev) {
+      var box = list.closest('section');
+      var rows = highlight && box && box.querySelector('[data-fundsae-slot="events-feature"]')
+        ? upcoming.filter(function (ev) { return ev !== highlight; })
+        : upcoming;
+      fillList(list, ':scope > li', rows.slice(0, limit), function (li, ev) {
         var when = eventDate(ev);
         // Events page rows use classes; the home page rows are styled inline.
         var day = li.querySelector('.day') || li.querySelector(':scope > div:first-child > span:first-child');

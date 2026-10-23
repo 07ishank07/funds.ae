@@ -330,7 +330,7 @@
   .pager button:hover:not([disabled]):not([aria-current="page"]) { border-color: var(--ink); }
   .pager button[aria-current="page"] { background: var(--ink); border-color: var(--ink); color: #FFFFFF; cursor: default; }
   .pager button[disabled] { color: var(--ghost); cursor: default; opacity: 0.6; }
-  /* Featured Companies: a partners strip at the foot of the page. One row of logo cards glides right to left in an
+  /* Featured Partners: a partners strip at the foot of the page. One row of logo cards glides right to left in an
      endless loop over two identical lists (the second is an aria-hidden copy made by the script at the foot of the page).
      It pauses on hover or keyboard focus, and stands still, scrollable by hand, for people who ask for reduced motion. */
   .partners { flex-shrink: 0; width: 100%; max-width: 1288px; margin: 8px auto 0; padding: 0 24px; }
@@ -656,12 +656,12 @@
   </section>
 </aside>
 </div>
-<!-- Featured Companies (sponsor slot "professionalServices"): a partners strip at the foot of the page that scrolls
+<!-- Featured Partners (sponsor slot "professionalServices"): a partners strip at the foot of the page that scrolls
      right to left in an endless loop. js/fundsae-connector.js fills the list from sponsors.json; the script at the foot
      of the page adds the aria-hidden copy the loop needs. These cards are the built-in content shown until the API answers. -->
 <section class="partners" aria-labelledby="partners-title">
   <div class="partners-head">
-    <h2 id="partners-title">Featured Companies</h2>
+    <h2 id="partners-title">Featured Partners</h2>
     <span class="partners-tag">Sponsored</span>
     <a class="partners-more" href="Advertise.dc.html">Feature your firm</a>
   </div>
@@ -938,7 +938,7 @@
 })();
 </script>
 <script>
-/* Featured Companies strip: keeps an aria-hidden copy of the list beside it so the right-to-left loop is seamless,
+/* Featured Partners strip: keeps an aria-hidden copy of the list beside it so the right-to-left loop is seamless,
    and makes a fresh copy whenever js/fundsae-connector.js swaps the placeholder cards for sponsors.json data.
    The speed stays the same whatever the number of companies (about 6 seconds each, an unhurried ~45 px/s). */
 (function () {

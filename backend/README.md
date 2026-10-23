@@ -190,7 +190,7 @@ Query parameters are validated against an allow-list (`v` is always allowed for 
 | `gold` | Not shown on the website (the home page "Gold Sponsors" box was removed); still published | 10 | title, label, url, image, colorFrom/To | yes |
 | `sponsoredPosts` | Home "Sponsored Posts" | 20 | title, blurb, logoText, url, image, colorFrom/To | yes |
 | `sponsoredMedia` | Home "Videos and Podcasts" | 15 | title, label, blurb, url, image | yes |
-| `professionalServices` | Home "Featured Companies" (names only) and the scrolling strip at the bottom of the Careers page (logo or initials, name, website) | 20 | title, website, logoText, url, image, colorFrom/To | yes |
+| `professionalServices` | Home "Featured Partners" (names only) and the scrolling strip at the bottom of the Careers page (logo or initials, name, website) | 20 | title, website, logoText, url, image, colorFrom/To | yes |
 | `careerResources` | Home and Careers "Career Resources" | 12 | title, logoText, url, colorFrom/To | no (editorial) |
 
 Unknown fields and old names (`headline`, `name`, `logo`, `thumbnail`, `logoBackground`, the `banners` group) are rejected with a message saying what they are now called.
