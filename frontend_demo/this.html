@@ -767,9 +767,7 @@ document.addEventListener('DOMContentLoaded', async function() {
           if (copyEmailInput) copyEmailInput.id = 'brief-email-careers';
           const copyEmailLabel = morningBriefCopy.querySelector('label[for="brief-email"]');
           if (copyEmailLabel) copyEmailLabel.setAttribute('for', 'brief-email-careers');
-          // Subscribe to stay ahead sits in the second column (sidebar), directly above UAE
-          // Careers (already moved to sidebar.firstElementChild above). The aside's flex "gap"
-          // spaces it from Careers, so no extra margin is needed now that it's the first child.
+          // Placed in the sidebar for now; it moves to the top of the third column further down.
           sidebar.insertBefore(morningBriefCopy, careers);
         }
         // Gold Sponsors: ten small gold tiles under a box title (replaces the five larger "Sponsored" banners).
@@ -816,7 +814,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         platinumSection.innerHTML = `<h2 id="platinum-sponsors-title">Elite Partners</h2><div class="fx-platinum-list">${platinumSponsors.map((name) => `<a href="#" class="fx-platinum-tile" aria-label="Elite partner: ${name}">${name}</a>`).join('')}</div>`;
         careersColumn.insertBefore(platinumSection, goldSection);
         // The original (undecorated) Subscribe box is removed now that its relabelled copy
-        // (morningBriefCopy, above UAE Careers) is the one shown in the second column.
+        // (morningBriefCopy) is the one shown, at the top of the third column.
         if (morningBrief) morningBrief.remove();
         const professionalServicesBox = document.createElement('section');
         professionalServicesBox.setAttribute('aria-labelledby', 'professional-services-title');
@@ -845,13 +843,14 @@ document.addEventListener('DOMContentLoaded', async function() {
             <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Dune Payments Advisory</span></span></a>
             <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Pearl Trust Services</span></span></a>
           </div>`;
-        // Column 3 order: Sponsored Posts on top, then Elite Partners, Gold Sponsors and Featured Companies.
+        // Column 3 order: Subscribe to stay ahead on top, then Sponsored Posts, Elite Partners, Gold Sponsors
+        // and Featured Companies.
         if (sponsoredPostsBox) careersColumn.insertBefore(sponsoredPostsBox, careersColumn.firstChild);
-        // Videos and Podcasts sits in the second column, directly under the Subscribe to stay ahead newsletter box.
-        const videosPodcastsBox = document.querySelector('[aria-labelledby="sponsored-podcasts-title"]');
         const newsletterBox = sidebar.querySelector('[aria-labelledby="brief-title-careers"]');
-        if (videosPodcastsBox && newsletterBox) newsletterBox.insertAdjacentElement('afterend', videosPodcastsBox);
-        else if (videosPodcastsBox) sidebar.insertBefore(videosPodcastsBox, sidebar.firstElementChild);
+        if (newsletterBox) careersColumn.insertBefore(newsletterBox, careersColumn.firstChild);
+        // Videos and Podcasts leads the second column.
+        const videosPodcastsBox = document.querySelector('[aria-labelledby="sponsored-podcasts-title"]');
+        if (videosPodcastsBox) sidebar.insertBefore(videosPodcastsBox, sidebar.firstElementChild);
         careersColumn.appendChild(professionalServicesBox);
         window.__careersColumn = careersColumn;
         main.appendChild(careersColumn);
