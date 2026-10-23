@@ -88,7 +88,7 @@ test('meta.json advertises versions, capabilities and every endpoint that exists
     assert.ok(existsSync(path.join(apiDir, file)), file);
   }
   const sectionIds = taxonomy.sections.map((s) => s.id);
-  for (const id of ['real-estate-infrastructure', 'energy', 'ai-technology']) assert.ok(sectionIds.includes(id), `section ${id}`);
+  for (const id of ['residential-real-estate', 'commercial-real-estate', 'ai-technology']) assert.ok(sectionIds.includes(id), `section ${id}`);
   const grants = api('news/sections/grants-funding.json');
   assert.ok(grants.items.length > 0);
   assert.ok(grants.items.every((s) => s.category === 'uae' && s.topics.includes('grants-funding')));

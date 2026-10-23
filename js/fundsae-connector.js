@@ -25,7 +25,7 @@
 
   var LIMITS = { newsPerRegion: 15, newsMore: 35, headline: 92, tileHeadline: 110, homeJobs: 20, tiles: 15, eventsPerList: 10, eventsMax: 100, topJobs: 20, topEmployers: 20 };
   var ROLES_DEMO_TOTAL = 120; // Careers page, demo mode: live roles are topped up with dummy roles to this many (3 pages of PER_PAGE = 40 in Careers.dc.html)
-  var TILES_SHOWN = 12; // Real Estate, Energy, AI and Technology and Grants boxes
+  var TILES_SHOWN = 12; // Residential, Commercial Real Estate, Tech and Data Centre and Grants boxes
   // Home news tabs. UAE and global stories share the News tab, in the API's order.
   var REGIONS = { uae: 'News', world: 'News' };
   // Fundraising is the second tab. It is not a category: it pulls in any story tagged with the
@@ -835,14 +835,14 @@
       renderBadge();
 
       if (hasSlot('news')) guard('News', load('news.json', 'news').then(function (doc) { renderNews(doc); bindSearch(); }));
-      if (hasSlot('tiles-real-estate-infrastructure')) {
-        guard('Real estate stories', load('news/sections/real-estate-infrastructure.json', 'news').then(function (doc) { renderTiles('tiles-real-estate-infrastructure', doc, TILES_SHOWN); }));
+      if (hasSlot('tiles-residential-real-estate')) {
+        guard('Residential real estate stories', load('news/sections/residential-real-estate.json', 'news').then(function (doc) { renderTiles('tiles-residential-real-estate', doc, TILES_SHOWN); }));
       }
-      if (hasSlot('tiles-energy')) {
-        guard('Energy stories', load('news/sections/energy.json', 'news').then(function (doc) { renderTiles('tiles-energy', doc, TILES_SHOWN); }));
+      if (hasSlot('tiles-commercial-real-estate')) {
+        guard('Commercial real estate stories', load('news/sections/commercial-real-estate.json', 'news').then(function (doc) { renderTiles('tiles-commercial-real-estate', doc, TILES_SHOWN); }));
       }
       if (hasSlot('tiles-ai-technology')) {
-        guard('AI and technology stories', load('news/sections/ai-technology.json', 'news').then(function (doc) { renderTiles('tiles-ai-technology', doc, TILES_SHOWN); }));
+        guard('Tech and data centre stories', load('news/sections/ai-technology.json', 'news').then(function (doc) { renderTiles('tiles-ai-technology', doc, TILES_SHOWN); }));
       }
       if (hasSlot('tiles-grants-funding')) {
         guard('Grants stories', load('news/sections/grants-funding.json', 'news').then(function (doc) { renderTiles('tiles-grants-funding', doc, TILES_SHOWN); }));

@@ -867,7 +867,7 @@ document.addEventListener('DOMContentLoaded', async function() {
           }
           @media (max-width: 620px) {
             main.wrap { padding-right: 16px !important; padding-left: 16px !important; }
-            [aria-label="Real Estate and Infrastructure News"], [aria-label="Energy News"], [aria-label="AI and Technology News"] { grid-template-columns: minmax(0, 1fr) !important; }
+            [aria-label="Residential Estate News"], [aria-label="Commercial Real Estate News"], [aria-label="Tech and Data Centre News"] { grid-template-columns: minmax(0, 1fr) !important; }
             [aria-label="UAE Business Grants and Funding news"] { grid-template-columns: minmax(0, 1fr) !important; }
             [aria-label="Other Funding Resources"] { grid-template-columns: minmax(0, 1fr) !important; }
             .news article:hover { transform: none; }
@@ -898,10 +898,10 @@ document.addEventListener('DOMContentLoaded', async function() {
           document.querySelectorAll('[data-more-news-region]').forEach((link) => {
             link.style.display = link.dataset.moreNewsRegion === region ? 'inline-block' : 'none';
           });
-          // Real Estate and Infrastructure News stays under News, but not under Fundraising. Queried each call (not closed over) because the box is
+          // Residential Estate News stays under Latest Stories, but not under Fundraising. Queried each call (not closed over) because the box is
           // created later, further down this same script.
-          // Energy News and AI and Technology News follow the same rule.
-          ['Real Estate and Infrastructure News', 'Energy News', 'AI and Technology News'].forEach((label) => {
+          // Commercial Real Estate News and Tech and Data Centre News follow the same rule.
+          ['Residential Estate News', 'Commercial Real Estate News', 'Tech and Data Centre News'].forEach((label) => {
             const tileBox = document.querySelector('.news > section[aria-label="' + label + '"]');
             if (!tileBox) return;
             const show = region !== 'Fundraising';
@@ -1079,11 +1079,11 @@ document.addEventListener('DOMContentLoaded', async function() {
         const eventsPanel = sidebar && sidebar.querySelector('[aria-labelledby="events-title"]');
         if (eventsPanel) {
           const realEstateHeading = document.createElement('h2');
-          realEstateHeading.textContent = 'Real Estate and Infrastructure News';
+          realEstateHeading.textContent = 'Residential Estate News';
           realEstateHeading.style.cssText = 'margin: 32px 0 0; padding-top: 24px; border-top: 1px solid #DAE5E4; font-size: 22px; font-weight: 600; color: #0E3A43';
           news.appendChild(realEstateHeading);
           const realEstateBox = document.createElement('section');
-          realEstateBox.setAttribute('aria-label', 'Real Estate and Infrastructure News');
+          realEstateBox.setAttribute('aria-label', 'Residential Estate News');
           realEstateBox.style.cssText = 'display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 16px; padding: 18px; border: 1px solid #DAE5E4; border-radius: 14px; background: #FFFFFF; box-shadow: 0 8px 24px rgba(14, 58, 67, 0.06)';
           realEstateBox.innerHTML = `
             <article style="min-width: 0">
@@ -1107,16 +1107,16 @@ document.addEventListener('DOMContentLoaded', async function() {
               <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Waterfront apartment launches reshape the Dubai market</a>
             </article>
             <article style="min-width: 0">
-              <div role="img" aria-label="Dummy UAE office district image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #D8D0A4, #607A5A); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">OFFICE DISTRICTS</div>
-              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">UAE office districts prepare for another year of expansion</a>
+              <div role="img" aria-label="Dummy family villas image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #D8D0A4, #607A5A); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">VILLAS</div>
+              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Villa communities lead price growth across Dubai</a>
             </article>
             <article style="min-width: 0">
               <div role="img" aria-label="Dummy Ras Al Khaimah resort image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #C9DCC0, #4E7A5C); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">RAK RESORTS</div>
               <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Ras Al Khaimah resort developments draw regional buyers</a>
             </article>
             <article style="min-width: 0">
-              <div role="img" aria-label="Dummy logistics warehouse image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #D3C4A6, #7A5C3E); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">LOGISTICS PARKS</div>
-              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Industrial and logistics parks see growing investor demand</a>
+              <div role="img" aria-label="Dummy rental homes image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #D3C4A6, #7A5C3E); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">BUILD-TO-RENT</div>
+              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Build-to-rent schemes draw institutional landlords</a>
             </article>
             <article style="min-width: 0">
               <div role="img" aria-label="Dummy off-plan tower image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #B9C9E0, #2F4E6D); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">OFF-PLAN TOWERS</div>
@@ -1127,7 +1127,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             image.style.maxWidth = '150px';
           });
           news.appendChild(realEstateBox);
-          // Energy News and AI and Technology News: same heading, box and tile format as
+          // Commercial Real Estate News and Tech and Data Centre News: same heading, box and tile format as
           // Real Estate, directly below it (12 dummy tiles each, replaced by live stories).
           const addTileSection = (label, tiles) => {
             const heading = document.createElement('h2');
@@ -1154,21 +1154,21 @@ document.addEventListener('DOMContentLoaded', async function() {
             });
             news.appendChild(section);
           };
-          addTileSection('Energy News', [
-            ['UPSTREAM', 'Upstream investment holds firm across the Gulf', '#8A6330, #D3B46A'],
-            ['LNG', 'New LNG supply deals reshape regional gas trade', '#31556D, #8BA9C1'],
-            ['REFINING', 'Refinery expansion plans move into the next phase', '#874E4B, #C6A59B'],
-            ['OPEC+', 'OPEC+ output decisions keep crude prices in focus', '#0E3A43, #7F9A97'],
-            ['PETROCHEMICALS', 'Petrochemical projects draw fresh long-term capital', '#5B4675, #B4A4C9'],
-            ['OFFSHORE', 'Offshore field developments gather pace', '#356A78, #A8C5D1'],
-            ['PIPELINES', 'Cross-border pipeline projects attract infrastructure funds', '#607A5A, #D8D0A4'],
-            ['NATIONAL OIL COS', 'National oil companies widen their investment programmes', '#875F4A, #D9B38C'],
-            ['GAS POWER', 'Gas-fired power capacity grows alongside renewables', '#4E7A5C, #C9DCC0'],
-            ['ENERGY SERVICES', 'Energy services firms win larger regional contracts', '#2F4E6D, #B9C9E0'],
-            ['CARBON CAPTURE', 'Carbon capture projects move from pilot to build', '#416C56, #9EB9A5'],
-            ['OIL TRADING', 'Trading houses expand their Dubai energy desks', '#7A5C3E, #D3C4A6']
+          addTileSection('Commercial Real Estate News', [
+            ['OFFICES', 'Grade A office rents climb in Dubai business districts', '#8A6330, #D3B46A'],
+            ['LOGISTICS', 'Logistics parks expand near Jebel Ali and Khalifa Port', '#31556D, #8BA9C1'],
+            ['RETAIL', 'Mall operators refresh retail space for new tenants', '#874E4B, #C6A59B'],
+            ['REITS', 'Regional REITs add income-producing commercial assets', '#0E3A43, #7F9A97'],
+            ['HOTELS', 'Hotel developments draw long-term hospitality capital', '#5B4675, #B4A4C9'],
+            ['INDUSTRIAL', 'Industrial property demand grows with manufacturing', '#356A78, #A8C5D1'],
+            ['BUSINESS PARKS', 'Business parks sign larger corporate leases', '#607A5A, #D8D0A4'],
+            ['WAREHOUSING', 'Warehouse supply struggles to keep pace with demand', '#875F4A, #D9B38C'],
+            ['FLEXIBLE OFFICES', 'Flexible office operators open new Abu Dhabi floors', '#4E7A5C, #C9DCC0'],
+            ['MIXED USE', 'Mixed-use schemes blend offices, retail and hotels', '#2F4E6D, #B9C9E0'],
+            ['FREE ZONES', 'Free zone office space fills as firms relocate', '#416C56, #9EB9A5'],
+            ['CRE DEBT', 'Private lenders step up commercial property financing', '#7A5C3E, #D3C4A6']
           ]);
-          addTileSection('AI and Technology News', [
+          addTileSection('Tech and Data Centre News', [
             ['AI INVESTMENT', 'AI infrastructure funding reaches new highs', '#31556D, #8BA9C1'],
             ['DATA CENTRES', 'Data centre campuses expand across the UAE', '#0E3A43, #7F9A97'],
             ['AI STARTUPS', 'AI start-ups close larger rounds in the Gulf', '#5B4675, #B4A4C9'],
@@ -1287,10 +1287,10 @@ document.addEventListener('DOMContentLoaded', async function() {
           ['GREEN FINANCE', 'Green finance grants back clean-energy ventures', '#416C56, #9EB9A5'],
           ['WOMEN FOUNDERS', 'New fund backs women-led businesses across the Gulf', '#874E4B, #C9A9A0'],
         ],
-        'Real Estate and Infrastructure News': [
+        'Residential Estate News': [
           ['AFFORDABLE HOMES', 'Affordable housing pipeline widens across the northern emirates', '#4F8A8B, #1C5965'],
-          ['SMART CITIES', 'Smart-city projects move into the delivery phase', '#31556D, #8BA9C1'],
-          ['RAIL AND METRO', 'Rail and metro expansion lifts nearby property demand', '#5B4675, #B4A4C9'],
+          ['MORTGAGES', 'Mortgage lenders widen terms for UAE homebuyers', '#31556D, #8BA9C1'],
+          ['TOWNHOUSES', 'Townhouse launches sell out in new Abu Dhabi communities', '#5B4675, #B4A4C9'],
         ],
       };
       Object.entries(extraTiles).forEach(([label, tiles]) => {
@@ -1323,7 +1323,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         document.querySelector('#professional-services-title'),
       ].map((heading) => heading && heading.closest('section'));
       inside.forEach((box) => { if (box && !box.querySelector('.fx-view-all')) box.appendChild(makeViewAll()); });
-      ['Other Funding Resources', 'UAE Business Grants and Funding news', 'Real Estate and Infrastructure News', 'Energy News', 'AI and Technology News'].forEach((label) => {
+      ['Other Funding Resources', 'UAE Business Grants and Funding news', 'Residential Estate News', 'Commercial Real Estate News', 'Tech and Data Centre News'].forEach((label) => {
         const box = document.querySelector('.news > section[aria-label="' + label + '"]');
         if (box && !(box.nextElementSibling && box.nextElementSibling.classList.contains('fx-view-all'))) box.after(makeViewAll());
       });
@@ -1565,10 +1565,10 @@ document.addEventListener('DOMContentLoaded', async function() {
         /* Tile grids: smaller images and type (same size in every box; the data-fundsae-tag selectors cover live tiles, which the connector strips of role=img). Grants stays five across (15 tiles = 3 rows);
            Real Estate is kept at three across (15 tiles = 5 rows) so 3 images/headlines share
            one row, as on Grants' 760px breakpoint. */
-        .news > section[aria-label="Real Estate and Infrastructure News"], .news > section[aria-label="Energy News"], .news > section[aria-label="AI and Technology News"], .news > section[aria-label="UAE Business Grants and Funding news"], .news > section[aria-label="Other Funding Resources"] { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; column-gap: 12px !important; row-gap: 18px !important; }
+        .news > section[aria-label="Residential Estate News"], .news > section[aria-label="Commercial Real Estate News"], .news > section[aria-label="Tech and Data Centre News"], .news > section[aria-label="UAE Business Grants and Funding news"], .news > section[aria-label="Other Funding Resources"] { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; column-gap: 12px !important; row-gap: 18px !important; }
         .news > section[aria-label] [role="img"][style*="height: 116px"], .news > section[aria-label] [role="img"][style*="height:116px"], .news > section[aria-label] [data-fundsae-tag][style*="height: 116px"], .news > section[aria-label] [data-fundsae-tag][style*="height:116px"] { box-sizing: border-box; width: 100% !important; max-width: none !important; height: 68px !important; padding: 6px 8px !important; font-family: var(--fx-mono); font-size: 9px !important; letter-spacing: 0.06em !important; line-height: 1.2; }
         .news > section[aria-label] article > a { margin-top: 8px !important; font-size: 13px !important; line-height: 1.3 !important; }
-        @media (max-width: 480px) { .news > section[aria-label="Real Estate and Infrastructure News"], .news > section[aria-label="Energy News"], .news > section[aria-label="AI and Technology News"], .news > section[aria-label="UAE Business Grants and Funding news"], .news > section[aria-label="Other Funding Resources"] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
+        @media (max-width: 480px) { .news > section[aria-label="Residential Estate News"], .news > section[aria-label="Commercial Real Estate News"], .news > section[aria-label="Tech and Data Centre News"], .news > section[aria-label="UAE Business Grants and Funding news"], .news > section[aria-label="Other Funding Resources"] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
         /* Other Funding Resources: links only, no images; each link sits on a hairline divider. */
         .news > section[aria-label="Other Funding Resources"] article > a { margin-top: 0 !important; padding: 8px 0; border-bottom: 1px solid var(--fx-line-2); }
         .news > section[aria-label] article > a:hover { color: var(--fx-accent) !important; text-decoration: none !important; }
@@ -1700,9 +1700,9 @@ document.addEventListener('DOMContentLoaded', async function() {
       tag(document.querySelector('.fx-gold-grid'), 'sponsor-gold');
       tag(document.querySelector('.fx-founding'), 'sponsor-founding');
       tag(document.querySelector('.fx-platinum-list'), 'sponsor-platinum');
-      tag(document.querySelector('.news > section[aria-label="Real Estate and Infrastructure News"]'), 'tiles-real-estate-infrastructure');
-      tag(document.querySelector('.news > section[aria-label="Energy News"]'), 'tiles-energy');
-      tag(document.querySelector('.news > section[aria-label="AI and Technology News"]'), 'tiles-ai-technology');
+      tag(document.querySelector('.news > section[aria-label="Residential Estate News"]'), 'tiles-residential-real-estate');
+      tag(document.querySelector('.news > section[aria-label="Commercial Real Estate News"]'), 'tiles-commercial-real-estate');
+      tag(document.querySelector('.news > section[aria-label="Tech and Data Centre News"]'), 'tiles-ai-technology');
       tag(document.querySelector('.news > section[aria-label="UAE Business Grants and Funding news"]'), 'tiles-grants-funding');
       tag(inBox('tweets-title', ':scope > div'), 'social-highlights');
       const dateLine = document.querySelector('.fx-topline > span:first-child');

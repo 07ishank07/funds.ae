@@ -8,6 +8,7 @@ import { buildClassifier, classifyArticle } from '../src/lib/classify.js';
 import { buildQualityRules, assessQuality } from '../src/lib/quality.js';
 import { fingerprint, similarity } from '../src/lib/grouping.js';
 import { validateSponsors } from '../src/pipeline/sponsors.js';
+import { storyMatchesSection } from '../src/pipeline/publish.js';
 import { buildJobRules, isUaeLocation, isRelevantJob } from '../src/pipeline/jobs.js';
 import { isSafePublicUrl } from '../src/lib/http.js';
 import { readJson, CONFIG_DIR } from '../src/config.js';
@@ -85,6 +86,20 @@ test('classifier separates UAE from Rest of the World and picks a topic', () => 
 
   const offTopic = classifyArticle(c, { title: 'UAE football league announces new season', summary: '' }, { region: 'uae' }, settings);
   assert.ok(offTopic.relevance < settings.news.relevanceThreshold);
+});
+
+test('home tile sections split residential and commercial real estate, and tech covers data centres', () => {
+  const c = buildClassifier(taxonomy);
+  const sectionOf = (title) => {
+    const cls = classifyArticle(c, { title, summary: '' }, { region: 'uae' }, settings);
+    return taxonomy.sections.filter((s) => storyMatchesSection({ ...cls }, s)).map((s) => s.id);
+  };
+  assert.ok(sectionOf('Dubai villa and apartment prices rise as homebuyers return').includes('residential-real-estate'));
+  assert.ok(!sectionOf('Dubai villa and apartment prices rise as homebuyers return').includes('commercial-real-estate'));
+  assert.ok(sectionOf('Grade A office space shortage lifts Dubai commercial property rents').includes('commercial-real-estate'));
+  assert.ok(!sectionOf('Grade A office space shortage lifts Dubai commercial property rents').includes('residential-real-estate'));
+  assert.ok(sectionOf('Abu Dhabi hyperscale data centre campus secures funding').includes('ai-technology'));
+  assert.ok(!sectionOf('ADNOC signs new LNG supply deal').some((id) => id.endsWith('real-estate')), 'energy stories no longer reach a real estate box');
 });
 
 test('quality rules drop opinion, advertorials, podcasts and stale items but keep ordinary news', () => {

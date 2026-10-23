@@ -61,6 +61,24 @@
       }
     },
     {
+      "id": "residential-real-estate",
+      "label": "Residential real estate",
+      "keywords": {
+        "residential real estate": 3, "residential property": 3, "housing": 2, "homebuyer": 3, "home buyer": 3,
+        "first-time buyer": 3, "apartment": 2, "villa": 2, "townhouse": 2, "off-plan": 2, "rental yield": 2,
+        "mortgage": 2, "build-to-rent": 3, "master-planned community": 2, "residential": 1, "homes": 1
+      }
+    },
+    {
+      "id": "commercial-real-estate",
+      "label": "Commercial real estate",
+      "keywords": {
+        "commercial real estate": 3, "commercial property": 3, "office space": 3, "office tower": 3, "grade a office": 3,
+        "office market": 3, "retail space": 2, "shopping mall": 2, "logistics park": 3, "warehouse": 2,
+        "industrial property": 3, "business park": 2, "hotel development": 2, "reit": 2, "leasing": 1, "office": 1
+      }
+    },
+    {
       "id": "energy",
       "label": "Energy",
       "keywords": {
@@ -74,7 +92,7 @@
       "label": "AI and technology",
       "keywords": {
         "artificial intelligence": 3, "generative ai": 3, "machine learning": 3, "large language model": 3,
-        "ai model": 3, "ai startup": 3, "ai": 2, "semiconductor": 2, "chip": 1, "data centre": 2, "data center": 2,
+        "ai model": 3, "ai startup": 3, "ai": 2, "semiconductor": 2, "chip": 1, "data centre": 3, "data center": 3, "hyperscale": 2, "colocation": 2,
         "cloud computing": 2, "cybersecurity": 2, "fintech": 2, "blockchain": 1, "robotics": 2, "g42": 2, "mgx": 2,
         "openai": 2, "nvidia": 2, "technology": 1
       }
@@ -138,9 +156,9 @@
   ],
   "_sectionsHelp": "Sections group topics for one area of the page (the tile grids on the home page). Each gets api/v1/news/sections/<id>.json. \"category\" (optional) limits a section to uae or world stories.",
   "sections": [
-    { "id": "real-estate-infrastructure", "label": "Real Estate and Infrastructure", "topics": ["real-estate", "infrastructure"] },
-    { "id": "energy", "label": "Energy", "topics": ["energy"] },
-    { "id": "ai-technology", "label": "AI and Technology", "topics": ["ai-technology"] },
+    { "id": "residential-real-estate", "label": "Residential Real Estate", "topics": ["residential-real-estate"] },
+    { "id": "commercial-real-estate", "label": "Commercial Real Estate", "topics": ["commercial-real-estate"] },
+    { "id": "ai-technology", "label": "Tech and Data Centres", "topics": ["ai-technology"] },
     { "id": "grants-funding", "label": "UAE Business Grants and Funding", "topics": ["grants-funding"], "category": "uae" }
   ],
   "genericInvestmentTerms": {
