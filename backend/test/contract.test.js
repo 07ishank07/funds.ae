@@ -161,6 +161,7 @@ test('every page but Careers shows the same Elite Founding Sponsor banner, and a
   assert.ok(home.includes("News: 'Latest Stories'"), 'News tab is labelled Latest Stories');
   assert.ok(!home.includes('Tech and Data Centre News') && !connector.includes('tiles-ai-technology'), 'home has no Tech and Data Centre box');
   assert.ok(home.includes('if (careersBox) careersBox.remove();') && !home.includes("'home-jobs'"), 'home has no UAE Careers box');
+  assert.ok(home.includes("newsletterBox.insertAdjacentElement('afterend', sponsoredPostsBox)") && !home.includes('careersColumn.insertBefore(sponsoredPostsBox'), 'Sponsored Posts sits under the newsletter in column 2');
   assert.ok(connector.includes("var NEWS_REGIONS = ['News', 'Fundraising'];") && connector.includes("var FUNDRAISING_TOPIC = 'fundraising';"), 'connector tabs match');
   assert.ok(!/'(UAE News|Global News|Business Funding)'/.test(home + connector), 'old tab names are gone');
   assert.ok(home.includes("tab.href = 'Events.dc.html'") && home.includes("'Events.dc.html#submit-event'"), 'home links to the Events page');
