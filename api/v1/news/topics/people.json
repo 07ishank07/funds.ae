@@ -1,0 +1,75 @@
+{
+  "apiVersion": 1,
+  "mode": "demo",
+  "generatedAt": "2026-10-23T08:20:32.977Z",
+  "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
+  "topic": "people",
+  "label": "People",
+  "count": 2,
+  "items": [
+    {
+      "id": "s_576aaea4077729",
+      "headline": "Harbourview Partners closes €4.2bn buyout fund above target",
+      "summary": "The London-based private equity firm said its seventh flagship fund hit its hard cap after nine months in market.",
+      "url": "https://example.com/private-capital-daily/harbourview-fund-vii",
+      "source": "Demo Private Capital Daily",
+      "sourceId": "demo-private-capital-daily",
+      "publishedAt": "2026-10-22T02:20:32.977Z",
+      "updatedAt": "2026-10-22T02:20:32.977Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "private-equity",
+      "topicLabel": "Private equity",
+      "topics": [
+        "private-equity",
+        "fundraising",
+        "people"
+      ],
+      "imageUrl": "https://example.com/images/harbourview.jpg",
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_a53bf2c46f8c3e01",
+          "source": "Demo Private Capital Daily",
+          "sourceId": "demo-private-capital-daily",
+          "title": "Harbourview Partners closes €4.2bn buyout fund above target",
+          "url": "https://example.com/private-capital-daily/harbourview-fund-vii",
+          "publishedAt": "2026-10-22T02:20:32.977Z"
+        }
+      ]
+    },
+    {
+      "id": "s_06453dd1915e5e",
+      "headline": "Kestrel Credit Partners hires bank veteran to lead European direct lending",
+      "summary": "The private credit manager is expanding its mid-market lending team in Frankfurt and Paris.",
+      "url": "https://example.com/private-capital-daily/kestrel-direct-lending-hire",
+      "source": "Demo Private Capital Daily",
+      "sourceId": "demo-private-capital-daily",
+      "publishedAt": "2026-10-20T00:20:32.977Z",
+      "updatedAt": "2026-10-20T00:20:32.977Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "private-credit",
+      "topicLabel": "Private credit",
+      "topics": [
+        "private-credit",
+        "people",
+        "banks"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_10cc7d475fd91f3c",
+          "source": "Demo Private Capital Daily",
+          "sourceId": "demo-private-capital-daily",
+          "title": "Kestrel Credit Partners hires bank veteran to lead European direct lending",
+          "url": "https://example.com/private-capital-daily/kestrel-direct-lending-hire",
+          "publishedAt": "2026-10-20T00:20:32.977Z"
+        }
+      ]
+    }
+  ]
+}

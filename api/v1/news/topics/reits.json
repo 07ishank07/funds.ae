@@ -1,0 +1,43 @@
+{
+  "apiVersion": 1,
+  "mode": "demo",
+  "generatedAt": "2026-10-23T08:20:32.977Z",
+  "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
+  "topic": "reits",
+  "label": "REITs",
+  "count": 1,
+  "items": [
+    {
+      "id": "s_46c15c6bee49f5",
+      "headline": "Tidewell REIT raises AED 300m to buy logistics warehouses in Abu Dhabi",
+      "summary": "The listed real estate investment trust said demand from e-commerce tenants remains strong across the emirate's industrial zones.",
+      "url": "https://example.com/property-sme-wire/tidewell-reit-logistics",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-10-22T12:20:32.000Z",
+      "updatedAt": "2026-10-22T12:20:32.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "reits",
+      "topicLabel": "REITs",
+      "topics": [
+        "reits",
+        "commercial-real-estate",
+        "real-estate"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_28b8f0155619a511",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "Tidewell REIT raises AED 300m to buy logistics warehouses in Abu Dhabi",
+          "url": "https://example.com/property-sme-wire/tidewell-reit-logistics",
+          "publishedAt": "2026-10-22T12:20:32.000Z"
+        }
+      ]
+    }
+  ]
+}

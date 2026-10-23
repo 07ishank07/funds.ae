@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-10-22T08:23:51.161Z",
+  "generatedAt": "2026-10-23T08:20:32.977Z",
   "notice": "Funds.ae public data API.",
   "categories": [
     {
@@ -37,6 +37,14 @@
       "label": "Real estate"
     },
     {
+      "id": "residential-real-estate",
+      "label": "Residential real estate"
+    },
+    {
+      "id": "commercial-real-estate",
+      "label": "Commercial real estate"
+    },
+    {
       "id": "energy",
       "label": "Energy"
     },
@@ -69,6 +77,46 @@
       "label": "IPOs and listings"
     },
     {
+      "id": "sovereign-wealth",
+      "label": "Sovereign wealth"
+    },
+    {
+      "id": "pension-funds",
+      "label": "Pension funds"
+    },
+    {
+      "id": "reits",
+      "label": "REITs"
+    },
+    {
+      "id": "family-offices",
+      "label": "Family offices"
+    },
+    {
+      "id": "banks",
+      "label": "Banks"
+    },
+    {
+      "id": "government",
+      "label": "Government"
+    },
+    {
+      "id": "endowments",
+      "label": "Endowments"
+    },
+    {
+      "id": "people",
+      "label": "People"
+    },
+    {
+      "id": "regulation",
+      "label": "Regulation"
+    },
+    {
+      "id": "service-providers",
+      "label": "Service providers"
+    },
+    {
       "id": "grants-funding",
       "label": "Grants and funding"
     },
@@ -79,25 +127,32 @@
   ],
   "sections": [
     {
-      "id": "real-estate-infrastructure",
-      "label": "Real Estate and Infrastructure",
+      "id": "residential-real-estate",
+      "label": "Residential Real Estate",
       "topics": [
-        "real-estate",
+        "residential-real-estate"
+      ],
+      "category": null
+    },
+    {
+      "id": "commercial-real-estate",
+      "label": "Commercial Real Estate",
+      "topics": [
+        "commercial-real-estate"
+      ],
+      "category": null
+    },
+    {
+      "id": "infrastructure",
+      "label": "Infrastructure",
+      "topics": [
         "infrastructure"
       ],
       "category": null
     },
     {
-      "id": "energy",
-      "label": "Energy",
-      "topics": [
-        "energy"
-      ],
-      "category": null
-    },
-    {
       "id": "ai-technology",
-      "label": "AI and Technology",
+      "label": "Tech and Data Centres",
       "topics": [
         "ai-technology"
       ],

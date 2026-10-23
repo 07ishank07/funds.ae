@@ -1,0 +1,43 @@
+{
+  "apiVersion": 1,
+  "mode": "demo",
+  "generatedAt": "2026-10-23T08:20:32.977Z",
+  "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
+  "topic": "banks",
+  "label": "Banks",
+  "count": 1,
+  "items": [
+    {
+      "id": "s_06453dd1915e5e",
+      "headline": "Kestrel Credit Partners hires bank veteran to lead European direct lending",
+      "summary": "The private credit manager is expanding its mid-market lending team in Frankfurt and Paris.",
+      "url": "https://example.com/private-capital-daily/kestrel-direct-lending-hire",
+      "source": "Demo Private Capital Daily",
+      "sourceId": "demo-private-capital-daily",
+      "publishedAt": "2026-10-20T00:20:32.977Z",
+      "updatedAt": "2026-10-20T00:20:32.977Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "private-credit",
+      "topicLabel": "Private credit",
+      "topics": [
+        "private-credit",
+        "people",
+        "banks"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_10cc7d475fd91f3c",
+          "source": "Demo Private Capital Daily",
+          "sourceId": "demo-private-capital-daily",
+          "title": "Kestrel Credit Partners hires bank veteran to lead European direct lending",
+          "url": "https://example.com/private-capital-daily/kestrel-direct-lending-hire",
+          "publishedAt": "2026-10-20T00:20:32.977Z"
+        }
+      ]
+    }
+  ]
+}

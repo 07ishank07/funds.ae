@@ -1,0 +1,75 @@
+{
+  "apiVersion": 1,
+  "mode": "demo",
+  "generatedAt": "2026-10-23T08:20:32.977Z",
+  "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
+  "topic": "family-offices",
+  "label": "Family offices",
+  "count": 2,
+  "items": [
+    {
+      "id": "s_20a6669eae460f",
+      "headline": "Sharjah family office launches $200m venture fund for climate start-ups",
+      "summary": "The fund will write cheques of $2 million to $10 million into seed and Series A companies.",
+      "url": "https://example.com/emirates-markets/sharjah-family-office-climate-fund",
+      "source": "Demo Emirates Markets",
+      "sourceId": "demo-emirates-markets",
+      "publishedAt": "2026-10-21T22:20:32.000Z",
+      "updatedAt": "2026-10-21T22:20:32.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "venture-capital",
+      "topicLabel": "Venture capital",
+      "topics": [
+        "venture-capital",
+        "institutional-investors",
+        "family-offices"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_6e87c828112f76ec",
+          "source": "Demo Emirates Markets",
+          "sourceId": "demo-emirates-markets",
+          "title": "Sharjah family office launches $200m venture fund for climate start-ups",
+          "url": "https://example.com/emirates-markets/sharjah-family-office-climate-fund",
+          "publishedAt": "2026-10-21T22:20:32.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_062e5f384d5c3e",
+      "headline": "DIFC fund managers pass 500 as hedge funds and family offices keep arriving",
+      "summary": "The financial centre said 38 hedge funds registered in the first half, with assets under management at resident firms up 21 per cent.",
+      "url": "https://example.com/gulf-wire/difc-fund-managers-500",
+      "source": "Demo Gulf Wire",
+      "sourceId": "demo-gulf-wire",
+      "publishedAt": "2026-10-21T04:20:32.000Z",
+      "updatedAt": "2026-10-21T04:20:32.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "hedge-funds-alternatives",
+      "topicLabel": "Hedge funds and alternatives",
+      "topics": [
+        "hedge-funds-alternatives",
+        "institutional-investors",
+        "family-offices"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_8ed8f6435a1746d4",
+          "source": "Demo Gulf Wire",
+          "sourceId": "demo-gulf-wire",
+          "title": "DIFC fund managers pass 500 as hedge funds and family offices keep arriving",
+          "url": "https://example.com/gulf-wire/difc-fund-managers-500",
+          "publishedAt": "2026-10-21T04:20:32.000Z"
+        }
+      ]
+    }
+  ]
+}

@@ -1,11 +1,11 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-10-22T08:23:51.161Z",
+  "generatedAt": "2026-10-23T08:20:32.977Z",
   "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
   "topic": "fundraising",
   "label": "Fund launches and closes",
-  "count": 5,
+  "count": 3,
   "items": [
     {
       "id": "s_5dbd32a8d22e9c",
@@ -14,8 +14,8 @@
       "url": "https://example.com/gulf-wire/falcon-ridge-private-credit-fund-ii",
       "source": "Demo Gulf Wire",
       "sourceId": "demo-gulf-wire",
-      "publishedAt": "2026-10-21T23:23:51.000Z",
-      "updatedAt": "2026-10-22T03:23:51.161Z",
+      "publishedAt": "2026-10-22T23:20:32.000Z",
+      "updatedAt": "2026-10-23T03:20:32.977Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -35,7 +35,7 @@
           "sourceId": "demo-gulf-wire",
           "title": "Abu Dhabi's Falcon Ridge Capital closes $750m second private credit fund",
           "url": "https://example.com/gulf-wire/falcon-ridge-private-credit-fund-ii",
-          "publishedAt": "2026-10-21T23:23:51.000Z"
+          "publishedAt": "2026-10-22T23:20:32.000Z"
         },
         {
           "articleId": "a_0767f4e44124c67e",
@@ -43,7 +43,7 @@
           "sourceId": "demo-emirates-markets",
           "title": "Falcon Ridge Capital raises $750 million for private credit strategy",
           "url": "https://example.com/emirates-markets/falcon-ridge-750-million",
-          "publishedAt": "2026-10-22T01:23:51.000Z"
+          "publishedAt": "2026-10-23T01:20:32.000Z"
         },
         {
           "articleId": "a_7ce855c52942d109",
@@ -51,7 +51,7 @@
           "sourceId": "demo-private-capital-daily",
           "title": "Abu Dhabi manager Falcon Ridge wraps up $750m private credit fundraise",
           "url": "https://example.com/private-capital-daily/falcon-ridge-wraps-up",
-          "publishedAt": "2026-10-22T03:23:51.161Z"
+          "publishedAt": "2026-10-23T03:20:32.977Z"
         }
       ]
     },
@@ -62,8 +62,8 @@
       "url": "https://example.com/private-capital-daily/harbourview-fund-vii",
       "source": "Demo Private Capital Daily",
       "sourceId": "demo-private-capital-daily",
-      "publishedAt": "2026-10-21T02:23:51.161Z",
-      "updatedAt": "2026-10-21T02:23:51.161Z",
+      "publishedAt": "2026-10-22T02:20:32.977Z",
+      "updatedAt": "2026-10-22T02:20:32.977Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -71,7 +71,8 @@
       "topicLabel": "Private equity",
       "topics": [
         "private-equity",
-        "fundraising"
+        "fundraising",
+        "people"
       ],
       "imageUrl": "https://example.com/images/harbourview.jpg",
       "sourceCount": 1,
@@ -82,71 +83,7 @@
           "sourceId": "demo-private-capital-daily",
           "title": "Harbourview Partners closes €4.2bn buyout fund above target",
           "url": "https://example.com/private-capital-daily/harbourview-fund-vii",
-          "publishedAt": "2026-10-21T02:23:51.161Z"
-        }
-      ]
-    },
-    {
-      "id": "s_a42cf20de9d2eb",
-      "headline": "Brindlecourt Infrastructure closes €1.2bn infrastructure fund for European data centres",
-      "summary": "The final close drew commitments from pension funds and insurers in Europe and Asia.",
-      "url": "https://example.com/property-sme-wire/brindlecourt-data-centre-fund",
-      "source": "Demo Property and SME Wire",
-      "sourceId": "demo-property-sme-wire",
-      "publishedAt": "2026-10-20T23:23:51.000Z",
-      "updatedAt": "2026-10-20T23:23:51.000Z",
-      "category": "world",
-      "categoryLabel": "Rest of the World",
-      "uiLabel": "Global News",
-      "topic": "infrastructure",
-      "topicLabel": "Infrastructure",
-      "topics": [
-        "infrastructure",
-        "ai-technology",
-        "fundraising"
-      ],
-      "imageUrl": null,
-      "sourceCount": 1,
-      "sources": [
-        {
-          "articleId": "a_58ca14532f4deae7",
-          "source": "Demo Property and SME Wire",
-          "sourceId": "demo-property-sme-wire",
-          "title": "Brindlecourt Infrastructure closes €1.2bn infrastructure fund for European data centres",
-          "url": "https://example.com/property-sme-wire/brindlecourt-data-centre-fund",
-          "publishedAt": "2026-10-20T23:23:51.000Z"
-        }
-      ]
-    },
-    {
-      "id": "s_062e5f384d5c3e",
-      "headline": "DIFC fund managers pass 500 as hedge funds and family offices keep arriving",
-      "summary": "The financial centre said 38 hedge funds registered in the first half, with assets under management at resident firms up 21 per cent.",
-      "url": "https://example.com/gulf-wire/difc-fund-managers-500",
-      "source": "Demo Gulf Wire",
-      "sourceId": "demo-gulf-wire",
-      "publishedAt": "2026-10-20T04:23:51.000Z",
-      "updatedAt": "2026-10-20T04:23:51.000Z",
-      "category": "uae",
-      "categoryLabel": "UAE",
-      "uiLabel": "UAE News",
-      "topic": "hedge-funds-alternatives",
-      "topicLabel": "Hedge funds and alternatives",
-      "topics": [
-        "hedge-funds-alternatives",
-        "institutional-investors",
-        "fundraising"
-      ],
-      "imageUrl": null,
-      "sourceCount": 1,
-      "sources": [
-        {
-          "articleId": "a_8ed8f6435a1746d4",
-          "source": "Demo Gulf Wire",
-          "sourceId": "demo-gulf-wire",
-          "title": "DIFC fund managers pass 500 as hedge funds and family offices keep arriving",
-          "url": "https://example.com/gulf-wire/difc-fund-managers-500",
-          "publishedAt": "2026-10-20T04:23:51.000Z"
+          "publishedAt": "2026-10-22T02:20:32.977Z"
         }
       ]
     },
@@ -157,8 +94,8 @@
       "url": "https://example.com/emirates-markets/crescent-peak-secondaries-first-close",
       "source": "Demo Emirates Markets",
       "sourceId": "demo-emirates-markets",
-      "publishedAt": "2026-10-18T05:23:51.000Z",
-      "updatedAt": "2026-10-18T05:23:51.000Z",
+      "publishedAt": "2026-10-19T05:20:32.000Z",
+      "updatedAt": "2026-10-19T05:20:32.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -178,7 +115,7 @@
           "sourceId": "demo-emirates-markets",
           "title": "ADGM-registered Crescent Peak announces first close of GCC secondaries fund",
           "url": "https://example.com/emirates-markets/crescent-peak-secondaries-first-close",
-          "publishedAt": "2026-10-18T05:23:51.000Z"
+          "publishedAt": "2026-10-19T05:20:32.000Z"
         }
       ]
     }

@@ -1,0 +1,104 @@
+{
+  "apiVersion": 1,
+  "mode": "demo",
+  "generatedAt": "2026-10-23T08:20:32.977Z",
+  "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
+  "topic": "residential-real-estate",
+  "label": "Residential real estate",
+  "count": 3,
+  "items": [
+    {
+      "id": "s_36c692072aa8b0",
+      "headline": "Dubai developer Sandhaven launches AED 500m real estate fund for build-to-rent homes",
+      "summary": "The fund will buy completed apartment blocks in established Dubai communities and hold them for rental income.",
+      "url": "https://example.com/property-sme-wire/sandhaven-build-to-rent-fund",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-10-23T03:20:32.000Z",
+      "updatedAt": "2026-10-23T03:20:32.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "residential-real-estate",
+      "topicLabel": "Residential real estate",
+      "topics": [
+        "residential-real-estate",
+        "real-estate"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_9ee476a0874ae938",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "Dubai developer Sandhaven launches AED 500m real estate fund for build-to-rent homes",
+          "url": "https://example.com/property-sme-wire/sandhaven-build-to-rent-fund",
+          "publishedAt": "2026-10-23T03:20:32.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_e801381cde3b6b",
+      "headline": "Dubai off-plan property prices climb 12% as buyers return",
+      "summary": "Residential sales rose in the third quarter, brokers said.",
+      "url": "https://example.com/gulf-wire/off-plan-prices",
+      "source": "Demo Gulf Wire",
+      "sourceId": "demo-gulf-wire",
+      "publishedAt": "2026-10-23T00:20:32.000Z",
+      "updatedAt": "2026-10-23T00:20:32.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "residential-real-estate",
+      "topicLabel": "Residential real estate",
+      "topics": [
+        "residential-real-estate"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_de242799f4821106",
+          "source": "Demo Gulf Wire",
+          "sourceId": "demo-gulf-wire",
+          "title": "Dubai off-plan property prices climb 12% as buyers return",
+          "url": "https://example.com/gulf-wire/off-plan-prices",
+          "publishedAt": "2026-10-23T00:20:32.000Z"
+        }
+      ]
+    },
+    {
+      "id": "s_c8d19186907ab1",
+      "headline": "London property fund Wexmoor raises £400m for student housing",
+      "summary": "The real estate fund will target purpose-built student accommodation in university cities.",
+      "url": "https://example.com/property-sme-wire/wexmoor-student-housing",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-10-19T02:20:32.000Z",
+      "updatedAt": "2026-10-19T02:20:32.000Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "real-estate",
+      "topicLabel": "Real estate",
+      "topics": [
+        "real-estate",
+        "residential-real-estate",
+        "venture-capital"
+      ],
+      "imageUrl": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_1cf9b64666a0727d",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "London property fund Wexmoor raises £400m for student housing",
+          "url": "https://example.com/property-sme-wire/wexmoor-student-housing",
+          "publishedAt": "2026-10-19T02:20:32.000Z"
+        }
+      ]
+    }
+  ]
+}

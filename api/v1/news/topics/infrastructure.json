@@ -1,44 +1,12 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-10-22T08:23:51.161Z",
+  "generatedAt": "2026-10-23T08:20:32.977Z",
   "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
   "topic": "infrastructure",
   "label": "Infrastructure",
-  "count": 4,
+  "count": 2,
   "items": [
-    {
-      "id": "s_1ec502cf2475e3",
-      "headline": "Gulf sovereign investors join $1bn round for London AI infrastructure firm Northlight",
-      "summary": "Investors from Abu Dhabi and Riyadh took part alongside US pension funds, people familiar with the matter said.",
-      "url": "https://example.com/private-capital-daily/northlight-1bn-round",
-      "source": "Demo Private Capital Daily",
-      "sourceId": "demo-private-capital-daily",
-      "publishedAt": "2026-10-21T12:23:51.161Z",
-      "updatedAt": "2026-10-21T12:23:51.161Z",
-      "category": "world",
-      "categoryLabel": "Rest of the World",
-      "uiLabel": "Global News",
-      "topic": "institutional-investors",
-      "topicLabel": "Sovereign and institutional investors",
-      "topics": [
-        "institutional-investors",
-        "ai-technology",
-        "infrastructure"
-      ],
-      "imageUrl": null,
-      "sourceCount": 1,
-      "sources": [
-        {
-          "articleId": "a_845e42dfd074172f",
-          "source": "Demo Private Capital Daily",
-          "sourceId": "demo-private-capital-daily",
-          "title": "Gulf sovereign investors join $1bn round for London AI infrastructure firm Northlight",
-          "url": "https://example.com/private-capital-daily/northlight-1bn-round",
-          "publishedAt": "2026-10-21T12:23:51.161Z"
-        }
-      ]
-    },
     {
       "id": "s_a42cf20de9d2eb",
       "headline": "Brindlecourt Infrastructure closes €1.2bn infrastructure fund for European data centres",
@@ -46,8 +14,8 @@
       "url": "https://example.com/property-sme-wire/brindlecourt-data-centre-fund",
       "source": "Demo Property and SME Wire",
       "sourceId": "demo-property-sme-wire",
-      "publishedAt": "2026-10-20T23:23:51.000Z",
-      "updatedAt": "2026-10-20T23:23:51.000Z",
+      "publishedAt": "2026-10-21T23:20:32.000Z",
+      "updatedAt": "2026-10-21T23:20:32.000Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -56,7 +24,7 @@
       "topics": [
         "infrastructure",
         "ai-technology",
-        "fundraising"
+        "pension-funds"
       ],
       "imageUrl": null,
       "sourceCount": 1,
@@ -67,7 +35,7 @@
           "sourceId": "demo-property-sme-wire",
           "title": "Brindlecourt Infrastructure closes €1.2bn infrastructure fund for European data centres",
           "url": "https://example.com/property-sme-wire/brindlecourt-data-centre-fund",
-          "publishedAt": "2026-10-20T23:23:51.000Z"
+          "publishedAt": "2026-10-21T23:20:32.000Z"
         }
       ]
     },
@@ -78,8 +46,8 @@
       "url": "https://example.com/property-sme-wire/sharjah-infrastructure-fund-solar",
       "source": "Demo Property and SME Wire",
       "sourceId": "demo-property-sme-wire",
-      "publishedAt": "2026-10-20T04:23:51.000Z",
-      "updatedAt": "2026-10-20T04:23:51.000Z",
+      "publishedAt": "2026-10-21T04:20:32.000Z",
+      "updatedAt": "2026-10-21T04:20:32.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -98,39 +66,7 @@
           "sourceId": "demo-property-sme-wire",
           "title": "Sharjah infrastructure fund backs new solar and water projects",
           "url": "https://example.com/property-sme-wire/sharjah-infrastructure-fund-solar",
-          "publishedAt": "2026-10-20T04:23:51.000Z"
-        }
-      ]
-    },
-    {
-      "id": "s_f6a599b474b486",
-      "headline": "Pension funds lift allocations to infrastructure debt",
-      "summary": "A survey of 140 institutional investors found most plan to raise private credit exposure over the next year.",
-      "url": "https://example.com/private-capital-daily/pensions-infrastructure-debt",
-      "source": "Demo Private Capital Daily",
-      "sourceId": "demo-private-capital-daily",
-      "publishedAt": "2026-10-19T08:23:51.161Z",
-      "updatedAt": "2026-10-19T08:23:51.161Z",
-      "category": "world",
-      "categoryLabel": "Rest of the World",
-      "uiLabel": "Global News",
-      "topic": "institutional-investors",
-      "topicLabel": "Sovereign and institutional investors",
-      "topics": [
-        "institutional-investors",
-        "private-credit",
-        "infrastructure"
-      ],
-      "imageUrl": null,
-      "sourceCount": 1,
-      "sources": [
-        {
-          "articleId": "a_abbfc331682f3f55",
-          "source": "Demo Private Capital Daily",
-          "sourceId": "demo-private-capital-daily",
-          "title": "Pension funds lift allocations to infrastructure debt",
-          "url": "https://example.com/private-capital-daily/pensions-infrastructure-debt",
-          "publishedAt": "2026-10-19T08:23:51.161Z"
+          "publishedAt": "2026-10-21T04:20:32.000Z"
         }
       ]
     }
