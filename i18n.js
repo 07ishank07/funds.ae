@@ -40,6 +40,7 @@
     'Other Funding Resources': 'مصادر تمويل أخرى',
     'Residential Estate News': 'أخبار العقارات السكنية',
     'Commercial Real Estate News': 'أخبار العقارات التجارية',
+    'Infrastructure News': 'أخبار البنية التحتية',
     // Sidebar
     'Hiring in UAE finance?': 'توظّف في القطاع المالي بالإمارات؟',
     'Post a role (dummy)': 'انشر وظيفة (تجريبي)',

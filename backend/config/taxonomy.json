@@ -50,7 +50,8 @@
       "label": "Infrastructure",
       "keywords": {
         "infrastructure fund": 3, "infrastructure investment": 2, "infrastructure investor": 2, "infrastructure": 1,
-        "data centre": 1, "data center": 1, "renewable energy": 1, "energy transition": 1
+        "data centre": 1, "data center": 1, "renewable energy": 1, "energy transition": 1,
+        "public-private partnership": 3, "toll road": 2, "airport": 1, "railway": 1
       }
     },
     {
@@ -158,6 +159,7 @@
   "sections": [
     { "id": "residential-real-estate", "label": "Residential Real Estate", "topics": ["residential-real-estate"] },
     { "id": "commercial-real-estate", "label": "Commercial Real Estate", "topics": ["commercial-real-estate"] },
+    { "id": "infrastructure", "label": "Infrastructure", "topics": ["infrastructure"] },
     { "id": "ai-technology", "label": "Tech and Data Centres", "topics": ["ai-technology"] },
     { "id": "grants-funding", "label": "UAE Business Grants and Funding", "topics": ["grants-funding"], "category": "uae" }
   ],

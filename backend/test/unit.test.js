@@ -99,6 +99,7 @@ test('home tile sections split residential and commercial real estate, and tech 
   assert.ok(sectionOf('Grade A office space shortage lifts Dubai commercial property rents').includes('commercial-real-estate'));
   assert.ok(!sectionOf('Grade A office space shortage lifts Dubai commercial property rents').includes('residential-real-estate'));
   assert.ok(sectionOf('Abu Dhabi hyperscale data centre campus secures funding').includes('ai-technology'));
+  assert.ok(sectionOf('Infrastructure fund backs Dubai toll road public-private partnership').includes('infrastructure'));
   assert.ok(!sectionOf('ADNOC signs new LNG supply deal').some((id) => id.endsWith('real-estate')), 'energy stories no longer reach a real estate box');
 });
 
