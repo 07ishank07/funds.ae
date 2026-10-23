@@ -1315,14 +1315,14 @@ document.addEventListener('DOMContentLoaded', async function() {
         const box = document.querySelector('.news > section[aria-label="' + label + '"]');
         if (box && !(box.nextElementSibling && box.nextElementSibling.classList.contains('fx-view-all'))) box.after(makeViewAll());
       });
-      // UAE Thought Leaders and Influencers sits in the second column, directly under Events and Expos,
+      // UAE Thought Leaders and Influencers sits in the second column, directly above Events and Expos,
       // with its View All link inside the card. Fifteen people are listed (the first ten show, see .fx-voices).
       const influencersBox = document.querySelector('#uae-influencers-title') && document.querySelector('#uae-influencers-title').closest('section');
       const eventsBoxForVoices = document.querySelector('[aria-labelledby="events-title"]');
       if (influencersBox) {
         if (eventsBoxForVoices) {
           influencersBox.style.marginTop = '28px';
-          eventsBoxForVoices.insertAdjacentElement('afterend', influencersBox);
+          eventsBoxForVoices.insertAdjacentElement('beforebegin', influencersBox);
         }
         const influencerList = influencersBox.querySelector('div');
         influencerList.classList.add('fx-voices');
@@ -1347,13 +1347,13 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
         influencersBox.appendChild(makeViewAll());
       }
-      // Top Tweets closes the second column, directly under Thought Leaders and Influencers, with its View All link
+      // Top Tweets closes the second column, directly under Events and Expos, with its View All link
       // inside the card. Five tweets show (see .fx-tweets).
       const tweetsBox = document.querySelector('#tweets-title') && document.querySelector('#tweets-title').closest('section');
       if (tweetsBox) {
         tweetsBox.style.marginTop = '28px';
         tweetsBox.classList.add('fx-tweets');
-        const tweetsAnchor = influencersBox || eventsBoxForVoices;
+        const tweetsAnchor = eventsBoxForVoices || influencersBox;
         if (tweetsAnchor) tweetsAnchor.insertAdjacentElement('afterend', tweetsBox);
         tweetsBox.appendChild(makeViewAll());
       }
