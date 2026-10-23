@@ -1349,51 +1349,31 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     // Category bar (after fundopshq.com's section row): a thin row directly under the menu that stays at the
-    // top while scrolling and scrolls sideways on narrow screens. Each category filters the news column (both
-    // the UAE Stories and Global Stories tabs) to its topics (js/fundsae-connector.js listens for
-    // "fundsae:news-topics"); Top and Latest clear the filter. Switching tabs keeps the category.
-    // The investor-type row above it (Top, Sovereign, Pension ...) works the same way.
+    // top while scrolling and scrolls sideways on narrow screens. Each investor type filters the news column
+    // (both the UAE Stories and Global Stories tabs) to its topics (js/fundsae-connector.js listens for
+    // "fundsae:news-topics"); Top clears the filter; Advertise opens the Advertise page. Switching tabs keeps
+    // the category.
     {
       const mainColumns = document.querySelector('main.wrap');
       if (mainColumns && !document.querySelector('.fx-catbar')) {
+        // Groups, split by thin rules: [label, topic ids] filters the news; [label, { href }] is a plain link.
         const CATEGORY_GROUPS = [
-          [['Top', null], ['Latest', null]],
-          [['Fundraising', ['fundraising']], ['Deals', ['mergers-acquisitions']], ['People', ['people']]],
-          [['Private Equity', ['private-equity']], ['Venture', ['venture-capital']], ['Credit', ['private-credit']],
-            ['Real Estate', ['real-estate', 'residential-real-estate', 'commercial-real-estate']], ['Infrastructure', ['infrastructure']],
-            ['Secondaries', ['secondaries']], ['Hedge Funds', ['hedge-funds-alternatives']]],
-          [['LPs', ['institutional-investors']], ['Regulation', ['regulation']], ['Providers', ['service-providers']]]
+          [['Top', null]],
+          [['Sovereign', ['sovereign-wealth']], ['Pension', ['pension-funds']], ['Private Equity', ['private-equity']],
+            ['REITs', ['reits']], ['Family Offices', ['family-offices']], ['Banks', ['banks']], ['Government', ['government']],
+            ['Endowments', ['endowments']]],
+          [['Advertise', { href: 'Advertise.dc.html' }]]
         ];
-        // Investor-type row in the header, directly above the category bar (styled like the old site menu).
-        const INVESTOR_TYPES = [['Top', null], ['Sovereign', ['sovereign-wealth']], ['Pension', ['pension-funds']],
-          ['Private Equity', ['private-equity']], ['REITs', ['reits']], ['Family Offices', ['family-offices']], ['Banks', ['banks']],
-          ['Government', ['government']], ['Endowments', ['endowments']]];
         const bar = document.createElement('nav');
         bar.className = 'fx-catbar';
         bar.setAttribute('aria-label', 'News categories');
         const row = document.createElement('div');
         row.className = 'fx-catbar-row';
         bar.appendChild(row);
-        const investorBar = document.createElement('nav');
-        investorBar.className = 'fx-investorbar';
-        investorBar.setAttribute('aria-label', 'Investor types');
-        const investorRow = document.createElement('div');
-        investorRow.className = 'fx-investorbar-row';
-        investorBar.appendChild(investorRow);
-        INVESTOR_TYPES.forEach(([label, topics]) => {
-          const link = document.createElement('a');
-          link.href = label === 'Top' ? '#' : '#top-news';
-          link.textContent = label;
-          link.dataset.category = label;
-          if (topics) link.dataset.topics = topics.join(' ');
-          if (label === 'Top') link.setAttribute('aria-current', 'true');
-          investorRow.appendChild(link);
-        });
         // The design runtime re-creates page elements, so clicks are handled by one listener on the document
-        // (as delegation) and the links are looked up afresh each time, never held in variables. Both rows share
-        // it: a label is marked current in whichever row has it ("Top" and "Private Equity" are in both).
+        // (as delegation) and the links are looked up afresh each time, never held in variables.
         const select = (label, topics) => {
-          document.querySelectorAll('.fx-catbar a, .fx-investorbar a').forEach((link) => {
+          document.querySelectorAll('.fx-catbar a[data-category]').forEach((link) => {
             if (link.dataset.category === label) link.setAttribute('aria-current', 'true');
             else link.removeAttribute('aria-current');
           });
@@ -1406,20 +1386,24 @@ document.addEventListener('DOMContentLoaded', async function() {
             rule.setAttribute('aria-hidden', 'true');
             row.appendChild(rule);
           }
-          group.forEach(([label, topics]) => {
+          group.forEach(([label, target]) => {
             const link = document.createElement('a');
-            link.href = label === 'Top' ? '#' : '#top-news';
             link.textContent = label;
-            link.dataset.category = label;
-            if (topics) link.dataset.topics = topics.join(' ');
-            if (label === 'Top') link.setAttribute('aria-current', 'true');
+            if (target && target.href) {
+              link.href = target.href;
+            } else {
+              link.href = label === 'Top' ? '#' : '#top-news';
+              link.dataset.category = label;
+              if (target) link.dataset.topics = target.join(' ');
+              if (label === 'Top') link.setAttribute('aria-current', 'true');
+            }
             row.appendChild(link);
           });
         });
         // Capture phase, so nothing on the page can stop it first.
         document.addEventListener('click', (event) => {
           const target = event.target.closest ? event.target : event.target.parentElement;
-          const link = target && target.closest('.fx-catbar a[data-category], .fx-investorbar a[data-category]');
+          const link = target && target.closest('.fx-catbar a[data-category]');
           if (link) {
             event.preventDefault();
             const label = link.dataset.category;
@@ -1457,26 +1441,9 @@ document.addEventListener('DOMContentLoaded', async function() {
           main.wrap > .news { scroll-margin-top: 56px; }
           @media (max-width: 620px) { .fx-catbar-row { padding: 0 6px; } }
           html[lang="ar"] .fx-catbar a { font-family: inherit; }
-          .fx-investorbar { flex-shrink: 0; box-sizing: border-box; width: 100%; background: #FAFBFA; }
-          .fx-investorbar-row {
-            display: flex; justify-content: center; gap: 0 32px; box-sizing: border-box; max-width: 1240px; min-height: 44px; margin: 0 auto;
-            border-top: 1px solid #0E3A43; border-bottom: 3px double #0E3A43; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
-          }
-          .fx-investorbar-row::-webkit-scrollbar { display: none; }
-          .fx-investorbar a {
-            display: flex; flex-shrink: 0; align-items: center; white-space: nowrap; font-family: 'Jost', 'Futura', 'Century Gothic', sans-serif;
-            font-size: 13px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #3D5A5F; text-decoration: none;
-          }
-          .fx-investorbar a:hover, .fx-investorbar a[aria-current="true"] { color: #0E3A43; }
-          .fx-investorbar a[aria-current="true"] { font-weight: 600; }
-          .fx-investorbar a:focus-visible { outline: 2px solid #1F6A6E; outline-offset: 2px; }
-          @media (max-width: 1288px) { .fx-investorbar-row { margin: 0 24px; } }
-          @media (max-width: 980px) { .fx-investorbar-row { justify-content: flex-start; gap: 0 22px; margin: 0; padding: 0 16px; border-top: 0; } }
-          html[lang="ar"] .fx-investorbar a { font-family: inherit; letter-spacing: 0; }
         `;
         document.head.appendChild(catbarStyle);
         (document.querySelector('.fx-founding') || mainColumns).before(bar);
-        bar.before(investorBar);
       }
     }
 

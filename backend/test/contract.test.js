@@ -175,16 +175,18 @@ test('every page but Careers shows the same Elite Founding Sponsor banner, and a
     const footNav = html.slice(html.indexOf('<nav class="foot-nav"'), html.indexOf('</nav>', html.indexOf('<nav class="foot-nav"')));
     for (const label of ['Top news', 'Careers', 'Events', 'Advertise', 'About', 'Contact us', 'Terms of Service', 'Privacy Policy']) assert.ok(footNav.includes(`>${label}</a>`), `${page} footer links to ${label}`);
   }
-  for (const label of ['Top', 'Latest', 'Fundraising', 'Deals', 'People', 'Private Equity', 'Venture', 'Credit', 'Real Estate', 'Infrastructure', 'Secondaries', 'Hedge Funds', 'LPs', 'Regulation', 'Providers']) {
+  // One bar under the masthead: Top | the investor types | Advertise (a link to the Advertise page).
+  for (const label of ['Top', 'Sovereign', 'Pension', 'Private Equity', 'REITs', 'Family Offices', 'Banks', 'Government', 'Endowments']) {
     assert.ok(home.includes(`['${label}', `), `category bar has ${label}`);
   }
+  assert.ok(home.includes("['Advertise', { href: 'Advertise.dc.html' }]"), 'category bar links to the Advertise page');
+  for (const gone of ['Latest', 'Fundraising', 'Deals', 'People', 'Venture', 'Credit', 'Secondaries', 'Hedge Funds', 'LPs', 'Regulation', 'Providers']) {
+    assert.ok(!home.includes(`['${gone}', [`), `category bar no longer has ${gone}`);
+  }
+  assert.ok(!home.includes('fx-investorbar'), 'no separate investor row');
   const taxonomyTopics = JSON.parse(readFileSync(path.join(backend, 'config', 'taxonomy.json'), 'utf8')).topics.map((t) => t.id);
   const barBlock = home.slice(home.indexOf('const CATEGORY_GROUPS'), home.indexOf('const bar = document.createElement'));
   for (const [, id] of barBlock.matchAll(/'([a-z]+(?:-[a-z]+)+|[a-z]{4,})'/g)) assert.ok(taxonomyTopics.includes(id), `category bar topic ${id} exists in taxonomy.json`);
-  for (const label of ['Sovereign', 'Pension', 'REITs', 'Family Offices', 'Banks', 'Government', 'Endowments']) {
-    assert.ok(home.includes(`['${label}', `), `investor row has ${label}`);
-  }
-  assert.ok(home.includes("investorBar.setAttribute('aria-label', 'Investor types')") && home.includes('bar.before(investorBar)'), 'investor row sits in the header above the category bar');
   assert.ok(connector.includes("document.addEventListener('fundsae:news-topics'") && home.includes("new CustomEvent('fundsae:news-topics'"), 'category bar filters Latest Stories through the connector');
   assert.ok(!home.includes('Tech and Data Centre News') && !connector.includes('tiles-ai-technology'), 'home has no Tech and Data Centre box');
   assert.ok(home.includes('if (careersBox) careersBox.remove();') && !home.includes("'home-jobs'"), 'home has no UAE Careers box');
