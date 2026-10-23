@@ -88,6 +88,7 @@
     'Become a founding sponsor': 'كن راعيًا مؤسسًا',
     'Elite Partners': 'شركاء النخبة',
     'Gold Sponsors': 'الرعاة الذهبيون',
+    'Gold Partners': 'الشركاء الذهبيون',
     'Learn more': 'اعرف المزيد',
     'Fund research made clearer': 'أبحاث الصناديق أكثر وضوحًا',
     'Grow your UAE portfolio': 'نمِّ محفظتك في الإمارات',

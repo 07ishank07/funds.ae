@@ -26,7 +26,7 @@ Sanity holds **content people write by hand**. Ingested news and jobs never go i
 
 | In Sanity (Studio menu) | Shown on the site | Sanity type | Published as |
 |---|---|---|---|
-| **Sponsors**, grouped by area | Elite Founding Sponsor banner, Elite Partners, Gold Sponsors, Sponsored Posts, Videos and Podcasts, Featured Companies, Career Resources | `sponsorItem` | `config/sponsors.json` → `api/v1/sponsors.json` |
+| **Sponsors**, grouped by area | Elite Founding Sponsor banner, Gold Partners, Gold Sponsors (not shown), Sponsored Posts, Videos and Podcasts, Featured Companies, Career Resources | `sponsorItem` | `config/sponsors.json` → `api/v1/sponsors.json` |
 | **Events** | Home "Events and Expos", Events page | `event` | `config/events.json` → `api/v1/events.json` |
 | **Top Tweets (home)** | Home "Top Tweets" box (5 shown) | `socialHighlight` | `config/content.json` → `api/v1/content.json` `slots.socialHighlights` |
 | **Advertise packages** | Advertise page cards (Partner, Gold, Elite) and the Elite Exclusive hero | `advertiseTier` | … `slots.advertiseTiers` |

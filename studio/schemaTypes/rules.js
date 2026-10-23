@@ -14,13 +14,13 @@ export const SPONSOR_SLOTS = {
     maxItems: 1, sponsored: true, text: { title: 60, blurb: 140 }, required: ['title'], images: ['image'], colors: []
   },
   platinum: {
-    label: 'Elite Partners',
-    where: 'Home page, top of the third column (5 tiles).',
+    label: 'Gold Partners',
+    where: 'Home page, third column: 5 large picture tiles. Add an image; dummy pictures show until you do.',
     maxItems: 5, sponsored: true, text: { title: 60 }, required: ['title'], images: ['image'], colors: ['colorFrom', 'colorTo']
   },
   gold: {
-    label: 'Gold Sponsors',
-    where: 'Home page, third column, under Elite Partners.',
+    label: 'Gold Sponsors (not shown)',
+    where: 'Not shown on the website: the home page Gold Sponsors box was removed.',
     maxItems: 10, sponsored: true, text: { title: 70, label: 20 }, required: ['title'], images: ['image'], colors: ['colorFrom', 'colorTo']
   },
   sponsoredPosts: {

@@ -596,26 +596,21 @@
       }
     });
 
+    // Gold Partners: picture tiles. A sponsor's own image wins; otherwise the page's dummy pictures are reused
+    // in turn, then the sponsor's colours.
     slots('sponsor-platinum').forEach(function (box) {
-      fillList(box, ':scope > a', pick('platinum'), function (a, item) {
-        a.textContent = item.title;
-        a.setAttribute('aria-label', 'Elite partner: ' + item.title);
-        var from = api.hex(item.colorFrom);
-        var to = api.hex(item.colorTo);
-        if (from && to) a.style.background = 'linear-gradient(145deg, ' + from + ', ' + to + ')';
-        sponsorLink(a, item);
-      });
-    });
-
-    slots('sponsor-gold').forEach(function (box) {
-      fillList(box, ':scope > a', pick('gold'), function (a, item) {
-        a.textContent = item.title;
-        a.setAttribute('aria-label', 'Gold sponsor: ' + item.title);
-        var from = api.hex(item.colorFrom);
-        var to = api.hex(item.colorTo);
+      var pictures = children(box, ':scope > a > .fx-platinum-img').map(function (n) { return n.style.backgroundImage; }).filter(Boolean);
+      fillList(box, ':scope > a', pick('platinum'), function (a, item, i) {
+        var name = a.querySelector('.fx-platinum-name') || a;
+        name.textContent = item.title;
+        a.setAttribute('aria-label', 'Gold partner: ' + item.title);
+        var picture = a.querySelector('.fx-platinum-img') || a;
         var image = api.imageUrl(item.image);
-        if (image) a.style.background = 'url("' + image + '") center / cover no-repeat';
-        else if (from && to) a.style.background = 'linear-gradient(145deg, ' + from + ', ' + to + ')';
+        var from = api.hex(item.colorFrom);
+        var to = api.hex(item.colorTo);
+        if (image) picture.style.backgroundImage = 'url("' + image + '")';
+        else if (pictures.length) picture.style.backgroundImage = pictures[i % pictures.length];
+        else if (from && to) picture.style.background = 'linear-gradient(145deg, ' + from + ', ' + to + ')';
         sponsorLink(a, item);
       });
     });
@@ -868,7 +863,7 @@
         ]).then(function (docs) { renderRoles(docs[0], docs[1]); renderTopJobs(docs[0]); }));
       }
       if (hasSlot('events')) guard('Events', load('events.json', 'events').then(renderEvents));
-      var sponsorSlots = ['sponsor-founding', 'sponsor-platinum', 'sponsor-gold', 'sponsor-posts', 'sponsor-media', 'sponsor-companies', 'career-resources'];
+      var sponsorSlots = ['sponsor-founding', 'sponsor-platinum', 'sponsor-posts', 'sponsor-media', 'sponsor-companies', 'career-resources'];
       if (sponsorSlots.some(hasSlot)) guard('Sponsors', load('sponsors.json', 'sponsors').then(renderSponsors));
       if (hasSlot('social-highlights') || hasSlot('advertise-tiers') || hasSlot('advertise-exclusive') || hasSlot('page-body')) {
         guard('Editorial content', load('content.json', 'content').then(renderContent));

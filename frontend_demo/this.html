@@ -752,16 +752,6 @@ document.addEventListener('DOMContentLoaded', async function() {
           // Placed in the sidebar for now; it moves to the top of the third column further down.
           sidebar.insertBefore(morningBriefCopy, careers);
         }
-        // Gold Sponsors: ten small gold tiles under a box title (replaces the five larger "Sponsored" banners).
-        const goldSponsors = [
-          'Fund research made clearer', 'Grow your UAE portfolio', 'Invest with local insight', 'The future of private markets',
-          'Connect with GCC capital', 'Private credit, simplified', 'Wealth without borders', 'Fintech built for the Gulf',
-          'Smarter fund operations', 'Capital for growing firms'
-        ];
-        const goldSection = document.createElement('section');
-        goldSection.setAttribute('aria-labelledby', 'gold-sponsors-title');
-        goldSection.innerHTML = `<h2 id="gold-sponsors-title">Gold Sponsors</h2><div class="fx-gold-grid">${goldSponsors.map((name) => `<a href="#" class="fx-gold-tile" aria-label="Gold sponsor: ${name}">${name}</a>`).join('')}</div>`;
-        careersColumn.appendChild(goldSection);
         // Videos and Podcasts moves to the second column, under Events and Expos, further down
         // this script (once the events box exists there).
         const tweets = document.createElement('section');
@@ -787,14 +777,14 @@ document.addEventListener('DOMContentLoaded', async function() {
         } else {
           sidebar.appendChild(tweets);
         }
-        // Elite Partners (the "platinum" sponsor slot): five platinum tiles under a box title, directly above
-        // Gold Sponsors in the third column (careersColumn). Both are <aside> elements, so the generic
-        // "main.wrap aside > section" card styling applies the same either way.
+        // Gold Partners (the "platinum" sponsor slot): five picture tiles (dummy images until a sponsor adds
+        // one in Sanity) with the partner's name underneath, in the third column (careersColumn). It is an
+        // <aside> section, so the generic "main.wrap aside > section" card styling applies.
         const platinumSponsors = ['Sandhaven Capital (demo)', 'Tidewell Holdings (demo)', 'Qamar Ridge Partners (demo)', 'Almira Private Bank (demo)', 'Saltmarsh Investments (demo)'];
         const platinumSection = document.createElement('section');
         platinumSection.setAttribute('aria-labelledby', 'platinum-sponsors-title');
-        platinumSection.innerHTML = `<h2 id="platinum-sponsors-title">Elite Partners</h2><div class="fx-platinum-list">${platinumSponsors.map((name) => `<a href="#" class="fx-platinum-tile" aria-label="Elite partner: ${name}">${name}</a>`).join('')}</div>`;
-        careersColumn.insertBefore(platinumSection, goldSection);
+        platinumSection.innerHTML = `<h2 id="platinum-sponsors-title">Gold Partners</h2><div class="fx-platinum-list">${platinumSponsors.map((name, i) => `<a href="#" class="fx-platinum-tile" aria-label="Gold partner: ${name}"><span class="fx-platinum-img" aria-hidden="true" style="background-image: url('img/partners/partner-${i + 1}.png')"></span><span class="fx-platinum-name">${name}</span></a>`).join('')}</div>`;
+        careersColumn.appendChild(platinumSection);
         // The original (undecorated) Subscribe box is removed now that its relabelled copy
         // (morningBriefCopy) is the one shown, at the top of the third column.
         if (morningBrief) morningBrief.remove();
@@ -825,8 +815,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Dune Payments Advisory</span></span></a>
             <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Pearl Trust Services</span></span></a>
           </div>`;
-        // Column 3 order: Subscribe to stay ahead on top, then Sponsored Posts, Elite Partners, Gold Sponsors
-        // and Featured Companies.
+        // Column 3 order: Subscribe to stay ahead on top, then Sponsored Posts, Gold Partners and Featured Companies.
         if (sponsoredPostsBox) careersColumn.insertBefore(sponsoredPostsBox, careersColumn.firstChild);
         const newsletterBox = sidebar.querySelector('[aria-labelledby="brief-title-careers"]');
         if (newsletterBox) careersColumn.insertBefore(newsletterBox, careersColumn.firstChild);
@@ -1638,11 +1627,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         main.wrap aside > section[aria-labelledby="careers-title"] > div:last-child a:not(:first-child) { background: transparent !important; color: #0E3A43 !important; border: 1px solid #9BBDBB !important; }
         main.wrap aside > section[aria-labelledby="careers-title"] > div:last-child a:not(:first-child):hover { border-color: #0E3A43 !important; background: rgba(14, 58, 67, 0.06) !important; }
 
-        /* Gold Sponsors: ten small gold tiles, two across, dark text for contrast on gold. */
-        .fx-gold-grid { margin-top: 14px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-        .fx-gold-tile { display: flex; align-items: flex-end; min-height: 68px; padding: 10px 12px; border-radius: 3px; background: linear-gradient(145deg, #DDB86F, #B88B3E); color: #0E3A43 !important; font-size: 14px; font-weight: 600; line-height: 1.25; text-decoration: none; }
-        .fx-gold-tile:hover { filter: brightness(1.06); text-decoration: underline; text-underline-offset: 3px; }
-
         /* Hiring CTA and Advertise box use the same type as their neighbours: small-caps box titles like the other
            sidebar boxes, and the sponsored banners' label / 20px headline / 13px link. */
 
@@ -1660,10 +1644,13 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         /* UAE Influencers in the news column: same treatment as Top Tweets (dark rule, small-caps title), profiles two across. */
 
-        /* Elite Partners (platinum slot): five platinum (cool silver) tiles stacked in the third column, above Gold Sponsors, dark text for contrast. */
-        .fx-platinum-list { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
-        .fx-platinum-tile { display: flex; align-items: center; min-height: 56px; padding: 10px 14px; border-radius: 3px; background: linear-gradient(145deg, #F1F3F4, #B9C0C6); color: #0E3A43 !important; font-size: 14px; font-weight: 600; line-height: 1.25; text-decoration: none; }
-        .fx-platinum-tile:hover { filter: brightness(1.04); text-decoration: underline; text-underline-offset: 3px; }
+        /* Gold Partners (platinum slot): five large picture tiles stacked in the third column, name underneath. */
+        .fx-platinum-list { margin-top: 14px; display: flex; flex-direction: column; gap: 18px; }
+        .fx-platinum-tile { display: block; color: #0E3A43 !important; text-decoration: none; }
+        .fx-platinum-img { display: block; aspect-ratio: 16 / 9; border: 1px solid var(--fx-line); border-radius: 3px; background: #E8F0EF center / cover no-repeat; }
+        .fx-platinum-name { display: block; margin-top: 8px; font-size: 15px; font-weight: 600; line-height: 1.25; }
+        .fx-platinum-tile:hover .fx-platinum-img { filter: brightness(1.05); }
+        .fx-platinum-tile:hover .fx-platinum-name { text-decoration: underline; text-underline-offset: 3px; }
 
         /* Videos and Podcasts (third column, above Featured Companies): news-site video hub. First item is a large
            16:9 lead with a play button; the rest are compact rows with a small thumbnail. Ten show, View All opens the rest. */
@@ -1736,7 +1723,6 @@ document.addEventListener('DOMContentLoaded', async function() {
       tag(inBox('sponsored-title', 'ul'), 'sponsor-posts');
       tag(inBox('sponsored-podcasts-title', ':scope > div:nth-of-type(2)'), 'sponsor-media');
       tag(inBox('professional-services-title', ':scope > div'), 'sponsor-companies');
-      tag(document.querySelector('.fx-gold-grid'), 'sponsor-gold');
       tag(document.querySelector('.fx-founding'), 'sponsor-founding');
       tag(document.querySelector('.fx-platinum-list'), 'sponsor-platinum');
       tag(document.querySelector('.news > section[aria-label="Residential Estate News"]'), 'tiles-residential-real-estate');

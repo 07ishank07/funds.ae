@@ -186,8 +186,8 @@ Query parameters are validated against an allow-list (`v` is always allowed for 
 | Slot | Page area | Max | Fields used | `sponsored` |
 |---|---|---|---|---|
 | `founding` | "Elite Founding Sponsor" banner under the masthead on every page except Careers. Empty shows the "Your firm here" advert for the slot | 1 | title, blurb, url, image (logo) | yes |
-| `platinum` | "Elite Partners" box: Home, top of the middle column | 5 | title, url, image, colorFrom/To | yes |
-| `gold` | "Gold Sponsors" box: Home right column | 10 | title, label, url, image, colorFrom/To | yes |
+| `platinum` | "Gold Partners" box: Home, third column, 5 picture tiles (dummy pictures until an image is set) | 5 | title, url, image, colorFrom/To | yes |
+| `gold` | Not shown on the website (the home page "Gold Sponsors" box was removed); still published | 10 | title, label, url, image, colorFrom/To | yes |
 | `sponsoredPosts` | Home "Sponsored Posts" | 20 | title, blurb, logoText, url, image, colorFrom/To | yes |
 | `sponsoredMedia` | Home "Videos and Podcasts" | 15 | title, label, blurb, url, image | yes |
 | `professionalServices` | Home "Featured Companies" (names only) and the scrolling strip at the bottom of the Careers page (logo or initials, name, website) | 20 | title, website, logoText, url, image, colorFrom/To | yes |
