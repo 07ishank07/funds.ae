@@ -173,7 +173,18 @@ test('every page but Careers shows the same Elite Founding Sponsor banner, and a
     const html = read(`${page}.dc.html`);
     assert.ok(!html.includes('aria-label="Sections"'), `${page} has no header menu`);
     const footNav = html.slice(html.indexOf('<nav class="foot-nav"'), html.indexOf('</nav>', html.indexOf('<nav class="foot-nav"')));
-    for (const label of ['Top news', 'Careers', 'Events', 'Advertise', 'About', 'Contact us', 'Terms of Service', 'Privacy Policy']) assert.ok(footNav.includes(`>${label}</a>`), `${page} footer links to ${label}`);
+    // Footer: About, Contact us and the legal links only (the same on every page).
+    for (const label of ['About', 'Contact us', 'Terms of Service', 'Privacy Policy']) assert.ok(footNav.includes(`>${label}</a>`), `${page} footer links to ${label}`);
+    for (const label of ['Top news', 'Careers', 'Events', 'Advertise']) assert.ok(!footNav.includes(`>${label}</a>`), `${page} footer has no ${label}`);
+    // Header: the home page's masthead, mobile bar and category bar, from the shared stylesheet and script.
+    assert.ok(html.includes('href="site-header.css"') && html.includes('src="../js/fundsae-header.js"'), `${page} uses the shared header`);
+    assert.ok(html.includes('class="fxh"') && html.includes('class="m-only fxh-m"') && html.includes('class="fx-catbar"'), `${page} has the home page header`);
+    assert.ok(html.includes('data-fundsae-date') && html.includes('href="this.html?category=Sovereign"'), `${page} header shows the date and links investor types to the home page`);
+    assert.ok(!html.includes('class="masthead"'), `${page} has no old masthead`);
+    const catbar = html.slice(html.indexOf('<nav class="fx-catbar"'), html.indexOf('</nav>', html.indexOf('<nav class="fx-catbar"')));
+    for (const [label, href] of [['Advertise', 'Advertise.dc.html'], ['Careers', 'Careers.dc.html'], ['Events', 'Events.dc.html']]) {
+      assert.ok(catbar.includes(`<a href="${href}"`) && catbar.includes(`>${label}</a>`), `${page} category bar links to ${label}`);
+    }
   }
   // One bar under the masthead: Top | the investor types | Advertise (a link to the Advertise page).
   for (const label of ['Top', 'Sovereign', 'Pension', 'Private Equity', 'REITs', 'Family Offices', 'Banks', 'Government', 'Endowments']) {
@@ -201,7 +212,8 @@ test('every page but Careers shows the same Elite Founding Sponsor banner, and a
   assert.ok(home.includes('videosPodcastsBox.after(sponsoredPostsBox)') && !home.includes('careersColumn.insertBefore(sponsoredPostsBox'), 'Sponsored Posts sits in column 2 under Videos and Podcasts');
   assert.ok(connector.includes("var NEWS_REGIONS = ['News', 'Global'];") && connector.includes("var REGIONS = { uae: 'News', world: 'Global' };"), 'connector tabs match');
   assert.ok(!/'(UAE News|Global News|Business Funding)'/.test(home + connector), 'old tab names are gone');
-  assert.ok(home.includes("['Events', 'Events.dc.html']") && home.includes("'Events.dc.html#submit-event'"), 'home links to the Events page');
+  assert.ok(home.includes("['Events', { href: 'Events.dc.html' }]") && home.includes("'Events.dc.html#submit-event'"), 'home links to the Events page');
+  assert.ok(home.includes("[['About', 'About.dc.html'], ['Contact us', 'Contact.dc.html']]") && home.includes("'../js/fundsae-header.js'"), 'home footer and shared header script');
   assert.ok(read('Events.dc.html').includes('data-fundsae-slot="events"'), 'the Events page lists events');
   const careers = read('Careers.dc.html');
   assert.ok(!careers.includes('data-fundsae-slot="events"') && !careers.includes('data-fundsae-form="event"'), 'Careers no longer has events');

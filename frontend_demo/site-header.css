@@ -1,0 +1,90 @@
+/*
+ * Site header shared by the .dc.html pages, matching the home page (this.html):
+ *   desktop  top line (date | tagline | language) · search · centred logo · share icons
+ *   mobile   dark bar with the logo, language, search and menu buttons (js/fundsae-header.js wires them)
+ *   both     the sticky category bar (Top | investor types | Advertise, Careers, Events)
+ * Sizes and colours are the home page's computed values. Self-contained: tokens are repeated here.
+ */
+.fxh, .fxh-m, .fx-catbar {
+  --h-ink: #0E3A43; --h-ink-3: #62797D; --h-line: #D3DFDF; --h-accent: #1F6A6E; --h-mint: #4FB3B8; --h-paper: #FAFBFA;
+}
+.fxh *, .fxh-m *, .fx-catbar * { box-sizing: border-box; }
+
+/* ---- desktop header ---- */
+.fxh { flex-shrink: 0; background: var(--h-paper); color: var(--h-ink); }
+.fxh-inner {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 0 24px;
+  max-width: 1288px; margin: 0 auto; padding: 0 24px;
+}
+.fxh .topline {
+  grid-column: 1 / -1; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; padding: 8px 0;
+  border-bottom: 1px solid var(--h-line); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--h-ink-3);
+}
+.fxh .topline .edition { color: var(--h-accent); }
+.fxh .topline > :last-child { text-align: right; }
+.fxh-search { position: relative; justify-self: start; width: 260px; margin: 0; }
+.fxh-search svg { position: absolute; top: 10px; left: 14px; width: 18px; height: 18px; fill: none; stroke: var(--h-ink-3); stroke-width: 2; stroke-linecap: round; pointer-events: none; }
+.fxh-search input {
+  display: block; width: 100%; height: 38px; padding: 0 14px 0 42px; border: 1px solid var(--h-line); border-radius: 3px;
+  background: #FFFFFF; color: var(--h-ink); font: inherit; font-size: 14px;
+}
+.fxh-search input::placeholder { color: var(--h-ink-3); }
+.fxh-search input:focus-visible { outline: 2px solid var(--h-accent); outline-offset: 2px; }
+.fxh-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.fxh-brand {
+  display: grid; grid-template-columns: 46px auto; column-gap: 14px; row-gap: 2px; align-items: center;
+  padding: 20px 0 18px; color: var(--h-ink); text-decoration: none;
+}
+.fxh-brand svg { grid-row: 1 / span 2; width: 46px; height: 46px; }
+.fxh-word { font-size: 40px; font-weight: 500; line-height: 1; letter-spacing: -0.025em; }
+.fxh-word .dot, .fxh-mword .dot {
+  display: inline-block; width: 0.18em; height: 0.18em; margin: 0 0.05em 0 0.065em; border-radius: 50%; background: var(--h-mint);
+  overflow: hidden; color: transparent; vertical-align: baseline;
+}
+.fxh-tagline, .fxh-mtagline { margin-top: 6px; font-size: 10px; font-weight: 500; line-height: 1.1; letter-spacing: 0.22em; text-transform: uppercase; color: var(--h-ink-3); }
+.fxh-share { justify-self: end; display: flex; gap: 8px; }
+.fxh-share a {
+  display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; border: 1px solid var(--h-line); border-radius: 50%;
+  color: var(--h-ink); font-size: 12px; font-weight: 700; text-decoration: none;
+}
+.fxh-share a:hover { border-color: var(--h-ink); }
+
+/* ---- mobile header ---- */
+.fxh-m { display: none; flex-shrink: 0; align-items: center; height: 60px; padding: 0 4px 0 16px; background: var(--h-ink); color: #F1F5F4; }
+.fxh-mbrand { display: grid; grid-template-columns: 28px auto; column-gap: 12px; row-gap: 2px; align-items: center; color: #F1F5F4; text-decoration: none; }
+.fxh-mbrand svg { grid-row: 1 / span 2; width: 28px; height: 28px; }
+.fxh-mword { font-size: 22px; font-weight: 500; line-height: 1; letter-spacing: -0.015em; }
+.fxh-mtagline { margin-top: 4px; }
+.fxh-m > div:last-child { display: flex; align-items: center; margin-left: auto; }
+.fxh-m button { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 0; background: none; cursor: pointer; }
+.fxh-m button svg { width: 22px; height: 22px; fill: none; stroke: #F1F5F4; stroke-width: 2; stroke-linecap: round; }
+@media (max-width: 980px) {
+  .fxh { display: none; }
+  .fxh-m { display: flex; }
+}
+
+/* ---- category bar (same as this.html) ---- */
+.fx-catbar {
+  position: sticky; top: 0; z-index: 50; flex-shrink: 0; width: 100%;
+  border-top: 1px solid rgba(14, 58, 67, 0.15); border-bottom: 1px solid rgba(14, 58, 67, 0.15);
+  background: rgba(250, 251, 250, 0.94); box-shadow: 0 1px 0 rgba(14, 58, 67, 0.08);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+}
+.fx-catbar-row {
+  display: flex; align-items: stretch; max-width: 1288px; margin: 0 auto; padding: 0 14px;
+  overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+}
+.fx-catbar-row::-webkit-scrollbar { display: none; }
+.fx-catbar-row > :first-child { margin-inline-start: auto; }
+.fx-catbar-row > :last-child { margin-inline-end: auto; }
+.fx-catbar a {
+  position: relative; display: flex; flex-shrink: 0; align-items: center; height: 40px; padding: 0 10px; white-space: nowrap;
+  font-size: 13px; font-weight: 500; letter-spacing: normal; text-transform: none; color: rgba(14, 58, 67, 0.65); text-decoration: none; transition: color 0.15s;
+}
+.fx-catbar a:hover { color: var(--h-ink); }
+.fx-catbar a:focus-visible { outline: 2px solid var(--h-accent); outline-offset: -2px; }
+.fx-catbar a[aria-current] { color: var(--h-ink); font-weight: 600; }
+.fx-catbar a[aria-current]::after { content: ''; position: absolute; right: 10px; bottom: -1px; left: 10px; height: 2px; background: var(--h-accent); }
+.fx-catbar-rule { flex-shrink: 0; width: 1px; margin: 10px 6px; background: rgba(14, 58, 67, 0.15); }
+@media (max-width: 620px) { .fx-catbar-row { padding: 0 6px; } }
+html[lang="ar"] .fx-catbar a { font-family: inherit; }

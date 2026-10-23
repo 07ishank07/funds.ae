@@ -399,14 +399,13 @@ document.addEventListener('DOMContentLoaded', async function() {
         Array.from(footer.querySelectorAll('a')).forEach((link) => {
           if (['Submit a story', 'About', 'Contact', 'Advertise'].includes(link.textContent.trim())) link.remove();
         });
-        // The site menu sits in the footer, ahead of the legal links (same order as the .dc.html pages).
-        if (footerNav && !footerNav.querySelector('a[href="Careers.dc.html"]')) {
+        // About and Contact us sit in the footer, ahead of the legal links (same as the .dc.html pages).
+        if (footerNav && !footerNav.querySelector('a[href="About.dc.html"]')) {
           const firstLegal = footerNav.querySelector('a[href="Terms.dc.html"]');
-          [['Top news', 'this.html'], ['Careers', 'Careers.dc.html'], ['Events', 'Events.dc.html'], ['Advertise', 'Advertise.dc.html'], ['About', 'About.dc.html'], ['Contact us', 'Contact.dc.html']].forEach(([label, href]) => {
+          [['About', 'About.dc.html'], ['Contact us', 'Contact.dc.html']].forEach(([label, href]) => {
             const link = document.createElement('a');
             link.href = href;
             link.textContent = label;
-            if (href === 'this.html') link.setAttribute('aria-current', 'page');
             footerNav.insertBefore(link, firstLegal);
           });
         }
@@ -1822,7 +1821,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Language switch (English / Arabic), then the API scripts. Loaded last so everything they attach to
     // already exists. Paths are relative to frontend_demo/. async=false keeps them in this order.
     {
-      ['../i18n.js', '../js/fundsae-api.js', '../js/fundsae-connector.js', '../js/fundsae-forms.js'].forEach((src) => {
+      ['../i18n.js', '../js/fundsae-api.js', '../js/fundsae-connector.js', '../js/fundsae-forms.js', '../js/fundsae-header.js'].forEach((src) => {
         const script = document.createElement('script');
         script.src = src;
         script.async = false;

@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;600;700&family=Jost:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="founding-banner.css">
+<link rel="stylesheet" href="site-header.css">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   /* Editorial theme tokens. Keep in sync with the theme block at the end of this.html's script. */
@@ -35,32 +36,6 @@
   }
   a { color: inherit; }
   a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  /* Masthead: mono top line, centred logo, double-ruled section nav (matches this.html) */
-  .masthead { background: var(--wash); color: var(--ink); }
-  .mast-inner { max-width: 1288px; margin: 0 auto; padding: 0 24px; }
-  /* Closing double rule under the masthead (drawn by the old header menu before it moved to the footer). */
-  .mast-inner::after { content: ""; display: block; border-bottom: 3px double var(--ink); }
-  .topline {
-    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; padding: 8px 0;
-    border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ghost);
-  }
-  .topline .edition { color: var(--accent-2); }
-  .topline > :last-child { text-align: right; }
-  .topline a.back { text-decoration: none; color: var(--ink-2); }
-  .topline a.back:hover { color: var(--accent); }
-  .brand {
-    display: grid; grid-template-columns: 40px auto; column-gap: 12px; align-items: center; justify-content: center;
-    width: max-content; margin: 0 auto; padding: 18px 0 16px; color: var(--ink); text-decoration: none;
-  }
-  .brand svg { grid-row: 1 / span 2; width: 40px; height: 40px; }
-  .brand .wordmark { font-size: 34px; font-weight: 500; line-height: 1; letter-spacing: -0.025em; }
-  .brand .dot { display: inline-block; width: 0.18em; height: 0.18em; margin: 0 0.05em 0 0.065em; border-radius: 50%; background: var(--mint); overflow: hidden; color: transparent; }
-  .brand .tagline { margin-top: 5px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ghost); }
-  @media (max-width: 720px) {
-    .topline { grid-template-columns: 1fr auto; }
-    .topline .edition { display: none; }
-    .brand .wordmark { font-size: 28px; }
-  }
   main {
     max-width: 780px;
     margin: 0 auto;
@@ -126,20 +101,62 @@
 </style>
 </head>
 <body>
-<header class="masthead">
-  <div class="mast-inner">
+<!-- Site header, the same as the home page's (styles in site-header.css, behaviour in js/fundsae-header.js):
+     desktop masthead, mobile bar, then the sticky category bar. Investor types open the home page filtered. -->
+<header class="fxh">
+  <div class="fxh-inner">
     <div class="topline">
-      <a href="this.html" class="back">&larr; Back to Funds.ae home</a>
+      <span data-fundsae-date data-fundsae-badge></span>
       <span class="edition">Real Estate, Infrastructure &amp; Market Intelligence</span>
       <span aria-hidden="true"></span>
     </div>
-    <a href="this.html" class="brand" aria-label="Funds.ae home">
+    <form class="fxh-search" action="this.html" method="get" role="search">
+      <label class="fxh-sr" for="site-search">Search Funds.ae</label>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+      <input id="site-search" name="q" type="search" placeholder="Search news, funds and firms" maxlength="100">
+    </form>
+    <a href="this.html" class="fxh-brand" aria-label="Funds.ae home">
       <svg viewBox="0 0 140 140" aria-hidden="true"><circle cx="70" cy="70" r="62.83" fill="none" stroke="#0E3A43" stroke-width="10"/><circle cx="53.03" cy="86.97" r="38.83" fill="none" stroke="#0E3A43" stroke-width="10"/><circle cx="42.54" cy="97.46" r="29" fill="#4FB3B8"/></svg>
-      <span class="wordmark">Funds<span class="dot">.</span>ae</span>
-      <span class="tagline">Discover. Connect. Grow.</span>
+      <span class="fxh-word">Funds<span class="dot">.</span>ae</span>
+      <span class="fxh-tagline">Discover. Connect. Grow.</span>
     </a>
+    <div class="fxh-share" aria-label="Share on social media">
+      <a href="#" aria-label="Share on Facebook (dummy)">f</a>
+      <a href="#" aria-label="Share on X (dummy)">X</a>
+      <a href="#" aria-label="Share on LinkedIn (dummy)">in</a>
+      <a href="#" aria-label="Share on WhatsApp (dummy)">W</a>
+    </div>
   </div>
 </header>
+<header class="m-only fxh-m">
+  <a href="this.html" class="fxh-mbrand" aria-label="Funds.ae home">
+    <svg viewBox="0 0 140 140" aria-hidden="true"><circle cx="70" cy="70" r="62.83" fill="none" stroke="#F1F5F4" stroke-width="10"/><circle cx="53.03" cy="86.97" r="38.83" fill="none" stroke="#F1F5F4" stroke-width="10"/><circle cx="42.54" cy="97.46" r="29" fill="#4FB3B8"/></svg>
+    <span class="fxh-mword">Funds<span class="dot">.</span>ae</span>
+    <span class="fxh-mtagline">Discover. Connect. Grow.</span>
+  </a>
+  <div>
+    <button type="button" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg></button>
+    <button type="button" aria-label="Open menu"><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></button>
+  </div>
+</header>
+<nav class="fx-catbar" aria-label="News categories">
+  <div class="fx-catbar-row">
+      <a href="this.html">Top</a>
+      <span class="fx-catbar-rule" aria-hidden="true"></span>
+      <a href="this.html?category=Sovereign">Sovereign</a>
+      <a href="this.html?category=Pension">Pension</a>
+      <a href="this.html?category=Private%20Equity">Private Equity</a>
+      <a href="this.html?category=REITs">REITs</a>
+      <a href="this.html?category=Family%20Offices">Family Offices</a>
+      <a href="this.html?category=Banks">Banks</a>
+      <a href="this.html?category=Government">Government</a>
+      <a href="this.html?category=Endowments">Endowments</a>
+      <span class="fx-catbar-rule" aria-hidden="true"></span>
+      <a href="Advertise.dc.html">Advertise</a>
+      <a href="Careers.dc.html">Careers</a>
+      <a href="Events.dc.html">Events</a>
+  </div>
+</nav>
 <!-- Elite Founding Sponsor banner: same markup and text as this.html; styles in founding-banner.css;
      js/fundsae-connector.js (slot "sponsor-founding") swaps the advert for a signed sponsor. -->
 <section class="fx-founding" aria-label="Elite Founding Sponsor" data-fundsae-slot="sponsor-founding">
@@ -219,10 +236,6 @@
     </a>
     <span class="foot-note">Discover. Connect. Grow.</span>
     <nav class="foot-nav" aria-label="Footer">
-      <a href="this.html">Top news</a>
-      <a href="Careers.dc.html">Careers</a>
-      <a href="Events.dc.html">Events</a>
-      <a href="Advertise.dc.html">Advertise</a>
       <a href="About.dc.html">About</a>
       <a href="Contact.dc.html">Contact us</a>
       <a href="Terms.dc.html">Terms of Service</a>
@@ -235,6 +248,7 @@
   </div>
 </footer>
 <script src="../i18n.js"></script>
+<script src="../js/fundsae-header.js" defer></script>
 <script src="../js/fundsae-api.js" defer></script>
 <script src="../js/fundsae-connector.js" defer></script>
 </body>
