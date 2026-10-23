@@ -124,28 +124,26 @@ export function pageFromHtml(html, slug, siteUrl) {
 
 const TIER_POSITIONS = { silver: 10, gold: 20, exclusive: 40 };
 
-/** The package cards and the Elite Exclusive hero on the Advertise page. */
-export function tiersFromHtml(html) {
-  const tiers = [];
-  // One card per package; the Elite Exclusive card is "tier exclusive" with id="elite-partner".
-  for (const [, classes, card] of html.matchAll(/<div class="(tier(?: featured| exclusive)?)"(?: id="[a-z-]+")?>([\s\S]*?)<\/div>\s*(?=<div class="tier|<\/div>)/g)) {
-    const id = (card.match(/data-fundsae-tier="([a-z]+)"/) || [])[1];
-    const price = card.match(/<div class="price">([\s\S]*?)(?:<small>([\s\S]*?)<\/small>)?<\/div>/) || [];
-    tiers.push({
-      _id: `tier-${id}`,
-      _type: 'advertiseTier',
-      tier: id,
-      name: plain((card.match(/<h2>([\s\S]*?)<\/h2>/) || [])[1] || id),
-      badge: plain((card.match(/<span class="badge">([\s\S]*?)<\/span>/) || [])[1] || '') || undefined,
-      price: plain(price[1] || ''),
-      priceNote: plain(price[2] || '') || undefined,
-      features: [...card.matchAll(/<li>([\s\S]*?)<\/li>/g)].map((m) => plain(m[1])),
-      featured: classes.includes('featured'),
-      position: TIER_POSITIONS[id],
-      enabled: true
-    });
-  }
-  return tiers.map(compact);
+/** Advertise packages, with all their fields, from config/content.json (the mirror of what Sanity publishes). */
+export function tierDocs(tiers) {
+  return (tiers || []).filter((t) => t.id !== 'platinum').map((t, i) => compact({
+    _id: `tier-${t.id}`,
+    _type: 'advertiseTier',
+    tier: t.id,
+    name: t.name,
+    badge: t.badge || undefined,
+    price: t.price,
+    priceNote: t.priceNote || undefined,
+    showPrice: t.showPrice !== false,
+    duration: t.duration || undefined,
+    placements: (t.placements || []).map((p) => ({ _type: 'placement', _key: key(), placement: p.placement, enabled: p.enabled !== false, detail: p.detail })),
+    features: t.features || [],
+    ctaLabel: t.ctaLabel || undefined,
+    ctaUrl: t.ctaUrl || undefined,
+    featured: t.featured === true,
+    position: TIER_POSITIONS[t.id] ?? (i + 1) * 10,
+    enabled: t.enabled !== false
+  }));
 }
 
 /* ------------------------------- sponsors, events ------------------------------ */
@@ -195,7 +193,7 @@ export function buildSeed({ root = REPO_ROOT, siteUrl = 'https://funds.ae/fronte
   return [
     ...sponsorDocs(sponsors),
     ...eventDocs(events),
-    ...tiersFromHtml(read('frontend_demo/Advertise.dc.html')),
+    ...tierDocs(JSON.parse(read('backend/config/content.json')).advertiseTiers),
     ...[['about', 'About'], ['privacy', 'Privacy'], ['terms', 'Terms']].map(([slug, file]) => pageFromHtml(read(`frontend_demo/${file}.dc.html`), slug, siteUrl))
   ];
 }

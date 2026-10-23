@@ -14,7 +14,7 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { CONFIG_DIR, readJson } from '../config.js';
 import { log } from '../lib/logger.js';
-import { ADVERTISING_TIERS, PAGE_BLOCK_TYPES, PAGE_LIST_TYPES, PAGE_SLUGS, RETIRED_ADVERTISING_TIERS } from '../contracts/models.js';
+import { ADVERTISE_PLACEMENTS, PAGE_BLOCK_TYPES, PAGE_LIST_TYPES, PAGE_SLUGS, RETIRED_ADVERTISING_TIERS } from '../contracts/models.js';
 import { toAdvertiseTierDto, toPageDto, toSocialHighlightDto } from '../contracts/serializers.js';
 import { EMAIL_RE, cleanInline, cleanText, rules, validate } from '../validation/validate.js';
 import { isSafePublicUrl } from '../lib/http.js';
@@ -23,7 +23,7 @@ const { id, text, httpsUrl, enumOf, isoDate, bool } = rules;
 
 export const CONTENT_LIMITS = {
   highlights: { maxItems: 5, accountName: [2, 40], handle: [2, 16], text: [10, 140], initials: [1, 3] },
-  tiers: { maxItems: 4, name: [2, 40], badge: [2, 20], price: [2, 30], priceNote: [2, 40], features: 8, feature: [2, 120] },
+  tiers: { maxItems: 4, name: [2, 40], badge: [2, 20], price: [2, 30], priceNote: [2, 40], duration: [2, 40], features: 8, feature: [2, 120], ctaLabel: [2, 30], placementDetail: [2, 120] },
   pages: { title: [2, 80], intro: [0, 400], blocks: 120, blockText: 2000 }
 };
 
@@ -55,6 +55,35 @@ const stringList = ({ min, max, itemMin, itemMax }) => (raw) => {
   if (value.length < min || value.length > max) return { error: `Give ${min} to ${max} lines.` };
   const bad = value.findIndex((s) => s.length < itemMin || s.length > itemMax);
   if (bad !== -1) return { error: `Line ${bad + 1} must be ${itemMin} to ${itemMax} characters.` };
+  return { value };
+};
+
+/** Optional list of lines (missing = none). */
+const optionalStringList = (opts) => {
+  const rule = stringList(opts);
+  return (raw) => (raw === undefined || raw === null ? { value: [] } : rule(raw));
+};
+
+/** A package's home page placements: [{ placement, enabled, detail }], each placement type at most once. */
+const placementList = () => (raw) => {
+  if (raw === undefined || raw === null) return { value: [] };
+  if (!Array.isArray(raw)) return { error: 'Give a list of placements.' };
+  const seen = new Set();
+  const value = [];
+  for (const [i, p] of raw.entries()) {
+    const where = `Placement ${i + 1}`;
+    if (!p || typeof p !== 'object' || Array.isArray(p)) return { error: `${where}: must be an object.` };
+    const unknown = Object.keys(p).filter((k) => !['placement', 'enabled', 'detail'].includes(k));
+    if (unknown.length) return { error: `${where}: unknown field "${unknown[0]}".` };
+    if (!ADVERTISE_PLACEMENTS.includes(p.placement)) return { error: `${where}: choose one of ${ADVERTISE_PLACEMENTS.join(', ')}.` };
+    if (seen.has(p.placement)) return { error: `${where}: ${p.placement} is listed twice.` };
+    seen.add(p.placement);
+    if (p.enabled !== undefined && p.enabled !== null && typeof p.enabled !== 'boolean') return { error: `${where}: "enabled" must be true or false.` };
+    const detail = typeof p.detail === 'string' ? cleanText(p.detail) : '';
+    const [min, max] = L.tiers.placementDetail;
+    if (detail.length < min || detail.length > max) return { error: `${where}: the description must be ${min} to ${max} characters.` };
+    value.push({ placement: p.placement, enabled: p.enabled !== false, detail });
+  }
   return { value };
 };
 
@@ -122,15 +151,23 @@ const HIGHLIGHT_SCHEMA = {
 
 const TIER_SCHEMA = {
   fields: {
-    id: enumOf(ADVERTISING_TIERS),
+    id: id(),
     enabled: enabledFlag(),
     name: text({ min: L.tiers.name[0], max: L.tiers.name[1] }),
     badge: text({ min: L.tiers.badge[0], max: L.tiers.badge[1], required: false }),
     price: text({ min: L.tiers.price[0], max: L.tiers.price[1] }),
     priceNote: text({ min: L.tiers.priceNote[0], max: L.tiers.priceNote[1], required: false }),
-    features: stringList({ min: 1, max: L.tiers.features, itemMin: L.tiers.feature[0], itemMax: L.tiers.feature[1] }),
+    showPrice: enabledFlag(),
+    duration: text({ min: L.tiers.duration[0], max: L.tiers.duration[1], required: false }),
+    placements: placementList(),
+    features: optionalStringList({ min: 0, max: L.tiers.features, itemMin: L.tiers.feature[0], itemMax: L.tiers.feature[1] }),
+    ctaLabel: text({ min: L.tiers.ctaLabel[0], max: L.tiers.ctaLabel[1], required: false }),
+    ctaUrl: httpsUrl({ required: false }),
     featured: bool()
-  }
+  },
+  check: (v) => (v.features.length || v.placements.some((p) => p.enabled)
+    ? null
+    : { features: 'Add at least one line, or switch on at least one placement.' })
 };
 
 const PAGE_SCHEMA = {

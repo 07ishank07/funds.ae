@@ -56,14 +56,13 @@ test('emails, links and choices are strictly checked', () => {
   assert.equal(validate(SUBMISSION_SCHEMAS.job, { ...job, employmentType: 'Contract' }, { now }).value.employmentType, 'Contract');
 });
 
-test('advertise enquiries accept the three packages, including Elite Exclusive Partner', () => {
+test('advertise enquiries take a package id (the server then checks it is a published package)', () => {
   const enquiry = { name: 'Sara Ali', email: 'sara@example.ae', company: 'Example Capital', tier: 'exclusive' };
-  // Shown on the Advertise page as Partner, Gold Partner and Elite Exclusive Partner.
-  for (const tier of ['silver', 'gold', 'exclusive']) {
+  // The default packages and any editor-defined id are accepted here; unpublished ones are refused by the handler.
+  for (const tier of ['silver', 'gold', 'exclusive', 'silver-plus']) {
     assert.equal(validate(SUBMISSION_SCHEMAS.advertise, { ...enquiry, tier }, { now }).value.tier, tier, tier);
   }
-  // 'platinum' was the Elite Partner package, now retired.
-  for (const tier of ['platinum', 'elite', 'Exclusive', 'diamond', '']) {
+  for (const tier of ['Exclusive', 'diamond tier', '-gold', '']) {
     assert.ok(validate(SUBMISSION_SCHEMAS.advertise, { ...enquiry, tier }, { now }).fields.tier, tier);
   }
 });

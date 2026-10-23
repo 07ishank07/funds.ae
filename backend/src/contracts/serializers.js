@@ -5,6 +5,8 @@
 // Rule: every DTO key in models.js DTO_FIELDS is always present; optional
 // values are null, never "".
 
+import { ADVERTISE_PLACEMENT_LABELS } from './models.js';
+
 /** Trimmed non-empty string, or null. */
 export function nullable(value) {
   if (value === undefined || value === null) return null;
@@ -125,7 +127,17 @@ export function toAdvertiseTierDto(tier) {
     badge: nullable(tier.badge),
     price: tier.price,
     priceNote: nullable(tier.priceNote),
-    features: [...tier.features],
+    showPrice: tier.showPrice !== false,
+    duration: nullable(tier.duration),
+    // Only the placements switched on for this package, in the order the editor listed them.
+    placements: (tier.placements || []).filter((p) => p.enabled !== false).map((p) => ({
+      type: p.placement,
+      label: ADVERTISE_PLACEMENT_LABELS[p.placement],
+      detail: p.detail
+    })),
+    features: [...(tier.features || [])],
+    ctaLabel: nullable(tier.ctaLabel),
+    ctaUrl: nullable(tier.ctaUrl),
     featured: Boolean(tier.featured)
   };
 }

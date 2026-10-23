@@ -22,7 +22,18 @@ export const JOB_STATUSES = ['open', 'closed', 'expired'];
 export const SPONSOR_SLOTS = ['founding', 'platinum', 'gold', 'sponsoredPosts', 'sponsoredMedia', 'professionalServices', 'careerResources'];
 export const SUBMISSION_KINDS = ['contact', 'newsletter', 'advertise', 'event', 'job'];
 export const SUBMISSION_STATUSES = ['new', 'pending-review', 'approved', 'rejected', 'spam'];
+// Advertise packages are editor-defined in Sanity (any id like 'gold' or 'silver-plus'). These are the default
+// packages: the seed, the page's built-in fallback cards and the enquiry form's fallback list.
 export const ADVERTISING_TIERS = ['silver', 'gold', 'exclusive'];
+// Home page placements a package can include, each switched on and described per package (Advertise cards).
+export const ADVERTISE_PLACEMENTS = ['sponsoredPosts', 'videos', 'events', 'influencers', 'tweets'];
+export const ADVERTISE_PLACEMENT_LABELS = {
+  sponsoredPosts: 'Sponsored Posts',
+  videos: 'Videos and Podcasts',
+  events: 'Events and Expos',
+  influencers: 'Thought Leaders and Influencers',
+  tweets: 'Top Tweets (X posts)'
+};
 // Packages no longer offered. An entry still in Sanity is skipped when content is published (not an error),
 // and the enquiry form no longer accepts it. 'platinum' was the Elite Partner package.
 export const RETIRED_ADVERTISING_TIERS = ['platinum'];
@@ -143,14 +154,26 @@ export const PAGE_LIST_TYPES = ['bullet', 'number'];
 
 /**
  * @typedef {Object} AdvertiseTierRecord  (config/content.json "advertiseTiers"; Advertise page cards)
- * @property {string} id            one of ADVERTISING_TIERS (the value the enquiry form sends)
+ * @property {string} id            package id, lowercase letters, numbers and dashes (the value the enquiry form sends)
  * @property {boolean} [enabled]
  * @property {string} name
  * @property {string|null} badge
  * @property {string} price         display text, e.g. "AED 9,500"
  * @property {string|null} priceNote
- * @property {string[]} features
+ * @property {boolean} showPrice    false hides the price line on the card
+ * @property {string|null} duration e.g. "Minimum term: 3 months"
+ * @property {AdvertisePlacementRecord[]} placements  one per ADVERTISE_PLACEMENTS type at most
+ * @property {string[]} features    other inclusions, free text
+ * @property {string|null} ctaLabel button text (default "Get started")
+ * @property {string|null} ctaUrl   https link; null = the enquiry form, with this package preselected
  * @property {boolean} featured
+ */
+
+/**
+ * @typedef {Object} AdvertisePlacementRecord
+ * @property {string} placement     one of ADVERTISE_PLACEMENTS
+ * @property {boolean} enabled
+ * @property {string} detail        e.g. "One slot, rotating weekly"
  */
 
 /**
@@ -230,7 +253,8 @@ export const DB_MODELS = {
   },
   advertiseTiers: {
     table: 'advertise_tiers',
-    fields: ['id', 'position', 'enabled', 'name', 'badge', 'price', 'priceNote', 'features', 'featured']
+    fields: ['id', 'position', 'enabled', 'name', 'badge', 'price', 'priceNote', 'showPrice', 'duration', 'placements', 'features',
+      'ctaLabel', 'ctaUrl', 'featured']
   },
   pages: {
     table: 'pages',
@@ -264,7 +288,8 @@ export const DTO_FIELDS = {
   event: ['id', 'title', 'eventType', 'startDate', 'endDate', 'city', 'venue', 'url', 'organiser', 'featured'],
   sponsorItem: ['id', 'title', 'blurb', 'label', 'logoText', 'website', 'url', 'image', 'colorFrom', 'colorTo', 'sponsored'],
   socialHighlight: ['id', 'accountName', 'handle', 'text', 'url', 'initials', 'color'],
-  advertiseTier: ['id', 'name', 'badge', 'price', 'priceNote', 'features', 'featured'],
+  advertiseTier: ['id', 'name', 'badge', 'price', 'priceNote', 'showPrice', 'duration', 'placements', 'features', 'ctaLabel', 'ctaUrl', 'featured'],
+  advertisePlacement: ['type', 'label', 'detail'],
   page: ['slug', 'title', 'intro', 'updatedAt', 'blocks'],
   pageBlock: ['type', 'list', 'spans'],
   pageSpan: ['text', 'bold', 'italic', 'href'],

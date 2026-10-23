@@ -81,7 +81,14 @@ export function toTiers(docs) {
     badge: doc.badge,
     price: doc.price,
     priceNote: doc.priceNote,
+    showPrice: doc.showPrice !== false,
+    duration: doc.duration,
+    placements: Array.isArray(doc.placements)
+      ? doc.placements.map((p) => compact({ placement: p?.placement, enabled: p?.enabled !== false, detail: p?.detail }))
+      : [],
     features: Array.isArray(doc.features) ? doc.features : [],
+    ctaLabel: doc.ctaLabel,
+    ctaUrl: doc.ctaUrl,
     featured: doc.featured === true
   }));
 }

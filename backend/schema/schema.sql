@@ -177,14 +177,20 @@ CREATE TABLE IF NOT EXISTS social_highlights (
 
 -- Advertise page package cards. id is the tier the enquiry form sends.
 CREATE TABLE IF NOT EXISTS advertise_tiers (
-    id          TEXT PRIMARY KEY CHECK (id IN ('silver', 'gold', 'platinum', 'exclusive')),
+    id          TEXT PRIMARY KEY CHECK (id ~ '^[a-z0-9][a-z0-9-]{1,60}$'),
     position    INTEGER NOT NULL DEFAULT 0,
     enabled     BOOLEAN NOT NULL DEFAULT TRUE,
     name        TEXT NOT NULL CHECK (char_length(name) BETWEEN 2 AND 40),
     badge       TEXT CHECK (badge IS NULL OR char_length(badge) BETWEEN 2 AND 20),
     price       TEXT NOT NULL CHECK (char_length(price) BETWEEN 2 AND 30),
     price_note  TEXT CHECK (price_note IS NULL OR char_length(price_note) BETWEEN 2 AND 40),
-    features    TEXT[] NOT NULL CHECK (cardinality(features) BETWEEN 1 AND 8),
+    show_price  BOOLEAN NOT NULL DEFAULT TRUE,
+    duration    TEXT CHECK (duration IS NULL OR char_length(duration) BETWEEN 2 AND 40),
+    -- [{ placement, enabled, detail }], placement one of ADVERTISE_PLACEMENTS in models.js
+    placements  JSONB NOT NULL DEFAULT '[]'::jsonb,
+    features    TEXT[] NOT NULL CHECK (cardinality(features) <= 8),
+    cta_label   TEXT CHECK (cta_label IS NULL OR char_length(cta_label) BETWEEN 2 AND 30),
+    cta_url     TEXT CHECK (cta_url IS NULL OR cta_url LIKE 'https://%'),
     featured    BOOLEAN NOT NULL DEFAULT FALSE
 );
 

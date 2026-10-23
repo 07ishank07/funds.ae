@@ -20,7 +20,7 @@ const { CONTENT_LIMITS, safeHref, validateContent } = await import('../src/pipel
 const { SLOT_RULES } = await import('../src/pipeline/sponsors.js');
 const { validateEvents } = await import('../src/pipeline/events.js');
 const { publishContent } = await import('../src/pipeline/publish.js');
-const { ADVERTISING_TIERS, DTO_FIELDS, ENVELOPE_FIELDS, PAGE_SLUGS, SPONSOR_SLOTS } = await import('../src/contracts/models.js');
+const { ADVERTISE_PLACEMENTS, ADVERTISE_PLACEMENT_LABELS, ADVERTISING_TIERS, DTO_FIELDS, ENVELOPE_FIELDS, PAGE_SLUGS, SPONSOR_SLOTS } = await import('../src/contracts/models.js');
 const studio = await import('../../studio/schemaTypes/rules.js');
 
 const NOW = new Date('2026-10-07T06:00:00Z');
@@ -228,9 +228,30 @@ test('invalid content is explained in plain language', () => {
   assert.match(errorsFor({ socialHighlights: [{ ...highlight, url: 'https://evil.example/status/1' }] }), /one post on x\.com/);
   assert.match(errorsFor({ socialHighlights: [{ ...highlight, handle: '@adfinance' }] }), /without the @/);
   assert.match(errorsFor({ socialHighlights: Array.from({ length: 6 }, (_, i) => ({ ...highlight, id: `account-${i}` })) }), /room for 5/);
-  assert.match(errorsFor({ advertiseTiers: [{ ...tier, id: 'diamond' }] }), /"id" Choose one of the listed options/);
+  assert.match(errorsFor({ advertiseTiers: [{ ...tier, id: 'Diamond Tier' }] }), /"id" Use lowercase letters, numbers and dashes only/);
   assert.match(errorsFor({ advertiseTiers: [tier, { ...tier }] }), /duplicate id/);
-  assert.match(errorsFor({ advertiseTiers: [{ ...tier, features: Array(9).fill('A line') }] }), /Give 1 to 8 lines/);
+  assert.match(errorsFor({ advertiseTiers: [{ ...tier, features: Array(9).fill('A line') }] }), /Give 0 to 8 lines/);
+  // Packages: placements, show-price, CTA and the "something to offer" rule.
+  assert.match(errorsFor({ advertiseTiers: [{ ...tier, features: [] }] }), /at least one line, or switch on at least one placement/);
+  assert.match(errorsFor({ advertiseTiers: [{ ...tier, placements: [{ placement: 'banners', detail: 'A banner' }] }] }), /choose one of sponsoredPosts, videos, events, influencers, tweets/);
+  assert.match(errorsFor({ advertiseTiers: [{ ...tier, placements: [{ placement: 'videos', detail: 'One' }, { placement: 'videos', detail: 'Two' }] }] }), /videos is listed twice/);
+  assert.match(errorsFor({ advertiseTiers: [{ ...tier, placements: [{ placement: 'videos', detail: 'x' }] }] }), /description must be 2 to 120/);
+  assert.match(errorsFor({ advertiseTiers: [{ ...tier, ctaUrl: 'http://example.com' }] }), /"ctaUrl" Enter a link that starts with https/);
+  assert.match(errorsFor({ advertiseTiers: [{ ...tier, ctaLabel: 'x' }] }), /"ctaLabel" Enter at least 2 characters/);
+  assert.match(errorsFor({ advertiseTiers: [{ ...tier, showPrice: 'no' }] }), /"showPrice" Use true or false/);
+  const added = validateContent({ advertiseTiers: [tier, {
+    id: 'silver-plus', name: 'Silver Plus', price: 'AED 6,000', showPrice: false, duration: 'Minimum term: 3 months', features: [],
+    placements: [{ placement: 'tweets', enabled: true, detail: 'Your posts in Top Tweets' }, { placement: 'videos', enabled: false, detail: 'Not included' }],
+    ctaLabel: 'Book a call', ctaUrl: 'https://example.com/book'
+  }] }, { now: NOW });
+  assert.deepEqual(added.errors, [], 'an editor-defined package with placements only is valid');
+  const plus = added.content.slots.advertiseTiers[1];
+  sameKeys(plus, DTO_FIELDS.advertiseTier, 'new package');
+  assert.equal(plus.id, 'silver-plus');
+  assert.equal(plus.showPrice, false);
+  assert.deepEqual(plus.placements, [{ type: 'tweets', label: 'Top Tweets (X posts)', detail: 'Your posts in Top Tweets' }], 'only placements switched on are published, with their label');
+  assert.equal(plus.ctaUrl, 'https://example.com/book');
+  assert.equal(added.content.slots.advertiseTiers[0].showPrice, true, 'show price defaults to on');
   assert.match(errorsFor({ advertiseTiers: [{ ...tier, colour: 'red' }] }), /"colour" Unknown field/);
   assert.match(errorsFor({ pages: [{ ...page, blocks: [{ type: 'p', list: null, spans: [{ text: 'x', href: 'javascript:alert(1)' }] }] }] }), /https:\/\/ or mailto:/);
   assert.match(errorsFor({ pages: [{ ...page, blocks: [{ type: 'li', list: null, spans: [{ text: 'x' }] }] }] }), /list "bullet" or "number"/);
@@ -238,7 +259,7 @@ test('invalid content is explained in plain language', () => {
   assert.match(errorsFor({ pages: [{ ...page, slug: 'careers' }] }), /"slug"/);
   assert.match(errorsFor({ banners: [] }), /Unknown group "banners"/);
   assert.deepEqual(validateContent({}, { now: NOW }).errors, [], 'an empty file is valid');
-  assert.deepEqual(validateContent({ advertiseTiers: [{ ...tier, enabled: false, id: 'diamond' }] }, { now: NOW }).errors.length, 1, 'disabled items are still checked');
+  assert.deepEqual(validateContent({ advertiseTiers: [{ ...tier, enabled: false, id: 'Diamond!' }] }, { now: NOW }).errors.length, 1, 'disabled items are still checked');
 });
 
 /* ------------------------------------ pull ----------------------------------- */
@@ -356,7 +377,8 @@ test('the Studio enforces the same content limits as the backend', () => {
   assert.deepEqual(studio.HIGHLIGHT_LIMITS, CONTENT_LIMITS.highlights);
   assert.deepEqual(studio.TIER_LIMITS, CONTENT_LIMITS.tiers);
   assert.deepEqual(studio.PAGE_LIMITS, CONTENT_LIMITS.pages);
-  assert.deepEqual(studio.TIER_IDS, ADVERTISING_TIERS);
+  assert.deepEqual(studio.PLACEMENT_TYPES, ADVERTISE_PLACEMENTS);
+  assert.deepEqual(studio.PLACEMENT_LABELS, ADVERTISE_PLACEMENT_LABELS);
   assert.deepEqual(studio.PAGE_SLUGS, PAGE_SLUGS);
 });
 

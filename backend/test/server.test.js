@@ -3,7 +3,7 @@
 import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, readFileSync, existsSync, rmSync } from 'node:fs';
+import { mkdtempSync, readFileSync, existsSync, rmSync, writeFileSync, utimesSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -233,4 +233,27 @@ test('the admin listing needs the token, and is off without one', async () => {
   assert.equal((await get('/api/v1/admin/submissions?kind=secrets', { headers: { authorization: `Bearer ${ADMIN}` } })).status, 400);
   const noToken = await start({ ADMIN_API_TOKEN: 'too-short' }, 'noadmin');
   assert.equal((await fetch(`${noToken.url}/api/v1/admin/submissions?kind=contact`, { headers: { authorization: 'Bearer too-short' } })).status, 404);
+});
+
+test('advertise enquiries must name a package currently published on the Advertise page', async () => {
+  const enquiry = { name: 'Sara Ali', email: 'sara@example.ae', company: 'Example Capital' };
+  assert.equal((await post('advertise', { ...enquiry, tier: 'gold' })).status, 202, 'a published package');
+  for (const tier of ['platinum', 'silver-plus']) {
+    const res = await post('advertise', { ...enquiry, tier });
+    assert.equal(res.status, 400, `${tier} is not published`);
+    assert.ok((await res.json()).error.fields.tier, `${tier} error names the field`);
+  }
+  // An editor adds a package in Sanity and it is published: enquiries for it are accepted.
+  const file = path.join(apiDir, 'content.json');
+  const original = readFileSync(file, 'utf8');
+  try {
+    const doc = JSON.parse(original);
+    doc.slots.advertiseTiers.push({ ...doc.slots.advertiseTiers[0], id: 'silver-plus', name: 'Silver Plus' });
+    writeFileSync(file, JSON.stringify(doc));
+    utimesSync(file, new Date(), new Date(Date.now() + 5000));
+    assert.equal((await post('advertise', { ...enquiry, tier: 'silver-plus' })).status, 202, 'a newly published package');
+  } finally {
+    writeFileSync(file, original);
+    utimesSync(file, new Date(), new Date(Date.now() + 10000));
+  }
 });

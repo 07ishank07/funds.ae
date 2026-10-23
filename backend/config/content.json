@@ -13,9 +13,36 @@
       "badge": "Get listed",
       "price": "AED 4,504",
       "priceNote": "/ month (dummy)",
+      "showPrice": false,
+      "placements": [
+        {
+          "placement": "sponsoredPosts",
+          "enabled": true,
+          "detail": "One slot, rotating weekly"
+        },
+        {
+          "placement": "videos",
+          "enabled": false,
+          "detail": "Not included"
+        },
+        {
+          "placement": "events",
+          "enabled": true,
+          "detail": "A listing in Events and Expos"
+        },
+        {
+          "placement": "influencers",
+          "enabled": false,
+          "detail": "Not included"
+        },
+        {
+          "placement": "tweets",
+          "enabled": false,
+          "detail": "Not included"
+        }
+      ],
       "features": [
         "Listing in \"Featured Partners\" (home page column 3 and the Careers page)",
-        "One \"Sponsored Posts\" slot (column 3), rotating weekly",
         "Monthly performance summary (dummy)",
         "Limited to 15 partners"
       ],
@@ -27,10 +54,37 @@
       "badge": "Most popular",
       "price": "AED 10000",
       "priceNote": "/ month (dummy)",
+      "showPrice": false,
+      "placements": [
+        {
+          "placement": "sponsoredPosts",
+          "enabled": true,
+          "detail": "Two slots, rotating weekly"
+        },
+        {
+          "placement": "videos",
+          "enabled": true,
+          "detail": "One placement, rotating weekly"
+        },
+        {
+          "placement": "events",
+          "enabled": true,
+          "detail": "A featured listing in Events and Expos"
+        },
+        {
+          "placement": "influencers",
+          "enabled": true,
+          "detail": "One feature in Thought Leaders and Influencers"
+        },
+        {
+          "placement": "tweets",
+          "enabled": false,
+          "detail": "Not included"
+        }
+      ],
       "features": [
         "Everything in Featured Partner, plus:",
         "A picture tile in \"Gold Partners\" (home page column 3)",
-        "One placement in \"Videos and Podcasts\" (column 3), rotating weekly",
         "A listing in \"Career Resources\" on the Careers page",
         "Limited to 5 partners"
       ],
@@ -42,6 +96,34 @@
       "badge": "One partner only",
       "price": "On request",
       "priceNote": "(dummy)",
+      "showPrice": true,
+      "placements": [
+        {
+          "placement": "sponsoredPosts",
+          "enabled": true,
+          "detail": "The lead slot, every week"
+        },
+        {
+          "placement": "videos",
+          "enabled": true,
+          "detail": "The lead video placement"
+        },
+        {
+          "placement": "events",
+          "enabled": true,
+          "detail": "The highlighted event card"
+        },
+        {
+          "placement": "influencers",
+          "enabled": true,
+          "detail": "The Top voice feature"
+        },
+        {
+          "placement": "tweets",
+          "enabled": true,
+          "detail": "Your posts in Top Tweets"
+        }
+      ],
       "features": [
         "Your firm in the Elite Founding Sponsor banner, under the masthead on every Funds.ae page except Careers",
         "The Exclusive Elite Sponsor box, with your image, at the top of the Careers sidebar",

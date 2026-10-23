@@ -17,7 +17,8 @@ export const CONTENT_QUERY = `{
     "id": id.current, accountName, handle, text, url, initials, color
   },
   "tiers": *[_type == "advertiseTier" && enabled != false && ${published}] | order(position asc, tier asc) {
-    tier, name, badge, price, priceNote, features, featured
+    tier, name, badge, price, priceNote, showPrice, duration, placements[]{ placement, enabled, detail }, features,
+    ctaLabel, ctaUrl, featured
   },
   "pages": *[_type == "page" && ${published}] | order(slug asc) {
     slug, title, intro, updatedAt, body

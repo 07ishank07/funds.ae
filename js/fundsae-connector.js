@@ -741,9 +741,9 @@
     });
   }
 
-  /** Advertise page: one card per package, in the published order (Featured Partner, Gold Partner, Elite
-   *  Exclusive Partner). The Elite Exclusive card is the dark one and carries id="elite-partner", which the Elite
-   *  Founding Sponsor banner links to. */
+  /** Advertise page: one card per package, in the published order (editors add, hide and reorder packages in
+   *  Sanity). The "exclusive" package is the dark card and carries id="elite-partner", which the Elite Founding
+   *  Sponsor banner links to. The enquiry form's package list follows the same packages. */
   function renderTiers(tiers) {
     if (!tiers.length) return;
     slots('advertise-tiers').forEach(function (box) {
@@ -760,16 +760,66 @@
         var title = card.querySelector('h2');
         if (title) title.textContent = tier.name;
         var price = card.querySelector('.price');
-        if (price) appendText(price, tier.price, tier.priceNote);
-        fillLines(card.querySelector('ul'), tier.features);
+        if (price) {
+          appendText(price, tier.price, tier.priceNote);
+          price.hidden = !tier.showPrice;
+        }
+        var duration = card.querySelector('.duration');
+        if (duration) {
+          duration.textContent = tier.duration || '';
+          duration.hidden = !tier.duration;
+        }
+        // Home page placements switched on for this package: label, then what the partner gets.
+        var placements = card.querySelector('ul.placements');
+        if (placements) {
+          placements.textContent = '';
+          tier.placements.forEach(function (p) {
+            var li = document.createElement('li');
+            li.setAttribute('data-placement', p.type);
+            var text = document.createElement('span');
+            var label = document.createElement('strong');
+            label.textContent = api.tr(p.label);
+            var detail = document.createElement('span');
+            detail.className = 'detail';
+            detail.textContent = p.detail;
+            text.appendChild(label);
+            text.appendChild(detail);
+            li.appendChild(text);
+            placements.appendChild(li);
+          });
+          placements.hidden = !tier.placements.length;
+        }
+        var features = card.querySelector('ul.features') || card.querySelector('ul');
+        fillLines(features, tier.features);
+        if (features) features.hidden = !tier.features.length;
         var cta = card.querySelector('[data-fundsae-tier]');
         if (cta) {
+          var label = tier.ctaLabel || api.tr(exclusive ? 'Enquire' : 'Get started');
           cta.setAttribute('data-fundsae-tier', tier.id);
-          cta.textContent = api.tr(exclusive ? 'Enquire' : 'Get started');
-          cta.setAttribute('aria-label', (exclusive ? 'Enquire about ' : 'Get started with ') + tier.name);
+          cta.textContent = label;
+          cta.setAttribute('aria-label', label + ': ' + tier.name);
+          // A package link goes there; otherwise the button opens the enquiry form with this package selected.
+          if (!tier.ctaUrl || !api.setLink(cta, tier.ctaUrl, { httpsOnly: true })) {
+            cta.setAttribute('href', '#enquiry');
+            cta.removeAttribute('target');
+            cta.removeAttribute('rel');
+          }
         }
       });
     });
+    var select = document.querySelector('[data-fundsae-form="advertise"] select[name="tier"]');
+    if (select) {
+      var current = select.value;
+      select.textContent = '';
+      tiers.forEach(function (tier) {
+        var option = document.createElement('option');
+        option.value = tier.id;
+        option.textContent = tier.name;
+        select.appendChild(option);
+      });
+      var keep = tiers.some(function (t) { return t.id === current; });
+      select.value = keep ? current : (tiers.filter(function (t) { return t.featured; })[0] || tiers[0]).id;
+    }
   }
 
   var updatedFmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });

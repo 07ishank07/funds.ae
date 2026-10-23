@@ -135,8 +135,11 @@
       return !!h && str(h.id) && str(h.accountName) && str(h.handle) && str(h.text) && str(h.url) && str(h.initials) && optStr(h.color);
     },
     advertiseTier: function (t) {
-      return !!t && /^(silver|gold|platinum|exclusive)$/.test(t.id) && str(t.name) && str(t.price) && optStr(t.badge) &&
-        optStr(t.priceNote) && Array.isArray(t.features) && t.features.every(str) && typeof t.featured === 'boolean';
+      return !!t && /^[a-z0-9][a-z0-9-]{1,60}$/.test(t.id) && str(t.name) && str(t.price) && optStr(t.badge) &&
+        optStr(t.priceNote) && typeof t.showPrice === 'boolean' && optStr(t.duration) &&
+        Array.isArray(t.placements) && t.placements.every(function (p) { return !!p && str(p.type) && str(p.label) && str(p.detail); }) &&
+        Array.isArray(t.features) && t.features.every(str) && optStr(t.ctaLabel) &&
+        (t.ctaUrl === null || /^https:\/\//.test(t.ctaUrl)) && typeof t.featured === 'boolean';
     },
     page: function (p) {
       return !!p && str(p.slug) && str(p.title) && optStr(p.intro) && (p.updatedAt === null || DATE.test(p.updatedAt)) &&

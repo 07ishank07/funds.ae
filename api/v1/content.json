@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-10-23T08:53:36.886Z",
+  "generatedAt": "2026-10-23T09:52:13.931Z",
   "notice": "Editorial content written by the Funds.ae team. Top Tweets items link to the original posts.",
   "slots": {
     "socialHighlights": [],
@@ -12,12 +12,27 @@
         "badge": "Get listed",
         "price": "AED 4,504",
         "priceNote": "/ month (dummy)",
+        "showPrice": false,
+        "duration": null,
+        "placements": [
+          {
+            "type": "sponsoredPosts",
+            "label": "Sponsored Posts",
+            "detail": "One slot, rotating weekly"
+          },
+          {
+            "type": "events",
+            "label": "Events and Expos",
+            "detail": "A listing in Events and Expos"
+          }
+        ],
         "features": [
           "Listing in \"Featured Partners\" (home page column 3 and the Careers page)",
-          "One \"Sponsored Posts\" slot (column 3), rotating weekly",
           "Monthly performance summary (dummy)",
           "Limited to 15 partners"
         ],
+        "ctaLabel": null,
+        "ctaUrl": null,
         "featured": false
       },
       {
@@ -26,13 +41,38 @@
         "badge": "Most popular",
         "price": "AED 10000",
         "priceNote": "/ month (dummy)",
+        "showPrice": false,
+        "duration": null,
+        "placements": [
+          {
+            "type": "sponsoredPosts",
+            "label": "Sponsored Posts",
+            "detail": "Two slots, rotating weekly"
+          },
+          {
+            "type": "videos",
+            "label": "Videos and Podcasts",
+            "detail": "One placement, rotating weekly"
+          },
+          {
+            "type": "events",
+            "label": "Events and Expos",
+            "detail": "A featured listing in Events and Expos"
+          },
+          {
+            "type": "influencers",
+            "label": "Thought Leaders and Influencers",
+            "detail": "One feature in Thought Leaders and Influencers"
+          }
+        ],
         "features": [
           "Everything in Featured Partner, plus:",
           "A picture tile in \"Gold Partners\" (home page column 3)",
-          "One placement in \"Videos and Podcasts\" (column 3), rotating weekly",
           "A listing in \"Career Resources\" on the Careers page",
           "Limited to 5 partners"
         ],
+        "ctaLabel": null,
+        "ctaUrl": null,
         "featured": true
       },
       {
@@ -41,12 +81,43 @@
         "badge": "One partner only",
         "price": "On request",
         "priceNote": "(dummy)",
+        "showPrice": true,
+        "duration": null,
+        "placements": [
+          {
+            "type": "sponsoredPosts",
+            "label": "Sponsored Posts",
+            "detail": "The lead slot, every week"
+          },
+          {
+            "type": "videos",
+            "label": "Videos and Podcasts",
+            "detail": "The lead video placement"
+          },
+          {
+            "type": "events",
+            "label": "Events and Expos",
+            "detail": "The highlighted event card"
+          },
+          {
+            "type": "influencers",
+            "label": "Thought Leaders and Influencers",
+            "detail": "The Top voice feature"
+          },
+          {
+            "type": "tweets",
+            "label": "Top Tweets (X posts)",
+            "detail": "Your posts in Top Tweets"
+          }
+        ],
         "features": [
           "Your firm in the Elite Founding Sponsor banner, under the masthead on every Funds.ae page except Careers",
           "The Exclusive Elite Sponsor box, with your image, at the top of the Careers sidebar",
           "Everything in the Gold Partner package",
           "Exclusive: one partner at a time"
         ],
+        "ctaLabel": null,
+        "ctaUrl": null,
         "featured": false
       }
     ]

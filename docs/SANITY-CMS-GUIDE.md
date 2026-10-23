@@ -29,7 +29,7 @@ Sanity holds **content people write by hand**. Ingested news and jobs never go i
 | **Sponsors**, grouped by area | Elite Founding Sponsor banner, Gold Partners, Gold Sponsors (not shown), Sponsored Posts, Videos and Podcasts, Featured Partners, Career Resources | `sponsorItem` | `config/sponsors.json` → `api/v1/sponsors.json` |
 | **Events** | Home "Events and Expos", Events page | `event` | `config/events.json` → `api/v1/events.json` |
 | **Top Tweets (home)** | Home "Top Tweets" box (5 shown) | `socialHighlight` | `config/content.json` → `api/v1/content.json` `slots.socialHighlights` |
-| **Advertise packages** | Advertise page cards (Partner, Gold, Elite) and the Elite Exclusive hero | `advertiseTier` | … `slots.advertiseTiers` |
+| **Advertise packages** | Advertise page package cards (Featured Partner, Gold Partner, Elite Exclusive Partner, and any you add) and the enquiry form's package list | `advertiseTier` | … `slots.advertiseTiers` |
 | **Pages** | About, Privacy Policy, Terms of Service body copy | `page` | … `pages.{about,privacy,terms}` |
 
 | Not in Sanity | Why |
@@ -140,7 +140,7 @@ npx sanity datasets import seed/fundsae-seed.ndjson development --replace
 npm run dev               # http://localhost:3333
 ```
 
-- The seed contains the current sponsors (including images from `assets/sponsors/`), events, the four Advertise packages and the About/Privacy/Terms copy.
+- The seed contains the current sponsors (including images from `assets/sponsors/`), events, the three Advertise packages (with their placements, from `config/content.json`) and the About/Privacy/Terms copy.
 - Relative page links such as `Contact.dc.html` become `https://funds.ae/frontend_demo/Contact.dc.html`. Pass `npm run cms:seed -- --site-url https://<your-site>/frontend_demo/` if the site lives elsewhere.
 - The dummy Top Tweets are **not** seeded. They have no real post links, so add real ones in the Studio.
 - Much of today's content is placeholder ("demo", "dummy"). Import into `production` only once you have replaced it with real content, or start production empty and enter the real content by hand.
@@ -357,8 +357,14 @@ These follow from CLAUDE.md. Code review should check them on every CMS change.
   4. Drafts, meaning unpublished changes, are never shown.
 - **Take something down without deleting it:** switch off **Show on the site** and publish.
 - **Order:** lower **Order** numbers show first.
-- **Limits:** the Studio tells you when a field is too long or an area is full. Each area holds only as many items as the page has room for: one founding sponsor, 5 Elite Partners, 5 Top Tweets.
+- **Limits:** the Studio tells you when a field is too long or an area is full. Each area holds only as many items as the page has room for: one founding sponsor, 5 Gold Partners, 5 Top Tweets, 4 Advertise packages.
 - **Top Tweets:** write one line in your own words about the post, then paste the link to the post. Don't paste the post's text.
+- **Advertise packages** (Advertise packages in the Studio menu). Each document is one card on the Advertise page and one choice in its enquiry form:
+  - **Add** a package: create a document, give it a **Package id** (for example `silver-plus`; lowercase letters, numbers and dashes; keep it once the package is live, because enquiries record it), a title and a price. The page has room for 4 packages.
+  - **Edit** the title, badge, price and price note, **Show the price on the card**, **Duration** (for example "Minimum term: 3 months"), **Other inclusions** (free lines), **Highlight this card**, **Button text** and **Button link** (empty = the enquiry form opens with this package selected; otherwise an `https://` link).
+  - **Home page placements:** add Sponsored Posts, Videos and Podcasts, Events and Expos, Thought Leaders and Influencers or Top Tweets (X posts) once each, switch each on or off for this package, and describe what the partner gets ("One slot, rotating weekly"). Only placements that are switched on appear on the card. A package needs at least one placement switched on or one other inclusion.
+  - **Reorder:** change **Order** (lower first). **Hide:** switch off **Show on the site**. **Delete:** delete the document. Publish after each change.
+  - The package with id `exclusive` is the dark Elite Exclusive card that the Elite Founding Sponsor banner links to.
 - **Links:** they must start with `https://`. On pages, `mailto:` also works.
 - **If the site doesn't update:** tell the developer. The GitHub Action log says exactly which item broke which rule, and the site keeps the last good version in the meantime.
 

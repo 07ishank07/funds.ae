@@ -75,7 +75,8 @@
   .benefit p { margin-top: 8px; font-size: 15px; line-height: 1.55; color: var(--muted); }
 
   /* Packages: three equal cards; Gold is highlighted, Elite Exclusive is the dark premium card */
-  .tiers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; align-items: stretch; margin-top: 32px; }
+  /* Three or four packages sit on one row (editors can publish up to four). */
+  .tiers { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; align-items: stretch; margin-top: 32px; }
   .tier { position: relative; display: flex; flex-direction: column; padding: 32px 28px 28px; border: 1px solid var(--line); border-top: 3px solid var(--ink); border-radius: 3px; background: var(--surface); scroll-margin-top: 24px; }
   .tier.featured { border-color: var(--mint); border-top-color: var(--mint); box-shadow: 0 18px 40px rgba(14, 58, 67, 0.12); }
   .tier.exclusive { border-color: var(--ink); background: var(--ink); color: #F1F5F4; background-image: radial-gradient(circle at 100% 0, rgba(79, 179, 184, 0.32), transparent 50%); }
@@ -85,12 +86,20 @@
   .tier.exclusive .badge { background: rgba(79, 179, 184, 0.18); color: var(--mint); }
   .tier h2 { margin-top: 18px; font-size: 26px; font-weight: 600; line-height: 1.15; letter-spacing: -0.015em; }
   .tier.exclusive h2 { color: #FFFFFF; }
-  /* Monthly prices are not shown; only the Elite Exclusive card keeps its price line ("On request"). */
-  .tier:not(.exclusive) .price { display: none; }
   .tier .price { margin-top: 10px; padding-bottom: 20px; border-bottom: 1px solid var(--line); font-size: 22px; font-weight: 600; color: var(--accent); }
   .tier.exclusive .price { color: var(--mint); border-bottom-color: rgba(241, 245, 244, 0.2); }
   .tier .price small { margin-inline-start: 4px; font-size: 13px; font-weight: 500; color: var(--muted); }
   .tier.exclusive .price small { color: #A7C3C2; }
+  .tier [hidden] { display: none !important; }
+  .tier .duration { margin-top: 10px; font-size: 13px; color: var(--muted); }
+  .tier.exclusive .duration { color: #A7C3C2; }
+  .tier ul.placements + ul.features { margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); flex: 1; }
+  .tier.exclusive ul.placements + ul.features { border-top-color: rgba(241, 245, 244, 0.2); }
+  .tier ul.placements:has(+ ul.features:not([hidden])) { flex: none; }
+  .tier li > span { display: block; min-width: 0; }
+  .tier li strong { display: block; font-weight: 600; }
+  .tier li .detail { display: block; margin-top: 1px; font-size: 14px; color: var(--muted); }
+  .tier.exclusive li .detail { color: #A7C3C2; }
   .tier ul { list-style: none; display: flex; flex-direction: column; gap: 12px; flex: 1; margin-top: 20px; }
   .tier li { display: flex; align-items: flex-start; gap: 10px; font-size: 15px; line-height: 1.45; }
   .tier li::before { content: '\2713'; flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 18px; height: 18px; margin-top: 2px; border-radius: 2px; background: var(--mint); color: var(--ink); font-size: 11px; font-weight: 700; }
@@ -281,24 +290,29 @@
     </div>
   </section>
 
-  <!-- Packages. js/fundsae-connector.js (slot "advertise-tiers") redraws the cards from the published packages;
-       the Elite Exclusive card gets id="elite-partner", which the Elite Founding Sponsor banner links to. -->
+  <!-- Packages, managed in Sanity (Advertise packages). js/fundsae-connector.js (slot "advertise-tiers") redraws these
+       cards and the enquiry form's package list from api/v1/content.json; the cards below only show if the API is
+       unreachable. The "exclusive" card gets id="elite-partner", which the Elite Founding Sponsor banner links to. -->
   <section class="section" id="packages" aria-labelledby="packages-title">
     <div class="section-head">
       <div>
         <p class="eyebrow">Packages</p>
         <h2 id="packages-title">Choose your partnership</h2>
       </div>
-      <p>Three ways to work with Funds.ae, each built around placements on our pages. Pricing shown is placeholder content.</p>
+      <p>Ways to work with Funds.ae, each built around placements on our pages. Pricing shown is placeholder content.</p>
     </div>
     <div class="tiers" data-fundsae-slot="advertise-tiers">
       <div class="tier">
         <span class="badge">Get listed</span>
         <h2>Featured Partner</h2>
-        <div class="price">AED 4,500 <small>/ month (dummy)</small></div>
-        <ul>
+        <div class="price" hidden>AED 4,500 <small>/ month (dummy)</small></div>
+        <p class="duration" hidden></p>
+        <ul class="placements">
+          <li data-placement="sponsoredPosts"><span><strong>Sponsored Posts</strong><span class="detail">One slot, rotating weekly</span></span></li>
+          <li data-placement="events"><span><strong>Events and Expos</strong><span class="detail">A listing in Events and Expos</span></span></li>
+        </ul>
+        <ul class="features">
           <li>Listing in "Featured Partners" (home page column 3 and the Careers page)</li>
-          <li>One "Sponsored Posts" slot (column 3), rotating weekly</li>
           <li>Monthly performance summary (dummy)</li>
           <li>Limited to 15 partners</li>
         </ul>
@@ -307,11 +321,17 @@
       <div class="tier featured">
         <span class="badge">Most popular</span>
         <h2>Gold Partner</h2>
-        <div class="price">AED 9,500 <small>/ month (dummy)</small></div>
-        <ul>
+        <div class="price" hidden>AED 9,500 <small>/ month (dummy)</small></div>
+        <p class="duration" hidden></p>
+        <ul class="placements">
+          <li data-placement="sponsoredPosts"><span><strong>Sponsored Posts</strong><span class="detail">Two slots, rotating weekly</span></span></li>
+          <li data-placement="videos"><span><strong>Videos and Podcasts</strong><span class="detail">One placement, rotating weekly</span></span></li>
+          <li data-placement="events"><span><strong>Events and Expos</strong><span class="detail">A featured listing in Events and Expos</span></span></li>
+          <li data-placement="influencers"><span><strong>Thought Leaders and Influencers</strong><span class="detail">One feature in Thought Leaders and Influencers</span></span></li>
+        </ul>
+        <ul class="features">
           <li>Everything in Featured Partner, plus:</li>
           <li>A picture tile in "Gold Partners" (home page column 3)</li>
-          <li>One placement in "Videos and Podcasts", rotating weekly</li>
           <li>A listing in "Career Resources" on the Careers page</li>
           <li>Limited to 5 partners</li>
         </ul>
@@ -321,7 +341,15 @@
         <span class="badge">One partner only</span>
         <h2>Elite Exclusive Partner</h2>
         <div class="price">On request <small>(dummy)</small></div>
-        <ul>
+        <p class="duration" hidden></p>
+        <ul class="placements">
+          <li data-placement="sponsoredPosts"><span><strong>Sponsored Posts</strong><span class="detail">The lead slot, every week</span></span></li>
+          <li data-placement="videos"><span><strong>Videos and Podcasts</strong><span class="detail">The lead video placement</span></span></li>
+          <li data-placement="events"><span><strong>Events and Expos</strong><span class="detail">The highlighted event card</span></span></li>
+          <li data-placement="influencers"><span><strong>Thought Leaders and Influencers</strong><span class="detail">The Top voice feature</span></span></li>
+          <li data-placement="tweets"><span><strong>Top Tweets (X posts)</strong><span class="detail">Your posts in Top Tweets</span></span></li>
+        </ul>
+        <ul class="features">
           <li>Your firm in the Elite Founding Sponsor banner, under the masthead on every Funds.ae page except Careers</li>
           <li>The Exclusive Elite Sponsor box, with your image, at the top of the Careers sidebar</li>
           <li>Everything in the Gold Partner package</li>

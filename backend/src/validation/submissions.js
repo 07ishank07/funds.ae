@@ -5,9 +5,9 @@
 // Every form also carries the honeypot field "website", which people never see.
 
 import { rules } from './validate.js';
-import { ADVERTISING_TIERS, EMPLOYMENT_TYPES } from '../contracts/models.js';
+import { EMPLOYMENT_TYPES } from '../contracts/models.js';
 
-const { text, email, httpsUrl, enumOf, isoDate, honeypot } = rules;
+const { text, email, httpsUrl, enumOf, isoDate, honeypot, id } = rules;
 
 const name = text({ min: 2, max: 80 });
 const contactEmail = email();
@@ -36,7 +36,8 @@ export const SUBMISSION_SCHEMAS = {
       name,
       email: contactEmail,
       company: text({ min: 2, max: 120 }),
-      tier: enumOf(ADVERTISING_TIERS),
+      // A package id; the handler also checks it is one of the packages currently published.
+      tier: id(),
       message: text({ min: 0, max: 2000, required: false, multiline: true }),
       website: honeypot()
     }

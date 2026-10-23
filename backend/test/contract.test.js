@@ -255,6 +255,11 @@ test('every page but Careers shows the same Elite Founding Sponsor banner, and a
   for (const name of ['Featured Partner', 'Gold Partner', 'Elite Exclusive Partner']) assert.ok(advertise.includes(`<h2>${name}</h2>`), name);
   assert.ok(advertise.includes('Benefits of partnering with Funds.ae') && advertise.indexOf('id="pitch-title"') < advertise.indexOf('id="packages"'), 'pitch sits above the packages');
   assert.ok(!advertise.includes('advertise-exclusive') && !connector.includes("'advertise-exclusive'"), 'no separate Elite Exclusive hero');
+  // Cards are CMS-managed: placements, show-price, duration and CTA are drawn by the connector, and the enquiry
+  // form's package list follows the published packages.
+  for (const slot of ['class="placements"', 'class="features"', 'class="duration"', 'class="price"']) assert.ok(advertise.includes(slot), `card template has ${slot}`);
+  assert.ok(!/\.tier:not\(\.exclusive\) \.price \{ display: none/.test(advertise), 'prices are shown or hidden by the showPrice field, not page CSS');
+  assert.ok(connector.includes("price.hidden = !tier.showPrice") && connector.includes("select[name=\"tier\"]") && connector.includes('tier.ctaUrl'), 'connector draws showPrice, CTA and the package list');
 });
 
 test('every website form posts only field names the API accepts', () => {
