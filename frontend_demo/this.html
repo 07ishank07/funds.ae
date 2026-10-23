@@ -922,6 +922,8 @@ document.addEventListener('DOMContentLoaded', async function() {
           });
           let tabs = Array.from(tabRow.querySelectorAll('button'));
           const REGION_NAMES = ['News', 'Fundraising'];
+          // Visible tab labels; the region key stays 'News' because the connector filters on it.
+          const REGION_LABELS = { News: 'Latest Stories', Fundraising: 'Fundraising' };
           if (tabs.length >= 2) {
             // The region is kept in a data attribute, not read back from the label, so the label can be translated (i18n.js).
             const translate = window.__fundsTr || ((text) => text);
@@ -937,7 +939,8 @@ document.addEventListener('DOMContentLoaded', async function() {
                 tabs.push(extra);
               }
               tabs[i].dataset.newsRegionName = regionName;
-              if (tabs[i].textContent !== translate(regionName)) tabs[i].textContent = translate(regionName);
+              const label = translate(REGION_LABELS[regionName]);
+              if (tabs[i].textContent !== label) tabs[i].textContent = label;
             });
             tabs.slice(REGION_NAMES.length).forEach((tab) => tab.remove());
             tabs = tabs.slice(0, REGION_NAMES.length);

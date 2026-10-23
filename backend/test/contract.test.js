@@ -158,6 +158,7 @@ test('every page but Careers shows the same Elite Founding Sponsor banner, and a
   // Home news tabs: the page script and the connector agree on the names; Fundraising is the fundraising topic.
   const connector = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
   assert.ok(home.includes("const REGION_NAMES = ['News', 'Fundraising'];"), 'home tabs are News and Fundraising');
+  assert.ok(home.includes("News: 'Latest Stories'"), 'News tab is labelled Latest Stories');
   assert.ok(connector.includes("var NEWS_REGIONS = ['News', 'Fundraising'];") && connector.includes("var FUNDRAISING_TOPIC = 'fundraising';"), 'connector tabs match');
   assert.ok(!/'(UAE News|Global News|Business Funding)'/.test(home + connector), 'old tab names are gone');
   assert.ok(home.includes("tab.href = 'Events.dc.html'") && home.includes("'Events.dc.html#submit-event'"), 'home links to the Events page');
