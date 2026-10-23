@@ -159,9 +159,14 @@ test('every page but Careers shows the same Elite Founding Sponsor banner, and a
   const connector = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
   assert.ok(home.includes("const REGION_NAMES = ['News', 'Global'];") && home.includes("Global: 'Global Stories'"), 'home tabs are UAE Stories and Global Stories');
   assert.ok(home.includes("News: 'UAE Stories'"), 'News tab is labelled UAE Stories');
-  assert.ok(home.includes('<h2 id="platinum-sponsors-title">Gold Partners</h2>') && home.includes("img/partners/partner-${i + 1}.png"), 'Gold Partners box with dummy pictures');
+  assert.ok(home.includes('<h2 id="platinum-sponsors-title">Gold Partners</h2>') && home.includes("url('img/partners/${id}.png')"), 'Gold Partners box with dummy pictures');
   assert.ok(!home.includes('gold-sponsors-title') && !home.includes("'sponsor-gold'"), 'home has no Gold Sponsors box');
-  for (let n = 1; n <= 5; n++) assert.ok(existsSync(path.join(repo, 'frontend_demo', 'img', 'partners', `partner-${n}.png`)), `dummy partner picture ${n}`);
+  // Every Gold Partner in sponsors.json has its own dummy picture, and the page lists the same ids.
+  const partnerIds = JSON.parse(readFileSync(path.join(backend, 'config', 'sponsors.json'), 'utf8')).platinum.map((p) => p.id);
+  for (const id of partnerIds) {
+    assert.ok(existsSync(path.join(repo, 'frontend_demo', 'img', 'partners', `${id}.png`)), `dummy picture for ${id}`);
+    assert.ok(home.includes(`['${id}', `), `home lists ${id}`);
+  }
   // The site menu is in the footer on every page, not in the header.
   assert.ok(home.includes(`nav.m-only[aria-label="Sections"]').forEach((nav) => nav.remove())`), 'home removes both header menus');
   for (const page of ['About', 'Advertise', 'Careers', 'Contact', 'Events', 'Privacy', 'Terms']) {

@@ -780,10 +780,11 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Gold Partners (the "platinum" sponsor slot): five picture tiles (dummy images until a sponsor adds
         // one in Sanity) with the partner's name underneath, in the third column (careersColumn). It is an
         // <aside> section, so the generic "main.wrap aside > section" card styling applies.
-        const platinumSponsors = ['Sandhaven Capital (demo)', 'Tidewell Holdings (demo)', 'Qamar Ridge Partners (demo)', 'Almira Private Bank (demo)', 'Saltmarsh Investments (demo)'];
+        // [sponsor id in Sanity, name]; each partner has its own dummy picture, img/partners/<id>.png.
+        const platinumSponsors = [['sandhaven-capital', 'Sandhaven Capital (demo)'], ['tidewell-holdings', 'Tidewell Holdings (demo)'], ['qamar-ridge-partners', 'Qamar Ridge Partners (demo)'], ['almira-private-bank', 'Almira Private Bank (demo)'], ['saltmarsh-investments', 'Saltmarsh Investments (demo)']];
         const platinumSection = document.createElement('section');
         platinumSection.setAttribute('aria-labelledby', 'platinum-sponsors-title');
-        platinumSection.innerHTML = `<h2 id="platinum-sponsors-title">Gold Partners</h2><div class="fx-platinum-list">${platinumSponsors.map((name, i) => `<a href="#" class="fx-platinum-tile" aria-label="Gold partner: ${name}"><span class="fx-platinum-img" aria-hidden="true" style="background-image: url('img/partners/partner-${i + 1}.png')"></span><span class="fx-platinum-name">${name}</span></a>`).join('')}</div>`;
+        platinumSection.innerHTML = `<h2 id="platinum-sponsors-title">Gold Partners</h2><div class="fx-platinum-list">${platinumSponsors.map(([id, name]) => `<a href="#" class="fx-platinum-tile" aria-label="Gold partner: ${name}"><span class="fx-platinum-img" aria-hidden="true" data-partner="${id}" style="background-image: url('img/partners/${id}.png')"></span><span class="fx-platinum-name">${name}</span></a>`).join('')}</div>`;
         careersColumn.appendChild(platinumSection);
         // The original (undecorated) Subscribe box is removed now that its relabelled copy
         // (morningBriefCopy) is the one shown, at the top of the third column.

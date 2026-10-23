@@ -596,10 +596,13 @@
       }
     });
 
-    // Gold Partners: picture tiles. A sponsor's own image wins; otherwise the page's dummy pictures are reused
-    // in turn, then the sponsor's colours.
+    // Gold Partners: picture tiles. A sponsor's own image wins; then the page's dummy picture for that sponsor id
+    // (data-partner); then the dummy pictures in turn; then the sponsor's colours.
     slots('sponsor-platinum').forEach(function (box) {
-      var pictures = children(box, ':scope > a > .fx-platinum-img').map(function (n) { return n.style.backgroundImage; }).filter(Boolean);
+      var dummies = children(box, ':scope > a > .fx-platinum-img');
+      var pictures = dummies.map(function (n) { return n.style.backgroundImage; }).filter(Boolean);
+      var byId = {};
+      dummies.forEach(function (n) { if (n.dataset.partner && n.style.backgroundImage) byId[n.dataset.partner] = n.style.backgroundImage; });
       fillList(box, ':scope > a', pick('platinum'), function (a, item, i) {
         var name = a.querySelector('.fx-platinum-name') || a;
         name.textContent = item.title;
@@ -609,6 +612,7 @@
         var from = api.hex(item.colorFrom);
         var to = api.hex(item.colorTo);
         if (image) picture.style.backgroundImage = 'url("' + image + '")';
+        else if (Object.prototype.hasOwnProperty.call(byId, item.id)) picture.style.backgroundImage = byId[item.id];
         else if (pictures.length) picture.style.backgroundImage = pictures[i % pictures.length];
         else if (from && to) picture.style.background = 'linear-gradient(145deg, ' + from + ', ' + to + ')';
         sponsorLink(a, item);
