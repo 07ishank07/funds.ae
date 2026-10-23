@@ -179,7 +179,7 @@ test('every page but Careers shows the same Elite Founding Sponsor banner, and a
   for (const label of ['Top', 'Sovereign', 'Pension', 'Private Equity', 'REITs', 'Family Offices', 'Banks', 'Government', 'Endowments']) {
     assert.ok(home.includes(`['${label}', `), `category bar has ${label}`);
   }
-  assert.ok(home.includes("['Advertise', { href: 'Advertise.dc.html' }]"), 'category bar links to the Advertise page');
+  assert.ok(home.includes("[['Advertise', { href: 'Advertise.dc.html' }], ['Careers', { href: 'Careers.dc.html' }], ['Events', { href: 'Events.dc.html' }]]"), 'category bar ends with Advertise, Careers and Events links');
   for (const gone of ['Latest', 'Fundraising', 'Deals', 'People', 'Venture', 'Credit', 'Secondaries', 'Hedge Funds', 'LPs', 'Regulation', 'Providers']) {
     assert.ok(!home.includes(`['${gone}', [`), `category bar no longer has ${gone}`);
   }
