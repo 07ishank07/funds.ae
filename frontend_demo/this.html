@@ -1428,6 +1428,10 @@ document.addEventListener('DOMContentLoaded', async function() {
             overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
           }
           .fx-catbar-row::-webkit-scrollbar { display: none; }
+          /* Centred. Auto margins (not justify-content: center) so a row wider than the screen still scrolls
+             from its first item instead of clipping it. */
+          .fx-catbar-row > :first-child { margin-inline-start: auto; }
+          .fx-catbar-row > :last-child { margin-inline-end: auto; }
           .fx-catbar a {
             position: relative; display: flex; flex-shrink: 0; align-items: center; height: 40px; padding: 0 10px; white-space: nowrap;
             font-family: 'Jost', 'Futura', 'Century Gothic', sans-serif; font-size: 13px; font-weight: 500;
