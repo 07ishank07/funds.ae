@@ -867,7 +867,7 @@ document.addEventListener('DOMContentLoaded', async function() {
           }
           @media (max-width: 620px) {
             main.wrap { padding-right: 16px !important; padding-left: 16px !important; }
-            [aria-label="Residential Estate News"], [aria-label="Commercial Real Estate News"], [aria-label="Tech and Data Centre News"] { grid-template-columns: minmax(0, 1fr) !important; }
+            [aria-label="Residential Estate News"], [aria-label="Commercial Real Estate News"] { grid-template-columns: minmax(0, 1fr) !important; }
             [aria-label="UAE Business Grants and Funding news"] { grid-template-columns: minmax(0, 1fr) !important; }
             [aria-label="Other Funding Resources"] { grid-template-columns: minmax(0, 1fr) !important; }
             .news article:hover { transform: none; }
@@ -900,8 +900,8 @@ document.addEventListener('DOMContentLoaded', async function() {
           });
           // Residential Estate News stays under Latest Stories, but not under Fundraising. Queried each call (not closed over) because the box is
           // created later, further down this same script.
-          // Commercial Real Estate News and Tech and Data Centre News follow the same rule.
-          ['Residential Estate News', 'Commercial Real Estate News', 'Tech and Data Centre News'].forEach((label) => {
+          // Commercial Real Estate News follows the same rule.
+          ['Residential Estate News', 'Commercial Real Estate News'].forEach((label) => {
             const tileBox = document.querySelector('.news > section[aria-label="' + label + '"]');
             if (!tileBox) return;
             const show = region !== 'Fundraising';
@@ -1127,8 +1127,8 @@ document.addEventListener('DOMContentLoaded', async function() {
             image.style.maxWidth = '150px';
           });
           news.appendChild(realEstateBox);
-          // Commercial Real Estate News and Tech and Data Centre News: same heading, box and tile format as
-          // Real Estate, directly below it (12 dummy tiles each, replaced by live stories).
+          // Commercial Real Estate News: same heading, box and tile format as
+          // Residential, directly below it (12 dummy tiles, replaced by live stories).
           const addTileSection = (label, tiles) => {
             const heading = document.createElement('h2');
             heading.textContent = label;
@@ -1167,20 +1167,6 @@ document.addEventListener('DOMContentLoaded', async function() {
             ['MIXED USE', 'Mixed-use schemes blend offices, retail and hotels', '#2F4E6D, #B9C9E0'],
             ['FREE ZONES', 'Free zone office space fills as firms relocate', '#416C56, #9EB9A5'],
             ['CRE DEBT', 'Private lenders step up commercial property financing', '#7A5C3E, #D3C4A6']
-          ]);
-          addTileSection('Tech and Data Centre News', [
-            ['AI INVESTMENT', 'AI infrastructure funding reaches new highs', '#31556D, #8BA9C1'],
-            ['DATA CENTRES', 'Data centre campuses expand across the UAE', '#0E3A43, #7F9A97'],
-            ['AI STARTUPS', 'AI start-ups close larger rounds in the Gulf', '#5B4675, #B4A4C9'],
-            ['SEMICONDUCTORS', 'Chip supply deals shape the regional compute race', '#356A78, #A8C5D1'],
-            ['CLOUD', 'Cloud providers commit to new regional zones', '#4F8A8B, #1C5965'],
-            ['FINTECH', 'Fintech platforms scale up under the DIFC and ADGM regimes', '#8A6330, #D3B46A'],
-            ['CYBERSECURITY', 'Cybersecurity spending climbs across financial firms', '#874E4B, #C6A59B'],
-            ['ROBOTICS', 'Robotics and automation pilots reach production', '#607A5A, #D8D0A4'],
-            ['GOVERNMENT AI', 'Government AI programmes open to private partners', '#2F4E6D, #B9C9E0'],
-            ['GENERATIVE AI', 'Generative AI tools move into asset management', '#416C56, #9EB9A5'],
-            ['DIGITAL ASSETS', 'Digital asset platforms win new licences', '#875F4A, #D9B38C'],
-            ['TECH IPOS', 'Technology listings test investor appetite', '#7A5C3E, #D3C4A6']
           ]);
           // Events and Expos sit in the second column, directly under UAE Careers.
           eventsPanel.style.marginTop = '28px';
@@ -1323,7 +1309,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         document.querySelector('#professional-services-title'),
       ].map((heading) => heading && heading.closest('section'));
       inside.forEach((box) => { if (box && !box.querySelector('.fx-view-all')) box.appendChild(makeViewAll()); });
-      ['Other Funding Resources', 'UAE Business Grants and Funding news', 'Residential Estate News', 'Commercial Real Estate News', 'Tech and Data Centre News'].forEach((label) => {
+      ['Other Funding Resources', 'UAE Business Grants and Funding news', 'Residential Estate News', 'Commercial Real Estate News'].forEach((label) => {
         const box = document.querySelector('.news > section[aria-label="' + label + '"]');
         if (box && !(box.nextElementSibling && box.nextElementSibling.classList.contains('fx-view-all'))) box.after(makeViewAll());
       });
@@ -1565,10 +1551,10 @@ document.addEventListener('DOMContentLoaded', async function() {
         /* Tile grids: smaller images and type (same size in every box; the data-fundsae-tag selectors cover live tiles, which the connector strips of role=img). Grants stays five across (15 tiles = 3 rows);
            Real Estate is kept at three across (15 tiles = 5 rows) so 3 images/headlines share
            one row, as on Grants' 760px breakpoint. */
-        .news > section[aria-label="Residential Estate News"], .news > section[aria-label="Commercial Real Estate News"], .news > section[aria-label="Tech and Data Centre News"], .news > section[aria-label="UAE Business Grants and Funding news"], .news > section[aria-label="Other Funding Resources"] { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; column-gap: 12px !important; row-gap: 18px !important; }
+        .news > section[aria-label="Residential Estate News"], .news > section[aria-label="Commercial Real Estate News"], .news > section[aria-label="UAE Business Grants and Funding news"], .news > section[aria-label="Other Funding Resources"] { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; column-gap: 12px !important; row-gap: 18px !important; }
         .news > section[aria-label] [role="img"][style*="height: 116px"], .news > section[aria-label] [role="img"][style*="height:116px"], .news > section[aria-label] [data-fundsae-tag][style*="height: 116px"], .news > section[aria-label] [data-fundsae-tag][style*="height:116px"] { box-sizing: border-box; width: 100% !important; max-width: none !important; height: 68px !important; padding: 6px 8px !important; font-family: var(--fx-mono); font-size: 9px !important; letter-spacing: 0.06em !important; line-height: 1.2; }
         .news > section[aria-label] article > a { margin-top: 8px !important; font-size: 13px !important; line-height: 1.3 !important; }
-        @media (max-width: 480px) { .news > section[aria-label="Residential Estate News"], .news > section[aria-label="Commercial Real Estate News"], .news > section[aria-label="Tech and Data Centre News"], .news > section[aria-label="UAE Business Grants and Funding news"], .news > section[aria-label="Other Funding Resources"] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
+        @media (max-width: 480px) { .news > section[aria-label="Residential Estate News"], .news > section[aria-label="Commercial Real Estate News"], .news > section[aria-label="UAE Business Grants and Funding news"], .news > section[aria-label="Other Funding Resources"] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
         /* Other Funding Resources: links only, no images; each link sits on a hairline divider. */
         .news > section[aria-label="Other Funding Resources"] article > a { margin-top: 0 !important; padding: 8px 0; border-bottom: 1px solid var(--fx-line-2); }
         .news > section[aria-label] article > a:hover { color: var(--fx-accent) !important; text-decoration: none !important; }
@@ -1692,7 +1678,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         return section ? section.querySelector(selector) : null;
       };
       tag(document.querySelector('.news'), 'news', true);
-      tag(inBox('careers-title', 'ul'), 'home-jobs', true);
       tag(inBox('events-title', 'ul'), 'events', true);
       tag(inBox('sponsored-title', 'ul'), 'sponsor-posts');
       tag(inBox('sponsored-podcasts-title', ':scope > div:nth-of-type(2)'), 'sponsor-media');
@@ -1702,7 +1687,6 @@ document.addEventListener('DOMContentLoaded', async function() {
       tag(document.querySelector('.fx-platinum-list'), 'sponsor-platinum');
       tag(document.querySelector('.news > section[aria-label="Residential Estate News"]'), 'tiles-residential-real-estate');
       tag(document.querySelector('.news > section[aria-label="Commercial Real Estate News"]'), 'tiles-commercial-real-estate');
-      tag(document.querySelector('.news > section[aria-label="Tech and Data Centre News"]'), 'tiles-ai-technology');
       tag(document.querySelector('.news > section[aria-label="UAE Business Grants and Funding news"]'), 'tiles-grants-funding');
       tag(inBox('tweets-title', ':scope > div'), 'social-highlights');
       const dateLine = document.querySelector('.fx-topline > span:first-child');
@@ -1710,14 +1694,10 @@ document.addEventListener('DOMContentLoaded', async function() {
         dateLine.setAttribute('data-fundsae-date', '');
         dateLine.setAttribute('data-fundsae-badge', '');
       }
+      // The UAE Careers box is no longer shown on the home page. It is removed only now, after
+      // the layout above has placed Subscribe and Events relative to it.
       const careersBox = box('careers-title');
-      if (careersBox) {
-        // The "Post a role" form no longer exists on the Careers page (removed from column 1),
-        // so this link is removed here rather than repointed to a now-dead anchor.
-        careersBox.querySelectorAll('a').forEach((link) => {
-          if (/^Post a role/.test(link.textContent.trim())) link.remove();
-        });
-      }
+      if (careersBox) careersBox.remove();
     }
 
     // Newsletter box: a real form (Enter submits, fields validate) posting to the API through

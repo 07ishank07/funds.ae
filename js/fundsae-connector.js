@@ -23,9 +23,9 @@
     return;
   }
 
-  var LIMITS = { newsPerRegion: 15, newsMore: 35, headline: 92, tileHeadline: 110, homeJobs: 20, tiles: 15, eventsPerList: 10, eventsMax: 100, topJobs: 20, topEmployers: 20 };
+  var LIMITS = { newsPerRegion: 15, newsMore: 35, headline: 92, tileHeadline: 110, tiles: 15, eventsPerList: 10, eventsMax: 100, topJobs: 20, topEmployers: 20 };
   var ROLES_DEMO_TOTAL = 120; // Careers page, demo mode: live roles are topped up with dummy roles to this many (3 pages of PER_PAGE = 40 in Careers.dc.html)
-  var TILES_SHOWN = 12; // Residential, Commercial Real Estate, Tech and Data Centre and Grants boxes
+  var TILES_SHOWN = 12; // Residential, Commercial Real Estate and Grants boxes
   // Home news tabs. UAE and global stories share the News tab, in the API's order.
   var REGIONS = { uae: 'News', world: 'News' };
   // Fundraising is the second tab. It is not a category: it pulls in any story tagged with the
@@ -339,23 +339,6 @@
   }
 
   /* ------------------------------------ jobs ----------------------------------- */
-
-  function renderHomeJobs(doc) {
-    var jobs = api.items(doc.items, api.valid.job, 'jobs').slice(0, LIMITS.homeJobs);
-    slots('home-jobs').forEach(function (list) {
-      fillList(list, ':scope > li', jobs, function (li, job) {
-        var a = li.querySelector('a');
-        a.textContent = job.title;
-        // The home page shows title + company; details and the apply link live on the Careers page.
-        a.setAttribute('href', 'Careers.dc.html#' + encodeURIComponent(job.id));
-        a.removeAttribute('target');
-        a.removeAttribute('rel');
-        var spans = li.querySelectorAll(':scope > span');
-        if (spans[0]) spans[0].textContent = job.company;
-        for (var i = 1; i < spans.length; i++) spans[i].remove();
-      });
-    });
-  }
 
   /** "Today", "3 days ago", "2 weeks ago", "1 month ago" from an ISO date. */
   function postedAgo(iso) {
@@ -841,13 +824,9 @@
       if (hasSlot('tiles-commercial-real-estate')) {
         guard('Commercial real estate stories', load('news/sections/commercial-real-estate.json', 'news').then(function (doc) { renderTiles('tiles-commercial-real-estate', doc, TILES_SHOWN); }));
       }
-      if (hasSlot('tiles-ai-technology')) {
-        guard('Tech and data centre stories', load('news/sections/ai-technology.json', 'news').then(function (doc) { renderTiles('tiles-ai-technology', doc, TILES_SHOWN); }));
-      }
       if (hasSlot('tiles-grants-funding')) {
         guard('Grants stories', load('news/sections/grants-funding.json', 'news').then(function (doc) { renderTiles('tiles-grants-funding', doc, TILES_SHOWN); }));
       }
-      if (hasSlot('home-jobs')) guard('Jobs', load('jobs.json', 'jobs').then(renderHomeJobs));
       if (hasSlot('employers')) guard('Employers', load('employers.json', 'employers').then(renderEmployers));
       if (hasSlot('roles') || hasSlot('top-jobs')) {
         guard('Roles', Promise.all([
