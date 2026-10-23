@@ -15,7 +15,7 @@
 
   var T = {
     // Masthead and navigation
-    'Connecting Talent, Opportunities and Intelligence': 'ربط المواهب والفرص والمعرفة',
+    'Real Estate, Infrastructure & Market Intelligence': 'العقارات والبنية التحتية ومعلومات الأسواق',
     '← Back to Funds.ae home': 'العودة إلى الصفحة الرئيسية لـ Funds.ae →',
     'Discover. Connect. Grow.': 'اكتشف. تواصل. انمُ.',
     'Sunday 27 September 2026': 'الأحد 27 سبتمبر 2026',
