@@ -78,6 +78,7 @@
     'Residential Estate News': 'أخبار العقارات السكنية',
     'Commercial Real Estate News': 'أخبار العقارات التجارية',
     'Infrastructure News': 'أخبار البنية التحتية',
+    'Infrastructure Real Estate News': 'أخبار عقارات البنية التحتية',
     // Sidebar
     'Hiring in UAE finance?': 'توظّف في القطاع المالي بالإمارات؟',
     'Post a role (dummy)': 'انشر وظيفة (تجريبي)',
