@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-10-23T08:20:32.977Z",
+  "generatedAt": "2026-10-24T07:57:04.025Z",
   "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
   "category": "world",
   "label": "Rest of the World",
@@ -14,8 +14,8 @@
       "url": "https://example.com/private-capital-daily/northlight-1bn-round",
       "source": "Demo Private Capital Daily",
       "sourceId": "demo-private-capital-daily",
-      "publishedAt": "2026-10-22T12:20:32.977Z",
-      "updatedAt": "2026-10-22T12:20:32.977Z",
+      "publishedAt": "2026-10-23T11:57:04.025Z",
+      "updatedAt": "2026-10-23T11:57:04.025Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -35,7 +35,7 @@
           "sourceId": "demo-private-capital-daily",
           "title": "Gulf sovereign investors join $1bn round for London AI infrastructure firm Northlight",
           "url": "https://example.com/private-capital-daily/northlight-1bn-round",
-          "publishedAt": "2026-10-22T12:20:32.977Z"
+          "publishedAt": "2026-10-23T11:57:04.025Z"
         }
       ]
     },
@@ -46,8 +46,8 @@
       "url": "https://example.com/venture-ledger/voltwerk-series-b",
       "source": "Demo Venture Ledger",
       "sourceId": "demo-venture-ledger",
-      "publishedAt": "2026-10-22T06:20:32.000Z",
-      "updatedAt": "2026-10-22T06:20:32.000Z",
+      "publishedAt": "2026-10-23T05:57:04.000Z",
+      "updatedAt": "2026-10-23T05:57:04.000Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -65,7 +65,7 @@
           "sourceId": "demo-venture-ledger",
           "title": "Berlin climate start-up Voltwerk raises $60m Series B",
           "url": "https://example.com/venture-ledger/voltwerk-series-b",
-          "publishedAt": "2026-10-22T06:20:32.000Z"
+          "publishedAt": "2026-10-23T05:57:04.000Z"
         }
       ]
     },
@@ -76,8 +76,8 @@
       "url": "https://example.com/private-capital-daily/harbourview-fund-vii",
       "source": "Demo Private Capital Daily",
       "sourceId": "demo-private-capital-daily",
-      "publishedAt": "2026-10-22T02:20:32.977Z",
-      "updatedAt": "2026-10-22T02:20:32.977Z",
+      "publishedAt": "2026-10-23T01:57:04.025Z",
+      "updatedAt": "2026-10-23T01:57:04.025Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -97,7 +97,7 @@
           "sourceId": "demo-private-capital-daily",
           "title": "Harbourview Partners closes €4.2bn buyout fund above target",
           "url": "https://example.com/private-capital-daily/harbourview-fund-vii",
-          "publishedAt": "2026-10-22T02:20:32.977Z"
+          "publishedAt": "2026-10-23T01:57:04.025Z"
         }
       ]
     },
@@ -108,8 +108,8 @@
       "url": "https://example.com/property-sme-wire/brindlecourt-data-centre-fund",
       "source": "Demo Property and SME Wire",
       "sourceId": "demo-property-sme-wire",
-      "publishedAt": "2026-10-21T23:20:32.000Z",
-      "updatedAt": "2026-10-21T23:20:32.000Z",
+      "publishedAt": "2026-10-22T22:57:04.000Z",
+      "updatedAt": "2026-10-22T22:57:04.000Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -129,7 +129,7 @@
           "sourceId": "demo-property-sme-wire",
           "title": "Brindlecourt Infrastructure closes €1.2bn infrastructure fund for European data centres",
           "url": "https://example.com/property-sme-wire/brindlecourt-data-centre-fund",
-          "publishedAt": "2026-10-21T23:20:32.000Z"
+          "publishedAt": "2026-10-22T22:57:04.000Z"
         }
       ]
     },
@@ -140,8 +140,8 @@
       "url": "https://example.com/private-capital-daily/secondaries-record",
       "source": "Demo Private Capital Daily",
       "sourceId": "demo-private-capital-daily",
-      "publishedAt": "2026-10-21T06:20:32.977Z",
-      "updatedAt": "2026-10-21T06:20:32.977Z",
+      "publishedAt": "2026-10-22T05:57:04.025Z",
+      "updatedAt": "2026-10-22T05:57:04.025Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -160,7 +160,7 @@
           "sourceId": "demo-private-capital-daily",
           "title": "Secondaries volume hits record as LPs seek liquidity",
           "url": "https://example.com/private-capital-daily/secondaries-record",
-          "publishedAt": "2026-10-21T06:20:32.977Z"
+          "publishedAt": "2026-10-22T05:57:04.025Z"
         }
       ]
     },
@@ -171,8 +171,8 @@
       "url": "https://example.com/venture-ledger/lumen-health-30m",
       "source": "Demo Venture Ledger",
       "sourceId": "demo-venture-ledger",
-      "publishedAt": "2026-10-21T02:20:32.000Z",
-      "updatedAt": "2026-10-21T02:20:32.000Z",
+      "publishedAt": "2026-10-22T01:57:04.000Z",
+      "updatedAt": "2026-10-22T01:57:04.000Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -190,7 +190,7 @@
           "sourceId": "demo-venture-ledger",
           "title": "Singapore's Lumen Health raises $30 million led by Tidewater Ventures",
           "url": "https://example.com/venture-ledger/lumen-health-30m",
-          "publishedAt": "2026-10-21T02:20:32.000Z"
+          "publishedAt": "2026-10-22T01:57:04.000Z"
         }
       ]
     },
@@ -201,8 +201,8 @@
       "url": "https://example.com/private-capital-daily/pensions-infrastructure-debt",
       "source": "Demo Private Capital Daily",
       "sourceId": "demo-private-capital-daily",
-      "publishedAt": "2026-10-20T08:20:32.977Z",
-      "updatedAt": "2026-10-20T08:20:32.977Z",
+      "publishedAt": "2026-10-21T07:57:04.025Z",
+      "updatedAt": "2026-10-21T07:57:04.025Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -222,7 +222,7 @@
           "sourceId": "demo-private-capital-daily",
           "title": "Pension funds lift allocations to infrastructure debt",
           "url": "https://example.com/private-capital-daily/pensions-infrastructure-debt",
-          "publishedAt": "2026-10-20T08:20:32.977Z"
+          "publishedAt": "2026-10-21T07:57:04.025Z"
         }
       ]
     },
@@ -233,8 +233,8 @@
       "url": "https://example.com/venture-ledger/mena-vc-q3",
       "source": "Demo Venture Ledger",
       "sourceId": "demo-venture-ledger",
-      "publishedAt": "2026-10-20T03:20:32.000Z",
-      "updatedAt": "2026-10-20T03:20:32.000Z",
+      "publishedAt": "2026-10-21T02:57:04.000Z",
+      "updatedAt": "2026-10-21T02:57:04.000Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -253,7 +253,7 @@
           "sourceId": "demo-venture-ledger",
           "title": "VC funding to MENA start-ups rose 18% in the third quarter",
           "url": "https://example.com/venture-ledger/mena-vc-q3",
-          "publishedAt": "2026-10-20T03:20:32.000Z"
+          "publishedAt": "2026-10-21T02:57:04.000Z"
         }
       ]
     },
@@ -264,8 +264,8 @@
       "url": "https://example.com/private-capital-daily/kestrel-direct-lending-hire",
       "source": "Demo Private Capital Daily",
       "sourceId": "demo-private-capital-daily",
-      "publishedAt": "2026-10-20T00:20:32.977Z",
-      "updatedAt": "2026-10-20T00:20:32.977Z",
+      "publishedAt": "2026-10-20T23:57:04.025Z",
+      "updatedAt": "2026-10-20T23:57:04.025Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -285,7 +285,7 @@
           "sourceId": "demo-private-capital-daily",
           "title": "Kestrel Credit Partners hires bank veteran to lead European direct lending",
           "url": "https://example.com/private-capital-daily/kestrel-direct-lending-hire",
-          "publishedAt": "2026-10-20T00:20:32.977Z"
+          "publishedAt": "2026-10-20T23:57:04.025Z"
         }
       ]
     },
@@ -296,8 +296,8 @@
       "url": "https://example.com/property-sme-wire/wexmoor-student-housing",
       "source": "Demo Property and SME Wire",
       "sourceId": "demo-property-sme-wire",
-      "publishedAt": "2026-10-19T02:20:32.000Z",
-      "updatedAt": "2026-10-19T02:20:32.000Z",
+      "publishedAt": "2026-10-20T01:57:04.000Z",
+      "updatedAt": "2026-10-20T01:57:04.000Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -317,7 +317,7 @@
           "sourceId": "demo-property-sme-wire",
           "title": "London property fund Wexmoor raises £400m for student housing",
           "url": "https://example.com/property-sme-wire/wexmoor-student-housing",
-          "publishedAt": "2026-10-19T02:20:32.000Z"
+          "publishedAt": "2026-10-20T01:57:04.000Z"
         }
       ]
     }
