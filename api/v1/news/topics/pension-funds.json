@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-10-24T07:57:04.025Z",
+  "generatedAt": "2026-10-25T08:11:59.568Z",
   "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
   "topic": "pension-funds",
   "label": "Pension funds",
@@ -14,8 +14,8 @@
       "url": "https://example.com/private-capital-daily/northlight-1bn-round",
       "source": "Demo Private Capital Daily",
       "sourceId": "demo-private-capital-daily",
-      "publishedAt": "2026-10-23T11:57:04.025Z",
-      "updatedAt": "2026-10-23T11:57:04.025Z",
+      "publishedAt": "2026-10-24T12:11:59.568Z",
+      "updatedAt": "2026-10-24T12:11:59.568Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -35,7 +35,7 @@
           "sourceId": "demo-private-capital-daily",
           "title": "Gulf sovereign investors join $1bn round for London AI infrastructure firm Northlight",
           "url": "https://example.com/private-capital-daily/northlight-1bn-round",
-          "publishedAt": "2026-10-23T11:57:04.025Z"
+          "publishedAt": "2026-10-24T12:11:59.568Z"
         }
       ]
     },
@@ -46,8 +46,8 @@
       "url": "https://example.com/property-sme-wire/brindlecourt-data-centre-fund",
       "source": "Demo Property and SME Wire",
       "sourceId": "demo-property-sme-wire",
-      "publishedAt": "2026-10-22T22:57:04.000Z",
-      "updatedAt": "2026-10-22T22:57:04.000Z",
+      "publishedAt": "2026-10-23T23:11:59.000Z",
+      "updatedAt": "2026-10-23T23:11:59.000Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -67,7 +67,7 @@
           "sourceId": "demo-property-sme-wire",
           "title": "Brindlecourt Infrastructure closes €1.2bn infrastructure fund for European data centres",
           "url": "https://example.com/property-sme-wire/brindlecourt-data-centre-fund",
-          "publishedAt": "2026-10-22T22:57:04.000Z"
+          "publishedAt": "2026-10-23T23:11:59.000Z"
         }
       ]
     },
@@ -78,8 +78,8 @@
       "url": "https://example.com/private-capital-daily/pensions-infrastructure-debt",
       "source": "Demo Private Capital Daily",
       "sourceId": "demo-private-capital-daily",
-      "publishedAt": "2026-10-21T07:57:04.025Z",
-      "updatedAt": "2026-10-21T07:57:04.025Z",
+      "publishedAt": "2026-10-22T08:11:59.568Z",
+      "updatedAt": "2026-10-22T08:11:59.568Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -99,7 +99,7 @@
           "sourceId": "demo-private-capital-daily",
           "title": "Pension funds lift allocations to infrastructure debt",
           "url": "https://example.com/private-capital-daily/pensions-infrastructure-debt",
-          "publishedAt": "2026-10-21T07:57:04.025Z"
+          "publishedAt": "2026-10-22T08:11:59.568Z"
         }
       ]
     }
