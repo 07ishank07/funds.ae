@@ -198,13 +198,20 @@ function validateTaxonomy(taxonomy) {
     if (seen.has(s.id)) errors.push(`${where}: duplicate id.`);
     seen.add(s.id);
     if (!s.label) errors.push(`${where}: missing "label".`);
-    if (!Array.isArray(s.topics) || !s.topics.length) errors.push(`${where}: "topics" must list at least one topic id.`);
-    for (const t of s.topics || []) if (!topicIds.has(t)) errors.push(`${where}: unknown topic "${t}".`);
+    if (s.homeSection === true) {
+      // Filled from Asset Classes whose homeSection is this id (config/news-taxonomy.json).
+      if (!NEWS_HOME_SECTIONS.includes(s.id)) errors.push(`${where}: a homeSection box must be one of ${NEWS_HOME_SECTIONS.join(', ')}.`);
+      if (s.topics) errors.push(`${where}: a homeSection box takes its stories from Asset Classes; remove "topics".`);
+    } else {
+      if (!Array.isArray(s.topics) || !s.topics.length) errors.push(`${where}: "topics" must list at least one topic id (or set "homeSection": true).`);
+      for (const t of s.topics || []) if (!topicIds.has(t)) errors.push(`${where}: unknown topic "${t}".`);
+    }
     if (s.category && !categoryIds.has(s.category)) errors.push(`${where}: unknown category "${s.category}".`);
   });
   return errors;
 }
 
+const DOC_ID_RE = /^(?!drafts.)[A-Za-z0-9][A-Za-z0-9_-]{0,127}$/;
 const lengthOk = (value, [min, max]) => typeof value === 'string' && value.trim() === value && value.length >= min && value.length <= max;
 
 function validateKeywords(keywords, where, errors) {
@@ -239,6 +246,8 @@ export function validateNewsTaxonomy(newsTaxonomy, taxonomy = {}) {
       if (!c.id || !ID_RE.test(c.id)) errors.push(`${where}: "id" must be lowercase letters, numbers and dashes.`);
       if (seen.has(c.id)) errors.push(`${where}: duplicate id.`);
       seen.add(c.id);
+      // The Sanity document id (written by cms:pull); stories reference it. Omitted for seeded categories.
+      if (c.docId !== undefined && (typeof c.docId !== 'string' || !DOC_ID_RE.test(c.docId))) errors.push(`${where}: "docId" is not a Sanity document id.`);
       if (!lengthOk(c.name, NEWS_LIMITS.categoryName)) errors.push(`${where}: "name" must be ${NEWS_LIMITS.categoryName.join('-')} characters.`);
       if (c.description != null && !lengthOk(c.description, NEWS_LIMITS.categoryDescription)) {
         errors.push(`${where}: "description" must be at most ${NEWS_LIMITS.categoryDescription[1]} characters.`);

@@ -1,0 +1,487 @@
+{
+  "apiVersion": 1,
+  "mode": "demo",
+  "generatedAt": "2026-10-26T09:08:53.910Z",
+  "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
+  "label": "Real Estate Capital News",
+  "count": 8,
+  "items": [
+    {
+      "id": "s_36c692072aa8b0",
+      "headline": "Dubai developer Sandhaven launches AED 500m real estate fund for build-to-rent homes",
+      "summary": "The fund will buy completed apartment blocks in established Dubai communities and hold them for rental income.",
+      "url": "https://example.com/property-sme-wire/sandhaven-build-to-rent-fund",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-10-26T04:08:53.000Z",
+      "updatedAt": "2026-10-26T04:08:53.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "residential-real-estate",
+      "topicLabel": "Residential real estate",
+      "topics": [
+        "residential-real-estate",
+        "real-estate"
+      ],
+      "imageUrl": null,
+      "imageCredit": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_9ee476a0874ae938",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "Dubai developer Sandhaven launches AED 500m real estate fund for build-to-rent homes",
+          "url": "https://example.com/property-sme-wire/sandhaven-build-to-rent-fund",
+          "publishedAt": "2026-10-26T04:08:53.000Z"
+        }
+      ],
+      "slug": "dubai-developer-sandhaven-launches-aed-500m-real-estate-fund-for-build-to-rent-9ee4",
+      "capitalTypes": [
+        {
+          "id": "developers-operators",
+          "label": "Developers & Owner-Operators"
+        }
+      ],
+      "assetClasses": [
+        {
+          "id": "residential-multifamily",
+          "label": "Residential & Multifamily"
+        }
+      ],
+      "geography": [
+        {
+          "id": "uae",
+          "label": "UAE"
+        }
+      ],
+      "transactionType": {
+        "id": "fund-launch",
+        "label": "Fund launch"
+      },
+      "featured": false,
+      "liveAt": "2026-10-26T09:08:53.910Z"
+    },
+    {
+      "id": "s_1ec502cf2475e3",
+      "headline": "Gulf sovereign investors join $1bn round for London AI infrastructure firm Northlight",
+      "summary": "Investors from Abu Dhabi and Riyadh took part alongside US pension funds, people familiar with the matter said.",
+      "url": "https://example.com/private-capital-daily/northlight-1bn-round",
+      "source": "Demo Private Capital Daily",
+      "sourceId": "demo-private-capital-daily",
+      "publishedAt": "2026-10-25T13:08:53.910Z",
+      "updatedAt": "2026-10-25T13:08:53.910Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "institutional-investors",
+      "topicLabel": "Sovereign and institutional investors",
+      "topics": [
+        "institutional-investors",
+        "sovereign-wealth",
+        "pension-funds"
+      ],
+      "imageUrl": null,
+      "imageCredit": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_845e42dfd074172f",
+          "source": "Demo Private Capital Daily",
+          "sourceId": "demo-private-capital-daily",
+          "title": "Gulf sovereign investors join $1bn round for London AI infrastructure firm Northlight",
+          "url": "https://example.com/private-capital-daily/northlight-1bn-round",
+          "publishedAt": "2026-10-25T13:08:53.910Z"
+        }
+      ],
+      "slug": "gulf-sovereign-investors-join-1bn-round-for-london-ai-infrastructure-firm-845e",
+      "capitalTypes": [
+        {
+          "id": "sovereign-wealth",
+          "label": "Sovereign Wealth Funds"
+        }
+      ],
+      "assetClasses": [
+        {
+          "id": "data-centres",
+          "label": "Data Centres"
+        }
+      ],
+      "geography": [
+        {
+          "id": "uk",
+          "label": "United Kingdom"
+        },
+        {
+          "id": "gcc",
+          "label": "Other GCC"
+        }
+      ],
+      "transactionType": {
+        "id": "capital-raising",
+        "label": "Capital raising"
+      },
+      "featured": false,
+      "liveAt": "2026-10-26T09:08:53.910Z"
+    },
+    {
+      "id": "s_46c15c6bee49f5",
+      "headline": "Tidewell REIT raises AED 300m to buy logistics warehouses in Abu Dhabi",
+      "summary": "The listed real estate investment trust said demand from e-commerce tenants remains strong across the emirate's industrial zones.",
+      "url": "https://example.com/property-sme-wire/tidewell-reit-logistics",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-10-25T13:08:53.000Z",
+      "updatedAt": "2026-10-25T13:08:53.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "reits",
+      "topicLabel": "REITs",
+      "topics": [
+        "reits",
+        "commercial-real-estate",
+        "real-estate"
+      ],
+      "imageUrl": null,
+      "imageCredit": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_28b8f0155619a511",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "Tidewell REIT raises AED 300m to buy logistics warehouses in Abu Dhabi",
+          "url": "https://example.com/property-sme-wire/tidewell-reit-logistics",
+          "publishedAt": "2026-10-25T13:08:53.000Z"
+        }
+      ],
+      "slug": "tidewell-reit-raises-aed-300m-to-buy-logistics-warehouses-in-abu-dhabi-28b8",
+      "capitalTypes": [
+        {
+          "id": "reits",
+          "label": "REITs"
+        }
+      ],
+      "assetClasses": [
+        {
+          "id": "industrial-logistics",
+          "label": "Industrial & Logistics"
+        }
+      ],
+      "geography": [
+        {
+          "id": "uae",
+          "label": "UAE"
+        }
+      ],
+      "transactionType": {
+        "id": "capital-raising",
+        "label": "Capital raising"
+      },
+      "featured": true,
+      "liveAt": "2026-10-26T09:08:53.910Z"
+    },
+    {
+      "id": "s_a42cf20de9d2eb",
+      "headline": "Brindlecourt Infrastructure closes €1.2bn infrastructure fund for European data centres",
+      "summary": "The final close drew commitments from pension funds and insurers in Europe and Asia.",
+      "url": "https://example.com/property-sme-wire/brindlecourt-data-centre-fund",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-10-25T00:08:53.000Z",
+      "updatedAt": "2026-10-25T00:08:53.000Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "infrastructure",
+      "topicLabel": "Infrastructure",
+      "topics": [
+        "infrastructure",
+        "ai-technology",
+        "pension-funds"
+      ],
+      "imageUrl": null,
+      "imageCredit": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_58ca14532f4deae7",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "Brindlecourt Infrastructure closes €1.2bn infrastructure fund for European data centres",
+          "url": "https://example.com/property-sme-wire/brindlecourt-data-centre-fund",
+          "publishedAt": "2026-10-25T00:08:53.000Z"
+        }
+      ],
+      "slug": "brindlecourt-infrastructure-closes-1-2bn-infrastructure-fund-for-european-data-58ca",
+      "capitalTypes": [
+        {
+          "id": "pension-funds",
+          "label": "Pension Funds"
+        },
+        {
+          "id": "infrastructure-funds",
+          "label": "Infrastructure Funds"
+        }
+      ],
+      "assetClasses": [
+        {
+          "id": "data-centres",
+          "label": "Data Centres"
+        }
+      ],
+      "geography": [
+        {
+          "id": "europe",
+          "label": "Europe"
+        }
+      ],
+      "transactionType": {
+        "id": "fund-close",
+        "label": "Fund close"
+      },
+      "featured": true,
+      "liveAt": "2026-10-26T09:08:53.910Z"
+    },
+    {
+      "id": "s_89280b2a65569b",
+      "headline": "Abu Dhabi logistics group Harbourline agrees $1.2bn takeover of Omani port operator",
+      "summary": "The tender offer is backed by a consortium of regional institutional investors.",
+      "url": "https://example.com/emirates-markets/harbourline-takeover",
+      "source": "Demo Emirates Markets",
+      "sourceId": "demo-emirates-markets",
+      "publishedAt": "2026-10-24T08:08:53.000Z",
+      "updatedAt": "2026-10-24T08:08:53.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "mergers-acquisitions",
+      "topicLabel": "M&A",
+      "topics": [
+        "mergers-acquisitions",
+        "institutional-investors"
+      ],
+      "imageUrl": null,
+      "imageCredit": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_a615b76c9f9d631c",
+          "source": "Demo Emirates Markets",
+          "sourceId": "demo-emirates-markets",
+          "title": "Abu Dhabi logistics group Harbourline agrees $1.2bn takeover of Omani port operator",
+          "url": "https://example.com/emirates-markets/harbourline-takeover",
+          "publishedAt": "2026-10-24T08:08:53.000Z"
+        }
+      ],
+      "slug": "abu-dhabi-logistics-group-harbourline-agrees-1-2bn-takeover-of-omani-port-a615",
+      "capitalTypes": [
+        {
+          "id": "developers-operators",
+          "label": "Developers & Owner-Operators"
+        }
+      ],
+      "assetClasses": [
+        {
+          "id": "industrial-logistics",
+          "label": "Industrial & Logistics"
+        }
+      ],
+      "geography": [
+        {
+          "id": "uae",
+          "label": "UAE"
+        },
+        {
+          "id": "gcc",
+          "label": "Other GCC"
+        }
+      ],
+      "transactionType": {
+        "id": "merger-acquisition",
+        "label": "Merger or corporate M&A"
+      },
+      "featured": false,
+      "liveAt": "2026-10-26T09:08:53.910Z"
+    },
+    {
+      "id": "s_50a38aa499d7a1",
+      "headline": "Sharjah infrastructure fund backs new solar and water projects",
+      "summary": "The infrastructure investment programme will co-finance utility-scale solar plants and a desalination upgrade.",
+      "url": "https://example.com/property-sme-wire/sharjah-infrastructure-fund-solar",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-10-24T05:08:53.000Z",
+      "updatedAt": "2026-10-24T05:08:53.000Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "infrastructure",
+      "topicLabel": "Infrastructure",
+      "topics": [
+        "infrastructure",
+        "energy"
+      ],
+      "imageUrl": null,
+      "imageCredit": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_58e9d8f9b2c84445",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "Sharjah infrastructure fund backs new solar and water projects",
+          "url": "https://example.com/property-sme-wire/sharjah-infrastructure-fund-solar",
+          "publishedAt": "2026-10-24T05:08:53.000Z"
+        }
+      ],
+      "slug": "sharjah-infrastructure-fund-backs-new-solar-and-water-projects-58e9",
+      "capitalTypes": [
+        {
+          "id": "infrastructure-funds",
+          "label": "Infrastructure Funds"
+        }
+      ],
+      "assetClasses": [
+        {
+          "id": "infrastructure-energy",
+          "label": "Infrastructure & Energy"
+        }
+      ],
+      "geography": [
+        {
+          "id": "uae",
+          "label": "UAE"
+        }
+      ],
+      "transactionType": {
+        "id": "investment",
+        "label": "Investment"
+      },
+      "featured": false,
+      "liveAt": "2026-10-26T09:08:53.910Z"
+    },
+    {
+      "id": "s_f6a599b474b486",
+      "headline": "Pension funds lift allocations to infrastructure debt",
+      "summary": "A survey of 140 institutional investors found most plan to raise private credit exposure over the next year.",
+      "url": "https://example.com/private-capital-daily/pensions-infrastructure-debt",
+      "source": "Demo Private Capital Daily",
+      "sourceId": "demo-private-capital-daily",
+      "publishedAt": "2026-10-23T09:08:53.910Z",
+      "updatedAt": "2026-10-23T09:08:53.910Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "institutional-investors",
+      "topicLabel": "Sovereign and institutional investors",
+      "topics": [
+        "institutional-investors",
+        "pension-funds",
+        "private-credit"
+      ],
+      "imageUrl": null,
+      "imageCredit": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_abbfc331682f3f55",
+          "source": "Demo Private Capital Daily",
+          "sourceId": "demo-private-capital-daily",
+          "title": "Pension funds lift allocations to infrastructure debt",
+          "url": "https://example.com/private-capital-daily/pensions-infrastructure-debt",
+          "publishedAt": "2026-10-23T09:08:53.910Z"
+        }
+      ],
+      "slug": "pension-funds-lift-allocations-to-infrastructure-debt-abbf",
+      "capitalTypes": [
+        {
+          "id": "pension-funds",
+          "label": "Pension Funds"
+        },
+        {
+          "id": "private-credit",
+          "label": "Private Credit & Debt Funds"
+        }
+      ],
+      "assetClasses": [
+        {
+          "id": "infrastructure-energy",
+          "label": "Infrastructure & Energy"
+        }
+      ],
+      "geography": [
+        {
+          "id": "global",
+          "label": "Global"
+        }
+      ],
+      "transactionType": {
+        "id": "institutional-allocation",
+        "label": "Institutional allocation"
+      },
+      "featured": false,
+      "liveAt": "2026-10-26T09:08:53.910Z"
+    },
+    {
+      "id": "s_c8d19186907ab1",
+      "headline": "London property fund Wexmoor raises £400m for student housing",
+      "summary": "The real estate fund will target purpose-built student accommodation in university cities.",
+      "url": "https://example.com/property-sme-wire/wexmoor-student-housing",
+      "source": "Demo Property and SME Wire",
+      "sourceId": "demo-property-sme-wire",
+      "publishedAt": "2026-10-22T03:08:53.000Z",
+      "updatedAt": "2026-10-22T03:08:53.000Z",
+      "category": "world",
+      "categoryLabel": "Rest of the World",
+      "uiLabel": "Global News",
+      "topic": "real-estate",
+      "topicLabel": "Real estate",
+      "topics": [
+        "real-estate",
+        "residential-real-estate",
+        "venture-capital"
+      ],
+      "imageUrl": null,
+      "imageCredit": null,
+      "sourceCount": 1,
+      "sources": [
+        {
+          "articleId": "a_1cf9b64666a0727d",
+          "source": "Demo Property and SME Wire",
+          "sourceId": "demo-property-sme-wire",
+          "title": "London property fund Wexmoor raises £400m for student housing",
+          "url": "https://example.com/property-sme-wire/wexmoor-student-housing",
+          "publishedAt": "2026-10-22T03:08:53.000Z"
+        }
+      ],
+      "slug": "london-property-fund-wexmoor-raises-400m-for-student-housing-1cf9",
+      "capitalTypes": [
+        {
+          "id": "asset-managers",
+          "label": "Asset Managers"
+        }
+      ],
+      "assetClasses": [
+        {
+          "id": "student-accommodation",
+          "label": "Student Accommodation"
+        }
+      ],
+      "geography": [
+        {
+          "id": "uk",
+          "label": "United Kingdom"
+        }
+      ],
+      "transactionType": {
+        "id": "capital-raising",
+        "label": "Capital raising"
+      },
+      "featured": false,
+      "liveAt": "2026-10-26T09:08:53.910Z"
+    }
+  ]
+}

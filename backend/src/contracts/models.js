@@ -310,11 +310,15 @@ export const DB_MODELS = {
 // null, never "" (the website treats null as "not provided").
 
 export const DTO_FIELDS = {
+  // publishedAt = the publisher's date (lists sort by it); liveAt = when an approver put it on the site.
   story: [
     'id', 'headline', 'summary', 'url', 'source', 'sourceId', 'publishedAt', 'updatedAt', 'category',
-    'categoryLabel', 'uiLabel', 'topic', 'topicLabel', 'topics', 'imageUrl', 'sourceCount', 'sources'
+    'categoryLabel', 'uiLabel', 'topic', 'topicLabel', 'topics', 'imageUrl', 'imageCredit', 'sourceCount', 'sources',
+    'slug', 'capitalTypes', 'assetClasses', 'geography', 'transactionType', 'featured', 'liveAt'
   ],
   storySource: ['articleId', 'source', 'sourceId', 'title', 'url', 'publishedAt'],
+  // capitalTypes, assetClasses, geography items and transactionType
+  storyTag: ['id', 'label'],
   job: [
     'id', 'title', 'company', 'employerId', 'location', 'url', 'postedAt', 'department', 'employmentType',
     'featured', 'source', 'sourceId'

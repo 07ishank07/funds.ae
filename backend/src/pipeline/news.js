@@ -16,7 +16,7 @@ import { buildTaxonomyClassifier, classifyTaxonomy } from '../lib/taxonomyClassi
 import { buildQualityRules, assessQuality, isPressRelease } from '../lib/quality.js';
 import { fingerprint, findStory, storyIdFor } from '../lib/grouping.js';
 import { stateFor, isPaused, recordSuccess, recordFailure } from '../lib/sourceHealth.js';
-import { newReviewDoc, otherSourceEntry } from '../news/reviewDocs.js';
+import { buildTaxonomyIndex, newReviewDoc, otherSourceEntry } from '../news/reviewDocs.js';
 import { createMutation, ingestPatchMutations, pruneMutation } from '../news/importerMutations.js';
 import { PUBLISHABLE_LICENSE_STATUSES } from '../news/rules.js';
 
@@ -90,6 +90,7 @@ export async function runNews(ctx) {
   const queueCfg = cfg.review;
   const classifier = buildClassifier(taxonomy);
   const taxonomyClassifier = buildTaxonomyClassifier(newsTaxonomy, taxonomy);
+  const taxonomyIndex = buildTaxonomyIndex(newsTaxonomy);
   const rules = buildQualityRules(taxonomy);
   const sourcePriority = new Map(allNewsSources.map((s) => [s.id, s.priority ?? 5]));
   // A story can only be published from a source whose licence is cleared, so such a source leads when it can.
@@ -288,7 +289,7 @@ export async function runNews(ctx) {
     const [lead, ...others] = members;
     const isUae = members.some((m) => m.category === 'uae');
     const cls = { ...lead.taxonomy, geography: isUae && !lead.taxonomy.geography.includes('uae') ? ['uae', ...lead.taxonomy.geography] : lead.taxonomy.geography };
-    const doc = newReviewDoc({ ...lead, category: isUae ? 'uae' : lead.category, storyId: storyIdFor(lead.articleId) }, cls, { now });
+    const doc = newReviewDoc({ ...lead, category: isUae ? 'uae' : lead.category, storyId: storyIdFor(lead.articleId) }, cls, { now, index: taxonomyIndex });
     doc.otherSources = others.map((o) => otherSourceEntry(o, now));
     creates.push(doc);
     for (const m of members) stats.sources[m.sourceId].added++;

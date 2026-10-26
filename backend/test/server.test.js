@@ -71,6 +71,23 @@ test('news filters, paging and validation', async () => {
     assert.equal(r.res.status, 400, bad);
     assert.equal(r.body.error.code, 'bad_request');
   }
+  // Capital Type, Asset Class and Geography: any of several in one filter, all filters together.
+  const all = (await json('/api/v1/news?limit=100')).body.items;
+  const has = (s, field, ids) => s[field].some((t) => ids.includes(t.id));
+  const capital = (await json('/api/v1/news?capital=private-credit,private-equity&limit=100')).body.items;
+  assert.deepEqual(capital.map((s) => s.id), all.filter((s) => has(s, 'capitalTypes', ['private-credit', 'private-equity'])).map((s) => s.id));
+  assert.ok(capital.length >= 2);
+  const both = (await json('/api/v1/news?capital=infrastructure-funds&asset=data-centres,infrastructure-energy&limit=100')).body.items;
+  assert.ok(both.length >= 1);
+  assert.ok(both.every((s) => has(s, 'capitalTypes', ['infrastructure-funds']) && has(s, 'assetClasses', ['data-centres', 'infrastructure-energy'])));
+  const europe = (await json('/api/v1/news?geo=europe&limit=100')).body.items;
+  assert.ok(europe.length >= 1 && europe.every((s) => has(s, 'geography', ['europe'])));
+  const residential = (await json('/api/v1/news?section=residential-real-estate')).body.items;
+  assert.ok(residential.length >= 1 && residential.every((s) => s.assetClasses.length), 'home boxes follow Asset Classes');
+  for (const bad of ['capital=martians', 'asset=office,moon', 'geo=atlantis', `capital=${Array(21).fill('reits').join(',')}`]) {
+    assert.equal((await get(`/api/v1/news?${bad}`)).status, 400, bad);
+  }
+
   const id = uae.body.items[0].id;
   assert.equal((await json(`/api/v1/news/${id}`)).body.id, id);
   assert.equal((await get('/api/v1/news/not-an-id')).status, 400);

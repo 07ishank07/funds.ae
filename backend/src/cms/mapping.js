@@ -152,3 +152,27 @@ export function mapSanityContent(result) {
     errors: sponsors.errors
   };
 }
+
+/* ------------------------------ news review queue ------------------------------ */
+
+// Sanity image asset ids look like "image-<hash>-<width>x<height>-<format>".
+const IMAGE_ASSET_REF = /^image-([A-Za-z0-9]+)-(\d{1,5}x\d{1,5})-(png|jpg|jpeg|webp)$/;
+const PROJECT_ID_RE = /^[a-z0-9][a-z0-9-]{0,63}$/;
+const DATASET_RE = /^[a-z0-9][a-z0-9_-]{0,63}$/;
+
+/** Where editor-uploaded images are served from, or null when the Sanity project is not configured. */
+export function sanityImageConfigFromEnv(env = process.env) {
+  const projectId = String(env.SANITY_PROJECT_ID || '').trim();
+  const dataset = String(env.SANITY_DATASET || 'production').trim();
+  return PROJECT_ID_RE.test(projectId) && DATASET_RE.test(dataset) ? { projectId, dataset } : null;
+}
+
+/**
+ * The public CDN address of an image a story's editor uploaded (rights confirmed in the Studio),
+ * limited to 1200 px wide. Only PNG, JPG and WebP assets; anything else gives null.
+ */
+export function sanityImageUrl(ref, config) {
+  const m = IMAGE_ASSET_REF.exec(typeof ref === 'string' ? ref : '');
+  if (!m || !config) return null;
+  return `https://cdn.sanity.io/images/${config.projectId}/${config.dataset}/${m[1]}-${m[2]}.${m[3]}?w=1200&fit=max&auto=format`;
+}

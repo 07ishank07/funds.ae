@@ -20,7 +20,7 @@ const NAMED = { meta: 'meta.json', sponsors: 'sponsors.json', sources: 'sources.
 const ALLOWED_PARAMS = {
   static: [],
   named: [],
-  news: ['category', 'topic', 'section', 'q', 'limit', 'offset'],
+  news: ['category', 'topic', 'section', 'capital', 'asset', 'geo', 'q', 'limit', 'offset'],
   story: [],
   jobs: ['q', 'employer', 'featured', 'limit', 'offset'],
   events: ['status', 'limit', 'offset']
@@ -68,6 +68,16 @@ function enumParam(url, name, values) {
   if (raw === null || raw === '') return null;
   if (!values.includes(raw)) throw new HttpProblem(400, `Unknown ${name} "${raw.slice(0, 40)}".`);
   return raw;
+}
+
+/** A comma-separated list of known ids (the website's Capital Type, Asset Class and Geography filters). */
+function listParam(url, name, values) {
+  const raw = url.searchParams.get(name);
+  if (raw === null || raw === '') return null;
+  const ids = raw.split(',').map((s) => s.trim()).filter(Boolean);
+  if (!ids.length || ids.length > 20) throw new HttpProblem(400, `${name} takes 1 to 20 comma-separated ids.`);
+  for (const id of ids) if (!values.includes(id)) throw new HttpProblem(400, `Unknown ${name} "${id.slice(0, 40)}".`);
+  return ids;
 }
 
 function textQuery(url) {
@@ -134,11 +144,23 @@ export function handleRead(req, res, app, url, rest) {
     const topic = enumParam(url, 'topic', taxonomy.topics.map((t) => t.id));
     const sectionId = enumParam(url, 'section', (taxonomy.sections || []).map((s) => s.id));
     const section = sectionId && taxonomy.sections.find((s) => s.id === sectionId);
+    // Several values in one filter match any of them; different filters must all match.
+    const capital = listParam(url, 'capital', (taxonomy.capitalTypes || []).map((c) => c.id));
+    const asset = listParam(url, 'asset', (taxonomy.assetClasses || []).map((a) => a.id));
+    const geo = listParam(url, 'geo', (taxonomy.geographies || []).map((g) => g.id));
+    const anyOf = (wanted, tags) => !wanted || (tags || []).some((t) => wanted.includes(t.id));
     const q = textQuery(url);
+    const inSection = (s) => {
+      const topics = section.topics || [];
+      const byTopic = topics.includes(s.topic) || s.topics.some((t) => topics.includes(t));
+      const byAsset = (s.assetClasses || []).some((a) => (section.assetClasses || []).includes(a.id));
+      return (byTopic || byAsset) && (!section.category || s.category === section.category);
+    };
     const items = all.items.filter((s) =>
       (!category || s.category === category) &&
       (!topic || s.topic === topic || s.topics.includes(topic)) &&
-      (!section || ((section.topics.includes(s.topic) || s.topics.some((t) => section.topics.includes(t))) && (!section.category || s.category === section.category))) &&
+      (!section || inSection(s)) &&
+      anyOf(capital, s.capitalTypes) && anyOf(asset, s.assetClasses) && anyOf(geo, s.geography) &&
       (!q || `${s.headline} ${s.summary || ''} ${s.sources.map((x) => x.source).join(' ')}`.toLowerCase().includes(q))
     );
     paged(req, res, app, all, items, url);

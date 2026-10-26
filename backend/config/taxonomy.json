@@ -227,11 +227,11 @@
       }
     }
   ],
-  "_sectionsHelp": "Sections group topics for one area of the page (the tile grids on the home page). Each gets api/v1/news/sections/<id>.json. \"category\" (optional) limits a section to uae or world stories.",
+  "_sectionsHelp": "Sections are areas of the page (the tile grids on the home page). Each gets api/v1/news/sections/<id>.json. A section either groups topics (\"topics\"), or, with \"homeSection\": true, takes the stories whose Asset Classes point at it (homeSection in news-taxonomy.json, set by editors). \"category\" (optional) limits a section to uae or world stories.",
   "sections": [
-    { "id": "residential-real-estate", "label": "Residential Real Estate", "topics": ["residential-real-estate"] },
-    { "id": "commercial-real-estate", "label": "Commercial Real Estate", "topics": ["commercial-real-estate"] },
-    { "id": "infrastructure", "label": "Infrastructure", "topics": ["infrastructure"] },
+    { "id": "residential-real-estate", "label": "Residential Real Estate", "homeSection": true },
+    { "id": "commercial-real-estate", "label": "Commercial Real Estate", "homeSection": true },
+    { "id": "infrastructure", "label": "Infrastructure", "homeSection": true },
     { "id": "ai-technology", "label": "Tech and Data Centres", "topics": ["ai-technology"] },
     { "id": "grants-funding", "label": "UAE Business Grants and Funding", "topics": ["grants-funding"], "category": "uae" }
   ],

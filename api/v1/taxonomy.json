@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-10-26T09:04:04.850Z",
+  "generatedAt": "2026-10-26T09:08:53.910Z",
   "notice": "Funds.ae public data API.",
   "categories": [
     {
@@ -129,24 +129,36 @@
     {
       "id": "residential-real-estate",
       "label": "Residential Real Estate",
-      "topics": [
-        "residential-real-estate"
+      "topics": [],
+      "assetClasses": [
+        "residential-multifamily",
+        "student-accommodation",
+        "senior-living"
       ],
       "category": null
     },
     {
       "id": "commercial-real-estate",
       "label": "Commercial Real Estate",
-      "topics": [
-        "commercial-real-estate"
+      "topics": [],
+      "assetClasses": [
+        "office",
+        "retail",
+        "industrial-logistics",
+        "hospitality-hotels",
+        "healthcare-life-sciences",
+        "mixed-use",
+        "alternative-real-estate"
       ],
       "category": null
     },
     {
       "id": "infrastructure",
       "label": "Infrastructure",
-      "topics": [
-        "infrastructure"
+      "topics": [],
+      "assetClasses": [
+        "data-centres",
+        "infrastructure-energy"
       ],
       "category": null
     },
@@ -156,6 +168,7 @@
       "topics": [
         "ai-technology"
       ],
+      "assetClasses": [],
       "category": null
     },
     {
@@ -164,7 +177,315 @@
       "topics": [
         "grants-funding"
       ],
+      "assetClasses": [],
       "category": "uae"
+    }
+  ],
+  "capitalTypes": [
+    {
+      "id": "sovereign-wealth",
+      "label": "Sovereign Wealth Funds",
+      "navLabel": "Sovereign",
+      "showInNav": true,
+      "order": 10,
+      "description": "State-owned investment funds such as ADIA, Mubadala, ADQ, PIF, QIA and GIC."
+    },
+    {
+      "id": "pension-funds",
+      "label": "Pension Funds",
+      "navLabel": "Pension",
+      "showInNav": true,
+      "order": 20,
+      "description": "Public and corporate pension and retirement schemes."
+    },
+    {
+      "id": "private-equity",
+      "label": "Private Equity",
+      "navLabel": "Private Equity",
+      "showInNav": true,
+      "order": 30,
+      "description": "Private equity and real estate private equity firms and funds."
+    },
+    {
+      "id": "reits",
+      "label": "REITs",
+      "navLabel": "REITs",
+      "showInNav": true,
+      "order": 40,
+      "description": "Listed and private real estate investment trusts."
+    },
+    {
+      "id": "family-offices",
+      "label": "Family Offices",
+      "navLabel": "Family Offices",
+      "showInNav": true,
+      "order": 50,
+      "description": "Single and multi-family offices and family-owned investment groups."
+    },
+    {
+      "id": "banks",
+      "label": "Banks & Lenders",
+      "navLabel": "Banks",
+      "showInNav": true,
+      "order": 60,
+      "description": "Banks, mortgage lenders and other providers of loans and real estate finance."
+    },
+    {
+      "id": "government",
+      "label": "Government",
+      "navLabel": "Government",
+      "showInNav": true,
+      "order": 70,
+      "description": "Governments, ministries and state-owned bodies acting as investors or partners. Added to keep the category bar's Government link."
+    },
+    {
+      "id": "endowments",
+      "label": "Endowments",
+      "navLabel": "Endowments",
+      "showInNav": true,
+      "order": 80,
+      "description": "University endowments, foundations and waqf. Added to keep the category bar's Endowments link."
+    },
+    {
+      "id": "institutional-investors",
+      "label": "Institutional Investors",
+      "navLabel": null,
+      "showInNav": false,
+      "order": 90,
+      "description": "Insurers, limited partners and other institutional allocators not covered by a more specific type."
+    },
+    {
+      "id": "private-credit",
+      "label": "Private Credit & Debt Funds",
+      "navLabel": null,
+      "showInNav": false,
+      "order": 100,
+      "description": "Private credit, direct lending and real estate debt funds."
+    },
+    {
+      "id": "infrastructure-funds",
+      "label": "Infrastructure Funds",
+      "navLabel": null,
+      "showInNav": false,
+      "order": 110,
+      "description": "Infrastructure investors and fund managers."
+    },
+    {
+      "id": "asset-managers",
+      "label": "Asset Managers",
+      "navLabel": null,
+      "showInNav": false,
+      "order": 120,
+      "description": "Real estate and multi-asset investment managers."
+    },
+    {
+      "id": "developers-operators",
+      "label": "Developers & Owner-Operators",
+      "navLabel": null,
+      "showInNav": false,
+      "order": 130,
+      "description": "Property developers, master developers and owner-operators."
+    },
+    {
+      "id": "joint-ventures",
+      "label": "Joint Ventures & Co-Investments",
+      "navLabel": null,
+      "showInNav": false,
+      "order": 140,
+      "description": "Joint ventures, co-investments, consortiums and club deals."
+    }
+  ],
+  "assetClasses": [
+    {
+      "id": "office",
+      "label": "Office",
+      "homeSection": "commercial-real-estate",
+      "order": 10,
+      "description": "Office buildings, towers and workspace."
+    },
+    {
+      "id": "retail",
+      "label": "Retail",
+      "homeSection": "commercial-real-estate",
+      "order": 20,
+      "description": "Shopping malls, retail parks and high-street property."
+    },
+    {
+      "id": "industrial-logistics",
+      "label": "Industrial & Logistics",
+      "homeSection": "commercial-real-estate",
+      "order": 30,
+      "description": "Warehouses, logistics parks, industrial and cold-storage property."
+    },
+    {
+      "id": "residential-multifamily",
+      "label": "Residential & Multifamily",
+      "homeSection": "residential-real-estate",
+      "order": 40,
+      "description": "Housing, apartments, build-to-rent and multifamily."
+    },
+    {
+      "id": "hospitality-hotels",
+      "label": "Hospitality & Hotels",
+      "homeSection": "commercial-real-estate",
+      "order": 50,
+      "description": "Hotels, resorts and serviced apartments."
+    },
+    {
+      "id": "data-centres",
+      "label": "Data Centres",
+      "homeSection": "infrastructure",
+      "order": 60,
+      "description": "Data centres and digital infrastructure."
+    },
+    {
+      "id": "healthcare-life-sciences",
+      "label": "Healthcare & Life Sciences",
+      "homeSection": "commercial-real-estate",
+      "order": 70,
+      "description": "Hospitals, medical offices, laboratories and life-science campuses."
+    },
+    {
+      "id": "student-accommodation",
+      "label": "Student Accommodation",
+      "homeSection": "residential-real-estate",
+      "order": 80,
+      "description": "Purpose-built student accommodation."
+    },
+    {
+      "id": "senior-living",
+      "label": "Senior Living",
+      "homeSection": "residential-real-estate",
+      "order": 90,
+      "description": "Retirement communities, assisted living and care homes."
+    },
+    {
+      "id": "mixed-use",
+      "label": "Mixed-Use",
+      "homeSection": "commercial-real-estate",
+      "order": 100,
+      "description": "Mixed-use schemes and master-planned districts."
+    },
+    {
+      "id": "land-development",
+      "label": "Land & Development",
+      "homeSection": null,
+      "order": 110,
+      "description": "Land plots, development sites and giga-projects before a single use is fixed."
+    },
+    {
+      "id": "infrastructure-energy",
+      "label": "Infrastructure & Energy",
+      "homeSection": "infrastructure",
+      "order": 120,
+      "description": "Transport, utilities, energy and social infrastructure assets."
+    },
+    {
+      "id": "alternative-real-estate",
+      "label": "Alternative Real Estate",
+      "homeSection": "commercial-real-estate",
+      "order": 130,
+      "description": "Self-storage, single-family rental, towers, farmland and other alternatives."
+    }
+  ],
+  "geographies": [
+    {
+      "id": "uae",
+      "label": "UAE"
+    },
+    {
+      "id": "saudi-arabia",
+      "label": "Saudi Arabia"
+    },
+    {
+      "id": "gcc",
+      "label": "Other GCC"
+    },
+    {
+      "id": "mena",
+      "label": "Middle East and Africa"
+    },
+    {
+      "id": "uk",
+      "label": "United Kingdom"
+    },
+    {
+      "id": "europe",
+      "label": "Europe"
+    },
+    {
+      "id": "north-america",
+      "label": "North America"
+    },
+    {
+      "id": "asia-pacific",
+      "label": "Asia-Pacific"
+    },
+    {
+      "id": "global",
+      "label": "Global"
+    }
+  ],
+  "transactionTypes": [
+    {
+      "id": "capital-raising",
+      "label": "Capital raising"
+    },
+    {
+      "id": "fund-launch",
+      "label": "Fund launch"
+    },
+    {
+      "id": "fund-close",
+      "label": "Fund close"
+    },
+    {
+      "id": "acquisition",
+      "label": "Acquisition"
+    },
+    {
+      "id": "disposal",
+      "label": "Disposal"
+    },
+    {
+      "id": "investment",
+      "label": "Investment"
+    },
+    {
+      "id": "debt-financing",
+      "label": "Debt financing"
+    },
+    {
+      "id": "refinancing",
+      "label": "Refinancing"
+    },
+    {
+      "id": "joint-venture",
+      "label": "Joint venture or co-investment"
+    },
+    {
+      "id": "institutional-allocation",
+      "label": "Institutional allocation"
+    },
+    {
+      "id": "reit-activity",
+      "label": "REIT activity"
+    },
+    {
+      "id": "valuation",
+      "label": "Valuation"
+    },
+    {
+      "id": "merger-acquisition",
+      "label": "Merger or corporate M&A"
+    },
+    {
+      "id": "development",
+      "label": "Development"
+    },
+    {
+      "id": "other",
+      "label": "Other"
     }
   ]
 }

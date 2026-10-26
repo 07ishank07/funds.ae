@@ -6,7 +6,15 @@
 // values are null, never "".
 
 import { ADVERTISE_PLACEMENT_LABELS } from './models.js';
-import { PUBLISHABLE_LICENSE_STATUSES } from '../news/rules.js';
+import {
+  NEWS_GEOGRAPHIES, NEWS_GEOGRAPHY_LABELS, NEWS_TRANSACTION_LABELS, NEWS_TRANSACTION_TYPES, PUBLISHABLE_LICENSE_STATUSES
+} from '../news/rules.js';
+import { entriesFor } from '../news/reviewDocs.js';
+
+const isoOrNull = (value) => {
+  const date = value ? new Date(value) : null;
+  return date && !Number.isNaN(date.getTime()) ? date.toISOString() : null;
+};
 
 /** Trimmed non-empty string, or null. */
 export function nullable(value) {
@@ -29,11 +37,14 @@ export function storyCategory(doc) {
  * Other outlets are listed only if they were attached before the approval (anything the importer
  * added later stays private until an approver approves the story again) and only if their own
  * source's licence is cleared: an outlet's headline and link are publisher content too.
+ * Images: the editor's rights-cleared upload (imageOf resolves its URL), otherwise the publisher's feed
+ * image while the source allows images, otherwise none.
  * @param {object} doc
  * @param {{topicLabels:Record<string,string>, categories:object[], allowsImages:(sourceId:string)=>boolean,
- *          licenseOf:(sourceId:string)=>string|undefined}} ctx
+ *          licenseOf:(sourceId:string)=>string|undefined, index:ReturnType<import('../news/reviewDocs.js').buildTaxonomyIndex>,
+ *          imageOf:(doc:object)=>string|null}} ctx
  */
-export function toStoryDto(doc, { topicLabels, categories, allowsImages, licenseOf }) {
+export function toStoryDto(doc, { topicLabels, categories, allowsImages, licenseOf, index, imageOf }) {
   if (!doc?.storyId || !doc.originalUrl || !doc.sourceName) return null;
   const approvedAt = doc.approval?.approvedAt ? new Date(doc.approval.approvedAt).getTime() : 0;
   const lead = {
@@ -53,6 +64,8 @@ export function toStoryDto(doc, { topicLabels, categories, allowsImages, license
   const category = storyCategory(doc);
   const cat = categories.find((c) => c.id === category);
   const topic = doc.topic || 'general-investment';
+  const tag = (e) => ({ id: e.id, label: e.name });
+  const editorImage = doc.image?.rightsConfirmed === true ? imageOf(doc) : null;
   return {
     id: doc.storyId,
     headline: String(doc.headline).trim(),
@@ -69,9 +82,19 @@ export function toStoryDto(doc, { topicLabels, categories, allowsImages, license
     topicLabel: topicLabels[topic] || topic,
     topics: doc.topics || [],
     // Publisher images are hot-linked only while the source allows it (checked at publish time).
-    imageUrl: allowsImages(doc.sourceId) ? nullable(doc.sourceImageUrl) : null,
+    imageUrl: editorImage || (allowsImages(doc.sourceId) ? nullable(doc.sourceImageUrl) : null),
+    imageCredit: editorImage ? nullable(doc.image.credit) : null,
     sourceCount: new Set(sources.map((s) => s.sourceId)).size,
-    sources
+    sources,
+    slug: nullable(doc.slug?.current),
+    capitalTypes: entriesFor(index.capital, doc.capitalTypes).map(tag),
+    assetClasses: entriesFor(index.asset, doc.assetClasses).map(tag),
+    geography: (doc.geography || []).filter((g) => NEWS_GEOGRAPHIES.includes(g)).map((id) => ({ id, label: NEWS_GEOGRAPHY_LABELS[id] })),
+    transactionType: NEWS_TRANSACTION_TYPES.includes(doc.transactionType)
+      ? { id: doc.transactionType, label: NEWS_TRANSACTION_LABELS[doc.transactionType] }
+      : null,
+    featured: doc.featured === true,
+    liveAt: isoOrNull(doc.publishedAt)
   };
 }
 

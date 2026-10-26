@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-26T09:04:04.850Z",
+  "updatedAt": "2026-10-26T09:08:53.910Z",
   "jobs": [
     {
       "jobId": "j_1e3c495acede7793",
@@ -15,10 +15,10 @@
       "employmentType": "Full-time",
       "employerId": "emp_be950ac478f7703f",
       "canonicalUrl": "https://example.com/careers/qirsh/treasury-analyst",
-      "postedAt": "2026-10-24T09:04:04.850Z",
+      "postedAt": "2026-10-24T09:08:53.910Z",
       "status": "open",
-      "firstSeenAt": "2026-10-26T09:04:04.850Z",
-      "lastSeenAt": "2026-10-26T09:04:04.850Z"
+      "firstSeenAt": "2026-10-26T09:08:53.910Z",
+      "lastSeenAt": "2026-10-26T09:08:53.910Z"
     },
     {
       "jobId": "j_34f72c28629e8784",
@@ -33,10 +33,10 @@
       "employmentType": null,
       "employerId": "emp_7d4bc3a93267084e",
       "canonicalUrl": "https://example.com/jobs/falcon-ridge-pe-associate",
-      "postedAt": "2026-10-24T09:04:04.000Z",
+      "postedAt": "2026-10-24T09:08:53.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-26T09:04:04.850Z",
-      "lastSeenAt": "2026-10-26T09:04:04.850Z"
+      "firstSeenAt": "2026-10-26T09:08:53.910Z",
+      "lastSeenAt": "2026-10-26T09:08:53.910Z"
     },
     {
       "jobId": "j_d43e9292f227c1cc",
@@ -51,10 +51,10 @@
       "employmentType": null,
       "employerId": "emp_365cb94e3e73d240",
       "canonicalUrl": "https://example.com/jobs/crescent-peak-investment-analyst",
-      "postedAt": "2026-10-23T09:04:04.000Z",
+      "postedAt": "2026-10-23T09:08:53.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-26T09:04:04.850Z",
-      "lastSeenAt": "2026-10-26T09:04:04.850Z"
+      "firstSeenAt": "2026-10-26T09:08:53.910Z",
+      "lastSeenAt": "2026-10-26T09:08:53.910Z"
     },
     {
       "jobId": "j_6e03f121144ac761",
@@ -69,10 +69,10 @@
       "employmentType": null,
       "employerId": "emp_9142e7d4b96b201c",
       "canonicalUrl": "https://example.com/careers/sandline/vc-associate",
-      "postedAt": "2026-10-22T09:04:04.850Z",
+      "postedAt": "2026-10-22T09:08:53.910Z",
       "status": "open",
-      "firstSeenAt": "2026-10-26T09:04:04.850Z",
-      "lastSeenAt": "2026-10-26T09:04:04.850Z"
+      "firstSeenAt": "2026-10-26T09:08:53.910Z",
+      "lastSeenAt": "2026-10-26T09:08:53.910Z"
     },
     {
       "jobId": "j_f5f92aa632f5f323",
@@ -87,10 +87,10 @@
       "employmentType": null,
       "employerId": "emp_d753612008f91055",
       "canonicalUrl": "https://example.com/jobs/palm-gate-fund-accountant",
-      "postedAt": "2026-10-21T09:04:04.000Z",
+      "postedAt": "2026-10-21T09:08:53.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-26T09:04:04.850Z",
-      "lastSeenAt": "2026-10-26T09:04:04.850Z"
+      "firstSeenAt": "2026-10-26T09:08:53.910Z",
+      "lastSeenAt": "2026-10-26T09:08:53.910Z"
     },
     {
       "jobId": "j_84f18ddc6e73113e",
@@ -105,10 +105,10 @@
       "employmentType": null,
       "employerId": "emp_9142e7d4b96b201c",
       "canonicalUrl": "https://example.com/careers/sandline/platform-manager",
-      "postedAt": "2026-10-20T09:04:04.850Z",
+      "postedAt": "2026-10-20T09:08:53.910Z",
       "status": "open",
-      "firstSeenAt": "2026-10-26T09:04:04.850Z",
-      "lastSeenAt": "2026-10-26T09:04:04.850Z"
+      "firstSeenAt": "2026-10-26T09:08:53.910Z",
+      "lastSeenAt": "2026-10-26T09:08:53.910Z"
     },
     {
       "jobId": "j_0d58bd1e46cd76e7",
@@ -123,10 +123,10 @@
       "employmentType": "Full-time",
       "employerId": "emp_b0a8a2e3895137ef",
       "canonicalUrl": "https://example.com/careers/harbourline/ma-manager",
-      "postedAt": "2026-10-20T09:04:04.850Z",
+      "postedAt": "2026-10-20T09:08:53.910Z",
       "status": "open",
-      "firstSeenAt": "2026-10-26T09:04:04.850Z",
-      "lastSeenAt": "2026-10-26T09:04:04.850Z"
+      "firstSeenAt": "2026-10-26T09:08:53.910Z",
+      "lastSeenAt": "2026-10-26T09:08:53.910Z"
     },
     {
       "jobId": "j_9710f41b8373255f",
@@ -141,10 +141,10 @@
       "employmentType": "Full-time",
       "employerId": "emp_b0a8a2e3895137ef",
       "canonicalUrl": "https://example.com/careers/harbourline/financial-controller",
-      "postedAt": "2026-10-18T09:04:04.850Z",
+      "postedAt": "2026-10-18T09:08:53.910Z",
       "status": "open",
-      "firstSeenAt": "2026-10-26T09:04:04.850Z",
-      "lastSeenAt": "2026-10-26T09:04:04.850Z"
+      "firstSeenAt": "2026-10-26T09:08:53.910Z",
+      "lastSeenAt": "2026-10-26T09:08:53.910Z"
     },
     {
       "jobId": "j_4d03cec49bcc6367",
@@ -162,8 +162,8 @@
       "postedAt": "2026-10-01T00:00:00.000Z",
       "expiresAt": "2026-12-31T00:00:00.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-26T09:04:04.850Z",
-      "lastSeenAt": "2026-10-26T09:04:04.850Z"
+      "firstSeenAt": "2026-10-26T09:08:53.910Z",
+      "lastSeenAt": "2026-10-26T09:08:53.910Z"
     },
     {
       "jobId": "j_6bc4e154acca0ecd",
@@ -181,8 +181,8 @@
       "postedAt": "2026-09-25T00:00:00.000Z",
       "expiresAt": "2026-12-31T00:00:00.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-26T09:04:04.850Z",
-      "lastSeenAt": "2026-10-26T09:04:04.850Z"
+      "firstSeenAt": "2026-10-26T09:08:53.910Z",
+      "lastSeenAt": "2026-10-26T09:08:53.910Z"
     },
     {
       "jobId": "j_4a9ed67518a03fb4",
@@ -200,8 +200,8 @@
       "postedAt": "2026-09-24T00:00:00.000Z",
       "expiresAt": "2026-12-31T00:00:00.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-26T09:04:04.850Z",
-      "lastSeenAt": "2026-10-26T09:04:04.850Z"
+      "firstSeenAt": "2026-10-26T09:08:53.910Z",
+      "lastSeenAt": "2026-10-26T09:08:53.910Z"
     },
     {
       "jobId": "j_655cc653731a64d3",
@@ -219,8 +219,8 @@
       "postedAt": "2026-09-23T00:00:00.000Z",
       "expiresAt": "2026-12-31T00:00:00.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-26T09:04:04.850Z",
-      "lastSeenAt": "2026-10-26T09:04:04.850Z"
+      "firstSeenAt": "2026-10-26T09:08:53.910Z",
+      "lastSeenAt": "2026-10-26T09:08:53.910Z"
     },
     {
       "jobId": "j_77a1b2e2ec06f25f",
@@ -239,8 +239,8 @@
       "expiresAt": "2026-12-31T00:00:00.000Z",
       "featured": true,
       "status": "open",
-      "firstSeenAt": "2026-10-26T09:04:04.850Z",
-      "lastSeenAt": "2026-10-26T09:04:04.850Z"
+      "firstSeenAt": "2026-10-26T09:08:53.910Z",
+      "lastSeenAt": "2026-10-26T09:08:53.910Z"
     },
     {
       "jobId": "j_52d20cab0c7b3b2f",
@@ -258,8 +258,8 @@
       "postedAt": "2026-09-21T00:00:00.000Z",
       "expiresAt": "2026-12-31T00:00:00.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-26T09:04:04.850Z",
-      "lastSeenAt": "2026-10-26T09:04:04.850Z"
+      "firstSeenAt": "2026-10-26T09:08:53.910Z",
+      "lastSeenAt": "2026-10-26T09:08:53.910Z"
     },
     {
       "jobId": "j_dd6281a0b2a1324a",
@@ -277,8 +277,8 @@
       "postedAt": "2026-09-20T00:00:00.000Z",
       "expiresAt": "2026-12-31T00:00:00.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-26T09:04:04.850Z",
-      "lastSeenAt": "2026-10-26T09:04:04.850Z"
+      "firstSeenAt": "2026-10-26T09:08:53.910Z",
+      "lastSeenAt": "2026-10-26T09:08:53.910Z"
     },
     {
       "jobId": "j_93fac4a60d1df133",
@@ -296,8 +296,8 @@
       "postedAt": "2026-09-19T00:00:00.000Z",
       "expiresAt": "2026-12-31T00:00:00.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-26T09:04:04.850Z",
-      "lastSeenAt": "2026-10-26T09:04:04.850Z"
+      "firstSeenAt": "2026-10-26T09:08:53.910Z",
+      "lastSeenAt": "2026-10-26T09:08:53.910Z"
     },
     {
       "jobId": "j_68fa8bbb5ade82d2",
@@ -316,8 +316,8 @@
       "expiresAt": "2026-12-31T00:00:00.000Z",
       "featured": true,
       "status": "open",
-      "firstSeenAt": "2026-10-26T09:04:04.850Z",
-      "lastSeenAt": "2026-10-26T09:04:04.850Z"
+      "firstSeenAt": "2026-10-26T09:08:53.910Z",
+      "lastSeenAt": "2026-10-26T09:08:53.910Z"
     },
     {
       "jobId": "j_0541d1957a45a7d9",
@@ -335,8 +335,8 @@
       "postedAt": "2026-09-17T00:00:00.000Z",
       "expiresAt": "2026-12-31T00:00:00.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-26T09:04:04.850Z",
-      "lastSeenAt": "2026-10-26T09:04:04.850Z"
+      "firstSeenAt": "2026-10-26T09:08:53.910Z",
+      "lastSeenAt": "2026-10-26T09:08:53.910Z"
     },
     {
       "jobId": "j_b3d269dc23f0c5f0",
@@ -354,8 +354,8 @@
       "postedAt": "2026-09-16T00:00:00.000Z",
       "expiresAt": "2026-12-31T00:00:00.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-26T09:04:04.850Z",
-      "lastSeenAt": "2026-10-26T09:04:04.850Z"
+      "firstSeenAt": "2026-10-26T09:08:53.910Z",
+      "lastSeenAt": "2026-10-26T09:08:53.910Z"
     },
     {
       "jobId": "j_ab20d7ccdcefa6cf",
@@ -373,8 +373,8 @@
       "postedAt": "2026-09-15T00:00:00.000Z",
       "expiresAt": "2026-12-31T00:00:00.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-26T09:04:04.850Z",
-      "lastSeenAt": "2026-10-26T09:04:04.850Z"
+      "firstSeenAt": "2026-10-26T09:08:53.910Z",
+      "lastSeenAt": "2026-10-26T09:08:53.910Z"
     },
     {
       "jobId": "j_1dd27f51e35f8370",
@@ -392,8 +392,8 @@
       "postedAt": "2026-09-14T00:00:00.000Z",
       "expiresAt": "2026-12-31T00:00:00.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-26T09:04:04.850Z",
-      "lastSeenAt": "2026-10-26T09:04:04.850Z"
+      "firstSeenAt": "2026-10-26T09:08:53.910Z",
+      "lastSeenAt": "2026-10-26T09:08:53.910Z"
     },
     {
       "jobId": "j_0f7c1d5eda3c7da9",
@@ -411,8 +411,8 @@
       "postedAt": "2026-09-13T00:00:00.000Z",
       "expiresAt": "2026-12-31T00:00:00.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-26T09:04:04.850Z",
-      "lastSeenAt": "2026-10-26T09:04:04.850Z"
+      "firstSeenAt": "2026-10-26T09:08:53.910Z",
+      "lastSeenAt": "2026-10-26T09:08:53.910Z"
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-10-26T09:04:04.850Z",
+  "generatedAt": "2026-10-26T09:08:53.910Z",
   "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
   "topic": "mergers-acquisitions",
   "label": "M&A",
@@ -14,8 +14,8 @@
       "url": "https://example.com/emirates-markets/harbourline-takeover",
       "source": "Demo Emirates Markets",
       "sourceId": "demo-emirates-markets",
-      "publishedAt": "2026-10-24T08:04:04.000Z",
-      "updatedAt": "2026-10-24T08:04:04.000Z",
+      "publishedAt": "2026-10-24T08:08:53.000Z",
+      "updatedAt": "2026-10-24T08:08:53.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -26,6 +26,7 @@
         "institutional-investors"
       ],
       "imageUrl": null,
+      "imageCredit": null,
       "sourceCount": 1,
       "sources": [
         {
@@ -34,9 +35,38 @@
           "sourceId": "demo-emirates-markets",
           "title": "Abu Dhabi logistics group Harbourline agrees $1.2bn takeover of Omani port operator",
           "url": "https://example.com/emirates-markets/harbourline-takeover",
-          "publishedAt": "2026-10-24T08:04:04.000Z"
+          "publishedAt": "2026-10-24T08:08:53.000Z"
         }
-      ]
+      ],
+      "slug": "abu-dhabi-logistics-group-harbourline-agrees-1-2bn-takeover-of-omani-port-a615",
+      "capitalTypes": [
+        {
+          "id": "developers-operators",
+          "label": "Developers & Owner-Operators"
+        }
+      ],
+      "assetClasses": [
+        {
+          "id": "industrial-logistics",
+          "label": "Industrial & Logistics"
+        }
+      ],
+      "geography": [
+        {
+          "id": "uae",
+          "label": "UAE"
+        },
+        {
+          "id": "gcc",
+          "label": "Other GCC"
+        }
+      ],
+      "transactionType": {
+        "id": "merger-acquisition",
+        "label": "Merger or corporate M&A"
+      },
+      "featured": false,
+      "liveAt": "2026-10-26T09:08:53.910Z"
     },
     {
       "id": "s_d5c44978d20304",
@@ -45,8 +75,8 @@
       "url": "https://example.com/gulf-wire/sandstone-majority-stake-dairy",
       "source": "Demo Gulf Wire",
       "sourceId": "demo-gulf-wire",
-      "publishedAt": "2026-10-23T07:04:04.000Z",
-      "updatedAt": "2026-10-23T07:04:04.000Z",
+      "publishedAt": "2026-10-23T07:08:53.000Z",
+      "updatedAt": "2026-10-23T07:08:53.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -56,6 +86,7 @@
         "mergers-acquisitions"
       ],
       "imageUrl": null,
+      "imageCredit": null,
       "sourceCount": 1,
       "sources": [
         {
@@ -64,9 +95,28 @@
           "sourceId": "demo-gulf-wire",
           "title": "Abu Dhabi's Sandstone Holdings takes majority stake in Egyptian dairy group",
           "url": "https://example.com/gulf-wire/sandstone-majority-stake-dairy",
-          "publishedAt": "2026-10-23T07:04:04.000Z"
+          "publishedAt": "2026-10-23T07:08:53.000Z"
         }
-      ]
+      ],
+      "slug": "abu-dhabi-s-sandstone-holdings-takes-majority-stake-in-egyptian-dairy-group-47d2",
+      "capitalTypes": [],
+      "assetClasses": [],
+      "geography": [
+        {
+          "id": "uae",
+          "label": "UAE"
+        },
+        {
+          "id": "mena",
+          "label": "Middle East and Africa"
+        }
+      ],
+      "transactionType": {
+        "id": "acquisition",
+        "label": "Acquisition"
+      },
+      "featured": false,
+      "liveAt": "2026-10-26T09:08:53.910Z"
     }
   ]
 }

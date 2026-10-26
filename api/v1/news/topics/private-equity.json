@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-10-26T09:04:04.850Z",
+  "generatedAt": "2026-10-26T09:08:53.910Z",
   "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
   "topic": "private-equity",
   "label": "Private equity",
@@ -14,8 +14,8 @@
       "url": "https://example.com/private-capital-daily/harbourview-fund-vii",
       "source": "Demo Private Capital Daily",
       "sourceId": "demo-private-capital-daily",
-      "publishedAt": "2026-10-25T03:04:04.850Z",
-      "updatedAt": "2026-10-25T03:04:04.850Z",
+      "publishedAt": "2026-10-25T03:08:53.910Z",
+      "updatedAt": "2026-10-25T03:08:53.910Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -27,6 +27,7 @@
         "people"
       ],
       "imageUrl": "https://example.com/images/harbourview.jpg",
+      "imageCredit": null,
       "sourceCount": 1,
       "sources": [
         {
@@ -35,9 +36,29 @@
           "sourceId": "demo-private-capital-daily",
           "title": "Harbourview Partners closes €4.2bn buyout fund above target",
           "url": "https://example.com/private-capital-daily/harbourview-fund-vii",
-          "publishedAt": "2026-10-25T03:04:04.850Z"
+          "publishedAt": "2026-10-25T03:08:53.910Z"
         }
-      ]
+      ],
+      "slug": "harbourview-partners-closes-4-2bn-buyout-fund-above-target-a53b",
+      "capitalTypes": [
+        {
+          "id": "private-equity",
+          "label": "Private Equity"
+        }
+      ],
+      "assetClasses": [],
+      "geography": [
+        {
+          "id": "europe",
+          "label": "Europe"
+        }
+      ],
+      "transactionType": {
+        "id": "fund-close",
+        "label": "Fund close"
+      },
+      "featured": false,
+      "liveAt": "2026-10-26T09:08:53.910Z"
     },
     {
       "id": "s_5a385db0c12008",
@@ -46,8 +67,8 @@
       "url": "https://example.com/emirates-markets/crescent-peak-secondaries-first-close",
       "source": "Demo Emirates Markets",
       "sourceId": "demo-emirates-markets",
-      "publishedAt": "2026-10-22T06:04:04.000Z",
-      "updatedAt": "2026-10-22T06:04:04.000Z",
+      "publishedAt": "2026-10-22T06:08:53.000Z",
+      "updatedAt": "2026-10-22T06:08:53.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -59,6 +80,7 @@
         "private-equity"
       ],
       "imageUrl": null,
+      "imageCredit": null,
       "sourceCount": 1,
       "sources": [
         {
@@ -67,9 +89,33 @@
           "sourceId": "demo-emirates-markets",
           "title": "ADGM-registered Crescent Peak announces first close of GCC secondaries fund",
           "url": "https://example.com/emirates-markets/crescent-peak-secondaries-first-close",
-          "publishedAt": "2026-10-22T06:04:04.000Z"
+          "publishedAt": "2026-10-22T06:08:53.000Z"
         }
-      ]
+      ],
+      "slug": "adgm-registered-crescent-peak-announces-first-close-of-gcc-secondaries-fund-fed2",
+      "capitalTypes": [
+        {
+          "id": "private-equity",
+          "label": "Private Equity"
+        }
+      ],
+      "assetClasses": [],
+      "geography": [
+        {
+          "id": "uae",
+          "label": "UAE"
+        },
+        {
+          "id": "gcc",
+          "label": "Other GCC"
+        }
+      ],
+      "transactionType": {
+        "id": "fund-close",
+        "label": "Fund close"
+      },
+      "featured": false,
+      "liveAt": "2026-10-26T09:08:53.910Z"
     }
   ]
 }

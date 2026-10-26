@@ -29,6 +29,29 @@ export const keyedRefs = (prefix, ids = []) => ids.map((id) => ({ ...weakRef(pre
 export const idFromRef = (ref, prefix) => (typeof ref?._ref === 'string' && ref._ref.startsWith(prefix) ? ref._ref.slice(prefix.length) : null);
 export const idsFromRefs = (refs, prefix) => (Array.isArray(refs) ? refs.map((r) => idFromRef(r, prefix)).filter(Boolean) : []);
 
+/**
+ * Capital Types and Asset Classes by id and by Sanity document id. Stories reference the
+ * category document; categories seeded from config have ids like "capitalType-reits", ones an
+ * editor creates in the Studio have random ids, which cms:pull records as "docId".
+ */
+export function buildTaxonomyIndex(newsTaxonomy = {}) {
+  const make = (list = [], prefix) => {
+    const entries = list.map((c) => ({ ...c, docId: c.docId || prefix + c.id }));
+    return { list: entries, byId: new Map(entries.map((e) => [e.id, e])), byDocId: new Map(entries.map((e) => [e.docId, e])) };
+  };
+  return { capital: make(newsTaxonomy.capitalTypes, CAPITAL_REF_PREFIX), asset: make(newsTaxonomy.assetClasses, ASSET_REF_PREFIX) };
+}
+
+/** Weak, keyed references to the given category ids (unknown ids are dropped). */
+export const refsFor = (dimension, ids = []) =>
+  ids.map((id) => dimension.byId.get(id)).filter(Boolean).map((e) => ({ ...weakRef(e.docId), _key: e.id }));
+
+/** The categories a story's references point at, in the configured order (unknown references are dropped). */
+export const entriesFor = (dimension, refs) => {
+  const wanted = new Set((Array.isArray(refs) ? refs : []).map((r) => r?._ref));
+  return dimension.list.filter((e) => wanted.has(e.docId)).sort((a, b) => a.displayOrder - b.displayOrder);
+};
+
 /** Drops null, undefined and empty-string values: in Sanity an absent field means "not set". */
 function compact(doc) {
   return Object.fromEntries(Object.entries(doc).filter(([, v]) => v !== null && v !== undefined && v !== ''));
@@ -55,8 +78,9 @@ export function otherSourceEntry(article, now) {
  * classifier's suggestions; after this the importer never touches them again.
  * @param article  pipeline article (pipeline/news.js): title, link fields, excerpt in `summary`, keyword topics
  * @param cls      classifyTaxonomy() result
+ * @param opts     now; index: buildTaxonomyIndex() (without it, references use the seeded document ids)
  */
-export function newReviewDoc(article, cls, { now }) {
+export function newReviewDoc(article, cls, { now, index }) {
   const at = now.toISOString();
   const excerpt = truncate(article.summary || '', NEWS_LIMITS.excerpt[1]);
   return compact({
@@ -101,8 +125,8 @@ export function newReviewDoc(article, cls, { now }) {
     slug: { _type: 'slug', current: suggestSlug({ headline: article.title, articleId: article.articleId }) },
     summary: excerpt,
     summarySource: excerpt ? 'excerpt' : null,
-    capitalTypes: keyedRefs(CAPITAL_REF_PREFIX, cls.capitalTypes),
-    assetClasses: keyedRefs(ASSET_REF_PREFIX, cls.assetClasses),
+    capitalTypes: index ? refsFor(index.capital, cls.capitalTypes) : keyedRefs(CAPITAL_REF_PREFIX, cls.capitalTypes),
+    assetClasses: index ? refsFor(index.asset, cls.assetClasses) : keyedRefs(ASSET_REF_PREFIX, cls.assetClasses),
     geography: cls.geography,
     transactionType: cls.transactionType,
     status: 'pending_review',

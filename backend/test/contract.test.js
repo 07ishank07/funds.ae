@@ -49,7 +49,16 @@ test('list items have exactly the contract fields, with null (never "") for miss
       if (extra) extra(item);
     }
   };
-  check('news.json', 'story', (s) => s.sources.forEach((src) => sameKeys(src, DTO_FIELDS.storySource, 'story source')));
+  check('news.json', 'story', (s) => {
+    s.sources.forEach((src) => sameKeys(src, DTO_FIELDS.storySource, 'story source'));
+    for (const tag of [...s.capitalTypes, ...s.assetClasses, ...s.geography, ...(s.transactionType ? [s.transactionType] : [])]) {
+      sameKeys(tag, DTO_FIELDS.storyTag, `${s.id} tag`);
+    }
+    assert.match(s.slug, /^[a-z0-9]+(?:-[a-z0-9]+)*$/);
+    assert.equal(typeof s.featured, 'boolean');
+    assert.ok(s.liveAt && !Number.isNaN(Date.parse(s.liveAt)), 'when an approver put it on the site');
+  });
+  check('news/real-estate.json', 'story', (s) => assert.ok(s.assetClasses.length > 0, `${s.id} has an Asset Class`));
   check('jobs.json', 'job', (j) => assert.match(j.employerId, /^emp_[a-f0-9]{16}$/));
   check('employers.json', 'employer');
   assert.equal(api('employers.json').items.length, 20, 'the demo publishes 20 employers for the Careers Top Employers list');
@@ -92,6 +101,24 @@ test('meta.json advertises versions, capabilities and every endpoint that exists
   const grants = api('news/sections/grants-funding.json');
   assert.ok(grants.items.length > 0);
   assert.ok(grants.items.every((s) => s.category === 'uae' && s.topics.includes('grants-funding')));
+  assert.ok(existsSync(path.join(apiDir, meta.endpoints.realEstate)), 'the Real Estate Capital News archive');
+  for (const id of ['residential-real-estate', 'commercial-real-estate', 'infrastructure']) {
+    const section = taxonomy.sections.find((s) => s.id === id);
+    assert.ok(section.assetClasses.length > 0, `${id} is fed by Asset Classes`);
+    for (const story of api(`news/sections/${id}.json`).items) assert.ok(story.assetClasses.some((a) => section.assetClasses.includes(a.id)), `${story.id} in ${id}`);
+  }
+});
+
+test('taxonomy.json publishes both category systems, geographies and transaction types', () => {
+  const taxonomy = api('taxonomy.json');
+  assert.equal(taxonomy.capitalTypes.length, 14);
+  assert.equal(taxonomy.assetClasses.length, 13);
+  for (const c of taxonomy.capitalTypes) sameKeys(c, ['id', 'label', 'navLabel', 'showInNav', 'order', 'description'], c.id);
+  for (const a of taxonomy.assetClasses) sameKeys(a, ['id', 'label', 'homeSection', 'order', 'description'], a.id);
+  assert.deepEqual(taxonomy.capitalTypes.filter((c) => c.showInNav).map((c) => c.navLabel),
+    ['Sovereign', 'Pension', 'Private Equity', 'REITs', 'Family Offices', 'Banks', 'Government', 'Endowments']);
+  assert.ok(taxonomy.geographies.some((g) => g.id === 'uae' && g.label === 'UAE'));
+  assert.ok(taxonomy.transactionTypes.some((t) => t.id === 'fund-close'));
 });
 
 test('schema.sql has a column for every model field', () => {

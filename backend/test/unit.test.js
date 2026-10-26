@@ -8,7 +8,8 @@ import { buildClassifier, classifyArticle } from '../src/lib/classify.js';
 import { buildQualityRules, assessQuality } from '../src/lib/quality.js';
 import { fingerprint, similarity } from '../src/lib/grouping.js';
 import { validateSponsors } from '../src/pipeline/sponsors.js';
-import { storyMatchesSection } from '../src/pipeline/publish.js';
+import { storyMatchesSection, resolveSections } from '../src/pipeline/publish.js';
+import { buildTaxonomyClassifier, classifyTaxonomy } from '../src/lib/taxonomyClassify.js';
 import { buildJobRules, isUaeLocation, isRelevantJob } from '../src/pipeline/jobs.js';
 import { isSafePublicUrl } from '../src/lib/http.js';
 import { readJson, CONFIG_DIR } from '../src/config.js';
@@ -88,17 +89,24 @@ test('classifier separates UAE from Rest of the World and picks a topic', () => 
   assert.ok(offTopic.relevance < settings.news.relevanceThreshold);
 });
 
-test('home tile sections split residential and commercial real estate, and tech covers data centres', () => {
+test('home tile sections: real estate boxes follow Asset Classes, the other boxes follow topics', () => {
   const c = buildClassifier(taxonomy);
+  const newsTaxonomy = readJson(path.join(CONFIG_DIR, 'news-taxonomy.json'));
+  const tc = buildTaxonomyClassifier(newsTaxonomy, taxonomy);
+  const sections = resolveSections(taxonomy, newsTaxonomy);
   const sectionOf = (title) => {
     const cls = classifyArticle(c, { title, summary: '' }, { region: 'uae' }, settings);
-    return taxonomy.sections.filter((s) => storyMatchesSection({ ...cls }, s)).map((s) => s.id);
+    const assetClasses = classifyTaxonomy(tc, { title }, { uae: true }).assetClasses.map((id) => ({ id }));
+    return sections.filter((s) => storyMatchesSection({ ...cls, assetClasses }, s)).map((s) => s.id);
   };
+  assert.deepEqual(sections.find((s) => s.id === 'residential-real-estate').assetClasses, ['residential-multifamily', 'student-accommodation', 'senior-living']);
+  assert.ok(sections.find((s) => s.id === 'infrastructure').assetClasses.includes('data-centres'));
   assert.ok(sectionOf('Dubai villa and apartment prices rise as homebuyers return').includes('residential-real-estate'));
   assert.ok(!sectionOf('Dubai villa and apartment prices rise as homebuyers return').includes('commercial-real-estate'));
   assert.ok(sectionOf('Grade A office space shortage lifts Dubai commercial property rents').includes('commercial-real-estate'));
   assert.ok(!sectionOf('Grade A office space shortage lifts Dubai commercial property rents').includes('residential-real-estate'));
   assert.ok(sectionOf('Abu Dhabi hyperscale data centre campus secures funding').includes('ai-technology'));
+  assert.ok(sectionOf('Abu Dhabi hyperscale data centre campus secures funding').includes('infrastructure'), 'data centres feed the infrastructure box');
   assert.ok(sectionOf('Infrastructure fund backs Dubai toll road public-private partnership').includes('infrastructure'));
   assert.ok(!sectionOf('ADNOC signs new LNG supply deal').some((id) => id.endsWith('real-estate')), 'energy stories no longer reach a real estate box');
 });

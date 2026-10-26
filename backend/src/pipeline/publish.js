@@ -6,14 +6,16 @@
 //   api/v1/news.json                   latest stories, all categories
 //   api/v1/news/{uae,world}.json       stories for one category
 //   api/v1/news/topics/<topic>.json    stories for one topic
-//   api/v1/news/sections/<id>.json     stories for one page section (topic group, e.g. the tile grids)
+//   api/v1/news/sections/<id>.json     stories for one page section (a topic group, or the Asset Classes of a home box)
+//   api/v1/news/real-estate.json       Real Estate Capital News page: published stories with an Asset Class
 //   api/v1/jobs.json                   open roles
 //   api/v1/employers.json              employers derived from open roles
 //   api/v1/events.json                 upcoming and recent events
 //   api/v1/sponsors.json               sponsor slots
 //   api/v1/content.json                Top Tweets, Advertise packages, About/Privacy/Terms copy (from Sanity)
 //   api/v1/sources.json                every source and its health
-//   api/v1/taxonomy.json               category, topic and section labels
+//   api/v1/taxonomy.json               category, topic and section labels, Capital Types, Asset Classes,
+//                                      geographies and transaction types
 //
 // News comes only from the review queue: publishApprovedNews() takes the stories an approver
 // published (src/news/publicFilter.js decides) and nothing else.
@@ -28,6 +30,9 @@ import { envelope, listEnvelope, NOTICES } from '../contracts/envelope.js';
 import { log } from '../lib/logger.js';
 import { selectPublic, licenseLookup, excerptLookup } from '../news/publicFilter.js';
 import { DEMO_APPROVER_ID } from '../news/demoDecisions.js';
+import { buildTaxonomyIndex } from '../news/reviewDocs.js';
+import { NEWS_GEOGRAPHIES, NEWS_GEOGRAPHY_LABELS, NEWS_TRANSACTION_LABELS, NEWS_TRANSACTION_TYPES } from '../news/rules.js';
+import { sanityImageConfigFromEnv, sanityImageUrl } from '../cms/mapping.js';
 import { toStoryDto, toJobDto, toEmployerDto, toEventDto, toSourceDto } from '../contracts/serializers.js';
 import { deriveEmployers } from './employers.js';
 
@@ -43,32 +48,53 @@ function removeStale(dir, keep) {
   }
 }
 
+/**
+ * The page sections with their membership spelled out: topic sections keep their topics; a home box
+ * ("homeSection": true) lists the Asset Classes that point at it (news-taxonomy.json homeSection).
+ */
+export function resolveSections(taxonomy, newsTaxonomy) {
+  return (taxonomy.sections || []).map((s) => ({
+    id: s.id,
+    label: s.label,
+    topics: s.homeSection ? [] : s.topics,
+    assetClasses: s.homeSection ? (newsTaxonomy.assetClasses || []).filter((a) => a.homeSection === s.id).map((a) => a.id) : [],
+    category: s.category || null
+  }));
+}
+
+/** A story DTO belongs to a resolved section by topic or by Asset Class. */
 export function storyMatchesSection(story, section) {
   const inTopics = section.topics.includes(story.topic) || story.topics.some((t) => section.topics.includes(t));
-  return inTopics && (!section.category || story.category === section.category);
+  const inAssets = (story.assetClasses || []).some((a) => section.assetClasses.includes(a.id));
+  return (inTopics || inAssets) && (!section.category || story.category === section.category);
 }
 
 /** Writes every news file from published review documents (already passed by selectPublic). */
 export function publishNews(ctx, docs) {
-  const { taxonomy, settings, allNewsSources } = ctx;
+  const { taxonomy, newsTaxonomy, settings, allNewsSources } = ctx;
   const classifier = buildClassifier(taxonomy);
+  const index = buildTaxonomyIndex(newsTaxonomy);
   const imagesAllowed = new Set(allNewsSources.filter((s) => s.allowImages === true).map((s) => s.id));
+  const imageConfig = ctx.sanityImages === undefined ? sanityImageConfigFromEnv() : ctx.sanityImages;
   const dtoCtx = {
     topicLabels: classifier.topicLabels,
     categories: taxonomy.categories,
     allowsImages: (id) => imagesAllowed.has(id),
-    licenseOf: licenseLookup(allNewsSources)
+    licenseOf: licenseLookup(allNewsSources),
+    index,
+    imageOf: (doc) => sanityImageUrl(doc.image?.asset?._ref, imageConfig)
   };
   const items = docs
     .map((doc) => toStoryDto(doc, dtoCtx))
     .filter(Boolean)
     .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
 
-  const { maxStories, maxPerCategory } = settings.news.publish;
+  const { maxStories, maxPerCategory, maxArchive } = settings.news.publish;
   const b = base(ctx, NOTICES.news);
-  const sections = taxonomy.sections || [];
+  const sections = resolveSections(taxonomy, newsTaxonomy);
 
   write('news.json', listEnvelope(b, items.slice(0, maxStories)));
+  write('news/real-estate.json', listEnvelope(b, items.filter((i) => i.assetClasses.length).slice(0, maxArchive), { label: 'Real Estate Capital News' }));
   for (const c of taxonomy.categories) {
     write(`news/${c.id}.json`, listEnvelope(b, items.filter((i) => i.category === c.id).slice(0, maxPerCategory), { category: c.id, label: c.label }));
   }
@@ -92,7 +118,15 @@ export function publishNews(ctx, docs) {
   write('taxonomy.json', envelope(base(ctx, NOTICES.general), {
     categories: taxonomy.categories.map(({ id, label, uiLabel }) => ({ id, label, uiLabel: uiLabel || label })),
     topics: Object.entries(classifier.topicLabels).map(([id, label]) => ({ id, label })),
-    sections: sections.map(({ id, label, topics, category }) => ({ id, label, topics, category: category || null }))
+    sections,
+    capitalTypes: index.capital.list
+      .map((c) => ({ id: c.id, label: c.name, navLabel: c.showInNav ? c.navLabel : null, showInNav: c.showInNav === true, order: c.displayOrder, description: c.description || null }))
+      .sort((x, y) => x.order - y.order),
+    assetClasses: index.asset.list
+      .map((a) => ({ id: a.id, label: a.name, homeSection: a.homeSection || null, order: a.displayOrder, description: a.description || null }))
+      .sort((x, y) => x.order - y.order),
+    geographies: NEWS_GEOGRAPHIES.map((id) => ({ id, label: NEWS_GEOGRAPHY_LABELS[id] })),
+    transactionTypes: NEWS_TRANSACTION_TYPES.map((id) => ({ id, label: NEWS_TRANSACTION_LABELS[id] }))
   }));
 
   return {
@@ -225,6 +259,7 @@ export function publishMeta(ctx, { versions = {}, counts = {}, lastRun } = {}) {
       newsByCategory: ctx.taxonomy.categories.map((c) => `news/${c.id}.json`),
       newsByTopic: 'news/topics/{topic}.json',
       newsBySection: 'news/sections/{section}.json',
+      realEstate: 'news/real-estate.json',
       jobs: 'jobs.json',
       employers: 'employers.json',
       events: 'events.json',

@@ -8,18 +8,18 @@ import path from 'node:path';
 import { FIXTURES_DIR, readJson } from '../config.js';
 import { log } from '../lib/logger.js';
 import { approvalHash, publishBlockers } from './workflow.js';
-import { ASSET_REF_PREFIX, CAPITAL_REF_PREFIX, keyedRefs } from './reviewDocs.js';
+import { buildTaxonomyIndex, refsFor } from './reviewDocs.js';
 
 export const DEMO_APPROVER_ID = 'demo-editor';
 export const DEMO_DECISIONS_FILE = path.join(FIXTURES_DIR, 'news', 'demo-decisions.json');
 
 /** The editorial fields a decision may set, as they would be set in the Studio. */
-function editorialSet(decision) {
+function editorialSet(decision, index) {
   const set = {};
   if (decision.headline) set.headline = decision.headline;
   if (decision.summary) { set.summary = decision.summary; set.summarySource = 'editor'; }
-  if (decision.capitalTypes) set.capitalTypes = keyedRefs(CAPITAL_REF_PREFIX, decision.capitalTypes);
-  if (decision.assetClasses) set.assetClasses = keyedRefs(ASSET_REF_PREFIX, decision.assetClasses);
+  if (decision.capitalTypes) set.capitalTypes = refsFor(index.capital, decision.capitalTypes);
+  if (decision.assetClasses) set.assetClasses = refsFor(index.asset, decision.assetClasses);
   if (decision.geography) set.geography = decision.geography;
   if (decision.transactionType !== undefined) set.transactionType = decision.transactionType;
   if (decision.featured) set.featured = true;
@@ -38,6 +38,7 @@ export async function applyDemoDecisions(ctx, file = DEMO_DECISIONS_FILE) {
   const docs = await ctx.review.loadRecent(new Date(0));
   const byUrl = new Map(docs.map((d) => [d.canonicalUrl, d]));
   const license = new Map(ctx.allNewsSources.map((s) => [s.id, s.licenseStatus]));
+  const index = buildTaxonomyIndex(ctx.newsTaxonomy);
   const at = ctx.now.toISOString();
   const counts = { published: 0, rejected: 0, unmatched: 0 };
 
@@ -52,7 +53,7 @@ export async function applyDemoDecisions(ctx, file = DEMO_DECISIONS_FILE) {
       continue;
     }
     if (decision.action !== 'publish') continue; // "pending": left for the queue
-    const next = { ...doc, ...editorialSet(decision), status: 'published', publishedAt: at, publishedById: DEMO_APPROVER_ID, firstPublishedAt: at, ...signed };
+    const next = { ...doc, ...editorialSet(decision, index), status: 'published', publishedAt: at, publishedById: DEMO_APPROVER_ID, firstPublishedAt: at, ...signed };
     const blockers = publishBlockers(next, { sourceLicenseStatus: license.get(doc.sourceId) });
     if (blockers.length) { log.warn('news.demo.blocked', { story: doc._id, reasons: blockers.join('; ') }); continue; }
     next.approval = { approvedById: DEMO_APPROVER_ID, approvedByName: 'Demo editor', approvedAt: at, contentHash: approvalHash(next) };
