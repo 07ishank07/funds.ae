@@ -115,7 +115,7 @@ These were checked on 2026-10-26 against the `development` dataset, with throwaw
 |---|---|
 | Can anonymous readers see `queue.*` documents? | **No.** `/data/query`, the API CDN and `perspective=published` all return nothing without a token. |
 | Do token reads see them? | Yes, with `raw`, `published` and `drafts` perspectives. `queue.x` counts as a published document, and its draft is `drafts.queue.x`. `path("queue.*")` matches `queue.x` but not `drafts.queue.x`. |
-| Does the Studio treat them as normal documents? | Its id helpers (`@sanity/id-utils`) treat `queue.x` as a published id. Lists use the same perspectives as above. Checked in the browser when the queue schema shipped (Part 8). |
+| Does the Studio treat them as normal documents? | **Yes**, checked in the browser on 2026-10-26 with two test stories in `development` (since deleted). The queue lists show `queue.*` stories, they open and edit like any document, and every workflow action works (Approve and publish, Reject with a reason, Unpublish, Save changes on a live story). The approval fingerprint computed in the browser matched the backend's exactly. The licence gate refused a story from a `pending_review` source, and the Studio showed the reason. |
 | Does publishing a draft undo importer changes? | **Yes.** Publishing replaces the whole document. The importer therefore patches an existing draft as well, in the same transaction. Patching a draft that doesn't exist fails with 404, so the importer looks up which drafts exist first. |
 | Does Studio publishing guard against concurrent changes? | **Yes.** It sends `ifPublishedRevisionId`. If the importer patches a story seconds before an editor publishes, the editor sees an error and presses Publish again. The importer touches existing stories rarely (`lastSeenAt` at most every `lastSeenThrottleHours`). |
 | Can a webhook projection pick the event type? | Yes. `select(_type == "newsAggregator" => "news-fetch", "cms-publish")` works. |
@@ -141,13 +141,13 @@ Written when the Studio screens ship (Part 8).
 
 - [x] Phase 0: Free-plan spike (Part 5)
 - [x] Phase 1: shared rules, workflow logic, settings, documentation
-- [ ] Phase 2: Capital Types, Asset Classes and the rule classifier
-- [ ] Phase 3: review repository and safety rails
-- [ ] Phase 4: pipeline writes to the queue; only approved stories are published
-- [ ] Phase 5: API contract and news files
-- [ ] Phase 6: story pages
-- [ ] Phase 7: Sanity read/write client and the Sanity queue
-- [ ] Phase 8: Studio schemas, queue views and workflow actions
+- [x] Phase 2: Capital Types, Asset Classes and the rule classifier
+- [x] Phase 3: review repository and safety rails
+- [x] Phase 4: pipeline writes to the queue; only approved stories are published
+- [x] Phase 5: API contract and news files
+- [x] Phase 6: story pages
+- [x] Phase 7: Sanity read/write client and the Sanity queue
+- [x] Phase 8: Studio schemas, queue views and workflow actions
 - [ ] Phase 9: registry and taxonomy pulled from Sanity
 - [ ] Phase 10: workflows (hourly ingest, publish, Fetch News Now)
 - [ ] Phase 11: Real Estate Capital News page and category bar

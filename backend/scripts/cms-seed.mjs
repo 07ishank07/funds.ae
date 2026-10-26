@@ -198,6 +198,69 @@ export function buildSeed({ root = REPO_ROOT, siteUrl = 'https://funds.ae/fronte
   ];
 }
 
+/* --------------------------- news queue: registry + taxonomy -------------------------- */
+
+const keywordList = (keywords = {}) =>
+  Object.entries(keywords).map(([term, weight], i) => ({ _type: 'keyword', _key: `kw${i}`, term, weight }));
+
+/** Capital Types and Asset Classes from config/news-taxonomy.json, with the ids stories reference. */
+export function taxonomyDocs(newsTaxonomy) {
+  const capital = (newsTaxonomy.capitalTypes || []).map((c) => compact({
+    _id: `capitalType-${c.id}`,
+    _type: 'capitalType',
+    name: c.name,
+    id: { _type: 'slug', current: c.id },
+    description: c.description || undefined,
+    displayOrder: c.displayOrder,
+    showInNav: c.showInNav === true,
+    navLabel: c.showInNav ? c.navLabel : undefined,
+    keywords: keywordList(c.keywords)
+  }));
+  const asset = (newsTaxonomy.assetClasses || []).map((a) => compact({
+    _id: `assetClass-${a.id}`,
+    _type: 'assetClass',
+    name: a.name,
+    id: { _type: 'slug', current: a.id },
+    description: a.description || undefined,
+    displayOrder: a.displayOrder,
+    homeSection: a.homeSection || 'none',
+    keywords: keywordList(a.keywords)
+  }));
+  return [...capital, ...asset];
+}
+
+const SOURCE_FIELDS = [
+  'name', 'homepage', 'type', 'url', 'enabled', 'verified', 'region', 'focus', 'priority', 'tier', 'licenseStatus', 'termsUrl',
+  'termsReviewedAt', 'allowImages', 'allowExcerpt', 'allowAiSummary', 'language', 'pollEveryHours', 'notes'
+];
+
+/** The live news sources from config/sources.news.json (demo sources stay in the file). */
+export function sourceDocs(sourcesConfig) {
+  return (sourcesConfig.sources || []).map((s) => compact({
+    _id: `newsSource-${s.id}`,
+    _type: 'newsSource',
+    id: { _type: 'slug', current: s.id },
+    ...Object.fromEntries(SOURCE_FIELDS.map((f) => [f, s[f]])),
+    section: s._section || undefined
+  }));
+}
+
+/**
+ * Everything the News Review Queue needs to start in the Studio: the source registry, both category
+ * systems and the aggregator's three fixed documents. Import it with --missing, which adds these
+ * documents and never replaces anything already there.
+ */
+export function buildNewsSeed({ root = REPO_ROOT } = {}) {
+  const read = (rel) => JSON.parse(readFileSync(path.join(root, rel), 'utf8'));
+  return [
+    ...sourceDocs(read('backend/config/sources.news.json')),
+    ...taxonomyDocs(read('backend/config/news-taxonomy.json')),
+    { _id: 'newsAggregator', _type: 'newsAggregator', help: 'Sources are fetched every hour. Press "Fetch News Now" (bottom right) to fetch them now; new stories arrive in Pending review within a few minutes.' },
+    { _id: 'newsAggregatorState', _type: 'newsAggregatorState', sources: [] },
+    { _id: 'newsPublishSignal', _type: 'newsPublishSignal' }
+  ];
+}
+
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   const i = process.argv.indexOf('--site-url');
   const siteUrl = i !== -1 ? process.argv[i + 1] : undefined;
@@ -212,4 +275,11 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   const count = (type) => docs.filter((d) => d._type === type).length;
   console.log(`Wrote ${path.relative(REPO_ROOT, out)}: ${count('sponsorItem')} sponsors, ${count('event')} events, ${count('advertiseTier')} packages, ${count('page')} pages.`);
   console.log('Import it into a test dataset first:  cd studio && npx sanity datasets import seed/fundsae-seed.ndjson development --replace');
+
+  const news = buildNewsSeed();
+  const newsOut = path.join(REPO_ROOT, 'studio', 'seed', 'fundsae-news-seed.ndjson');
+  writeFileSync(newsOut, news.map((d) => JSON.stringify(d)).join('\n') + '\n', 'utf8');
+  const n = (type) => news.filter((d) => d._type === type).length;
+  console.log(`Wrote ${path.relative(REPO_ROOT, newsOut)}: ${n('newsSource')} news sources, ${n('capitalType')} Capital Types, ${n('assetClass')} Asset Classes, 3 aggregator documents.`);
+  console.log('Add it without replacing anything:  cd studio && npx sanity datasets import seed/fundsae-news-seed.ndjson production --missing');
 }
