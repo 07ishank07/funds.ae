@@ -29,6 +29,7 @@ import { createNewsReviewRepository } from './repositories/newsReview.js';
 import { createSanityNewsHealth } from './repositories/newsReview.sanity.js';
 import { applyDemoDecisions } from './news/demoDecisions.js';
 import { pruneMutation } from './news/importerMutations.js';
+import { aiEnabled, createEnricher } from './ai/enrich.js';
 import { log } from './lib/logger.js';
 import { resetState } from './lib/sourceHealth.js';
 import { runNews } from './pipeline/news.js';
@@ -239,6 +240,14 @@ async function main() {
 
   try {
     if (command === 'all' || command === 'news') {
+      // Optional AI suggestions (settings news.ai + ANTHROPIC_API_KEY); without them the rules classify alone.
+      if (aiEnabled(cfg.settings)) {
+        try {
+          ctx.enricher = await createEnricher({ settings: cfg.settings, newsTaxonomy: cfg.newsTaxonomy });
+        } catch (err) {
+          log.warn('news.ai.unavailable', { detail: String(err?.message || err).slice(0, 200) });
+        }
+      }
       const r = await runNews(ctx);
       run.steps.news = r.stats;
       if (newsHealth.flush) {

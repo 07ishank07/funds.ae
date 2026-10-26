@@ -471,7 +471,7 @@ test('the approval hash follows the approved content and nothing else', () => {
   assert.notEqual(hash(base), hash(short), 'a changed headline changes the hash');
   assert.equal(hash(base), hash({ ...base, lastSeenAt: '2026-11-01T00:00:00Z', excerpt: 'changed by the importer', status: 'published' }), 'importer and status fields do not');
   assert.equal(hash({ ...base, publishedAt: '2026-10-26T10:00:00Z' }), hash({ ...base, publishedAt: '2026-10-26T10:00:00.000Z' }), 'equal times in two spellings');
-  for (const field of ['summary', 'transactionType', 'featured', 'publishedAt']) {
+  for (const field of ['summary', 'summarySource', 'transactionType', 'featured', 'publishedAt']) {
     assert.notEqual(hash(base), hash({ ...base, [field]: field === 'featured' ? true : field === 'publishedAt' ? '2026-10-27T00:00:00Z' : 'changed' }), field);
   }
   assert.notEqual(hash(base), hash({ ...base, assetClasses: [] }), 'removing a category changes the hash');

@@ -321,6 +321,28 @@ test("a summary that is the publisher's excerpt is held once the source withdraw
   assert.equal(liveCount(), 0);
 });
 
+test('an AI-written summary is published only while its source allows AI summaries', async () => {
+  serve('wire-a', [MUBADALA]);
+  const review = recordingQueue('q-ai-summary');
+  await runNews(makeCtx({ sources: [source('wire-a')], review }));
+  const [doc] = await review.loadRecent(new Date(0));
+  const summary = 'Mubadala is anchoring a new Dubai rental-housing fund, its latest bet on the emirate.';
+  const set = {
+    summary, summarySource: 'ai', classification: { ...doc.classification, suggestedSummary: summary },
+    status: 'published', publishedAt: NOW.toISOString(), firstPublishedAt: NOW.toISOString()
+  };
+  set.approval = { approvedById: 'pApprover01', approvedAt: NOW.toISOString(), contentHash: approvalHash({ ...doc, ...set }) };
+  await review.decide(doc._id, set);
+  writeLiveNews([]);
+  await publishApprovedNews(approverCtx(makeCtx({ sources: [source('wire-a')], review })));
+  assert.equal(liveCount(), 0, 'held: the source does not allow AI summaries');
+  await publishApprovedNews(approverCtx(makeCtx({ sources: [source('wire-a', { allowAiSummary: true })], review })));
+  assert.equal(liveCount(), 0, 'held: allowAiSummary without a terms review does not count');
+  const reviewed = { allowAiSummary: true, licenseStatus: 'terms_reviewed', termsUrl: 'https://example.com/terms', termsReviewedAt: '2026-10-01' };
+  await publishApprovedNews(approverCtx(makeCtx({ sources: [source('wire-a', reviewed)], review })));
+  assert.equal(liveCount(), 1);
+});
+
 test('a missing feed image is filled in only while the story is pending', async () => {
   const { review, doc } = await publishedStory('q-image', [source('wire-a', { allowImages: true })]);
   feeds.set('/wire-a.xml', { status: 200, body: rss([MUBADALA]).replace('</item>', '<enclosure url="https://img.example.com/a.jpg" type="image/jpeg"/></item>') });

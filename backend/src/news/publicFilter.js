@@ -5,20 +5,22 @@
 //   - approved by a Sanity user id listed in settings.json news.review.approverIds;
 //   - the content still matches the approval (approval.contentHash);
 //   - every publish check passes, including the licence gate (src/news/workflow.js);
-//   - a summary that is the publisher's excerpt still has the publisher's permission.
+//   - a summary that is the publisher's excerpt still has the publisher's permission, and an
+//     AI-written summary comes from a source that still allows AI summaries.
 // A story that fails is held back and reported by id only, never by headline or by who
 // approved it (the reasons end up in run history, which is public on GitHub Pages).
 
 import { approvalHash, publishBlockers } from './workflow.js';
 import { isReviewId } from './reviewDocs.js';
+import { AI_SUMMARY_LICENSE_STATUSES } from './rules.js';
 
 /**
  * @param {object} doc  review document
  * @param {{now:Date, approverIds:string[], licenseOf:(sourceId:string)=>string|undefined,
- *          allowsExcerpt?:(sourceId:string)=>boolean}} ctx
+ *          allowsExcerpt?:(sourceId:string)=>boolean, allowsAi?:(sourceId:string)=>boolean}} ctx
  * @returns {string[]} why the story is not public (empty = public)
  */
-export function holdReasons(doc, { now, approverIds, licenseOf, allowsExcerpt = () => true }) {
+export function holdReasons(doc, { now, approverIds, licenseOf, allowsExcerpt = () => true, allowsAi = () => false }) {
   if (!doc || !isReviewId(doc._id)) return ['not a published queue document'];
   if (doc.status !== 'published') return [`status is ${doc.status || 'missing'}`];
   const reasons = [];
@@ -33,6 +35,9 @@ export function holdReasons(doc, { now, approverIds, licenseOf, allowsExcerpt = 
   reasons.push(...publishBlockers(doc, { sourceLicenseStatus: licenseOf(doc.sourceId) }));
   const excerptSummary = doc.summarySource === 'excerpt' || (doc.summary && doc.summary === doc.excerpt);
   if (excerptSummary && !allowsExcerpt(doc.sourceId)) reasons.push("the summary is the publisher's excerpt, which the source no longer allows");
+  const suggested = doc.classification?.suggestedSummary;
+  const aiSummary = doc.summarySource === 'ai' || (suggested && doc.summary === suggested);
+  if (aiSummary && !allowsAi(doc.sourceId)) reasons.push('the summary was written by AI, which the source does not allow (allowAiSummary)');
   return reasons;
 }
 
@@ -52,6 +57,14 @@ export function selectPublic(docs, ctx) {
 export function licenseLookup(allNewsSources) {
   const byId = new Map(allNewsSources.map((s) => [s.id, s.licenseStatus]));
   return (sourceId) => byId.get(sourceId);
+}
+
+/** allowsAi() for selectPublic: true only when the registry allows AI summaries for that source, after a terms review. */
+export function aiSummaryLookup(allNewsSources) {
+  const allowed = new Set(allNewsSources
+    .filter((s) => s.allowAiSummary === true && AI_SUMMARY_LICENSE_STATUSES.includes(s.licenseStatus))
+    .map((s) => s.id));
+  return (sourceId) => allowed.has(sourceId);
 }
 
 /** allowsExcerpt() for selectPublic: false only when the registry says so for that source. */

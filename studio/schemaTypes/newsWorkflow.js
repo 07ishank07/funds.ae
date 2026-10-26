@@ -36,6 +36,8 @@ export function approvalFingerprint(doc = {}) {
     headline: () => text(doc.headline),
     slug: () => text(doc.slug?.current),
     summary: () => text(doc.summary),
+    // Who wrote the summary: the site holds AI-written summaries from sources that do not allow them.
+    summarySource: () => text(doc.summarySource) || null,
     capitalTypes: () => refIds(doc.capitalTypes),
     assetClasses: () => refIds(doc.assetClasses),
     geography: () => (Array.isArray(doc.geography) ? [...doc.geography].map(String).sort() : []),

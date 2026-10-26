@@ -133,3 +133,48 @@ export function newReviewDoc(article, cls, { now, index }) {
     statusChangedAt: at
   });
 }
+
+/**
+ * Puts an AI suggestion (src/ai/enrich.js) on a new story before it is created: the suggested tags and,
+ * when one survived the checks, the summary. Where the AI suggests nothing for a category system, the
+ * rule-based suggestion stays. Everything stays editable; the story is still pending.
+ */
+export function withAiSuggestion(doc, suggestion, index) {
+  const rules = doc.classification || {};
+  const capital = suggestion.capitalTypes.length ? suggestion.capitalTypes : rules.suggestedCapitalTypes || [];
+  const asset = suggestion.assetClasses.length ? suggestion.assetClasses : rules.suggestedAssetClasses || [];
+  const geography = suggestion.geography.length ? suggestion.geography : doc.geography;
+  const transactionType = suggestion.transactionType || doc.transactionType || null;
+  const reasons = [];
+  if (!capital.length) reasons.push('No Capital Type suggested.');
+  if (!asset.length) reasons.push('No Asset Class suggested.');
+  if ((!suggestion.capitalTypes.length && capital.length) || (!suggestion.assetClasses.length && asset.length)) {
+    reasons.push('Keyword-based categories kept where the AI suggested none.');
+  }
+  if (suggestion.confidence < 0.5) reasons.push(`Low AI confidence (${suggestion.confidence}).`);
+  const next = {
+    ...doc,
+    classification: compact({
+      ...rules,
+      method: 'ai',
+      confidence: suggestion.confidence,
+      needsReview: (!capital.length && !asset.length) || suggestion.confidence < 0.5,
+      reasons,
+      suggestedCapitalTypes: capital,
+      suggestedAssetClasses: asset,
+      suggestedGeography: geography,
+      suggestedTransactionType: transactionType,
+      suggestedSummary: suggestion.summary
+    }),
+    capitalTypes: refsFor(index.capital, capital),
+    assetClasses: refsFor(index.asset, asset),
+    geography
+  };
+  if (transactionType) next.transactionType = transactionType;
+  else delete next.transactionType;
+  if (suggestion.summary) {
+    next.summary = suggestion.summary;
+    next.summarySource = 'ai';
+  }
+  return next;
+}

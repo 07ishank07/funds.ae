@@ -48,8 +48,8 @@ const fail = (message) => {
 
 /** Never more than a 280-character excerpt or summary of publisher text (CLAUDE.md legal rules). */
 function assertShortText(fields) {
-  for (const field of ['excerpt', 'summary']) {
-    const value = fields[field];
+  const texts = { excerpt: fields.excerpt, summary: fields.summary, suggestedSummary: fields.classification?.suggestedSummary };
+  for (const [field, value] of Object.entries(texts)) {
     if (value !== undefined && (typeof value !== 'string' || value.length > NEWS_LIMITS.excerpt[1])) {
       fail(`"${field}" must be text of at most ${NEWS_LIMITS.excerpt[1]} characters.`);
     }

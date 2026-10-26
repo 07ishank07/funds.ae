@@ -5,8 +5,9 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { EMAIL_RE } from './validation/validate.js';
+import { AI_DEFAULTS, AI_EFFORTS } from './ai/enrich.js';
 import {
-  NEWS_GEOGRAPHIES, NEWS_HOME_SECTIONS, NEWS_LICENSE_STATUSES, NEWS_LIMITS, NEWS_SOURCE_FOCUSES, NEWS_SOURCE_REGIONS,
+  AI_SUMMARY_LICENSE_STATUSES, NEWS_GEOGRAPHIES, NEWS_HOME_SECTIONS, NEWS_LICENSE_STATUSES, NEWS_LIMITS, NEWS_SOURCE_FOCUSES, NEWS_SOURCE_REGIONS,
   NEWS_SOURCE_TIERS, NEWS_SOURCE_TYPES, NEWS_TRANSACTION_TYPES
 } from './news/rules.js';
 
@@ -116,6 +117,9 @@ function validateNewsSourceFields(s, where, { live }) {
   }
   if (['terms_reviewed', 'permission_granted'].includes(s.licenseStatus) && !s.termsReviewedAt) {
     errors.push(`${where}: "termsReviewedAt" (YYYY-MM-DD) is required when licenseStatus is "${s.licenseStatus}".`);
+  }
+  if (s.allowAiSummary === true && !AI_SUMMARY_LICENSE_STATUSES.includes(s.licenseStatus)) {
+    errors.push(`${where}: "allowAiSummary" needs licenseStatus ${AI_SUMMARY_LICENSE_STATUSES.join(' or ')} (someone must have read the terms).`);
   }
   if (s.licenseStatus === 'blocked' && s.enabled !== false) {
     errors.push(`${where}: a source with licenseStatus "blocked" must have "enabled": false.`);
@@ -319,7 +323,9 @@ const NEWS_SETTINGS_DEFAULTS = {
   },
   // Where sources.news.json and news-taxonomy.json come from: "file" (edited by hand) or "sanity" (cms:pull).
   registry: { source: 'file' },
-  publish: { maxStories: 200, maxPerCategory: 100, maxArchive: 2000, maxDropPercent: 50 }
+  publish: { maxStories: 200, maxPerCategory: 100, maxArchive: 2000, maxDropPercent: 50 },
+  // Optional Claude suggestions for new stories (src/ai/enrich.js); off unless enabled and ANTHROPIC_API_KEY is set.
+  ai: AI_DEFAULTS
 };
 const SANITY_USER_ID_RE = /^[A-Za-z0-9][A-Za-z0-9._-]{1,63}$/;
 const isWhole = (value, min, max) => Number.isInteger(value) && value >= min && value <= max;
@@ -353,6 +359,11 @@ export function applyNewsSettings(settings) {
   }
   if (!isWhole(publish.maxArchive, 1, 20_000)) errors.push('"news.publish.maxArchive" must be a whole number from 1 to 20000.');
   if (!isWhole(publish.maxDropPercent, 1, 100)) errors.push('"news.publish.maxDropPercent" must be a whole number from 1 to 100.');
+  const { ai } = news;
+  if (typeof ai.enabled !== 'boolean') errors.push('"news.ai.enabled" must be true or false.');
+  if (typeof ai.model !== 'string' || !/^claude-[a-z0-9-]{2,60}$/.test(ai.model)) errors.push('"news.ai.model" must be a Claude model id such as "claude-opus-5-5".');
+  if (!AI_EFFORTS.includes(ai.effort)) errors.push(`"news.ai.effort" must be one of ${AI_EFFORTS.join(', ')}.`);
+  if (!isWhole(ai.maxPerRun, 1, 500)) errors.push('"news.ai.maxPerRun" must be a whole number from 1 to 500.');
   if (errors.length) throw new ConfigError('settings.json: ' + errors.join(' '));
 }
 

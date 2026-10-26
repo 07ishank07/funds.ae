@@ -90,6 +90,8 @@ export const NEWS_SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 /** Source licence statuses (backend/src/config.js LICENSE_STATUSES) and the ones a story may be published from. */
 export const NEWS_LICENSE_STATUSES = ['public_sector', 'wire', 'terms_reviewed', 'permission_granted', 'pending_review', 'blocked'];
 export const PUBLISHABLE_LICENSE_STATUSES = ['public_sector', 'wire', 'terms_reviewed', 'permission_granted'];
+/** AI summaries need someone to have read the terms: public-sector or wire status alone is not enough. */
+export const AI_SUMMARY_LICENSE_STATUSES = ['terms_reviewed', 'permission_granted'];
 
 /** News source registry values (backend/src/config.js validates every source with these). */
 export const NEWS_SOURCE_TYPES = ['rss', 'api'];
@@ -133,7 +135,7 @@ export const NEWS_WORKFLOW_FIELDS = [
 ];
 /** What an approval vouches for: changing any of these after approval keeps the story off the site until re-approved. */
 export const NEWS_APPROVAL_HASH_FIELDS = [
-  'headline', 'slug', 'summary', 'capitalTypes', 'assetClasses', 'geography', 'transactionType', 'featured', 'image',
-  'seo', 'duplicateOf', 'publishedAt'
+  'headline', 'slug', 'summary', 'summarySource', 'capitalTypes', 'assetClasses', 'geography', 'transactionType', 'featured',
+  'image', 'seo', 'duplicateOf', 'publishedAt'
 ];
 export const NEWS_SUMMARY_SOURCES = ['excerpt', 'editor', 'ai'];

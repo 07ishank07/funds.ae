@@ -8,6 +8,7 @@
 import {defineField, defineType} from 'sanity'
 import {SourceHealthInput} from '../components/SourceHealth.jsx'
 import {
+  AI_SUMMARY_LICENSE_STATUSES,
   NEWS_LICENSE_STATUSES,
   NEWS_SOURCE_FOCUSES,
   NEWS_SOURCE_REGIONS,
@@ -195,6 +196,12 @@ export const newsSource = defineType({
       group: 'licence',
       initialValue: false,
       description: 'Many publishers forbid AI summarisation of their content. Switch on only when the terms allow it.',
+      validation: (rule) =>
+        rule.custom((value, {document}) =>
+          !value || AI_SUMMARY_LICENSE_STATUSES.includes(document?.licenseStatus)
+            ? true
+            : 'Set Licence status to "terms_reviewed" or "permission_granted" first: AI summaries need someone to have read the terms.',
+        ),
     }),
 
     defineField({

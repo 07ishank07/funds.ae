@@ -29,7 +29,7 @@ import { buildClassifier } from '../lib/classify.js';
 import { shortHash, employerIdFor } from '../lib/url.js';
 import { envelope, listEnvelope, NOTICES } from '../contracts/envelope.js';
 import { log } from '../lib/logger.js';
-import { selectPublic, licenseLookup, excerptLookup } from '../news/publicFilter.js';
+import { selectPublic, licenseLookup, excerptLookup, aiSummaryLookup } from '../news/publicFilter.js';
 import { DEMO_APPROVER_ID } from '../news/demoDecisions.js';
 import { buildTaxonomyIndex } from '../news/reviewDocs.js';
 import { NEWS_GEOGRAPHIES, NEWS_GEOGRAPHY_LABELS, NEWS_TRANSACTION_LABELS, NEWS_TRANSACTION_TYPES } from '../news/rules.js';
@@ -174,7 +174,8 @@ export async function publishApprovedNews(ctx, { allowDrop = false } = {}) {
   const candidates = await review.listPublishedCandidates(now);
   const approverIds = demo ? [...settings.news.review.approverIds, DEMO_APPROVER_ID] : settings.news.review.approverIds;
   const { stories, held } = selectPublic(candidates, {
-    now, approverIds, licenseOf: licenseLookup(allNewsSources), allowsExcerpt: excerptLookup(allNewsSources)
+    now, approverIds, licenseOf: licenseLookup(allNewsSources), allowsExcerpt: excerptLookup(allNewsSources),
+    allowsAi: aiSummaryLookup(allNewsSources)
   });
   for (const h of held) log.warn('news.story.held', { story: h.id, reasons: h.reasons.join('; ') });
 

@@ -105,7 +105,10 @@ function makeWorkflowAction(name) {
     async function apply(input = {}) {
       setBusy(true)
       try {
-        const plan = planAction(name, doc, {
+        // Record who wrote the summary before the approval is stamped: summarySource is part of the approval hash.
+        const source = summarySourceOf(doc)
+        const current = source && source !== doc.summarySource ? {...doc, summarySource: source} : doc
+        const plan = planAction(name, current, {
           userId: user?.id,
           userName: user?.name,
           approverIds: NEWS_APPROVER_IDS,
@@ -117,7 +120,8 @@ function makeWorkflowAction(name) {
           setDialog(reasonsDialog(`${spec.label}: not possible yet`, plan.reasons, close))
           return
         }
-        patch.execute(plan.unset.length ? [{set: plan.set}, {unset: plan.unset}] : [{set: plan.set}])
+        const set = current === doc ? plan.set : {...plan.set, summarySource: source}
+        patch.execute(plan.unset.length ? [{set}, {unset: plan.unset}] : [{set}])
         publish.execute()
         await signal(client, name)
         close()
@@ -187,7 +191,8 @@ export function withNewsSave(PublishAction) {
         if (source && source !== doc?.summarySource) set.summarySource = source
         const live = doc?.status === 'approved' || doc?.status === 'published'
         if (live) {
-          const plan = planSave(doc, {
+          // The approval is stamped for the content as saved, including the updated summarySource.
+          const plan = planSave({...doc, ...set}, {
             userId: user?.id,
             userName: user?.name,
             approverIds: NEWS_APPROVER_IDS,

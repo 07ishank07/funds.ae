@@ -16,7 +16,8 @@ import { buildTaxonomyClassifier, classifyTaxonomy } from '../lib/taxonomyClassi
 import { buildQualityRules, assessQuality, isPressRelease } from '../lib/quality.js';
 import { fingerprint, findStory, storyIdFor } from '../lib/grouping.js';
 import { stateFor, isPaused, recordSuccess, recordFailure } from '../lib/sourceHealth.js';
-import { buildTaxonomyIndex, newReviewDoc, otherSourceEntry } from '../news/reviewDocs.js';
+import { buildTaxonomyIndex, newReviewDoc, otherSourceEntry, withAiSuggestion } from '../news/reviewDocs.js';
+import { AI_SUMMARY_LICENSE_STATUSES } from '../news/rules.js';
 import { createMutation, ingestPatchMutations, pruneMutation } from '../news/importerMutations.js';
 import { PUBLISHABLE_LICENSE_STATUSES } from '../news/rules.js';
 
@@ -319,6 +320,21 @@ export async function runNews(ctx) {
     });
     creates.sort((a, b) => (b.priority || 0) - (a.priority || 0));
     creates.length = room;
+  }
+
+  /* 6b. Optional AI suggestions (settings.json news.ai), most relevant stories first, only for sources
+         whose terms were read and allow AI summaries. Suggestions only: the story stays pending. */
+  if (ctx.enricher && creates.length) {
+    const allowAi = new Set(allNewsSources
+      .filter((s) => s.allowAiSummary === true && AI_SUMMARY_LICENSE_STATUSES.includes(s.licenseStatus))
+      .map((s) => s.id));
+    const order = creates.map((doc, i) => [doc, i]).sort((a, b) => (b[0].priority || 0) - (a[0].priority || 0));
+    for (const [doc, i] of order) {
+      if (!allowAi.has(doc.sourceId)) continue;
+      const suggestion = await ctx.enricher.enrich({ articleId: doc.articleId, sourceName: doc.sourceName, title: doc.originalHeadline, summary: doc.excerpt || '' });
+      if (suggestion) creates[i] = withAiSuggestion(doc, suggestion, taxonomyIndex);
+    }
+    stats.ai = ctx.enricher.stats;
   }
 
   /* 7. Write: creates, patches (also on open drafts), then prune. */
