@@ -134,7 +134,10 @@ async function captureOutput(fn) {
 /* -------------------------------- configuration ------------------------------ */
 
 test('Sanity settings come from the environment and are checked', () => {
-  assert.deepEqual(sanityConfigFromEnv(env), { projectId: 'ab12cd34', dataset: 'production', apiVersion: DEFAULT_API_VERSION, token: TOKEN });
+  assert.deepEqual(sanityConfigFromEnv(env), { projectId: 'ab12cd34', dataset: 'production', apiVersion: DEFAULT_API_VERSION, token: TOKEN, writeToken: null });
+  const importer = sanityConfigFromEnv({ SANITY_PROJECT_ID: 'ab12cd34', SANITY_WRITE_TOKEN: 'skWRITE' });
+  assert.deepEqual([importer.token, importer.writeToken], ['skWRITE', 'skWRITE'], 'the importer reads with its write token');
+  assert.equal(sanityConfigFromEnv({ ...env, SANITY_WRITE_TOKEN: 'skWRITE' }).token, TOKEN, 'reads prefer the read token');
   assert.equal(sanityConfigFromEnv({ SANITY_PROJECT_ID: 'ab12cd34' }).token, null, 'a public dataset needs no token');
   assert.throws(() => sanityConfigFromEnv({}), /SANITY_PROJECT_ID is not set/);
   assert.throws(() => sanityConfigFromEnv({ SANITY_PROJECT_ID: 'AB/../x' }), /SANITY_PROJECT_ID/);

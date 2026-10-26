@@ -4,11 +4,13 @@
 //   events     -> config/events.json     (validated by pipeline/events.js)
 //   highlights, tiers, pages -> config/content.json (validated by pipeline/content.js)
 //
+// The news review queue's documents (newsArticle, newsAggregatorState) are mapped at the end.
+//
 // This is the ONLY place that knows Sanity's field names. Each slot keeps only
 // the fields it uses (a field hidden in the Studio can still hold an old value).
 // Pure functions: no I/O, so tests can feed them fixtures.
 
-import { SPONSOR_SLOTS, PAGE_LIST_TYPES } from '../contracts/models.js';
+import { SPONSOR_SLOTS, PAGE_LIST_TYPES, DB_MODELS } from '../contracts/models.js';
 import { SLOT_RULES } from '../pipeline/sponsors.js';
 import { safeHref } from '../pipeline/content.js';
 import { cleanInline } from '../validation/validate.js';
@@ -175,4 +177,40 @@ export function sanityImageUrl(ref, config) {
   const m = IMAGE_ASSET_REF.exec(typeof ref === 'string' ? ref : '');
   if (!m || !config) return null;
   return `https://cdn.sanity.io/images/${config.projectId}/${config.dataset}/${m[1]}-${m[2]}.${m[3]}?w=1200&fit=max&auto=format`;
+}
+
+const NEWS_DOC_FIELDS = new Set([...DB_MODELS.newsReviewItems.fields, ...Object.keys(DB_MODELS.newsReviewItems.system)]);
+const HEALTH_FIELDS = [
+  'status', 'etag', 'lastModified', 'format', 'consecutiveFailures', 'lastError', 'lastFetchedAt', 'lastSuccessAt',
+  'lastFailureAt', 'pausedUntil', 'lastItemCount'
+];
+
+/**
+ * A newsArticle document as a review record (models.js NewsReviewDoc): known fields only, so
+ * anything else a document may hold never travels further.
+ */
+export function fromSanityNewsDoc(doc) {
+  if (!doc || typeof doc !== 'object') return null;
+  return Object.fromEntries(Object.entries(doc).filter(([k, v]) => NEWS_DOC_FIELDS.has(k) && v !== null && v !== undefined));
+}
+
+/** Source health from the newsAggregatorState document, in the pipeline's feed-state shape. */
+export function feedStateFromSanity(stateDoc) {
+  const sources = {};
+  for (const s of Array.isArray(stateDoc?.sources) ? stateDoc.sources : []) {
+    if (typeof s?.id !== 'string' || !s.id) continue;
+    sources[s.id] = Object.fromEntries(HEALTH_FIELDS.filter((f) => s[f] !== undefined && s[f] !== null).map((f) => [f, s[f]]));
+  }
+  return { sources };
+}
+
+/**
+ * The newsAggregatorState document's fields (without _id and _type) from news source health.
+ * Jobs health (keys "jobs:<id>") stays in feed-state.json and is left out.
+ */
+export function stateFieldsFromFeedState(feedState, { now, lastRun = null, documents = null }) {
+  const sources = Object.entries(feedState?.sources || {})
+    .filter(([id]) => !id.startsWith('jobs:'))
+    .map(([id, s]) => compact({ _key: id, id, ...Object.fromEntries(HEALTH_FIELDS.map((f) => [f, s?.[f]])) }));
+  return compact({ updatedAt: now.toISOString(), lastRun, documents, sources });
 }

@@ -25,6 +25,7 @@ import { loadAll, loadSponsorsConfig, DATA_DIR } from './config.js';
 import { JsonStore } from './store/jsonStore.js';
 import { createRepositories, createSubmissionsRepository, DEMO_RESETTABLE } from './repositories/index.js';
 import { createNewsReviewRepository } from './repositories/newsReview.js';
+import { createSanityNewsHealth } from './repositories/newsReview.sanity.js';
 import { applyDemoDecisions } from './news/demoDecisions.js';
 import { pruneMutation } from './news/importerMutations.js';
 import { log } from './lib/logger.js';
@@ -46,11 +47,17 @@ async function newsStep(ctx, options) {
   return { refused: false, counts: { stories: news.stories, ...news.byCategory }, versions: { news: news.version } };
 }
 
+/** News source health (feed-state.json, or the Sanity queue's state document) plus jobs health (feed-state.json). */
+async function sourceHealth(ctx) {
+  const jobs = Object.entries(ctx.repos.feedState.load().sources || {}).filter(([id]) => id.startsWith('jobs:'));
+  return { sources: { ...(await ctx.newsHealth.load()).sources, ...Object.fromEntries(jobs) } };
+}
+
 /** Republishes jobs and source health, and news when `withNews` (never for a jobs-only run). */
 async function publishData(ctx, { withNews, allowDrop }) {
   const news = withNews ? await newsStep(ctx, { allowDrop }) : { refused: false, counts: {}, versions: {} };
   const jobs = publishJobs(ctx, ctx.repos.jobs.load().jobs);
-  publishSources(ctx, await ctx.newsHealth.load());
+  publishSources(ctx, await sourceHealth(ctx));
   return {
     newsRefused: news.refused,
     counts: { ...news.counts, jobs: jobs.open, employers: jobs.employers },
@@ -117,8 +124,10 @@ async function main() {
     process.exitCode = 1;
     return;
   }
-  // Source health for news: feed-state.json, shared with jobs (the Sanity queue keeps it in its state document).
-  const newsHealth = { load: () => repos.feedState.load(), save: (state) => repos.feedState.save(state) };
+  // Source health for news: feed-state.json, shared with jobs; the Sanity queue keeps it in its state document.
+  const newsHealth = review.kind === 'sanity'
+    ? createSanityNewsHealth(review)
+    : { load: () => repos.feedState.load(), save: (state) => repos.feedState.save(state) };
   const ctx = { ...cfg, repos, review, newsHealth, now: startedAt };
 
   if (command === 'validate') {
@@ -133,8 +142,23 @@ async function main() {
   if (command === 'reset-feed') {
     if (!arg) { log.error('reset-feed.usage', { detail: 'Give the source id, e.g. npm run reset-feed -- gulf-business' }); process.exitCode = 1; return; }
     const state = repos.feedState.load();
-    const found = resetState(state, arg) || resetState(state, `jobs:${arg}`);
-    repos.feedState.save(state);
+    let found = resetState(state, `jobs:${arg}`);
+    if (found) repos.feedState.save(state);
+    else {
+      // News sources: feed-state.json, or the Sanity queue's state document (needs SANITY_WRITE_TOKEN).
+      try {
+        const news = await newsHealth.load();
+        found = resetState(news, arg);
+        if (found) {
+          newsHealth.save(news);
+          if (newsHealth.flush) await newsHealth.flush({ now: startedAt, lastRun: (await review.loadState())?.lastRun });
+        }
+      } catch (err) {
+        log.error('reset-feed.failed', { detail: err?.message || String(err) });
+        process.exitCode = 1;
+        return;
+      }
+    }
     log.info(found ? 'reset-feed.done' : 'reset-feed.not-found', { source: arg });
     return;
   }
@@ -165,6 +189,7 @@ async function main() {
     try {
       const news = await newsStep(ctx, { allowDrop });
       if (news.refused) { process.exitCode = 1; return; }
+      publishSources(ctx, await sourceHealth(ctx));
       publishMeta(ctx, { versions: news.versions, counts: news.counts });
     } catch (err) {
       log.error('news.publish-failed', { detail: err?.message || String(err) });
@@ -206,6 +231,17 @@ async function main() {
     if (command === 'all' || command === 'news') {
       const r = await runNews(ctx);
       run.steps.news = r.stats;
+      if (newsHealth.flush) {
+        const { fetched, queue, attached, duplicates } = r.stats;
+        await newsHealth.flush({
+          now: startedAt,
+          lastRun: {
+            status: r.failedSources && r.failedSources === r.totalSources ? 'all-sources-failed' : r.failedSources ? 'partial' : 'ok',
+            fetched, queued: queue.created, attached, duplicates, pruned: queue.deleted, failedSources: r.failedSources, totalSources: r.totalSources
+          },
+          documents: { count: queue.documents, ...cfg.settings.news.review.documentBudget }
+        });
+      }
       if (cfg.demo) run.steps.demoDecisions = await applyDemoDecisions(ctx);
       totalSources += r.totalSources;
       failedSources += r.failedSources;
@@ -239,7 +275,9 @@ async function main() {
       run.status = totalSources > 0 && failedSources === totalSources ? 'all-sources-failed'
         : failedSources || skippedSources ? 'partial' : 'ok';
       if (contentFailed && run.status !== 'all-sources-failed') run.status = 'invalid-content';
-      const data = await publishData(ctx, { withNews: command !== 'jobs', allowDrop });
+      // With the Sanity queue, news reaches the site only through `news:publish` (the publish workflow,
+      // read-only token); the importer's run only fills the queue.
+      const data = await publishData(ctx, { withNews: command !== 'jobs' && review.kind === 'file', allowDrop });
       Object.assign(versions, data.versions);
       Object.assign(counts, data.counts);
       if (data.newsRefused) process.exitCode = 1; // the previous news files stay live

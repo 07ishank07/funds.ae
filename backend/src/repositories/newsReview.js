@@ -5,6 +5,8 @@
 // accepts nothing but the mutations in src/news/importerMutations.js.
 
 import { ConfigError } from '../config.js';
+import { sanityConfigFromEnv } from '../cms/sanity.js';
+import { createSanityNewsReview } from './newsReview.sanity.js';
 import { assertImporterMutation, pruneMatches, STATE_DOC_ID } from '../news/importerMutations.js';
 import { isReviewId } from '../news/reviewDocs.js';
 
@@ -36,10 +38,11 @@ function applyPatch(doc, patch) {
  * committed file would be public. Tests and local experiments can allow it with
  * FUNDSAE_ALLOW_FILE_QUEUE=1 (the live file is git-ignored too).
  */
-export function createNewsReviewRepository({ settings, demo }, store) {
+export function createNewsReviewRepository({ settings, demo }, store, { env = process.env, http } = {}) {
   const kind = settings.news.review.store;
   if (kind === 'sanity') {
-    throw new ConfigError('settings.json news.review.store "sanity" needs the Sanity queue, which is not built yet. Use "file".');
+    if (demo) throw new ConfigError('Demo mode uses the file queue (fictional stories never go into Sanity). Set news.review.store to "file" or mode to "live".');
+    return createSanityNewsReview(sanityConfigFromEnv(env), { userAgent: settings.userAgent, http });
   }
   if (!demo && process.env.FUNDSAE_ALLOW_FILE_QUEUE !== '1') {
     throw new ConfigError(

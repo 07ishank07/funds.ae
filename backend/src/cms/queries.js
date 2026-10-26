@@ -24,3 +24,30 @@ export const CONTENT_QUERY = `{
     slug, title, intro, updatedAt, body
   }
 }`;
+
+/* ------------------------------ news review queue ------------------------------ */
+// Run with perspective "raw": queue stories live under private queue.* ids, and
+// path("queue.*") matches the published copy only (never drafts.queue.*).
+
+const QUEUE = '_type == "newsArticle" && _id in path("queue.*")';
+
+/** What the importer needs to deduplicate and group: recent stories of any status. */
+export const NEWS_RECENT_QUERY = `*[${QUEUE} && (dateTime(lastSeenAt) >= dateTime($since) || dateTime(importedAt) >= dateTime($since))] {
+  _id, _type, articleId, storyId, originalHeadline, sourceId, guid, sourcePublishedAt, canonicalUrl, importedAt, lastSeenAt,
+  status, excerpt, sourceImageUrl, otherSources
+}`;
+
+/** Which of these stories an editor has an open draft of (the importer patches the draft too). */
+export const NEWS_DRAFTS_QUERY = '*[_id in $draftIds]._id';
+
+/** Candidates for the site: published and due. src/news/publicFilter.js checks each one again. */
+export const NEWS_PUBLISHED_QUERY = `*[${QUEUE} && status == "published" && dateTime(publishedAt) <= dateTime($now)]`;
+
+/** The safety stop: do these live stories still exist in the queue, in any status? */
+export const NEWS_BY_STORY_QUERY = `*[${QUEUE} && storyId in $storyIds] { _id, storyId, status }`;
+
+/** Documents held in the dataset (the Free plan allows 10,000), excluding Sanity's own system documents. */
+export const DOCUMENT_COUNT_QUERY = 'count(*[!(_id in path("_.**"))])';
+
+/** The importer's own state: per-source health and the last run. */
+export const AGGREGATOR_STATE_QUERY = '*[_id == "newsAggregatorState"][0]';

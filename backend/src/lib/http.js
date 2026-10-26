@@ -74,7 +74,8 @@ function retryDelay(attempt, baseMs, retryAfterHeader) {
 }
 
 /**
- * Fetch text with retries.
+ * Fetch text with retries. GET by default; `method: 'POST'` with a `json` body sends JSON (used for
+ * Sanity queries and mutations, which are written to be safe to retry).
  * @returns {Promise<{status:number, notModified:boolean, body:string, etag?:string, lastModified?:string, finalUrl:string}>}
  */
 export async function fetchText(url, opts = {}) {
@@ -86,29 +87,36 @@ export async function fetchText(url, opts = {}) {
     maxResponseBytes = 5_000_000,
     etag,
     lastModified,
+    method = 'GET',
+    json,
+    errorDetail = false,
     headers: extraHeaders = {},
     accept = 'application/rss+xml, application/atom+xml, application/xml, text/xml, application/json;q=0.9, */*;q=0.5'
   } = opts;
 
   if (!isSafePublicUrl(url)) throw new HttpError(`Refusing to fetch non-public URL`, { url, permanent: true });
 
-  // extraHeaders may carry a credential (the Sanity read token): it is sent, never logged.
+  // extraHeaders may carry a credential (a Sanity token): it is sent, never logged.
   const headers = { ...extraHeaders, 'User-Agent': userAgent, Accept: accept, 'Accept-Encoding': 'gzip, deflate, br' };
   if (etag) headers['If-None-Match'] = etag;
   if (lastModified) headers['If-Modified-Since'] = lastModified;
+  const requestBody = json === undefined ? undefined : JSON.stringify(json);
+  if (requestBody !== undefined) headers['Content-Type'] = 'application/json';
 
   let lastErr;
   for (let attempt = 1; attempt <= retries + 1; attempt++) {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), timeoutMs);
     try {
-      const res = await fetch(url, { headers, redirect: 'follow', signal: controller.signal });
+      const res = await fetch(url, { method, headers, body: requestBody, redirect: 'follow', signal: controller.signal });
       if (res.status === 304) {
         return { status: 304, notModified: true, body: '', etag, lastModified, finalUrl: res.url || url };
       }
       if (!res.ok) {
         const permanent = !RETRYABLE_STATUS.has(res.status);
         const err = new HttpError(`HTTP ${res.status}`, { status: res.status, url, permanent });
+        // A short reason from an API's error body (Sanity explains refused queries and mutations).
+        if (errorDetail) err.detail = (await res.text().catch(() => '')).slice(0, 500);
         if (permanent || attempt > retries) throw err;
         lastErr = err;
         const wait = retryDelay(attempt, retryBaseDelayMs, res.headers.get('retry-after'));
