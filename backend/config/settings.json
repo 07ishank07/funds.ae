@@ -31,8 +31,27 @@
       "minSharedEntities": 2
     },
     "publish": {
+      "_help": "maxArchive: stories in news/real-estate.json (the Real Estate Capital News page). maxDropPercent: news:publish refuses to write when the number of live stories would fall by more than this (a safety stop for a wrong dataset or token).",
       "maxStories": 200,
-      "maxPerCategory": 100
+      "maxPerCategory": 100,
+      "maxArchive": 2000,
+      "maxDropPercent": 50
+    },
+    "review": {
+      "_help": "The news review queue: nothing ingested reaches the site until an approver publishes it (docs/NEWS-REVIEW-GUIDE.md). store: \"file\" keeps the queue in backend/data (demo mode and tests), \"sanity\" keeps it in the Sanity Studio (live). approverIds: Sanity user ids allowed to approve and publish; must equal NEWS_APPROVER_IDS in studio/schemaTypes/newsRules.js; empty = nobody can publish. Unreviewed stories are deleted pendingTtlDays after they were last seen in a feed, rejected ones rejectedTtlDays after rejection; approved, published and archived stories are kept. documentBudget protects the Sanity Free plan's 10,000-document limit: a warning at warnAt, no new stories at stopCreatesAt.",
+      "store": "file",
+      "approverIds": [],
+      "pendingTtlDays": 30,
+      "rejectedTtlDays": 45,
+      "lastSeenThrottleHours": 12,
+      "documentBudget": {
+        "warnAt": 8000,
+        "stopCreatesAt": 9500
+      }
+    },
+    "registry": {
+      "_help": "Where sources.news.json and news-taxonomy.json (Capital Types, Asset Classes) come from. \"file\": edit them by hand. \"sanity\": the Studio is the source and `npm run cms:pull` overwrites them. Switch only after importing them into Sanity (docs/NEWS-REVIEW-GUIDE.md).",
+      "source": "file"
     }
   },
   "jobs": {

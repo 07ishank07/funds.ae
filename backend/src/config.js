@@ -217,6 +217,55 @@ const SETTINGS_DEFAULTS = {
   }
 };
 
+// The news review queue (docs/NEWS-REVIEW-GUIDE.md). Merged one level deep into settings.news.
+const NEWS_SETTINGS_DEFAULTS = {
+  // store: "file" keeps the queue in backend/data (demo mode and tests); "sanity" keeps it in the Sanity Studio.
+  // approverIds: Sanity user ids allowed to approve and publish (equals studio NEWS_APPROVER_IDS); empty = nobody.
+  review: {
+    store: 'file',
+    approverIds: [],
+    pendingTtlDays: 30,
+    rejectedTtlDays: 45,
+    lastSeenThrottleHours: 12,
+    documentBudget: { warnAt: 8000, stopCreatesAt: 9500 }
+  },
+  // Where sources.news.json and news-taxonomy.json come from: "file" (edited by hand) or "sanity" (cms:pull).
+  registry: { source: 'file' },
+  publish: { maxStories: 200, maxPerCategory: 100, maxArchive: 2000, maxDropPercent: 50 }
+};
+const SANITY_USER_ID_RE = /^[A-Za-z0-9][A-Za-z0-9._-]{1,63}$/;
+const isWhole = (value, min, max) => Number.isInteger(value) && value >= min && value <= max;
+
+export function applyNewsSettings(settings) {
+  const news = (settings.news = settings.news || {});
+  for (const [key, defaults] of Object.entries(NEWS_SETTINGS_DEFAULTS)) news[key] = { ...defaults, ...(news[key] || {}) };
+  news.review.documentBudget = { ...NEWS_SETTINGS_DEFAULTS.review.documentBudget, ...(news.review.documentBudget || {}) };
+  if (process.env.FUNDSAE_NEWS_STORE) news.review.store = process.env.FUNDSAE_NEWS_STORE;
+  if (process.env.FUNDSAE_NEWS_REGISTRY) news.registry.source = process.env.FUNDSAE_NEWS_REGISTRY;
+
+  const errors = [];
+  const { review, registry, publish } = news;
+  if (!['file', 'sanity'].includes(review.store)) errors.push('"news.review.store" must be "file" or "sanity".');
+  if (!['file', 'sanity'].includes(registry.source)) errors.push('"news.registry.source" must be "file" or "sanity".');
+  if (!Array.isArray(review.approverIds) || review.approverIds.some((id) => typeof id !== 'string' || !SANITY_USER_ID_RE.test(id))) {
+    errors.push('"news.review.approverIds" must be a list of Sanity user ids (letters, numbers, dots, dashes, underscores).');
+  }
+  if (!isWhole(review.pendingTtlDays, settings.news.maxAgeDays + 1, 365)) {
+    errors.push(`"news.review.pendingTtlDays" must be a whole number from ${settings.news.maxAgeDays + 1} (more than news.maxAgeDays, so a pruned story is never imported again) to 365.`);
+  }
+  if (!isWhole(review.rejectedTtlDays, settings.news.maxAgeDays + 1, 365)) {
+    errors.push(`"news.review.rejectedTtlDays" must be a whole number from ${settings.news.maxAgeDays + 1} to 365.`);
+  }
+  if (!isWhole(review.lastSeenThrottleHours, 1, 168)) errors.push('"news.review.lastSeenThrottleHours" must be a whole number from 1 to 168.');
+  const { warnAt, stopCreatesAt } = review.documentBudget;
+  if (!isWhole(warnAt, 1, 1_000_000) || !isWhole(stopCreatesAt, 1, 1_000_000) || warnAt > stopCreatesAt) {
+    errors.push('"news.review.documentBudget" needs whole numbers with warnAt <= stopCreatesAt.');
+  }
+  if (!isWhole(publish.maxArchive, 1, 20_000)) errors.push('"news.publish.maxArchive" must be a whole number from 1 to 20000.');
+  if (!isWhole(publish.maxDropPercent, 1, 100)) errors.push('"news.publish.maxDropPercent" must be a whole number from 1 to 100.');
+  if (errors.length) throw new ConfigError('settings.json: ' + errors.join(' '));
+}
+
 /**
  * Adds a contact address to the user-agent, inside the bracketed comment when there is one:
  * "Mozilla/5.0 (compatible; FundsAeNewsBot/1.0; +https://funds.ae/about; news@funds.ae)".
@@ -239,6 +288,7 @@ export function loadSettings() {
   if (!['demo', 'live'].includes(settings.mode)) {
     throw new ConfigError('settings.json: "mode" must be "demo" or "live".');
   }
+  applyNewsSettings(settings);
   // The environment wins so a deployment can set the address without editing the file.
   const contactEmail = String(process.env.FUNDSAE_CONTACT_EMAIL ?? settings.contactEmail ?? '').trim();
   if (contactEmail && !EMAIL_RE.test(contactEmail)) {

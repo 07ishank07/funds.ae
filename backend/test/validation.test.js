@@ -148,3 +148,46 @@ test('employers are derived from open roles, and employment types are normalised
   assert.equal(normaliseEmploymentType('Internship'), 'Internship');
   assert.equal(normaliseEmploymentType('Whenever'), null);
 });
+
+/* ----------------------------- news review settings ----------------------------- */
+
+test('news review settings get safe defaults and are validated', async () => {
+  const { applyNewsSettings, ConfigError } = await import('../src/config.js');
+  const base = () => ({ news: { maxAgeDays: 21, publish: { maxStories: 200, maxPerCategory: 100 } } });
+
+  const settings = base();
+  applyNewsSettings(settings);
+  assert.equal(settings.news.review.store, 'file', 'the queue starts as a file');
+  assert.deepEqual(settings.news.review.approverIds, [], 'nobody can publish until approvers are listed');
+  assert.equal(settings.news.registry.source, 'file');
+  assert.deepEqual(settings.news.review.documentBudget, { warnAt: 8000, stopCreatesAt: 9500 });
+  assert.equal(settings.news.publish.maxStories, 200, 'existing values are kept');
+  assert.equal(settings.news.publish.maxArchive, 2000);
+
+  const problems = (patch) => {
+    const s = base();
+    s.news = { ...s.news, ...patch };
+    try { applyNewsSettings(s); return ''; } catch (err) { assert.ok(err instanceof ConfigError); return err.message; }
+  };
+  assert.equal(problems({ review: { approverIds: ['pAbC123xyz', 'g-team.member_2'] } }), '');
+  assert.match(problems({ review: { store: 'postgres' } }), /news\.review\.store/);
+  assert.match(problems({ registry: { source: 'git' } }), /news\.registry\.source/);
+  assert.match(problems({ review: { approverIds: ['has space'] } }), /approverIds/);
+  assert.match(problems({ review: { approverIds: 'pAbC123xyz' } }), /approverIds/);
+  assert.match(problems({ review: { pendingTtlDays: 21 } }), /pendingTtlDays.*from 22/, 'a pruned story must never be imported again');
+  assert.match(problems({ review: { rejectedTtlDays: 400 } }), /rejectedTtlDays/);
+  assert.match(problems({ review: { documentBudget: { warnAt: 9600, stopCreatesAt: 9500 } } }), /documentBudget/);
+  assert.match(problems({ publish: { maxDropPercent: 0 } }), /maxDropPercent/);
+});
+
+test('the queue store can be switched by environment variable', async () => {
+  const { applyNewsSettings } = await import('../src/config.js');
+  process.env.FUNDSAE_NEWS_STORE = 'sanity';
+  try {
+    const s = { news: { maxAgeDays: 21 } };
+    applyNewsSettings(s);
+    assert.equal(s.news.review.store, 'sanity');
+  } finally {
+    delete process.env.FUNDSAE_NEWS_STORE;
+  }
+});

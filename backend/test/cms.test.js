@@ -398,3 +398,96 @@ test('the Studio event limits match what the backend accepts', () => {
   const [, maxEnd] = studio.EVENT_LIMITS.endDateDays;
   assert.ok(ok({ startDate: day(maxStart), endDate: day(maxEnd) }) && !ok({ startDate: day(maxStart), endDate: day(maxEnd + 1) }), 'latest end date');
 });
+
+/* --------------------- news review queue: Studio == backend -------------------- */
+
+const studioNews = await import('../../studio/schemaTypes/newsRules.js');
+const studioWorkflow = await import('../../studio/schemaTypes/newsWorkflow.js');
+const backendNews = await import('../src/news/rules.js');
+const backendWorkflow = await import('../src/news/workflow.js');
+const { LICENSE_STATUSES, CONFIG_DIR, readJson } = await import('../src/config.js');
+
+test('the Studio and the backend use the same news review rules', () => {
+  const shared = Object.keys(studioNews).filter((key) => key !== 'NEWS_APPROVER_IDS').sort();
+  assert.deepEqual(Object.keys(backendNews).sort(), shared, 'same exports in studio/schemaTypes/newsRules.js and src/news/rules.js');
+  for (const key of shared) assert.deepEqual(backendNews[key], studioNews[key], `${key} differs`);
+  assert.deepEqual(backendNews.NEWS_LICENSE_STATUSES, LICENSE_STATUSES, 'licence statuses equal the source registry\'s');
+  for (const status of backendNews.PUBLISHABLE_LICENSE_STATUSES) assert.ok(LICENSE_STATUSES.includes(status));
+  for (const action of Object.values(backendNews.NEWS_ACTIONS)) {
+    for (const status of [...action.from, action.to]) assert.ok(backendNews.NEWS_STATUSES.includes(status), `${action.label}: ${status}`);
+  }
+});
+
+test('the Studio approver list equals settings.json news.review.approverIds', () => {
+  const settingsFile = readJson(path.join(CONFIG_DIR, 'settings.json'));
+  assert.deepEqual(studioNews.NEWS_APPROVER_IDS, settingsFile.news.review.approverIds);
+});
+
+/** Stories covering every field the approval hash and the publish checks look at. */
+const newsDocs = () => {
+  const base = {
+    _id: 'queue.a_3f2a9c0d1e2b4a5f', articleId: 'a_3f2a9c0d1e2b4a5f', status: 'pending_review',
+    headline: 'Mubadala backs Dubai build-to-rent fund', slug: { _type: 'slug', current: 'mubadala-backs-dubai-build-to-rent-fund-3f2a' },
+    summary: 'Abu Dhabi\'s Mubadala is the anchor investor in a new Dubai build-to-rent fund, its first residential commitment in the emirate.',
+    excerpt: 'Abu Dhabi\'s Mubadala anchors a new fund.', originalUrl: 'https://example.com/a', sourceName: 'Example Wire',
+    capitalTypes: [{ _ref: 'capitalType-sovereign-wealth', _type: 'reference' }, { _ref: 'capitalType-institutional-investors', _type: 'reference' }],
+    assetClasses: [{ _ref: 'assetClass-residential-multifamily', _type: 'reference' }],
+    geography: ['uae', 'gcc'], transactionType: 'investment', featured: false,
+    seo: { title: 'Mubadala backs Dubai build-to-rent fund', description: '' }, lastSeenAt: '2026-10-26T00:00:00Z'
+  };
+  return [
+    base,
+    { ...base, headline: '  Mubadala backs Dubai build-to-rent fund  ', capitalTypes: [...base.capitalTypes].reverse(), geography: ['gcc', 'uae'] },
+    { ...base, headline: 'Short' },
+    { ...base, summary: 'x'.repeat(281), excerpt: 'y'.repeat(281) },
+    { ...base, slug: { current: 'Not A Slug' }, originalUrl: 'ftp://nope', sourceName: '' },
+    { ...base, image: { asset: { _ref: 'image-abc-800x600-jpg' }, credit: '', rightsConfirmed: false } },
+    { ...base, image: { asset: { _ref: 'image-abc-800x600-jpg' }, credit: 'Photo: Example Ltd', rightsConfirmed: true } },
+    { ...base, duplicateOf: { _ref: 'queue.a_0000000000000000' }, publishedAt: '2026-10-26T10:00:00Z' },
+    { ...base, publishedAt: '2026-10-26T10:00:00.000Z', featured: true, transactionType: null, headline: 'Ünïcödé ✓ headline — “quoted”' },
+    {}
+  ];
+};
+
+test('both copies of the news workflow give identical hashes, checks and slugs', () => {
+  for (const doc of newsDocs()) {
+    assert.equal(backendWorkflow.approvalHash(doc), studioWorkflow.approvalHash(doc), JSON.stringify(doc).slice(0, 80));
+    assert.deepEqual(backendWorkflow.approvalFingerprint(doc), studioWorkflow.approvalFingerprint(doc));
+    assert.equal(backendWorkflow.suggestSlug(doc), studioWorkflow.suggestSlug(doc));
+    for (const sourceLicenseStatus of [...LICENSE_STATUSES, undefined]) {
+      assert.deepEqual(backendWorkflow.publishBlockers(doc, { sourceLicenseStatus }), studioWorkflow.publishBlockers(doc, { sourceLicenseStatus }));
+    }
+  }
+});
+
+test('the approval hash follows the approved content and nothing else', () => {
+  const [base, reordered, short] = newsDocs();
+  const hash = backendWorkflow.approvalHash;
+  assert.match(hash(base), /^[0-9a-f]{16}$/);
+  assert.equal(hash(base), hash(reordered), 'spaces, reference order and geography order do not matter');
+  assert.notEqual(hash(base), hash(short), 'a changed headline changes the hash');
+  assert.equal(hash(base), hash({ ...base, lastSeenAt: '2026-11-01T00:00:00Z', excerpt: 'changed by the importer', status: 'published' }), 'importer and status fields do not');
+  assert.equal(hash({ ...base, publishedAt: '2026-10-26T10:00:00Z' }), hash({ ...base, publishedAt: '2026-10-26T10:00:00.000Z' }), 'equal times in two spellings');
+  for (const field of ['summary', 'transactionType', 'featured', 'publishedAt']) {
+    assert.notEqual(hash(base), hash({ ...base, [field]: field === 'featured' ? true : field === 'publishedAt' ? '2026-10-27T00:00:00Z' : 'changed' }), field);
+  }
+  assert.notEqual(hash(base), hash({ ...base, assetClasses: [] }), 'removing a category changes the hash');
+});
+
+test('publish checks: licence gate, lengths, links, images and duplicates', () => {
+  const [base, , short, long, broken, noRights, withRights, duplicate] = newsDocs();
+  const check = (doc, sourceLicenseStatus = 'wire') => backendWorkflow.publishBlockers(doc, { sourceLicenseStatus });
+  assert.deepEqual(check(base), []);
+  for (const status of ['public_sector', 'wire', 'terms_reviewed', 'permission_granted']) assert.deepEqual(check(base, status), [], status);
+  for (const status of ['pending_review', 'blocked', null]) assert.match(check(base, status).join(' '), /licence status/, String(status));
+  assert.match(check(short).join(' '), /headline must be 12-160/);
+  assert.match(check(long).join(' '), /summary of 20-280/);
+  assert.match(check(long).join(' '), /excerpt is longer than 280/);
+  const brokenReasons = check(broken).join(' ');
+  assert.match(brokenReasons, /slug/);
+  assert.match(brokenReasons, /link to the original/);
+  assert.match(brokenReasons, /source name/);
+  assert.equal(check(noRights).length, 2, 'rights confirmation and credit');
+  assert.deepEqual(check(withRights), []);
+  assert.match(check(duplicate).join(' '), /duplicate/);
+});
