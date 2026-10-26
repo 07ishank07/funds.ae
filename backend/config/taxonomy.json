@@ -241,8 +241,39 @@
   "negativeTerms": {
     "football": -3, "cricket": -3, "tennis": -3, "formula 1": -3, "recipe": -3, "celebrity": -3, "horoscope": -3,
     "weather": -3, "temperatures": -3, "concert": -3, "movie": -2, "gadgets": -3, "lottery": -3, "arrested": -3,
-    "police": -2, "traffic": -2
+    "police": -2, "traffic": -2,
+    "interior design": -3, "home decor": -3, "home décor": -3, "decorating": -3, "decor ideas": -3, "renovation tips": -3,
+    "garden ideas": -3, "homebuying tips": -3, "home buying tips": -3, "mortgage tips": -3, "first-time buyer tips": -3,
+    "how to buy": -3, "should you buy": -2, "furniture": -2, "staycation": -3
   },
+  "_geographiesHelp": "Geography suggestions for the News Review Queue (the website's Geography filter). UAE comes from uaeTerms and news.uaeThreshold; these lists add the rest. A region is suggested at a score of 3 or more (a strong keyword anywhere, or a weaker one in the headline). Ids must equal NEWS_GEOGRAPHIES in src/news/rules.js.",
+  "geographies": [
+    { "id": "saudi-arabia", "keywords": { "saudi arabia": 3, "saudi": 3, "ksa": 3, "riyadh": 3, "jeddah": 3, "dammam": 3, "neom": 3, "red sea global": 3, "roshn": 3, "diriyah": 3, "tadawul": 3, "pif": 2, "public investment fund": 2 } },
+    { "id": "gcc", "keywords": { "qatar": 3, "doha": 3, "kuwait": 3, "bahrain": 3, "manama": 3, "oman": 3, "muscat": 3, "gcc": 2, "gulf cooperation council": 3, "qia": 2, "kia": 2 } },
+    { "id": "mena", "keywords": { "egypt": 3, "cairo": 3, "morocco": 3, "jordan": 2, "iraq": 2, "lebanon": 2, "turkey": 2, "türkiye": 2, "nigeria": 2, "kenya": 2, "south africa": 3, "north africa": 3, "mena": 3, "middle east": 2, "africa": 2 } },
+    { "id": "uk", "keywords": { "united kingdom": 3, "uk": 3, "britain": 3, "british": 2, "london": 3, "manchester": 2, "birmingham": 2, "england": 2, "scotland": 2, "edinburgh": 2 } },
+    { "id": "europe", "keywords": { "europe": 2, "european": 2, "germany": 3, "berlin": 3, "frankfurt": 3, "munich": 3, "france": 3, "paris": 3, "spain": 3, "madrid": 3, "italy": 3, "milan": 3, "netherlands": 3, "amsterdam": 3, "ireland": 3, "dublin": 3, "sweden": 3, "poland": 3, "switzerland": 3, "zurich": 3, "nordic": 2, "luxembourg": 2 } },
+    { "id": "north-america", "keywords": { "united states": 3, "u.s.": 3, "new york": 3, "manhattan": 3, "california": 3, "texas": 3, "chicago": 3, "miami": 3, "canada": 3, "toronto": 3, "north america": 3, "america": 2, "mexico": 2 } },
+    { "id": "asia-pacific", "keywords": { "asia-pacific": 3, "apac": 3, "china": 3, "hong kong": 3, "singapore": 3, "japan": 3, "tokyo": 3, "india": 3, "mumbai": 3, "australia": 3, "sydney": 3, "korea": 3, "seoul": 3, "indonesia": 3, "vietnam": 3, "malaysia": 3, "thailand": 3, "asia": 2 } },
+    { "id": "global", "keywords": { "worldwide": 2, "global": 1, "international": 1, "cross-border": 2 } }
+  ],
+  "_transactionTypesHelp": "Transaction type suggestion (one per story): the highest score of 3 or more wins. Ids must equal NEWS_TRANSACTION_TYPES in src/news/rules.js. Stories about these deals also rank higher in the review queue.",
+  "transactionTypes": [
+    { "id": "fund-close", "keywords": { "final close": 3, "first close": 3, "fund close": 3, "closes fund": 3, "hard cap": 3, "oversubscribed": 2 } },
+    { "id": "fund-launch", "keywords": { "launches fund": 3, "fund launch": 3, "debut fund": 3, "inaugural fund": 3, "new fund": 2, "launches a new": 2 } },
+    { "id": "capital-raising", "keywords": { "capital raise": 3, "capital raising": 3, "equity raise": 3, "fundraise": 3, "fundraising": 3, "secures funding": 3, "raises": 2, "raised": 2 } },
+    { "id": "refinancing", "keywords": { "refinancing": 3, "refinance": 3, "refinances": 3, "refinanced": 3 } },
+    { "id": "debt-financing", "keywords": { "debt financing": 3, "credit facility": 3, "construction loan": 3, "senior debt": 3, "sukuk": 3, "green bond": 3, "bond issue": 3, "loan": 2, "financing": 2 } },
+    { "id": "joint-venture", "keywords": { "joint venture": 3, "co-investment": 3, "jv": 2, "consortium": 2, "teams up": 2, "partnership": 1 } },
+    { "id": "merger-acquisition", "keywords": { "merger": 3, "takeover": 3, "tender offer": 3, "take-private": 3, "merge": 2, "buyout": 2 } },
+    { "id": "acquisition", "keywords": { "acquires": 3, "snaps up": 3, "acquisition": 2, "acquired": 2, "buys": 2, "buy": 2, "bought": 2, "purchase": 2 } },
+    { "id": "disposal", "keywords": { "disposal": 3, "divests": 3, "divestment": 3, "offloads": 3, "sells": 3, "sold": 2, "sale of": 2 } },
+    { "id": "institutional-allocation", "keywords": { "allocates": 3, "target allocation": 3, "allocation": 2, "mandate": 2, "commits": 2 } },
+    { "id": "reit-activity", "keywords": { "reit ipo": 3, "reit listing": 3, "listed reit": 3, "reit": 2 } },
+    { "id": "valuation", "keywords": { "valued at": 3, "valuation": 3, "revaluation": 3, "net asset value": 3, "appraisal": 2 } },
+    { "id": "investment", "keywords": { "invests": 2, "investment in": 2, "backs": 2, "stake in": 2, "injects": 2, "commitment": 2 } },
+    { "id": "development", "keywords": { "breaks ground": 3, "groundbreaking": 3, "to develop": 2, "masterplan": 2, "development": 1, "construction": 1 } }
+  ],
   "filters": {
     "opinion": {
       "titlePrefix": ["opinion", "comment", "commentary", "op-ed", "oped", "column", "editorial", "letter", "letters", "viewpoint", "my view"],

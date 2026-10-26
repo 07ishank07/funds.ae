@@ -79,6 +79,8 @@ export const NEWS_LIMITS = {
   navLabel: [2, 24],
   keyword: [2, 60],
   keywords: 80,
+  keywordWeight: [1, 5],
+  navItems: 12,
   displayOrder: [0, 999],
   // Earliest a story can be scheduled: a few minutes ahead, so the hourly publisher never misses it.
   scheduleLeadMinutes: 5

@@ -22,7 +22,7 @@ export function buildClassifier(taxonomy) {
   };
 }
 
-function scoreTerms(terms, title, body) {
+export function scoreTerms(terms, title, body) {
   let score = 0;
   const hits = [];
   for (const t of terms) {

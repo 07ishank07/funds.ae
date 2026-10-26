@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { EMAIL_RE } from './validation/validate.js';
+import { NEWS_GEOGRAPHIES, NEWS_HOME_SECTIONS, NEWS_LIMITS, NEWS_TRANSACTION_TYPES } from './news/rules.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 export const BACKEND_DIR = path.resolve(here, '..');
@@ -200,6 +201,74 @@ function validateTaxonomy(taxonomy) {
   return errors;
 }
 
+const lengthOk = (value, [min, max]) => typeof value === 'string' && value.trim() === value && value.length >= min && value.length <= max;
+
+function validateKeywords(keywords, where, errors) {
+  if (!keywords || typeof keywords !== 'object' || Array.isArray(keywords)) {
+    errors.push(`${where}: "keywords" must map each term to a weight, e.g. { "logistics park": 3 }.`);
+    return;
+  }
+  const entries = Object.entries(keywords);
+  if (entries.length > NEWS_LIMITS.keywords) errors.push(`${where}: at most ${NEWS_LIMITS.keywords} keywords.`);
+  const [minW, maxW] = NEWS_LIMITS.keywordWeight;
+  for (const [term, weight] of entries) {
+    if (!lengthOk(term, NEWS_LIMITS.keyword) || term !== term.toLowerCase()) {
+      errors.push(`${where}: keyword "${term}" must be ${NEWS_LIMITS.keyword[0]}-${NEWS_LIMITS.keyword[1]} lowercase characters.`);
+    }
+    if (!Number.isInteger(weight) || weight < minW || weight > maxW) errors.push(`${where}: keyword "${term}" needs a weight from ${minW} to ${maxW}.`);
+  }
+}
+
+/** config/news-taxonomy.json (Capital Types, Asset Classes) plus the geography and transaction keywords in taxonomy.json. */
+export function validateNewsTaxonomy(newsTaxonomy, taxonomy = {}) {
+  const errors = [];
+  const lists = { capitalTypes: 'Capital Type', assetClasses: 'Asset Class' };
+  for (const [key, label] of Object.entries(lists)) {
+    const list = newsTaxonomy?.[key];
+    if (!Array.isArray(list) || !list.length) {
+      errors.push(`news-taxonomy.json: "${key}" must list at least one ${label}.`);
+      continue;
+    }
+    const seen = new Set();
+    list.forEach((c, i) => {
+      const where = `news-taxonomy.json ${label} #${i + 1} (${c.id || 'no id'})`;
+      if (!c.id || !ID_RE.test(c.id)) errors.push(`${where}: "id" must be lowercase letters, numbers and dashes.`);
+      if (seen.has(c.id)) errors.push(`${where}: duplicate id.`);
+      seen.add(c.id);
+      if (!lengthOk(c.name, NEWS_LIMITS.categoryName)) errors.push(`${where}: "name" must be ${NEWS_LIMITS.categoryName.join('-')} characters.`);
+      if (c.description != null && !lengthOk(c.description, NEWS_LIMITS.categoryDescription)) {
+        errors.push(`${where}: "description" must be at most ${NEWS_LIMITS.categoryDescription[1]} characters.`);
+      }
+      const [minOrder, maxOrder] = NEWS_LIMITS.displayOrder;
+      if (!Number.isInteger(c.displayOrder) || c.displayOrder < minOrder || c.displayOrder > maxOrder) {
+        errors.push(`${where}: "displayOrder" must be a whole number from ${minOrder} to ${maxOrder}.`);
+      }
+      validateKeywords(c.keywords, where, errors);
+      if (key === 'capitalTypes') {
+        if (typeof c.showInNav !== 'boolean') errors.push(`${where}: "showInNav" must be true or false.`);
+        if (c.showInNav && !lengthOk(c.navLabel, NEWS_LIMITS.navLabel)) errors.push(`${where}: "navLabel" must be ${NEWS_LIMITS.navLabel.join('-')} characters.`);
+      } else if (c.homeSection != null && !NEWS_HOME_SECTIONS.includes(c.homeSection)) {
+        errors.push(`${where}: "homeSection" must be one of ${NEWS_HOME_SECTIONS.join(', ')}, or null.`);
+      }
+    });
+  }
+  const navItems = (newsTaxonomy?.capitalTypes || []).filter((c) => c.showInNav).length;
+  if (navItems > NEWS_LIMITS.navItems) errors.push(`news-taxonomy.json: at most ${NEWS_LIMITS.navItems} Capital Types can show in the category bar (${navItems} do).`);
+
+  const fixed = { geographies: NEWS_GEOGRAPHIES, transactionTypes: NEWS_TRANSACTION_TYPES };
+  for (const [key, allowed] of Object.entries(fixed)) {
+    const seen = new Set();
+    (taxonomy[key] || []).forEach((g, i) => {
+      const where = `taxonomy.json ${key} #${i + 1} (${g.id || 'no id'})`;
+      if (!allowed.includes(g.id) || g.id === 'uae') errors.push(`${where}: "id" must be one of ${allowed.filter((id) => id !== 'uae').join(', ')}.`);
+      if (seen.has(g.id)) errors.push(`${where}: duplicate id.`);
+      seen.add(g.id);
+      validateKeywords(g.keywords, where, errors);
+    });
+  }
+  return errors;
+}
+
 // Safe defaults so an older settings.json keeps working.
 const SETTINGS_DEFAULTS = {
   // "file": config/sponsors.json, events.json and content.json are edited by hand.
@@ -321,6 +390,7 @@ export function loadAll() {
   const newsCfg = loadConfig('sources.news.json');
   const jobsCfg = loadConfig('sources.jobs.json');
   const taxonomy = loadConfig('taxonomy.json');
+  const newsTaxonomy = loadConfig('news-taxonomy.json');
   const manualJobs = loadConfig('jobs.manual.json');
   const eventsConfig = loadConfig('events.json');
 
@@ -332,7 +402,8 @@ export function loadAll() {
   const errors = [
     ...validateSources(rawNewsSources, 'news', { demo }),
     ...validateSources(jobSources, 'jobs', { demo }),
-    ...validateTaxonomy(taxonomy)
+    ...validateTaxonomy(taxonomy),
+    ...validateNewsTaxonomy(newsTaxonomy, taxonomy)
   ];
   if (errors.length) throw new ConfigError('Configuration problems:\n  - ' + errors.join('\n  - '));
   const newsSources = rawNewsSources.map(withNewsDefaults);
@@ -346,6 +417,7 @@ export function loadAll() {
     jobSources: jobSources.filter((s) => s.enabled !== false),
     allJobSources: jobSources,
     taxonomy,
+    newsTaxonomy,
     eventsConfig,
     // Listings marked demoOnly are examples and never appear in live mode.
     manualJobs: (manualJobs.jobs || []).filter((j) => demo || !j.demoOnly)

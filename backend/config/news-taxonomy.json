@@ -1,0 +1,148 @@
+{
+  "_help": [
+    "The two news category systems: Capital Types (who provides the capital) and Asset Classes (what it is invested in).",
+    "A story can have several of each, or none: the classifier never forces a category, and editors can change every tag in the Studio.",
+    "While settings.json news.registry.source is \"file\" you edit this file; when it is \"sanity\" the Studio is the source and `npm run cms:pull` overwrites it.",
+    "id: lowercase letters, numbers and dashes; keep it once stories use it. displayOrder: lower first. keywords: term -> weight 1-5; a keyword in the headline counts double.",
+    "Capital Types with showInNav appear in the website's category bar (navLabel, in displayOrder). Asset Classes with homeSection feed that home page box."
+  ],
+  "capitalTypes": [
+    {
+      "id": "sovereign-wealth", "name": "Sovereign Wealth Funds", "displayOrder": 10, "showInNav": true, "navLabel": "Sovereign",
+      "description": "State-owned investment funds such as ADIA, Mubadala, ADQ, PIF, QIA and GIC.",
+      "keywords": { "sovereign wealth": 3, "sovereign fund": 3, "sovereign investor": 3, "swf": 3, "mubadala": 3, "adia": 3, "adq": 3, "pif": 3, "public investment fund": 3, "qia": 3, "kia": 2, "temasek": 3, "gic": 2, "l'imad": 3, "investment corporation of dubai": 3, "norges bank investment": 3 }
+    },
+    {
+      "id": "pension-funds", "name": "Pension Funds", "displayOrder": 20, "showInNav": true, "navLabel": "Pension",
+      "description": "Public and corporate pension and retirement schemes.",
+      "keywords": { "pension fund": 3, "pension": 2, "retirement fund": 3, "superannuation": 3, "super fund": 3, "calpers": 3, "calstrs": 3, "cppib": 3, "cpp investments": 3, "ontario teachers": 3, "gpif": 3, "apg": 3, "pggm": 3, "usss": 2 }
+    },
+    {
+      "id": "private-equity", "name": "Private Equity", "displayOrder": 30, "showInNav": true, "navLabel": "Private Equity",
+      "description": "Private equity and real estate private equity firms and funds.",
+      "keywords": { "private equity": 3, "real estate private equity": 3, "buyout": 3, "leveraged buyout": 3, "pe firm": 3, "pe-backed": 3, "private equity-backed": 3, "take-private": 3, "take private": 3, "growth equity": 3, "portfolio company": 2, "carve-out": 2, "general partner": 2, "value-add fund": 2, "opportunistic fund": 2 }
+    },
+    {
+      "id": "reits", "name": "REITs", "displayOrder": 40, "showInNav": true, "navLabel": "REITs",
+      "description": "Listed and private real estate investment trusts.",
+      "keywords": { "reit": 3, "real estate investment trust": 3, "listed property company": 2, "emirates reit": 3, "enbd reit": 3 }
+    },
+    {
+      "id": "family-offices", "name": "Family Offices", "displayOrder": 50, "showInNav": true, "navLabel": "Family Offices",
+      "description": "Single and multi-family offices and family-owned investment groups.",
+      "keywords": { "family office": 3, "single family office": 3, "multi-family office": 3, "family-owned investment": 2, "family investment office": 3 }
+    },
+    {
+      "id": "banks", "name": "Banks & Lenders", "displayOrder": 60, "showInNav": true, "navLabel": "Banks",
+      "description": "Banks, mortgage lenders and other providers of loans and real estate finance.",
+      "keywords": { "bank": 2, "banking": 2, "lender": 2, "central bank": 3, "investment bank": 3, "syndicated loan": 3, "construction loan": 3, "mortgage lender": 3, "emirates nbd": 3, "first abu dhabi bank": 3, "adcb": 3, "mashreq": 3, "dubai islamic bank": 3 }
+    },
+    {
+      "id": "government", "name": "Government", "displayOrder": 70, "showInNav": true, "navLabel": "Government",
+      "description": "Governments, ministries and state-owned bodies acting as investors or partners. Added to keep the category bar's Government link.",
+      "keywords": { "government": 2, "ministry of finance": 3, "ministry of economy": 3, "ministry": 1, "state-owned": 2, "public investment": 2, "federal government": 3, "public-private partnership": 1 }
+    },
+    {
+      "id": "endowments", "name": "Endowments", "displayOrder": 80, "showInNav": true, "navLabel": "Endowments",
+      "description": "University endowments, foundations and waqf. Added to keep the category bar's Endowments link.",
+      "keywords": { "endowment": 3, "university endowment": 3, "foundation": 1, "charitable foundation": 3, "waqf": 3 }
+    },
+    {
+      "id": "institutional-investors", "name": "Institutional Investors", "displayOrder": 90, "showInNav": false, "navLabel": "",
+      "description": "Insurers, limited partners and other institutional allocators not covered by a more specific type.",
+      "keywords": { "institutional investor": 3, "institutional capital": 3, "limited partner": 3, "insurer": 2, "insurance company": 2, "allocator": 2, "allocation": 1 }
+    },
+    {
+      "id": "private-credit", "name": "Private Credit & Debt Funds", "displayOrder": 100, "showInNav": false, "navLabel": "",
+      "description": "Private credit, direct lending and real estate debt funds.",
+      "keywords": { "private credit": 3, "direct lending": 3, "private debt": 3, "credit fund": 3, "debt fund": 3, "real estate debt": 3, "real estate credit": 3, "mezzanine": 3, "infrastructure debt": 3, "venture debt": 3, "distressed debt": 2, "asset-based finance": 2, "credit strategy": 2 }
+    },
+    {
+      "id": "infrastructure-funds", "name": "Infrastructure Funds", "displayOrder": 110, "showInNav": false, "navLabel": "",
+      "description": "Infrastructure investors and fund managers.",
+      "keywords": { "infrastructure fund": 3, "infrastructure investor": 3, "infrastructure manager": 3, "infrastructure investment": 2, "infrastructure platform": 2, "core infrastructure": 2, "global infrastructure partners": 3, "ifm investors": 3, "brookfield infrastructure": 3, "macquarie asset management": 3 }
+    },
+    {
+      "id": "asset-managers", "name": "Asset Managers", "displayOrder": 120, "showInNav": false, "navLabel": "",
+      "description": "Real estate and multi-asset investment managers.",
+      "keywords": { "asset manager": 3, "asset management": 2, "investment manager": 3, "fund manager": 3, "real estate investment manager": 3, "blackrock": 2, "blackstone": 2, "brookfield": 2, "nuveen": 3, "pgim": 3, "cbre investment management": 3, "invesco real estate": 3, "patrizia": 3, "m&g real estate": 3, "schroders capital": 3, "ares management": 2, "starwood capital": 2, "hines": 2 }
+    },
+    {
+      "id": "developers-operators", "name": "Developers & Owner-Operators", "displayOrder": 130, "showInNav": false, "navLabel": "",
+      "description": "Property developers, master developers and owner-operators.",
+      "keywords": { "property developer": 3, "real estate developer": 3, "master developer": 3, "developer": 2, "owner-operator": 3, "hotel operator": 2, "emaar": 3, "aldar": 3, "damac": 3, "nakheel": 3, "meraas": 3, "sobha": 2, "dubai holding": 2, "roshn": 3, "red sea global": 3, "diriyah company": 3, "modon": 2 }
+    },
+    {
+      "id": "joint-ventures", "name": "Joint Ventures & Co-Investments", "displayOrder": 140, "showInNav": false, "navLabel": "",
+      "description": "Joint ventures, co-investments, consortiums and club deals.",
+      "keywords": { "joint venture": 3, "jv": 2, "co-investment": 3, "co-invest": 3, "co-investor": 3, "consortium": 2, "club deal": 3, "strategic partnership": 2 }
+    }
+  ],
+  "assetClasses": [
+    {
+      "id": "office", "name": "Office", "displayOrder": 10, "homeSection": "commercial-real-estate",
+      "description": "Office buildings, towers and workspace.",
+      "keywords": { "office tower": 3, "office building": 3, "office space": 3, "office market": 3, "office portfolio": 3, "grade a office": 3, "office": 2, "coworking": 2, "flexible workspace": 2 }
+    },
+    {
+      "id": "retail", "name": "Retail", "displayOrder": 20, "homeSection": "commercial-real-estate",
+      "description": "Shopping malls, retail parks and high-street property.",
+      "keywords": { "shopping mall": 3, "shopping centre": 3, "shopping center": 3, "retail park": 3, "retail property": 3, "retail space": 3, "mall": 2, "high street": 2, "outlet centre": 2 }
+    },
+    {
+      "id": "industrial-logistics", "name": "Industrial & Logistics", "displayOrder": 30, "homeSection": "commercial-real-estate",
+      "description": "Warehouses, logistics parks, industrial and cold-storage property.",
+      "keywords": { "logistics park": 3, "logistics hub": 3, "warehouse": 3, "warehousing": 3, "industrial property": 3, "industrial park": 3, "distribution centre": 3, "distribution center": 3, "fulfilment centre": 3, "cold storage": 3, "light industrial": 3, "last-mile": 2, "logistics": 2 }
+    },
+    {
+      "id": "residential-multifamily", "name": "Residential & Multifamily", "displayOrder": 40, "homeSection": "residential-real-estate",
+      "description": "Housing, apartments, build-to-rent and multifamily.",
+      "keywords": { "residential real estate": 3, "residential property": 3, "multifamily": 3, "multi-family housing": 3, "build-to-rent": 3, "rental housing": 3, "affordable housing": 3, "branded residences": 3, "apartment": 2, "villa": 2, "townhouse": 2, "off-plan": 2, "housing": 2, "master-planned community": 2, "residential": 1, "homes": 1 }
+    },
+    {
+      "id": "hospitality-hotels", "name": "Hospitality & Hotels", "displayOrder": 50, "homeSection": "commercial-real-estate",
+      "description": "Hotels, resorts and serviced apartments.",
+      "keywords": { "hospitality": 3, "hotel portfolio": 3, "hotel development": 3, "hotel": 2, "resort": 2, "serviced apartments": 2 }
+    },
+    {
+      "id": "data-centres", "name": "Data Centres", "displayOrder": 60, "homeSection": "infrastructure",
+      "description": "Data centres and digital infrastructure.",
+      "keywords": { "data centre": 3, "data center": 3, "hyperscale": 3, "colocation": 3, "digital infrastructure": 3 }
+    },
+    {
+      "id": "healthcare-life-sciences", "name": "Healthcare & Life Sciences", "displayOrder": 70, "homeSection": "commercial-real-estate",
+      "description": "Hospitals, medical offices, laboratories and life-science campuses.",
+      "keywords": { "healthcare real estate": 3, "healthcare property": 3, "medical office": 3, "life science": 3, "lab space": 3, "hospital": 2, "laboratory": 2, "clinic": 1 }
+    },
+    {
+      "id": "student-accommodation", "name": "Student Accommodation", "displayOrder": 80, "homeSection": "residential-real-estate",
+      "description": "Purpose-built student accommodation.",
+      "keywords": { "student accommodation": 3, "student housing": 3, "purpose-built student": 3, "pbsa": 3, "student residence": 3 }
+    },
+    {
+      "id": "senior-living", "name": "Senior Living", "displayOrder": 90, "homeSection": "residential-real-estate",
+      "description": "Retirement communities, assisted living and care homes.",
+      "keywords": { "senior living": 3, "retirement community": 3, "retirement village": 3, "care home": 3, "assisted living": 3, "later living": 3, "elderly care": 2 }
+    },
+    {
+      "id": "mixed-use", "name": "Mixed-Use", "displayOrder": 100, "homeSection": "commercial-real-estate",
+      "description": "Mixed-use schemes and master-planned districts.",
+      "keywords": { "mixed-use": 3, "mixed use": 3, "master-planned": 2, "waterfront development": 2, "urban regeneration": 2 }
+    },
+    {
+      "id": "land-development", "name": "Land & Development", "displayOrder": 110, "homeSection": null,
+      "description": "Land plots, development sites and giga-projects before a single use is fixed.",
+      "keywords": { "land plot": 3, "land parcel": 3, "land bank": 3, "landbank": 3, "plot of land": 3, "development site": 3, "land acquisition": 3, "giga-project": 2, "gigaproject": 2, "megaproject": 2, "masterplan": 2 }
+    },
+    {
+      "id": "infrastructure-energy", "name": "Infrastructure & Energy", "displayOrder": 120, "homeSection": "infrastructure",
+      "description": "Transport, utilities, energy and social infrastructure assets.",
+      "keywords": { "public-private partnership": 3, "toll road": 3, "renewable energy": 3, "wind farm": 3, "power plant": 3, "desalination": 3, "district cooling": 3, "battery storage": 3, "ev charging": 3, "solar": 2, "railway": 2, "airport": 2, "metro line": 2, "energy transition": 2, "infrastructure": 1, "utilities": 1 }
+    },
+    {
+      "id": "alternative-real-estate", "name": "Alternative Real Estate", "displayOrder": 130, "homeSection": "commercial-real-estate",
+      "description": "Self-storage, single-family rental, towers, farmland and other alternatives.",
+      "keywords": { "alternative real estate": 3, "self-storage": 3, "self storage": 3, "single-family rental": 3, "manufactured housing": 3, "cell tower": 3, "telecom towers": 3, "farmland": 3, "timberland": 3, "car park": 2 }
+    }
+  ]
+}
