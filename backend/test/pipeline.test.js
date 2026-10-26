@@ -64,7 +64,11 @@ test('demo pipeline end to end', async (t) => {
     assert.equal(byStatus('pending_review').length, 2);
     assert.equal(byStatus('rejected').length, 1);
     assert.equal(news.count, 22);
-    const text = allApiText();
+    // Story pages follow the API folder in tests (config.js STORY_PAGES_DIR), never the real site.
+    const pagesDir = path.join(tmp, 'story-pages');
+    for (const s of news.items) assert.ok(readFileSync(path.join(pagesDir, `${s.slug}.html`), 'utf8').includes(s.url), `page for ${s.id}`);
+    assert.equal(readdirSync(pagesDir).length, news.count, 'one page per published story');
+    const text = allApiText() + allApiText(pagesDir);
     for (const d of [...byStatus('pending_review'), ...byStatus('rejected')]) {
       assert.ok(!text.includes(d.headline), `not public: ${d._id}`);
       assert.ok(!text.includes(d.storyId), `no trace of ${d._id}`);

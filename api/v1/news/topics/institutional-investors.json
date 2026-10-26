@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-10-26T09:08:53.910Z",
+  "generatedAt": "2026-10-26T09:14:40.497Z",
   "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
   "topic": "institutional-investors",
   "label": "Sovereign and institutional investors",
@@ -14,8 +14,8 @@
       "url": "https://example.com/gulf-wire/falcon-ridge-private-credit-fund-ii",
       "source": "Demo Gulf Wire",
       "sourceId": "demo-gulf-wire",
-      "publishedAt": "2026-10-26T00:08:53.000Z",
-      "updatedAt": "2026-10-26T04:08:53.910Z",
+      "publishedAt": "2026-10-26T00:14:40.000Z",
+      "updatedAt": "2026-10-26T04:14:40.497Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -36,7 +36,7 @@
           "sourceId": "demo-gulf-wire",
           "title": "Abu Dhabi's Falcon Ridge Capital closes $750m second private credit fund",
           "url": "https://example.com/gulf-wire/falcon-ridge-private-credit-fund-ii",
-          "publishedAt": "2026-10-26T00:08:53.000Z"
+          "publishedAt": "2026-10-26T00:14:40.000Z"
         },
         {
           "articleId": "a_0767f4e44124c67e",
@@ -44,7 +44,7 @@
           "sourceId": "demo-emirates-markets",
           "title": "Falcon Ridge Capital raises $750 million for private credit strategy",
           "url": "https://example.com/emirates-markets/falcon-ridge-750-million",
-          "publishedAt": "2026-10-26T02:08:53.000Z"
+          "publishedAt": "2026-10-26T02:14:40.000Z"
         },
         {
           "articleId": "a_7ce855c52942d109",
@@ -52,7 +52,7 @@
           "sourceId": "demo-private-capital-daily",
           "title": "Abu Dhabi manager Falcon Ridge wraps up $750m private credit fundraise",
           "url": "https://example.com/private-capital-daily/falcon-ridge-wraps-up",
-          "publishedAt": "2026-10-26T04:08:53.910Z"
+          "publishedAt": "2026-10-26T04:14:40.497Z"
         }
       ],
       "slug": "abu-dhabi-s-falcon-ridge-capital-closes-750m-second-private-credit-fund-f571",
@@ -74,7 +74,7 @@
         "label": "Fund close"
       },
       "featured": false,
-      "liveAt": "2026-10-26T09:08:53.910Z"
+      "liveAt": "2026-10-26T09:14:40.497Z"
     },
     {
       "id": "s_1ec502cf2475e3",
@@ -83,8 +83,8 @@
       "url": "https://example.com/private-capital-daily/northlight-1bn-round",
       "source": "Demo Private Capital Daily",
       "sourceId": "demo-private-capital-daily",
-      "publishedAt": "2026-10-25T13:08:53.910Z",
-      "updatedAt": "2026-10-25T13:08:53.910Z",
+      "publishedAt": "2026-10-25T13:14:40.497Z",
+      "updatedAt": "2026-10-25T13:14:40.497Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -105,7 +105,7 @@
           "sourceId": "demo-private-capital-daily",
           "title": "Gulf sovereign investors join $1bn round for London AI infrastructure firm Northlight",
           "url": "https://example.com/private-capital-daily/northlight-1bn-round",
-          "publishedAt": "2026-10-25T13:08:53.910Z"
+          "publishedAt": "2026-10-25T13:14:40.497Z"
         }
       ],
       "slug": "gulf-sovereign-investors-join-1bn-round-for-london-ai-infrastructure-firm-845e",
@@ -136,7 +136,7 @@
         "label": "Capital raising"
       },
       "featured": false,
-      "liveAt": "2026-10-26T09:08:53.910Z"
+      "liveAt": "2026-10-26T09:14:40.497Z"
     },
     {
       "id": "s_20a6669eae460f",
@@ -145,8 +145,8 @@
       "url": "https://example.com/emirates-markets/sharjah-family-office-climate-fund",
       "source": "Demo Emirates Markets",
       "sourceId": "demo-emirates-markets",
-      "publishedAt": "2026-10-24T23:08:53.000Z",
-      "updatedAt": "2026-10-24T23:08:53.000Z",
+      "publishedAt": "2026-10-24T23:14:40.000Z",
+      "updatedAt": "2026-10-24T23:14:40.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -167,7 +167,7 @@
           "sourceId": "demo-emirates-markets",
           "title": "Sharjah family office launches $200m venture fund for climate start-ups",
           "url": "https://example.com/emirates-markets/sharjah-family-office-climate-fund",
-          "publishedAt": "2026-10-24T23:08:53.000Z"
+          "publishedAt": "2026-10-24T23:14:40.000Z"
         }
       ],
       "slug": "sharjah-family-office-launches-200m-venture-fund-for-climate-start-ups-6e87",
@@ -189,7 +189,7 @@
         "label": "Fund launch"
       },
       "featured": false,
-      "liveAt": "2026-10-26T09:08:53.910Z"
+      "liveAt": "2026-10-26T09:14:40.497Z"
     },
     {
       "id": "s_89280b2a65569b",
@@ -198,8 +198,8 @@
       "url": "https://example.com/emirates-markets/harbourline-takeover",
       "source": "Demo Emirates Markets",
       "sourceId": "demo-emirates-markets",
-      "publishedAt": "2026-10-24T08:08:53.000Z",
-      "updatedAt": "2026-10-24T08:08:53.000Z",
+      "publishedAt": "2026-10-24T08:14:40.000Z",
+      "updatedAt": "2026-10-24T08:14:40.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -219,7 +219,7 @@
           "sourceId": "demo-emirates-markets",
           "title": "Abu Dhabi logistics group Harbourline agrees $1.2bn takeover of Omani port operator",
           "url": "https://example.com/emirates-markets/harbourline-takeover",
-          "publishedAt": "2026-10-24T08:08:53.000Z"
+          "publishedAt": "2026-10-24T08:14:40.000Z"
         }
       ],
       "slug": "abu-dhabi-logistics-group-harbourline-agrees-1-2bn-takeover-of-omani-port-a615",
@@ -250,7 +250,7 @@
         "label": "Merger or corporate M&A"
       },
       "featured": false,
-      "liveAt": "2026-10-26T09:08:53.910Z"
+      "liveAt": "2026-10-26T09:14:40.497Z"
     },
     {
       "id": "s_062e5f384d5c3e",
@@ -259,8 +259,8 @@
       "url": "https://example.com/gulf-wire/difc-fund-managers-500",
       "source": "Demo Gulf Wire",
       "sourceId": "demo-gulf-wire",
-      "publishedAt": "2026-10-24T05:08:53.000Z",
-      "updatedAt": "2026-10-24T05:08:53.000Z",
+      "publishedAt": "2026-10-24T05:14:40.000Z",
+      "updatedAt": "2026-10-24T05:14:40.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -281,7 +281,7 @@
           "sourceId": "demo-gulf-wire",
           "title": "DIFC fund managers pass 500 as hedge funds and family offices keep arriving",
           "url": "https://example.com/gulf-wire/difc-fund-managers-500",
-          "publishedAt": "2026-10-24T05:08:53.000Z"
+          "publishedAt": "2026-10-24T05:14:40.000Z"
         }
       ],
       "slug": "difc-fund-managers-pass-500-as-hedge-funds-and-family-offices-keep-arriving-8ed8",
@@ -304,7 +304,7 @@
       ],
       "transactionType": null,
       "featured": false,
-      "liveAt": "2026-10-26T09:08:53.910Z"
+      "liveAt": "2026-10-26T09:14:40.497Z"
     },
     {
       "id": "s_f6a599b474b486",
@@ -313,8 +313,8 @@
       "url": "https://example.com/private-capital-daily/pensions-infrastructure-debt",
       "source": "Demo Private Capital Daily",
       "sourceId": "demo-private-capital-daily",
-      "publishedAt": "2026-10-23T09:08:53.910Z",
-      "updatedAt": "2026-10-23T09:08:53.910Z",
+      "publishedAt": "2026-10-23T09:14:40.497Z",
+      "updatedAt": "2026-10-23T09:14:40.497Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -335,7 +335,7 @@
           "sourceId": "demo-private-capital-daily",
           "title": "Pension funds lift allocations to infrastructure debt",
           "url": "https://example.com/private-capital-daily/pensions-infrastructure-debt",
-          "publishedAt": "2026-10-23T09:08:53.910Z"
+          "publishedAt": "2026-10-23T09:14:40.497Z"
         }
       ],
       "slug": "pension-funds-lift-allocations-to-infrastructure-debt-abbf",
@@ -366,7 +366,7 @@
         "label": "Institutional allocation"
       },
       "featured": false,
-      "liveAt": "2026-10-26T09:08:53.910Z"
+      "liveAt": "2026-10-26T09:14:40.497Z"
     }
   ]
 }

@@ -17,6 +17,10 @@ export const CONFIG_DIR = path.join(BACKEND_DIR, 'config');
 export const DATA_DIR = process.env.FUNDSAE_DATA_DIR || path.join(BACKEND_DIR, 'data');
 export const FIXTURES_DIR = path.join(BACKEND_DIR, 'fixtures');
 export const API_DIR = process.env.FUNDSAE_API_DIR || path.join(REPO_ROOT, 'api', 'v1');
+// Static story pages. When FUNDSAE_API_DIR points elsewhere (tests, experiments), the pages follow it,
+// so a test can never write into the real site.
+export const STORY_PAGES_DIR = process.env.FUNDSAE_PAGES_DIR ||
+  (process.env.FUNDSAE_API_DIR ? path.join(path.dirname(process.env.FUNDSAE_API_DIR), 'story-pages') : path.join(REPO_ROOT, 'frontend_demo', 'news'));
 export const ASSETS_DIR = path.join(REPO_ROOT, 'assets');
 
 export class ConfigError extends Error {}
@@ -211,7 +215,7 @@ function validateTaxonomy(taxonomy) {
   return errors;
 }
 
-const DOC_ID_RE = /^(?!drafts.)[A-Za-z0-9][A-Za-z0-9_-]{0,127}$/;
+const DOC_ID_RE = /^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$/; // root ids only: no dots, so never a draft
 const lengthOk = (value, [min, max]) => typeof value === 'string' && value.trim() === value && value.length >= min && value.length <= max;
 
 function validateKeywords(keywords, where, errors) {
@@ -379,6 +383,12 @@ export function loadSettings() {
     throw new ConfigError('settings.json: "contactEmail" (or FUNDSAE_CONTACT_EMAIL) must be an email address, or empty.');
   }
   settings.contactEmail = contactEmail;
+  // The site's public address, for canonical links on story pages (optional), e.g. "https://funds.ae/".
+  const publicBaseUrl = String(process.env.FUNDSAE_PUBLIC_BASE_URL ?? settings.publicBaseUrl ?? '').trim();
+  if (publicBaseUrl && !/^https:\/\/[^\s"'<>]+\/$/.test(publicBaseUrl)) {
+    throw new ConfigError('settings.json: "publicBaseUrl" must be an https address ending with "/", or empty.');
+  }
+  settings.publicBaseUrl = publicBaseUrl;
   settings.userAgent = withContact(String(settings.userAgent || ''), contactEmail);
   return settings;
 }

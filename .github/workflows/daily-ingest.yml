@@ -53,7 +53,7 @@ jobs:
         run: |
           git config user.name "funds-ae-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add backend/data api/v1
+          git add backend/data api/v1 frontend_demo/news
           # Form submissions are personal data and git-ignored; refuse to commit them even if forced.
           if git diff --cached --name-only | grep -q "submissions/"; then
             echo "::error::Refusing to commit form submissions."

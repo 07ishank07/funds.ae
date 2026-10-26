@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-10-26T09:08:53.910Z",
+  "generatedAt": "2026-10-26T09:14:40.497Z",
   "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
   "category": "uae",
   "label": "UAE",
@@ -14,8 +14,8 @@
       "url": "https://example.com/property-sme-wire/sandhaven-build-to-rent-fund",
       "source": "Demo Property and SME Wire",
       "sourceId": "demo-property-sme-wire",
-      "publishedAt": "2026-10-26T04:08:53.000Z",
-      "updatedAt": "2026-10-26T04:08:53.000Z",
+      "publishedAt": "2026-10-26T04:14:40.000Z",
+      "updatedAt": "2026-10-26T04:14:40.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -35,7 +35,7 @@
           "sourceId": "demo-property-sme-wire",
           "title": "Dubai developer Sandhaven launches AED 500m real estate fund for build-to-rent homes",
           "url": "https://example.com/property-sme-wire/sandhaven-build-to-rent-fund",
-          "publishedAt": "2026-10-26T04:08:53.000Z"
+          "publishedAt": "2026-10-26T04:14:40.000Z"
         }
       ],
       "slug": "dubai-developer-sandhaven-launches-aed-500m-real-estate-fund-for-build-to-rent-9ee4",
@@ -62,7 +62,7 @@
         "label": "Fund launch"
       },
       "featured": false,
-      "liveAt": "2026-10-26T09:08:53.910Z"
+      "liveAt": "2026-10-26T09:14:40.497Z"
     },
     {
       "id": "s_ef84d65926adc3",
@@ -71,8 +71,8 @@
       "url": "https://example.com/property-sme-wire/sme-grant-manufacturers",
       "source": "Demo Property and SME Wire",
       "sourceId": "demo-property-sme-wire",
-      "publishedAt": "2026-10-26T01:08:53.000Z",
-      "updatedAt": "2026-10-26T01:08:53.000Z",
+      "publishedAt": "2026-10-26T01:14:40.000Z",
+      "updatedAt": "2026-10-26T01:14:40.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -91,7 +91,7 @@
           "sourceId": "demo-property-sme-wire",
           "title": "Emirati SME grant scheme opens AED 100m funding programme for manufacturers",
           "url": "https://example.com/property-sme-wire/sme-grant-manufacturers",
-          "publishedAt": "2026-10-26T01:08:53.000Z"
+          "publishedAt": "2026-10-26T01:14:40.000Z"
         }
       ],
       "slug": "emirati-sme-grant-scheme-opens-aed-100m-funding-programme-for-manufacturers-0e2e",
@@ -110,7 +110,7 @@
       ],
       "transactionType": null,
       "featured": false,
-      "liveAt": "2026-10-26T09:08:53.910Z"
+      "liveAt": "2026-10-26T09:14:40.497Z"
     },
     {
       "id": "s_5dbd32a8d22e9c",
@@ -119,8 +119,8 @@
       "url": "https://example.com/gulf-wire/falcon-ridge-private-credit-fund-ii",
       "source": "Demo Gulf Wire",
       "sourceId": "demo-gulf-wire",
-      "publishedAt": "2026-10-26T00:08:53.000Z",
-      "updatedAt": "2026-10-26T04:08:53.910Z",
+      "publishedAt": "2026-10-26T00:14:40.000Z",
+      "updatedAt": "2026-10-26T04:14:40.497Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -141,7 +141,7 @@
           "sourceId": "demo-gulf-wire",
           "title": "Abu Dhabi's Falcon Ridge Capital closes $750m second private credit fund",
           "url": "https://example.com/gulf-wire/falcon-ridge-private-credit-fund-ii",
-          "publishedAt": "2026-10-26T00:08:53.000Z"
+          "publishedAt": "2026-10-26T00:14:40.000Z"
         },
         {
           "articleId": "a_0767f4e44124c67e",
@@ -149,7 +149,7 @@
           "sourceId": "demo-emirates-markets",
           "title": "Falcon Ridge Capital raises $750 million for private credit strategy",
           "url": "https://example.com/emirates-markets/falcon-ridge-750-million",
-          "publishedAt": "2026-10-26T02:08:53.000Z"
+          "publishedAt": "2026-10-26T02:14:40.000Z"
         },
         {
           "articleId": "a_7ce855c52942d109",
@@ -157,7 +157,7 @@
           "sourceId": "demo-private-capital-daily",
           "title": "Abu Dhabi manager Falcon Ridge wraps up $750m private credit fundraise",
           "url": "https://example.com/private-capital-daily/falcon-ridge-wraps-up",
-          "publishedAt": "2026-10-26T04:08:53.910Z"
+          "publishedAt": "2026-10-26T04:14:40.497Z"
         }
       ],
       "slug": "abu-dhabi-s-falcon-ridge-capital-closes-750m-second-private-credit-fund-f571",
@@ -179,7 +179,7 @@
         "label": "Fund close"
       },
       "featured": false,
-      "liveAt": "2026-10-26T09:08:53.910Z"
+      "liveAt": "2026-10-26T09:14:40.497Z"
     },
     {
       "id": "s_46c15c6bee49f5",
@@ -188,8 +188,8 @@
       "url": "https://example.com/property-sme-wire/tidewell-reit-logistics",
       "source": "Demo Property and SME Wire",
       "sourceId": "demo-property-sme-wire",
-      "publishedAt": "2026-10-25T13:08:53.000Z",
-      "updatedAt": "2026-10-25T13:08:53.000Z",
+      "publishedAt": "2026-10-25T13:14:40.000Z",
+      "updatedAt": "2026-10-25T13:14:40.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -210,7 +210,7 @@
           "sourceId": "demo-property-sme-wire",
           "title": "Tidewell REIT raises AED 300m to buy logistics warehouses in Abu Dhabi",
           "url": "https://example.com/property-sme-wire/tidewell-reit-logistics",
-          "publishedAt": "2026-10-25T13:08:53.000Z"
+          "publishedAt": "2026-10-25T13:14:40.000Z"
         }
       ],
       "slug": "tidewell-reit-raises-aed-300m-to-buy-logistics-warehouses-in-abu-dhabi-28b8",
@@ -237,7 +237,7 @@
         "label": "Capital raising"
       },
       "featured": true,
-      "liveAt": "2026-10-26T09:08:53.910Z"
+      "liveAt": "2026-10-26T09:14:40.497Z"
     },
     {
       "id": "s_cd4127d9c5f681",
@@ -246,8 +246,8 @@
       "url": "https://example.com/property-sme-wire/dubai-sme-fund-soft-loans",
       "source": "Demo Property and SME Wire",
       "sourceId": "demo-property-sme-wire",
-      "publishedAt": "2026-10-25T07:08:53.000Z",
-      "updatedAt": "2026-10-25T07:08:53.000Z",
+      "publishedAt": "2026-10-25T07:14:40.000Z",
+      "updatedAt": "2026-10-25T07:14:40.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -266,7 +266,7 @@
           "sourceId": "demo-property-sme-wire",
           "title": "Dubai SME fund offers soft loans to 200 early-stage food companies",
           "url": "https://example.com/property-sme-wire/dubai-sme-fund-soft-loans",
-          "publishedAt": "2026-10-25T07:08:53.000Z"
+          "publishedAt": "2026-10-25T07:14:40.000Z"
         }
       ],
       "slug": "dubai-sme-fund-offers-soft-loans-to-200-early-stage-food-companies-ed93",
@@ -288,7 +288,7 @@
         "label": "Debt financing"
       },
       "featured": false,
-      "liveAt": "2026-10-26T09:08:53.910Z"
+      "liveAt": "2026-10-26T09:14:40.497Z"
     },
     {
       "id": "s_7f39d1f83e5cfa",
@@ -297,8 +297,8 @@
       "url": "https://example.com/gulf-wire/qirsh-series-b",
       "source": "Demo Gulf Wire",
       "sourceId": "demo-gulf-wire",
-      "publishedAt": "2026-10-25T03:08:53.000Z",
-      "updatedAt": "2026-10-25T13:08:53.000Z",
+      "publishedAt": "2026-10-25T03:14:40.000Z",
+      "updatedAt": "2026-10-25T13:14:40.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -319,7 +319,7 @@
           "sourceId": "demo-gulf-wire",
           "title": "Dubai-based fintech Qirsh raises $45 million Series B led by Sandline Ventures",
           "url": "https://example.com/gulf-wire/qirsh-series-b",
-          "publishedAt": "2026-10-25T03:08:53.000Z"
+          "publishedAt": "2026-10-25T03:14:40.000Z"
         },
         {
           "articleId": "a_d0a9ae63a58b381b",
@@ -327,7 +327,7 @@
           "sourceId": "demo-emirates-markets",
           "title": "Qirsh secures $45m in Series B round as Dubai payments start-up expands to Riyadh",
           "url": "https://example.com/emirates-markets/qirsh-45m-series-b-riyadh",
-          "publishedAt": "2026-10-25T07:08:53.000Z"
+          "publishedAt": "2026-10-25T07:14:40.000Z"
         },
         {
           "articleId": "a_e72c6985fb047deb",
@@ -335,7 +335,7 @@
           "sourceId": "demo-venture-ledger",
           "title": "Qirsh lands $45 million to take buy-now-pay-later across the Gulf",
           "url": "https://example.com/venture-ledger/qirsh-45-million",
-          "publishedAt": "2026-10-25T13:08:53.000Z"
+          "publishedAt": "2026-10-25T13:14:40.000Z"
         }
       ],
       "slug": "dubai-based-fintech-qirsh-raises-45-million-series-b-led-by-sandline-ventures-47f6",
@@ -352,7 +352,7 @@
         "label": "Capital raising"
       },
       "featured": false,
-      "liveAt": "2026-10-26T09:08:53.910Z"
+      "liveAt": "2026-10-26T09:14:40.497Z"
     },
     {
       "id": "s_20a6669eae460f",
@@ -361,8 +361,8 @@
       "url": "https://example.com/emirates-markets/sharjah-family-office-climate-fund",
       "source": "Demo Emirates Markets",
       "sourceId": "demo-emirates-markets",
-      "publishedAt": "2026-10-24T23:08:53.000Z",
-      "updatedAt": "2026-10-24T23:08:53.000Z",
+      "publishedAt": "2026-10-24T23:14:40.000Z",
+      "updatedAt": "2026-10-24T23:14:40.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -383,7 +383,7 @@
           "sourceId": "demo-emirates-markets",
           "title": "Sharjah family office launches $200m venture fund for climate start-ups",
           "url": "https://example.com/emirates-markets/sharjah-family-office-climate-fund",
-          "publishedAt": "2026-10-24T23:08:53.000Z"
+          "publishedAt": "2026-10-24T23:14:40.000Z"
         }
       ],
       "slug": "sharjah-family-office-launches-200m-venture-fund-for-climate-start-ups-6e87",
@@ -405,7 +405,7 @@
         "label": "Fund launch"
       },
       "featured": false,
-      "liveAt": "2026-10-26T09:08:53.910Z"
+      "liveAt": "2026-10-26T09:14:40.497Z"
     },
     {
       "id": "s_89280b2a65569b",
@@ -414,8 +414,8 @@
       "url": "https://example.com/emirates-markets/harbourline-takeover",
       "source": "Demo Emirates Markets",
       "sourceId": "demo-emirates-markets",
-      "publishedAt": "2026-10-24T08:08:53.000Z",
-      "updatedAt": "2026-10-24T08:08:53.000Z",
+      "publishedAt": "2026-10-24T08:14:40.000Z",
+      "updatedAt": "2026-10-24T08:14:40.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -435,7 +435,7 @@
           "sourceId": "demo-emirates-markets",
           "title": "Abu Dhabi logistics group Harbourline agrees $1.2bn takeover of Omani port operator",
           "url": "https://example.com/emirates-markets/harbourline-takeover",
-          "publishedAt": "2026-10-24T08:08:53.000Z"
+          "publishedAt": "2026-10-24T08:14:40.000Z"
         }
       ],
       "slug": "abu-dhabi-logistics-group-harbourline-agrees-1-2bn-takeover-of-omani-port-a615",
@@ -466,7 +466,7 @@
         "label": "Merger or corporate M&A"
       },
       "featured": false,
-      "liveAt": "2026-10-26T09:08:53.910Z"
+      "liveAt": "2026-10-26T09:14:40.497Z"
     },
     {
       "id": "s_062e5f384d5c3e",
@@ -475,8 +475,8 @@
       "url": "https://example.com/gulf-wire/difc-fund-managers-500",
       "source": "Demo Gulf Wire",
       "sourceId": "demo-gulf-wire",
-      "publishedAt": "2026-10-24T05:08:53.000Z",
-      "updatedAt": "2026-10-24T05:08:53.000Z",
+      "publishedAt": "2026-10-24T05:14:40.000Z",
+      "updatedAt": "2026-10-24T05:14:40.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -497,7 +497,7 @@
           "sourceId": "demo-gulf-wire",
           "title": "DIFC fund managers pass 500 as hedge funds and family offices keep arriving",
           "url": "https://example.com/gulf-wire/difc-fund-managers-500",
-          "publishedAt": "2026-10-24T05:08:53.000Z"
+          "publishedAt": "2026-10-24T05:14:40.000Z"
         }
       ],
       "slug": "difc-fund-managers-pass-500-as-hedge-funds-and-family-offices-keep-arriving-8ed8",
@@ -520,7 +520,7 @@
       ],
       "transactionType": null,
       "featured": false,
-      "liveAt": "2026-10-26T09:08:53.910Z"
+      "liveAt": "2026-10-26T09:14:40.497Z"
     },
     {
       "id": "s_50a38aa499d7a1",
@@ -529,8 +529,8 @@
       "url": "https://example.com/property-sme-wire/sharjah-infrastructure-fund-solar",
       "source": "Demo Property and SME Wire",
       "sourceId": "demo-property-sme-wire",
-      "publishedAt": "2026-10-24T05:08:53.000Z",
-      "updatedAt": "2026-10-24T05:08:53.000Z",
+      "publishedAt": "2026-10-24T05:14:40.000Z",
+      "updatedAt": "2026-10-24T05:14:40.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -550,7 +550,7 @@
           "sourceId": "demo-property-sme-wire",
           "title": "Sharjah infrastructure fund backs new solar and water projects",
           "url": "https://example.com/property-sme-wire/sharjah-infrastructure-fund-solar",
-          "publishedAt": "2026-10-24T05:08:53.000Z"
+          "publishedAt": "2026-10-24T05:14:40.000Z"
         }
       ],
       "slug": "sharjah-infrastructure-fund-backs-new-solar-and-water-projects-58e9",
@@ -577,7 +577,7 @@
         "label": "Investment"
       },
       "featured": false,
-      "liveAt": "2026-10-26T09:08:53.910Z"
+      "liveAt": "2026-10-26T09:14:40.497Z"
     },
     {
       "id": "s_b5381e51ce15cb",
@@ -586,8 +586,8 @@
       "url": "https://example.com/property-sme-wire/abu-dhabi-innovation-fund-grants",
       "source": "Demo Property and SME Wire",
       "sourceId": "demo-property-sme-wire",
-      "publishedAt": "2026-10-23T08:08:53.000Z",
-      "updatedAt": "2026-10-23T08:08:53.000Z",
+      "publishedAt": "2026-10-23T08:14:40.000Z",
+      "updatedAt": "2026-10-23T08:14:40.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -608,7 +608,7 @@
           "sourceId": "demo-property-sme-wire",
           "title": "Abu Dhabi innovation fund awards startup grants to 40 climate-tech founders",
           "url": "https://example.com/property-sme-wire/abu-dhabi-innovation-fund-grants",
-          "publishedAt": "2026-10-23T08:08:53.000Z"
+          "publishedAt": "2026-10-23T08:14:40.000Z"
         }
       ],
       "slug": "abu-dhabi-innovation-fund-awards-startup-grants-to-40-climate-tech-founders-9e54",
@@ -627,7 +627,7 @@
       ],
       "transactionType": null,
       "featured": false,
-      "liveAt": "2026-10-26T09:08:53.910Z"
+      "liveAt": "2026-10-26T09:14:40.497Z"
     },
     {
       "id": "s_d5c44978d20304",
@@ -636,8 +636,8 @@
       "url": "https://example.com/gulf-wire/sandstone-majority-stake-dairy",
       "source": "Demo Gulf Wire",
       "sourceId": "demo-gulf-wire",
-      "publishedAt": "2026-10-23T07:08:53.000Z",
-      "updatedAt": "2026-10-23T07:08:53.000Z",
+      "publishedAt": "2026-10-23T07:14:40.000Z",
+      "updatedAt": "2026-10-23T07:14:40.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -656,7 +656,7 @@
           "sourceId": "demo-gulf-wire",
           "title": "Abu Dhabi's Sandstone Holdings takes majority stake in Egyptian dairy group",
           "url": "https://example.com/gulf-wire/sandstone-majority-stake-dairy",
-          "publishedAt": "2026-10-23T07:08:53.000Z"
+          "publishedAt": "2026-10-23T07:14:40.000Z"
         }
       ],
       "slug": "abu-dhabi-s-sandstone-holdings-takes-majority-stake-in-egyptian-dairy-group-47d2",
@@ -677,7 +677,7 @@
         "label": "Acquisition"
       },
       "featured": false,
-      "liveAt": "2026-10-26T09:08:53.910Z"
+      "liveAt": "2026-10-26T09:14:40.497Z"
     },
     {
       "id": "s_5a385db0c12008",
@@ -686,8 +686,8 @@
       "url": "https://example.com/emirates-markets/crescent-peak-secondaries-first-close",
       "source": "Demo Emirates Markets",
       "sourceId": "demo-emirates-markets",
-      "publishedAt": "2026-10-22T06:08:53.000Z",
-      "updatedAt": "2026-10-22T06:08:53.000Z",
+      "publishedAt": "2026-10-22T06:14:40.000Z",
+      "updatedAt": "2026-10-22T06:14:40.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -708,7 +708,7 @@
           "sourceId": "demo-emirates-markets",
           "title": "ADGM-registered Crescent Peak announces first close of GCC secondaries fund",
           "url": "https://example.com/emirates-markets/crescent-peak-secondaries-first-close",
-          "publishedAt": "2026-10-22T06:08:53.000Z"
+          "publishedAt": "2026-10-22T06:14:40.000Z"
         }
       ],
       "slug": "adgm-registered-crescent-peak-announces-first-close-of-gcc-secondaries-fund-fed2",
@@ -734,7 +734,7 @@
         "label": "Fund close"
       },
       "featured": false,
-      "liveAt": "2026-10-26T09:08:53.910Z"
+      "liveAt": "2026-10-26T09:14:40.497Z"
     }
   ]
 }

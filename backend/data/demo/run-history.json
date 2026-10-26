@@ -4,6 +4,143 @@
     {
       "command": "all",
       "mode": "demo",
+      "startedAt": "2026-10-26T09:14:40.497Z",
+      "steps": {
+        "news": {
+          "sources": {
+            "demo-gulf-wire": {
+              "name": "Demo Gulf Wire",
+              "status": "ok",
+              "fetched": 10,
+              "added": 5
+            },
+            "demo-emirates-markets": {
+              "name": "Demo Emirates Markets",
+              "status": "ok",
+              "fetched": 7,
+              "added": 5
+            },
+            "demo-private-capital-daily": {
+              "name": "Demo Private Capital Daily",
+              "status": "ok",
+              "fetched": 7,
+              "added": 6
+            },
+            "demo-property-sme-wire": {
+              "name": "Demo Property and SME Wire",
+              "status": "ok",
+              "fetched": 8,
+              "added": 8
+            },
+            "demo-venture-ledger": {
+              "name": "Demo Venture Ledger",
+              "status": "ok",
+              "fetched": 7,
+              "added": 5
+            }
+          },
+          "fetched": 39,
+          "added": 25,
+          "duplicates": 1,
+          "filtered": {
+            "opinion": 2,
+            "advertorial": 2,
+            "not-relevant": 3,
+            "too-old": 1,
+            "not-an-article": 1
+          },
+          "grouped": 4,
+          "newStories": 25,
+          "attached": 0,
+          "pruned": 0,
+          "queue": {
+            "created": 25,
+            "patched": 0,
+            "deleted": 0,
+            "documents": 25,
+            "drafts": 0
+          }
+        },
+        "demoDecisions": {
+          "published": 22,
+          "rejected": 1,
+          "unmatched": 0
+        },
+        "jobs": {
+          "sources": {
+            "demo-gulf-finance-jobs": {
+              "name": "Demo Gulf Finance Jobs",
+              "status": "ok",
+              "fetched": 8,
+              "kept": 3
+            },
+            "demo-sandline-ventures": {
+              "name": "Sandline Ventures careers (demo)",
+              "status": "ok",
+              "fetched": 3,
+              "kept": 2
+            },
+            "demo-qirsh": {
+              "name": "Qirsh careers (demo)",
+              "status": "ok",
+              "fetched": 3,
+              "kept": 1
+            },
+            "demo-harbourline": {
+              "name": "Harbourline careers (demo)",
+              "status": "ok",
+              "fetched": 3,
+              "kept": 2
+            }
+          },
+          "fetched": 31,
+          "added": 22,
+          "updated": 0,
+          "closed": 0,
+          "filtered": {
+            "duplicate": 1,
+            "not-uae": 4,
+            "not-finance": 3,
+            "too-old": 1
+          }
+        },
+        "events": {
+          "ok": true,
+          "events": 12,
+          "version": "c6a61fe70450"
+        },
+        "sponsors": {
+          "ok": true,
+          "counts": {
+            "founding": 0,
+            "platinum": 5,
+            "gold": 10,
+            "sponsoredPosts": 20,
+            "sponsoredMedia": 15,
+            "professionalServices": 20,
+            "careerResources": 11
+          },
+          "version": "43e7cfdb2b15"
+        },
+        "content": {
+          "ok": true,
+          "counts": {
+            "socialHighlights": 0,
+            "advertiseTiers": 3,
+            "pages": 3
+          },
+          "version": "54ce6a4c9a3c"
+        }
+      },
+      "finishedAt": "2026-10-26T09:14:40.754Z",
+      "status": "ok",
+      "warnings": [],
+      "errors": [],
+      "durationMs": 370
+    },
+    {
+      "command": "all",
+      "mode": "demo",
       "startedAt": "2026-10-26T09:08:53.910Z",
       "steps": {
         "news": {

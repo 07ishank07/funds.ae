@@ -8,6 +8,7 @@
 //   api/v1/news/topics/<topic>.json    stories for one topic
 //   api/v1/news/sections/<id>.json     stories for one page section (a topic group, or the Asset Classes of a home box)
 //   api/v1/news/real-estate.json       Real Estate Capital News page: published stories with an Asset Class
+//   frontend_demo/news/<slug>.html     one static page per published story (pipeline/storyPages.js)
 //   api/v1/jobs.json                   open roles
 //   api/v1/employers.json              employers derived from open roles
 //   api/v1/events.json                 upcoming and recent events
@@ -33,6 +34,7 @@ import { DEMO_APPROVER_ID } from '../news/demoDecisions.js';
 import { buildTaxonomyIndex } from '../news/reviewDocs.js';
 import { NEWS_GEOGRAPHIES, NEWS_GEOGRAPHY_LABELS, NEWS_TRANSACTION_LABELS, NEWS_TRANSACTION_TYPES } from '../news/rules.js';
 import { sanityImageConfigFromEnv, sanityImageUrl } from '../cms/mapping.js';
+import { writeStoryPages } from './storyPages.js';
 import { toStoryDto, toJobDto, toEmployerDto, toEventDto, toSourceDto } from '../contracts/serializers.js';
 import { deriveEmployers } from './employers.js';
 
@@ -88,6 +90,15 @@ export function publishNews(ctx, docs) {
     .map((doc) => toStoryDto(doc, dtoCtx))
     .filter(Boolean)
     .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+  // Each story page needs its own address: on a clash (the Studio normally prevents it) the newer story
+  // keeps the slug and the older one gets four characters of its id appended.
+  const slugs = new Set();
+  for (const item of items) {
+    if (slugs.has(item.slug)) item.slug = `${item.slug}-${item.id.slice(2, 6)}`;
+    slugs.add(item.slug);
+  }
+  const seoById = new Map(docs.map((d) => [d.storyId, d.seo || {}]));
+  const pages = writeStoryPages(items, { publicBaseUrl: settings.publicBaseUrl, seoById });
 
   const { maxStories, maxPerCategory, maxArchive } = settings.news.publish;
   const b = base(ctx, NOTICES.news);
@@ -132,6 +143,7 @@ export function publishNews(ctx, docs) {
   return {
     stories: items.length,
     byCategory: Object.fromEntries(taxonomy.categories.map((c) => [c.id, items.filter((i) => i.category === c.id).length])),
+    pages,
     version: versionOf(items.slice(0, maxStories))
   };
 }
@@ -180,7 +192,7 @@ export async function publishApprovedNews(ctx, { allowDrop = false } = {}) {
     return { refused: true, previous: liveIds.length, missing };
   }
   const result = publishNews(ctx, stories);
-  log.info('news.published', { stories: result.stories, held: held.length });
+  log.info('news.published', { stories: result.stories, held: held.length, pagesWritten: result.pages.written, pagesRemoved: result.pages.removed });
   return { ...result, held: held.length };
 }
 
