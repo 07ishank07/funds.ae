@@ -30,6 +30,11 @@ on:
       - "backend/config/news-taxonomy.json"
       - "assets/sponsors/**"
   workflow_dispatch:
+    inputs:
+      allow_drop:
+        description: "Let the number of live stories fall sharply. Only for the switch from demo to live mode, or a deliberate clean-up (docs/NEWS-REVIEW-GUIDE.md, Part 8)."
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -92,7 +97,7 @@ jobs:
           SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
           SANITY_DATASET: ${{ secrets.SANITY_DATASET }}
           SANITY_READ_TOKEN: ${{ secrets.SANITY_READ_TOKEN }}
-        run: npm run news:publish
+        run: npm run news:publish -- ${{ inputs.allow_drop && '--allow-drop' || '' }}
 
       - name: Save to the repository
         if: steps.work.outputs.go == 'true'
