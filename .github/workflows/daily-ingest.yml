@@ -1,5 +1,7 @@
-# Runs the news and jobs ingestion once a day, commits the updated database
-# and API files, and refreshes the website.
+# Runs the jobs ingestion once a day (and, in demo mode, the demo news through the file
+# review queue), commits the updated database and API files, and refreshes the website.
+# In live mode with the Sanity review queue, news is fetched hourly by "News ingest" and
+# published by "Publish content"; this workflow then fetches jobs only.
 # You can also start it by hand: GitHub > Actions > "Daily news and jobs update" > Run workflow.
 name: Daily news and jobs update
 
@@ -43,10 +45,20 @@ jobs:
       - name: Run tests
         run: npm test
 
+      - name: Read where the news queue lives
+        id: settings
+        run: echo "store=$(node -p "require('./config/settings.json').news?.review?.store || 'file'")" >> "$GITHUB_OUTPUT"
+
       - name: Fetch news, jobs, events and sponsors
         id: ingest
         continue-on-error: true
-        run: npm run ingest
+        # Source health for the Sanity queue is read from Sanity, so the read token is passed.
+        env:
+          SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
+          SANITY_DATASET: ${{ secrets.SANITY_DATASET }}
+          SANITY_READ_TOKEN: ${{ secrets.SANITY_READ_TOKEN }}
+        run: |
+          if [ "${{ steps.settings.outputs.store }}" = "sanity" ]; then npm run ingest:jobs; else npm run ingest; fi
 
       - name: Save results to the repository
         working-directory: .

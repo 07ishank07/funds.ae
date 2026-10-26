@@ -1,0 +1,59 @@
+# Fetches news into the News Review Queue in Sanity: every hour, and whenever an editor
+# presses "Fetch News Now" in the Studio (the Sanity webhook sends repository_dispatch
+# "news-fetch"; setup in docs/NEWS-REVIEW-GUIDE.md). You can also run it from the Actions tab.
+#
+# It runs only in live mode with settings.json news.review.store "sanity". New stories enter the
+# queue as Pending review; nothing is published and nothing is committed here. Stories reach the
+# site only after an approver publishes them, through the "Publish content" workflow.
+# This is the only workflow that holds SANITY_WRITE_TOKEN.
+name: News ingest
+
+on:
+  schedule:
+    - cron: "17 * * * *"   # every hour at :17 UTC. GitHub may start it a few minutes late.
+  repository_dispatch:
+    types: [news-fetch]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fundsae-news-ingest
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - run: npm ci --no-audit --no-fund --ignore-scripts
+
+      - name: Read where the queue lives
+        id: settings
+        run: |
+          echo "mode=$(node -p "require('./config/settings.json').mode")" >> "$GITHUB_OUTPUT"
+          echo "store=$(node -p "require('./config/settings.json').news?.review?.store || 'file'")" >> "$GITHUB_OUTPUT"
+
+      - name: Nothing to do outside live mode with the Sanity queue
+        if: steps.settings.outputs.mode != 'live' || steps.settings.outputs.store != 'sanity'
+        run: echo "News ingest runs in live mode with news.review.store \"sanity\". Demo mode is handled by the daily workflow."
+
+      - name: Fetch news into the review queue
+        if: steps.settings.outputs.mode == 'live' && steps.settings.outputs.store == 'sanity'
+        env:
+          SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
+          SANITY_DATASET: ${{ secrets.SANITY_DATASET }}
+          SANITY_WRITE_TOKEN: ${{ secrets.SANITY_WRITE_TOKEN }}
+        run: npm run ingest:news
