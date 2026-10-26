@@ -42,6 +42,8 @@ export const CONTENT_SLOTS = ['socialHighlights', 'advertiseTiers'];
 export const PAGE_SLUGS = ['about', 'privacy', 'terms'];
 export const PAGE_BLOCK_TYPES = ['p', 'h2', 'h3', 'li'];
 export const PAGE_LIST_TYPES = ['bullet', 'number'];
+// News review queue enumerations, shared with the Sanity Studio (src/news/rules.js).
+export { NEWS_STATUSES, NEWS_GEOGRAPHIES, NEWS_TRANSACTION_TYPES, NEWS_HOME_SECTIONS } from '../news/rules.js';
 
 /* -------------------------------- DB records ------------------------------- */
 
@@ -86,6 +88,61 @@ export const PAGE_LIST_TYPES = ['bullet', 'number'];
  * @property {string} lastPublishedAt
  * @property {string} createdAt
  * @property {string} [updatedAt]
+ */
+
+/**
+ * @typedef {Object} NewsReviewDoc  one story in the news review queue (docs/NEWS-REVIEW-GUIDE.md):
+ *   a Sanity "newsArticle" document under queue.<articleId>, or the same record in
+ *   data/demo/news-review.json. Field ownership (importer, editors, workflow) is in src/news/rules.js.
+ * @property {string} _id           'queue.' + articleId
+ * @property {'newsArticle'} _type
+ * @property {string} articleId     the founding article: 'a_' + sha256(canonicalUrl), 16 hex
+ * @property {string} storyId       public story id, 's_' + hash of articleId
+ * @property {string} originalHeadline  as the publisher wrote it (never edited)
+ * @property {string} originalUrl   always links to the publisher
+ * @property {string} canonicalUrl
+ * @property {string} [guid]
+ * @property {{_ref:string, _weak:true}} source  newsSource document
+ * @property {string} sourceId
+ * @property {string} sourceName
+ * @property {string} sourcePublishedAt  ISO, the publisher's date
+ * @property {boolean} dateEstimated
+ * @property {string} importedAt
+ * @property {string} lastSeenAt
+ * @property {string} [excerpt]     publisher excerpt, <= 280 chars
+ * @property {string} [sourceImageUrl]  only when the source has allowImages
+ * @property {string} topic         keyword topic (config/taxonomy.json)
+ * @property {string[]} topics
+ * @property {'uae'|'world'} category
+ * @property {number} uaeScore
+ * @property {number} relevanceScore
+ * @property {boolean} isPressRelease
+ * @property {Object} classification  {method, confidence, needsReview, reasons, explanation, suggested*}
+ * @property {number} priority      0-5, review-queue order
+ * @property {string} dedupeKey     canonical URL
+ * @property {Object[]} otherSources  near-duplicates from other outlets: {articleId, sourceId, sourceName, title, url, publishedAt, attachedAt}
+ * @property {string} headline      editorial fields from here: pre-filled once, then editor-owned
+ * @property {{current:string}} slug
+ * @property {string} [summary]     <= 280 chars
+ * @property {'excerpt'|'editor'|'ai'} [summarySource]
+ * @property {{_ref:string}[]} capitalTypes   capitalType-<id>
+ * @property {{_ref:string}[]} assetClasses   assetClass-<id>
+ * @property {string[]} geography   NEWS_GEOGRAPHIES
+ * @property {string} [transactionType]  NEWS_TRANSACTION_TYPES
+ * @property {boolean} [featured]
+ * @property {Object} [image]       rights-cleared upload {asset, credit, rightsConfirmed}
+ * @property {{_ref:string}} [duplicateOf]
+ * @property {{title:string, description:string}} [seo]
+ * @property {string} [editorNotes]
+ * @property {string} status        NEWS_STATUSES; workflow fields from here, set only by the Studio's actions
+ * @property {{approvedById:string, approvedByName:string, approvedAt:string, contentHash:string}} [approval]
+ * @property {string} [publishedAt] go-live time (future = scheduled)
+ * @property {string} [publishedById]
+ * @property {string} [firstPublishedAt]
+ * @property {string} [scheduledAt]
+ * @property {string} [rejectionReason]
+ * @property {string} [statusChangedAt]
+ * @property {string} [statusChangedById]
  */
 
 /**
@@ -230,6 +287,20 @@ export const DB_MODELS = {
     ],
     // Held on the other side of a relationship instead of a column of its own.
     derived: { articleIds: 'articles.story_id' }
+  },
+  newsReviewItems: {
+    table: 'news_review_items',
+    fields: [
+      'articleId', 'storyId', 'originalHeadline', 'originalUrl', 'canonicalUrl', 'guid', 'source', 'sourceId', 'sourceName',
+      'sourcePublishedAt', 'dateEstimated', 'importedAt', 'lastSeenAt', 'excerpt', 'sourceImageUrl', 'topic', 'topics',
+      'category', 'uaeScore', 'relevanceScore', 'isPressRelease', 'classification', 'priority', 'dedupeKey', 'otherSources',
+      'headline', 'slug', 'summary', 'summarySource', 'capitalTypes', 'assetClasses', 'geography', 'transactionType',
+      'featured', 'image', 'duplicateOf', 'seo', 'editorNotes',
+      'status', 'approval', 'publishedAt', 'publishedById', 'firstPublishedAt', 'scheduledAt', 'rejectionReason',
+      'statusChangedAt', 'statusChangedById'
+    ],
+    // Sanity's own fields and the columns that hold them.
+    system: { _id: 'id', _type: 'doc_type', _rev: 'rev', _createdAt: 'created_at', _updatedAt: 'updated_at' }
   },
   jobs: {
     table: 'jobs',

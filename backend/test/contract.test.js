@@ -103,6 +103,7 @@ test('schema.sql has a column for every model field', () => {
   for (const [model, def] of Object.entries(DB_MODELS)) {
     assert.ok(tables[def.table], `schema.sql has no table ${def.table} for ${model}`);
     for (const field of def.fields) assert.ok(tables[def.table].has(snake(field)), `${def.table}.${snake(field)} missing (model ${model}.${field})`);
+    for (const [field, column] of Object.entries(def.system || {})) assert.ok(tables[def.table].has(column), `${def.table}.${column} missing (Sanity field ${field})`);
   }
 });
 

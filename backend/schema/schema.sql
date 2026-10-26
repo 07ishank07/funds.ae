@@ -102,6 +102,69 @@ CREATE INDEX IF NOT EXISTS stories_category_date ON stories (category, first_pub
 CREATE INDEX IF NOT EXISTS stories_topic ON stories (topic);
 CREATE INDEX IF NOT EXISTS stories_topics_gin ON stories USING GIN (topics);
 
+-- The news review queue (docs/NEWS-REVIEW-GUIDE.md). Today it is Sanity "newsArticle"
+-- documents under queue.* ids (live) or data/demo/news-review.json (demo); one row per
+-- story mirrors that document. Sanity's own fields: _id -> id, _type -> doc_type,
+-- _rev -> rev, _createdAt -> created_at, _updatedAt -> updated_at. Nested Sanity
+-- objects (references, slug, image, approval) are kept as JSONB.
+CREATE TABLE IF NOT EXISTS news_review_items (
+    id                    TEXT PRIMARY KEY CHECK (id ~ '^queue[.]a_[0-9a-f]{16}$'),
+    doc_type              TEXT NOT NULL DEFAULT 'newsArticle',
+    rev                   TEXT,
+    article_id            TEXT NOT NULL UNIQUE,                 -- founding article
+    story_id              TEXT NOT NULL,                        -- public id, 's_' + hash
+    original_headline     TEXT NOT NULL,
+    original_url          TEXT NOT NULL CHECK (original_url ~* '^https?://'),
+    canonical_url         TEXT NOT NULL UNIQUE,
+    guid                  TEXT,
+    source                JSONB,                                -- weak reference to the newsSource document
+    source_id             TEXT NOT NULL,
+    source_name           TEXT NOT NULL,
+    source_published_at   TIMESTAMPTZ NOT NULL,
+    date_estimated        BOOLEAN NOT NULL DEFAULT FALSE,
+    imported_at           TIMESTAMPTZ NOT NULL,
+    last_seen_at          TIMESTAMPTZ NOT NULL,
+    excerpt               TEXT CHECK (excerpt IS NULL OR char_length(excerpt) <= 280),
+    source_image_url      TEXT CHECK (source_image_url IS NULL OR source_image_url ~* '^https://'),
+    topic                 TEXT,
+    topics                TEXT[] NOT NULL DEFAULT '{}',
+    category              TEXT NOT NULL CHECK (category IN ('uae', 'world')),
+    uae_score             INTEGER NOT NULL DEFAULT 0,
+    relevance_score       INTEGER NOT NULL DEFAULT 0,
+    is_press_release      BOOLEAN NOT NULL DEFAULT FALSE,
+    classification        JSONB,
+    priority              SMALLINT NOT NULL DEFAULT 0,
+    dedupe_key            TEXT,
+    other_sources         JSONB NOT NULL DEFAULT '[]',
+    headline              TEXT NOT NULL,                        -- editor-owned from here
+    slug                  JSONB,
+    summary               TEXT CHECK (summary IS NULL OR char_length(summary) <= 280),
+    summary_source        TEXT CHECK (summary_source IS NULL OR summary_source IN ('excerpt', 'editor', 'ai')),
+    capital_types         JSONB NOT NULL DEFAULT '[]',
+    asset_classes         JSONB NOT NULL DEFAULT '[]',
+    geography             TEXT[] NOT NULL DEFAULT '{}',
+    transaction_type      TEXT,
+    featured              BOOLEAN NOT NULL DEFAULT FALSE,
+    image                 JSONB,
+    duplicate_of          JSONB,
+    seo                   JSONB,
+    editor_notes          TEXT,
+    status                TEXT NOT NULL CHECK (status IN ('pending_review', 'approved', 'rejected', 'published', 'archived')),
+    approval              JSONB,                                -- workflow fields from here: set only by the Studio's actions
+    published_at          TIMESTAMPTZ,
+    published_by_id       TEXT,
+    first_published_at    TIMESTAMPTZ,
+    scheduled_at          TIMESTAMPTZ,
+    rejection_reason      TEXT,
+    status_changed_at     TIMESTAMPTZ,
+    status_changed_by_id  TEXT,
+    created_at            TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at            TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS news_review_status ON news_review_items (status, published_at DESC);
+CREATE INDEX IF NOT EXISTS news_review_story ON news_review_items (story_id);
+
 CREATE TABLE IF NOT EXISTS jobs (
     job_id           TEXT PRIMARY KEY,                          -- 'j_' + hash(canonical url)
     employer_id      TEXT NOT NULL,                             -- 'emp_' + hash(normalised company)
