@@ -22,7 +22,13 @@ This guide explains how the Sanity CMS is built into funds.ae, how to set it up 
 
 ## 1. What lives in Sanity, and what does not
 
-Sanity holds **content people write by hand**. Ingested news and jobs never go into Sanity. They keep the pipeline, the review queue and the Publish workflow in build guide Parts B3 and F5. Those depend on licence checks, the copy check, the state machine and the audit log, and a CMS would bypass all of them.
+Sanity holds **content people write by hand**, and since October 2026 the **News Review Queue**: ingested stories waiting for an editor, the news source registry, Capital Types and Asset Classes. The queue has its own guide, [NEWS-REVIEW-GUIDE.md](NEWS-REVIEW-GUIDE.md), because it works differently:
+
+- the importer writes the stories, under private `queue.*` ids that a public dataset never shows to anonymous readers;
+- only approvers can publish a story, through the queue's own workflow actions, never through Sanity's draft/published switch alone;
+- the backend checks every licence, length and approval rule again before a story reaches the site.
+
+Jobs never go into Sanity.
 
 | In Sanity (Studio menu) | Shown on the site | Sanity type | Published as |
 |---|---|---|---|
@@ -34,9 +40,8 @@ Sanity holds **content people write by hand**. Ingested news and jobs never go i
 
 | Not in Sanity | Why |
 |---|---|
-| News stories | Ingested automatically, legally constrained (excerpts ≤ 280 characters, attribution, licence status), published through the Phase 6 review queue |
 | Jobs and employers | Ingested from job boards and `config/jobs.manual.json` |
-| Sources, taxonomy | Configuration with validation and licence fields (build guide Part C). Owned by admins, not editors |
+| Topic keywords, UAE terms, quality filters (`config/taxonomy.json`) | Classifier configuration with validation. Capital Types, Asset Classes and the news source registry are in Sanity ([NEWS-REVIEW-GUIDE.md](NEWS-REVIEW-GUIDE.md)) |
 | Thought Leaders box, navigation, page layout | Not in this first pass. Add them with the checklist in Part 6 when needed |
 
 ## 2. How it fits together
@@ -117,15 +122,16 @@ These are **human tasks**: they need your accounts. Do them in order. Commands r
 
 1. Sign up at <https://www.sanity.io> with a **Google or GitHub account that has two-factor authentication on**. Sanity uses that login, so 2FA on that account protects the Studio.
 2. Go to <https://www.sanity.io/manage>, create a project called "funds.ae", and note its **Project ID** (8 characters, e.g. `ab12cd34`).
-3. Create the datasets and make both **private**. Private means drafts and hidden sponsors can only be read with a token.
+3. Create the datasets. On a paid plan, make both **private**. **On the Free plan datasets can only be public** (checked on 2026-10-26 at sanity.io/pricing/compare). That means:
+   - Any published document can be read by anyone who knows the project ID, including sponsors switched off with **Show on the site**.
+   - Drafts and documents with a dot in their id (`drafts.*`, and the news queue's `queue.*`) stay private on every plan.
 
    ```bash
    cd studio
    npm install
    npx sanity login
-   npx sanity datasets create development --visibility private
-   npx sanity datasets visibility set production private   # if production already exists
-   npx sanity datasets create production --visibility private  # if it does not
+   npx sanity datasets create development   # add --visibility private on a paid plan
+   npx sanity datasets create production    # if it does not exist yet (same note)
    ```
 
 4. Copy `studio/.env.example` to `studio/.env` and fill in `SANITY_STUDIO_PROJECT_ID`. Use `SANITY_STUDIO_DATASET=development` while you try things.
@@ -310,10 +316,11 @@ Content flows through six layers, and each one checks its neighbour. Follow this
 
 These follow from CLAUDE.md. Code review should check them on every CMS change.
 
-- **Editorial only.** News and jobs never go into Sanity (Part 1).
+- **Hand-written content and the news queue only.** Jobs never go into Sanity. News stories live under private `queue.*` ids and follow the queue's own rules ([NEWS-REVIEW-GUIDE.md](NEWS-REVIEW-GUIDE.md)).
 - **Published only.**
   - Queries run with `perspective=published` and exclude `drafts.**`.
-  - Sponsors, Top Tweets items and packages with `enabled == false` are filtered out in GROQ. Unannounced sponsors never leave Sanity and never reach the git history.
+  - Sponsors, Top Tweets items and packages with `enabled == false` are filtered out in GROQ, so unannounced sponsors never reach the website or the git history.
+  - On the Free plan's public dataset they can still be read through Sanity's API. Keep anything confidential out of Sanity until it can be announced.
 - **Validated twice.**
   - The Studio validates as editors type.
   - The backend validates again with the rules that hand-edited files use. If anything is invalid, nothing is written.

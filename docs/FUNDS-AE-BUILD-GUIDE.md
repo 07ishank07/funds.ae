@@ -2020,6 +2020,7 @@ The code rules that make this painless are already in place:
 - **Estimates:** part-time, one person with Claude Code: about **5-7 weeks** in total.
 - **Human tasks** are things Claude Code can't do for you: accounts, legal decisions, emails to publishers.
 - **Every phase follows the E4 loop.** Branch, plan mode, prompt, review, checks, PR.
+- **News review is built in Sanity (October 2026).** The news parts of Phases 2, 5 and 6 (review queue, story editor, status workflow, approvals and the Publish button) are not built on PostgreSQL and a custom admin. They live in the Sanity Studio, with the backend re-checking every rule before publishing. See [docs/NEWS-REVIEW-GUIDE.md](NEWS-REVIEW-GUIDE.md). Everything else in these phases is unchanged.
 
 ### Phase 0: Foundations (half a day)
 

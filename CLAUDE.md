@@ -2,16 +2,19 @@
 
 ## What this is
 funds.ae aggregates UAE and global private-capital news (PE, VC, private credit, hedge funds,
-institutional investors), jobs and events. Stories are ingested automatically, enriched by AI,
-and published ONLY after an editor presses Publish. Build guide: docs/FUNDS-AE-BUILD-GUIDE.md
-(follow its Part J phases in order).
+institutional investors), jobs and events. Stories are ingested automatically into the News Review
+Queue in Sanity, classified (Capital Type, Asset Class), and published ONLY after an approver
+publishes them there (docs/NEWS-REVIEW-GUIDE.md). Build guide: docs/FUNDS-AE-BUILD-GUIDE.md
+(its Part J phases; the news parts of Phases 2, 5 and 6 are replaced by the Sanity queue).
 
 ## Stack
 Target: Node.js 24 (ES modules, JavaScript + JSDoc), Fastify 5, PostgreSQL 17 (pg +
 node-pg-migrate), pg-boss (jobs/cron), @anthropic-ai/sdk + zod, pino, node:test. Website: static
 HTML in frontend_demo/ + js/fundsae-*.js reading /api/v1 JSON.
 Today (before Phase 2): storage is JSON files behind backend/src/repositories/, the optional
-server in backend/src/server/ uses Node's http module, and GitHub Actions runs the daily ingest.
+server in backend/src/server/ uses Node's http module, and GitHub Actions runs the ingest. The news
+queue lives in Sanity when settings news.review.store is "sanity" (live) and in backend/data when it
+is "file" (demo mode and tests).
 Items marked "(Phase N)" below do not exist yet.
 
 ## Commands (run from backend/)
@@ -33,10 +36,16 @@ Items marked "(Phase N)" below do not exist yet.
   src/contracts/models.js; changing a field means updating models, schema (migration),
   serializers, js/ scripts and tests together (test/contract.test.js enforces this).
 - Web process (src/server, src/admin) never runs ingestion; worker (src/worker, Phase 3) does.
-- Status changes of stories go through src/editorial/transitions.js (Phase 6): state machine +
-  audit log.
-- Sanity (studio/) holds editorial content only: sponsors, events, Top Tweets, Advertise packages,
-  About/Privacy/Terms copy. Never news or jobs. Sanity data enters ONLY through src/cms/mapping.js and
+- Story status changes happen ONLY through the Studio's workflow actions. Their logic and rules are
+  studio/schemaTypes/newsWorkflow.js and newsRules.js, mirrored in backend/src/news/ (test/cms.test.js
+  proves they match). The importer may only create pending_review stories and patch ingest-owned
+  fields; nothing automated ever changes a status. Only the news publisher writes api/v1/news*, and only
+  stories that are published, due, approved by an id in settings news.review.approverIds, unchanged
+  since approval (content hash) and from a source whose licence is cleared.
+- Sanity (studio/) holds hand-written content (sponsors, events, Top Tweets, Advertise packages,
+  About/Privacy/Terms copy) and the news review queue (stories under private `queue.*` ids, news
+  sources, Capital Types, Asset Classes). Never jobs. The dataset is public (Free plan): any document
+  without a dot in its id is readable by anyone. Sanity data enters ONLY through src/cms/mapping.js and
   is validated by the existing pipeline validators before any file is written. Studio limits live in
   studio/schemaTypes/rules.js and must equal the backend's (test/cms.test.js enforces this).
 - Website scripts insert data with textContent only; pages expose data-fundsae-slot hooks and
@@ -47,11 +56,15 @@ Items marked "(Phase N)" below do not exist yet.
   metadata, and our own summary only. Discard content:encoded after extracting an excerpt.
 - Never download publisher images; hot-link only when source.allowImages is true.
 - Every published item shows source name + link to the original.
+- Publish only from sources whose licenseStatus is public_sector, wire, terms_reviewed or
+  permission_granted (PUBLISHABLE_LICENSE_STATUSES); the Studio and the publisher both refuse others.
 - AI summaries are written from headline + excerpt only, <= 280 chars, and are editor-approved.
 - Never bypass bot blocking (no fake user-agents, no proxies).
 
 ## Security rules
 - Secrets only from environment variables; never commit .env; never log secrets or personal data.
+- The Sanity write token (SANITY_WRITE_TOKEN) is used only by the news importer; everything else,
+  including the news publisher, uses the read-only token.
 - Admin routes require login + role check + CSRF token; 2FA required for editor and above.
 - Validate every input (zod or src/validation). Escape all output (templates auto-escape; the
   website uses textContent only).
