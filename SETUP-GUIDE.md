@@ -25,7 +25,7 @@ Whenever this guide says **save to GitHub**, do this in vscode.dev:
 | `api/v1/` | The data the pages read (news, jobs, events, sponsors), rebuilt every day |
 | `backend/` | The programs that build `api/v1/`, plus the optional server |
 | `assets/sponsors/` | Older sponsor images. New images are uploaded in the Sanity Studio |
-| `.github/workflows/` | The daily job, the content publisher and the tests |
+| `.github/workflows/` | The daily job, the hourly news fetch, the content publisher and the tests |
 
 ## 1. Put the files on GitHub
 
@@ -33,7 +33,7 @@ Whenever this guide says **save to GitHub**, do this in vscode.dev:
 2. Make sure the file list has everything in the table above at the top level (`.github`, `api`, `assets`, `backend`, `frontend_demo`, `js`, `index.html`, `i18n.js`, `.gitignore`, `.nojekyll`).
    - Mac users: folders starting with a dot are hidden in Finder. Press **Cmd + Shift + .** to show them.
 3. **Save to GitHub**.
-4. On github.com, check that `.github/workflows` contains four files: `ci.yml`, `daily-ingest.yml`, `publish-content.yml` and `tests.yml`.
+4. On github.com, check that `.github/workflows` contains five files: `ci.yml`, `daily-ingest.yml`, `news-ingest.yml`, `publish-content.yml` and `tests.yml`.
 
 ## 2. Turn on GitHub Pages
 
@@ -78,16 +78,19 @@ Sponsors, events, the home page "Top Tweets", the Advertise packages and the Abo
 - Editor guide: [`docs/SANITY-CMS-GUIDE.md`](docs/SANITY-CMS-GUIDE.md), Part 9. Setting up the Studio, the webhook and the GitHub secrets: Part 4.
 - Don't edit `backend/config/sponsors.json`, `events.json` or `content.json` by hand. The next publish from the Studio overwrites them.
 - While the site is in demo mode it shows sample events instead of the ones in the Studio. Past events drop off by themselves.
+- News stories are reviewed in the Studio's **News Review Queue**. Nothing is published until an approver publishes it. Editor guide: [`docs/NEWS-REVIEW-GUIDE.md`](docs/NEWS-REVIEW-GUIDE.md), Part 7.
 
 ## 6. Switch to real news (live mode)
 
-1. In vscode.dev open `backend/config/settings.json`.
-2. Change `"mode": "demo"` to `"mode": "live"`.
-3. **Save to GitHub**, then run the workflow again (step 3.4).
+In live mode every story goes through the News Review Queue in the Sanity Studio, and only stories an approver publishes reach the site.
+
+1. Follow [`docs/NEWS-REVIEW-GUIDE.md`](docs/NEWS-REVIEW-GUIDE.md), Part 8 ("Going live"). It sets up the queue, the approvers and the tokens, and switches `"mode"` to `"live"` in `backend/config/settings.json`. Don't change `mode` on its own: live mode refuses to run without the Sanity queue.
+2. Check that **Actions → News ingest** and **Publish content** run green.
+3. Approve and publish a few stories in the Studio, then clear the demo stories (Part 8, step 8).
 4. Open `.../api/v1/sources.json`. Each source shows a `status`:
    - `ok`: working.
-   - `error` or `not-found`: the feed address is wrong or blocked. Open the source's `url` in a browser. If you don't see XML with `<item>` or `<entry>`, find the right feed address on the publisher's site, or set `"enabled": false` for that source in `backend/config/sources.news.json`.
-5. Before relying on a publisher, read its terms of use for RSS feeds. Some allow personal use only. Disable any source whose terms don't fit a commercial site.
+   - `error` or `not-found`: the feed address is wrong or blocked. Open the source's `url` in a browser. If you don't see XML with `<item>` or `<entry>`, find the right feed address on the publisher's site, or switch off **Fetch this source** on that source in the Studio (**News sources and categories → News sources**).
+5. Before relying on a publisher, read its terms of use for RSS feeds. Some allow personal use only. Record what you find in the source's **Licence** tab: stories publish only from sources whose licence is cleared. Switch off any source whose terms don't fit a commercial site.
 6. To add job listings, follow the notes at the top of `backend/config/sources.jobs.json`. To post your own roles, edit `backend/config/jobs.manual.json` (the example roles are hidden automatically in live mode).
 7. In live mode the **Demo data** label disappears, and any area without real data shows "Nothing to show yet" instead of sample content.
 8. In the Sanity Studio, replace the sample sponsors (all marked "(demo)") with real, contracted sponsors, and add real events.
@@ -122,6 +125,7 @@ Submissions contain personal data. They are stored outside `api/`, are never pub
 | Workflow has a red cross | Open it and read the failed step. A message such as `settings.json is not valid JSON` means a missing or extra comma |
 | Sponsors, events or CMS content did not update | Actions → **Publish content** → read the failed step; each problem is described in plain words |
 | A news source keeps failing | See step 6.4. Failing sources pause themselves for 7 days |
+| An approved story is not on the site | See [`docs/NEWS-REVIEW-GUIDE.md`](docs/NEWS-REVIEW-GUIDE.md), Part 12 |
 | Forms say "Too many attempts" | Each visitor can send 5 forms a minute and 30 an hour. Adjust in `settings.json` if needed |
 | No daily updates for a while | GitHub pauses schedules on inactive repositories. Go to Actions, open the workflow, and click **Enable workflow** if shown |
 

@@ -114,6 +114,8 @@ frontend_demo/                       Slots: this.html (social-highlights), Adver
 .github/workflows/ci.yml             "studio" job: schema validate + build
 ```
 
+The News Review Queue (stories, sources, categories, the hourly import and its workflows) has its own code map: [NEWS-REVIEW-GUIDE.md](NEWS-REVIEW-GUIDE.md), Part 6.
+
 ## 4. One-time setup
 
 These are **human tasks**: they need your accounts. Do them in order. Commands run in PowerShell or Git Bash. `npx sanity …` commands run from `studio/`.
@@ -182,6 +184,8 @@ npm run deploy            # → https://fundsae.sanity.studio (SANITY_STUDIO_HOS
 
 Never put the token in a file in the repository, in `studio/.env` or in a webhook. The Studio needs no token.
 
+The news importer needs one more secret, a write token called `SANITY_WRITE_TOKEN`. Create it when you switch the news over: [NEWS-REVIEW-GUIDE.md](NEWS-REVIEW-GUIDE.md), Part 8, step 4.
+
 ### 4.5 Connect Publish in Sanity to the GitHub Action
 
 1. Create a **fine-grained personal access token** on GitHub (Settings → Developer settings → Fine-grained tokens):
@@ -196,12 +200,14 @@ Never put the token in a file in the repository, in `studio/.env` or in a webhoo
    | URL | `https://api.github.com/repos/<owner>/<repo>/dispatches` |
    | Dataset | `production` |
    | Trigger on | Create, Update, Delete |
-   | Filter | `_type in ["sponsorItem", "event", "socialHighlight", "advertiseTier", "page"]` |
-   | Projection | `{"event_type": "cms-publish"}` |
+   | Filter | `_type in ["sponsorItem", "event", "socialHighlight", "advertiseTier", "page", "newsSource", "capitalType", "assetClass", "newsPublishSignal", "newsAggregator"]` |
+   | Projection | `{"event_type": select(_type == "newsAggregator" => "news-fetch", "cms-publish")}` |
    | HTTP method | POST |
    | HTTP headers | `Authorization: Bearer <the GitHub token>`, `Accept: application/vnd.github+json`, `X-GitHub-Api-Version: 2022-11-28` |
    | API version | `v2025-02-19` |
    | Trigger on drafts / versions | **off** |
+
+   The news types in the filter are harmless before the news switch-over. The projection sends "news-fetch" for **Fetch News Now** and "cms-publish" for everything else, and never carries document content. Stories (`newsArticle`) are deliberately not in the filter. Details: [NEWS-REVIEW-GUIDE.md](NEWS-REVIEW-GUIDE.md), Part 8, step 5.
 
 3. Test it:
    1. Publish a small change in the **development** Studio. With the webhook on `production`, nothing should happen.

@@ -304,12 +304,14 @@ Record shapes are defined once in `src/contracts/models.js`. `schema/schema.sql`
 
 - **Commands:**
   - `npm run ingest` (everything), `ingest:news`, `ingest:jobs`, `publish:sponsors`, `publish:events`, `publish:content`
+  - `news:publish` (stories approvers published; `-- --allow-drop` passes the safety stop), `news:prune`, `cms:pull`, `cms:seed`
   - `validate`, `check-sources -- --config`, `reset-feed -- <id>`, `submissions:prune`
   - `serve`
 - **Logs:** GitHub → Actions → the run. Warnings and errors also appear as annotations.
 - **Failure alerts:** if every source fails or the code crashes, the workflow fails and GitHub emails the owner. The site keeps its previous data.
 - **Source health:** `api/v1/sources.json`. A paused source resumes after 7 days, or run `npm run reset-feed -- <id>`.
-- **Tests:** `npm test` runs 67 tests:
+- **News Review Queue:** every story waits in Sanity until an approver publishes it. Setup, settings and troubleshooting: [`../docs/NEWS-REVIEW-GUIDE.md`](../docs/NEWS-REVIEW-GUIDE.md).
+- **Tests:** `npm test` runs the whole suite (190 tests), including:
   - source configuration rules, the live source list, and the check-sources script
   - parsing (including real-world date formats), dedupe, grouping, classification and filters
   - HTTP retries, timeouts and limits
@@ -317,11 +319,14 @@ Record shapes are defined once in `src/contracts/models.js`. `schema/schema.sql`
   - validation rules
   - the API, database and website contract
   - the server's read, form, admin and static routes, including traversal, origin, size, type and rate-limit cases
+  - the review queue: importer whitelist, approval, scheduling, licence gate, held stories, safety stop, story pages, the news page filters and the optional AI suggestions (with a stand-in for Claude)
 
 ## 9. Legal and editorial
 
 - Only headlines, publisher-supplied excerpts (≤ 280 characters) and publisher-supplied feed images are used; full articles are never copied. Every item links to the original publisher, and grouped stories keep every source's link.
 - Images are hot-linked from the publisher's own feed, never copied, and only for sources with `allowImages: true` (set once the publisher's terms allow it).
+- Nothing is published without an approver, and only from sources whose licence is cleared (`public_sector`, `wire`, `terms_reviewed`, `permission_granted`).
+- Optional AI summaries (off by default) are written from the headline and excerpt only, for sources with `allowAiSummary: true`, and need an editor's approval like any other summary.
 - The fetcher identifies itself as `Mozilla/5.0 (compatible; FundsAeNewsBot/1.0; +https://funds.ae/about)`, the standard crawler format. A source that still answers 403 has blocked the bot: disable it and ask the publisher; never disguise the bot.
 - Set `contactEmail` in `config/settings.json` (or the `FUNDSAE_CONTACT_EMAIL` environment variable) to a role mailbox such as `news@funds.ae`. It is added to the user-agent (`…; +https://funds.ae/about; news@funds.ae)`). The SEC requires a contact in the user-agent, and live runs warn while SEC sources are enabled without one.
 - Before going live, review each publisher's terms for commercial reuse of its RSS feed and remove any source whose terms you cannot meet. The research so far is in [`docs/source-terms-review.md`](../docs/source-terms-review.md).

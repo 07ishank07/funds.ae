@@ -53,7 +53,7 @@ Of the 88 feeds still enabled, most sit in the "permission needed" or "not read"
    - Business Insider: "grounding … or as part of a retrieval-augmented generation"
    - Economic Times: "any other automated or technology-enabled summarization or aggregation"
 
-   **Keep AI summaries off for these sources**, even if you get display permission, unless the permission says otherwise. When the summary feature is built (Phase 3), add a per-source `allowAiSummary` flag that defaults to false.
+   **Keep AI summaries off for these sources**, even if you get display permission, unless the permission says otherwise. The optional AI summaries (built in October 2026; [NEWS-REVIEW-GUIDE.md](NEWS-REVIEW-GUIDE.md), Part 10) run only for sources with `allowAiSummary: true`. That flag defaults to false and needs licence status `terms_reviewed` or `permission_granted`.
 
 4. **"Headline and link only" is not safe everywhere.** Two publishers name headlines explicitly:
    - AltAssets and FinTech Global both forbid redistributing "any of the Content, including headlines (such as using them as part of any syndication, Content aggregation, news aggregation …)".
