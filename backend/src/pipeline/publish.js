@@ -14,6 +14,9 @@
 //   api/v1/content.json                Top Tweets, Advertise packages, About/Privacy/Terms copy (from Sanity)
 //   api/v1/sources.json                every source and its health
 //   api/v1/taxonomy.json               category, topic and section labels
+//
+// News comes only from the review queue: publishApprovedNews() takes the stories an approver
+// published (src/news/publicFilter.js decides) and nothing else.
 
 import { readdirSync, unlinkSync, existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
@@ -22,6 +25,9 @@ import { writeJsonAtomic } from '../store/jsonStore.js';
 import { buildClassifier } from '../lib/classify.js';
 import { shortHash, employerIdFor } from '../lib/url.js';
 import { envelope, listEnvelope, NOTICES } from '../contracts/envelope.js';
+import { log } from '../lib/logger.js';
+import { selectPublic, licenseLookup, excerptLookup } from '../news/publicFilter.js';
+import { DEMO_APPROVER_ID } from '../news/demoDecisions.js';
 import { toStoryDto, toJobDto, toEmployerDto, toEventDto, toSourceDto } from '../contracts/serializers.js';
 import { deriveEmployers } from './employers.js';
 
@@ -42,12 +48,19 @@ export function storyMatchesSection(story, section) {
   return inTopics && (!section.category || story.category === section.category);
 }
 
-export function publishNews(ctx, { articles, stories }) {
-  const { taxonomy, settings } = ctx;
+/** Writes every news file from published review documents (already passed by selectPublic). */
+export function publishNews(ctx, docs) {
+  const { taxonomy, settings, allNewsSources } = ctx;
   const classifier = buildClassifier(taxonomy);
-  const articlesById = new Map(articles.map((a) => [a.articleId, a]));
-  const items = stories
-    .map((s) => toStoryDto(s, articlesById, classifier.topicLabels, taxonomy.categories))
+  const imagesAllowed = new Set(allNewsSources.filter((s) => s.allowImages === true).map((s) => s.id));
+  const dtoCtx = {
+    topicLabels: classifier.topicLabels,
+    categories: taxonomy.categories,
+    allowsImages: (id) => imagesAllowed.has(id),
+    licenseOf: licenseLookup(allNewsSources)
+  };
+  const items = docs
+    .map((doc) => toStoryDto(doc, dtoCtx))
     .filter(Boolean)
     .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
 
@@ -87,6 +100,54 @@ export function publishNews(ctx, { articles, stories }) {
     byCategory: Object.fromEntries(taxonomy.categories.map((c) => [c.id, items.filter((i) => i.category === c.id).length])),
     version: versionOf(items.slice(0, maxStories))
   };
+}
+
+/** Story ids in the news.json that is live now (empty if there is none). */
+function readLiveStoryIds() {
+  try {
+    const doc = JSON.parse(readFileSync(path.join(API_DIR, 'news.json'), 'utf8'));
+    return (doc.items || []).map((s) => s.id).filter(Boolean);
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * The only way news reaches api/v1: published stories from the review queue that pass every
+ * check in src/news/publicFilter.js. Stories held back are logged by id, never by headline.
+ *
+ * Safety stop: a story that is live now but missing from the new set is "explained" when the
+ * queue still has it (an editor unpublished or archived it, its licence changed, ...) and is
+ * taken down. If the queue cannot find live stories at all (a wrong dataset, a revoked token),
+ * and more than news.publish.maxDropPercent of them would vanish, nothing is written unless
+ * allowDrop is set (`npm run news:publish -- --allow-drop`).
+ * @returns {Promise<{refused:true, previous:number, missing:number} | ReturnType<typeof publishNews>>}
+ */
+export async function publishApprovedNews(ctx, { allowDrop = false } = {}) {
+  const { review, settings, now, demo, allNewsSources } = ctx;
+  const candidates = await review.listPublishedCandidates(now);
+  const approverIds = demo ? [...settings.news.review.approverIds, DEMO_APPROVER_ID] : settings.news.review.approverIds;
+  const { stories, held } = selectPublic(candidates, {
+    now, approverIds, licenseOf: licenseLookup(allNewsSources), allowsExcerpt: excerptLookup(allNewsSources)
+  });
+  for (const h of held) log.warn('news.story.held', { story: h.id, reasons: h.reasons.join('; ') });
+
+  const liveIds = readLiveStoryIds();
+  const publicIds = new Set(stories.map((s) => s.storyId));
+  const dropped = liveIds.filter((id) => !publicIds.has(id));
+  const known = dropped.length ? new Set((await review.findByStoryIds(dropped)).map((d) => d.storyId)) : new Set();
+  const missing = dropped.filter((id) => !known.has(id)).length;
+  const missingPercent = liveIds.length ? (missing / liveIds.length) * 100 : 0;
+  if (!allowDrop && missing && (missing === liveIds.length || missingPercent > settings.news.publish.maxDropPercent)) {
+    log.error('news.publish.refused', {
+      live: liveIds.length, missing, maxDropPercent: settings.news.publish.maxDropPercent,
+      detail: 'Live stories are missing from the review queue, so the news files were left as they are. Check the dataset and token; if the stories really were deleted, run npm run news:publish -- --allow-drop.'
+    });
+    return { refused: true, previous: liveIds.length, missing };
+  }
+  const result = publishNews(ctx, stories);
+  log.info('news.published', { stories: result.stories, held: held.length });
+  return { ...result, held: held.length };
 }
 
 export function publishJobs(ctx, jobs) {

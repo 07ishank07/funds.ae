@@ -91,6 +91,12 @@ export const NEWS_SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 export const NEWS_LICENSE_STATUSES = ['public_sector', 'wire', 'terms_reviewed', 'permission_granted', 'pending_review', 'blocked'];
 export const PUBLISHABLE_LICENSE_STATUSES = ['public_sector', 'wire', 'terms_reviewed', 'permission_granted'];
 
+/** News source registry values (backend/src/config.js validates every source with these). */
+export const NEWS_SOURCE_TYPES = ['rss', 'api'];
+export const NEWS_SOURCE_REGIONS = ['uae', 'global'];
+export const NEWS_SOURCE_FOCUSES = ['private-markets', 'general-business'];
+export const NEWS_SOURCE_TIERS = ['L1', 'L2', 'L3', 'L4', 'L5'];
+
 /**
  * Sanity user ids allowed to approve, publish and schedule stories. Equals settings.json news.review.approverIds.
  * Empty means nobody can publish (fail closed). On the Sanity Free plan every member is an Administrator,

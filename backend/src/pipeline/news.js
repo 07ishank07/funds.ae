@@ -1,5 +1,10 @@
-// News pipeline: fetch -> normalise -> quality filter -> deduplicate ->
-// classify -> relevance filter -> link check -> group into stories -> prune.
+// News pipeline: fetch -> normalise -> quality filter -> deduplicate (this run and the
+// review queue) -> classify (topics, Capital Types, Asset Classes) -> relevance filter ->
+// link check -> group into stories -> write to the review queue -> prune.
+//
+// Nothing here publishes. New stories enter the queue as pending_review and reach the
+// site only after an approver publishes them in the Studio (docs/NEWS-REVIEW-GUIDE.md);
+// publishApprovedNews() in pipeline/publish.js builds the API from those alone.
 
 import { NEWS_ADAPTERS } from '../adapters/index.js';
 import { log } from '../lib/logger.js';
@@ -7,9 +12,13 @@ import { mapLimit, checkLink } from '../lib/http.js';
 import { htmlToText, cleanExcerpt, truncate, normaliseTitle, escapeRegExp } from '../lib/text.js';
 import { canonicalizeUrl, articleIdFor, isHttpUrl } from '../lib/url.js';
 import { buildClassifier, classifyArticle } from '../lib/classify.js';
+import { buildTaxonomyClassifier, classifyTaxonomy } from '../lib/taxonomyClassify.js';
 import { buildQualityRules, assessQuality, isPressRelease } from '../lib/quality.js';
-import { fingerprint, findStory, recomputeStory, storyIdFor } from '../lib/grouping.js';
+import { fingerprint, findStory, storyIdFor } from '../lib/grouping.js';
 import { stateFor, isPaused, recordSuccess, recordFailure } from '../lib/sourceHealth.js';
+import { newReviewDoc, otherSourceEntry } from '../news/reviewDocs.js';
+import { createMutation, ingestPatchMutations, pruneMutation } from '../news/importerMutations.js';
+import { PUBLISHABLE_LICENSE_STATUSES } from '../news/rules.js';
 
 const DAY = 86_400_000;
 const TITLE_DEDUPE_WINDOW = 7 * DAY;
@@ -62,29 +71,66 @@ export function normaliseItem(raw, source, settings, now) {
   };
 }
 
+/** Grouping and dedupe view of a queue story's articles: its lead and every outlet attached to it. */
+function storyMembers(doc) {
+  const lead = { articleId: doc.articleId, title: doc.originalHeadline, sourceId: doc.sourceId, guid: doc.guid, publishedAt: doc.sourcePublishedAt };
+  const others = (doc.otherSources || []).map((o) => ({ articleId: o.articleId, title: o.title, sourceId: o.sourceId, guid: o.guid, publishedAt: o.publishedAt }));
+  return [lead, ...others].filter((m) => m.articleId && m.title && m.publishedAt);
+}
+
+const timeOf = (iso) => new Date(iso).getTime();
+
+/**
+ * @param ctx  { settings, newsSources, allNewsSources, taxonomy, newsTaxonomy, now, demo,
+ *              review: NewsReviewRepository, newsHealth: { load(), save(state) } }
+ */
 export async function runNews(ctx) {
-  const { settings, newsSources, allNewsSources, taxonomy, repos, now, demo } = ctx;
+  const { settings, newsSources, allNewsSources, taxonomy, newsTaxonomy, review, newsHealth, now, demo } = ctx;
   const cfg = settings.news;
+  const queueCfg = cfg.review;
   const classifier = buildClassifier(taxonomy);
+  const taxonomyClassifier = buildTaxonomyClassifier(newsTaxonomy, taxonomy);
   const rules = buildQualityRules(taxonomy);
   const sourcePriority = new Map(allNewsSources.map((s) => [s.id, s.priority ?? 5]));
+  // A story can only be published from a source whose licence is cleared, so such a source leads when it can.
+  const cleared = new Set(allNewsSources.filter((s) => PUBLISHABLE_LICENSE_STATUSES.includes(s.licenseStatus)).map((s) => s.id));
 
-  const db = repos.news.load();
-  const feedState = repos.feedState.load();
+  // The queue is read before anything is fetched: if it cannot be read, nothing is written.
+  const recent = await review.loadRecent(new Date(now.getTime() - (cfg.maxAgeDays + 3) * DAY));
+  const feedState = await newsHealth.load();
 
-  // In-memory indexes over existing data.
-  const articlesById = new Map();
-  const byGuid = new Map();
-  const byTitleKey = new Map();
-  for (const a of db.articles) {
-    a.fp = fingerprint(a);
-    articlesById.set(a.articleId, a);
-    if (a.guid) byGuid.set(`${a.sourceId}::${a.guid}`, a);
-    byTitleKey.set(`${a.sourceId}::${normaliseTitle(a.title)}`, a);
+  // Indexes over the queue (lead articles and attached outlets) and over this run's new articles.
+  const known = new Map(); // articleId -> queue doc (null while the article is new in this run)
+  const byGuid = new Map(); // sourceId::guid -> { doc }
+  const byTitleKey = new Map(); // sourceId::title -> { doc, publishedAt }
+  const articlesById = new Map(); // articleId -> member with .fp, for grouping
+  const stories = []; // grouping candidates: queue stories plus stories founded in this run
+  for (const doc of recent) {
+    const members = storyMembers(doc);
+    if (!members.length) continue;
+    const times = members.map((m) => timeOf(m.publishedAt));
+    const story = {
+      doc,
+      articleIds: [],
+      added: [],
+      firstPublishedAt: new Date(Math.min(...times)).toISOString(),
+      lastPublishedAt: new Date(Math.max(...times)).toISOString()
+    };
+    for (const m of members) {
+      m.fp = fingerprint(m);
+      articlesById.set(m.articleId, m);
+      story.articleIds.push(m.articleId);
+      known.set(m.articleId, doc);
+      if (m.guid) byGuid.set(`${m.sourceId}::${m.guid}`, { doc });
+      byTitleKey.set(`${m.sourceId}::${normaliseTitle(m.title)}`, { doc, publishedAt: m.publishedAt });
+    }
+    stories.push(story);
   }
-  const storiesById = new Map(db.stories.map((s) => [s.storyId, s]));
 
-  const stats = { sources: {}, fetched: 0, added: 0, duplicates: 0, filtered: {}, grouped: 0, newStories: 0, pruned: 0 };
+  const stats = {
+    sources: {}, fetched: 0, added: 0, duplicates: 0, filtered: {}, grouped: 0, newStories: 0, attached: 0,
+    pruned: 0, queue: {}
+  };
   const bump = (reason) => { stats.filtered[reason] = (stats.filtered[reason] || 0) + 1; };
 
   /* 1. Fetch every source (isolated: one failure never stops the others). */
@@ -119,7 +165,13 @@ export async function runNews(ctx) {
   });
 
   /* 2. Normalise, filter, deduplicate and classify. */
-  const pending = new Map(); // articleId -> article (dedupes across feeds within this run)
+  const seen = new Map(); // queue doc id -> { doc, backfill } for stories found in the feeds again
+  const markSeen = (doc, backfill) => {
+    const entry = seen.get(doc._id) || { doc, backfill: {} };
+    Object.assign(entry.backfill, backfill);
+    seen.set(doc._id, entry);
+  };
+  const pending = new Map(); // articleId -> new article (dedupes across feeds within this run)
   for (const { source, items } of results) {
     for (const raw of items) {
       stats.fetched++;
@@ -133,14 +185,14 @@ export async function runNews(ctx) {
       const guidKey = `${source.id}::${item.guid}`;
       const titleKey = `${source.id}::${normaliseTitle(item.title)}`;
 
-      const existing = articlesById.get(articleId) || pending.get(articleId) || byGuid.get(guidKey);
       const sameTitle = byTitleKey.get(titleKey);
-      const titleDuplicate = sameTitle && Math.abs(new Date(sameTitle.publishedAt) - item.publishedAt) < TITLE_DEDUPE_WINDOW;
-      if (existing || titleDuplicate) {
-        const target = existing || sameTitle;
-        target.lastSeenAt = now.toISOString();
-        if (!target.imageUrl && item.imageUrl) target.imageUrl = item.imageUrl;
-        if (!target.summary && item.summary) target.summary = item.summary;
+      const titleDuplicate = Boolean(sameTitle) && Math.abs(timeOf(sameTitle.publishedAt) - item.publishedAt.getTime()) < TITLE_DEDUPE_WINDOW;
+      const guidHit = byGuid.get(guidKey);
+      if (known.has(articleId) || guidHit || titleDuplicate) {
+        // Already queued (or new in this run): refresh when it was last seen, and fill in a
+        // missing excerpt or image on the story's own lead article. Nothing editorial changes.
+        const doc = known.get(articleId) || guidHit?.doc || (titleDuplicate ? sameTitle.doc : null);
+        if (doc) markSeen(doc, doc.articleId === articleId ? { excerpt: item.summary || undefined, sourceImageUrl: item.imageUrl || undefined } : {});
         stats.duplicates++;
         continue;
       }
@@ -162,19 +214,17 @@ export async function runNews(ctx) {
         category: cls.category,
         topic: cls.topic,
         topics: cls.topics,
-        topicScores: cls.topicScores,
         uaeScore: cls.uaeScore,
         relevanceScore: cls.relevance,
         summary: item.summary,
         imageUrl: item.imageUrl,
         isPressRelease: isPressRelease(rules, item) || undefined,
-        storyId: null,
-        ingestedAt: now.toISOString(),
-        lastSeenAt: now.toISOString()
+        taxonomy: classifyTaxonomy(taxonomyClassifier, item, { uae: cls.category === 'uae' })
       };
       pending.set(articleId, article);
-      byGuid.set(guidKey, article);
-      byTitleKey.set(titleKey, article);
+      known.set(articleId, null);
+      byGuid.set(guidKey, { doc: null });
+      byTitleKey.set(titleKey, { doc: null, publishedAt: article.publishedAt });
     }
   }
 
@@ -194,73 +244,105 @@ export async function runNews(ctx) {
     });
   }
 
-  /* 4. Group into stories, oldest first so the earliest report founds the story. */
-  candidates.sort((a, b) => new Date(a.publishedAt) - new Date(b.publishedAt));
-  const recentWindow = now.getTime() - (cfg.maxAgeDays + 3) * DAY;
-  const recentStories = db.stories.filter((s) => new Date(s.lastPublishedAt).getTime() >= recentWindow);
-  const touched = new Set();
-
+  /* 4. Group into stories, oldest first. Queue stories keep their lead: a new report of one is
+        attached as another outlet. A story founded in this run takes as lead a source with a
+        cleared licence if it has one, then the most authoritative (lowest priority number), then
+        the earliest report, preferring original reporting. */
+  candidates.sort((a, b) => timeOf(a.publishedAt) - timeOf(b.publishedAt));
   for (const article of candidates) {
     article.fp = fingerprint(article);
     articlesById.set(article.articleId, article);
-    const story = findStory(article, recentStories, articlesById, cfg.grouping);
+    const story = findStory(article, stories, articlesById, cfg.grouping);
     if (story) {
       story.articleIds.push(article.articleId);
-      article.storyId = story.storyId;
+      story.added.push(article);
+      if (article.publishedAt < story.firstPublishedAt) story.firstPublishedAt = article.publishedAt;
+      if (article.publishedAt > story.lastPublishedAt) story.lastPublishedAt = article.publishedAt;
       stats.grouped++;
-      touched.add(story.storyId);
     } else {
-      const created = {
-        storyId: storyIdFor(article.articleId),
-        articleIds: [article.articleId],
-        createdAt: now.toISOString(),
-        firstPublishedAt: article.publishedAt,
-        lastPublishedAt: article.publishedAt
-      };
-      article.storyId = created.storyId;
-      storiesById.set(created.storyId, created);
-      recentStories.push(created);
-      stats.newStories++;
-      touched.add(created.storyId);
+      stories.push({ doc: null, articleIds: [article.articleId], added: [article], firstPublishedAt: article.publishedAt, lastPublishedAt: article.publishedAt });
     }
-    Object.assign(storiesById.get(article.storyId), recomputeStory(storiesById.get(article.storyId), articlesById, sourcePriority, settings));
-    stats.added++;
-    stats.sources[article.sourceId].added++;
   }
 
-  /* 5. Retention: drop articles older than retentionDays and clean up stories. */
-  const cutoff = now.getTime() - cfg.retentionDays * DAY;
-  for (const [id, a] of articlesById) {
-    if (new Date(a.publishedAt).getTime() < cutoff) {
-      articlesById.delete(id);
-      stats.pruned++;
-      if (a.storyId) touched.add(a.storyId);
+  /* 5. Turn the result into queue writes: new stories, outlets attached to queued stories, and
+        "last seen" refreshes (throttled, so editors' drafts are rarely touched). */
+  const creates = [];
+  const patches = new Map(); // doc id -> { set, setIfMissing }
+  const patchFor = (id) => patches.get(id) || patches.set(id, { set: {}, setIfMissing: {} }).get(id);
+  const nowIso = now.toISOString();
+  for (const story of stories) {
+    if (!story.added.length) continue;
+    if (story.doc) {
+      const attached = story.added.map((a) => otherSourceEntry(a, now));
+      patchFor(story.doc._id).set.otherSources = [...(story.doc.otherSources || []), ...attached];
+      patchFor(story.doc._id).set.lastSeenAt = nowIso;
+      stats.attached += attached.length;
+      for (const a of story.added) stats.sources[a.sourceId].added++;
+      continue;
     }
-  }
-  for (const storyId of touched) {
-    const story = storiesById.get(storyId);
-    if (!story) continue;
-    const recomputed = recomputeStory(
-      { ...story, articleIds: story.articleIds.filter((id) => articlesById.has(id)), updatedAt: now.toISOString() },
-      articlesById, sourcePriority, settings
+    const members = [...story.added].sort((a, b) =>
+      Number(!cleared.has(a.sourceId)) - Number(!cleared.has(b.sourceId)) ||
+      (sourcePriority.get(a.sourceId) ?? 9) - (sourcePriority.get(b.sourceId) ?? 9) ||
+      timeOf(a.publishedAt) - timeOf(b.publishedAt)
     );
-    if (recomputed) storiesById.set(storyId, recomputed);
-    else storiesById.delete(storyId);
+    const [lead, ...others] = members;
+    const isUae = members.some((m) => m.category === 'uae');
+    const cls = { ...lead.taxonomy, geography: isUae && !lead.taxonomy.geography.includes('uae') ? ['uae', ...lead.taxonomy.geography] : lead.taxonomy.geography };
+    const doc = newReviewDoc({ ...lead, category: isUae ? 'uae' : lead.category, storyId: storyIdFor(lead.articleId) }, cls, { now });
+    doc.otherSources = others.map((o) => otherSourceEntry(o, now));
+    creates.push(doc);
+    for (const m of members) stats.sources[m.sourceId].added++;
+  }
+  const throttleMs = queueCfg.lastSeenThrottleHours * 3_600_000;
+  for (const { doc, backfill } of seen.values()) {
+    const patch = patches.get(doc._id);
+    if (patch || now.getTime() - timeOf(doc.lastSeenAt || 0) >= throttleMs) patchFor(doc._id).set.lastSeenAt = nowIso;
+    // A missing excerpt or feed image is filled in only while nobody has decided on the story,
+    // so nothing appears on an approved story that the approver did not see.
+    if (doc.status === 'pending_review') {
+      for (const [field, value] of Object.entries(backfill)) {
+        if (value !== undefined && !doc[field]) patchFor(doc._id).setIfMissing[field] = value;
+      }
+    }
   }
 
-  /* 6. Persist (without in-memory fingerprints). */
-  const articles = [...articlesById.values()]
-    .map(({ fp, ...rest }) => rest)
-    .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
-  const stories = [...storiesById.values()].sort((a, b) => new Date(b.firstPublishedAt) - new Date(a.firstPublishedAt));
-  repos.news.save({ updatedAt: now.toISOString(), articles, stories });
-  repos.feedState.save(feedState);
+  /* 6. Respect the document budget (Sanity Free plan: 10,000 documents). */
+  const documents = await review.count();
+  const { warnAt, stopCreatesAt } = queueCfg.documentBudget;
+  if (documents >= warnAt) log.warn('news.queue.budget', { documents, warnAt, stopCreatesAt });
+  const room = Math.max(0, stopCreatesAt - documents);
+  if (creates.length > room) {
+    log.error('news.queue.full', {
+      documents, stopCreatesAt, skipped: creates.length - room,
+      detail: 'The review queue is at its document budget. Reject or archive stories, or lower news.review TTLs; the most relevant new stories were kept.'
+    });
+    creates.sort((a, b) => (b.priority || 0) - (a.priority || 0));
+    creates.length = room;
+  }
 
+  /* 7. Write: creates, patches (also on open drafts), then prune. */
+  const patchIds = [...patches.keys()].filter((id) => {
+    const p = patches.get(id);
+    return Object.keys(p.set).length || Object.keys(p.setIfMissing).length;
+  });
+  const drafts = patchIds.length ? await review.existingDraftIds(patchIds) : new Set();
+  const mutations = [
+    ...creates.map(createMutation),
+    ...patchIds.flatMap((id) => ingestPatchMutations(id, patches.get(id), { hasDraft: drafts.has(id) })),
+    pruneMutation({ now, pendingTtlDays: queueCfg.pendingTtlDays, rejectedTtlDays: queueCfg.rejectedTtlDays })
+  ];
+  const written = await review.commit(mutations);
+  await newsHealth.save(feedState);
+
+  stats.added = written.created;
+  stats.newStories = written.created;
+  stats.pruned = written.deleted;
+  stats.queue = { ...written, documents: documents + written.created - written.deleted, drafts: drafts.size };
   const failed = results.filter((r) => r.failed).length;
   const skipped = results.filter((r) => r.skipped).length;
   log.info('news.done', {
-    fetched: stats.fetched, added: stats.added, duplicates: stats.duplicates, grouped: stats.grouped,
-    stories: stories.length, filtered: stats.filtered, failedSources: failed
+    fetched: stats.fetched, queued: written.created, attached: stats.attached, duplicates: stats.duplicates,
+    grouped: stats.grouped, pruned: written.deleted, filtered: stats.filtered, failedSources: failed
   });
-  return { stats, failedSources: failed, skippedSources: skipped, totalSources: newsSources.length, articles, stories, feedState };
+  return { stats, failedSources: failed, skippedSources: skipped, totalSources: newsSources.length, feedState };
 }

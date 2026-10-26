@@ -6,6 +6,7 @@
 // values are null, never "".
 
 import { ADVERTISE_PLACEMENT_LABELS } from './models.js';
+import { PUBLISHABLE_LICENSE_STATUSES } from '../news/rules.js';
 
 /** Trimmed non-empty string, or null. */
 export function nullable(value) {
@@ -14,37 +15,61 @@ export function nullable(value) {
   return s ? s : null;
 }
 
-export function toStoryDto(story, articlesById, topicLabels, categories) {
-  const members = story.articleIds.map((id) => articlesById.get(id)).filter(Boolean);
-  const lead = articlesById.get(story.leadArticleId) || members[0];
-  if (!lead) return null;
-  const cat = categories.find((c) => c.id === story.category);
-  const sources = members
-    .sort((a, b) => (a.articleId === lead.articleId ? -1 : b.articleId === lead.articleId ? 1 : 0))
-    .map((m) => ({
-      articleId: m.articleId,
-      source: m.sourceName,
-      sourceId: m.sourceId,
-      title: m.title,
-      url: m.originalUrl,
-      publishedAt: m.publishedAt
-    }));
+/**
+ * UAE or Rest of the World for a review document: the editor's geography decides when set,
+ * otherwise the importer's UAE score (doc.category).
+ */
+export function storyCategory(doc) {
+  if (Array.isArray(doc.geography) && doc.geography.length) return doc.geography.includes('uae') ? 'uae' : 'world';
+  return doc.category === 'uae' ? 'uae' : 'world';
+}
+
+/**
+ * A published review document (src/news/publicFilter.js has already passed it) as a public story.
+ * Other outlets are listed only if they were attached before the approval (anything the importer
+ * added later stays private until an approver approves the story again) and only if their own
+ * source's licence is cleared: an outlet's headline and link are publisher content too.
+ * @param {object} doc
+ * @param {{topicLabels:Record<string,string>, categories:object[], allowsImages:(sourceId:string)=>boolean,
+ *          licenseOf:(sourceId:string)=>string|undefined}} ctx
+ */
+export function toStoryDto(doc, { topicLabels, categories, allowsImages, licenseOf }) {
+  if (!doc?.storyId || !doc.originalUrl || !doc.sourceName) return null;
+  const approvedAt = doc.approval?.approvedAt ? new Date(doc.approval.approvedAt).getTime() : 0;
+  const lead = {
+    articleId: doc.articleId,
+    source: doc.sourceName,
+    sourceId: doc.sourceId,
+    title: doc.originalHeadline,
+    url: doc.originalUrl,
+    publishedAt: doc.sourcePublishedAt
+  };
+  const others = (doc.otherSources || [])
+    .filter((o) => o.attachedAt && new Date(o.attachedAt).getTime() <= approvedAt && o.url && o.sourceName)
+    .filter((o) => PUBLISHABLE_LICENSE_STATUSES.includes(licenseOf(o.sourceId)))
+    .map((o) => ({ articleId: o.articleId, source: o.sourceName, sourceId: o.sourceId, title: o.title, url: o.url, publishedAt: o.publishedAt }));
+  const sources = [lead, ...others];
+  const times = sources.map((s) => new Date(s.publishedAt).getTime()).filter(Number.isFinite);
+  const category = storyCategory(doc);
+  const cat = categories.find((c) => c.id === category);
+  const topic = doc.topic || 'general-investment';
   return {
-    id: story.storyId,
-    headline: story.headline,
-    summary: nullable(story.summary),
-    url: lead.originalUrl,
-    source: lead.sourceName,
-    sourceId: lead.sourceId,
-    publishedAt: story.firstPublishedAt,
-    updatedAt: story.lastPublishedAt,
-    category: story.category,
-    categoryLabel: cat?.label || story.category,
-    uiLabel: cat?.uiLabel || cat?.label || story.category,
-    topic: story.topic,
-    topicLabel: topicLabels[story.topic] || story.topic,
-    topics: story.topics || [],
-    imageUrl: nullable(story.imageUrl),
+    id: doc.storyId,
+    headline: String(doc.headline).trim(),
+    summary: nullable(doc.summary),
+    url: doc.originalUrl,
+    source: doc.sourceName,
+    sourceId: doc.sourceId,
+    publishedAt: new Date(Math.min(...times)).toISOString(),
+    updatedAt: new Date(Math.max(...times)).toISOString(),
+    category,
+    categoryLabel: cat?.label || category,
+    uiLabel: cat?.uiLabel || cat?.label || category,
+    topic,
+    topicLabel: topicLabels[topic] || topic,
+    topics: doc.topics || [],
+    // Publisher images are hot-linked only while the source allows it (checked at publish time).
+    imageUrl: allowsImages(doc.sourceId) ? nullable(doc.sourceImageUrl) : null,
     sourceCount: new Set(sources.map((s) => s.sourceId)).size,
     sources
   };

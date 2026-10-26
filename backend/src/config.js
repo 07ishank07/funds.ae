@@ -5,7 +5,10 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { EMAIL_RE } from './validation/validate.js';
-import { NEWS_GEOGRAPHIES, NEWS_HOME_SECTIONS, NEWS_LIMITS, NEWS_TRANSACTION_TYPES } from './news/rules.js';
+import {
+  NEWS_GEOGRAPHIES, NEWS_HOME_SECTIONS, NEWS_LICENSE_STATUSES, NEWS_LIMITS, NEWS_SOURCE_FOCUSES, NEWS_SOURCE_REGIONS,
+  NEWS_SOURCE_TIERS, NEWS_SOURCE_TYPES, NEWS_TRANSACTION_TYPES
+} from './news/rules.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 export const BACKEND_DIR = path.resolve(here, '..');
@@ -50,8 +53,9 @@ const loadConfig = (name) => stripDocs(readJson(path.join(CONFIG_DIR, name)));
 const ID_RE = /^[a-z0-9][a-z0-9-]{1,60}$/;
 
 // Licensing and scheduling fields for news sources (build guide Part C1 and C5).
-export const SOURCE_TIERS = ['L1', 'L2', 'L3', 'L4', 'L5'];
-export const LICENSE_STATUSES = ['public_sector', 'wire', 'terms_reviewed', 'permission_granted', 'pending_review', 'blocked'];
+// The values are shared with the Sanity Studio's source editor (src/news/rules.js).
+export const SOURCE_TIERS = NEWS_SOURCE_TIERS;
+export const LICENSE_STATUSES = NEWS_LICENSE_STATUSES;
 const NEWS_FIELDS = new Set([
   'id', 'name', 'homepage', 'type', 'url', 'fixture', 'enabled', 'verified', 'region', 'focus', 'priority',
   'allowImages', 'allowExcerpt', 'tier', 'licenseStatus', 'termsUrl', 'termsReviewedAt', 'language',
@@ -145,7 +149,7 @@ export function withNewsDefaults(source) {
 export function validateSources(list, kind, { demo }) {
   const errors = [];
   const seen = new Set();
-  const newsTypes = ['rss', 'api'];
+  const newsTypes = NEWS_SOURCE_TYPES;
   const jobTypes = ['rss', 'greenhouse', 'lever', 'ashby'];
   list.forEach((s, i) => {
     const where = `${kind} source #${i + 1} (${s.id || 'no id'})`;
@@ -167,8 +171,8 @@ export function validateSources(list, kind, { demo }) {
       errors.push(`${where}: set "board" to the employer's board token, or set enabled to false.`);
     }
     if (kind === 'news') {
-      if (!['uae', 'global'].includes(s.region)) errors.push(`${where}: "region" must be "uae" or "global".`);
-      if (!['private-markets', 'general-business'].includes(s.focus)) {
+      if (!NEWS_SOURCE_REGIONS.includes(s.region)) errors.push(`${where}: "region" must be "uae" or "global".`);
+      if (!NEWS_SOURCE_FOCUSES.includes(s.focus)) {
         errors.push(`${where}: "focus" must be "private-markets" or "general-business".`);
       }
     }
@@ -314,6 +318,8 @@ export function applyNewsSettings(settings) {
 
   const errors = [];
   const { review, registry, publish } = news;
+  // Legal rule: never more than a 280-character publisher excerpt (CLAUDE.md).
+  if (!isWhole(news.excerptMaxChars, 1, NEWS_LIMITS.excerpt[1])) errors.push(`"news.excerptMaxChars" must be a whole number from 1 to ${NEWS_LIMITS.excerpt[1]}.`);
   if (!['file', 'sanity'].includes(review.store)) errors.push('"news.review.store" must be "file" or "sanity".');
   if (!['file', 'sanity'].includes(registry.source)) errors.push('"news.registry.source" must be "file" or "sanity".');
   if (!Array.isArray(review.approverIds) || review.approverIds.some((id) => typeof id !== 'string' || !SANITY_USER_ID_RE.test(id))) {

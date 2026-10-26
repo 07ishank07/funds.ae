@@ -6,7 +6,7 @@
 // editors own (src/news/rules.js). Every mutation passes assertImporterMutation()
 // before it is sent to Sanity or applied to the file queue; tests check every request.
 
-import { NEWS_INGEST_FIELDS, NEWS_INGEST_PATCH_FIELDS, NEWS_PREFILL_FIELDS } from './rules.js';
+import { NEWS_INGEST_FIELDS, NEWS_INGEST_PATCH_FIELDS, NEWS_LIMITS, NEWS_PREFILL_FIELDS } from './rules.js';
 import { NEWS_DOC_TYPE, draftIdFor, isReviewId } from './reviewDocs.js';
 
 export class ImporterMutationError extends Error {}
@@ -46,12 +46,23 @@ const fail = (message) => {
   throw new ImporterMutationError(`Refused importer mutation: ${message}`);
 };
 
+/** Never more than a 280-character excerpt or summary of publisher text (CLAUDE.md legal rules). */
+function assertShortText(fields) {
+  for (const field of ['excerpt', 'summary']) {
+    const value = fields[field];
+    if (value !== undefined && (typeof value !== 'string' || value.length > NEWS_LIMITS.excerpt[1])) {
+      fail(`"${field}" must be text of at most ${NEWS_LIMITS.excerpt[1]} characters.`);
+    }
+  }
+}
+
 function assertCreate(doc) {
   if (!doc || typeof doc !== 'object') fail('createIfNotExists needs a document.');
   if (!isReviewId(doc._id)) fail(`"${doc._id}" is not a queue id (queue.a_<16 hex>).`);
   if (doc._type !== NEWS_DOC_TYPE) fail(`type must be ${NEWS_DOC_TYPE}.`);
   if (doc.status !== 'pending_review') fail(`a new story must be pending_review, not "${doc.status}".`);
   for (const key of Object.keys(doc)) if (!CREATE_FIELDS.has(key)) fail(`the importer may not write "${key}".`);
+  assertShortText(doc);
 }
 
 function assertPatch(patch) {
@@ -67,6 +78,7 @@ function assertPatch(patch) {
       const field = path.split(/[.[]/)[0];
       if (!PATCH_FIELDS.has(field)) fail(`the importer may not change "${field}" on an existing story.`);
     }
+    assertShortText(fields);
   }
 }
 

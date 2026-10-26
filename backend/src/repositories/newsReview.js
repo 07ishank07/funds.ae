@@ -4,6 +4,7 @@
 // settings.json news.review.store picks one. The importer only writes through commit(), which
 // accepts nothing but the mutations in src/news/importerMutations.js.
 
+import { ConfigError } from '../config.js';
 import { assertImporterMutation, pruneMatches, STATE_DOC_ID } from '../news/importerMutations.js';
 import { isReviewId } from '../news/reviewDocs.js';
 
@@ -17,6 +18,7 @@ const DEFAULTS = { docs: [], state: null };
  * @property {(ids:string[]) => Promise<Set<string>>} existingDraftIds  which of these stories have an open draft
  * @property {(mutations:object[]) => Promise<{created:number, patched:number, deleted:number}>} commit
  * @property {(now:Date) => Promise<object[]>} listPublishedCandidates  status published, due; checked again by selectPublic()
+ * @property {(storyIds:string[]) => Promise<{_id:string, storyId:string, status:string}[]>} findByStoryIds  any status (the safety stop)
  * @property {() => Promise<number>} count                     documents held (the Sanity plan's budget)
  * @property {() => Promise<object|null>} loadState            the importer's own state (source health, last run)
  */
@@ -26,6 +28,26 @@ const time = (value) => (value ? new Date(value).getTime() : 0);
 function applyPatch(doc, patch) {
   for (const [field, value] of Object.entries(patch.setIfMissing || {})) if (doc[field] === undefined) doc[field] = structuredClone(value);
   for (const [field, value] of Object.entries(patch.set || {})) doc[field] = structuredClone(value);
+}
+
+/**
+ * The queue settings.json news.review.store asks for.
+ * Live mode refuses the file queue: GitHub Pages serves backend/data, so pending stories in a
+ * committed file would be public. Tests and local experiments can allow it with
+ * FUNDSAE_ALLOW_FILE_QUEUE=1 (the live file is git-ignored too).
+ */
+export function createNewsReviewRepository({ settings, demo }, store) {
+  const kind = settings.news.review.store;
+  if (kind === 'sanity') {
+    throw new ConfigError('settings.json news.review.store "sanity" needs the Sanity queue, which is not built yet. Use "file".');
+  }
+  if (!demo && process.env.FUNDSAE_ALLOW_FILE_QUEUE !== '1') {
+    throw new ConfigError(
+      'Live mode keeps the news review queue in Sanity (settings.json news.review.store "sanity"). ' +
+      'A file queue would be published by GitHub Pages. See docs/NEWS-REVIEW-GUIDE.md.'
+    );
+  }
+  return createFileNewsReview(store, { editorialWrites: demo });
 }
 
 /**
@@ -83,6 +105,11 @@ export function createFileNewsReview(store, { editorialWrites = false } = {}) {
 
     async listPublishedCandidates(now) {
       return load().docs.filter((d) => isReviewId(d._id) && d.status === 'published' && time(d.publishedAt) <= now.getTime());
+    },
+
+    async findByStoryIds(storyIds) {
+      const wanted = new Set(storyIds);
+      return load().docs.filter((d) => isReviewId(d._id) && wanted.has(d.storyId)).map(({ _id, storyId, status }) => ({ _id, storyId, status }));
     },
 
     async count() {

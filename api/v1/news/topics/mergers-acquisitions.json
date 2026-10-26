@@ -1,11 +1,11 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-10-26T08:38:09.143Z",
+  "generatedAt": "2026-10-26T09:03:00.458Z",
   "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
   "topic": "mergers-acquisitions",
   "label": "M&A",
-  "count": 3,
+  "count": 2,
   "items": [
     {
       "id": "s_89280b2a65569b",
@@ -14,8 +14,8 @@
       "url": "https://example.com/emirates-markets/harbourline-takeover",
       "source": "Demo Emirates Markets",
       "sourceId": "demo-emirates-markets",
-      "publishedAt": "2026-10-24T07:38:09.000Z",
-      "updatedAt": "2026-10-24T07:38:09.000Z",
+      "publishedAt": "2026-10-24T08:03:00.000Z",
+      "updatedAt": "2026-10-24T08:03:00.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -34,38 +34,7 @@
           "sourceId": "demo-emirates-markets",
           "title": "Abu Dhabi logistics group Harbourline agrees $1.2bn takeover of Omani port operator",
           "url": "https://example.com/emirates-markets/harbourline-takeover",
-          "publishedAt": "2026-10-24T07:38:09.000Z"
-        }
-      ]
-    },
-    {
-      "id": "s_1a1fbf34e56a27",
-      "headline": "Secondaries volume hits record as LPs seek liquidity",
-      "summary": "GP-led continuation vehicles accounted for almost half of first-half deal value, a broker report found.",
-      "url": "https://example.com/private-capital-daily/secondaries-record",
-      "source": "Demo Private Capital Daily",
-      "sourceId": "demo-private-capital-daily",
-      "publishedAt": "2026-10-24T06:38:09.143Z",
-      "updatedAt": "2026-10-24T06:38:09.143Z",
-      "category": "world",
-      "categoryLabel": "Rest of the World",
-      "uiLabel": "Global News",
-      "topic": "secondaries",
-      "topicLabel": "Secondaries",
-      "topics": [
-        "secondaries",
-        "mergers-acquisitions"
-      ],
-      "imageUrl": null,
-      "sourceCount": 1,
-      "sources": [
-        {
-          "articleId": "a_86b33d1bb6e472ba",
-          "source": "Demo Private Capital Daily",
-          "sourceId": "demo-private-capital-daily",
-          "title": "Secondaries volume hits record as LPs seek liquidity",
-          "url": "https://example.com/private-capital-daily/secondaries-record",
-          "publishedAt": "2026-10-24T06:38:09.143Z"
+          "publishedAt": "2026-10-24T08:03:00.000Z"
         }
       ]
     },
@@ -76,8 +45,8 @@
       "url": "https://example.com/gulf-wire/sandstone-majority-stake-dairy",
       "source": "Demo Gulf Wire",
       "sourceId": "demo-gulf-wire",
-      "publishedAt": "2026-10-23T06:38:09.000Z",
-      "updatedAt": "2026-10-23T06:38:09.000Z",
+      "publishedAt": "2026-10-23T07:03:00.000Z",
+      "updatedAt": "2026-10-23T07:03:00.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -95,7 +64,7 @@
           "sourceId": "demo-gulf-wire",
           "title": "Abu Dhabi's Sandstone Holdings takes majority stake in Egyptian dairy group",
           "url": "https://example.com/gulf-wire/sandstone-majority-stake-dairy",
-          "publishedAt": "2026-10-23T06:38:09.000Z"
+          "publishedAt": "2026-10-23T07:03:00.000Z"
         }
       ]
     }

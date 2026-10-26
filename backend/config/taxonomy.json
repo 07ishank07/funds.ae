@@ -259,7 +259,7 @@
   ],
   "_transactionTypesHelp": "Transaction type suggestion (one per story): the highest score of 3 or more wins. Ids must equal NEWS_TRANSACTION_TYPES in src/news/rules.js. Stories about these deals also rank higher in the review queue.",
   "transactionTypes": [
-    { "id": "fund-close", "keywords": { "final close": 3, "first close": 3, "fund close": 3, "closes fund": 3, "hard cap": 3, "oversubscribed": 2 } },
+    { "id": "fund-close", "keywords": { "final close": 3, "first close": 3, "fund close": 3, "closes fund": 3, "hard cap": 3, "oversubscribed": 2, "above target": 2 } },
     { "id": "fund-launch", "keywords": { "launches fund": 3, "fund launch": 3, "debut fund": 3, "inaugural fund": 3, "new fund": 2, "launches a new": 2 } },
     { "id": "capital-raising", "keywords": { "capital raise": 3, "capital raising": 3, "equity raise": 3, "fundraise": 3, "fundraising": 3, "secures funding": 3, "raises": 2, "raised": 2 } },
     { "id": "refinancing", "keywords": { "refinancing": 3, "refinance": 3, "refinances": 3, "refinanced": 3 } },

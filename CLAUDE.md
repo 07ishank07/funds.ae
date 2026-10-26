@@ -21,6 +21,9 @@ Items marked "(Phase N)" below do not exist yet.
 - npm test                 all tests (must pass before any commit)
 - npm run validate         check config files
 - npm run ingest           one ingestion run (demo mode by default)
+- npm run ingest:news      fetch news into the review queue (never publishes by itself)
+- npm run news:publish     publish the stories approvers published (add -- --allow-drop to pass the safety stop)
+- npm run news:prune       delete stale pending and rejected stories from the review queue
 - npm run serve            optional server: pages + API + forms on http://localhost:8080
 - npm run publish:content  validate + publish sponsors, events and content.json
 - npm run cms:pull         copy published Sanity content into config/ (needs content.source "sanity" + SANITY_* env)

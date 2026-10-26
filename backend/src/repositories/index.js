@@ -8,16 +8,18 @@
 
 import path from 'node:path';
 import { SubmissionsRepository } from './submissions.js';
+import { REVIEW_FILE } from './newsReview.js';
 
+// News lives in the review queue (repositories/newsReview.js): Sanity in live mode,
+// news-review.json in demo mode.
 const TABLES = {
-  news: { file: 'news-db.json', defaults: { articles: [], stories: [] } },
   jobs: { file: 'jobs-db.json', defaults: { jobs: [] } },
   feedState: { file: 'feed-state.json', defaults: { sources: {} } },
   runs: { file: 'run-history.json', defaults: { runs: [] } }
 };
 
 // Rebuilt from scratch on every full demo run so demo dates stay current.
-export const DEMO_RESETTABLE = ['news', 'jobs', 'feedState'].map((t) => TABLES[t].file);
+export const DEMO_RESETTABLE = [REVIEW_FILE, ...['jobs', 'feedState'].map((t) => TABLES[t].file)];
 
 /**
  * @param {import('../store/jsonStore.js').JsonStore} store
@@ -28,7 +30,6 @@ export function createRepositories(store) {
     save: (data) => store.save(file, data)
   });
   return {
-    news: table(TABLES.news),
     jobs: table(TABLES.jobs),
     feedState: table(TABLES.feedState),
     runs: {

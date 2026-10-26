@@ -1,12 +1,60 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-10-26T08:38:09.143Z",
+  "generatedAt": "2026-10-26T09:03:00.458Z",
   "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
   "topic": "pension-funds",
   "label": "Pension funds",
-  "count": 3,
+  "count": 4,
   "items": [
+    {
+      "id": "s_5dbd32a8d22e9c",
+      "headline": "Abu Dhabi's Falcon Ridge Capital closes $750m second private credit fund",
+      "summary": "The ADGM-registered manager said the fund drew commitments from regional pension funds and family offices, and will lend to mid-sized companies across the GCC.",
+      "url": "https://example.com/gulf-wire/falcon-ridge-private-credit-fund-ii",
+      "source": "Demo Gulf Wire",
+      "sourceId": "demo-gulf-wire",
+      "publishedAt": "2026-10-26T00:03:00.000Z",
+      "updatedAt": "2026-10-26T04:03:00.458Z",
+      "category": "uae",
+      "categoryLabel": "UAE",
+      "uiLabel": "UAE News",
+      "topic": "private-credit",
+      "topicLabel": "Private credit",
+      "topics": [
+        "private-credit",
+        "institutional-investors",
+        "pension-funds"
+      ],
+      "imageUrl": "https://example.com/images/falcon-ridge.jpg",
+      "sourceCount": 3,
+      "sources": [
+        {
+          "articleId": "a_f571fc8bf3c58049",
+          "source": "Demo Gulf Wire",
+          "sourceId": "demo-gulf-wire",
+          "title": "Abu Dhabi's Falcon Ridge Capital closes $750m second private credit fund",
+          "url": "https://example.com/gulf-wire/falcon-ridge-private-credit-fund-ii",
+          "publishedAt": "2026-10-26T00:03:00.000Z"
+        },
+        {
+          "articleId": "a_0767f4e44124c67e",
+          "source": "Demo Emirates Markets",
+          "sourceId": "demo-emirates-markets",
+          "title": "Falcon Ridge Capital raises $750 million for private credit strategy",
+          "url": "https://example.com/emirates-markets/falcon-ridge-750-million",
+          "publishedAt": "2026-10-26T02:03:00.000Z"
+        },
+        {
+          "articleId": "a_7ce855c52942d109",
+          "source": "Demo Private Capital Daily",
+          "sourceId": "demo-private-capital-daily",
+          "title": "Abu Dhabi manager Falcon Ridge wraps up $750m private credit fundraise",
+          "url": "https://example.com/private-capital-daily/falcon-ridge-wraps-up",
+          "publishedAt": "2026-10-26T04:03:00.458Z"
+        }
+      ]
+    },
     {
       "id": "s_1ec502cf2475e3",
       "headline": "Gulf sovereign investors join $1bn round for London AI infrastructure firm Northlight",
@@ -14,8 +62,8 @@
       "url": "https://example.com/private-capital-daily/northlight-1bn-round",
       "source": "Demo Private Capital Daily",
       "sourceId": "demo-private-capital-daily",
-      "publishedAt": "2026-10-25T12:38:09.143Z",
-      "updatedAt": "2026-10-25T12:38:09.143Z",
+      "publishedAt": "2026-10-25T13:03:00.458Z",
+      "updatedAt": "2026-10-25T13:03:00.458Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -35,7 +83,7 @@
           "sourceId": "demo-private-capital-daily",
           "title": "Gulf sovereign investors join $1bn round for London AI infrastructure firm Northlight",
           "url": "https://example.com/private-capital-daily/northlight-1bn-round",
-          "publishedAt": "2026-10-25T12:38:09.143Z"
+          "publishedAt": "2026-10-25T13:03:00.458Z"
         }
       ]
     },
@@ -46,8 +94,8 @@
       "url": "https://example.com/property-sme-wire/brindlecourt-data-centre-fund",
       "source": "Demo Property and SME Wire",
       "sourceId": "demo-property-sme-wire",
-      "publishedAt": "2026-10-24T23:38:09.000Z",
-      "updatedAt": "2026-10-24T23:38:09.000Z",
+      "publishedAt": "2026-10-25T00:03:00.000Z",
+      "updatedAt": "2026-10-25T00:03:00.000Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -67,7 +115,7 @@
           "sourceId": "demo-property-sme-wire",
           "title": "Brindlecourt Infrastructure closes €1.2bn infrastructure fund for European data centres",
           "url": "https://example.com/property-sme-wire/brindlecourt-data-centre-fund",
-          "publishedAt": "2026-10-24T23:38:09.000Z"
+          "publishedAt": "2026-10-25T00:03:00.000Z"
         }
       ]
     },
@@ -78,8 +126,8 @@
       "url": "https://example.com/private-capital-daily/pensions-infrastructure-debt",
       "source": "Demo Private Capital Daily",
       "sourceId": "demo-private-capital-daily",
-      "publishedAt": "2026-10-23T08:38:09.143Z",
-      "updatedAt": "2026-10-23T08:38:09.143Z",
+      "publishedAt": "2026-10-23T09:03:00.458Z",
+      "updatedAt": "2026-10-23T09:03:00.458Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -99,7 +147,7 @@
           "sourceId": "demo-private-capital-daily",
           "title": "Pension funds lift allocations to infrastructure debt",
           "url": "https://example.com/private-capital-daily/pensions-infrastructure-debt",
-          "publishedAt": "2026-10-23T08:38:09.143Z"
+          "publishedAt": "2026-10-23T09:03:00.458Z"
         }
       ]
     }

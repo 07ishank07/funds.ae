@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-10-26T08:38:09.143Z",
+  "generatedAt": "2026-10-26T09:03:00.458Z",
   "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
   "section": "ai-technology",
   "label": "Tech and Data Centres",
@@ -14,8 +14,8 @@
       "url": "https://example.com/gulf-wire/qirsh-series-b",
       "source": "Demo Gulf Wire",
       "sourceId": "demo-gulf-wire",
-      "publishedAt": "2026-10-25T02:38:09.000Z",
-      "updatedAt": "2026-10-25T12:38:09.000Z",
+      "publishedAt": "2026-10-25T03:03:00.000Z",
+      "updatedAt": "2026-10-25T13:03:00.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -24,7 +24,7 @@
       "topics": [
         "venture-capital",
         "ai-technology",
-        "institutional-investors"
+        "commercial-real-estate"
       ],
       "imageUrl": "https://example.com/images/qirsh.jpg",
       "sourceCount": 3,
@@ -35,7 +35,7 @@
           "sourceId": "demo-gulf-wire",
           "title": "Dubai-based fintech Qirsh raises $45 million Series B led by Sandline Ventures",
           "url": "https://example.com/gulf-wire/qirsh-series-b",
-          "publishedAt": "2026-10-25T02:38:09.000Z"
+          "publishedAt": "2026-10-25T03:03:00.000Z"
         },
         {
           "articleId": "a_d0a9ae63a58b381b",
@@ -43,7 +43,7 @@
           "sourceId": "demo-emirates-markets",
           "title": "Qirsh secures $45m in Series B round as Dubai payments start-up expands to Riyadh",
           "url": "https://example.com/emirates-markets/qirsh-45m-series-b-riyadh",
-          "publishedAt": "2026-10-25T06:38:09.000Z"
+          "publishedAt": "2026-10-25T07:03:00.000Z"
         },
         {
           "articleId": "a_e72c6985fb047deb",
@@ -51,7 +51,7 @@
           "sourceId": "demo-venture-ledger",
           "title": "Qirsh lands $45 million to take buy-now-pay-later across the Gulf",
           "url": "https://example.com/venture-ledger/qirsh-45-million",
-          "publishedAt": "2026-10-25T12:38:09.000Z"
+          "publishedAt": "2026-10-25T13:03:00.000Z"
         }
       ]
     },
@@ -62,8 +62,8 @@
       "url": "https://example.com/property-sme-wire/brindlecourt-data-centre-fund",
       "source": "Demo Property and SME Wire",
       "sourceId": "demo-property-sme-wire",
-      "publishedAt": "2026-10-24T23:38:09.000Z",
-      "updatedAt": "2026-10-24T23:38:09.000Z",
+      "publishedAt": "2026-10-25T00:03:00.000Z",
+      "updatedAt": "2026-10-25T00:03:00.000Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -83,7 +83,7 @@
           "sourceId": "demo-property-sme-wire",
           "title": "Brindlecourt Infrastructure closes €1.2bn infrastructure fund for European data centres",
           "url": "https://example.com/property-sme-wire/brindlecourt-data-centre-fund",
-          "publishedAt": "2026-10-24T23:38:09.000Z"
+          "publishedAt": "2026-10-25T00:03:00.000Z"
         }
       ]
     },
@@ -94,8 +94,8 @@
       "url": "https://example.com/venture-ledger/mena-vc-q3",
       "source": "Demo Venture Ledger",
       "sourceId": "demo-venture-ledger",
-      "publishedAt": "2026-10-23T03:38:09.000Z",
-      "updatedAt": "2026-10-23T03:38:09.000Z",
+      "publishedAt": "2026-10-23T04:03:00.000Z",
+      "updatedAt": "2026-10-23T04:03:00.000Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -114,7 +114,7 @@
           "sourceId": "demo-venture-ledger",
           "title": "VC funding to MENA start-ups rose 18% in the third quarter",
           "url": "https://example.com/venture-ledger/mena-vc-q3",
-          "publishedAt": "2026-10-23T03:38:09.000Z"
+          "publishedAt": "2026-10-23T04:03:00.000Z"
         }
       ]
     }

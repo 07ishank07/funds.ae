@@ -3,8 +3,9 @@
 // file queue (demo mode, tests) and the Sanity queue (live) hold identical records; the
 // field groups and who owns them are in src/news/rules.js.
 
-import { NEWS_ID_PATH } from './rules.js';
+import { NEWS_ID_PATH, NEWS_LIMITS } from './rules.js';
 import { suggestSlug } from './workflow.js';
+import { truncate } from '../lib/text.js';
 
 export const NEWS_DOC_TYPE = 'newsArticle';
 export const SOURCE_REF_PREFIX = 'newsSource-';
@@ -57,7 +58,7 @@ export function otherSourceEntry(article, now) {
  */
 export function newReviewDoc(article, cls, { now }) {
   const at = now.toISOString();
-  const excerpt = article.summary || '';
+  const excerpt = truncate(article.summary || '', NEWS_LIMITS.excerpt[1]);
   return compact({
     _id: reviewIdFor(article.articleId),
     _type: NEWS_DOC_TYPE,

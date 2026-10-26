@@ -11,6 +11,8 @@
     "ingest": "node src/cli.js all",
     "ingest:news": "node src/cli.js news",
     "ingest:jobs": "node src/cli.js jobs",
+    "news:publish": "node src/cli.js news:publish",
+    "news:prune": "node src/cli.js news:prune",
     "publish:sponsors": "node src/cli.js sponsors",
     "publish:events": "node src/cli.js events",
     "publish:content": "node src/cli.js content",

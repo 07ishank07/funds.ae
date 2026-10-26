@@ -2,8 +2,10 @@
 // Command-line entry point.
 //
 //   node src/cli.js all               news + jobs + events + sponsors + content, then publish (used by the daily job)
-//   node src/cli.js news              news only (republishes news, jobs, sources and meta)
-//   node src/cli.js jobs              jobs only (same publishing as above)
+//   node src/cli.js news              fetch news into the review queue, then republish approved news, jobs, sources, meta
+//   node src/cli.js jobs              jobs only (republishes jobs, sources and meta; never news)
+//   node src/cli.js news:publish      publish the stories approvers published in the review queue (--allow-drop: skip the safety stop)
+//   node src/cli.js news:prune        delete stale pending and rejected stories from the review queue
 //   node src/cli.js sponsors          validate and publish sponsors only
 //   node src/cli.js events            validate and publish events only
 //   node src/cli.js content           sponsors + events + content.json (used when an editor changes any of them)
@@ -13,7 +15,8 @@
 //   node src/cli.js submissions:prune delete form submissions older than settings.submissions.retentionDays
 //
 // Exit codes: 0 = success (including partial source failures),
-//             1 = configuration or code error (invalid sponsors/events/content keep the previous file live),
+//             1 = configuration or code error (invalid sponsors/events/content keep the previous file live;
+//                 a refused news publish keeps the previous news files live),
 //             2 = every enabled source failed (the daily job is marked failed so you get an email).
 
 import path from 'node:path';
@@ -21,6 +24,9 @@ import { rmSync } from 'node:fs';
 import { loadAll, loadSponsorsConfig, DATA_DIR } from './config.js';
 import { JsonStore } from './store/jsonStore.js';
 import { createRepositories, createSubmissionsRepository, DEMO_RESETTABLE } from './repositories/index.js';
+import { createNewsReviewRepository } from './repositories/newsReview.js';
+import { applyDemoDecisions } from './news/demoDecisions.js';
+import { pruneMutation } from './news/importerMutations.js';
 import { log } from './lib/logger.js';
 import { resetState } from './lib/sourceHealth.js';
 import { runNews } from './pipeline/news.js';
@@ -29,18 +35,26 @@ import { runEvents } from './pipeline/events.js';
 import { publishableSponsors } from './pipeline/sponsors.js';
 import { runContent } from './pipeline/content.js';
 import { pullFromSanity } from './cms/pull.js';
-import { publishNews, publishJobs, publishEvents, publishSponsors, publishContent, publishSources, publishMeta } from './pipeline/publish.js';
+import { publishApprovedNews, publishJobs, publishEvents, publishSponsors, publishContent, publishSources, publishMeta } from './pipeline/publish.js';
 
-const COMMANDS = ['all', 'news', 'jobs', 'sponsors', 'events', 'content', 'validate', 'reset-feed', 'submissions:prune', 'cms:pull'];
+const COMMANDS = ['all', 'news', 'jobs', 'sponsors', 'events', 'content', 'validate', 'reset-feed', 'submissions:prune', 'cms:pull', 'news:publish', 'news:prune'];
 
-/** Republishes everything derived from the news and jobs databases. */
-function publishData(ctx) {
-  const news = publishNews(ctx, ctx.repos.news.load());
+/** News part of a publish: approved stories only. Empty counts and versions when the safety stop refused. */
+async function newsStep(ctx, options) {
+  const news = await publishApprovedNews(ctx, options);
+  if (news.refused) return { refused: true, counts: {}, versions: {} };
+  return { refused: false, counts: { stories: news.stories, ...news.byCategory }, versions: { news: news.version } };
+}
+
+/** Republishes jobs and source health, and news when `withNews` (never for a jobs-only run). */
+async function publishData(ctx, { withNews, allowDrop }) {
+  const news = withNews ? await newsStep(ctx, { allowDrop }) : { refused: false, counts: {}, versions: {} };
   const jobs = publishJobs(ctx, ctx.repos.jobs.load().jobs);
-  publishSources(ctx, ctx.repos.feedState.load());
+  publishSources(ctx, await ctx.newsHealth.load());
   return {
-    counts: { stories: news.stories, ...news.byCategory, jobs: jobs.open, employers: jobs.employers },
-    versions: { news: news.version, ...jobs.versions }
+    newsRefused: news.refused,
+    counts: { ...news.counts, jobs: jobs.open, employers: jobs.employers },
+    versions: { ...news.versions, ...jobs.versions }
   };
 }
 
@@ -69,7 +83,9 @@ function contentStep(ctx) {
 }
 
 async function main() {
-  const [command = 'all', arg] = process.argv.slice(2);
+  const args = process.argv.slice(2);
+  const allowDrop = args.includes('--allow-drop');
+  const [command = 'all', arg] = args.filter((a) => a !== '--allow-drop');
   if (!COMMANDS.includes(command)) {
     log.error('cli.unknown-command', { command, detail: `Use one of: ${COMMANDS.join(', ')}` });
     process.exitCode = 1;
@@ -91,8 +107,19 @@ async function main() {
   if (cfg.demo && command === 'all') {
     for (const f of DEMO_RESETTABLE) rmSync(path.join(dataDir, f), { force: true });
   }
-  const repos = createRepositories(new JsonStore(dataDir));
-  const ctx = { ...cfg, repos, now: startedAt };
+  const store = new JsonStore(dataDir);
+  const repos = createRepositories(store);
+  let review;
+  try {
+    review = createNewsReviewRepository(cfg, store);
+  } catch (err) {
+    log.error('config.invalid', { detail: err.message });
+    process.exitCode = 1;
+    return;
+  }
+  // Source health for news: feed-state.json, shared with jobs (the Sanity queue keeps it in its state document).
+  const newsHealth = { load: () => repos.feedState.load(), save: (state) => repos.feedState.save(state) };
+  const ctx = { ...cfg, repos, review, newsHealth, now: startedAt };
 
   if (command === 'validate') {
     const sponsors = publishableSponsors(loadSponsorsConfig());
@@ -134,6 +161,30 @@ async function main() {
     return;
   }
 
+  if (command === 'news:publish') {
+    try {
+      const news = await newsStep(ctx, { allowDrop });
+      if (news.refused) { process.exitCode = 1; return; }
+      publishMeta(ctx, { versions: news.versions, counts: news.counts });
+    } catch (err) {
+      log.error('news.publish-failed', { detail: err?.message || String(err) });
+      process.exitCode = 1;
+    }
+    return;
+  }
+
+  if (command === 'news:prune') {
+    const { pendingTtlDays, rejectedTtlDays } = cfg.settings.news.review;
+    try {
+      const written = await review.commit([pruneMutation({ now: startedAt, pendingTtlDays, rejectedTtlDays })]);
+      log.info('news.pruned', { deleted: written.deleted, pendingTtlDays, rejectedTtlDays });
+    } catch (err) {
+      log.error('news.prune-failed', { detail: err?.message || String(err) });
+      process.exitCode = 1;
+    }
+    return;
+  }
+
   if (command === 'submissions:prune') {
     const submissions = createSubmissionsRepository(dataDir);
     const removed = await submissions.prune(cfg.settings.submissions.retentionDays, startedAt);
@@ -155,6 +206,7 @@ async function main() {
     if (command === 'all' || command === 'news') {
       const r = await runNews(ctx);
       run.steps.news = r.stats;
+      if (cfg.demo) run.steps.demoDecisions = await applyDemoDecisions(ctx);
       totalSources += r.totalSources;
       failedSources += r.failedSources;
       skippedSources += r.skippedSources;
@@ -187,9 +239,10 @@ async function main() {
       run.status = totalSources > 0 && failedSources === totalSources ? 'all-sources-failed'
         : failedSources || skippedSources ? 'partial' : 'ok';
       if (contentFailed && run.status !== 'all-sources-failed') run.status = 'invalid-content';
-      const data = publishData(ctx);
+      const data = await publishData(ctx, { withNews: command !== 'jobs', allowDrop });
       Object.assign(versions, data.versions);
       Object.assign(counts, data.counts);
+      if (data.newsRefused) process.exitCode = 1; // the previous news files stay live
       publishMeta(ctx, { versions, counts, lastRun: { at: run.finishedAt, status: run.status, failedSources, skippedSources, totalSources } });
     } else {
       run.status = contentFailed ? 'invalid-content' : 'ok';

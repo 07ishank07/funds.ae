@@ -77,6 +77,14 @@ test('a story can carry several Capital Types and Asset Classes', () => {
   assert.equal(fund.transactionType, 'fund-close');
 });
 
+test('a family office is never read as an office building', () => {
+  const r = classify('Sharjah family office launches $200m venture fund for climate start-ups', 'Family offices across the Gulf are backing climate funds.');
+  assert.deepEqual(r.capitalTypes, ['family-offices']);
+  assert.deepEqual(r.assetClasses, []);
+  assert.deepEqual(classify('DIFC fund managers pass 500 as hedge funds and family offices keep arriving').assetClasses, []);
+  assert.deepEqual(classify('Investor buys Abu Dhabi offices').assetClasses, ['office'], 'real offices still count');
+});
+
 test('several geographies, and Global only when nothing more specific matches', () => {
   assert.deepEqual(classify('Saudi PIF and UK pension fund back London office deal').geography.sort(), ['saudi-arabia', 'uk']);
   assert.deepEqual(classify('Brookfield secures $500m refinancing for Riyadh data centre platform').geography, ['saudi-arabia']);

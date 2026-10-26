@@ -21,7 +21,14 @@ const compile = (map = {}) =>
 
 export function buildTaxonomyClassifier(newsTaxonomy, taxonomy = {}) {
   const group = (list = []) => list.map((c) => ({ id: c.id, terms: compile(c.keywords) }));
+  // Capital Type phrases are blanked out before Asset Classes are scored, so a "family office"
+  // never reads as an office building and a "REIT" name never as its property type.
+  const capitalPhrases = (newsTaxonomy.capitalTypes || [])
+    .flatMap((c) => Object.keys(c.keywords || {}))
+    .sort((a, b) => b.length - a.length)
+    .map((term) => new RegExp(termRegex(term).source, 'gi'));
   return {
+    capitalPhrases,
     capitalTypes: group(newsTaxonomy.capitalTypes),
     assetClasses: group(newsTaxonomy.assetClasses),
     geographies: group(taxonomy.geographies),
@@ -50,7 +57,8 @@ export function classifyTaxonomy(tc, item, { uae = false } = {}) {
   const title = item.title || '';
   const body = `${item.summary || ''} ${(item.categories || []).join(' ')}`;
   const capital = rank(tc.capitalTypes, title, body).slice(0, MAX_PER_DIMENSION);
-  const asset = rank(tc.assetClasses, title, body).slice(0, MAX_PER_DIMENSION);
+  const withoutCapital = (text) => tc.capitalPhrases.reduce((t, re) => t.replace(re, '$1 '), text);
+  const asset = rank(tc.assetClasses, withoutCapital(title), withoutCapital(body)).slice(0, MAX_PER_DIMENSION);
   const regions = rank(tc.geographies, title, body).map((g) => g.id);
   const specific = regions.filter((id) => id !== 'global');
   // "Global" only when nothing more specific matched.

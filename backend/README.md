@@ -2,8 +2,8 @@
 
 This folder contains everything behind the Funds.ae website pages in `frontend_demo/`:
 
-- **Ingestion:** collects headlines from RSS feeds, sorts them into **UAE** and **Rest of the World**, tags each with a private-markets topic, removes duplicates and groups coverage of one event into one story. It also collects open roles from employer job boards.
-- **Publishing:** writes everything as a small, read-only JSON API in `api/v1/`, together with editor-maintained events and sponsor placements.
+- **Ingestion:** collects headlines from RSS feeds, sorts them into **UAE** and **Rest of the World**, tags each with a private-markets topic and suggests **Capital Types** and **Asset Classes**, removes duplicates and groups coverage of one event into one story. New stories go into the **News Review Queue** as pending; nothing ingested is published automatically ([docs/NEWS-REVIEW-GUIDE.md](../docs/NEWS-REVIEW-GUIDE.md)). It also collects open roles from employer job boards.
+- **Publishing:** writes everything as a small, read-only JSON API in `api/v1/`: the news stories approvers published in the queue, together with jobs and editor-maintained events and sponsor placements.
 - **Optional server:** serves the pages, the same API with filters and paging, and the five website forms.
 
 Setup for non-developers is in [`../SETUP-GUIDE.md`](../SETUP-GUIDE.md). This file is the technical reference.
@@ -62,9 +62,13 @@ classify (UAE vs Rest of the World; topic; relevance score) ──► drop if no
       ▼
 broken-link check on new items (live mode; drops 404/410 only)
       ▼
-group into stories (same event across sources within 72 hours) ──► prune (> retentionDays) ──► save data/
+group into stories (same event across sources within 72 hours; a queued story keeps its lead, later reports are attached)
       ▼
-jobs (boards + manual) ──► events (config) ──► sponsors (config) ──► publish api/v1 + meta.json versions
+review queue: new stories as pending_review, "last seen" refreshes, prune stale pending/rejected (never decided ones)
+      ▼
+jobs (boards + manual) ──► events (config) ──► sponsors (config)
+      ▼
+publish api/v1: news = only stories an approver published (src/news/publicFilter.js) + jobs + meta.json versions
 ```
 \* press releases are kept by default; set `excludePressReleases: true` to drop them.
 
@@ -244,7 +248,7 @@ Demo data never passes as real. In **live** mode every slot's placeholders are r
 
 | File (repository table) | Contents | SQL table |
 |---|---|---|
-| `news-db.json` (`news`) | `articles[]`, `stories[]` | `articles`, `stories` |
+| `news-review.json` (`repositories/newsReview.js`) | The news review queue: one document per story (demo mode, tests). Live mode keeps it in Sanity under `queue.*` ids; never committed for live data | `news_review_items` |
 | `jobs-db.json` (`jobs`) | `jobs[]` with `open` / `closed` / `expired` status | `jobs` |
 | `feed-state.json` (`feedState`) | Per-source health, ETags, circuit breaker | `sources` |
 | `run-history.json` (`runs`) | Last 30 runs with counts, warnings and errors | `ingestion_runs` |

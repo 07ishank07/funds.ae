@@ -153,7 +153,7 @@ test('employers are derived from open roles, and employment types are normalised
 
 test('news review settings get safe defaults and are validated', async () => {
   const { applyNewsSettings, ConfigError } = await import('../src/config.js');
-  const base = () => ({ news: { maxAgeDays: 21, publish: { maxStories: 200, maxPerCategory: 100 } } });
+  const base = () => ({ news: { maxAgeDays: 21, excerptMaxChars: 280, publish: { maxStories: 200, maxPerCategory: 100 } } });
 
   const settings = base();
   applyNewsSettings(settings);
@@ -178,13 +178,14 @@ test('news review settings get safe defaults and are validated', async () => {
   assert.match(problems({ review: { rejectedTtlDays: 400 } }), /rejectedTtlDays/);
   assert.match(problems({ review: { documentBudget: { warnAt: 9600, stopCreatesAt: 9500 } } }), /documentBudget/);
   assert.match(problems({ publish: { maxDropPercent: 0 } }), /maxDropPercent/);
+  assert.match(problems({ excerptMaxChars: 281 }), /excerptMaxChars" must be a whole number from 1 to 280/, 'the 280-character legal limit');
 });
 
 test('the queue store can be switched by environment variable', async () => {
   const { applyNewsSettings } = await import('../src/config.js');
   process.env.FUNDSAE_NEWS_STORE = 'sanity';
   try {
-    const s = { news: { maxAgeDays: 21 } };
+    const s = { news: { maxAgeDays: 21, excerptMaxChars: 280 } };
     applyNewsSettings(s);
     assert.equal(s.news.review.store, 'sanity');
   } finally {

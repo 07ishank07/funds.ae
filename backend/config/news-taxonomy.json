@@ -82,7 +82,7 @@
     {
       "id": "office", "name": "Office", "displayOrder": 10, "homeSection": "commercial-real-estate",
       "description": "Office buildings, towers and workspace.",
-      "keywords": { "office tower": 3, "office building": 3, "office space": 3, "office market": 3, "office portfolio": 3, "grade a office": 3, "office": 2, "coworking": 2, "flexible workspace": 2 }
+      "keywords": { "office tower": 3, "office building": 3, "office space": 3, "office market": 3, "office portfolio": 3, "grade a office": 3, "office": 2, "office block": 3, "office park": 3, "office campus": 3, "office property": 3, "office development": 3, "office asset": 3, "coworking": 2, "flexible workspace": 2 }
     },
     {
       "id": "retail", "name": "Retail", "displayOrder": 20, "homeSection": "commercial-real-estate",

@@ -2011,7 +2011,9 @@
       "region": "uae",
       "focus": "general-business",
       "priority": 1,
-      "allowImages": true
+      "allowImages": true,
+      "licenseStatus": "permission_granted",
+      "termsReviewedAt": "2026-10-26"
     },
     {
       "id": "demo-emirates-markets",
@@ -2023,7 +2025,9 @@
       "region": "uae",
       "focus": "general-business",
       "priority": 2,
-      "allowImages": true
+      "allowImages": true,
+      "licenseStatus": "permission_granted",
+      "termsReviewedAt": "2026-10-26"
     },
     {
       "id": "demo-private-capital-daily",
@@ -2035,7 +2039,9 @@
       "region": "global",
       "focus": "private-markets",
       "priority": 2,
-      "allowImages": true
+      "allowImages": true,
+      "licenseStatus": "permission_granted",
+      "termsReviewedAt": "2026-10-26"
     },
     {
       "id": "demo-property-sme-wire",
@@ -2047,7 +2053,9 @@
       "region": "uae",
       "focus": "general-business",
       "priority": 3,
-      "allowImages": false
+      "allowImages": false,
+      "licenseStatus": "permission_granted",
+      "termsReviewedAt": "2026-10-26"
     },
     {
       "id": "demo-venture-ledger",
@@ -2059,7 +2067,9 @@
       "region": "global",
       "focus": "private-markets",
       "priority": 3,
-      "allowImages": true
+      "allowImages": true,
+      "licenseStatus": "permission_granted",
+      "termsReviewedAt": "2026-10-26"
     }
   ]
 }

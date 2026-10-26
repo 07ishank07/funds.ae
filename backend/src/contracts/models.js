@@ -48,7 +48,9 @@ export { NEWS_STATUSES, NEWS_GEOGRAPHIES, NEWS_TRANSACTION_TYPES, NEWS_HOME_SECT
 /* -------------------------------- DB records ------------------------------- */
 
 /**
- * @typedef {Object} ArticleRecord  one publisher article (news-db.json "articles")
+ * @typedef {Object} ArticleRecord  one publisher article as the news pipeline builds it in memory
+ *   (pipeline/news.js). It is stored only as part of a NewsReviewDoc: the lead article's fields,
+ *   or an entry in otherSources.
  * @property {string} articleId     'a_' + sha256(canonicalUrl), 16 hex
  * @property {string} title
  * @property {string} sourceId
@@ -61,33 +63,12 @@ export { NEWS_STATUSES, NEWS_GEOGRAPHIES, NEWS_TRANSACTION_TYPES, NEWS_HOME_SECT
  * @property {'uae'|'world'} category
  * @property {string} topic
  * @property {string[]} topics
- * @property {Record<string,number>} topicScores
  * @property {number} uaeScore
  * @property {number} relevanceScore
  * @property {string} summary       publisher excerpt, <= 280 chars
- * @property {string|null} imageUrl
+ * @property {string|null} imageUrl only when the source has allowImages
  * @property {boolean} [isPressRelease]
- * @property {string|null} storyId
- * @property {string} ingestedAt
- * @property {string} lastSeenAt
- */
-
-/**
- * @typedef {Object} StoryRecord    one event covered by 1+ articles (news-db.json "stories")
- * @property {string} storyId       's_' + hash
- * @property {string[]} articleIds  maps to articles.story_id in SQL (no column of its own)
- * @property {string} leadArticleId
- * @property {string} headline
- * @property {string} summary
- * @property {string|null} imageUrl
- * @property {'uae'|'world'} category
- * @property {string} topic
- * @property {string[]} topics
- * @property {string[]} sourceIds
- * @property {string} firstPublishedAt
- * @property {string} lastPublishedAt
- * @property {string} createdAt
- * @property {string} [updatedAt]
+ * @property {Object} taxonomy      classifyTaxonomy() suggestions (lib/taxonomyClassify.js)
  */
 
 /**
@@ -270,23 +251,6 @@ export const DB_MODELS = {
       'status', 'etag', 'lastModified', 'format', 'consecutiveFailures', 'lastError',
       'lastFetchedAt', 'lastSuccessAt', 'lastFailureAt', 'pausedUntil', 'lastItemCount'
     ]
-  },
-  articles: {
-    table: 'articles',
-    fields: [
-      'articleId', 'title', 'sourceId', 'sourceName', 'originalUrl', 'canonicalUrl', 'guid', 'publishedAt',
-      'dateEstimated', 'category', 'topic', 'topics', 'topicScores', 'uaeScore', 'relevanceScore', 'summary',
-      'imageUrl', 'isPressRelease', 'storyId', 'ingestedAt', 'lastSeenAt'
-    ]
-  },
-  stories: {
-    table: 'stories',
-    fields: [
-      'storyId', 'leadArticleId', 'headline', 'summary', 'imageUrl', 'category', 'topic', 'topics',
-      'sourceIds', 'firstPublishedAt', 'lastPublishedAt', 'createdAt', 'updatedAt'
-    ],
-    // Held on the other side of a relationship instead of a column of its own.
-    derived: { articleIds: 'articles.story_id' }
   },
   newsReviewItems: {
     table: 'news_review_items',

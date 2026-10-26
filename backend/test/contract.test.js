@@ -113,9 +113,10 @@ test('the JSON store holds no fields the schema does not know about', () => {
     const ok = allowed(model);
     for (const r of records) for (const k of Object.keys(r)) assert.ok(ok.has(k), `${model} record has unmapped field "${k}"`);
   };
-  const news = data('news-db.json');
-  check(news.articles, 'articles');
-  check(news.stories, 'stories');
+  const queue = data('news-review.json');
+  assert.ok(queue.docs.length, 'the demo review queue has stories');
+  const reviewFields = new Set([...DB_MODELS.newsReviewItems.fields, ...Object.keys(DB_MODELS.newsReviewItems.system)]);
+  for (const doc of queue.docs) for (const k of Object.keys(doc)) assert.ok(reviewFields.has(k), `review document has unmapped field "${k}"`);
   check(data('jobs-db.json').jobs, 'jobs');
 });
 

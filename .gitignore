@@ -6,6 +6,10 @@ backend/node_modules/
 # be committed: the daily workflow runs `git add backend/data`, so keep these here.
 backend/data/submissions/
 backend/data/demo/submissions/
+# A live news review queue kept in a file (tests, local experiments) holds unapproved
+# stories; GitHub Pages serves the repository, so it must never be committed. Live
+# mode keeps the queue in Sanity. The demo queue (backend/data/demo/) is fictional.
+backend/data/news-review.json
 
 # Local secrets for the optional server. Document every variable in backend/.env.example instead.
 .env
