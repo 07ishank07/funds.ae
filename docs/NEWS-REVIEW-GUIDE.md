@@ -148,7 +148,7 @@ Written when the Studio screens ship (Part 8).
 - [x] Phase 6: story pages
 - [x] Phase 7: Sanity read/write client and the Sanity queue
 - [x] Phase 8: Studio schemas, queue views and workflow actions
-- [ ] Phase 9: registry and taxonomy pulled from Sanity
+- [x] Phase 9: registry and taxonomy pulled from Sanity
 - [ ] Phase 10: workflows (hourly ingest, publish, Fetch News Now)
 - [ ] Phase 11: Real Estate Capital News page and category bar
 - [ ] Phase 12: optional Claude summaries

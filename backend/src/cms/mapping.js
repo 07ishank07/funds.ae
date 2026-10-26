@@ -214,3 +214,49 @@ export function stateFieldsFromFeedState(feedState, { now, lastRun = null, docum
     .map(([id, s]) => compact({ _key: id, id, ...Object.fromEntries(HEALTH_FIELDS.map((f) => [f, s?.[f]])) }));
   return compact({ updatedAt: now.toISOString(), lastRun, documents, sources });
 }
+
+const SOURCE_FIELDS = [
+  'id', 'name', 'homepage', 'type', 'url', 'enabled', 'verified', 'region', 'focus', 'priority', 'tier', 'licenseStatus',
+  'termsUrl', 'termsReviewedAt', 'allowImages', 'allowExcerpt', 'allowAiSummary', 'language', 'pollEveryHours', 'notes'
+];
+
+/** newsSource documents -> config/sources.news.json "sources" (validated by config.js validateSources). */
+export function toSourcesConfig(sources = []) {
+  return sources.map((s) => {
+    const out = compact(Object.fromEntries(SOURCE_FIELDS.map((f) => [f, s?.[f]])));
+    return s?.section ? { _section: s.section, ...out } : out;
+  });
+}
+
+const keywordMap = (list) =>
+  Object.fromEntries((Array.isArray(list) ? list : []).filter((k) => typeof k?.term === 'string').map((k) => [k.term, k.weight]));
+
+/**
+ * capitalType and assetClass documents -> config/news-taxonomy.json (validated by config.js
+ * validateNewsTaxonomy). A document created in the Studio has a random _id, which is kept as
+ * "docId" because stories reference it.
+ */
+export function toNewsTaxonomy({ capitalTypes = [], assetClasses = [] } = {}) {
+  const docId = (doc, prefix) => (doc._id && doc._id !== `${prefix}${doc.id}` ? { docId: doc._id } : {});
+  return {
+    capitalTypes: capitalTypes.map((c) => ({
+      id: c.id,
+      name: c.name,
+      ...docId(c, 'capitalType-'),
+      description: c.description || '',
+      displayOrder: c.displayOrder,
+      showInNav: c.showInNav === true,
+      navLabel: c.showInNav ? c.navLabel || '' : '',
+      keywords: keywordMap(c.keywords)
+    })),
+    assetClasses: assetClasses.map((a) => ({
+      id: a.id,
+      name: a.name,
+      ...docId(a, 'assetClass-'),
+      description: a.description || '',
+      displayOrder: a.displayOrder,
+      homeSection: a.homeSection && a.homeSection !== 'none' ? a.homeSection : null,
+      keywords: keywordMap(a.keywords)
+    }))
+  };
+}

@@ -9,7 +9,8 @@
 //   node src/cli.js sponsors          validate and publish sponsors only
 //   node src/cli.js events            validate and publish events only
 //   node src/cli.js content           sponsors + events + content.json (used when an editor changes any of them)
-//   node src/cli.js cms:pull          copy published Sanity content into config/ (needs content.source "sanity")
+//   node src/cli.js cms:pull          copy published Sanity content into config/ (content.source "sanity"), and the
+//                                     news sources and categories (news.registry.source "sanity")
 //   node src/cli.js validate          check every config file, change nothing
 //   node src/cli.js reset-feed ID     un-pause a source after you fix its URL
 //   node src/cli.js submissions:prune delete form submissions older than settings.submissions.retentionDays
@@ -35,7 +36,7 @@ import { runJobs } from './pipeline/jobs.js';
 import { runEvents } from './pipeline/events.js';
 import { publishableSponsors } from './pipeline/sponsors.js';
 import { runContent } from './pipeline/content.js';
-import { pullFromSanity } from './cms/pull.js';
+import { pullFromSanity, pullRegistryFromSanity } from './cms/pull.js';
 import { publishApprovedNews, publishJobs, publishEvents, publishSponsors, publishContent, publishSources, publishMeta } from './pipeline/publish.js';
 
 const COMMANDS = ['all', 'news', 'jobs', 'sponsors', 'events', 'content', 'validate', 'reset-feed', 'submissions:prune', 'cms:pull', 'news:publish', 'news:prune'];
@@ -164,23 +165,32 @@ async function main() {
   }
 
   if (command === 'cms:pull') {
-    if (cfg.settings.content.source !== 'sanity') {
-      log.error('cms.disabled', { detail: 'settings.json content.source is "file", so config/ is edited by hand and nothing is pulled. Import the content into Sanity first (docs/SANITY-CMS-GUIDE.md), then set it to "sanity".' });
+    const pullContent = cfg.settings.content.source === 'sanity';
+    const pullRegistry = cfg.settings.news.registry.source === 'sanity';
+    if (!pullContent && !pullRegistry) {
+      log.error('cms.disabled', { detail: 'settings.json content.source and news.registry.source are "file", so config/ is edited by hand and nothing is pulled. Import the content into Sanity first (docs/SANITY-CMS-GUIDE.md, docs/NEWS-REVIEW-GUIDE.md), then set them to "sanity".' });
       process.exitCode = 1;
       return;
     }
-    try {
-      const r = await pullFromSanity({ settings: cfg.settings, now: startedAt });
-      if (!r.ok) {
-        for (const detail of r.errors) log.error('cms.invalid', { detail });
-        log.error('cms.not-written', { detail: 'Nothing was written; the site keeps its current content. Fix the items above in the Studio and publish again.' });
+    // Content and the news registry are pulled independently: each is written only if all of it is valid.
+    const steps = [
+      pullContent && ['content', () => pullFromSanity({ settings: cfg.settings, now: startedAt })],
+      pullRegistry && ['news registry', () => pullRegistryFromSanity({ settings: cfg.settings })]
+    ].filter(Boolean);
+    for (const [what, pull] of steps) {
+      try {
+        const r = await pull();
+        if (!r.ok) {
+          for (const detail of r.errors) log.error('cms.invalid', { what, detail });
+          log.error('cms.not-written', { what, detail: 'Nothing was written for this part; the site keeps its current version. Fix the items above in the Studio and publish again.' });
+          process.exitCode = 1;
+          continue;
+        }
+        log.info('cms.pulled', { what, ...r.counts });
+      } catch (err) {
+        log.error('cms.failed', { what, detail: err?.message || String(err) });
         process.exitCode = 1;
-        return;
       }
-      log.info('cms.pulled', r.counts);
-    } catch (err) {
-      log.error('cms.failed', { detail: err?.message || String(err) });
-      process.exitCode = 1;
     }
     return;
   }

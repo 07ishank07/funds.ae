@@ -42,7 +42,8 @@ test('live sources must state tier and licence status; demo sources get safe def
   assert.equal(filled.pollEveryHours, 24);
   assert.equal(filled.licenseStatus, 'pending_review');
   assert.equal(withNewsDefaults({ ...demoSource, allowImages: true }).allowImages, true, 'explicit values win');
-  assert.deepEqual(Object.keys(NEWS_SOURCE_DEFAULTS).sort(), ['allowExcerpt', 'allowImages', 'language', 'licenseStatus', 'pollEveryHours', 'tier']);
+  assert.equal(filled.allowAiSummary, false, 'AI summaries are opt-in per source');
+  assert.deepEqual(Object.keys(NEWS_SOURCE_DEFAULTS).sort(), ['allowAiSummary', 'allowExcerpt', 'allowImages', 'language', 'licenseStatus', 'pollEveryHours', 'tier']);
 });
 
 test('each licensing and scheduling field is checked with a clear message', () => {
@@ -91,9 +92,10 @@ test('API entries are allowed only while disabled', () => {
 
 /* ------------------------------ live source list ------------------------------ */
 
-test('the live list holds the 100 verified sources, configured by the Phase 1 rules', () => {
+// Editors manage the registry in the Sanity Studio (news.registry.source "sanity"), so this checks
+// the rules every registry must keep rather than today's exact counts.
+test('the live source registry keeps the licensing and safety rules', () => {
   const raw = readJson(path.join(CONFIG_DIR, 'sources.news.json'));
-  const section = new Map(raw.sources.map((s) => [s.id, s._section[0]]));
   const previous = process.env.FUNDSAE_MODE;
   process.env.FUNDSAE_MODE = 'live';
   let cfg;
@@ -101,30 +103,21 @@ test('the live list holds the 100 verified sources, configured by the Phase 1 ru
     if (previous === undefined) delete process.env.FUNDSAE_MODE; else process.env.FUNDSAE_MODE = previous;
   }
   const all = cfg.allNewsSources;
-  assert.equal(all.length, 100);
-  assert.equal(new Set(all.map((s) => s.id)).size, 100, 'ids are unique');
-
-  const priority1 = ['ft-home', 'ft-companies', 'bloomberg-markets', 'bloomberg-business', 'the-national-business',
-    'the-national-markets', 'the-national-property', 'pe-hub', 'private-equity-international', 'sec-press-releases',
-    'sec-edgar-form-d', 'sec-edgar-api'];
-  const priority3 = ['al-jazeera', 'prnewswire-all', 'businesswire-home'];
+  assert.ok(all.length >= 25, 'a registry worth running');
+  assert.equal(new Set(all.map((s) => s.id)).size, all.length, 'ids are unique');
+  assert.ok(raw.sources.every((s) => typeof s._section === 'string'), 'every source notes its registry section');
+  const cleared = ['terms_reviewed', 'permission_granted'];
   for (const s of all) {
-    const sec = section.get(s.id);
     assert.match(s.url, /^https:\/\//, s.id);
-    assert.equal(s.allowImages, false, `${s.id}: images off until terms are checked`);
-    const tier = sec === 'E' ? 'L1' : sec === 'F' ? 'L2' : sec === 'G' ? 'L4' : 'L3';
-    assert.equal(s.tier, tier, s.id);
-    assert.equal(s.licenseStatus, tier === 'L1' ? 'public_sector' : tier === 'L2' ? 'wire' : 'pending_review', s.id);
-    assert.equal(s.region, sec === 'C' ? 'uae' : 'global', s.id);
-    assert.equal(s.focus, sec === 'A' || sec === 'B' ? 'private-markets' : 'general-business', s.id);
-    assert.equal(s.priority, priority1.includes(s.id) ? 1 : priority3.includes(s.id) ? 3 : 2, s.id);
+    if (s.allowImages) assert.ok(cleared.includes(s.licenseStatus), `${s.id}: images only once the terms allow them`);
+    if (s.allowAiSummary) assert.ok(cleared.includes(s.licenseStatus), `${s.id}: AI summaries only once the terms allow them`);
+    if (s.licenseStatus === 'blocked') assert.equal(s.enabled, false, `${s.id}: blocked sources are switched off`);
     if (s.type === 'api') assert.equal(s.enabled, false, `${s.id}: APIs stay disabled`);
     if (s.enabled === false) assert.ok(s.notes, `${s.id}: a disabled source says why`);
   }
-  const bySection = Object.fromEntries(['A', 'B', 'C', 'D', 'E', 'F', 'G'].map((l) => [l, all.filter((s) => section.get(s.id) === l).length]));
-  assert.deepEqual(bySection, { A: 12, B: 17, C: 17, D: 27, E: 15, F: 10, G: 2 });
-  assert.equal(all.filter((s) => s.type === 'api').length, 4);
-  assert.equal(cfg.newsSources.length, 88, 'enabled = 96 RSS minus 4 disabled for errors and 4 for robots.txt on 2026-09-30');
+  assert.ok(cfg.newsSources.length > 0, 'some sources are switched on');
+  assert.ok(all.some((s) => ['public_sector', 'wire', 'terms_reviewed', 'permission_granted'].includes(s.licenseStatus) && s.enabled !== false),
+    'at least one enabled source can be published from');
 });
 
 /* ------------------------------ contact email ------------------------------ */

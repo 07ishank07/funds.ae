@@ -51,3 +51,20 @@ export const DOCUMENT_COUNT_QUERY = 'count(*[!(_id in path("_.**"))])';
 
 /** The importer's own state: per-source health and the last run. */
 export const AGGREGATOR_STATE_QUERY = '*[_id == "newsAggregatorState"][0]';
+
+/**
+ * `npm run cms:pull` with news.registry.source "sanity": the news source registry and both category
+ * systems, published documents only. Fetch health lives elsewhere (newsAggregatorState) and is not pulled.
+ */
+export const REGISTRY_QUERY = `{
+  "sources": *[_type == "newsSource" && ${published}] | order(section asc, name asc) {
+    "id": id.current, name, homepage, type, url, enabled, verified, region, focus, priority, tier, licenseStatus,
+    termsUrl, termsReviewedAt, allowImages, allowExcerpt, allowAiSummary, language, pollEveryHours, notes, section
+  },
+  "capitalTypes": *[_type == "capitalType" && ${published}] | order(displayOrder asc, name asc) {
+    _id, "id": id.current, name, description, displayOrder, showInNav, navLabel, keywords[]{ term, weight }
+  },
+  "assetClasses": *[_type == "assetClass" && ${published}] | order(displayOrder asc, name asc) {
+    _id, "id": id.current, name, description, displayOrder, homeSection, keywords[]{ term, weight }
+  }
+}`;

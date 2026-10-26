@@ -62,7 +62,7 @@ export const SOURCE_TIERS = NEWS_SOURCE_TIERS;
 export const LICENSE_STATUSES = NEWS_LICENSE_STATUSES;
 const NEWS_FIELDS = new Set([
   'id', 'name', 'homepage', 'type', 'url', 'fixture', 'enabled', 'verified', 'region', 'focus', 'priority',
-  'allowImages', 'allowExcerpt', 'tier', 'licenseStatus', 'termsUrl', 'termsReviewedAt', 'language',
+  'allowImages', 'allowExcerpt', 'allowAiSummary', 'tier', 'licenseStatus', 'termsUrl', 'termsReviewedAt', 'language',
   'pollEveryHours', 'notes'
 ]);
 // Likely typos, so a misspelt field gets a pointer instead of being silently ignored.
@@ -77,6 +77,8 @@ const FIELD_HINTS = {
 export const NEWS_SOURCE_DEFAULTS = {
   allowImages: false,
   allowExcerpt: true,
+  // AI summaries only where the publisher's terms allow them (docs/source-terms-review.md).
+  allowAiSummary: false,
   language: 'en',
   pollEveryHours: 24,
   tier: 'L3',
@@ -124,7 +126,7 @@ function validateNewsSourceFields(s, where, { live }) {
   if (s.termsReviewedAt !== undefined && !isRealPastDate(s.termsReviewedAt)) {
     errors.push(`${where}: "termsReviewedAt" must be a real date written as YYYY-MM-DD, and not in the future.`);
   }
-  for (const field of ['enabled', 'verified', 'allowImages', 'allowExcerpt']) {
+  for (const field of ['enabled', 'verified', 'allowImages', 'allowExcerpt', 'allowAiSummary']) {
     if (s[field] !== undefined && typeof s[field] !== 'boolean') {
       errors.push(`${where}: "${field}" must be true or false, without quotes.`);
     }
