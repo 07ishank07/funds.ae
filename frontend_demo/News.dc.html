@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Real Estate Capital News · Funds.ae</title>
+<meta name="description" content="Real estate investment and capital markets news: who is investing, in what, and where. Every story is checked by an editor and links to the original publisher.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;600;700&family=Jost:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="founding-banner.css">
+<link rel="stylesheet" href="site-header.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  /* Editorial theme tokens. Keep in sync with the theme block at the end of this.html's script. */
+  :root {
+    --ink: #0E3A43;
+    --ink-2: #3D5A5F;
+    --muted: #587176;
+    --ghost: #62797D;
+    --line: #D3DFDF;
+    --line-2: #E4ECEB;
+    --mint: #4FB3B8;
+    --accent: #1F6A6E;
+    --accent-2: #1F6A6E;
+    --surface: #FFFFFF;
+    --panel: #E8F0EF;
+    --wash: #FAFBFA;
+    --serif: 'Newsreader', Georgia, serif;
+    --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  body {
+    font-family: 'Jost', 'Futura', 'Century Gothic', sans-serif;
+    background: var(--wash);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  a { color: inherit; }
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  main {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 56px 24px 80px;
+  }
+  main.news-page { max-width: 1180px; margin: 0 auto; padding: 40px 24px 72px; }
+  .intro { padding-bottom: 22px; border-bottom: 1px solid var(--line); }
+  .intro h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); font-weight: 600; letter-spacing: -0.015em; color: var(--ink); }
+  .intro .lead { margin-top: 10px; max-width: 720px; font-size: 16px; color: var(--muted); }
+  .news-layout { display: grid; grid-template-columns: 270px minmax(0, 1fr); gap: 36px; margin-top: 28px; align-items: start; }
+  .nf { position: sticky; top: 56px; display: flex; flex-direction: column; gap: 18px; }
+  .nf label.nf-label { display: block; margin-bottom: 6px; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2); }
+  .nf input[type="search"], .nf select { width: 100%; padding: 9px 10px; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); font: inherit; font-size: 14px; color: var(--ink); }
+  .nf details { border-top: 2px solid var(--ink); padding-top: 8px; }
+  .nf summary { cursor: pointer; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); }
+  .nf-options { display: flex; flex-direction: column; gap: 2px; margin-top: 8px; max-height: 260px; overflow-y: auto; }
+  .nf-option { display: flex; align-items: flex-start; gap: 8px; padding: 3px 0; font-size: 14px; color: var(--ink-2); cursor: pointer; }
+  .nf-option input { margin-top: 4px; accent-color: var(--accent); }
+  .nf-clear { align-self: flex-start; padding: 7px 12px; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); font: inherit; font-size: 13px; font-weight: 600; color: var(--accent); cursor: pointer; }
+  .nf-clear:hover { border-color: var(--accent); }
+  .nr-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 16px; padding-bottom: 10px; border-bottom: 2px solid var(--ink); }
+  .nr-head h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
+  .nr-status { font-size: 13px; color: var(--ghost); }
+  .nr-section { margin-top: 12px; padding: 8px 12px; border-left: 3px solid var(--accent); background: var(--panel); font-size: 14px; color: var(--ink-2); }
+  .nr-section a { margin-left: 8px; color: var(--accent); font-weight: 600; }
+  .nr-list { display: flex; flex-direction: column; }
+  .nc { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+  .nc-featured { background: linear-gradient(90deg, rgba(79, 179, 184, 0.08), transparent 70%); padding-left: 12px; border-left: 3px solid var(--mint); }
+  .nc-flag { display: inline-block; margin-bottom: 6px; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+  .nc-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .nc-tag { padding: 1px 8px; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); font-size: 12px; font-weight: 500; color: var(--ink-2); }
+  .nc-deal { border-color: var(--accent); color: var(--accent); }
+  .nc-title { margin-top: 8px; font-size: 20px; font-weight: 600; line-height: 1.3; }
+  .nc-title a { color: var(--ink); text-decoration: none; }
+  .nc-title a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+  .nc-summary { margin-top: 6px; font-size: 15px; line-height: 1.55; color: #33494E; }
+  .nc-meta { margin-top: 8px; font-size: 13px; color: var(--muted); }
+  .nc-meta strong { color: var(--ink-2); font-weight: 600; }
+  .nc-read { display: inline-block; margin-top: 8px; font-size: 13px; font-weight: 600; color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+  .nc-image { display: block; width: 168px; height: 112px; border-radius: 3px; background: var(--panel); object-fit: cover; }
+  .nr-more { display: block; margin: 26px auto 0; padding: 11px 22px; border: 0; border-radius: 3px; background: var(--ink); font: inherit; font-size: 14px; font-weight: 600; color: #fff; cursor: pointer; }
+  .nr-more:hover { background: var(--accent); }
+  .nr-empty { margin-top: 28px; padding: 24px; border: 1px dashed var(--line); border-radius: 3px; text-align: center; color: var(--muted); }
+  .nr-empty button { margin-top: 12px; }
+  .nr-note { margin-top: 36px; font-size: 13px; color: var(--ghost); }
+  [hidden] { display: none !important; }
+  @media (max-width: 860px) {
+    .news-layout { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+    .nf { position: static; }
+    .nf-options { max-height: 200px; }
+  }
+  @media (max-width: 560px) {
+    main.news-page { padding: 28px 16px 56px; }
+    .nc { grid-template-columns: minmax(0, 1fr); }
+    .nc-image { width: 100%; height: 160px; order: -1; }
+    .nc-title { font-size: 18px; }
+  }
+  /* Site footer, shared with this.html: double rule, brand, tagline, links. Pinned to the bottom on short pages. */
+  body { min-height: 100vh; display: flex; flex-direction: column; }
+  body > main, body > .page { width: 100%; flex: 1 0 auto; }
+  .site-footer { flex-shrink: 0; margin-top: 40px; background: var(--wash); border-top: 3px double var(--ink); }
+  .foot-inner { max-width: 1288px; margin: 0 auto; padding: 26px 24px 30px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
+  .foot-brand { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; }
+  .foot-brand svg { width: 26px; height: 26px; flex-shrink: 0; }
+  .foot-brand span { font-size: 20px; font-weight: 500; line-height: 1; letter-spacing: -0.015em; }
+  .foot-brand .dot { display: inline-block; width: 0.18em; height: 0.18em; margin: 0 0.05em 0 0.065em; border-radius: 50%; background: var(--mint); overflow: hidden; color: transparent; }
+  .foot-note { font-size: 14px; color: var(--muted); }
+  .foot-nav { margin-left: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; }
+  .foot-nav a { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2); text-decoration: none; }
+  .foot-nav a:hover { color: var(--accent); }
+  .foot-bottom { flex: 1 0 100%; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; margin-top: 8px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .foot-bottom .foot-note { font-size: 13px; color: var(--ghost); }
+  @media (max-width: 720px) { .foot-nav { margin-left: 0; } }
+  /* One typeface across the site: Jost, as on the home page. Replaces the serif headlines and monospace labels.
+     Sizes, weights and caps styling are unchanged. Skipped in Arabic mode, where i18n.js sets its own font. */
+  html:not([lang="ar"]) body *:not(svg):not(svg *) { font-family: 'Jost', 'Futura', 'Century Gothic', sans-serif !important; }
+</style>
+</head>
+<body>
+<!-- Site header, the same as the home page's (styles in site-header.css, behaviour in js/fundsae-header.js):
+     desktop masthead, mobile bar, then the sticky category bar. Investor types open the home page filtered. -->
+<header class="fxh">
+  <div class="fxh-inner">
+    <div class="topline">
+      <span data-fundsae-date data-fundsae-badge></span>
+      <span class="edition">Real Estate, Infrastructure &amp; Market Intelligence</span>
+      <span aria-hidden="true"></span>
+    </div>
+    <form class="fxh-search" action="this.html" method="get" role="search">
+      <label class="fxh-sr" for="site-search">Search Funds.ae</label>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+      <input id="site-search" name="q" type="search" placeholder="Search news, funds and firms" maxlength="100">
+    </form>
+    <a href="this.html" class="fxh-brand" aria-label="Funds.ae home">
+      <svg viewBox="0 0 140 140" aria-hidden="true"><circle cx="70" cy="70" r="62.83" fill="none" stroke="#0E3A43" stroke-width="10"/><circle cx="53.03" cy="86.97" r="38.83" fill="none" stroke="#0E3A43" stroke-width="10"/><circle cx="42.54" cy="97.46" r="29" fill="#4FB3B8"/></svg>
+      <span class="fxh-word">Funds<span class="dot">.</span>ae</span>
+      <span class="fxh-tagline">Discover. Connect. Grow.</span>
+    </a>
+    <div class="fxh-share" aria-label="Share on social media">
+      <a href="#" aria-label="Share on Facebook (dummy)">f</a>
+      <a href="#" aria-label="Share on X (dummy)">X</a>
+      <a href="#" aria-label="Share on LinkedIn (dummy)">in</a>
+      <a href="#" aria-label="Share on WhatsApp (dummy)">W</a>
+    </div>
+  </div>
+</header>
+<header class="m-only fxh-m">
+  <a href="this.html" class="fxh-mbrand" aria-label="Funds.ae home">
+    <svg viewBox="0 0 140 140" aria-hidden="true"><circle cx="70" cy="70" r="62.83" fill="none" stroke="#F1F5F4" stroke-width="10"/><circle cx="53.03" cy="86.97" r="38.83" fill="none" stroke="#F1F5F4" stroke-width="10"/><circle cx="42.54" cy="97.46" r="29" fill="#4FB3B8"/></svg>
+    <span class="fxh-mword">Funds<span class="dot">.</span>ae</span>
+    <span class="fxh-mtagline">Discover. Connect. Grow.</span>
+  </a>
+  <div>
+    <button type="button" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg></button>
+    <button type="button" aria-label="Open menu"><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></button>
+  </div>
+</header>
+<nav class="fx-catbar" aria-label="News categories">
+  <div class="fx-catbar-row">
+      <a href="this.html">Top Stories</a>
+      <span class="fx-catbar-rule" aria-hidden="true"></span>
+      <a href="this.html?category=Sovereign">Sovereign</a>
+      <a href="this.html?category=Pension">Pension</a>
+      <a href="this.html?category=Private%20Equity">Private Equity</a>
+      <a href="this.html?category=REITs">REITs</a>
+      <a href="this.html?category=Family%20Offices">Family Offices</a>
+      <a href="this.html?category=Banks">Banks</a>
+      <a href="this.html?category=Government">Government</a>
+      <a href="this.html?category=Endowments">Endowments</a>
+      <span class="fx-catbar-rule" aria-hidden="true"></span>
+      <a href="News.dc.html" aria-current="page">Real Estate News</a>
+      <a href="Advertise.dc.html">Advertise</a>
+      <a href="Careers.dc.html">Careers</a>
+      <a href="Events.dc.html">Events</a>
+  </div>
+</nav>
+<!-- Elite Founding Sponsor banner: same markup and text as this.html; styles in founding-banner.css;
+     js/fundsae-connector.js (slot "sponsor-founding") swaps the advert for a signed sponsor. -->
+<section class="fx-founding" aria-label="Elite Founding Sponsor" data-fundsae-slot="sponsor-founding">
+  <div class="fx-founding-frame">
+    <p class="fx-founding-id">
+      <span class="fx-founding-tags"><span class="fx-founding-label">Elite Founding Sponsor</span><span class="fx-founding-status">Space available</span></span>
+      <span class="fx-founding-brand"><span class="fx-founding-name">Your firm here<span class="fx-caret" aria-hidden="true"></span></span></span>
+    </p>
+    <p class="fx-founding-pitch">Put your firm in front of the UAE's GPs, LPs, family offices and fund service providers, every day.</p>
+    <a class="fx-founding-cta" href="Advertise.dc.html#elite-partner"><span>Become a founding sponsor</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+  </div>
+</section>
+<main class="news-page" data-fundsae-news>
+  <div class="intro">
+    <h1>Real Estate Capital News</h1>
+    <p class="lead">Real estate investment and capital markets news: who is investing, in what, and where. Every story is checked by an editor before it appears, and links to the original publisher.</p>
+  </div>
+  <div class="news-layout">
+    <aside class="nf" aria-label="Filter stories">
+      <form role="search">
+        <label class="nf-label" for="news-search">Search</label>
+        <input id="news-search" type="search" placeholder="Search headlines and summaries" maxlength="100" data-fundsae-news-search>
+      </form>
+      <div>
+        <label class="nf-label" for="news-sort">Sort</label>
+        <select id="news-sort" data-fundsae-news-sort>
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
+        </select>
+      </div>
+      <details open>
+        <summary>Capital Type</summary>
+        <div class="nf-options" data-fundsae-news-filter="capital"></div>
+      </details>
+      <details open>
+        <summary>Asset Class</summary>
+        <div class="nf-options" data-fundsae-news-filter="asset"></div>
+      </details>
+      <details open>
+        <summary>Geography</summary>
+        <div class="nf-options" data-fundsae-news-filter="geo"></div>
+      </details>
+      <button type="button" class="nf-clear" data-fundsae-news-clear hidden>Clear filters</button>
+    </aside>
+    <section aria-labelledby="news-results-title">
+      <div class="nr-head">
+        <h2 id="news-results-title"><span data-fundsae-news-count>Stories</span></h2>
+        <p class="nr-status" role="status" aria-live="polite" data-fundsae-news-status></p>
+      </div>
+      <p class="nr-section" data-fundsae-news-section hidden>Showing the Asset Classes of the <span data-fundsae-news-section-name></span> box.<a href="News.dc.html" data-fundsae-news-section-remove>Show all</a></p>
+      <div class="nr-list" data-fundsae-news-list></div>
+      <div class="nr-empty" data-fundsae-news-empty hidden>
+        <p></p>
+        <button type="button" class="nf-clear" data-fundsae-news-clear>Clear filters</button>
+      </div>
+      <button type="button" class="nr-more" data-fundsae-news-more hidden>Load more stories</button>
+      <noscript><p class="nr-empty">This page needs JavaScript to list stories. Each story also has its own page, linked from the home page.</p></noscript>
+      <p class="nr-note">Funds.ae summarises news from other publishers. A headline opens our story page; "Read at" opens the full article at the publisher.</p>
+    </section>
+  </div>
+</main>
+<footer class="site-footer">
+  <div class="foot-inner">
+    <a href="this.html" class="foot-brand" aria-label="Funds.ae home">
+      <svg viewBox="0 0 140 140" aria-hidden="true"><circle cx="70" cy="70" r="62.83" fill="none" stroke="#0E3A43" stroke-width="10"/><circle cx="53.03" cy="86.97" r="38.83" fill="none" stroke="#0E3A43" stroke-width="10"/><circle cx="42.54" cy="97.46" r="29" fill="#2F8A8C"/></svg>
+      <span>Funds<span class="dot">.</span>ae</span>
+    </a>
+    <span class="foot-note">Discover. Connect. Grow.</span>
+    <nav class="foot-nav" aria-label="Footer">
+      <a href="About.dc.html">About</a>
+      <a href="Contact.dc.html">Contact us</a>
+      <a href="Terms.dc.html">Terms of Service</a>
+      <a href="Privacy.dc.html">Privacy Policy</a>
+    </nav>
+    <div class="foot-bottom">
+      <span class="foot-note">© 2026 Funds.ae. All rights reserved.</span>
+      <span class="foot-note">Headlines link to the original publishers.</span>
+    </div>
+  </div>
+</footer>
+<script src="../i18n.js"></script>
+<script src="../js/fundsae-header.js" defer></script>
+<script src="../js/fundsae-api.js" defer></script>
+<script src="../js/fundsae-connector.js" defer></script>
+<script src="../js/fundsae-news-filter.js" defer></script>
+<script src="../js/fundsae-news.js" defer></script>
+</body>
+</html>

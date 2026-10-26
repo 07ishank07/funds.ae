@@ -1272,9 +1272,15 @@ document.addEventListener('DOMContentLoaded', async function() {
     // "View All" link at the bottom of the list-style boxes. News-column blocks get it just below the box,
     // because their boxes are grids and an extra child would become a grid cell.
     {
-      const makeViewAll = () => {
+      // The three real estate boxes open the Real Estate Capital News page with that box's Asset Classes.
+      const VIEW_ALL_HREF = {
+        'Residential Estate News': 'News.dc.html?section=residential-real-estate',
+        'Commercial Real Estate News': 'News.dc.html?section=commercial-real-estate',
+        'Infrastructure Real Estate News': 'News.dc.html?section=infrastructure'
+      };
+      const makeViewAll = (href = '#') => {
         const link = document.createElement('a');
-        link.href = '#';
+        link.href = href;
         link.className = 'fx-view-all';
         link.textContent = 'View All';
         return link;
@@ -1285,7 +1291,7 @@ document.addEventListener('DOMContentLoaded', async function() {
       inside.forEach((box) => { if (box && !box.querySelector('.fx-view-all')) box.appendChild(makeViewAll()); });
       ['Other Funding Resources', 'UAE Business Grants and Funding news', 'Residential Estate News', 'Commercial Real Estate News', 'Infrastructure Real Estate News'].forEach((label) => {
         const box = document.querySelector('.news > section[aria-label="' + label + '"]');
-        if (box && !(box.nextElementSibling && box.nextElementSibling.classList.contains('fx-view-all'))) box.after(makeViewAll());
+        if (box && !(box.nextElementSibling && box.nextElementSibling.classList.contains('fx-view-all'))) box.after(makeViewAll(VIEW_ALL_HREF[label]));
       });
       // UAE Thought Leaders and Influencers sits in the second column, directly under Sponsored Posts,
       // with its View All link inside the card. Fifteen people are listed (the first ten show, see .fx-voices).
@@ -1379,13 +1385,16 @@ document.addEventListener('DOMContentLoaded', async function() {
     {
       const mainColumns = document.querySelector('main.wrap');
       if (mainColumns && !document.querySelector('.fx-catbar')) {
-        // Groups, split by thin rules: [label, topic ids] filters the news; [label, { href }] is a plain link.
+        // Groups, split by thin rules: [label, filter ids] filters the news; [label, { href }] is a plain link.
+        // The middle group is the Capital Types editors show in the bar (Sanity Studio); js/fundsae-connector.js
+        // rebuilds it from api/v1/taxonomy.json, and this list is what shows until then (or if that fails).
+        // "capital:<id>" matches stories an editor tagged with that Capital Type.
         const CATEGORY_GROUPS = [
           [['Top Stories', null]],
-          [['Sovereign', ['sovereign-wealth']], ['Pension', ['pension-funds']], ['Private Equity', ['private-equity']],
-            ['REITs', ['reits']], ['Family Offices', ['family-offices']], ['Banks', ['banks']], ['Government', ['government']],
-            ['Endowments', ['endowments']]],
-          [['Advertise', { href: 'Advertise.dc.html' }], ['Careers', { href: 'Careers.dc.html' }], ['Events', { href: 'Events.dc.html' }]]
+          [['Sovereign', ['capital:sovereign-wealth']], ['Pension', ['capital:pension-funds']], ['Private Equity', ['capital:private-equity']],
+            ['REITs', ['capital:reits']], ['Family Offices', ['capital:family-offices']], ['Banks', ['capital:banks']], ['Government', ['capital:government']],
+            ['Endowments', ['capital:endowments']]],
+          [['Real Estate News', { href: 'News.dc.html' }], ['Advertise', { href: 'Advertise.dc.html' }], ['Careers', { href: 'Careers.dc.html' }], ['Events', { href: 'Events.dc.html' }]]
         ];
         const bar = document.createElement('nav');
         bar.className = 'fx-catbar';

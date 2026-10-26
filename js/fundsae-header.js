@@ -119,16 +119,31 @@
     if (!open.hidden && isSearch) open.querySelector('input').focus();
   }
 
+  /** The category bar link for ?capital=<id> (a Capital Type) or the older ?category=<label>. */
+  function categoryLink(capital, category) {
+    return Array.prototype.slice.call(document.querySelectorAll('.fx-catbar a[data-category]')).filter(function (a) {
+      return capital ? a.getAttribute('data-topics') === 'capital:' + capital : a.dataset.category === category;
+    })[0];
+  }
+
   function applyQuery() {
     var params = new URLSearchParams(window.location.search);
     var q = (params.get('q') || '').replace(/\s+/g, ' ').trim().slice(0, 100);
     var category = (params.get('category') || '').trim();
-    if (!document.querySelector('.news') || (!q && !category)) return;
+    var capital = (params.get('capital') || '').trim();
+    if (!/^[a-z0-9][a-z0-9-]{0,60}$/.test(capital)) capital = '';
+    if (!document.querySelector('.news') || (!q && !category && !capital)) return;
     whenNewsReady(function () {
-      if (category) {
-        var link = Array.prototype.slice.call(document.querySelectorAll('.fx-catbar a[data-category]'))
-          .filter(function (a) { return a.dataset.category === category; })[0];
-        if (link) link.click();
+      if (capital || category) {
+        // The bar may still be swapping in the editors' Capital Types: look again for a few seconds.
+        var tries = 0;
+        var timer = setInterval(function () {
+          var link = categoryLink(capital, category);
+          if (link || ++tries > 20) {
+            clearInterval(timer);
+            if (link) link.click();
+          }
+        }, 200);
       }
       if (q) runSearch(q);
     });

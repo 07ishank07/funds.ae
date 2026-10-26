@@ -284,7 +284,11 @@
         art.setAttribute('data-fundsae-story', story.id);
         art.setAttribute('data-fundsae-region', region);
         art.setAttribute('data-fundsae-index', String(i));
-        art.setAttribute('data-fundsae-topics', [story.topic].concat(story.topics || []).join(' '));
+        // Topics, plus "capital:<id>" for each Capital Type an editor gave the story (the category bar filters on those).
+        var capital = (Array.isArray(story.capitalTypes) ? story.capitalTypes : [])
+          .filter(function (c) { return c && NAV_ID.test(c.id); })
+          .map(function (c) { return 'capital:' + c.id; });
+        art.setAttribute('data-fundsae-topics', [story.topic].concat(story.topics || [], capital).join(' '));
         art.setAttribute('data-fundsae-text', (story.headline + ' ' + story.source).toLowerCase());
         var a = art.querySelector('h2 a');
         a.textContent = truncate(story.headline, LIMITS.headline);
@@ -899,6 +903,48 @@
     renderPage(doc.pages && typeof doc.pages === 'object' ? doc.pages : {});
   }
 
+  /* -------------------------------- category bar ------------------------------- */
+  // The bar's middle group lists the Capital Types editors chose to show in it (taxonomy.json
+  // capitalTypes with showInNav, in display order, by their bar label). The page's own links stay
+  // until the API answers, and stay for good if it does not. On the home page a link filters the
+  // news ("capital:<id>"); elsewhere it opens the home page filtered (this.html?capital=<id>).
+
+  var NAV_ID = /^[a-z0-9][a-z0-9-]{0,60}$/;
+
+  function renderCatbar(doc) {
+    var row = document.querySelector('.fx-catbar-row');
+    var rules = row ? row.querySelectorAll('.fx-catbar-rule') : [];
+    if (!row || rules.length < 2) return;
+    var types = (doc.capitalTypes || [])
+      .filter(function (c) { return c && c.showInNav && typeof c.navLabel === 'string' && c.navLabel && NAV_ID.test(c.id); })
+      .sort(function (a, b) { return a.order - b.order; });
+    if (!types.length) return;
+    var home = !!row.querySelector('a[data-category]');
+    var top = row.querySelector('a');
+    var homeHref = !home && top ? String(top.getAttribute('href') || 'this.html').split(/[?#]/)[0] : 'this.html';
+    var selected = home ? row.querySelector('a[aria-current="true"][data-topics]') : null;
+    var selectedTopics = selected ? selected.getAttribute('data-topics') : null;
+    var node = rules[0].nextSibling;
+    while (node && node !== rules[1]) {
+      var next = node.nextSibling;
+      row.removeChild(node);
+      node = next;
+    }
+    types.forEach(function (c) {
+      var a = document.createElement('a');
+      a.textContent = c.navLabel;
+      if (home) {
+        a.href = '#top-news';
+        a.setAttribute('data-category', c.navLabel);
+        a.setAttribute('data-topics', 'capital:' + c.id);
+        if (selectedTopics === 'capital:' + c.id) a.setAttribute('aria-current', 'true');
+      } else {
+        a.href = homeHref + '?capital=' + encodeURIComponent(c.id);
+      }
+      row.insertBefore(a, rules[1]);
+    });
+  }
+
   /* ------------------------------------ main ----------------------------------- */
 
   function guard(label, promise) {
@@ -915,6 +961,7 @@
       renderBadge();
 
       if (hasSlot('news')) guard('News', load('news.json', 'news').then(function (doc) { renderNews(doc); bindSearch(); }));
+      if (document.querySelector('.fx-catbar-row')) guard('Category bar', load('taxonomy.json', 'news').then(renderCatbar));
       if (hasSlot('tiles-residential-real-estate')) {
         guard('Residential real estate stories', load('news/sections/residential-real-estate.json', 'news').then(function (doc) { renderTiles('tiles-residential-real-estate', doc, TILES_SHOWN); }));
       }

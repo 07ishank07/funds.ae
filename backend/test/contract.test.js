@@ -198,7 +198,7 @@ test('every page but Careers shows the same Elite Founding Sponsor banner, and a
   }
   // The site menu is in the footer on every page, not in the header.
   assert.ok(home.includes(`nav.m-only[aria-label="Sections"]').forEach((nav) => nav.remove())`), 'home removes both header menus');
-  for (const page of ['About', 'Advertise', 'Careers', 'Contact', 'Events', 'Privacy', 'Terms']) {
+  for (const page of ['About', 'Advertise', 'Careers', 'Contact', 'Events', 'News', 'Privacy', 'Terms']) {
     const html = read(`${page}.dc.html`);
     assert.ok(!html.includes('aria-label="Sections"'), `${page} has no header menu`);
     const footNav = html.slice(html.indexOf('<nav class="foot-nav"'), html.indexOf('</nav>', html.indexOf('<nav class="foot-nav"')));
@@ -219,14 +219,18 @@ test('every page but Careers shows the same Elite Founding Sponsor banner, and a
   for (const label of ['Top Stories', 'Sovereign', 'Pension', 'Private Equity', 'REITs', 'Family Offices', 'Banks', 'Government', 'Endowments']) {
     assert.ok(home.includes(`['${label}', `), `category bar has ${label}`);
   }
-  assert.ok(home.includes("[['Advertise', { href: 'Advertise.dc.html' }], ['Careers', { href: 'Careers.dc.html' }], ['Events', { href: 'Events.dc.html' }]]"), 'category bar ends with Advertise, Careers and Events links');
+  assert.ok(home.includes("[['Real Estate News', { href: 'News.dc.html' }], ['Advertise', { href: 'Advertise.dc.html' }], ['Careers', { href: 'Careers.dc.html' }], ['Events', { href: 'Events.dc.html' }]]"), 'category bar ends with Real Estate News, Advertise, Careers and Events links');
   for (const gone of ['Latest', 'Fundraising', 'Deals', 'People', 'Venture', 'Credit', 'Secondaries', 'Hedge Funds', 'LPs', 'Regulation', 'Providers']) {
     assert.ok(!home.includes(`['${gone}', [`), `category bar no longer has ${gone}`);
   }
   assert.ok(!home.includes('fx-investorbar'), 'no separate investor row');
-  const taxonomyTopics = JSON.parse(readFileSync(path.join(backend, 'config', 'taxonomy.json'), 'utf8')).topics.map((t) => t.id);
+  // The bar's built-in investor types are Capital Types (editors replace them from the Studio at runtime).
+  const capitalIds = JSON.parse(readFileSync(path.join(backend, 'config', 'news-taxonomy.json'), 'utf8')).capitalTypes.map((c) => c.id);
   const barBlock = home.slice(home.indexOf('const CATEGORY_GROUPS'), home.indexOf('const bar = document.createElement'));
-  for (const [, id] of barBlock.matchAll(/'([a-z]+(?:-[a-z]+)+|[a-z]{4,})'/g)) assert.ok(taxonomyTopics.includes(id), `category bar topic ${id} exists in taxonomy.json`);
+  const barIds = [...barBlock.matchAll(/'capital:([a-z0-9-]+)'/g)].map((m) => m[1]);
+  assert.equal(barIds.length, 8, 'eight investor types in the built-in bar');
+  for (const id of barIds) assert.ok(capitalIds.includes(id), `category bar Capital Type ${id} exists in news-taxonomy.json`);
+  assert.ok(connector.includes("load('taxonomy.json', 'news').then(renderCatbar)"), 'the connector rebuilds the bar from the published Capital Types');
   assert.ok(connector.includes("document.addEventListener('fundsae:news-topics'") && home.includes("new CustomEvent('fundsae:news-topics'"), 'category bar filters Latest Stories through the connector');
   assert.ok(!home.includes('Tech and Data Centre News') && !connector.includes('tiles-ai-technology'), 'home has no Tech and Data Centre box');
   assert.ok(home.includes('if (careersBox) careersBox.remove();') && !home.includes("'home-jobs'"), 'home has no UAE Careers box');
@@ -315,4 +319,27 @@ test('every website form posts only field names the API accepts', () => {
   // config/jobs.manual.json, not visitor submissions), so no page has a "job" form. The API
   // still accepts POST /api/v1/submissions/job for a future paid-listing flow.
   assert.deepEqual([...seen].sort(), ['advertise', 'contact', 'event']);
+});
+
+test('the Real Estate Capital News page has its hooks, scripts and a bar link on every page', () => {
+  const read = (f) => readFileSync(path.join(repo, 'frontend_demo', f), 'utf8');
+  const page = read('News.dc.html');
+  for (const hook of ['data-fundsae-news', 'data-fundsae-news-search', 'data-fundsae-news-sort', 'data-fundsae-news-filter="capital"',
+    'data-fundsae-news-filter="asset"', 'data-fundsae-news-filter="geo"', 'data-fundsae-news-list', 'data-fundsae-news-more',
+    'data-fundsae-news-empty', 'data-fundsae-news-status', 'data-fundsae-news-clear']) {
+    assert.ok(page.includes(hook), `News.dc.html has ${hook}`);
+  }
+  const script = readFileSync(path.join(repo, 'js', 'fundsae-news.js'), 'utf8');
+  for (const [, name] of script.matchAll(/hook\('([a-z-]+)'\)/g)) assert.ok(page.includes(`data-fundsae-news-${name}`), `the page has the ${name} hook the script uses`);
+  assert.ok(!/innerHTML|insertAdjacentHTML/.test(script.replace(/^\s*\/\/.*$/gm, '')), 'the page script inserts data with textContent only');
+  const order = ['fundsae-api.js', 'fundsae-connector.js', 'fundsae-news-filter.js', 'fundsae-news.js'].map((f) => page.indexOf(`<script src="../js/${f}"`));
+  assert.ok(order.every((i, n) => i > 0 && (n === 0 || i > order[n - 1])), 'scripts load in order: api, connector, filter, page');
+  assert.ok(page.includes('<a href="News.dc.html" aria-current="page">Real Estate News</a>'));
+  for (const f of ['About', 'Advertise', 'Careers', 'Contact', 'Events', 'Privacy', 'Terms']) {
+    assert.ok(read(`${f}.dc.html`).includes('<a href="News.dc.html">Real Estate News</a>'), `${f} links to Real Estate News`);
+  }
+  const home = read('this.html');
+  for (const id of ['residential-real-estate', 'commercial-real-estate', 'infrastructure']) {
+    assert.ok(home.includes(`'News.dc.html?section=${id}'`), `the ${id} box's View All opens the page with its Asset Classes`);
+  }
 });
