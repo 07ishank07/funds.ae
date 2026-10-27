@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-10-26T09:14:40.497Z",
+  "generatedAt": "2026-10-27T08:44:45.954Z",
   "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
   "topic": "banks",
   "label": "Banks",
@@ -14,8 +14,8 @@
       "url": "https://example.com/private-capital-daily/kestrel-direct-lending-hire",
       "source": "Demo Private Capital Daily",
       "sourceId": "demo-private-capital-daily",
-      "publishedAt": "2026-10-23T01:14:40.497Z",
-      "updatedAt": "2026-10-23T01:14:40.497Z",
+      "publishedAt": "2026-10-24T00:44:45.954Z",
+      "updatedAt": "2026-10-24T00:44:45.954Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -36,7 +36,7 @@
           "sourceId": "demo-private-capital-daily",
           "title": "Kestrel Credit Partners hires bank veteran to lead European direct lending",
           "url": "https://example.com/private-capital-daily/kestrel-direct-lending-hire",
-          "publishedAt": "2026-10-23T01:14:40.497Z"
+          "publishedAt": "2026-10-24T00:44:45.954Z"
         }
       ],
       "slug": "kestrel-credit-partners-hires-bank-veteran-to-lead-european-direct-lending-10cc",
@@ -55,7 +55,7 @@
       ],
       "transactionType": null,
       "featured": false,
-      "liveAt": "2026-10-26T09:14:40.497Z"
+      "liveAt": "2026-10-27T08:44:45.954Z"
     }
   ]
 }
