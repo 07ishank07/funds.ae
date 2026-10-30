@@ -73,6 +73,8 @@ jobs:
           echo "content=$(node -p "require('./config/settings.json').content?.source || 'file'")" >> "$GITHUB_OUTPUT"
           echo "registry=$(node -p "require('./config/settings.json').news?.registry?.source || 'file'")" >> "$GITHUB_OUTPUT"
           echo "store=$(node -p "require('./config/settings.json').news?.review?.store || 'file'")" >> "$GITHUB_OUTPUT"
+          echo "jobs=$(node -p "require('./config/settings.json').jobs?.source || 'file'")" >> "$GITHUB_OUTPUT"
+          echo "mode=$(node -p "require('./config/settings.json').mode")" >> "$GITHUB_OUTPUT"
 
       # The daily run only matters for stories scheduled in the Sanity queue, and only the schedule that
       # falls at 09:00 in Sydney runs it.
@@ -113,6 +115,16 @@ jobs:
           SANITY_READ_TOKEN: ${{ secrets.SANITY_READ_TOKEN }}
         run: npm run news:publish -- ${{ inputs.allow_drop && '--allow-drop' || '' }}
 
+      # Jobs approved in the Careers section of the Studio (settings jobs.source "sanity"), with the read-only
+      # token: jobs.json, employers.json, careers.json and frontend_demo/jobs. Job feeds, if any, run too.
+      - name: Publish approved jobs
+        if: steps.work.outputs.go == 'true' && steps.source.outputs.jobs == 'sanity' && steps.source.outputs.mode == 'live' && github.event_name != 'push'
+        env:
+          SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
+          SANITY_DATASET: ${{ secrets.SANITY_DATASET }}
+          SANITY_READ_TOKEN: ${{ secrets.SANITY_READ_TOKEN }}
+        run: npm run ingest:jobs
+
       - name: Save to the repository
         if: steps.work.outputs.go == 'true'
         working-directory: .
@@ -122,6 +134,13 @@ jobs:
           git add backend/config/sponsors.json backend/config/events.json backend/config/content.json \
                   backend/config/sources.news.json backend/config/news-taxonomy.json \
                   api/v1 frontend_demo/news
+          # Jobs: the jobs database and the job pages (never form submissions, which are git-ignored).
+          git add backend/data/jobs-db.json backend/data/feed-state.json 2>/dev/null || true
+          if [ -d frontend_demo/jobs ]; then git add frontend_demo/jobs; fi
+          if git diff --cached --name-only | grep -q "submissions/"; then
+            echo "::error::Refusing to commit form submissions."
+            exit 1
+          fi
           if git diff --cached --quiet; then
             echo "Nothing changed."
             exit 0
