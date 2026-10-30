@@ -265,7 +265,7 @@
   .elite-sponsor-own:hover { text-decoration: underline; text-underline-offset: 3px; }
   /* Demo-only content (fictional sponsors) never shows once the site runs on live data. */
   html[data-fundsae-connected="live"] [data-demo-only] { display: none !important; }
-  /* Top Jobs (aside, under the sponsor box) and Top Employers (under it): ranked lists. Top Jobs rows link to the employer's own
+  /* Top Employers (aside, under the sponsor box) and Top Jobs (under it): ranked lists. Top Jobs rows link to the employer's own
      posting; Top Employers rows open this page filtered to that employer's roles. */
   .top-jobs, .top-employers { padding: 12px 0 0; border-top: 2px solid var(--ink); margin-bottom: 28px; }
   .top-employers-list a { align-items: center; }
@@ -612,32 +612,6 @@
     </div></div>
     <a class="elite-sponsor-own" href="Advertise.dc.html#elite-partner">Become the Exclusive Elite Sponsor</a>
   </section>
-  <section class="top-jobs" aria-labelledby="top-jobs-title">
-    <h2 id="top-jobs-title">Top Jobs</h2>
-    <ol class="top-jobs-list" data-fundsae-slot="top-jobs">
-      <li><a href="#"><span class="tj-rank">1</span><span class="tj-main"><span class="tj-title">Portfolio Manager, GCC Equities</span><span class="tj-co">Gulf Horizon Asset Management (dummy)</span></span></a></li>
-      <li><a href="#"><span class="tj-rank">2</span><span class="tj-main"><span class="tj-title">Associate, Private Credit</span><span class="tj-co">Emirates Private Credit (dummy)</span></span></a></li>
-      <li><a href="#"><span class="tj-rank">3</span><span class="tj-main"><span class="tj-title">Money Laundering Reporting Officer</span><span class="tj-co">Nexa Digital Exchange (dummy)</span></span></a></li>
-      <li><a href="#"><span class="tj-rank">4</span><span class="tj-main"><span class="tj-title">Product Manager, Payments</span><span class="tj-co">FlowPay Technologies (dummy)</span></span></a></li>
-      <li><a href="#"><span class="tj-rank">5</span><span class="tj-main"><span class="tj-title">Investment Analyst, MENA</span><span class="tj-co">Crescent Capital Partners (dummy)</span></span></a></li>
-      <li><a href="#"><span class="tj-rank">6</span><span class="tj-main"><span class="tj-title">Head of Investor Relations</span><span class="tj-co">Al Noor Investments (dummy)</span></span></a></li>
-      <li><a href="#"><span class="tj-rank">7</span><span class="tj-main"><span class="tj-title">Senior Risk Manager</span><span class="tj-co">Mosaic Fund Services (dummy)</span></span></a></li>
-      <li><a href="#"><span class="tj-rank">8</span><span class="tj-main"><span class="tj-title">Compliance Manager</span><span class="tj-co">Harborstone Financial (dummy)</span></span></a></li>
-      <li><a href="#"><span class="tj-rank">9</span><span class="tj-main"><span class="tj-title">Product Lead, WealthTech</span><span class="tj-co">Sahra Wealth (dummy)</span></span></a></li>
-      <li><a href="#"><span class="tj-rank">10</span><span class="tj-main"><span class="tj-title">Associate, Venture Capital</span><span class="tj-co">Desert Seed Ventures (dummy)</span></span></a></li>
-      <li><a href="#"><span class="tj-rank">11</span><span class="tj-main"><span class="tj-title">Treasury Manager</span><span class="tj-co">Oasis Private Bank (dummy)</span></span></a></li>
-      <li><a href="#"><span class="tj-rank">12</span><span class="tj-main"><span class="tj-title">Quantitative Researcher</span><span class="tj-co">Vertex Alpha (dummy)</span></span></a></li>
-      <li><a href="#"><span class="tj-rank">13</span><span class="tj-main"><span class="tj-title">Legal Counsel, Funds</span><span class="tj-co">Atlas Fund Administration (dummy)</span></span></a></li>
-      <li><a href="#"><span class="tj-rank">14</span><span class="tj-main"><span class="tj-title">Marketing Director</span><span class="tj-co">Lighthouse Asset Partners (dummy)</span></span></a></li>
-      <li><a href="#"><span class="tj-rank">15</span><span class="tj-main"><span class="tj-title">Operations Specialist</span><span class="tj-co">Marhaba Holdings (dummy)</span></span></a></li>
-      <li><a href="#"><span class="tj-rank">16</span><span class="tj-main"><span class="tj-title">Client Service Manager</span><span class="tj-co">Oasis Private Bank (dummy)</span></span></a></li>
-      <li><a href="#"><span class="tj-rank">17</span><span class="tj-main"><span class="tj-title">Data Engineer</span><span class="tj-co">FlowPay Technologies (dummy)</span></span></a></li>
-      <li><a href="#"><span class="tj-rank">18</span><span class="tj-main"><span class="tj-title">Senior Relationship Manager</span><span class="tj-co">Sahra Wealth (dummy)</span></span></a></li>
-      <li><a href="#"><span class="tj-rank">19</span><span class="tj-main"><span class="tj-title">Financial Crime Analyst</span><span class="tj-co">Blue Dhow Exchange (dummy)</span></span></a></li>
-      <li><a href="#"><span class="tj-rank">20</span><span class="tj-main"><span class="tj-title">Fund Accountant</span><span class="tj-co">Mosaic Fund Services (dummy)</span></span></a></li>
-    </ol>
-    <a class="top-jobs-all" href="#opportunities-title">See all roles</a>
-  </section>
   <!-- Top Employers: ranked like Top Jobs (featured employers first, then most open roles). Each row opens this page
        filtered to that employer's roles (?employer=, handled by js/fundsae-connector.js), which fills the list from employers.json. -->
   <section class="top-employers" aria-labelledby="top-employers-title">
@@ -664,6 +638,32 @@
       <li><a href="?employer=emp_08abd55fa091bd63#opportunities-title"><span class="tj-rank">19</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #C9A9A0, #874E4B)">SW</span><span class="tj-main"><span class="tj-title">Sahra Wealth (demo)</span><span class="tj-co">1 job</span></span></a></li>
       <li><a href="?employer=emp_a1774852cad63c48#opportunities-title"><span class="tj-rank">20</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #1C5965, #4F8A8B)">VA</span><span class="tj-main"><span class="tj-title">Vertex Alpha (demo)</span><span class="tj-co">1 job</span></span></a></li>
     </ol>
+  </section>
+  <section class="top-jobs" aria-labelledby="top-jobs-title">
+    <h2 id="top-jobs-title">Top Jobs</h2>
+    <ol class="top-jobs-list" data-fundsae-slot="top-jobs">
+      <li><a href="#"><span class="tj-rank">1</span><span class="tj-main"><span class="tj-title">Portfolio Manager, GCC Equities</span><span class="tj-co">Gulf Horizon Asset Management (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">2</span><span class="tj-main"><span class="tj-title">Associate, Private Credit</span><span class="tj-co">Emirates Private Credit (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">3</span><span class="tj-main"><span class="tj-title">Money Laundering Reporting Officer</span><span class="tj-co">Nexa Digital Exchange (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">4</span><span class="tj-main"><span class="tj-title">Product Manager, Payments</span><span class="tj-co">FlowPay Technologies (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">5</span><span class="tj-main"><span class="tj-title">Investment Analyst, MENA</span><span class="tj-co">Crescent Capital Partners (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">6</span><span class="tj-main"><span class="tj-title">Head of Investor Relations</span><span class="tj-co">Al Noor Investments (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">7</span><span class="tj-main"><span class="tj-title">Senior Risk Manager</span><span class="tj-co">Mosaic Fund Services (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">8</span><span class="tj-main"><span class="tj-title">Compliance Manager</span><span class="tj-co">Harborstone Financial (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">9</span><span class="tj-main"><span class="tj-title">Product Lead, WealthTech</span><span class="tj-co">Sahra Wealth (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">10</span><span class="tj-main"><span class="tj-title">Associate, Venture Capital</span><span class="tj-co">Desert Seed Ventures (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">11</span><span class="tj-main"><span class="tj-title">Treasury Manager</span><span class="tj-co">Oasis Private Bank (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">12</span><span class="tj-main"><span class="tj-title">Quantitative Researcher</span><span class="tj-co">Vertex Alpha (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">13</span><span class="tj-main"><span class="tj-title">Legal Counsel, Funds</span><span class="tj-co">Atlas Fund Administration (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">14</span><span class="tj-main"><span class="tj-title">Marketing Director</span><span class="tj-co">Lighthouse Asset Partners (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">15</span><span class="tj-main"><span class="tj-title">Operations Specialist</span><span class="tj-co">Marhaba Holdings (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">16</span><span class="tj-main"><span class="tj-title">Client Service Manager</span><span class="tj-co">Oasis Private Bank (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">17</span><span class="tj-main"><span class="tj-title">Data Engineer</span><span class="tj-co">FlowPay Technologies (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">18</span><span class="tj-main"><span class="tj-title">Senior Relationship Manager</span><span class="tj-co">Sahra Wealth (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">19</span><span class="tj-main"><span class="tj-title">Financial Crime Analyst</span><span class="tj-co">Blue Dhow Exchange (dummy)</span></span></a></li>
+      <li><a href="#"><span class="tj-rank">20</span><span class="tj-main"><span class="tj-title">Fund Accountant</span><span class="tj-co">Mosaic Fund Services (dummy)</span></span></a></li>
+    </ol>
+    <a class="top-jobs-all" href="#opportunities-title">See all roles</a>
   </section>
   <section class="resources-box">
     <h2>Career Resources</h2>
