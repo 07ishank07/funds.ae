@@ -10,6 +10,21 @@ import { EMPLOYMENT_TYPES } from '../contracts/models.js';
 import { stateFor, isPaused, recordSuccess, recordFailure } from '../lib/sourceHealth.js';
 
 const DAY = 86_400_000;
+
+/**
+ * Demo example roles (demoOnly in config/jobs.manual.json) keep their spacing but move with the
+ * calendar, newest dated yesterday, so the demo never ages them out. Real listings keep their dates.
+ */
+export function withCurrentDemoDates(listings, now) {
+  const examples = listings.filter((m) => m.demoOnly && Number.isFinite(Date.parse(m.postedAt)));
+  if (!examples.length) return listings;
+  const newest = Math.max(...examples.map((m) => Date.parse(m.postedAt)));
+  const today = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  const shift = today - DAY - newest;
+  if (shift <= 0) return listings;
+  const move = (d) => (d && Number.isFinite(Date.parse(d)) ? new Date(Date.parse(d) + shift).toISOString().slice(0, 10) : d);
+  return listings.map((m) => (m.demoOnly ? { ...m, postedAt: move(m.postedAt), expiresAt: move(m.expiresAt) } : m));
+}
 const MANUAL_SOURCE = { id: 'manual', name: 'Funds.ae' };
 
 export function buildJobRules(taxonomy) {
@@ -90,7 +105,7 @@ export async function runJobs(ctx) {
   results.push({
     source: MANUAL_SOURCE,
     manual: true,
-    items: manualJobs.map((m) => ({
+    items: (demo ? withCurrentDemoDates(manualJobs, now) : manualJobs).map((m) => ({
       externalId: m.id, title: m.title, company: m.company, location: m.location, url: m.url,
       postedAt: toDate(m.postedAt), expiresAt: toDate(m.expiresAt), department: m.department || '',
       employmentType: m.employmentType || '', featured: Boolean(m.featured)
@@ -132,6 +147,8 @@ export async function runJobs(ctx) {
       if (existing) {
         Object.assign(existing, job, {
           status: 'open', closedAt: null, lastSeenAt: now.toISOString(),
+          // A listing you post yourself is dated by the file, so a corrected date takes effect.
+          ...(manual ? { postedAt: postedAt.toISOString() } : {}),
           featured: Boolean(raw.featured) || undefined,
           expiresAt: raw.expiresAt ? raw.expiresAt.toISOString() : undefined
         });

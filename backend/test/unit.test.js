@@ -9,6 +9,7 @@ import { buildQualityRules, assessQuality } from '../src/lib/quality.js';
 import { fingerprint, similarity } from '../src/lib/grouping.js';
 import { validateSponsors } from '../src/pipeline/sponsors.js';
 import { storyMatchesSection, resolveSections } from '../src/pipeline/publish.js';
+import { withCurrentDemoDates } from '../src/pipeline/jobs.js';
 import { buildTaxonomyClassifier, classifyTaxonomy } from '../src/lib/taxonomyClassify.js';
 import { buildJobRules, isUaeLocation, isRelevantJob } from '../src/pipeline/jobs.js';
 import { isSafePublicUrl } from '../src/lib/http.js';
@@ -185,4 +186,18 @@ test('outbound requests refuse private and loopback addresses', () => {
   for (const bad of ['http://localhost/x', 'http://127.0.0.1/', 'http://10.0.0.5/', 'http://192.168.1.1/', 'http://169.254.169.254/latest', 'http://[::1]/', 'file:///etc/passwd']) {
     assert.equal(isSafePublicUrl(bad), false, bad);
   }
+});
+
+test('demo example roles move with the calendar; real listings keep their dates', () => {
+  const listings = [
+    { id: 'a', demoOnly: true, postedAt: '2026-09-13', expiresAt: '2026-12-31' },
+    { id: 'b', demoOnly: true, postedAt: '2026-10-01' },
+    { id: 'real', postedAt: '2026-09-01', expiresAt: '2026-12-31' }
+  ];
+  const later = withCurrentDemoDates(listings, new Date('2027-03-10T15:00:00Z'));
+  assert.equal(later.find((m) => m.id === 'b').postedAt, '2027-03-09', 'the newest example is dated yesterday');
+  assert.equal(later.find((m) => m.id === 'a').postedAt, '2027-02-19', 'the spacing between examples is kept');
+  assert.equal(later.find((m) => m.id === 'a').expiresAt, '2027-06-08', 'its expiry moves by the same 159 days');
+  assert.deepEqual(later.find((m) => m.id === 'real'), listings[2]);
+  assert.equal(withCurrentDemoDates(listings, new Date('2026-10-01T12:00:00Z')), listings, 'nothing moves backwards');
 });
