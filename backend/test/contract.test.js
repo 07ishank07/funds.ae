@@ -288,6 +288,14 @@ test('every page but Careers and the home page shows the same Elite Founding Spo
   assert.match(careers, /<\/aside>\s*<\/div>\s*<!--[\s\S]*?-->\s*<section class="partners"[\s\S]*?<\/section>\s*<footer/);
   // Job cards carry a dummy initials logo but no Featured tag; Top Employers lists 20, each with an initials logo.
   assert.ok(!/role-featured/.test(careers), 'job cards have no Featured tag');
+  // The Exclusive Elite Sponsor box (demo only) heads the right column of both Careers and Events.
+  const events = read('Events.dc.html');
+  for (const page of [careers, events]) {
+    assert.ok(page.includes('<p class="elite-sponsor-tags"><span>Exclusive Elite Sponsor</span><span>Sponsored</span></p>'), 'Exclusive Elite Sponsor box');
+    assert.ok(page.includes('html[data-fundsae-connected="live"] [data-demo-only] { display: none !important; }'), 'hidden in live mode');
+  }
+  assert.ok(/<aside>\s*<!-- Exclusive Elite Sponsor[\s\S]*?<section class="elite-sponsor"/.test(events), 'Events: the box opens the right column');
+  assert.ok(events.includes('href="Careers.dc.html?employer='), 'Events: the box links to the employer roles on Careers');
   const topEmployers = careers.slice(careers.indexOf('data-fundsae-slot="employers"'), careers.indexOf('</ol>', careers.indexOf('data-fundsae-slot="employers"')));
   assert.equal((topEmployers.match(/<li>/g) || []).length, 20, 'Top Employers shows 20');
   assert.equal((topEmployers.match(/class="te-logo"/g) || []).length, 20, 'every Top Employer has a logo');

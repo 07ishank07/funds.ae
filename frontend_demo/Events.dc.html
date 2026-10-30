@@ -102,6 +102,35 @@
   @media (max-width: 720px) { .foot-nav { margin-left: 0; } }
   /* One typeface across the site: Jost, as on the home page. Skipped in Arabic mode, where i18n.js sets its own font. */
   html:not([lang="ar"]) body *:not(svg):not(svg *) { font-family: 'Jost', 'Futura', 'Century Gothic', sans-serif !important; }
+  /* Exclusive Elite Sponsor box at the top of the right column (same as on the Careers page). */
+  .elite-sponsor { margin-bottom: 4px; }
+  .elite-sponsor-frame { padding: 4px; border: 1px solid var(--ink); background: var(--surface); }
+  .elite-sponsor-inner { padding: 12px 14px 14px; border: 1px solid color-mix(in oklab, var(--ink) 28%, transparent); }
+  .elite-sponsor-tags {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 2px 10px;
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent);
+  }
+  .elite-sponsor-tags span + span { font-weight: 500; color: var(--ghost); }
+  .elite-sponsor-tags span + span::before { content: '·'; margin-inline-end: 10px; }
+  .elite-sponsor-media { display: block; margin-top: 10px; border-radius: 3px; overflow: hidden; }
+  .elite-sponsor-media img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; transition: transform 0.3s; }
+  .elite-sponsor-media:hover img { transform: scale(1.02); }
+  .elite-sponsor h2 { margin-top: 12px; font-size: 18px; font-weight: 600; line-height: 1.25; color: var(--ink); }
+  .elite-sponsor-pitch { margin-top: 4px; font-size: 14px; line-height: 1.45; color: var(--muted); }
+  .elite-sponsor-cta {
+    display: flex; align-items: center; justify-content: center; gap: 8px; height: 40px; margin-top: 14px;
+    border-radius: 2px; background: var(--ink); color: #FFFFFF; font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; text-decoration: none; transition: background-color 0.15s;
+  }
+  .elite-sponsor-cta:hover { background: var(--accent); }
+  .elite-sponsor-cta svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.15s; }
+  .elite-sponsor-cta:hover svg { transform: translateX(2px); }
+  [dir="rtl"] .elite-sponsor-cta svg { transform: scaleX(-1); }
+  [dir="rtl"] .elite-sponsor-cta:hover svg { transform: scaleX(-1) translateX(2px); }
+  .elite-sponsor-own { display: inline-block; margin-top: 8px; font-size: 13px; font-weight: 600; color: var(--accent); text-decoration: none; }
+  .elite-sponsor-own:hover { text-decoration: underline; text-underline-offset: 3px; }
+  /* Demo-only content (fictional sponsors) never shows once the site runs on live data. */
+  html[data-fundsae-connected="live"] [data-demo-only] { display: none !important; }
 </style>
 </head>
 <body>
@@ -243,6 +272,18 @@
 </main>
 
 <aside>
+  <!-- Exclusive Elite Sponsor: the same dummy sponsor box as on the Careers page (fictional employer and image), linking
+       to its roles there. Demo content only: hidden in live mode (see [data-demo-only] in the styles). -->
+  <section class="elite-sponsor" aria-labelledby="elite-sponsor-title" data-demo-only>
+    <div class="elite-sponsor-frame"><div class="elite-sponsor-inner">
+      <p class="elite-sponsor-tags"><span>Exclusive Elite Sponsor</span><span>Sponsored</span></p>
+      <a class="elite-sponsor-media" href="Careers.dc.html?employer=emp_44cd123125645764#opportunities-title" tabindex="-1" aria-hidden="true"><img src="../assets/sponsors/gulf-horizon-demo.png" width="800" height="450" alt="" loading="lazy" decoding="async"></a>
+      <h2 id="elite-sponsor-title">Gulf Horizon Asset Management (demo)</h2>
+      <p class="elite-sponsor-pitch">Hiring across portfolio management, risk and operations in DIFC and ADGM.</p>
+      <a class="elite-sponsor-cta" href="Careers.dc.html?employer=emp_44cd123125645764#opportunities-title"><span>See open roles</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+    </div></div>
+    <a class="elite-sponsor-own" href="Advertise.dc.html#elite-partner">Become the Exclusive Elite Sponsor</a>
+  </section>
   <!-- Field names are the API contract (POST /api/v1/submissions/event). -->
   <div class="submit-forms">
     <details id="submit-event" open>
