@@ -1156,6 +1156,19 @@ document.addEventListener('DOMContentLoaded', async function() {
             ['CARE HOMES', 'Care home operators secure sale-and-leaseback deals', '#416C56, #9EB9A5'],
             ['ALT RE DEBT', 'Lenders back alternative real estate platforms', '#7A5C3E, #D3C4A6']
           ]);
+          // Every real estate tile names its source in small text under the headline. The connector copies a tile as
+          // the template for live stories and puts the publisher's name in this line (fx-tile-source).
+          const tileSources = ['Gulf Property Wire', 'Emirates Real Estate Journal', 'Khaleej Capital Report', 'UAE Markets Today', 'The National Ledger', 'Dirham Daily'];
+          ['Residential Estate News', 'Commercial Real Estate News', 'Infrastructure Real Estate News', 'Special & Alternative Real Estate News'].forEach((label) => {
+            document.querySelectorAll('.news > section[aria-label="' + label + '"] > article').forEach((article, index) => {
+              if (article.querySelector('.fx-tile-source')) return;
+              const source = document.createElement('p');
+              source.className = 'fx-tile-source';
+              source.style.cssText = 'margin: 4px 0 0; font-size: 11px; font-weight: 500; line-height: 1.3; color: #7F9A97';
+              source.textContent = 'Source: ' + tileSources[index % tileSources.length] + ' (dummy)';
+              article.appendChild(source);
+            });
+          });
           // Events and Expos close the third column, directly under Featured Partners (the column's gap spaces it).
           eventsPanel.style.marginTop = '0';
           const featuredPartnersBox = document.querySelector('[aria-labelledby="professional-services-title"]');

@@ -342,4 +342,7 @@ test('the Real Estate Capital News page has its hooks, scripts and a bar link on
   for (const id of ['residential-real-estate', 'commercial-real-estate', 'infrastructure', 'special-alternative-real-estate']) {
     assert.ok(home.includes(`'News.dc.html?section=${id}'`), `the ${id} box's View All opens the page with its Asset Classes`);
   }
+  // Every real estate tile shows its source in small text; live tiles get the publisher's name.
+  assert.ok(home.includes("source.className = 'fx-tile-source'"), 'real estate tiles carry a source line');
+  assert.ok(readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8').includes("art.querySelector('.fx-tile-source')"), 'the connector fills the source line');
 });

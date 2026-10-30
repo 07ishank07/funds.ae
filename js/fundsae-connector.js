@@ -365,6 +365,9 @@
         a.textContent = truncate(story.headline, LIMITS.tileHeadline);
         a.title = story.headline;
         api.setLink(a, story.url);
+        // Real estate boxes carry a small source line under the headline (see frontend_demo/this.html).
+        var source = art.querySelector('.fx-tile-source');
+        if (source) source.textContent = 'Source: ' + story.source;
       });
       if (padTo && state.mode === 'demo' && stories.length) {
         dummies.slice(stories.length, padTo).forEach(function (tile) { box.appendChild(tile); });
