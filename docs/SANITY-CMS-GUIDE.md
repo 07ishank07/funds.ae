@@ -16,7 +16,8 @@ This guide explains how the Sanity CMS is built into funds.ae, how to set it up 
 7. [Rules that keep it safe](#7-rules-that-keep-it-safe)
 8. [Troubleshooting](#8-troubleshooting)
 9. [Editor quick guide](#9-editor-quick-guide)
-10. [Where this goes next](#10-where-this-goes-next)
+10. [Careers: jobs, employers and Post a Job](#10-careers-jobs-employers-and-post-a-job)
+11. [Where this goes next](#11-where-this-goes-next)
 
 ---
 
@@ -28,7 +29,7 @@ Sanity holds **content people write by hand**, and since October 2026 the **News
 - only approvers can publish a story, through the queue's own workflow actions, never through Sanity's draft/published switch alone;
 - the backend checks every licence, length and approval rule again before a story reaches the site.
 
-Jobs never go into Sanity.
+The Careers section (posted jobs, employers, the Top Employers and Top Jobs lists) is in Sanity too, under its own review: Part 10. Jobs from automatic job feeds never go into Sanity.
 
 | In Sanity (Studio menu) | Shown on the site | Sanity type | Published as |
 |---|---|---|---|
@@ -40,7 +41,7 @@ Jobs never go into Sanity.
 
 | Not in Sanity | Why |
 |---|---|
-| Jobs and employers | Ingested from job boards and `config/jobs.manual.json` |
+| Jobs from job feeds | Ingested from job boards (`config/sources.jobs.json`). Posted jobs and employers are in Sanity (Part 10) once `jobs.source` is `"sanity"`; until then `config/jobs.manual.json` |
 | Topic keywords, UAE terms, quality filters (`config/taxonomy.json`) | Classifier configuration with validation. Capital Types, Asset Classes and the news source registry are in Sanity ([NEWS-REVIEW-GUIDE.md](NEWS-REVIEW-GUIDE.md)) |
 | Thought Leaders box, navigation, page layout | Not in this first pass. Add them with the checklist in Part 6 when needed |
 
@@ -200,7 +201,7 @@ The news importer needs one more secret, a write token called `SANITY_WRITE_TOKE
    | URL | `https://api.github.com/repos/<owner>/<repo>/dispatches` |
    | Dataset | `production` |
    | Trigger on | Create, Update, Delete |
-   | Filter | `_type in ["sponsorItem", "event", "socialHighlight", "advertiseTier", "page", "newsSource", "capitalType", "assetClass", "newsPublishSignal", "newsAggregator"]` |
+   | Filter | `_type in ["sponsorItem", "event", "socialHighlight", "advertiseTier", "page", "newsSource", "capitalType", "assetClass", "newsPublishSignal", "newsAggregator", "employer", "careersPage"]` |
    | Projection | `{"event_type": select(_type == "newsAggregator" => "news-fetch", "cms-publish")}` |
    | HTTP method | POST |
    | HTTP headers | `Authorization: Bearer <the GitHub token>`, `Accept: application/vnd.github+json`, `X-GitHub-Api-Version: 2022-11-28` |
@@ -322,7 +323,7 @@ Content flows through six layers, and each one checks its neighbour. Follow this
 
 These follow from CLAUDE.md. Code review should check them on every CMS change.
 
-- **Hand-written content and the news queue only.** Jobs never go into Sanity. News stories live under private `queue.*` ids and follow the queue's own rules ([NEWS-REVIEW-GUIDE.md](NEWS-REVIEW-GUIDE.md)).
+- **Hand-written content, the news queue and posted jobs only.** Jobs from job feeds never go into Sanity; posted jobs live under private `jobs.*` ids (Part 10). News stories live under private `queue.*` ids and follow the queue's own rules ([NEWS-REVIEW-GUIDE.md](NEWS-REVIEW-GUIDE.md)).
 - **Published only.**
   - Queries run with `perspective=published` and exclude `drafts.**`.
   - Sponsors, Top Tweets items and packages with `enabled == false` are filtered out in GROQ, so unannounced sponsors never reach the website or the git history.
@@ -381,7 +382,84 @@ These follow from CLAUDE.md. Code review should check them on every CMS change.
 - **Links:** they must start with `https://`. On pages, `mailto:` also works.
 - **If the site doesn't update:** tell the developer. The GitHub Action log says exactly which item broke which rule, and the site keeps the last good version in the meantime.
 
-## 10. Where this goes next
+## 10. Careers: jobs, employers and Post a Job
+
+The Careers page's jobs, employers, Top Employers, Top Jobs and Career Resources are edited in the Studio. Jobs from automatic job feeds (`config/sources.jobs.json`, all switched off today) never go into Sanity.
+
+### 10.1 How it works
+
+```
+ Post a Job form (frontend_demo/PostJob.dc.html)
+   │  POST to the funds.ae server (settings submissions.endpoint when the site is on GitHub Pages)
+   ▼
+ funds.ae server: origin check → rate limit → validation → spam trap
+   │  one createIfNotExists, SANITY_WRITE_TOKEN, checked by src/jobs/submissionMutations.js
+   ▼
+ Sanity jobPosting  _id = jobs.<id>   status = pending_review   (filer's name and email kept here only)
+   │  an editor checks it; a review approver presses "Approve and publish" (or anyone presses Reject)
+   ▼
+ Sanity webhook → GitHub "Publish content" → npm run ingest:jobs (read-only token)
+   │  keeps only jobs that are published, approved by a listed approver, unchanged since approval and not expired
+   ▼
+ api/v1/jobs.json, employers.json, careers.json + frontend_demo/jobs/<slug>.html → commit → GitHub Pages
+```
+
+Editors can also add jobs themselves with **Careers → Add a job**; they follow the same review.
+
+### 10.2 Editor guide
+
+- **Jobs: pending review** lists new jobs, newest first. Open one. Its tabs are:
+  - **The role:** title, company, employer link, location, work mode, type, level, function, regulator, apply link, take-down date.
+  - **Pay and visa:** the salary range, currency, period and visa line.
+  - **Description:** paragraphs and requirements. Both appear on the job's own page.
+  - **Submitted by:** who sent it from the Post a Job form. This is never shown on the site, and it is deleted when the job is archived.
+  - **Workflow:** status and approval (read-only).
+- **Actions:**
+  - **Approve and publish:** review approvers only. The job goes live within minutes, for 60 days unless you set **Take down on**.
+  - **Reject:** give a reason; the job never appears. The filer's email stays so you can tell them why.
+  - **Unpublish:** takes a live job off the site and back to pending.
+  - **Archive:** retires the job for good and deletes the filer's details.
+  - **Delete:** removes the document.
+- **Changing a live job:** only an approver can save changes to a live job, and saving re-approves it.
+- **Employers:** name, a fixed id, logo (square, up to 500 KB), description and website. Link a job to its employer (**The role → Employer**) to show the logo on its card and page.
+- **Top Employers and Top Jobs:** pick up to 20 of each and drag them into order. Only live jobs appear. Leave a list empty to use the automatic order: employers with the most open roles, and the newest jobs.
+- **Career Resources:** **Sponsors → Career Resources**, as before. **Kind of resource** (Article, Guide, Career tip, External link) shows as a small label.
+
+### 10.3 Switching it on
+
+1. **Host the funds.ae server** (Render, Fly.io or a small VPS; see SETUP-GUIDE.md, part 7). Give it these environment variables:
+
+   | Variable | Value |
+   |---|---|
+   | `SANITY_PROJECT_ID`, `SANITY_DATASET` | as in step 4.4 |
+   | `SANITY_WRITE_TOKEN` | an Editor token. Treat it as high-value: it lives only on the server and in the News ingest secret. Rotate it yearly (`npx sanity tokens rotate`). |
+   | `FUNDSAE_JOBS_STORE` | `sanity` (or set `jobs.review.store` in settings.json) |
+   | `ALLOWED_ORIGINS` | the site's address, e.g. `https://07ishank07.github.io` |
+   | `JOBS_SANITY_MAX_PER_DAY` | optional, default 50. Past this, submissions wait in the server's file queue. |
+
+2. **In `backend/config/settings.json`:**
+   - set `submissions.endpoint` to the server's API address, ending in `/` (e.g. `https://forms.funds.ae/api/v1/`);
+   - set `jobs.source` to `"sanity"`;
+   - set `mode` to `"live"` (Part 8 of NEWS-REVIEW-GUIDE.md).
+3. **Approvers:** the same list as for news (NEWS-REVIEW-GUIDE.md, Part 4). With no approvers, nothing is published.
+4. **Deploy the Studio** (step 4.3), and import the seed with `--missing` to add the empty Top lists document.
+5. **Update the webhook filter** (step 4.5) so employer and Top list changes republish too:
+   `_type in ["sponsorItem", "event", "socialHighlight", "advertiseTier", "page", "newsSource", "capitalType", "assetClass", "newsPublishSignal", "newsAggregator", "employer", "careersPage"]`.
+   Job decisions already republish through `newsPublishSignal`; `jobPosting` is deliberately left out of the filter.
+6. **Test it:**
+   1. Send a test job from the Post a Job page and check it appears in **Jobs: pending review**.
+   2. Approve it and check it reaches the Careers page.
+   3. Archive it.
+
+### 10.4 Limits to know
+
+- **Forged approvals:** anyone holding an Editor token, including someone who breaks into the server, could write a fake approval with a listed approver's id. The publisher cannot tell who wrote it without Sanity's History API (paid plans). Keep the token secret and rotate it after any doubt.
+- **Images:** employer logos are public Sanity images, readable by anyone with the URL.
+- **Employer profiles** (logo, description, website) are editorial content, like sponsors: changes go live at the next publish without re-approving the jobs.
+- **Rejected jobs** keep the filer's email until they are archived; archive rejected jobs once you have replied.
+- **Taken-down jobs** stay in the public git history.
+
+## 11. Where this goes next
 
 - **Phase 2 (PostgreSQL).**
   - `schema/schema.sql` already has `sponsor_items`, `events`, `social_highlights`, `advertise_tiers` and `pages`.

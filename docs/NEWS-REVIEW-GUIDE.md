@@ -257,7 +257,7 @@ Do these in order. Until step 7, the site keeps its demo stories and nothing rea
 
    | Setting | Value |
    |---|---|
-   | Filter | `_type in ["sponsorItem", "event", "socialHighlight", "advertiseTier", "page", "newsSource", "capitalType", "assetClass", "newsPublishSignal", "newsAggregator"]` |
+   | Filter | `_type in ["sponsorItem", "event", "socialHighlight", "advertiseTier", "page", "newsSource", "capitalType", "assetClass", "newsPublishSignal", "newsAggregator", "employer", "careersPage"]` |
    | Projection | `{"event_type": select(_type == "newsAggregator" => "news-fetch", "cms-publish")}` |
 
    Leave everything else as it is (Create, Update, Delete; drafts off). Do **not** add `newsArticle`: stories never trigger the site directly. The workflow actions touch `newsPublishSignal` instead, and the projection carries no story content.
