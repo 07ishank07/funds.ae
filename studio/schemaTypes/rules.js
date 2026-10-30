@@ -3,7 +3,7 @@
 // matches the rules the backend enforces before anything is published:
 //   SPONSOR_SLOTS      == SLOT_RULES       in backend/src/pipeline/sponsors.js
 //   EVENT_LIMITS       == EVENT_SCHEMA     in backend/src/pipeline/events.js
-//   HIGHLIGHT/TIER/PAGE == CONTENT_LIMITS  in backend/src/pipeline/content.js
+//   HIGHLIGHT/TIER/PAGE/HERO == CONTENT_LIMITS  in backend/src/pipeline/content.js
 // Change a limit in both places, or the backend tests fail.
 
 /** One entry per sponsor area on the website, in the order the Studio lists them. */
@@ -81,6 +81,9 @@ export const PLACEMENT_LABELS = {
 /** About, Privacy and Terms page copy. */
 export const PAGE_SLUGS = ['about', 'privacy', 'terms'];
 export const PAGE_LIMITS = { title: [2, 80], intro: [0, 400], blocks: 120, blockText: 2000 };
+
+/** The home page hero banner (equals CONTENT_LIMITS.hero in backend/src/pipeline/content.js). */
+export const HERO_LIMITS = { eyebrow: [2, 60], title: [8, 80], highlight: [0, 30], subtitle: [0, 240], imageAlt: [0, 140], imageMaxBytes: 1572864 };
 
 export const HEX_COLOR = /^#[0-9A-Fa-f]{6}$/;
 export const ID_PATTERN = /^[a-z0-9][a-z0-9-]{1,60}$/;

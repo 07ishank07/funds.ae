@@ -1034,7 +1034,45 @@
     });
   }
 
+  /** Home page hero banner (content.json "hero", the Studio's "Home page hero banner"). With none published the
+   *  page keeps its built-in banner. The gold word is a span; everything goes in with textContent. */
+  function renderHero(hero) {
+    if (!hero || typeof hero !== 'object' || typeof hero.title !== 'string' || !hero.title) return;
+    slots('home-hero').forEach(function (box) {
+      var eyebrow = box.querySelector('.fx-hero-eyebrow');
+      if (eyebrow && typeof hero.eyebrow === 'string' && hero.eyebrow) eyebrow.textContent = hero.eyebrow;
+      var title = box.querySelector('h1');
+      if (title) {
+        title.textContent = '';
+        var at = typeof hero.highlight === 'string' && hero.highlight ? hero.title.indexOf(hero.highlight) : -1;
+        if (at === -1) {
+          title.textContent = hero.title;
+        } else {
+          var gold = document.createElement('span');
+          gold.textContent = hero.highlight;
+          title.appendChild(document.createTextNode(hero.title.slice(0, at)));
+          title.appendChild(gold);
+          title.appendChild(document.createTextNode(hero.title.slice(at + hero.highlight.length)));
+        }
+      }
+      var sub = box.querySelector('.fx-hero-sub');
+      if (sub) {
+        if (typeof hero.subtitle === 'string' && hero.subtitle) sub.textContent = hero.subtitle;
+        else sub.remove();
+      }
+      var img = box.querySelector('.fx-hero-art img');
+      var src = api.httpUrl(hero.image, true);
+      if (img && src) {
+        img.src = src;
+        img.alt = typeof hero.imageAlt === 'string' ? hero.imageAlt : '';
+        img.removeAttribute('width');
+        img.removeAttribute('height');
+      }
+    });
+  }
+
   function renderContent(doc) {
+    renderHero(doc.hero);
     var s = doc.slots || {};
     renderHighlights(api.items(s.socialHighlights, api.valid.socialHighlight, 'Top Tweets items'));
     renderTiers(api.items(s.advertiseTiers, api.valid.advertiseTier, 'Advertise packages'));
@@ -1130,7 +1168,7 @@
       if (hasSlot('events')) guard('Events', load('events.json', 'events').then(renderEvents));
       var sponsorSlots = ['sponsor-founding', 'sponsor-platinum', 'sponsor-posts', 'sponsor-media', 'sponsor-companies', 'sponsor-elite-exclusive', 'career-resources'];
       if (sponsorSlots.some(hasSlot)) guard('Sponsors', load('sponsors.json', 'sponsors').then(renderSponsors));
-      if (hasSlot('social-highlights') || hasSlot('advertise-tiers') || hasSlot('page-body')) {
+      if (hasSlot('social-highlights') || hasSlot('advertise-tiers') || hasSlot('page-body') || hasSlot('home-hero')) {
         guard('Editorial content', load('content.json', 'content').then(renderContent));
       }
     }).catch(function (err) {

@@ -22,6 +22,9 @@ export const CONTENT_QUERY = `{
   },
   "pages": *[_type == "page" && ${published}] | order(slug asc) {
     slug, title, intro, updatedAt, body
+  },
+  "hero": *[_id == "homeHero"][0] {
+    eyebrow, title, highlight, subtitle, imageAlt, "image": image.asset->{url, mimeType, size}
   }
 }`;
 

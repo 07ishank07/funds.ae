@@ -308,6 +308,10 @@ export const DB_MODELS = {
     table: 'pages',
     fields: ['slug', 'title', 'intro', 'updatedAt', 'blocks']
   },
+  homeHero: {
+    table: 'home_hero',
+    fields: ['eyebrow', 'title', 'highlight', 'subtitle', 'image', 'imageAlt']
+  },
   submissions: {
     table: 'submissions',
     fields: ['id', 'kind', 'status', 'payload', 'email', 'ipHash', 'userAgent', 'createdAt']
@@ -343,6 +347,7 @@ export const DTO_FIELDS = {
   advertiseTier: ['id', 'name', 'badge', 'price', 'priceNote', 'showPrice', 'duration', 'placements', 'features', 'ctaLabel', 'ctaUrl', 'featured'],
   advertisePlacement: ['type', 'label', 'detail'],
   page: ['slug', 'title', 'intro', 'updatedAt', 'blocks'],
+  hero: ['eyebrow', 'title', 'highlight', 'subtitle', 'image', 'imageAlt'],
   pageBlock: ['type', 'list', 'spans'],
   pageSpan: ['text', 'bold', 'italic', 'href'],
   source: [

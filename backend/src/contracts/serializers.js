@@ -208,6 +208,18 @@ export function toAdvertiseTierDto(tier) {
   };
 }
 
+/** The home page hero banner (content.json "hero"). */
+export function toHeroDto(hero) {
+  return {
+    eyebrow: hero.eyebrow,
+    title: hero.title,
+    highlight: nullable(hero.highlight),
+    subtitle: nullable(hero.subtitle),
+    image: nullable(hero.image),
+    imageAlt: nullable(hero.imageAlt)
+  };
+}
+
 export function toPageDto(page) {
   return {
     slug: page.slug,

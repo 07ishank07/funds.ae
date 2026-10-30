@@ -155,6 +155,8 @@ export const structure = (S, context) =>
               ),
             ),
         ),
+      // One fixed document: the banner at the top of the home page. Unpublish it to show the built-in banner.
+      S.listItem().id('home-hero').title('Home page hero banner').child(S.document().schemaType('homeHero').documentId('homeHero')),
       S.listItem()
         .title('Events')
         .child(S.documentTypeList('event').title('Events').defaultOrdering([{field: 'startDate', direction: 'desc'}])),

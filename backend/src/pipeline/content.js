@@ -4,6 +4,7 @@
 //   socialHighlights  the home page "Top Tweets" box
 //   advertiseTiers    the package cards on the Advertise page
 //   pages             About, Privacy and Terms body copy
+//   hero              the home page hero banner (one, or none: the page keeps its built-in banner)
 // `npm run cms:pull` writes it from Sanity; it can also be edited by hand.
 //
 // Invalid content fails the step with a plain-language message and the
@@ -15,7 +16,7 @@ import path from 'node:path';
 import { CONFIG_DIR, readJson } from '../config.js';
 import { log } from '../lib/logger.js';
 import { ADVERTISE_PLACEMENTS, PAGE_BLOCK_TYPES, PAGE_LIST_TYPES, PAGE_SLUGS, RETIRED_ADVERTISING_TIERS } from '../contracts/models.js';
-import { toAdvertiseTierDto, toPageDto, toSocialHighlightDto } from '../contracts/serializers.js';
+import { toAdvertiseTierDto, toHeroDto, toPageDto, toSocialHighlightDto } from '../contracts/serializers.js';
 import { EMAIL_RE, cleanInline, cleanText, rules, validate } from '../validation/validate.js';
 import { isSafePublicUrl } from '../lib/http.js';
 
@@ -24,7 +25,8 @@ const { id, text, httpsUrl, enumOf, isoDate, bool } = rules;
 export const CONTENT_LIMITS = {
   highlights: { maxItems: 5, accountName: [2, 40], handle: [2, 16], text: [10, 140], initials: [1, 3] },
   tiers: { maxItems: 4, name: [2, 40], badge: [2, 20], price: [2, 30], priceNote: [2, 40], duration: [2, 40], features: 8, feature: [2, 120], ctaLabel: [2, 30], placementDetail: [2, 120] },
-  pages: { title: [2, 80], intro: [0, 400], blocks: 120, blockText: 2000 }
+  pages: { title: [2, 80], intro: [0, 400], blocks: 120, blockText: 2000 },
+  hero: { eyebrow: [2, 60], title: [8, 80], highlight: [0, 30], subtitle: [0, 240], imageAlt: [0, 140], imageMaxBytes: 1572864 }
 };
 
 const HEX = /^#[0-9a-f]{6}$/i;
@@ -180,6 +182,23 @@ const PAGE_SCHEMA = {
   }
 };
 
+// The home page hero banner. The highlighted word (shown in gold) must appear in the headline; an image needs a description.
+const HERO_SCHEMA = {
+  fields: {
+    eyebrow: text({ min: L.hero.eyebrow[0], max: L.hero.eyebrow[1] }),
+    title: text({ min: L.hero.title[0], max: L.hero.title[1] }),
+    highlight: text({ min: 1, max: L.hero.highlight[1], required: false }),
+    subtitle: text({ min: 1, max: L.hero.subtitle[1], required: false }),
+    image: httpsUrl({ required: false }),
+    imageAlt: text({ min: 1, max: L.hero.imageAlt[1], required: false })
+  },
+  check: (v) => {
+    if (v.highlight && !v.title.includes(v.highlight)) return { highlight: 'must be a word or phrase from the headline.' };
+    if (v.image && !v.imageAlt) return { imageAlt: 'is required with an image (describe it for people who cannot see it).' };
+    return null;
+  }
+};
+
 /* ------------------------------- validation ------------------------------- */
 
 function validateList(list, schema, label, { now, maxItems, key = 'id' }) {
@@ -210,7 +229,7 @@ function validateList(list, schema, label, { now, maxItems, key = 'id' }) {
 export function validateContent(config, { now = new Date() } = {}) {
   const errors = [];
   for (const key of Object.keys(config || {})) {
-    if (!['socialHighlights', 'advertiseTiers', 'pages'].includes(key)) errors.push(`Unknown group "${key}". Use socialHighlights, advertiseTiers or pages.`);
+    if (!['socialHighlights', 'advertiseTiers', 'pages', 'hero'].includes(key)) errors.push(`Unknown group "${key}". Use socialHighlights, advertiseTiers, pages or hero.`);
   }
   const highlights = validateList(config?.socialHighlights, HIGHLIGHT_SCHEMA, 'socialHighlights', { now, maxItems: L.highlights.maxItems });
   // A retired package still enabled in Sanity is skipped rather than rejected, so it never blocks publishing.
@@ -224,6 +243,12 @@ export function validateContent(config, { now = new Date() } = {}) {
   const tiers = validateList(tierList, TIER_SCHEMA, 'advertiseTiers', { now, maxItems: L.tiers.maxItems });
   const pages = validateList(config?.pages, PAGE_SCHEMA, 'pages', { now, key: 'slug' });
   errors.push(...highlights.errors, ...tiers.errors, ...pages.errors);
+  let hero = null;
+  if (config?.hero !== undefined && config?.hero !== null) {
+    const result = validate(HERO_SCHEMA, config.hero, { now });
+    if (result.ok) hero = toHeroDto(result.value);
+    else for (const [field, message] of Object.entries(result.fields)) errors.push(`hero: "${field}" ${message}`);
+  }
   return {
     errors,
     content: {
@@ -231,7 +256,8 @@ export function validateContent(config, { now = new Date() } = {}) {
         socialHighlights: highlights.items.map(toSocialHighlightDto),
         advertiseTiers: tiers.items.map(toAdvertiseTierDto)
       },
-      pages: Object.fromEntries(pages.items.map((p) => [p.slug, toPageDto(p)]))
+      pages: Object.fromEntries(pages.items.map((p) => [p.slug, toPageDto(p)])),
+      hero
     }
   };
 }

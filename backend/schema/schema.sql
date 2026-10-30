@@ -225,6 +225,17 @@ CREATE TABLE IF NOT EXISTS pages (
     blocks      JSONB NOT NULL
 );
 
+-- The home page hero banner (Sanity singleton "homeHero"); at most one row.
+CREATE TABLE IF NOT EXISTS home_hero (
+    id          BOOLEAN PRIMARY KEY DEFAULT TRUE CHECK (id),
+    eyebrow     TEXT NOT NULL CHECK (char_length(eyebrow) BETWEEN 2 AND 60),
+    title       TEXT NOT NULL CHECK (char_length(title) BETWEEN 8 AND 80),
+    highlight   TEXT CHECK (highlight IS NULL OR char_length(highlight) <= 30),
+    subtitle    TEXT CHECK (subtitle IS NULL OR char_length(subtitle) <= 240),
+    image       TEXT CHECK (image IS NULL OR image ~* '^https://'),
+    image_alt   TEXT CHECK (image_alt IS NULL OR char_length(image_alt) <= 140)
+);
+
 -- Website form submissions. Personal data: never published, never logged,
 -- deleted after settings.submissions.retentionDays (npm run submissions:prune).
 CREATE TABLE IF NOT EXISTS submissions (

@@ -1406,6 +1406,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         const hero = document.createElement('section');
         hero.className = 'fx-hero';
         hero.setAttribute('aria-labelledby', 'fx-hero-title');
+        // Editable in Sanity ("Home page hero banner"): js/fundsae-connector.js replaces this text and image from content.json.
+        hero.setAttribute('data-fundsae-slot', 'home-hero');
         hero.innerHTML = `
           <div class="fx-hero-inner">
             <div class="fx-hero-copy">

@@ -15,10 +15,10 @@ import {jobWorkflowActions, withJobSave} from './actions/jobActions.jsx'
 
 const projectId = process.env.SANITY_STUDIO_PROJECT_ID
 const dataset = process.env.SANITY_STUDIO_DATASET || 'production'
-const SINGLETON_TYPES = new Set(['page', 'careersPage'])
+const SINGLETON_TYPES = new Set(['page', 'careersPage', 'homeHero'])
 // Created by the importer, the submissions server or the seed, never from the "create" menu.
 // Jobs are created only with Careers > "Add a job", which gives them a private "jobs.<id>" id.
-const NO_CREATE_TYPES = new Set(['newsArticle', 'newsAggregator', 'newsAggregatorState', 'newsPublishSignal', 'careersPage', 'jobPosting'])
+const NO_CREATE_TYPES = new Set(['newsArticle', 'newsAggregator', 'newsAggregatorState', 'newsPublishSignal', 'careersPage', 'jobPosting', 'homeHero'])
 // Written only by the importer or by the workflow actions.
 const READ_ONLY_TYPES = new Set(['newsAggregatorState', 'newsPublishSignal'])
 
@@ -63,7 +63,7 @@ export default defineConfig({
         const keep = previous.filter(({action}) => action === 'discardChanges' || action === 'delete')
         return [publish && withJobSave(publish), ...jobWorkflowActions, ...keep].filter(Boolean)
       }
-      if (schemaType === 'careersPage') return previous.filter(({action}) => !['duplicate', 'delete', 'unpublish'].includes(action))
+      if (schemaType === 'careersPage' || schemaType === 'homeHero') return previous.filter(({action}) => !['duplicate', 'delete'].includes(action))
       if (schemaType === 'newsAggregator') return [FetchNewsNowAction]
       if (READ_ONLY_TYPES.has(schemaType)) return []
       return SINGLETON_TYPES.has(schemaType) ? previous.filter(({action}) => action !== 'duplicate') : previous

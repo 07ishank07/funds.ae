@@ -380,6 +380,7 @@ test('the Studio enforces the same content limits as the backend', () => {
   assert.deepEqual(studio.HIGHLIGHT_LIMITS, CONTENT_LIMITS.highlights);
   assert.deepEqual(studio.TIER_LIMITS, CONTENT_LIMITS.tiers);
   assert.deepEqual(studio.PAGE_LIMITS, CONTENT_LIMITS.pages);
+  assert.deepEqual(studio.HERO_LIMITS, CONTENT_LIMITS.hero);
   assert.deepEqual(studio.PLACEMENT_TYPES, ADVERTISE_PLACEMENTS);
   assert.deepEqual(studio.PLACEMENT_LABELS, ADVERTISE_PLACEMENT_LABELS);
   assert.deepEqual(studio.PAGE_SLUGS, PAGE_SLUGS);
@@ -511,4 +512,32 @@ test('the Exclusive Elite Sponsor (Careers and Events) comes from Sanity with it
   const tooMany = validateSponsors({ ...config, eliteExclusive: [config.eliteExclusive[0], { ...config.eliteExclusive[0], id: 'second' }] });
   assert.ok(tooMany.errors.some((e) => /eliteExclusive/.test(e)), 'one sponsor only');
   assert.ok(validateSponsors({ ...config, eliteExclusive: [{ ...config.eliteExclusive[0], label: 'x'.repeat(25) }] }).errors.length, 'button text up to 24 characters');
+});
+
+test('the home page hero banner comes from Sanity and is checked before it is published', async () => {
+  const { toHero } = await import('../src/cms/mapping.js');
+  const doc = {
+    eyebrow: 'Real estate · Infrastructure · Private capital', title: 'Follow the money into Gulf real estate.', highlight: 'Gulf real estate',
+    subtitle: 'Daily news on who is investing.', imageAlt: 'Dubai Marina at dusk',
+    image: { url: 'https://cdn.sanity.io/images/p/d/abc-1600x1000.jpg', mimeType: 'image/jpeg', size: 900 * 1024 }
+  };
+  const errors = [];
+  const hero = toHero(doc, errors);
+  assert.deepEqual(errors, []);
+  assert.equal(hero.image, 'https://cdn.sanity.io/images/p/d/abc-1600x1000.jpg');
+  const ok = validateContent({ hero });
+  assert.deepEqual(ok.errors, []);
+  assert.deepEqual(ok.content.hero, { eyebrow: doc.eyebrow, title: doc.title, highlight: 'Gulf real estate', subtitle: doc.subtitle, image: hero.image, imageAlt: 'Dubai Marina at dusk' });
+  assert.equal(validateContent({}).content.hero, null, 'none published: null, and the page keeps its own banner');
+  // Refused, so the previous content.json stays live.
+  const refused = (extra) => validateContent({ hero: { ...hero, ...extra } }).errors;
+  assert.ok(refused({ highlight: 'Abu Dhabi' }).some((e) => /highlight/.test(e)), 'the gold word must be in the headline');
+  assert.ok(refused({ imageAlt: undefined }).some((e) => /imageAlt/.test(e)), 'an image needs a description');
+  assert.ok(refused({ title: 'x'.repeat(81) }).length, 'headline length');
+  assert.ok(refused({ image: 'http://example.com/a.jpg' }).length, 'https images only');
+  const big = []; toHero({ ...doc, image: { ...doc.image, size: 2 * 1024 * 1024 } }, big);
+  assert.match(big[0], /limit is 1536 KB/);
+  const svg = []; toHero({ ...doc, image: { ...doc.image, mimeType: 'image/svg+xml' } }, svg);
+  assert.match(svg[0], /PNG, JPG or WebP/);
+  assert.equal(toHero(null), undefined);
 });

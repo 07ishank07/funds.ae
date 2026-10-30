@@ -83,6 +83,13 @@ test('content.json has the Sanity-managed slots and pages, with the contract fie
   for (const item of doc.slots.socialHighlights) sameKeys(item, DTO_FIELDS.socialHighlight, item.id);
   for (const tier of doc.slots.advertiseTiers) sameKeys(tier, DTO_FIELDS.advertiseTier, tier.id);
   for (const [slug, page] of Object.entries(doc.pages)) sameKeys(page, DTO_FIELDS.page, slug);
+  // The home page hero banner: null until one is published in Sanity, then the contract fields.
+  assert.ok('hero' in doc, 'content.json carries hero');
+  if (doc.hero !== null) sameKeys(doc.hero, DTO_FIELDS.hero, 'hero');
+  // The home page tags its hero as the slot the connector fills.
+  const home = readFileSync(path.join(repo, 'frontend_demo', 'this.html'), 'utf8');
+  assert.ok(home.includes("hero.setAttribute('data-fundsae-slot', 'home-hero')"), 'home hero slot');
+  assert.ok(readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8').includes("slots('home-hero')"), 'connector fills the hero');
 });
 
 test('meta.json advertises versions, capabilities and every endpoint that exists', () => {
@@ -156,7 +163,9 @@ test('the website scripts and pages agree on data slots', () => {
   const declared = new Set([
     ...[...pages.matchAll(/data-fundsae-slot="([a-z-]+)"/g)].map((m) => m[1]),
     // this.html tags its runtime-built sections in script: tag(element, 'slot-name', ...)
-    ...[...pages.matchAll(/\btag\([^;]*'([a-z-]+)'(?:, true)?\);/g)].map((m) => m[1])
+    ...[...pages.matchAll(/\btag\([^;]*'([a-z-]+)'(?:, true)?\);/g)].map((m) => m[1]),
+    // ...or sets the attribute on an element it builds (the home hero).
+    ...[...pages.matchAll(/setAttribute\('data-fundsae-slot', '([a-z-]+)'\)/g)].map((m) => m[1])
   ]);
   for (const slot of used) assert.ok(declared.has(slot), `connector uses slot "${slot}" that no page declares`);
   for (const slot of declared) assert.ok(used.has(slot), `page declares slot "${slot}" that the connector never fills`);

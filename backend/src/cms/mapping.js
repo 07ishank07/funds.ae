@@ -17,6 +17,7 @@ import { cleanInline } from '../validation/validate.js';
 
 const IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/webp'];
 const IMAGE_MAX_BYTES = 500 * 1024;
+const HERO_IMAGE_MAX_BYTES = 1572864; // CONTENT_LIMITS.hero.imageMaxBytes
 const STYLE_TO_TYPE = { normal: 'p', h2: 'h2', h3: 'h3' };
 
 /** Drops null, undefined and '' so the config files stay as tidy as hand-written ones. */
@@ -141,6 +142,19 @@ export function toPages(docs) {
   }));
 }
 
+/** The home page hero (Sanity singleton "homeHero"), or undefined when none is published. Image: PNG, JPG or WebP up to 1.5 MB. */
+export function toHero(doc, errors = []) {
+  if (!doc || !doc.title) return undefined;
+  const hero = compact({ eyebrow: doc.eyebrow, title: doc.title, highlight: doc.highlight, subtitle: doc.subtitle, imageAlt: doc.imageAlt });
+  const img = doc.image;
+  if (img?.url) {
+    if (!IMAGE_TYPES.includes(img.mimeType)) errors.push(`Sanity home hero: the image must be PNG, JPG or WebP (it is ${img.mimeType || 'unknown'}).`);
+    else if (img.size > HERO_IMAGE_MAX_BYTES) errors.push(`Sanity home hero: the image is ${Math.round(img.size / 1024)} KB; the limit is ${HERO_IMAGE_MAX_BYTES / 1024} KB.`);
+    else hero.image = img.url;
+  }
+  return hero;
+}
+
 /**
  * The whole CONTENT_QUERY result -> the three config documents.
  * @returns {{ sponsors: object, events: object[], content: object, errors: string[] }}
@@ -148,11 +162,13 @@ export function toPages(docs) {
 export function mapSanityContent(result) {
   const r = result || {};
   const sponsors = toSponsorsConfig(r.sponsors);
+  const errors = [...sponsors.errors];
+  const hero = toHero(r.hero, errors);
   return {
     sponsors: sponsors.config,
     events: toEventsList(r.events),
-    content: { socialHighlights: toHighlights(r.highlights), advertiseTiers: toTiers(r.tiers), pages: toPages(r.pages) },
-    errors: sponsors.errors
+    content: { socialHighlights: toHighlights(r.highlights), advertiseTiers: toTiers(r.tiers), pages: toPages(r.pages), ...(hero ? { hero } : {}) },
+    errors
   };
 }
 
