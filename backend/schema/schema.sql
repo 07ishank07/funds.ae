@@ -130,7 +130,19 @@ CREATE TABLE IF NOT EXISTS jobs (
     expires_at       TIMESTAMPTZ,
     first_seen_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
     last_seen_at     TIMESTAMPTZ NOT NULL DEFAULT now(),
-    closed_at        TIMESTAMPTZ
+    closed_at        TIMESTAMPTZ,
+    -- Jobs posted through the Careers section of Sanity (never the filer's contact details):
+    slug             TEXT CHECK (slug IS NULL OR slug ~ '^[a-z0-9]+(-[a-z0-9]+)*$'),
+    company_url      TEXT CHECK (company_url IS NULL OR company_url ~* '^https://'),
+    work_mode        TEXT,
+    seniority        TEXT,
+    regulator        TEXT,
+    salary           JSONB,                                     -- {from, to, currency, period}
+    visa             TEXT,
+    description      TEXT CHECK (description IS NULL OR char_length(description) <= 5000),
+    requirements     JSONB,                                     -- [text]
+    logo_url         TEXT CHECK (logo_url IS NULL OR logo_url ~* '^https://'),
+    employer_key     TEXT
 );
 CREATE INDEX IF NOT EXISTS jobs_open ON jobs (status, featured DESC, posted_at DESC);
 CREATE INDEX IF NOT EXISTS jobs_employer ON jobs (employer_id) WHERE status = 'open';

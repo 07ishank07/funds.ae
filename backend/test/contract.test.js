@@ -87,7 +87,7 @@ test('content.json has the Sanity-managed slots and pages, with the contract fie
 
 test('meta.json advertises versions, capabilities and every endpoint that exists', () => {
   const meta = api('meta.json');
-  assert.deepEqual(Object.keys(meta.versions).sort(), ['content', 'employers', 'events', 'jobs', 'news', 'sponsors']);
+  assert.deepEqual(Object.keys(meta.versions).sort(), ['careers', 'content', 'employers', 'events', 'jobs', 'news', 'sponsors']);
   assert.deepEqual(meta.capabilities, { submissions: false }, 'static hosting cannot take forms');
   const taxonomy = api('taxonomy.json');
   for (const t of taxonomy.topics) assert.ok(existsSync(path.join(apiDir, 'news', 'topics', `${t.id}.json`)), t.id);

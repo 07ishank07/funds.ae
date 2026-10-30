@@ -38,6 +38,7 @@ import { runEvents } from './pipeline/events.js';
 import { publishableSponsors } from './pipeline/sponsors.js';
 import { runContent } from './pipeline/content.js';
 import { pullFromSanity, pullRegistryFromSanity } from './cms/pull.js';
+import { loadCareersFromSanity } from './cms/jobs.js';
 import { publishApprovedNews, publishJobs, publishEvents, publishSponsors, publishContent, publishSources, publishMeta } from './pipeline/publish.js';
 
 const COMMANDS = ['all', 'news', 'jobs', 'sponsors', 'events', 'content', 'validate', 'reset-feed', 'submissions:prune', 'cms:pull', 'news:publish', 'news:prune'];
@@ -267,6 +268,12 @@ async function main() {
       skippedSources += r.skippedSources;
     }
     if (command === 'all' || command === 'jobs') {
+      // Hand-posted jobs, employers and the Top lists from the Careers section of Sanity (settings jobs.source
+      // "sanity"). If Sanity cannot be read the run stops here and the site keeps its current jobs.
+      if (cfg.settings.jobs.source === 'sanity' && !cfg.demo) {
+        ctx.careers = await loadCareersFromSanity({ settings: cfg.settings, now: startedAt });
+        ctx.manualJobs = ctx.careers.listings;
+      }
       const r = await runJobs(ctx);
       run.steps.jobs = r.stats;
       totalSources += r.totalSources;

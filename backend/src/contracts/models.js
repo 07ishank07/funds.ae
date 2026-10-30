@@ -147,6 +147,18 @@ export { NEWS_STATUSES, NEWS_GEOGRAPHIES, NEWS_TRANSACTION_TYPES, NEWS_HOME_SECT
  * @property {string} firstSeenAt
  * @property {string} lastSeenAt
  * @property {string|null} [closedAt]
+ * Jobs posted through the Careers section of Sanity also carry (src/jobs/publicFilter.js toPublicJob):
+ * @property {string} [slug]          job page frontend_demo/jobs/<slug>.html
+ * @property {string} [companyUrl]
+ * @property {string} [workMode]      one of JOB_FORM_OPTIONS.workMode
+ * @property {string} [seniority]
+ * @property {string} [regulator]
+ * @property {{from:number, to:number|null, currency:string, period:string}} [salary]
+ * @property {string} [visa]
+ * @property {string} [description]   plain paragraphs (job page only)
+ * @property {string[]} [requirements] (job page only)
+ * @property {string} [logoUrl]       the employer's logo (Sanity CDN)
+ * @property {string} [employerKey]   the employer document's id
  */
 
 /**
@@ -271,7 +283,8 @@ export const DB_MODELS = {
     fields: [
       'jobId', 'employerId', 'sourceId', 'sourceName', 'externalId', 'title', 'company', 'location', 'url',
       'canonicalUrl', 'department', 'employmentType', 'featured', 'status', 'postedAt', 'expiresAt',
-      'firstSeenAt', 'lastSeenAt', 'closedAt'
+      'firstSeenAt', 'lastSeenAt', 'closedAt', 'slug', 'companyUrl', 'workMode', 'seniority', 'regulator', 'salary',
+      'visa', 'description', 'requirements', 'logoUrl', 'employerKey'
     ]
   },
   events: {
@@ -321,9 +334,9 @@ export const DTO_FIELDS = {
   storyTag: ['id', 'label'],
   job: [
     'id', 'title', 'company', 'employerId', 'location', 'url', 'postedAt', 'department', 'employmentType',
-    'featured', 'source', 'sourceId'
+    'featured', 'source', 'sourceId', 'slug', 'salary', 'visa', 'seniority', 'workMode', 'regulator', 'logoUrl'
   ],
-  employer: ['id', 'name', 'initials', 'openJobs', 'featured'],
+  employer: ['id', 'name', 'initials', 'openJobs', 'featured', 'logoUrl', 'description', 'website'],
   event: ['id', 'title', 'eventType', 'startDate', 'endDate', 'city', 'venue', 'url', 'organiser', 'featured'],
   sponsorItem: ['id', 'title', 'blurb', 'label', 'logoText', 'website', 'url', 'image', 'colorFrom', 'colorTo', 'sponsored'],
   socialHighlight: ['id', 'accountName', 'handle', 'text', 'url', 'initials', 'color'],

@@ -10,7 +10,9 @@
 //   api/v1/news/real-estate.json       Real Estate Capital News page: published stories with an Asset Class
 //   frontend_demo/news/<slug>.html     one static page per published story (pipeline/storyPages.js)
 //   api/v1/jobs.json                   open roles
-//   api/v1/employers.json              employers derived from open roles
+//   api/v1/employers.json              employers derived from open roles (logo and description from Sanity)
+//   api/v1/careers.json                Top Employers and Top Jobs in the editors' order (Sanity careersPage)
+//   frontend_demo/jobs/<slug>.html     one static page per job posted through Sanity (pipeline/jobPages.js)
 //   api/v1/events.json                 upcoming and recent events
 //   api/v1/sponsors.json               sponsor slots
 //   api/v1/content.json                Top Tweets, Advertise packages, About/Privacy/Terms copy (from Sanity)
@@ -26,7 +28,7 @@ import path from 'node:path';
 import { API_DIR } from '../config.js';
 import { writeJsonAtomic } from '../store/jsonStore.js';
 import { buildClassifier } from '../lib/classify.js';
-import { shortHash, employerIdFor } from '../lib/url.js';
+import { shortHash, employerIdFor, jobIdFor } from '../lib/url.js';
 import { envelope, listEnvelope, NOTICES } from '../contracts/envelope.js';
 import { log } from '../lib/logger.js';
 import { selectPublic, licenseLookup, excerptLookup, aiSummaryLookup } from '../news/publicFilter.js';
@@ -36,7 +38,8 @@ import { NEWS_GEOGRAPHIES, NEWS_GEOGRAPHY_LABELS, NEWS_TRANSACTION_LABELS, NEWS_
 import { sanityImageConfigFromEnv, sanityImageUrl } from '../cms/mapping.js';
 import { writeStoryPages } from './storyPages.js';
 import { toStoryDto, toJobDto, toEmployerDto, toEventDto, toSourceDto } from '../contracts/serializers.js';
-import { deriveEmployers } from './employers.js';
+import { deriveEmployers, initialsFor } from './employers.js';
+import { writeJobPages } from './jobPages.js';
 
 const base = (ctx, notice) => ({ mode: ctx.settings.mode, generatedAt: ctx.now.toISOString(), notice });
 // Changes only when the content changes (not on every run), so browsers can cache between runs.
@@ -207,10 +210,41 @@ export function publishJobs(ctx, jobs) {
   const items = open.map(toJobDto);
   write('jobs.json', listEnvelope(base(ctx, NOTICES.jobs), items));
 
-  const employers = deriveEmployers(open, ctx.settings.employers).map(toEmployerDto);
+  // Employers with a document in Sanity get their logo, description and website. Hand-picked Top Employers
+  // without open roles are listed too, so the Top Employers box can show them.
+  const cms = ctx.careers || { employers: [], top: { employers: [], jobs: [] } };
+  const cmsById = new Map(cms.employers.map((e) => [employerIdFor(e.name), e]));
+  const enrich = (e) => {
+    const doc = cmsById.get(e.id);
+    return doc ? { ...e, logoUrl: doc.logoUrl, description: doc.description, website: doc.website } : e;
+  };
+  const derived = deriveEmployers(open, ctx.settings.employers).map(enrich);
+  const topEmployerIds = [];
+  for (const key of cms.top.employers) {
+    const doc = cms.employers.find((e) => e.id === key);
+    if (!doc) continue;
+    const id = employerIdFor(doc.name);
+    topEmployerIds.push(id);
+    if (!derived.some((e) => e.id === id)) derived.push(enrich({ id, name: doc.name, initials: initialsFor(doc.name), openJobs: 0, featured: false }));
+  }
+  const employers = derived.map(toEmployerDto);
   write('employers.json', listEnvelope(base(ctx, NOTICES.employers), employers));
 
-  return { open: items.length, employers: employers.length, versions: { jobs: versionOf(items), employers: versionOf(employers) } };
+  // Top Jobs: the editors' picks that are live now, in their order. Empty lists mean "automatic" on the page.
+  const liveIds = new Set(items.map((j) => j.id));
+  const careers = {
+    topEmployers: topEmployerIds,
+    topJobs: cms.top.jobs.map((id) => jobIdFor(`manual:${id}`)).filter((id) => liveIds.has(id))
+  };
+  write('careers.json', envelope(base(ctx, NOTICES.careers), careers));
+
+  const pages = writeJobPages(open, { employers: cmsById, publicBaseUrl: ctx.settings.publicBaseUrl });
+  log.info('jobs.published', { open: items.length, employers: employers.length, pagesWritten: pages.written, pagesRemoved: pages.removed });
+  return {
+    open: items.length,
+    employers: employers.length,
+    versions: { jobs: versionOf(items), employers: versionOf(employers), careers: versionOf([careers]) }
+  };
 }
 
 export function publishEvents(ctx, events) {
@@ -280,6 +314,7 @@ export function publishMeta(ctx, { versions = {}, counts = {}, lastRun } = {}) {
       realEstate: 'news/real-estate.json',
       jobs: 'jobs.json',
       employers: 'employers.json',
+      careers: 'careers.json',
       events: 'events.json',
       sponsors: 'sponsors.json',
       content: 'content.json',

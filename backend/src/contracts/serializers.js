@@ -17,6 +17,9 @@ const isoOrNull = (value) => {
 };
 
 /** Trimmed non-empty string, or null. */
+/** An https link, or null (logos and websites from Sanity). */
+const httpsOnly = (value) => (typeof value === 'string' && /^https:\/\/[^\s"'<>]+$/.test(value) ? value : null);
+
 export function nullable(value) {
   if (value === undefined || value === null) return null;
   const s = String(value).trim();
@@ -111,7 +114,17 @@ export function toJobDto(job) {
     employmentType: nullable(job.employmentType),
     featured: Boolean(job.featured),
     source: job.sourceName,
-    sourceId: job.sourceId
+    sourceId: job.sourceId,
+    // Jobs posted through Sanity: their page, pay, visa line and the employer's logo (null for other jobs).
+    slug: nullable(job.slug),
+    salary: job.salary && Number.isInteger(job.salary.from)
+      ? { from: job.salary.from, to: Number.isInteger(job.salary.to) ? job.salary.to : null, currency: job.salary.currency, period: job.salary.period }
+      : null,
+    visa: nullable(job.visa),
+    seniority: nullable(job.seniority),
+    workMode: nullable(job.workMode),
+    regulator: nullable(job.regulator),
+    logoUrl: httpsOnly(job.logoUrl)
   };
 }
 
@@ -121,7 +134,11 @@ export function toEmployerDto(employer) {
     name: employer.name,
     initials: employer.initials,
     openJobs: employer.openJobs,
-    featured: Boolean(employer.featured)
+    featured: Boolean(employer.featured),
+    // From the employer's document in Sanity, when there is one.
+    logoUrl: httpsOnly(employer.logoUrl),
+    description: nullable(employer.description),
+    website: httpsOnly(employer.website)
   };
 }
 

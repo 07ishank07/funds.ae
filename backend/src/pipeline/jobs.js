@@ -27,6 +27,12 @@ export function withCurrentDemoDates(listings, now) {
 }
 const MANUAL_SOURCE = { id: 'manual', name: 'Funds.ae' };
 
+/** Extra public fields of a job posted through Sanity (src/jobs/publicFilter.js toPublicJob). */
+export const POSTING_FIELDS = [
+  'slug', 'companyUrl', 'workMode', 'seniority', 'regulator', 'salary', 'visa', 'description', 'requirements', 'logoUrl', 'employerKey'
+];
+const postingOf = (m) => Object.fromEntries(POSTING_FIELDS.filter((k) => m[k] !== undefined && m[k] !== null && m[k] !== '').map((k) => [k, m[k]]));
+
 export function buildJobRules(taxonomy) {
   const j = taxonomy.jobs || {};
   return {
@@ -108,7 +114,7 @@ export async function runJobs(ctx) {
     items: (demo ? withCurrentDemoDates(manualJobs, now) : manualJobs).map((m) => ({
       externalId: m.id, title: m.title, company: m.company, location: m.location, url: m.url,
       postedAt: toDate(m.postedAt), expiresAt: toDate(m.expiresAt), department: m.department || '',
-      employmentType: m.employmentType || '', featured: Boolean(m.featured)
+      employmentType: m.employmentType || '', featured: Boolean(m.featured), posting: postingOf(m)
     }))
   });
 
@@ -132,7 +138,8 @@ export async function runJobs(ctx) {
       if (!isHttpUrl(job.url)) { bump('invalid-link'); continue; }
       const postedAt = toDate(raw.postedAt) || now;
       if (raw.expiresAt && raw.expiresAt < now) { bump('expired'); continue; }
-      if (now - postedAt > maxAge) { bump('too-old'); continue; }
+      // A listing posted by hand (file or Sanity) with an expiry date stays until that date; others age out.
+      if (!(manual && raw.expiresAt) && now - postedAt > maxAge) { bump('too-old'); continue; }
       if (!manual && source.requireUaeLocation !== false && !isUaeLocation(rules, job.location)) { bump('not-uae'); continue; }
       if (!manual && source.relevanceFilter && !isRelevantJob(rules, job)) { bump('not-finance'); continue; }
 
@@ -145,7 +152,9 @@ export async function runJobs(ctx) {
 
       const existing = byId.get(jobId);
       if (existing) {
-        Object.assign(existing, job, {
+        // Posted jobs (Sanity) carry extra public fields; an edited job replaces them all.
+        if (manual) for (const key of POSTING_FIELDS) delete existing[key];
+        Object.assign(existing, job, manual ? raw.posting : {}, {
           status: 'open', closedAt: null, lastSeenAt: now.toISOString(),
           // A listing you post yourself is dated by the file, so a corrected date takes effect.
           ...(manual ? { postedAt: postedAt.toISOString() } : {}),
@@ -160,6 +169,7 @@ export async function runJobs(ctx) {
           sourceName: source.name,
           externalId: String(raw.externalId || ''),
           ...job,
+          ...(manual ? raw.posting : {}),
           canonicalUrl: canonical,
           postedAt: postedAt.toISOString(),
           expiresAt: raw.expiresAt ? raw.expiresAt.toISOString() : undefined,
@@ -189,7 +199,8 @@ export async function runJobs(ctx) {
 
   // Age out old open roles and forget closed ones after 90 days.
   for (const [id, j] of byId) {
-    if (j.status === 'open' && (now - new Date(j.postedAt) > maxAge || (j.expiresAt && new Date(j.expiresAt) < now))) {
+    const ageLimited = !(j.sourceId === MANUAL_SOURCE.id && j.expiresAt);
+    if (j.status === 'open' && ((ageLimited && now - new Date(j.postedAt) > maxAge) || (j.expiresAt && new Date(j.expiresAt) < now))) {
       j.status = 'expired';
       j.closedAt = now.toISOString();
       stats.closed++;

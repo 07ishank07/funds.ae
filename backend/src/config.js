@@ -22,6 +22,8 @@ export const API_DIR = process.env.FUNDSAE_API_DIR || path.join(REPO_ROOT, 'api'
 // so a test can never write into the real site.
 export const STORY_PAGES_DIR = process.env.FUNDSAE_PAGES_DIR ||
   (process.env.FUNDSAE_API_DIR ? path.join(path.dirname(process.env.FUNDSAE_API_DIR), 'story-pages') : path.join(REPO_ROOT, 'frontend_demo', 'news'));
+export const JOB_PAGES_DIR = process.env.FUNDSAE_JOB_PAGES_DIR ||
+  (process.env.FUNDSAE_API_DIR ? path.join(path.dirname(process.env.FUNDSAE_API_DIR), 'job-pages') : path.join(REPO_ROOT, 'frontend_demo', 'jobs'));
 export const ASSETS_DIR = path.join(REPO_ROOT, 'assets');
 
 export class ConfigError extends Error {}
