@@ -314,6 +314,15 @@ test('with the Sanity review queue, a Post a Job submission becomes one Pending 
   assert.equal(sent.length, 1);
 });
 
+test('past the daily cap, submissions go to the file queue instead of Sanity', async () => {
+  const sent = [];
+  const site = await startWith({ env: { ...sinkEnv, JOBS_SANITY_MAX_PER_DAY: '1' }, jobSink: { create: async (doc) => { sent.push(doc); } } }, 'job-sink-cap');
+  assert.equal((await post('job', jobPost, {}, site.url)).status, 202);
+  assert.equal((await post('job', jobPost, {}, site.url)).status, 202);
+  assert.equal(sent.length, 1, 'only one reached Sanity');
+  assert.equal(stored('job', site.dir).length, 1, 'the second is kept in the file queue');
+});
+
 test('if Sanity cannot be reached, the submission is kept in the file queue', async () => {
   const site = await startWith({ env: sinkEnv, jobSink: { create: async () => { throw new Error('Sanity is down'); } } }, 'job-sink-down');
   assert.equal((await post('job', jobPost, {}, site.url)).status, 202);

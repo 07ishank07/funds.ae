@@ -10,9 +10,10 @@
 import { jobApprovalHash, jobPublishBlockers } from './workflow.js';
 import { JOB_ID_PATH } from './rules.js';
 
-// Form submissions use private ids "jobs.<id>" (they hold the filer's email); jobs an editor creates in the
-// Studio get Sanity's normal ids. Drafts ("drafts.…") are never public.
-const JOB_ID_RE = new RegExp(`^(${JOB_ID_PATH}\\.)?[A-Za-z0-9_-]{4,64}$`);
+// Every job lives under a private id "jobs.<id>" (form submissions and jobs added in the Studio alike), so a
+// public dataset never shows pending jobs, editor notes or the filer to anonymous readers. Anything else, and
+// drafts ("drafts.…"), is never public.
+const JOB_ID_RE = new RegExp(`^${JOB_ID_PATH}\\.[A-Za-z0-9_-]{4,64}$`);
 export const isJobId = (id) => typeof id === 'string' && JOB_ID_RE.test(id);
 export const publicJobId = (id) => (id.startsWith(`${JOB_ID_PATH}.`) ? id.slice(JOB_ID_PATH.length + 1) : id);
 
@@ -54,7 +55,8 @@ export function toPublicJob(doc, employers = new Map()) {
   return {
     id: publicJobId(doc._id),
     title: text(doc.title),
-    company: employer?.name || text(doc.company),
+    // The approved company name; the employer document adds its logo (employer profiles are editorial content).
+    company: text(doc.company),
     employerKey: employer?.id || null,
     location: text(doc.location),
     url: text(doc.url),

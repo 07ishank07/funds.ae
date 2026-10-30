@@ -47,6 +47,24 @@ export function sanityJobSink(env, http = {}) {
 }
 
 /**
+ * At most `cap` job submissions a day go to Sanity (the Free plan has a document limit shared with the news
+ * queue); past it create() fails, and the handler keeps the submission in the file queue instead.
+ */
+export function dailyCapped(sink, cap, now = () => new Date()) {
+  let day = null;
+  let count = 0;
+  return {
+    async create(doc) {
+      const today = now().toISOString().slice(0, 10);
+      if (today !== day) { day = today; count = 0; }
+      if (count >= cap) throw Object.assign(new Error('The daily limit for Sanity job submissions is reached.'), { status: 'daily-cap' });
+      count++;
+      return sink.create(doc);
+    }
+  };
+}
+
+/**
  * @param {{ env?: Record<string,string|undefined>, apiDir?: string, dataDir?: string, now?: () => Date,
  *           jobSink?: {create(doc:object):Promise<void>}|null }} options
  *   jobSink: where job submissions go (tests pass a stand-in); built from the environment when omitted.
@@ -62,7 +80,8 @@ export function buildApp({ env = process.env, apiDir, dataDir, now = () => new D
   const resolvedApiDir = apiDir || API_DIR;
   const resolvedDataDir = dataDir || (demo ? path.join(DATA_DIR, 'demo') : DATA_DIR);
   const jobsStore = env.FUNDSAE_JOBS_STORE || settings.jobs.review.store;
-  const jobs = submissionsEnabled && jobsStore === 'sanity' ? (jobSink === undefined ? sanityJobSink(env) : jobSink) : null;
+  const sink = submissionsEnabled && jobsStore === 'sanity' ? (jobSink === undefined ? sanityJobSink(env) : jobSink) : null;
+  const jobs = sink ? dailyCapped(sink, Number(env.JOBS_SANITY_MAX_PER_DAY || settings.jobs.review.maxPerDay || 50), now) : null;
 
   return {
     mode: settings.mode,

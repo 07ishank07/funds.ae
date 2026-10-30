@@ -56,7 +56,8 @@ export async function handleSubmission(req, res, app, kind) {
       log.info('submission.received', { kind, id, store: 'sanity' });
       return accepted();
     } catch (err) {
-      log.error('submission.sanity-failed', { kind, id, detail: String(err?.message || err).slice(0, 200) });
+      // Status only: Sanity's error text could echo the submitted fields.
+      log.error('submission.sanity-failed', { kind, id, status: err?.status || null });
     }
   }
 

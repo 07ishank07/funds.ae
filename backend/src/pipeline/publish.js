@@ -213,7 +213,13 @@ export function publishJobs(ctx, jobs) {
   // Employers with a document in Sanity get their logo, description and website. Hand-picked Top Employers
   // without open roles are listed too, so the Top Employers box can show them.
   const cms = ctx.careers || { employers: [], top: { employers: [], jobs: [] } };
+  // An employer document is matched through the jobs that link to it (employerKey), or else by name.
   const cmsById = new Map(cms.employers.map((e) => [employerIdFor(e.name), e]));
+  const keyToId = new Map();
+  for (const job of open) {
+    const doc = job.employerKey && cms.employers.find((e) => e.id === job.employerKey);
+    if (doc) { cmsById.set(job.employerId, doc); keyToId.set(doc.id, job.employerId); }
+  }
   const enrich = (e) => {
     const doc = cmsById.get(e.id);
     return doc ? { ...e, logoUrl: doc.logoUrl, description: doc.description, website: doc.website } : e;
@@ -223,7 +229,7 @@ export function publishJobs(ctx, jobs) {
   for (const key of cms.top.employers) {
     const doc = cms.employers.find((e) => e.id === key);
     if (!doc) continue;
-    const id = employerIdFor(doc.name);
+    const id = keyToId.get(doc.id) || employerIdFor(doc.name);
     topEmployerIds.push(id);
     if (!derived.some((e) => e.id === id)) derived.push(enrich({ id, name: doc.name, initials: initialsFor(doc.name), openJobs: 0, featured: false }));
   }

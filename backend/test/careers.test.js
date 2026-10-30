@@ -44,7 +44,7 @@ const publish = (doc) => {
 // What the mock Sanity holds. The filer is on every job, so a leak would show up in the output files.
 const filer = { name: 'Sara Ali', email: 'sara@example.ae', submittedAt: NOW.toISOString(), source: 'form' };
 const live = publish(job('jobs.sub_aaaaaaaaaaaaaaaaaaaa', { employer: { _ref: 'employer-doc-1' }, filer }));
-const studioJob = publish(job('4f1c2b9e-studio-job', { title: 'Compliance Officer <script>alert(1)</script>', company: 'Harbour Bank', salaryTo: undefined }));
+const studioJob = publish(job('jobs.4f1c2b9e-studio-job', { title: 'Compliance Officer <script>alert(1)</script>', company: 'Harbour Bank', salaryTo: undefined }));
 const changed = { ...publish(job('jobs.sub_bbbbbbbbbbbbbbbbbbbb', { title: 'Changed After Approval Role', filer })), salaryFrom: 99000 };
 const pending = job('jobs.sub_cccccccccccccccccccc', { title: 'Pending Secret Role', filer });
 const rejected = { ...publish(job('jobs.sub_dddddddddddddddddddd', { title: 'Rejected Secret Role', filer })), status: 'rejected' };
@@ -88,7 +88,7 @@ test('the pull asks only for public fields and keeps only approved, unchanged jo
   sanityDocs = {
     jobs: [live, studioJob, changed, pending, rejected],
     employers: [{ _id: 'employer-doc-1', name: 'Example Capital Partners', id: 'example-capital', logoRef: 'image-abc123-200x200-png', description: 'A GCC private credit manager.', website: 'https://example.com' }],
-    careers: { topEmployers: ['employer-doc-1', 'employer-missing'], topJobs: ['jobs.sub_cccccccccccccccccccc', '4f1c2b9e-studio-job', 'jobs.sub_aaaaaaaaaaaaaaaaaaaa'] }
+    careers: { topEmployers: ['employer-doc-1', 'employer-missing'], topJobs: ['jobs.sub_cccccccccccccccccccc', 'jobs.4f1c2b9e-studio-job', 'jobs.sub_aaaaaaaaaaaaaaaaaaaa'] }
   };
   requests = [];
   const careers = await loadCareersFromSanity({ settings: settingsWithApprover(), now: NOW, env, http: { baseUrl, retries: 0 } });
@@ -101,7 +101,7 @@ test('the pull asks only for public fields and keeps only approved, unchanged jo
   assert.deepEqual(careers.held.map((h) => h.id), ['jobs.sub_bbbbbbbbbbbbbbbbbbbb'], 'changed since approval');
   assert.deepEqual(careers.top, { employers: ['example-capital'], jobs: ['4f1c2b9e-studio-job', 'sub_aaaaaaaaaaaaaaaaaaaa'] }, 'pending and unknown picks are skipped');
   const listing = careers.listings.find((l) => l.id === 'sub_aaaaaaaaaaaaaaaaaaaa');
-  assert.equal(listing.company, 'Example Capital Partners');
+  assert.equal(listing.company, 'Example Capital', 'the approved company name, not the employer document name');
   assert.match(listing.logoUrl, /^https:\/\/cdn\.sanity\.io\/images\/abc123\/development\/abc123-200x200\.png/);
 });
 
@@ -115,13 +115,13 @@ test('published jobs reach jobs.json, employers.json, careers.json and their own
   const read = (file) => JSON.parse(readFileSync(path.join(process.env.FUNDSAE_API_DIR, file), 'utf8'));
   const jobs = read('jobs.json').items;
   assert.equal(jobs.length, 2);
-  const credit = jobs.find((j) => j.company === 'Example Capital Partners');
+  const credit = jobs.find((j) => j.company === 'Example Capital');
   assert.deepEqual(credit.salary, { from: 25000, to: 35000, currency: 'AED', period: 'month' });
   assert.equal(credit.visa, 'Visa sponsorship offered');
   assert.equal(credit.seniority, 'Associate');
   assert.match(credit.slug, /^associate-private-credit-example-capital-[0-9a-f]{4}$/);
   assert.match(credit.logoUrl, /^https:\/\/cdn\.sanity\.io\//);
-  const employer = read('employers.json').items.find((e) => e.name === 'Example Capital Partners');
+  const employer = read('employers.json').items.find((e) => e.id === credit.employerId);
   assert.equal(employer.description, 'A GCC private credit manager.');
   assert.equal(employer.website, 'https://example.com');
   const top = read('careers.json');

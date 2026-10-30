@@ -73,6 +73,7 @@ test('only an approver can publish; reject needs a reason; unpublish and archive
   assert.equal(rejected.set.status, 'rejected');
   assert.ok(rejected.unset.includes('approval'));
   assert.ok(studioWorkflow.planJobAction('unpublish', published(), { now: NOW }).unset.includes('approval'));
+  assert.ok(studioWorkflow.planJobAction('archive', baseJob(), { now: NOW }).unset.includes('filer'), 'archiving deletes the filer');
   assert.equal(studioWorkflow.planJobAction('unpublish', doc, { now: NOW }).ok, false, 'only a live job can be unpublished');
   const save = studioWorkflow.planJobSave({ ...published(), salaryFrom: 27000 }, { userId: 'someone', approverIds: [APPROVER], now: NOW });
   assert.equal(save.ok, false, 'only an approver can change a live job');
@@ -87,6 +88,7 @@ test('only published, approved, unchanged and unexpired jobs are public, without
     rejected: { ...live, status: 'rejected' },
     archived: { ...live, status: 'archived' },
     draft: { ...live, _id: 'drafts.jobs.sub_0123456789abcdef0123' },
+    plainId: { ...live, _id: '4f1c2b9e-0000-4000-8000-000000000000' },
     changed: { ...live, salaryFrom: 99000 },
     stranger: { ...live, approval: { ...live.approval, approvedById: 'pStranger' } },
     forged: { ...baseJob(), status: 'published' },
@@ -101,7 +103,7 @@ test('only published, approved, unchanged and unexpired jobs are public, without
   const employers = new Map([['employer-example', { id: 'example-capital', name: 'Example Capital Partners', logoUrl: 'https://cdn.sanity.io/x.png', website: 'https://example.com' }]]);
   const listing = toPublicJob({ ...live, employer: { _ref: 'employer-example' } }, employers);
   assert.equal(listing.id, 'sub_0123456789abcdef0123');
-  assert.equal(listing.company, 'Example Capital Partners', 'the employer document names the company');
+  assert.equal(listing.company, 'Example Capital', 'the approved company name; the employer adds its logo');
   assert.equal(listing.logoUrl, 'https://cdn.sanity.io/x.png');
   assert.deepEqual(listing.salary, { from: 25000, to: 35000, currency: 'AED', period: 'month' });
   assert.ok(!JSON.stringify(listing).includes('sara@example.ae') && !JSON.stringify(listing).includes('Sara Ali'), 'no filer details');

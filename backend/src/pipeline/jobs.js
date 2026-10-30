@@ -205,6 +205,8 @@ export async function runJobs(ctx) {
       j.closedAt = now.toISOString();
       stats.closed++;
     }
+    // A closed posted job keeps only what dedupe needs: its description and links leave the public jobs database.
+    if (j.status !== 'open') for (const key of ['description', 'requirements', 'companyUrl', 'logoUrl']) delete j[key];
     if (j.status !== 'open' && j.closedAt && now - new Date(j.closedAt) > 90 * DAY) byId.delete(id);
   }
 

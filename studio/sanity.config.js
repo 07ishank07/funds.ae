@@ -17,7 +17,8 @@ const projectId = process.env.SANITY_STUDIO_PROJECT_ID
 const dataset = process.env.SANITY_STUDIO_DATASET || 'production'
 const SINGLETON_TYPES = new Set(['page', 'careersPage'])
 // Created by the importer, the submissions server or the seed, never from the "create" menu.
-const NO_CREATE_TYPES = new Set(['newsArticle', 'newsAggregator', 'newsAggregatorState', 'newsPublishSignal', 'careersPage'])
+// Jobs are created only with Careers > "Add a job", which gives them a private "jobs.<id>" id.
+const NO_CREATE_TYPES = new Set(['newsArticle', 'newsAggregator', 'newsAggregatorState', 'newsPublishSignal', 'careersPage', 'jobPosting'])
 // Written only by the importer or by the workflow actions.
 const READ_ONLY_TYPES = new Set(['newsAggregatorState', 'newsPublishSignal'])
 

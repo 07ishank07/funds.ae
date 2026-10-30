@@ -33,13 +33,14 @@ export async function loadCareersFromSanity({ settings, now, env = process.env, 
   const sanity = sanityConfigFromEnv(env);
   const result = await querySanity(sanity, CAREERS_QUERY, { tag: 'fundsae.careers.pull', ...http });
   const employers = (result?.employers || [])
-    .filter((e) => text(e.name) && /^[a-z0-9][a-z0-9-]{1,60}$/.test(e.id || ''))
+    // The Studio limits these too; the backend checks again before anything is published.
+    .filter((e) => text(e.name).length >= 2 && text(e.name).length <= 120 && /^[a-z0-9][a-z0-9-]{1,60}$/.test(e.id || ''))
     .map((e) => ({
       docId: e._id,
       id: e.id,
       name: text(e.name),
       logoUrl: sanityImageUrl(e.logoRef, sanity),
-      description: text(e.description) || null,
+      description: text(e.description).slice(0, 400) || null,
       website: /^https:\/\/[^\s"'<>]+$/.test(text(e.website)) ? text(e.website) : null
     }));
   const byDocId = new Map(employers.map((e) => [e.docId, e]));

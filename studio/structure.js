@@ -3,6 +3,7 @@
 
 import {PAGE_TITLES} from './schemaTypes/page.js'
 import {PAGE_SLUGS, SPONSOR_SLOTS} from './schemaTypes/rules.js'
+import {JOB_ID_PATH} from './schemaTypes/jobRules.js'
 
 const byPosition = [{field: 'position', direction: 'asc'}]
 const byOrder = [{field: 'displayOrder', direction: 'asc'}, {field: 'name', direction: 'asc'}]
@@ -71,14 +72,32 @@ const newsSettings = (S) =>
     )
 
 const JOB = '_type == "jobPosting"'
-/** One Careers list: jobs with a status. New jobs can be added from here (they start as Pending review). */
+/** One Careers list: jobs with a status. Jobs are added with "Add a job", never with the list's own create button. */
 const jobList = (S, id, title, filter, ordering = [{field: '_createdAt', direction: 'desc'}]) =>
   S.listItem()
     .id(id)
     .title(title)
-    .child(S.documentTypeList('jobPosting').title(title).filter(`${JOB} && ${filter}`).defaultOrdering(ordering))
+    .child(S.documentTypeList('jobPosting').title(title).filter(`${JOB} && ${filter}`).defaultOrdering(ordering).initialValueTemplates([]))
 
-const careers = (S) =>
+// Every job lives under a private "jobs.<id>" id, which a public dataset never shows to anonymous readers
+// (pending jobs, editor notes, approvers). "Add a job" opens a new document with such an id; the same id is
+// offered until that job has been saved, so reopening the item does not scatter empty documents.
+let pendingJobId = null
+const newJobId = () => `${JOB_ID_PATH}.${crypto.randomUUID()}`
+const addJob = (S, context) =>
+  S.listItem()
+    .id('jobs-add')
+    .title('Add a job')
+    .child(async () => {
+      if (pendingJobId) {
+        const saved = await context.getClient({apiVersion: '2025-02-19'}).fetch('count(*[_id in [$id, "drafts." + $id]])', {id: pendingJobId})
+        if (saved > 0) pendingJobId = null
+      }
+      pendingJobId = pendingJobId || newJobId()
+      return S.document().schemaType('jobPosting').documentId(pendingJobId).title('New job')
+    })
+
+const careers = (S, context) =>
   S.listItem()
     .id('careers')
     .title('Careers')
@@ -86,6 +105,8 @@ const careers = (S) =>
       S.list()
         .title('Careers')
         .items([
+          addJob(S, context),
+          S.divider(),
           jobList(S, 'jobs-pending', 'Jobs: pending review', '(status == "pending_review" || !defined(status))'),
           jobList(S, 'jobs-published', 'Jobs: published', 'status == "published"', [{field: 'publishedAt', direction: 'desc'}]),
           jobList(S, 'jobs-rejected', 'Jobs: rejected', 'status == "rejected"'),
@@ -105,13 +126,13 @@ export const sponsorTemplates = Object.keys(SPONSOR_SLOTS).map((slot) => ({
   value: {slot, enabled: true, position: 10},
 }))
 
-export const structure = (S) =>
+export const structure = (S, context) =>
   S.list()
     .title('funds.ae')
     .items([
       newsQueue(S),
       newsSettings(S),
-      careers(S),
+      careers(S, context),
       S.divider(),
       S.listItem()
         .title('Sponsors')

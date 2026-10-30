@@ -155,7 +155,8 @@ export function planJobAction(name, doc = {}, ctx = {}) {
     return {ok: true, reasons: [], set, unset}
   }
   if (name === 'archive') {
-    unset.push('approval')
+    // An archived job is finished with: the filer's contact details are deleted too.
+    unset.push('approval', 'filer')
     return {ok: true, reasons: [], set, unset}
   }
 
