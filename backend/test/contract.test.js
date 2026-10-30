@@ -219,7 +219,7 @@ test('every page but Careers shows the same Elite Founding Sponsor banner, and a
   for (const label of ['Top Stories', 'Sovereign', 'Pension', 'Private Equity', 'REITs', 'Family Offices', 'Banks', 'Government', 'Endowments']) {
     assert.ok(home.includes(`['${label}', `), `category bar has ${label}`);
   }
-  assert.ok(home.includes("[['Real Estate News', { href: 'News.dc.html' }], ['Advertise', { href: 'Advertise.dc.html' }], ['Careers', { href: 'Careers.dc.html' }], ['Events', { href: 'Events.dc.html' }]]"), 'category bar ends with Real Estate News, Advertise, Careers and Events links');
+  assert.ok(home.includes("[['Advertise', { href: 'Advertise.dc.html' }], ['Careers', { href: 'Careers.dc.html' }], ['Events', { href: 'Events.dc.html' }]]"), 'category bar ends with Advertise, Careers and Events links');
   for (const gone of ['Latest', 'Fundraising', 'Deals', 'People', 'Venture', 'Credit', 'Secondaries', 'Hedge Funds', 'LPs', 'Regulation', 'Providers']) {
     assert.ok(!home.includes(`['${gone}', [`), `category bar no longer has ${gone}`);
   }
@@ -354,9 +354,9 @@ test('the Real Estate Capital News page has its hooks, scripts and a bar link on
   assert.ok(!/innerHTML|insertAdjacentHTML/.test(script.replace(/^\s*\/\/.*$/gm, '')), 'the page script inserts data with textContent only');
   const order = ['fundsae-api.js', 'fundsae-connector.js', 'fundsae-news-filter.js', 'fundsae-news.js'].map((f) => page.indexOf(`<script src="../js/${f}"`));
   assert.ok(order.every((i, n) => i > 0 && (n === 0 || i > order[n - 1])), 'scripts load in order: api, connector, filter, page');
-  assert.ok(page.includes('<a href="News.dc.html" aria-current="page">Real Estate News</a>'));
-  for (const f of ['About', 'Advertise', 'Careers', 'Contact', 'Events', 'Privacy', 'Terms']) {
-    assert.ok(read(`${f}.dc.html`).includes('<a href="News.dc.html">Real Estate News</a>'), `${f} links to Real Estate News`);
+  // No Real Estate News link in the header; the page is reached from the home page's real estate boxes (View All).
+  for (const f of ['About', 'Advertise', 'Careers', 'Contact', 'Events', 'News', 'PostJob', 'Privacy', 'Terms']) {
+    assert.ok(!read(`${f}.dc.html`).includes('>Real Estate News</a>'), `${f} has no Real Estate News header link`);
   }
   const home = read('this.html');
   for (const id of ['residential-real-estate', 'commercial-real-estate', 'infrastructure', 'special-alternative-real-estate']) {
