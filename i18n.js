@@ -59,7 +59,7 @@
     'Endowments': 'الأوقاف',
     // Category bar
     'Top': 'الأبرز',
-    'Top Stories': 'أبرز القصص',
+    'Real Estate Stories': 'أخبار العقارات الرئيسية',
     'Latest': 'الأحدث',
     'Deals': 'الصفقات',
     'People': 'الأشخاص',

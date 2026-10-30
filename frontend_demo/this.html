@@ -1418,7 +1418,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         // rebuilds it from api/v1/taxonomy.json, and this list is what shows until then (or if that fails).
         // "capital:<id>" matches stories an editor tagged with that Capital Type.
         const CATEGORY_GROUPS = [
-          [['Top Stories', null]],
+          [['Real Estate Stories', null]],
           [['Sovereign', ['capital:sovereign-wealth']], ['Pension', ['capital:pension-funds']], ['Private Equity', ['capital:private-equity']],
             ['REITs', ['capital:reits']], ['Family Offices', ['capital:family-offices']], ['Banks', ['capital:banks']], ['Government', ['capital:government']],
             ['Endowments', ['capital:endowments']]],
@@ -1452,10 +1452,10 @@ document.addEventListener('DOMContentLoaded', async function() {
             if (target && target.href) {
               link.href = target.href;
             } else {
-              link.href = label === 'Top Stories' ? '#' : '#top-news';
+              link.href = label === 'Real Estate Stories' ? '#' : '#top-news';
               link.dataset.category = label;
               if (target) link.dataset.topics = target.join(' ');
-              if (label === 'Top Stories') link.setAttribute('aria-current', 'true');
+              if (label === 'Real Estate Stories') link.setAttribute('aria-current', 'true');
             }
             row.appendChild(link);
           });
@@ -1470,7 +1470,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             const topics = link.dataset.topics ? link.dataset.topics.split(' ') : null;
             select(label, topics);
             const news = document.querySelector('main.wrap > .news');
-            if (label === 'Top Stories' || !news) window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (label === 'Real Estate Stories' || !news) window.scrollTo({ top: 0, behavior: 'smooth' });
             else news.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
         }, true);
