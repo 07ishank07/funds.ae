@@ -321,11 +321,8 @@
      endless loop over two identical lists (the second is an aria-hidden copy made by the script at the foot of the page).
      It pauses on hover or keyboard focus, and stands still, scrollable by hand, for people who ask for reduced motion. */
   .partners { flex-shrink: 0; width: 100%; max-width: 1288px; margin: 8px auto 0; padding: 0 24px; }
-  .partners-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding-top: 12px; border-top: 2px solid var(--ink); }
-  .partners-head h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
-  .partners-tag { padding: 1px 8px; border: 1px solid var(--line); border-radius: 2px; font-size: 10.5px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ghost); }
-  .partners-more { margin-inline-start: auto; font-size: 14px; font-weight: 600; color: var(--accent); text-decoration: none; }
-  .partners-more:hover { text-decoration: underline; text-underline-offset: 3px; }
+  /* The rule above the strip (drawn apart from the viewport, whose edges fade). */
+  .partners::before { content: ""; display: block; border-top: 2px solid var(--ink); }
   .partners-viewport {
     margin-top: 16px; overflow: hidden; direction: ltr;
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 72px, #000 calc(100% - 72px), transparent);
@@ -690,12 +687,8 @@
 <!-- Featured Partners (sponsor slot "professionalServices"): a partners strip at the foot of the page that scrolls
      right to left in an endless loop. js/fundsae-connector.js fills the list from sponsors.json; the script at the foot
      of the page adds the aria-hidden copy the loop needs. These cards are the built-in content shown until the API answers. -->
-<section class="partners" aria-labelledby="partners-title">
-  <div class="partners-head">
-    <h2 id="partners-title">Featured Partners</h2>
-    <span class="partners-tag">Sponsored</span>
-    <a class="partners-more" href="Advertise.dc.html">Feature your firm</a>
-  </div>
+<!-- No visible heading; the label tells screen readers these are sponsored placements (links carry rel="sponsored"). -->
+<section class="partners" aria-label="Featured partners (sponsored)">
   <div class="partners-viewport">
     <div class="partners-track">
       <div class="partners-list" data-fundsae-slot="sponsor-companies">
