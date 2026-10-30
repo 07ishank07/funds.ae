@@ -5,7 +5,8 @@
 #   - an editor publishes in the Studio, or changes a story's status in the News Review Queue:
 #     Sanity's webhook sends a repository_dispatch "cms-publish" event (setup: docs/SANITY-CMS-GUIDE.md
 #     and docs/NEWS-REVIEW-GUIDE.md);
-#   - every hour, so stories scheduled for later go live on time (live mode with the Sanity queue only);
+#   - once a day at 09:00 Sydney time, so stories scheduled for later go live (live mode with the Sanity
+#     queue only). A story scheduled for an earlier time also goes live with any other run before then;
 #   - someone saves backend/config/{sponsors,events,content,news-taxonomy}.json by hand (source "file");
 #   - you run it from the Actions tab.
 #
@@ -20,7 +21,11 @@ on:
   repository_dispatch:
     types: [cms-publish]
   schedule:
-    - cron: "5 * * * *"   # every hour at :05 UTC, for scheduled stories
+    # 09:00 Sydney time, for scheduled stories. GitHub schedules are in UTC and Sydney is UTC+11 in summer
+    # (daylight saving) and UTC+10 in winter, so both times are scheduled and only the one at 09:00 in
+    # Sydney goes ahead (see "Decide whether this run has work"). GitHub may start it a few minutes late.
+    - cron: "0 22 * * *"   # 09:00 Sydney during daylight saving (about October to April)
+    - cron: "0 23 * * *"   # 09:00 Sydney the rest of the year
   push:
     branches: [main]
     paths:
@@ -69,14 +74,23 @@ jobs:
           echo "registry=$(node -p "require('./config/settings.json').news?.registry?.source || 'file'")" >> "$GITHUB_OUTPUT"
           echo "store=$(node -p "require('./config/settings.json').news?.review?.store || 'file'")" >> "$GITHUB_OUTPUT"
 
-      # The hourly run only matters for stories scheduled in the Sanity queue.
+      # The daily run only matters for stories scheduled in the Sanity queue, and only the schedule that
+      # falls at 09:00 in Sydney runs it.
       - name: Decide whether this run has work
         id: work
         run: |
-          if [ "${{ github.event_name }}" = "schedule" ] && [ "${{ steps.source.outputs.store }}" != "sanity" ]; then
-            echo "go=false" >> "$GITHUB_OUTPUT"; echo "Hourly runs only publish scheduled stories from the Sanity queue."
-          else
+          if [ "${{ github.event_name }}" != "schedule" ]; then
             echo "go=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          offset=$(TZ=Australia/Sydney date +%z)
+          schedule="${{ github.event.schedule }}"
+          if [ "${{ steps.source.outputs.store }}" != "sanity" ]; then
+            echo "go=false" >> "$GITHUB_OUTPUT"; echo "Daily runs only publish scheduled stories from the Sanity queue."
+          elif { [ "$offset" = "+1100" ] && [ "$schedule" = "0 22 * * *" ]; } || { [ "$offset" = "+1000" ] && [ "$schedule" = "0 23 * * *" ]; }; then
+            echo "go=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "go=false" >> "$GITHUB_OUTPUT"; echo "Sydney is at UTC$offset, so the other daily schedule is the 09:00 run. Nothing to do here."
           fi
 
       - name: Pull published content, news sources and categories from Sanity

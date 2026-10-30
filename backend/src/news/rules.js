@@ -83,7 +83,7 @@ export const NEWS_LIMITS = {
   keywordWeight: [1, 5],
   navItems: 12,
   displayOrder: [0, 999],
-  // Earliest a story can be scheduled: a few minutes ahead, so the hourly publisher never misses it.
+  // Earliest a story can be scheduled: a few minutes ahead of now.
   scheduleLeadMinutes: 5
 };
 export const NEWS_SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;

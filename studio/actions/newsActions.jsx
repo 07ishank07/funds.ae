@@ -65,7 +65,8 @@ function ScheduleForm({onSubmit, onCancel}) {
   return (
     <Stack space={3}>
       <Text size={1}>
-        The story goes on the site at this time (your computer&apos;s time zone), within about an hour. It must be at least{' '}
+        The story goes on the site at the first publishing run after this time (your computer&apos;s time zone): the daily run
+        at 9:00 am Sydney time, or sooner if someone publishes another story first. It must be at least{' '}
         {NEWS_LIMITS.scheduleLeadMinutes} minutes from now.
       </Text>
       <TextInput type="datetime-local" value={value} onChange={(e) => setValue(e.currentTarget.value)} />

@@ -41,7 +41,7 @@ To switch the site to the queue, follow [Part 8: Going live](#8-going-live-setup
    │  editor edits the headline, summary and categories, then an approver presses
    │  Approve / Approve and publish / Schedule (or anyone presses Reject / Archive)
    ▼
- Sanity webhook → GitHub "Publish content" (also runs hourly for scheduled stories)
+ Sanity webhook → GitHub "Publish content" (also runs daily at 09:00 Sydney for scheduled stories)
    cms:pull → publish:content → news:publish (read-only token)
    │  keeps only stories that are published, due, approved by a listed approver,
    │  unchanged since approval and from a source with a cleared licence
@@ -194,7 +194,7 @@ Open the Studio (`https://fundsae.sanity.studio`, or the address in `studio/.env
 5. Then choose an action from the same menu:
    - **Approve and publish:** live within a few minutes (approvers only).
    - **Approve:** ready, but not live; publish it later with **Publish now** (approvers only).
-   - **Schedule:** pick a date and time; it goes live within about an hour after that time (approvers only).
+   - **Schedule:** pick a date and time; it goes live at the first publishing run after that time: the daily run at 9:00 am Sydney time, or sooner if someone publishes another story first (approvers only).
    - **Reject:** give a reason. It never appears on the site.
 
 If an action refuses, a dialog lists the reasons, for example "the source's licence has not been cleared", "the summary is longer than 280 characters" or "only approvers can do this". Fix what it says and try again.
@@ -326,7 +326,7 @@ With AI on, each new story from a source that allows AI summaries gets a suggest
 
 - **Approval control:** every Studio member is an Administrator. The approver list and content hash stop the importer and accidental edits from publishing, but a determined administrator could fake an approval through the API. Detecting that needs Sanity's History API (paid plans).
 - **Images:** images uploaded in the Studio can be fetched by anyone who has the URL, before approval.
-- **Timing:** scheduled stories go live within about an hour of their time.
+- **Timing:** scheduled stories go live at the next daily publishing run (9:00 am Sydney time) after their time, or sooner if another story is published in between.
 - **History:** removed stories stay in the public git history.
 - **Document cap:** the queue must be pruned to stay under 10,000 documents (Part 9).
 
@@ -352,7 +352,7 @@ With AI on, each new story from a source that allows AI summaries gets a suggest
 - [x] Phase 7: Sanity read/write client and the Sanity queue
 - [x] Phase 8: Studio schemas, queue views and workflow actions
 - [x] Phase 9: registry and taxonomy pulled from Sanity
-- [x] Phase 10: workflows (hourly ingest, publish, Fetch News Now)
+- [x] Phase 10: workflows (scheduled ingest, publish, Fetch News Now)
 - [x] Phase 11: Real Estate Capital News page and category bar
 - [x] Phase 12: optional Claude summaries
 - [x] Phase 13: setup runbook and editor guide
