@@ -33,7 +33,8 @@ The Careers section (posted jobs, employers, the Top Employers and Top Jobs list
 
 | In Sanity (Studio menu) | Shown on the site | Sanity type | Published as |
 |---|---|---|---|
-| **Sponsors**, grouped by area | Elite Founding Sponsor banner, Gold Partners, Gold Sponsors (not shown), Sponsored Posts, Videos and Podcasts, Featured Partners, Career Resources | `sponsorItem` | `config/sponsors.json` → `api/v1/sponsors.json` |
+| **Sponsors**, grouped by area | Elite Founding Sponsor banner, Gold Partners, Gold Sponsors (not shown), Sponsored Posts, Videos and Podcasts, Featured Partners, the Exclusive Elite Sponsor box (Careers and Events), Career Resources | `sponsorItem` | `config/sponsors.json` → `api/v1/sponsors.json` |
+| **Home page hero banner** | The banner at the top of the home page: small line, headline with a gold word, subtitle, image | `homeHero` (one document) | `config/content.json` → `api/v1/content.json` `hero` |
 | **Events** | Home "Events and Expos", Events page | `event` | `config/events.json` → `api/v1/events.json` |
 | **Top Tweets (home)** | Home "Top Tweets" box (5 shown) | `socialHighlight` | `config/content.json` → `api/v1/content.json` `slots.socialHighlights` |
 | **Advertise packages** | Advertise page package cards (Featured Partner, Gold Partner, Elite Exclusive Partner, and any you add) and the enquiry form's package list | `advertiseTier` | … `slots.advertiseTiers` |
@@ -201,7 +202,7 @@ The news importer needs one more secret, a write token called `SANITY_WRITE_TOKE
    | URL | `https://api.github.com/repos/<owner>/<repo>/dispatches` |
    | Dataset | `production` |
    | Trigger on | Create, Update, Delete |
-   | Filter | `_type in ["sponsorItem", "event", "socialHighlight", "advertiseTier", "page", "newsSource", "capitalType", "assetClass", "newsPublishSignal", "newsAggregator", "employer", "careersPage"]` |
+   | Filter | `_type in ["sponsorItem", "event", "socialHighlight", "advertiseTier", "page", "newsSource", "capitalType", "assetClass", "newsPublishSignal", "newsAggregator", "employer", "careersPage", "homeHero"]` |
    | Projection | `{"event_type": select(_type == "newsAggregator" => "news-fetch", "cms-publish")}` |
    | HTTP method | POST |
    | HTTP headers | `Authorization: Bearer <the GitHub token>`, `Accept: application/vnd.github+json`, `X-GitHub-Api-Version: 2022-11-28` |
@@ -365,7 +366,7 @@ These follow from CLAUDE.md. Code review should check them on every CMS change.
 
 - **Open the Studio** at `https://fundsae.sanity.studio` and sign in with the account you were invited with.
 - **Change something:**
-  1. Pick an area on the left: Sponsors → (area), Events, Top Tweets, Advertise packages, or Pages.
+  1. Pick an area on the left: Sponsors → (area), Home page hero banner, Events, Top Tweets, Advertise packages, or Pages.
   2. Edit, then press **Publish**.
   3. The site updates within about 2 minutes.
   4. Drafts, meaning unpublished changes, are never shown.
@@ -379,6 +380,8 @@ These follow from CLAUDE.md. Code review should check them on every CMS change.
   - **Home page placements:** add Sponsored Posts, Videos and Podcasts, Events and Expos, Thought Leaders and Influencers or Top Tweets (X posts) once each, switch each on or off for this package, and describe what the partner gets ("One slot, rotating weekly"). Only placements that are switched on appear on the card. A package needs at least one placement switched on or one other inclusion.
   - **Reorder:** change **Order** (lower first). **Hide:** switch off **Show on the site**. **Delete:** delete the document. Publish after each change.
   - The package with id `exclusive` is the dark Elite Exclusive card that the Elite Founding Sponsor banner links to.
+- **Home page hero banner** (in the Studio menu): edit the small line, the headline, the **Word to show in gold** (it must appear in the headline) and the subtitle, and optionally upload a wide image (PNG, JPG or WebP up to 1.5 MB) with a description. Publish. Unpublish it to go back to the built-in banner and skyline illustration.
+- **Exclusive Elite Sponsor** (Sponsors → Exclusive Elite Sponsor (Careers and Events)): one sponsor, shown in the box at the top of the right column on both the Careers and Events pages. Fill in the name, one line, a 16:9 image (up to 500 KB), **Label** (the button text, such as "See open roles") and **Link** (where the button goes). Switch off **Show on the site** or delete it to show the "Space available" advert instead.
 - **Links:** they must start with `https://`. On pages, `mailto:` also works.
 - **If the site doesn't update:** tell the developer. The GitHub Action log says exactly which item broke which rule, and the site keeps the last good version in the meantime.
 
@@ -444,7 +447,7 @@ Editors can also add jobs themselves with **Careers → Add a job**; they follow
 3. **Approvers:** the same list as for news (NEWS-REVIEW-GUIDE.md, Part 4). With no approvers, nothing is published.
 4. **Deploy the Studio** (step 4.3), and import the seed with `--missing` to add the empty Top lists document.
 5. **Update the webhook filter** (step 4.5) so employer and Top list changes republish too:
-   `_type in ["sponsorItem", "event", "socialHighlight", "advertiseTier", "page", "newsSource", "capitalType", "assetClass", "newsPublishSignal", "newsAggregator", "employer", "careersPage"]`.
+   `_type in ["sponsorItem", "event", "socialHighlight", "advertiseTier", "page", "newsSource", "capitalType", "assetClass", "newsPublishSignal", "newsAggregator", "employer", "careersPage", "homeHero"]`.
    Job decisions already republish through `newsPublishSignal`; `jobPosting` is deliberately left out of the filter.
 6. **Test it:**
    1. Send a test job from the Post a Job page and check it appears in **Jobs: pending review**.
