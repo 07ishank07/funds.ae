@@ -90,9 +90,27 @@
     });
   }
 
-  /** Posts a form. Resolves with { status, body, retryAfter } for any HTTP answer. */
-  function submit(kind, payload) {
-    var url = new URL('submissions/' + encodeURIComponent(kind), API_BASE).href;
+  /**
+   * Where forms go and whether they are on. When the site is hosted without the API server (GitHub Pages),
+   * meta.json may name the funds.ae server (capabilities.submissionsEndpoint, settings submissions.endpoint);
+   * that server's own meta.json then says whether it accepts forms. Resolves { enabled, base }.
+   */
+  function submissionsTarget() {
+    return meta().then(function (m) {
+      var caps = m.capabilities || {};
+      var endpoint = typeof caps.submissionsEndpoint === 'string' ? caps.submissionsEndpoint : '';
+      if (!/^https:\/\/[^\s"'<>]+\/$/.test(endpoint)) return { enabled: caps.submissions === true, base: API_BASE };
+      return request(new URL('meta.json', endpoint).href, { cache: 'no-store', headers: { Accept: 'application/json' } })
+        .then(function (res) { return res.ok ? readJson(res) : {}; })
+        .then(function (remote) {
+          return { enabled: !!(remote.capabilities && remote.capabilities.submissions === true), base: endpoint };
+        });
+    });
+  }
+
+  /** Posts a form (to base, or this site's API). Resolves with { status, body, retryAfter } for any HTTP answer. */
+  function submit(kind, payload, base) {
+    var url = new URL('submissions/' + encodeURIComponent(kind), base || API_BASE).href;
     return request(url, {
       method: 'POST',
       cache: 'no-store',
@@ -242,6 +260,7 @@
     meta: meta,
     get: get,
     submit: submit,
+    submissionsTarget: submissionsTarget,
     valid: valid,
     items: items,
     httpUrl: httpUrl,

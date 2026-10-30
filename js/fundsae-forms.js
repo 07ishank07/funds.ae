@@ -53,15 +53,13 @@
   }
 
   var capabilityPromise = null;
-  /** True only when this site's API server accepts forms (meta.capabilities.submissions). */
+  /** { enabled, base }: enabled only when a funds.ae server accepts forms (this site's, or the one meta.json names). */
   function submissionsEnabled() {
-    if (!api) return Promise.resolve(false);
+    if (!api) return Promise.resolve({ enabled: false });
     if (!capabilityPromise) {
-      capabilityPromise = api.meta().then(function (meta) {
-        return !!(meta.capabilities && meta.capabilities.submissions === true);
-      }, function () {
+      capabilityPromise = api.submissionsTarget().then(null, function () {
         capabilityPromise = null;
-        return false;
+        return { enabled: false };
       });
     }
     return capabilityPromise;
@@ -164,12 +162,12 @@
       if (button) button.disabled = true;
       setStatus(form, MESSAGES.sending);
 
-      submissionsEnabled().then(function (enabled) {
-        if (!enabled) {
+      submissionsEnabled().then(function (target) {
+        if (!target.enabled) {
           setStatus(form, MESSAGES.offline, 'info');
           return null;
         }
-        return api.submit(kind, collect(form)).then(function (res) {
+        return api.submit(kind, collect(form), target.base).then(function (res) {
           if (res.status === 202) {
             form.reset();
             setStatus(form, SUCCESS[kind], 'success');

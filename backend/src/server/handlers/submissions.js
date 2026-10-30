@@ -10,7 +10,9 @@ import { SUBMISSION_SCHEMAS, INITIAL_STATUS } from '../../validation/submissions
 import { ADVERTISING_TIERS } from '../../contracts/models.js';
 import { validate } from '../../validation/validate.js';
 import { SubmissionCapacityError } from '../../repositories/submissions.js';
+import { randomBytes } from 'node:crypto';
 import { log } from '../../lib/logger.js';
+import { jobSubmissionDoc } from '../../jobs/submissionMutations.js';
 import { HttpProblem, clientIp, readJsonBody, sendJson, writeCors, writeOriginAllowed } from '../http.js';
 
 export async function handleSubmission(req, res, app, kind) {
@@ -43,6 +45,19 @@ export async function handleSubmission(req, res, app, kind) {
   // Advertise enquiries name one of the packages currently published (editors add and remove them in Sanity).
   if (kind === 'advertise' && !publishedTiers(app).includes(result.value.tier)) {
     throw new HttpProblem(400, 'Some fields need attention.', { code: 'validation_failed', fields: { tier: 'Choose one of the listed packages.' } });
+  }
+
+  // Post a Job with the Sanity review queue: one Pending review job, nothing else. If Sanity cannot be
+  // reached the submission falls back to the file queue below, so nothing is lost and nothing is published.
+  if (kind === 'job' && app.jobSink) {
+    const id = `sub_${randomBytes(10).toString('hex')}`;
+    try {
+      await app.jobSink.create(jobSubmissionDoc(result.value, { id, now: app.now() }));
+      log.info('submission.received', { kind, id, store: 'sanity' });
+      return accepted();
+    } catch (err) {
+      log.error('submission.sanity-failed', { kind, id, detail: String(err?.message || err).slice(0, 200) });
+    }
   }
 
   try {

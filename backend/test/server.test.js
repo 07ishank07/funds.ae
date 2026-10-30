@@ -278,3 +278,81 @@ test('advertise enquiries must name a package currently published on the Adverti
     utimesSync(file, new Date(), new Date(Date.now() + 10000));
   }
 });
+
+/* ------------------------- Post a Job into the Sanity review queue ------------------------- */
+
+const jobPost = {
+  title: 'Associate, Private Credit', company: 'Example Capital', location: 'DIFC, Dubai', url: 'https://jobs.example.com/2',
+  salaryFrom: '25,000', salaryTo: '35000', salaryCurrency: 'AED', salaryPeriod: 'month', visa: 'Visa sponsorship offered',
+  description: 'Originate and monitor direct lending deals across the GCC with the private credit team.',
+  name: 'Sara Ali', email: 'sara@example.ae', seniority: 'Associate'
+};
+async function startWith(options, name) {
+  const dir = path.join(tmp, name);
+  const server = createServer({ apiDir, dataDir: dir, ...options });
+  await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
+  servers.push(server);
+  return { url: `http://127.0.0.1:${server.address().port}`, dir };
+}
+const sinkEnv = { FUNDSAE_JOBS_STORE: 'sanity', WRITE_RATE_LIMIT_PER_MIN: '1000', WRITE_RATE_LIMIT_PER_HOUR: '1000' };
+
+test('with the Sanity review queue, a Post a Job submission becomes one Pending review job and nothing else', async () => {
+  const sent = [];
+  const site = await startWith({ env: sinkEnv, jobSink: { create: async (doc) => { sent.push(doc); } } }, 'job-sink');
+  const res = await post('job', jobPost, {}, site.url);
+  assert.equal(res.status, 202);
+  assert.equal(sent.length, 1);
+  const [doc] = sent;
+  assert.match(doc._id, /^jobs\.sub_[a-f0-9]{20}$/);
+  assert.equal(doc.status, 'pending_review');
+  assert.equal(doc.salaryFrom, 25000, 'validated values, not raw text');
+  assert.deepEqual(Object.keys(doc.filer).sort(), ['email', 'name', 'source', 'submittedAt']);
+  assert.deepEqual(stored('job', site.dir), [], 'not also kept in the file queue');
+  // Invalid submissions never reach Sanity.
+  assert.equal((await post('job', { ...jobPost, visa: 'Maybe' }, {}, site.url)).status, 400);
+  assert.equal((await post('job', { ...jobPost, website: 'https://spam.example' }, {}, site.url)).status, 202, 'the honeypot answers as usual');
+  assert.equal(sent.length, 1);
+});
+
+test('if Sanity cannot be reached, the submission is kept in the file queue', async () => {
+  const site = await startWith({ env: sinkEnv, jobSink: { create: async () => { throw new Error('Sanity is down'); } } }, 'job-sink-down');
+  assert.equal((await post('job', jobPost, {}, site.url)).status, 202);
+  const [record] = stored('job', site.dir);
+  assert.equal(record.status, 'pending-review');
+  assert.equal(record.payload.title, jobPost.title);
+});
+
+test('the Sanity job sink sends exactly one createIfNotExists with the write token', async () => {
+  const { sanityJobSink } = await import('../src/server/index.js');
+  const requests = [];
+  const http = await import('node:http');
+  const mock = http.createServer((req, res) => {
+    let body = '';
+    req.on('data', (c) => { body += c; });
+    req.on('end', () => {
+      requests.push({ url: req.url, auth: req.headers.authorization, body: JSON.parse(body) });
+      res.writeHead(200, { 'content-type': 'application/json' });
+      res.end(JSON.stringify({ transactionId: 't1', results: [{ id: 'x', operation: 'create' }] }));
+    });
+  });
+  await new Promise((resolve) => mock.listen(0, '127.0.0.1', resolve));
+  const allowPrivate = process.env.FUNDSAE_ALLOW_PRIVATE_URLS;
+  process.env.FUNDSAE_ALLOW_PRIVATE_URLS = '1'; // the mock Sanity runs on 127.0.0.1
+  try {
+    const env = { SANITY_PROJECT_ID: 'abc123', SANITY_DATASET: 'development', SANITY_WRITE_TOKEN: 'sk-write' };
+    const sink = sanityJobSink(env, { baseUrl: `http://127.0.0.1:${mock.address().port}`, retries: 0 });
+    const doc = { _id: 'jobs.sub_0123456789abcdef0123', _type: 'jobPosting', status: 'pending_review', title: 'Analyst', description: 'x'.repeat(60), filer: { name: 'A', email: 'a@example.ae', submittedAt: '2026-10-30T00:00:00.000Z', source: 'form' } };
+    await sink.create(doc);
+    assert.equal(requests.length, 1);
+    assert.match(requests[0].url, /^\/v[\d-]+\/data\/mutate\/development\?/);
+    assert.match(requests[0].url, /tag=fundsae\.jobs\.submit/);
+    assert.equal(requests[0].auth, 'Bearer sk-write');
+    assert.deepEqual(requests[0].body, { mutations: [{ createIfNotExists: doc }] });
+    await assert.rejects(sink.create({ ...doc, status: 'published' }), /Refused job submission mutation/);
+    assert.equal(requests.length, 1, 'a refused mutation is never sent');
+    assert.equal(sanityJobSink({ SANITY_PROJECT_ID: 'abc123' }), null, 'no write token: no sink');
+  } finally {
+    if (allowPrivate === undefined) delete process.env.FUNDSAE_ALLOW_PRIVATE_URLS; else process.env.FUNDSAE_ALLOW_PRIVATE_URLS = allowPrivate;
+    mock.close();
+  }
+});

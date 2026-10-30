@@ -15,13 +15,43 @@ import { HttpProblem, sendError, sendProblem } from './http.js';
 import { CompositeLimiter, RateLimiter } from './rateLimit.js';
 import { route } from './routes.js';
 import { DEFAULT_PAGE_CSP } from './static.js';
+import { mutateSanity, sanityConfigFromEnv } from '../cms/sanity.js';
+import { assertJobSubmissionMutation } from '../jobs/submissionMutations.js';
 
 const MINUTE = 60_000;
 
 /**
- * @param {{ env?: Record<string,string|undefined>, apiDir?: string, dataDir?: string, now?: () => Date }} options
+ * Where Post a Job submissions go when settings jobs.review.store is "sanity": one createIfNotExists of a
+ * Pending review job, checked by assertJobSubmissionMutation before it is sent. Needs SANITY_PROJECT_ID,
+ * SANITY_DATASET and SANITY_WRITE_TOKEN. Returns null (submissions stay in the file queue) when not configured.
+ * @param {object} http  extra mutateSanity options (tests: baseUrl, retries)
  */
-export function buildApp({ env = process.env, apiDir, dataDir, now = () => new Date() } = {}) {
+export function sanityJobSink(env, http = {}) {
+  let sanity;
+  try {
+    sanity = sanityConfigFromEnv(env);
+  } catch (err) {
+    log.error('server.jobs-sink-disabled', { detail: err.message });
+    return null;
+  }
+  if (!sanity.writeToken) {
+    log.error('server.jobs-sink-disabled', { detail: 'SANITY_WRITE_TOKEN is not set; Post a Job submissions stay in the file queue.' });
+    return null;
+  }
+  return {
+    async create(doc) {
+      const mutation = assertJobSubmissionMutation({ createIfNotExists: doc });
+      await mutateSanity(sanity, [mutation], { tag: 'fundsae.jobs.submit', retries: 1, ...http });
+    }
+  };
+}
+
+/**
+ * @param {{ env?: Record<string,string|undefined>, apiDir?: string, dataDir?: string, now?: () => Date,
+ *           jobSink?: {create(doc:object):Promise<void>}|null }} options
+ *   jobSink: where job submissions go (tests pass a stand-in); built from the environment when omitted.
+ */
+export function buildApp({ env = process.env, apiDir, dataDir, now = () => new Date(), jobSink } = {}) {
   const settings = loadSettings();
   const demo = settings.mode === 'demo';
   const sub = settings.submissions;
@@ -31,6 +61,8 @@ export function buildApp({ env = process.env, apiDir, dataDir, now = () => new D
 
   const resolvedApiDir = apiDir || API_DIR;
   const resolvedDataDir = dataDir || (demo ? path.join(DATA_DIR, 'demo') : DATA_DIR);
+  const jobsStore = env.FUNDSAE_JOBS_STORE || settings.jobs.review.store;
+  const jobs = submissionsEnabled && jobsStore === 'sanity' ? (jobSink === undefined ? sanityJobSink(env) : jobSink) : null;
 
   return {
     mode: settings.mode,
@@ -56,6 +88,8 @@ export function buildApp({ env = process.env, apiDir, dataDir, now = () => new D
           maxPerKind: demo ? sub.demoMaxPerKind : Infinity
         })
       : null,
+    // Post a Job submissions go to the Sanity review queue (Careers > Jobs: pending review) when set.
+    jobSink: jobs,
     adminToken
   };
 }

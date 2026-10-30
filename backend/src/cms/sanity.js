@@ -119,7 +119,7 @@ export async function querySanity(sanity, query, opts = {}) {
  */
 export async function mutateSanity(sanity, mutations, opts = {}) {
   const { baseUrl, tag, ...http } = opts;
-  if (!sanity.writeToken) throw new ConfigError('SANITY_WRITE_TOKEN is not set: only the news importer writes to Sanity, and it needs an Editor token.');
+  if (!sanity.writeToken) throw new ConfigError('SANITY_WRITE_TOKEN is not set: only the news importer and the Post a Job server write to Sanity, and they need an Editor token.');
   if (tag && !TAG.test(tag)) throw new ConfigError(`Invalid Sanity request tag "${tag}".`);
   const url = new URL(`/v${sanity.apiVersion}/data/mutate/${sanity.dataset}`, originOf(sanity, baseUrl));
   url.searchParams.set('returnIds', 'true');

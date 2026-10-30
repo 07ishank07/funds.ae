@@ -257,7 +257,8 @@ function readExistingMeta() {
  * Merges into the existing meta.json so a partial publish (e.g. sponsors only)
  * keeps the other counts and bumps only its own version.
  * capabilities.submissions is false here: GitHub Pages cannot accept forms.
- * The server overrides it in its /api/v1/meta response when forms are enabled.
+ * The server overrides it in its /api/v1/meta response when forms are enabled, and
+ * capabilities.submissionsEndpoint names that server when it lives at another address.
  */
 export function publishMeta(ctx, { versions = {}, counts = {}, lastRun } = {}) {
   const previous = readExistingMeta();
@@ -266,7 +267,11 @@ export function publishMeta(ctx, { versions = {}, counts = {}, lastRun } = {}) {
     counts: { ...(previous.counts || {}), ...counts },
     lastRun: lastRun || previous.lastRun || null,
     versions: { ...(previous.versions || {}), ...versions },
-    capabilities: { submissions: false },
+    // A site hosted without the server (GitHub Pages) can still send forms to the funds.ae server named in
+    // settings submissions.endpoint; js/fundsae-api.js asks that server whether it accepts them.
+    capabilities: ctx.settings.submissions?.endpoint
+      ? { submissions: false, submissionsEndpoint: ctx.settings.submissions.endpoint }
+      : { submissions: false },
     endpoints: {
       news: 'news.json',
       newsByCategory: ctx.taxonomy.categories.map((c) => `news/${c.id}.json`),
