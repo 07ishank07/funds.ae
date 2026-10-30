@@ -323,6 +323,7 @@
   .partners { flex-shrink: 0; width: 100%; max-width: 1288px; margin: 8px auto 0; padding: 0 24px; }
   /* The rule above the strip (drawn apart from the viewport, whose edges fade). */
   .partners::before { content: ""; display: block; border-top: 2px solid var(--ink); }
+  .partners-title { margin-top: 12px; font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
   .partners-viewport {
     margin-top: 16px; overflow: hidden; direction: ltr;
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 72px, #000 calc(100% - 72px), transparent);
@@ -682,8 +683,9 @@
 <!-- Featured Partners (sponsor slot "professionalServices"): a partners strip at the foot of the page that scrolls
      right to left in an endless loop. js/fundsae-connector.js fills the list from sponsors.json; the script at the foot
      of the page adds the aria-hidden copy the loop needs. These cards are the built-in content shown until the API answers. -->
-<!-- No visible heading; the label tells screen readers these are sponsored placements (links carry rel="sponsored"). -->
-<section class="partners" aria-label="Featured partners (sponsored)">
+<!-- "Partners" heading; screen readers also hear that these are sponsored placements (links carry rel="sponsored"). -->
+<section class="partners" aria-labelledby="partners-title">
+  <h2 id="partners-title" class="partners-title">Partners<span class="fxh-sr"> (sponsored)</span></h2>
   <div class="partners-viewport">
     <div class="partners-track">
       <div class="partners-list" data-fundsae-slot="sponsor-companies">

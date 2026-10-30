@@ -285,8 +285,8 @@ test('every page but Careers shows the same Elite Founding Sponsor banner, and a
   assert.equal((topEmployers.match(/class="te-logo"/g) || []).length, 20, 'every Top Employer has a logo');
   assert.equal(careers.split('class="partners"').length, 2, 'one Featured Companies strip');
   assert.match(careers, /class="partners-track">\s*<div class="partners-list" data-fundsae-slot="sponsor-companies">/);
-  assert.ok(careers.includes('<section class="partners" aria-label="Featured partners (sponsored)">'), 'the strip is labelled as sponsored for screen readers');
-  assert.ok(!careers.includes('partners-head') && !careers.includes('Feature your firm'), 'no visible heading, tag or link above the strip');
+  assert.ok(careers.includes('<h2 id="partners-title" class="partners-title">Partners<span class="fxh-sr"> (sponsored)</span></h2>'), 'a Partners heading, labelled as sponsored for screen readers');
+  assert.ok(!careers.includes('partners-head') && !careers.includes('Feature your firm'), 'no visible tag or link above the strip');
   // Advertise: one package choice per API tier, and the Elite Exclusive Partner advert preselects its own.
   const advertise = read('Advertise.dc.html');
   const options = [...advertise.matchAll(/<option value="([a-z]+)"/g)].map((m) => m[1]);

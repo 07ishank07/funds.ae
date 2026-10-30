@@ -197,6 +197,9 @@
     'Visa sponsorship offered': 'تتوفر كفالة التأشيرة',
     'Must hold own UAE visa': 'يجب أن تكون لديك تأشيرة إماراتية',
     'Remote from abroad': 'عن بُعد من الخارج',
+    // Careers partner strip heading
+    'Partners': 'الشركاء',
+    '(sponsored)': '(برعاية)',
     // Post a job page (frontend_demo/PostJob.dc.html)
     'Post a job': 'انشر وظيفة',
     'Post a financial services job': 'انشر وظيفة في الخدمات المالية',
