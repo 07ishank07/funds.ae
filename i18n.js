@@ -186,7 +186,7 @@
     '(dummy)': '(تجريبي)',
     'Enquire about Elite Exclusive': 'استفسر عن الشراكة الحصرية',
     // Careers and Events pages
-    'Search for a Career in Financial Services': 'ابحث عن وظيفة في الخدمات المالية',
+    'Financial Services Jobs': 'وظائف الخدمات المالية',
     'Upcoming events': 'الفعاليات القادمة',
     'Event': 'الفعالية',
     'Finance, investment and fintech events across the UAE. Event details are supplied by organisers. Check with the organiser before you travel.': 'فعاليات المال والاستثمار والتقنية المالية في الإمارات. يقدّم المنظمون تفاصيل الفعاليات، فتحقق منهم قبل السفر.',

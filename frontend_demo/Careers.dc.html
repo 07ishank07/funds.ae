@@ -95,7 +95,7 @@
   @media (max-width: 860px) {
     .page { grid-template-columns: minmax(0, 1fr); }
   }
-  /* Page heading: "Search for a Career in Financial Services", above Current Opportunities */
+  /* Page heading: "Financial Services Jobs", above Current Opportunities */
   .intro { margin-bottom: 24px; }
   .intro h1 {
     font-family: 'Newsreader', Georgia, serif;
@@ -292,7 +292,12 @@
   .job-filters button:hover { border-color: var(--ink); }
   @media (max-width: 720px) { .job-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   /* Job cards: title, company, location and type, then function and posted date */
-  .opportunities .role { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: "info" "apply"; row-gap: 12px; align-items: start; }
+  .opportunities .role { display: grid; grid-template-columns: 40px minmax(0, 1fr); grid-template-areas: "logo info" ". apply"; column-gap: 12px; row-gap: 12px; align-items: start; }
+  /* Employer logo: a placeholder badge with the company's initials (dummy until employers supply logos). */
+  .opportunities .role-logo {
+    grid-area: logo; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 3px;
+    background: linear-gradient(145deg, #0E3A43, #2F8A8C); color: #FFFFFF; font-size: 12px; font-weight: 700; letter-spacing: 0.04em;
+  }
   .opportunities .role-info { grid-area: info; min-width: 0; }
   .opportunities .apply-btn { grid-area: apply; }
   .opportunities .role-meta { margin-top: 8px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font-size: 12px; color: var(--muted); }
@@ -409,7 +414,7 @@
 <div class="page">
 <main>
   <div class="intro">
-    <h1 data-fundsae-badge>Search for a Career in Financial Services</h1>
+    <h1 data-fundsae-badge>Financial Services Jobs</h1>
   </div>
 
   <section class="opportunities" aria-labelledby="opportunities-title">
@@ -753,9 +758,28 @@
     ['Marhaba Holdings', 'Family office, Abu Dhabi'], ['Vertex Alpha', 'Systematic strategies, Dubai'],
     ['Oasis Private Bank', 'Private banking, Abu Dhabi']];
 
-  /* Card: an empty meta line the connector fills with the function and posted date. */
+  /* Card: a dummy logo (the company's initials on a colour picked from its name) and an empty meta line the
+     connector fills with the function and posted date. js/fundsae-connector.js redraws the logo for live roles. */
+  var LOGO_COLOURS = ['#0E3A43, #2F8A8C', '#B58B52, #6B4E32', '#1F5560, #4FB3B8', '#5B4675, #B4A4C9', '#31556D, #8BA9C1',
+    '#416C56, #9EB9A5', '#874E4B, #C9A9A0', '#8A6330, #D3B46A', '#4F8A8B, #1C5965', '#7F9A97, #164B55'];
+  function logoFor(company) {
+    var words = String(company || '').replace(/\([^)]*\)/g, ' ').split(/\s+/).filter(Boolean);
+    var hash = 0;
+    for (var c = 0; c < String(company || '').length; c++) hash = (hash * 31 + String(company).charCodeAt(c)) >>> 0;
+    return { text: ((words[0] || '?').charAt(0) + (words[1] || '').charAt(0)).toUpperCase(), colours: LOGO_COLOURS[hash % LOGO_COLOURS.length] };
+  }
+  window.__fundsRoleLogo = logoFor;
   function enhanceRole(row) {
     var info = row.querySelector('.role-info');
+    if (info && !row.querySelector('.role-logo')) {
+      var logo = logoFor((row.querySelector('.company') || {}).textContent);
+      var badge = document.createElement('span');
+      badge.className = 'role-logo';
+      badge.setAttribute('aria-hidden', 'true');
+      badge.textContent = logo.text;
+      badge.style.background = 'linear-gradient(145deg, ' + logo.colours + ')';
+      row.insertBefore(badge, info);
+    }
     if (!info || info.querySelector('.role-meta')) return;
     var meta = document.createElement('div');
     meta.className = 'role-meta';

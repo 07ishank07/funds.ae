@@ -251,7 +251,8 @@ test('every page but Careers shows the same Elite Founding Sponsor banner, and a
   assert.ok(read('Events.dc.html').includes('data-fundsae-slot="events"'), 'the Events page lists events');
   const careers = read('Careers.dc.html');
   assert.ok(!careers.includes('data-fundsae-slot="events"') && !careers.includes('data-fundsae-form="event"'), 'Careers no longer has events');
-  assert.match(careers, /<h1[^>]*>Search for a Career in Financial Services<\/h1>/);
+  assert.match(careers, /<h1[^>]*>Financial Services Jobs<\/h1>/);
+  assert.ok(careers.includes("badge.className = 'role-logo'"), 'job cards carry a dummy employer logo');
   // Featured Employers grid is gone; Top Employers in column 2 ranks employers and links to each one's roles.
   assert.ok(!careers.includes('employer-grid') && !careers.includes('Featured Employers'), 'Careers has no Featured Employers grid');
   assert.match(careers, /<aside>[\s\S]*<section class="top-employers"[\s\S]*?<ol class="top-jobs-list top-employers-list" data-fundsae-slot="employers">[\s\S]*<\/aside>/);
@@ -270,8 +271,8 @@ test('every page but Careers shows the same Elite Founding Sponsor banner, and a
   // track holds the sponsor slot, labelled as sponsored.
   assert.ok(!careers.includes('sponsor-founding') && !careers.includes('founding-banner.css'), 'Careers has no Elite Founding Sponsor banner');
   assert.match(careers, /<\/aside>\s*<\/div>\s*<!--[\s\S]*?-->\s*<section class="partners"[\s\S]*?<\/section>\s*<footer/);
-  // Job cards carry no logo tile or Featured tag; Top Employers lists 20, each with an initials logo.
-  assert.ok(!/role-logo|role-featured/.test(careers), 'job cards have no logo or Featured tag');
+  // Job cards carry a dummy initials logo but no Featured tag; Top Employers lists 20, each with an initials logo.
+  assert.ok(!/role-featured/.test(careers), 'job cards have no Featured tag');
   const topEmployers = careers.slice(careers.indexOf('data-fundsae-slot="employers"'), careers.indexOf('</ol>', careers.indexOf('data-fundsae-slot="employers"')));
   assert.equal((topEmployers.match(/<li>/g) || []).length, 20, 'Top Employers shows 20');
   assert.equal((topEmployers.match(/class="te-logo"/g) || []).length, 20, 'every Top Employer has a logo');

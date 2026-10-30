@@ -414,6 +414,13 @@
       row.setAttribute('data-featured', job.featured ? '1' : '0');
       row.querySelector('h2').textContent = job.title;
       row.querySelector('.company').textContent = job.company;
+      // Dummy employer logo: initials on a colour from the company name (window.__fundsRoleLogo, Careers.dc.html).
+      var logo = row.querySelector('.role-logo');
+      if (logo) {
+        var look = typeof window.__fundsRoleLogo === 'function' ? window.__fundsRoleLogo(job.company) : { text: initials(job.company) };
+        logo.textContent = look.text;
+        if (look.colours) logo.style.background = 'linear-gradient(145deg, ' + look.colours + ')';
+      }
       row.querySelector('.location').textContent = [job.location, job.employmentType].filter(Boolean).join(' · ');
       var meta = row.querySelector('.role-meta');
       if (meta) {
