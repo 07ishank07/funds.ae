@@ -1376,32 +1376,61 @@ document.addEventListener('DOMContentLoaded', async function() {
       }
     }
 
-    // Elite Founding Sponsor banner: full width, directly under the masthead (and the mobile nav), above the
-    // columns (after fundopshq.com). Until a sponsor is signed it advertises the slot itself; the connector
-    // swaps in the sponsor from the "founding" slot of sponsors.json. Every page carries the same markup and
-    // shares founding-banner.css, so the banner looks and reads the same site-wide.
+    // Hero banner (after ramp.com/en-gb): full width, directly under the masthead, above the columns. A short
+    // line, a large headline, a grey subtitle and one email field with a mint button, which is a real newsletter
+    // form (js/fundsae-forms.js, POST /api/v1/submissions/newsletter, placement "home"). The other pages keep
+    // the Elite Founding Sponsor banner (founding-banner.css); the home page does not show it.
     {
-      if (!document.querySelector('link[href="founding-banner.css"]')) {
-        const bannerStyles = document.createElement('link');
-        bannerStyles.rel = 'stylesheet';
-        bannerStyles.href = 'founding-banner.css';
-        document.head.appendChild(bannerStyles);
-      }
       const mainColumns = document.querySelector('main.wrap');
-      if (mainColumns && !document.querySelector('.fx-founding')) {
-        const founding = document.createElement('section');
-        founding.className = 'fx-founding';
-        founding.setAttribute('aria-label', 'Elite Founding Sponsor');
-        founding.innerHTML = `
-          <div class="fx-founding-frame">
-            <p class="fx-founding-id">
-              <span class="fx-founding-tags"><span class="fx-founding-label">Elite Founding Sponsor</span><span class="fx-founding-status">Space available</span></span>
-              <span class="fx-founding-brand"><span class="fx-founding-name">Your firm here<span class="fx-caret" aria-hidden="true"></span></span></span>
-            </p>
-            <p class="fx-founding-pitch">Put your firm in front of the UAE's GPs, LPs, family offices and fund service providers, every day.</p>
-            <a class="fx-founding-cta" href="Advertise.dc.html#elite-partner"><span>Become a founding sponsor</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+      if (mainColumns && !document.querySelector('.fx-hero')) {
+        if (!document.getElementById('fx-hero-style')) {
+          const heroStyle = document.createElement('style');
+          heroStyle.id = 'fx-hero-style';
+          heroStyle.textContent = `
+            .fx-hero { padding: 56px 24px 44px; background: linear-gradient(180deg, #FFFFFF 0%, #F3F7F6 100%); border-bottom: 1px solid #DAE5E4; text-align: center; }
+            .fx-hero-inner { max-width: 880px; margin: 0 auto; }
+            .fx-hero-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+            .fx-hero-eyebrow { margin: 0; font-size: 14px; color: #587176; }
+            .fx-hero h1 { margin: 14px 0 0; font-size: clamp(2.3rem, 5.6vw, 4rem); font-weight: 500; line-height: 1.04; letter-spacing: -0.025em; color: #0E3A43; }
+            .fx-hero-sub { max-width: 640px; margin: 18px auto 0; font-size: clamp(1.05rem, 1.8vw, 1.25rem); line-height: 1.45; color: #587176; }
+            .fx-hero-form { max-width: 520px; margin: 28px auto 0; }
+            .fx-hero-field { display: flex; align-items: center; gap: 6px; padding: 6px; border: 1px solid #D3DFDF; border-radius: 12px; background: #F7FAF9; box-shadow: 0 1px 2px rgba(14, 58, 67, 0.04); }
+            .fx-hero-field:focus-within { border-color: #1F6A6E; background: #FFFFFF; }
+            .fx-hero-field input[type="email"] { flex: 1; min-width: 0; height: 44px; padding: 0 14px; border: 0; background: transparent; font: inherit; font-size: 16px; color: #0E3A43; outline: none; }
+            .fx-hero-field button { flex-shrink: 0; height: 44px; padding: 0 20px; border: 0; border-radius: 9px; background: #4FB3B8; color: #0E3A43; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; }
+            .fx-hero-field button:hover { background: #43A0A5; }
+            .fx-hero-form .fx-form-status { margin-top: 10px; text-align: center; }
+            .fx-hero-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 24px; margin: 18px 0 0; font-size: 14px; }
+            .fx-hero-links a { color: #1F6A6E; font-weight: 600; text-decoration: none; }
+            .fx-hero-links a:hover { text-decoration: underline; text-underline-offset: 3px; }
+            @media (max-width: 560px) {
+              .fx-hero { padding: 36px 16px 32px; }
+              .fx-hero-field { flex-direction: column; align-items: stretch; }
+              .fx-hero-field button { width: 100%; }
+            }`;
+          document.head.appendChild(heroStyle);
+        }
+        const hero = document.createElement('section');
+        hero.className = 'fx-hero';
+        hero.setAttribute('aria-labelledby', 'fx-hero-title');
+        hero.innerHTML = `
+          <div class="fx-hero-inner">
+            <p class="fx-hero-eyebrow">Real estate, infrastructure and private capital news for the UAE</p>
+            <h1 id="fx-hero-title">Know where the capital is moving.</h1>
+            <p class="fx-hero-sub">Real estate investment, private equity, sovereign wealth and the funds behind them, from the UAE and around the world. Every story is checked by an editor and links to its publisher.</p>
+            <form class="fx-hero-form" method="post" data-fundsae-form="newsletter">
+              <div class="fx-hero-field">
+                <label class="fx-hero-sr" for="fx-hero-email">Your work email</label>
+                <input id="fx-hero-email" type="email" name="email" required maxlength="254" autocomplete="email" placeholder="What's your work email?">
+                <button type="submit">Get the daily brief</button>
+              </div>
+              <input type="hidden" name="placement" value="home">
+              <div class="fx-hp" aria-hidden="true"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+              <p class="fx-form-status" data-fundsae-form-status role="status" aria-live="polite"></p>
+            </form>
+            <p class="fx-hero-links"><a href="News.dc.html">Browse Real Estate Capital News</a><a href="Careers.dc.html">Find a financial services job</a></p>
           </div>`;
-        mainColumns.before(founding);
+        mainColumns.before(hero);
       }
     }
 
@@ -1507,7 +1536,7 @@ document.addEventListener('DOMContentLoaded', async function() {
           html[lang="ar"] .fx-catbar a { font-family: inherit; }
         `;
         document.head.appendChild(catbarStyle);
-        (document.querySelector('.fx-founding') || mainColumns).before(bar);
+        (document.querySelector('.fx-hero') || mainColumns).before(bar);
       }
     }
 
@@ -1808,7 +1837,6 @@ document.addEventListener('DOMContentLoaded', async function() {
       tag(inBox('sponsored-title', 'ul'), 'sponsor-posts');
       tag(inBox('sponsored-podcasts-title', ':scope > div:nth-of-type(2)'), 'sponsor-media');
       tag(inBox('professional-services-title', ':scope > div'), 'sponsor-companies');
-      tag(document.querySelector('.fx-founding'), 'sponsor-founding');
       tag(document.querySelector('.fx-platinum-list'), 'sponsor-platinum');
       tag(document.querySelector('.news > section[aria-label="Residential Estate News"]'), 'tiles-residential-real-estate');
       tag(document.querySelector('.news > section[aria-label="Commercial Real Estate News"]'), 'tiles-commercial-real-estate');

@@ -162,7 +162,7 @@ test('the website scripts and pages agree on data slots', () => {
   for (const slot of declared) assert.ok(used.has(slot), `page declares slot "${slot}" that the connector never fills`);
 });
 
-test('every page but Careers shows the same Elite Founding Sponsor banner, and all link to the Events page', () => {
+test('every page but Careers and the home page shows the same Elite Founding Sponsor banner, and all link to the Events page', () => {
   const read = (f) => readFileSync(path.join(repo, 'frontend_demo', f), 'utf8');
   const pages = readdirSync(path.join(repo, 'frontend_demo')).filter((f) => f.endsWith('.html'));
   assert.ok(pages.includes('Events.dc.html'), 'Events and Expos has its own page');
@@ -176,14 +176,20 @@ test('every page but Careers shows the same Elite Founding Sponsor banner, and a
     assert.ok(!html.includes('Careers.dc.html#events'), `${file} still links to the old Careers events box`);
     assert.ok(!/Platinum (Sponsors|Partner)/.test(html), `${file} still shows "Platinum" instead of "Elite"`);
     if (file !== 'this.html') assert.match(html, /<a href="Events\.dc\.html"( aria-current="page")?>Events<\/a>/, `${file}: nav Events link`);
-    // Careers shows the Featured Companies strip under its masthead instead (checked below).
-    if (file === 'Careers.dc.html') continue;
+    // Careers shows the Featured Companies strip under its masthead instead, and the home page a hero banner (checked below).
+    if (file === 'Careers.dc.html' || file === 'this.html') continue;
     for (const text of bannerText) assert.ok(html.includes(text), `${file}: banner lacks ${text}`);
     assert.ok(html.includes('founding-banner.css'), `${file} does not load founding-banner.css`);
     assert.match(html, /class="fx-founding-cta" href="(Advertise\.dc\.html)?#elite-partner"/, `${file}: banner button`);
     if (file !== 'this.html') assert.ok(html.includes('data-fundsae-slot="sponsor-founding"'), `${file}: banner slot`);
   }
   const home = read('this.html');
+  // Home: a hero banner (after ramp.com) in place of the Elite Founding Sponsor banner, with a real newsletter form.
+  assert.ok(!home.includes('fx-founding') && !home.includes('Your firm here'), 'no Elite Founding Sponsor banner on the home page');
+  for (const s of ['<h1 id="fx-hero-title">Know where the capital is moving.</h1>', '<form class="fx-hero-form" method="post" data-fundsae-form="newsletter">',
+    'name="email" required', '<input type="hidden" name="placement" value="home">', 'name="website" tabindex="-1"', "(document.querySelector('.fx-hero') || mainColumns).before(bar)"]) {
+    assert.ok(home.includes(s), `hero: ${s}`);
+  }
   // Home news tabs: the page script and the connector agree on the names; Global Stories is the world category.
   const connector = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
   assert.ok(home.includes("const REGION_NAMES = ['News', 'Global'];") && home.includes("Global: 'Global Stories'"), 'home tabs are UAE Stories and Global Stories');
@@ -327,7 +333,7 @@ test('every website form posts only field names the API accepts', () => {
   const home = readFileSync(path.join(repo, 'frontend_demo', 'this.html'), 'utf8');
   assert.match(home, /data-fundsae-form', 'newsletter'/);
   for (const n of ["input.name = 'email'", "placement.name = 'placement'", "trapInput.name = 'website'"]) assert.ok(home.includes(n), n);
-  assert.deepEqual([...seen].sort(), ['advertise', 'contact', 'event', 'job']);
+  assert.deepEqual([...seen].sort(), ['advertise', 'contact', 'event', 'job', 'newsletter'], 'the home hero carries a newsletter form');
   // Post a job (PostJob.dc.html, linked from Careers): its choices are the validator's lists, so nothing the
   // page offers is refused by the API.
   const postJob = readFileSync(path.join(repo, 'frontend_demo', 'PostJob.dc.html'), 'utf8');
