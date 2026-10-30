@@ -1,9 +1,9 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-10-30T00:24:53.903Z",
+  "generatedAt": "2026-10-30T06:23:58.900Z",
   "notice": "Funds.ae public data API.",
-  "buildId": "20261030002453903",
+  "buildId": "20261030062358900",
   "counts": {
     "stories": 22,
     "uae": 13,
@@ -21,7 +21,7 @@
   },
   "versions": {
     "events": "8838f19cd66b",
-    "sponsors": "43e7cfdb2b15",
+    "sponsors": "92fdc6538f68",
     "news": "00c59ca49742",
     "jobs": "ef18244b064d",
     "employers": "2841573265f2",
@@ -41,6 +41,7 @@
     "realEstate": "news/real-estate.json",
     "jobs": "jobs.json",
     "employers": "employers.json",
+    "careers": "careers.json",
     "events": "events.json",
     "sponsors": "sponsors.json",
     "content": "content.json",

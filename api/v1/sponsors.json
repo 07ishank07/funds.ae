@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-10-30T00:24:53.662Z",
+  "generatedAt": "2026-10-30T06:23:58.586Z",
   "notice": "Sponsored placements are marked and link with rel=\"sponsored\". Career resources are editorial.",
   "slots": {
     "founding": [],
@@ -17,6 +17,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -30,6 +31,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -43,6 +45,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -56,6 +59,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -69,6 +73,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       }
     ],
@@ -84,6 +89,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -97,6 +103,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -110,6 +117,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -123,6 +131,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -136,6 +145,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -149,6 +159,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -162,6 +173,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -175,6 +187,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -188,6 +201,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -201,6 +215,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       }
     ],
@@ -216,6 +231,7 @@
         "image": null,
         "colorFrom": "#1F6A6E",
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -229,6 +245,7 @@
         "image": null,
         "colorFrom": "#1F6A6E",
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -242,6 +259,7 @@
         "image": null,
         "colorFrom": "#1F6A6E",
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -255,6 +273,7 @@
         "image": null,
         "colorFrom": "#1F6A6E",
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -268,6 +287,7 @@
         "image": null,
         "colorFrom": "#1F6A6E",
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -281,6 +301,7 @@
         "image": null,
         "colorFrom": "#1F6A6E",
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -294,6 +315,7 @@
         "image": null,
         "colorFrom": "#1F6A6E",
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -307,6 +329,7 @@
         "image": null,
         "colorFrom": "#1F6A6E",
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -320,6 +343,7 @@
         "image": null,
         "colorFrom": "#1F6A6E",
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -333,6 +357,7 @@
         "image": null,
         "colorFrom": "#1F6A6E",
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -346,6 +371,7 @@
         "image": null,
         "colorFrom": "#1F6A6E",
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -359,6 +385,7 @@
         "image": null,
         "colorFrom": "#1F6A6E",
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -372,6 +399,7 @@
         "image": null,
         "colorFrom": "#1F6A6E",
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -385,6 +413,7 @@
         "image": null,
         "colorFrom": "#1F6A6E",
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -398,6 +427,7 @@
         "image": null,
         "colorFrom": "#1F6A6E",
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -411,6 +441,7 @@
         "image": null,
         "colorFrom": "#1F6A6E",
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -424,6 +455,7 @@
         "image": null,
         "colorFrom": "#1F6A6E",
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -437,6 +469,7 @@
         "image": null,
         "colorFrom": "#1F6A6E",
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -450,6 +483,7 @@
         "image": null,
         "colorFrom": "#1F6A6E",
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -463,6 +497,7 @@
         "image": null,
         "colorFrom": "#1F6A6E",
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       }
     ],
@@ -478,6 +513,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -491,6 +527,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -504,6 +541,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -517,6 +555,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -530,6 +569,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -543,6 +583,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -556,6 +597,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -569,6 +611,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -582,6 +625,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -595,6 +639,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -608,6 +653,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -621,6 +667,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -634,6 +681,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -647,6 +695,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -660,6 +709,7 @@
         "image": null,
         "colorFrom": null,
         "colorTo": null,
+        "resourceType": null,
         "sponsored": true
       }
     ],
@@ -675,6 +725,7 @@
         "image": null,
         "colorFrom": "#0E3A43",
         "colorTo": "#4FB3B8",
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -688,6 +739,7 @@
         "image": null,
         "colorFrom": "#B58B52",
         "colorTo": "#6B4E32",
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -701,6 +753,7 @@
         "image": null,
         "colorFrom": "#7F9A97",
         "colorTo": "#164B55",
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -714,6 +767,7 @@
         "image": null,
         "colorFrom": "#C9A9A0",
         "colorTo": "#874E4B",
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -727,6 +781,7 @@
         "image": null,
         "colorFrom": "#6F8E8D",
         "colorTo": "#2B6A74",
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -740,6 +795,7 @@
         "image": null,
         "colorFrom": "#4F8A8B",
         "colorTo": "#1C5965",
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -753,6 +809,7 @@
         "image": null,
         "colorFrom": "#31556D",
         "colorTo": "#8BA9C1",
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -766,6 +823,7 @@
         "image": null,
         "colorFrom": "#5B4675",
         "colorTo": "#B4A4C9",
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -779,6 +837,7 @@
         "image": null,
         "colorFrom": "#416C56",
         "colorTo": "#9EB9A5",
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -792,6 +851,7 @@
         "image": null,
         "colorFrom": "#8A6330",
         "colorTo": "#D3B46A",
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -805,6 +865,7 @@
         "image": null,
         "colorFrom": "#134A50",
         "colorTo": "#2F8A8C",
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -818,6 +879,7 @@
         "image": null,
         "colorFrom": "#874E4B",
         "colorTo": "#C6A59B",
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -831,6 +893,7 @@
         "image": null,
         "colorFrom": "#1F5560",
         "colorTo": "#4FB3B8",
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -844,6 +907,7 @@
         "image": null,
         "colorFrom": "#31556D",
         "colorTo": "#6F8E8D",
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -857,6 +921,7 @@
         "image": null,
         "colorFrom": "#8A6330",
         "colorTo": "#B58B52",
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -870,6 +935,7 @@
         "image": null,
         "colorFrom": "#31556D",
         "colorTo": "#8BA9C1",
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -883,6 +949,7 @@
         "image": null,
         "colorFrom": "#416C56",
         "colorTo": "#9EB9A5",
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -896,6 +963,7 @@
         "image": null,
         "colorFrom": "#5B4675",
         "colorTo": "#B4A4C9",
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -909,6 +977,7 @@
         "image": null,
         "colorFrom": "#8A6330",
         "colorTo": "#D3B46A",
+        "resourceType": null,
         "sponsored": true
       },
       {
@@ -922,9 +991,11 @@
         "image": null,
         "colorFrom": "#874E4B",
         "colorTo": "#C6A59B",
+        "resourceType": null,
         "sponsored": true
       }
     ],
+    "eliteExclusive": [],
     "careerResources": [
       {
         "id": "licensing-guide",
@@ -937,6 +1008,7 @@
         "image": null,
         "colorFrom": "#0E3A43",
         "colorTo": "#4FB3B8",
+        "resourceType": null,
         "sponsored": false
       },
       {
@@ -950,6 +1022,7 @@
         "image": null,
         "colorFrom": "#B58B52",
         "colorTo": "#6B4E32",
+        "resourceType": null,
         "sponsored": false
       },
       {
@@ -963,6 +1036,7 @@
         "image": null,
         "colorFrom": "#7F9A97",
         "colorTo": "#164B55",
+        "resourceType": null,
         "sponsored": false
       },
       {
@@ -976,6 +1050,7 @@
         "image": null,
         "colorFrom": "#C9A9A0",
         "colorTo": "#874E4B",
+        "resourceType": null,
         "sponsored": false
       },
       {
@@ -989,6 +1064,7 @@
         "image": null,
         "colorFrom": "#6F8E8D",
         "colorTo": "#2B6A74",
+        "resourceType": null,
         "sponsored": false
       },
       {
@@ -1002,6 +1078,7 @@
         "image": null,
         "colorFrom": "#4F8A8B",
         "colorTo": "#1C5965",
+        "resourceType": null,
         "sponsored": false
       },
       {
@@ -1015,6 +1092,7 @@
         "image": null,
         "colorFrom": "#D3B46A",
         "colorTo": "#8A6330",
+        "resourceType": null,
         "sponsored": false
       },
       {
@@ -1028,6 +1106,7 @@
         "image": null,
         "colorFrom": "#9EB9A5",
         "colorTo": "#416C56",
+        "resourceType": null,
         "sponsored": false
       },
       {
@@ -1041,6 +1120,7 @@
         "image": null,
         "colorFrom": "#B4A4C9",
         "colorTo": "#5B4675",
+        "resourceType": null,
         "sponsored": false
       },
       {
@@ -1054,6 +1134,7 @@
         "image": null,
         "colorFrom": "#C6A59B",
         "colorTo": "#794C47",
+        "resourceType": null,
         "sponsored": false
       },
       {
@@ -1067,6 +1148,7 @@
         "image": null,
         "colorFrom": "#8BA9C1",
         "colorTo": "#31556D",
+        "resourceType": null,
         "sponsored": false
       }
     ]
