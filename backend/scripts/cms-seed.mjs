@@ -246,8 +246,8 @@ export function sourceDocs(sourcesConfig) {
 }
 
 /**
- * Everything the News Review Queue needs to start in the Studio: the source registry, both category
- * systems and the aggregator's three fixed documents. Import it with --missing, which adds these
+ * Everything the News Review Queue and Careers need to start in the Studio: the source registry, both category
+ * systems, the aggregator's three fixed documents and the (empty) Top Employers / Top Jobs document. Import it with --missing, which adds these
  * documents and never replaces anything already there.
  */
 export function buildNewsSeed({ root = REPO_ROOT } = {}) {
@@ -257,7 +257,8 @@ export function buildNewsSeed({ root = REPO_ROOT } = {}) {
     ...taxonomyDocs(read('backend/config/news-taxonomy.json')),
     { _id: 'newsAggregator', _type: 'newsAggregator', help: 'Sources are fetched once a day at 9:00 am Sydney time. Press "Fetch News Now" (bottom right) to fetch them now; new stories arrive in Pending review within a few minutes.' },
     { _id: 'newsAggregatorState', _type: 'newsAggregatorState', sources: [] },
-    { _id: 'newsPublishSignal', _type: 'newsPublishSignal' }
+    { _id: 'newsPublishSignal', _type: 'newsPublishSignal' },
+    { _id: 'careersPage', _type: 'careersPage', topEmployers: [], topJobs: [] }
   ];
 }
 
@@ -280,6 +281,6 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   const newsOut = path.join(REPO_ROOT, 'studio', 'seed', 'fundsae-news-seed.ndjson');
   writeFileSync(newsOut, news.map((d) => JSON.stringify(d)).join('\n') + '\n', 'utf8');
   const n = (type) => news.filter((d) => d._type === type).length;
-  console.log(`Wrote ${path.relative(REPO_ROOT, newsOut)}: ${n('newsSource')} news sources, ${n('capitalType')} Capital Types, ${n('assetClass')} Asset Classes, 3 aggregator documents.`);
+  console.log(`Wrote ${path.relative(REPO_ROOT, newsOut)}: ${n('newsSource')} news sources, ${n('capitalType')} Capital Types, ${n('assetClass')} Asset Classes, 3 aggregator documents, the Careers Top lists.`);
   console.log('Add it without replacing anything:  cd studio && npx sanity datasets import seed/fundsae-news-seed.ndjson production --missing');
 }

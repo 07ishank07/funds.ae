@@ -1,4 +1,5 @@
-// funds.ae content studio. Editors review news in the News Review Queue and manage news
+// funds.ae content studio. Editors review news in the News Review Queue, review and publish jobs in
+// Careers (posted jobs, employers, Top Employers and Top Jobs), and manage news
 // sources, Capital Types, Asset Classes, sponsors, events, the Top Tweets box, Advertise
 // packages and the About/Privacy/Terms copy here. Publishing triggers the "Publish content"
 // GitHub Action, which validates everything again and updates the site.
@@ -10,12 +11,13 @@ import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes/index.js'
 import {pageTemplates, sponsorTemplates, structure} from './structure.js'
 import {FetchNewsNowAction, newsWorkflowActions, withNewsSave} from './actions/newsActions.jsx'
+import {jobWorkflowActions, withJobSave} from './actions/jobActions.jsx'
 
 const projectId = process.env.SANITY_STUDIO_PROJECT_ID
 const dataset = process.env.SANITY_STUDIO_DATASET || 'production'
-const SINGLETON_TYPES = new Set(['page'])
-// Created by the importer or the seed, never from the "create" menu.
-const NO_CREATE_TYPES = new Set(['newsArticle', 'newsAggregator', 'newsAggregatorState', 'newsPublishSignal'])
+const SINGLETON_TYPES = new Set(['page', 'careersPage'])
+// Created by the importer, the submissions server or the seed, never from the "create" menu.
+const NO_CREATE_TYPES = new Set(['newsArticle', 'newsAggregator', 'newsAggregatorState', 'newsPublishSignal', 'careersPage'])
 // Written only by the importer or by the workflow actions.
 const READ_ONLY_TYPES = new Set(['newsAggregatorState', 'newsPublishSignal'])
 
@@ -54,6 +56,13 @@ export default defineConfig({
         const discard = previous.find(({action}) => action === 'discardChanges')
         return [publish && withNewsSave(publish), ...newsWorkflowActions, discard].filter(Boolean)
       }
+      // Jobs: "Save changes" (guarded), the job workflow actions, "Discard changes" and Delete.
+      if (schemaType === 'jobPosting') {
+        const publish = previous.find(({action}) => action === 'publish')
+        const keep = previous.filter(({action}) => action === 'discardChanges' || action === 'delete')
+        return [publish && withJobSave(publish), ...jobWorkflowActions, ...keep].filter(Boolean)
+      }
+      if (schemaType === 'careersPage') return previous.filter(({action}) => !['duplicate', 'delete', 'unpublish'].includes(action))
       if (schemaType === 'newsAggregator') return [FetchNewsNowAction]
       if (READ_ONLY_TYPES.has(schemaType)) return []
       return SINGLETON_TYPES.has(schemaType) ? previous.filter(({action}) => action !== 'duplicate') : previous

@@ -5,6 +5,7 @@
 import {defineField, defineType} from 'sanity'
 import {SPONSOR_SLOTS} from './rules.js'
 import {hexRule, httpsRule, idRule, imageRule, maxPerGroup, textRule, websiteRule} from './validators.js'
+import {CAREER_RESOURCE_TYPES} from './jobRules.js'
 
 const LABELS = {
   title: 'Name or headline',
@@ -91,6 +92,14 @@ export const sponsorItem = defineType({
       validation: (rule) => rule.integer().min(0).max(999),
     }),
     textField('title'),
+    defineField({
+      name: 'resourceType',
+      title: 'Kind of resource',
+      type: 'string',
+      description: 'Shown as a small label on the Careers page.',
+      options: {list: CAREER_RESOURCE_TYPES.map((value) => ({value, title: value})), layout: 'radio'},
+      hidden: ({document}) => document?.slot !== 'careerResources',
+    }),
     textField('blurb'),
     textField('label'),
     textField('logoText'),

@@ -23,11 +23,11 @@ async function sourceLicense(client, doc) {
   return ref ? client.fetch('*[_id == $ref][0].licenseStatus', {ref}) : undefined
 }
 
-function signal(client, action) {
+export function signal(client, action) {
   return client.createOrReplace({_id: SIGNAL_ID, _type: 'newsPublishSignal', changedAt: new Date().toISOString(), action})
 }
 
-function reasonsDialog(header, reasons, onClose) {
+export function reasonsDialog(header, reasons, onClose) {
   return {
     type: 'dialog',
     header,

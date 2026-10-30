@@ -70,6 +70,33 @@ const newsSettings = (S) =>
         ]),
     )
 
+const JOB = '_type == "jobPosting"'
+/** One Careers list: jobs with a status. New jobs can be added from here (they start as Pending review). */
+const jobList = (S, id, title, filter, ordering = [{field: '_createdAt', direction: 'desc'}]) =>
+  S.listItem()
+    .id(id)
+    .title(title)
+    .child(S.documentTypeList('jobPosting').title(title).filter(`${JOB} && ${filter}`).defaultOrdering(ordering))
+
+const careers = (S) =>
+  S.listItem()
+    .id('careers')
+    .title('Careers')
+    .child(
+      S.list()
+        .title('Careers')
+        .items([
+          jobList(S, 'jobs-pending', 'Jobs: pending review', '(status == "pending_review" || !defined(status))'),
+          jobList(S, 'jobs-published', 'Jobs: published', 'status == "published"', [{field: 'publishedAt', direction: 'desc'}]),
+          jobList(S, 'jobs-rejected', 'Jobs: rejected', 'status == "rejected"'),
+          jobList(S, 'jobs-archived', 'Jobs: archived', 'status == "archived"'),
+          jobList(S, 'jobs-all', 'All jobs', 'true'),
+          S.divider(),
+          S.listItem().id('employers').title('Employers').child(S.documentTypeList('employer').title('Employers').defaultOrdering([{field: 'name', direction: 'asc'}])),
+          S.listItem().id('careers-top').title('Top Employers and Top Jobs').child(S.document().schemaType('careersPage').documentId('careersPage')),
+        ]),
+    )
+
 /** "New document" templates that pre-fill a sponsor's slot. */
 export const sponsorTemplates = Object.keys(SPONSOR_SLOTS).map((slot) => ({
   id: `sponsorItem-${slot}`,
@@ -84,6 +111,7 @@ export const structure = (S) =>
     .items([
       newsQueue(S),
       newsSettings(S),
+      careers(S),
       S.divider(),
       S.listItem()
         .title('Sponsors')
