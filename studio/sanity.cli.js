@@ -8,6 +8,8 @@ export default defineCliConfig({
   // `npm run deploy` publishes the Studio to https://<studioHost>.sanity.studio
   studioHost: process.env.SANITY_STUDIO_HOST || undefined,
   deployment: {
+    // The hosted Studio's application id, so `npm run deploy` updates it without asking.
+    appId: 'oyhtbuf5xuhgpu316e0xgomt',
     autoUpdates: false,
   },
   // The Studio needs no PostCSS. Setting it inline stops Vite searching parent folders,
