@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-10-27T08:44:45.954Z",
+  "generatedAt": "2026-10-30T09:43:32.761Z",
   "notice": "Employers are derived from the open roles listed on Funds.ae.",
   "count": 20,
   "items": [
@@ -10,140 +10,200 @@
       "name": "Emirates Private Credit (demo)",
       "initials": "EP",
       "openJobs": 1,
-      "featured": true
+      "featured": true,
+      "logoUrl": null,
+      "description": null,
+      "website": null
     },
     {
       "id": "emp_44cd123125645764",
       "name": "Gulf Horizon Asset Management (demo)",
       "initials": "GH",
       "openJobs": 1,
-      "featured": true
+      "featured": true,
+      "logoUrl": null,
+      "description": null,
+      "website": null
     },
     {
       "id": "emp_b0a8a2e3895137ef",
       "name": "Harbourline Group",
       "initials": "HG",
       "openJobs": 2,
-      "featured": false
+      "featured": false,
+      "logoUrl": null,
+      "description": null,
+      "website": null
     },
     {
       "id": "emp_9142e7d4b96b201c",
       "name": "Sandline Ventures",
       "initials": "SV",
       "openJobs": 2,
-      "featured": false
+      "featured": false,
+      "logoUrl": null,
+      "description": null,
+      "website": null
     },
     {
       "id": "emp_ec64013710ac32d4",
       "name": "Al Noor Investments (demo)",
       "initials": "AN",
       "openJobs": 1,
-      "featured": false
+      "featured": false,
+      "logoUrl": null,
+      "description": null,
+      "website": null
     },
     {
       "id": "emp_3eaf12fb39625abe",
       "name": "Atlas Fund Administration (demo)",
       "initials": "AF",
       "openJobs": 1,
-      "featured": false
+      "featured": false,
+      "logoUrl": null,
+      "description": null,
+      "website": null
     },
     {
       "id": "emp_f975adca587a8ab8",
       "name": "Crescent Capital Partners (demo)",
       "initials": "CC",
       "openJobs": 1,
-      "featured": false
+      "featured": false,
+      "logoUrl": null,
+      "description": null,
+      "website": null
     },
     {
       "id": "emp_365cb94e3e73d240",
       "name": "Crescent Peak Partners",
       "initials": "CP",
       "openJobs": 1,
-      "featured": false
+      "featured": false,
+      "logoUrl": null,
+      "description": null,
+      "website": null
     },
     {
       "id": "emp_0c77979b994a7b8f",
       "name": "Desert Seed Ventures (demo)",
       "initials": "DS",
       "openJobs": 1,
-      "featured": false
+      "featured": false,
+      "logoUrl": null,
+      "description": null,
+      "website": null
     },
     {
       "id": "emp_7d4bc3a93267084e",
       "name": "Falcon Ridge Capital",
       "initials": "FR",
       "openJobs": 1,
-      "featured": false
+      "featured": false,
+      "logoUrl": null,
+      "description": null,
+      "website": null
     },
     {
       "id": "emp_bcca02ba4d119647",
       "name": "Harborstone Financial (demo)",
       "initials": "HF",
       "openJobs": 1,
-      "featured": false
+      "featured": false,
+      "logoUrl": null,
+      "description": null,
+      "website": null
     },
     {
       "id": "emp_c5ae24a23f21c8c0",
       "name": "Lighthouse Asset Partners (demo)",
       "initials": "LA",
       "openJobs": 1,
-      "featured": false
+      "featured": false,
+      "logoUrl": null,
+      "description": null,
+      "website": null
     },
     {
       "id": "emp_2b8bbc4188c553cb",
       "name": "Marhaba Holdings (demo)",
       "initials": "MH",
       "openJobs": 1,
-      "featured": false
+      "featured": false,
+      "logoUrl": null,
+      "description": null,
+      "website": null
     },
     {
       "id": "emp_cfbfd1f7de5eab7c",
       "name": "Meydan Legal (demo)",
       "initials": "ML",
       "openJobs": 1,
-      "featured": false
+      "featured": false,
+      "logoUrl": null,
+      "description": null,
+      "website": null
     },
     {
       "id": "emp_f85595c6cc777c36",
       "name": "Mosaic Fund Services (demo)",
       "initials": "MF",
       "openJobs": 1,
-      "featured": false
+      "featured": false,
+      "logoUrl": null,
+      "description": null,
+      "website": null
     },
     {
       "id": "emp_42deac7475bb3891",
       "name": "Oasis Private Bank (demo)",
       "initials": "OP",
       "openJobs": 1,
-      "featured": false
+      "featured": false,
+      "logoUrl": null,
+      "description": null,
+      "website": null
     },
     {
       "id": "emp_d753612008f91055",
       "name": "Palm Gate Fund Administration",
       "initials": "PG",
       "openJobs": 1,
-      "featured": false
+      "featured": false,
+      "logoUrl": null,
+      "description": null,
+      "website": null
     },
     {
       "id": "emp_be950ac478f7703f",
       "name": "Qirsh",
       "initials": "QI",
       "openJobs": 1,
-      "featured": false
+      "featured": false,
+      "logoUrl": null,
+      "description": null,
+      "website": null
     },
     {
       "id": "emp_08abd55fa091bd63",
       "name": "Sahra Wealth (demo)",
       "initials": "SW",
       "openJobs": 1,
-      "featured": false
+      "featured": false,
+      "logoUrl": null,
+      "description": null,
+      "website": null
     },
     {
       "id": "emp_a1774852cad63c48",
       "name": "Vertex Alpha (demo)",
       "initials": "VA",
       "openJobs": 1,
-      "featured": false
+      "featured": false,
+      "logoUrl": null,
+      "description": null,
+      "website": null
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-10-30T06:23:58.900Z",
+  "generatedAt": "2026-10-30T09:43:32.761Z",
   "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
   "label": "Real Estate Capital News",
   "count": 8,
@@ -13,8 +13,8 @@
       "url": "https://example.com/property-sme-wire/sandhaven-build-to-rent-fund",
       "source": "Demo Property and SME Wire",
       "sourceId": "demo-property-sme-wire",
-      "publishedAt": "2026-10-27T03:44:45.000Z",
-      "updatedAt": "2026-10-27T03:44:45.000Z",
+      "publishedAt": "2026-10-30T04:43:32.000Z",
+      "updatedAt": "2026-10-30T04:43:32.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -34,7 +34,7 @@
           "sourceId": "demo-property-sme-wire",
           "title": "Dubai developer Sandhaven launches AED 500m real estate fund for build-to-rent homes",
           "url": "https://example.com/property-sme-wire/sandhaven-build-to-rent-fund",
-          "publishedAt": "2026-10-27T03:44:45.000Z"
+          "publishedAt": "2026-10-30T04:43:32.000Z"
         }
       ],
       "slug": "dubai-developer-sandhaven-launches-aed-500m-real-estate-fund-for-build-to-rent-9ee4",
@@ -61,7 +61,7 @@
         "label": "Fund launch"
       },
       "featured": false,
-      "liveAt": "2026-10-27T08:44:45.954Z"
+      "liveAt": "2026-10-30T09:43:32.761Z"
     },
     {
       "id": "s_1ec502cf2475e3",
@@ -70,8 +70,8 @@
       "url": "https://example.com/private-capital-daily/northlight-1bn-round",
       "source": "Demo Private Capital Daily",
       "sourceId": "demo-private-capital-daily",
-      "publishedAt": "2026-10-26T12:44:45.954Z",
-      "updatedAt": "2026-10-26T12:44:45.954Z",
+      "publishedAt": "2026-10-29T13:43:32.761Z",
+      "updatedAt": "2026-10-29T13:43:32.761Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -92,7 +92,7 @@
           "sourceId": "demo-private-capital-daily",
           "title": "Gulf sovereign investors join $1bn round for London AI infrastructure firm Northlight",
           "url": "https://example.com/private-capital-daily/northlight-1bn-round",
-          "publishedAt": "2026-10-26T12:44:45.954Z"
+          "publishedAt": "2026-10-29T13:43:32.761Z"
         }
       ],
       "slug": "gulf-sovereign-investors-join-1bn-round-for-london-ai-infrastructure-firm-845e",
@@ -123,7 +123,7 @@
         "label": "Capital raising"
       },
       "featured": false,
-      "liveAt": "2026-10-27T08:44:45.954Z"
+      "liveAt": "2026-10-30T09:43:32.761Z"
     },
     {
       "id": "s_46c15c6bee49f5",
@@ -132,8 +132,8 @@
       "url": "https://example.com/property-sme-wire/tidewell-reit-logistics",
       "source": "Demo Property and SME Wire",
       "sourceId": "demo-property-sme-wire",
-      "publishedAt": "2026-10-26T12:44:45.000Z",
-      "updatedAt": "2026-10-26T12:44:45.000Z",
+      "publishedAt": "2026-10-29T13:43:32.000Z",
+      "updatedAt": "2026-10-29T13:43:32.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -154,7 +154,7 @@
           "sourceId": "demo-property-sme-wire",
           "title": "Tidewell REIT raises AED 300m to buy logistics warehouses in Abu Dhabi",
           "url": "https://example.com/property-sme-wire/tidewell-reit-logistics",
-          "publishedAt": "2026-10-26T12:44:45.000Z"
+          "publishedAt": "2026-10-29T13:43:32.000Z"
         }
       ],
       "slug": "tidewell-reit-raises-aed-300m-to-buy-logistics-warehouses-in-abu-dhabi-28b8",
@@ -181,7 +181,7 @@
         "label": "Capital raising"
       },
       "featured": true,
-      "liveAt": "2026-10-27T08:44:45.954Z"
+      "liveAt": "2026-10-30T09:43:32.761Z"
     },
     {
       "id": "s_a42cf20de9d2eb",
@@ -190,8 +190,8 @@
       "url": "https://example.com/property-sme-wire/brindlecourt-data-centre-fund",
       "source": "Demo Property and SME Wire",
       "sourceId": "demo-property-sme-wire",
-      "publishedAt": "2026-10-25T23:44:45.000Z",
-      "updatedAt": "2026-10-25T23:44:45.000Z",
+      "publishedAt": "2026-10-29T00:43:32.000Z",
+      "updatedAt": "2026-10-29T00:43:32.000Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -212,7 +212,7 @@
           "sourceId": "demo-property-sme-wire",
           "title": "Brindlecourt Infrastructure closes €1.2bn infrastructure fund for European data centres",
           "url": "https://example.com/property-sme-wire/brindlecourt-data-centre-fund",
-          "publishedAt": "2026-10-25T23:44:45.000Z"
+          "publishedAt": "2026-10-29T00:43:32.000Z"
         }
       ],
       "slug": "brindlecourt-infrastructure-closes-1-2bn-infrastructure-fund-for-european-data-58ca",
@@ -243,7 +243,7 @@
         "label": "Fund close"
       },
       "featured": true,
-      "liveAt": "2026-10-27T08:44:45.954Z"
+      "liveAt": "2026-10-30T09:43:32.761Z"
     },
     {
       "id": "s_89280b2a65569b",
@@ -252,8 +252,8 @@
       "url": "https://example.com/emirates-markets/harbourline-takeover",
       "source": "Demo Emirates Markets",
       "sourceId": "demo-emirates-markets",
-      "publishedAt": "2026-10-25T07:44:45.000Z",
-      "updatedAt": "2026-10-25T07:44:45.000Z",
+      "publishedAt": "2026-10-28T08:43:32.000Z",
+      "updatedAt": "2026-10-28T08:43:32.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -273,7 +273,7 @@
           "sourceId": "demo-emirates-markets",
           "title": "Abu Dhabi logistics group Harbourline agrees $1.2bn takeover of Omani port operator",
           "url": "https://example.com/emirates-markets/harbourline-takeover",
-          "publishedAt": "2026-10-25T07:44:45.000Z"
+          "publishedAt": "2026-10-28T08:43:32.000Z"
         }
       ],
       "slug": "abu-dhabi-logistics-group-harbourline-agrees-1-2bn-takeover-of-omani-port-a615",
@@ -304,7 +304,7 @@
         "label": "Merger or corporate M&A"
       },
       "featured": false,
-      "liveAt": "2026-10-27T08:44:45.954Z"
+      "liveAt": "2026-10-30T09:43:32.761Z"
     },
     {
       "id": "s_50a38aa499d7a1",
@@ -313,8 +313,8 @@
       "url": "https://example.com/property-sme-wire/sharjah-infrastructure-fund-solar",
       "source": "Demo Property and SME Wire",
       "sourceId": "demo-property-sme-wire",
-      "publishedAt": "2026-10-25T04:44:45.000Z",
-      "updatedAt": "2026-10-25T04:44:45.000Z",
+      "publishedAt": "2026-10-28T05:43:32.000Z",
+      "updatedAt": "2026-10-28T05:43:32.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -334,7 +334,7 @@
           "sourceId": "demo-property-sme-wire",
           "title": "Sharjah infrastructure fund backs new solar and water projects",
           "url": "https://example.com/property-sme-wire/sharjah-infrastructure-fund-solar",
-          "publishedAt": "2026-10-25T04:44:45.000Z"
+          "publishedAt": "2026-10-28T05:43:32.000Z"
         }
       ],
       "slug": "sharjah-infrastructure-fund-backs-new-solar-and-water-projects-58e9",
@@ -361,7 +361,7 @@
         "label": "Investment"
       },
       "featured": false,
-      "liveAt": "2026-10-27T08:44:45.954Z"
+      "liveAt": "2026-10-30T09:43:32.761Z"
     },
     {
       "id": "s_f6a599b474b486",
@@ -370,8 +370,8 @@
       "url": "https://example.com/private-capital-daily/pensions-infrastructure-debt",
       "source": "Demo Private Capital Daily",
       "sourceId": "demo-private-capital-daily",
-      "publishedAt": "2026-10-24T08:44:45.954Z",
-      "updatedAt": "2026-10-24T08:44:45.954Z",
+      "publishedAt": "2026-10-27T09:43:32.761Z",
+      "updatedAt": "2026-10-27T09:43:32.761Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -392,7 +392,7 @@
           "sourceId": "demo-private-capital-daily",
           "title": "Pension funds lift allocations to infrastructure debt",
           "url": "https://example.com/private-capital-daily/pensions-infrastructure-debt",
-          "publishedAt": "2026-10-24T08:44:45.954Z"
+          "publishedAt": "2026-10-27T09:43:32.761Z"
         }
       ],
       "slug": "pension-funds-lift-allocations-to-infrastructure-debt-abbf",
@@ -423,7 +423,7 @@
         "label": "Institutional allocation"
       },
       "featured": false,
-      "liveAt": "2026-10-27T08:44:45.954Z"
+      "liveAt": "2026-10-30T09:43:32.761Z"
     },
     {
       "id": "s_c8d19186907ab1",
@@ -432,8 +432,8 @@
       "url": "https://example.com/property-sme-wire/wexmoor-student-housing",
       "source": "Demo Property and SME Wire",
       "sourceId": "demo-property-sme-wire",
-      "publishedAt": "2026-10-23T02:44:45.000Z",
-      "updatedAt": "2026-10-23T02:44:45.000Z",
+      "publishedAt": "2026-10-26T03:43:32.000Z",
+      "updatedAt": "2026-10-26T03:43:32.000Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -454,7 +454,7 @@
           "sourceId": "demo-property-sme-wire",
           "title": "London property fund Wexmoor raises £400m for student housing",
           "url": "https://example.com/property-sme-wire/wexmoor-student-housing",
-          "publishedAt": "2026-10-23T02:44:45.000Z"
+          "publishedAt": "2026-10-26T03:43:32.000Z"
         }
       ],
       "slug": "london-property-fund-wexmoor-raises-400m-for-student-housing-1cf9",
@@ -481,7 +481,7 @@
         "label": "Capital raising"
       },
       "featured": false,
-      "liveAt": "2026-10-27T08:44:45.954Z"
+      "liveAt": "2026-10-30T09:43:32.761Z"
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-10-30T06:23:58.900Z",
+  "generatedAt": "2026-10-30T09:43:32.761Z",
   "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
   "topic": "commercial-real-estate",
   "label": "Commercial real estate",
@@ -14,8 +14,8 @@
       "url": "https://example.com/property-sme-wire/tidewell-reit-logistics",
       "source": "Demo Property and SME Wire",
       "sourceId": "demo-property-sme-wire",
-      "publishedAt": "2026-10-26T12:44:45.000Z",
-      "updatedAt": "2026-10-26T12:44:45.000Z",
+      "publishedAt": "2026-10-29T13:43:32.000Z",
+      "updatedAt": "2026-10-29T13:43:32.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -36,7 +36,7 @@
           "sourceId": "demo-property-sme-wire",
           "title": "Tidewell REIT raises AED 300m to buy logistics warehouses in Abu Dhabi",
           "url": "https://example.com/property-sme-wire/tidewell-reit-logistics",
-          "publishedAt": "2026-10-26T12:44:45.000Z"
+          "publishedAt": "2026-10-29T13:43:32.000Z"
         }
       ],
       "slug": "tidewell-reit-raises-aed-300m-to-buy-logistics-warehouses-in-abu-dhabi-28b8",
@@ -63,7 +63,7 @@
         "label": "Capital raising"
       },
       "featured": true,
-      "liveAt": "2026-10-27T08:44:45.954Z"
+      "liveAt": "2026-10-30T09:43:32.761Z"
     },
     {
       "id": "s_7f39d1f83e5cfa",
@@ -72,8 +72,8 @@
       "url": "https://example.com/gulf-wire/qirsh-series-b",
       "source": "Demo Gulf Wire",
       "sourceId": "demo-gulf-wire",
-      "publishedAt": "2026-10-26T02:44:45.000Z",
-      "updatedAt": "2026-10-26T12:44:45.000Z",
+      "publishedAt": "2026-10-29T03:43:32.000Z",
+      "updatedAt": "2026-10-29T13:43:32.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -94,7 +94,7 @@
           "sourceId": "demo-gulf-wire",
           "title": "Dubai-based fintech Qirsh raises $45 million Series B led by Sandline Ventures",
           "url": "https://example.com/gulf-wire/qirsh-series-b",
-          "publishedAt": "2026-10-26T02:44:45.000Z"
+          "publishedAt": "2026-10-29T03:43:32.000Z"
         },
         {
           "articleId": "a_d0a9ae63a58b381b",
@@ -102,7 +102,7 @@
           "sourceId": "demo-emirates-markets",
           "title": "Qirsh secures $45m in Series B round as Dubai payments start-up expands to Riyadh",
           "url": "https://example.com/emirates-markets/qirsh-45m-series-b-riyadh",
-          "publishedAt": "2026-10-26T06:44:45.000Z"
+          "publishedAt": "2026-10-29T07:43:32.000Z"
         },
         {
           "articleId": "a_e72c6985fb047deb",
@@ -110,7 +110,7 @@
           "sourceId": "demo-venture-ledger",
           "title": "Qirsh lands $45 million to take buy-now-pay-later across the Gulf",
           "url": "https://example.com/venture-ledger/qirsh-45-million",
-          "publishedAt": "2026-10-26T12:44:45.000Z"
+          "publishedAt": "2026-10-29T13:43:32.000Z"
         }
       ],
       "slug": "dubai-based-fintech-qirsh-raises-45-million-series-b-led-by-sandline-ventures-47f6",
@@ -127,7 +127,7 @@
         "label": "Capital raising"
       },
       "featured": false,
-      "liveAt": "2026-10-27T08:44:45.954Z"
+      "liveAt": "2026-10-30T09:43:32.761Z"
     }
   ]
 }

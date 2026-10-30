@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-10-30T06:23:58.900Z",
+  "generatedAt": "2026-10-30T09:43:32.761Z",
   "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
   "topic": "secondaries",
   "label": "Secondaries",
@@ -14,8 +14,8 @@
       "url": "https://example.com/emirates-markets/crescent-peak-secondaries-first-close",
       "source": "Demo Emirates Markets",
       "sourceId": "demo-emirates-markets",
-      "publishedAt": "2026-10-23T05:44:45.000Z",
-      "updatedAt": "2026-10-23T05:44:45.000Z",
+      "publishedAt": "2026-10-26T06:43:32.000Z",
+      "updatedAt": "2026-10-26T06:43:32.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -36,7 +36,7 @@
           "sourceId": "demo-emirates-markets",
           "title": "ADGM-registered Crescent Peak announces first close of GCC secondaries fund",
           "url": "https://example.com/emirates-markets/crescent-peak-secondaries-first-close",
-          "publishedAt": "2026-10-23T05:44:45.000Z"
+          "publishedAt": "2026-10-26T06:43:32.000Z"
         }
       ],
       "slug": "adgm-registered-crescent-peak-announces-first-close-of-gcc-secondaries-fund-fed2",
@@ -62,7 +62,7 @@
         "label": "Fund close"
       },
       "featured": false,
-      "liveAt": "2026-10-27T08:44:45.954Z"
+      "liveAt": "2026-10-30T09:43:32.761Z"
     }
   ]
 }

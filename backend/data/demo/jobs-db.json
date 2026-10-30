@@ -1,7 +1,26 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-27T08:44:45.954Z",
+  "updatedAt": "2026-10-30T09:43:32.761Z",
   "jobs": [
+    {
+      "jobId": "j_4d03cec49bcc6367",
+      "sourceId": "manual",
+      "sourceName": "Funds.ae",
+      "externalId": "manual-oasis-private-bank-treasury",
+      "title": "Treasury Manager",
+      "company": "Oasis Private Bank (demo)",
+      "location": "ADGM, Abu Dhabi",
+      "url": "https://example.com/careers/oasis-private-bank/treasury-manager",
+      "department": "Treasury",
+      "employmentType": "Full-time",
+      "employerId": "emp_42deac7475bb3891",
+      "canonicalUrl": "https://example.com/careers/oasis-private-bank/treasury-manager",
+      "postedAt": "2026-10-29T00:00:00.000Z",
+      "expiresAt": "2027-01-28T00:00:00.000Z",
+      "status": "open",
+      "firstSeenAt": "2026-10-30T09:43:32.761Z",
+      "lastSeenAt": "2026-10-30T09:43:32.761Z"
+    },
     {
       "jobId": "j_1e3c495acede7793",
       "sourceId": "demo-qirsh",
@@ -15,10 +34,10 @@
       "employmentType": "Full-time",
       "employerId": "emp_be950ac478f7703f",
       "canonicalUrl": "https://example.com/careers/qirsh/treasury-analyst",
-      "postedAt": "2026-10-25T08:44:45.954Z",
+      "postedAt": "2026-10-28T09:43:32.761Z",
       "status": "open",
-      "firstSeenAt": "2026-10-27T08:44:45.954Z",
-      "lastSeenAt": "2026-10-27T08:44:45.954Z"
+      "firstSeenAt": "2026-10-30T09:43:32.761Z",
+      "lastSeenAt": "2026-10-30T09:43:32.761Z"
     },
     {
       "jobId": "j_34f72c28629e8784",
@@ -33,10 +52,10 @@
       "employmentType": null,
       "employerId": "emp_7d4bc3a93267084e",
       "canonicalUrl": "https://example.com/jobs/falcon-ridge-pe-associate",
-      "postedAt": "2026-10-25T08:44:45.000Z",
+      "postedAt": "2026-10-28T09:43:32.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-27T08:44:45.954Z",
-      "lastSeenAt": "2026-10-27T08:44:45.954Z"
+      "firstSeenAt": "2026-10-30T09:43:32.761Z",
+      "lastSeenAt": "2026-10-30T09:43:32.761Z"
     },
     {
       "jobId": "j_d43e9292f227c1cc",
@@ -51,10 +70,10 @@
       "employmentType": null,
       "employerId": "emp_365cb94e3e73d240",
       "canonicalUrl": "https://example.com/jobs/crescent-peak-investment-analyst",
-      "postedAt": "2026-10-24T08:44:45.000Z",
+      "postedAt": "2026-10-27T09:43:32.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-27T08:44:45.954Z",
-      "lastSeenAt": "2026-10-27T08:44:45.954Z"
+      "firstSeenAt": "2026-10-30T09:43:32.761Z",
+      "lastSeenAt": "2026-10-30T09:43:32.761Z"
     },
     {
       "jobId": "j_6e03f121144ac761",
@@ -69,10 +88,10 @@
       "employmentType": null,
       "employerId": "emp_9142e7d4b96b201c",
       "canonicalUrl": "https://example.com/careers/sandline/vc-associate",
-      "postedAt": "2026-10-23T08:44:45.954Z",
+      "postedAt": "2026-10-26T09:43:32.761Z",
       "status": "open",
-      "firstSeenAt": "2026-10-27T08:44:45.954Z",
-      "lastSeenAt": "2026-10-27T08:44:45.954Z"
+      "firstSeenAt": "2026-10-30T09:43:32.761Z",
+      "lastSeenAt": "2026-10-30T09:43:32.761Z"
     },
     {
       "jobId": "j_f5f92aa632f5f323",
@@ -87,10 +106,10 @@
       "employmentType": null,
       "employerId": "emp_d753612008f91055",
       "canonicalUrl": "https://example.com/jobs/palm-gate-fund-accountant",
-      "postedAt": "2026-10-22T08:44:45.000Z",
+      "postedAt": "2026-10-25T09:43:32.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-27T08:44:45.954Z",
-      "lastSeenAt": "2026-10-27T08:44:45.954Z"
+      "firstSeenAt": "2026-10-30T09:43:32.761Z",
+      "lastSeenAt": "2026-10-30T09:43:32.761Z"
     },
     {
       "jobId": "j_84f18ddc6e73113e",
@@ -105,10 +124,10 @@
       "employmentType": null,
       "employerId": "emp_9142e7d4b96b201c",
       "canonicalUrl": "https://example.com/careers/sandline/platform-manager",
-      "postedAt": "2026-10-21T08:44:45.954Z",
+      "postedAt": "2026-10-24T09:43:32.761Z",
       "status": "open",
-      "firstSeenAt": "2026-10-27T08:44:45.954Z",
-      "lastSeenAt": "2026-10-27T08:44:45.954Z"
+      "firstSeenAt": "2026-10-30T09:43:32.761Z",
+      "lastSeenAt": "2026-10-30T09:43:32.761Z"
     },
     {
       "jobId": "j_0d58bd1e46cd76e7",
@@ -123,47 +142,10 @@
       "employmentType": "Full-time",
       "employerId": "emp_b0a8a2e3895137ef",
       "canonicalUrl": "https://example.com/careers/harbourline/ma-manager",
-      "postedAt": "2026-10-21T08:44:45.954Z",
+      "postedAt": "2026-10-24T09:43:32.761Z",
       "status": "open",
-      "firstSeenAt": "2026-10-27T08:44:45.954Z",
-      "lastSeenAt": "2026-10-27T08:44:45.954Z"
-    },
-    {
-      "jobId": "j_9710f41b8373255f",
-      "sourceId": "demo-harbourline",
-      "sourceName": "Harbourline careers (demo)",
-      "externalId": "hb-03",
-      "title": "Financial Controller",
-      "company": "Harbourline Group",
-      "location": "Remote - UAE",
-      "url": "https://example.com/careers/harbourline/financial-controller",
-      "department": "Finance",
-      "employmentType": "Full-time",
-      "employerId": "emp_b0a8a2e3895137ef",
-      "canonicalUrl": "https://example.com/careers/harbourline/financial-controller",
-      "postedAt": "2026-10-19T08:44:45.954Z",
-      "status": "open",
-      "firstSeenAt": "2026-10-27T08:44:45.954Z",
-      "lastSeenAt": "2026-10-27T08:44:45.954Z"
-    },
-    {
-      "jobId": "j_4d03cec49bcc6367",
-      "sourceId": "manual",
-      "sourceName": "Funds.ae",
-      "externalId": "manual-oasis-private-bank-treasury",
-      "title": "Treasury Manager",
-      "company": "Oasis Private Bank (demo)",
-      "location": "ADGM, Abu Dhabi",
-      "url": "https://example.com/careers/oasis-private-bank/treasury-manager",
-      "department": "Treasury",
-      "employmentType": "Full-time",
-      "employerId": "emp_42deac7475bb3891",
-      "canonicalUrl": "https://example.com/careers/oasis-private-bank/treasury-manager",
-      "postedAt": "2026-10-01T00:00:00.000Z",
-      "expiresAt": "2026-12-31T00:00:00.000Z",
-      "status": "open",
-      "firstSeenAt": "2026-10-27T08:44:45.954Z",
-      "lastSeenAt": "2026-10-27T08:44:45.954Z"
+      "firstSeenAt": "2026-10-30T09:43:32.761Z",
+      "lastSeenAt": "2026-10-30T09:43:32.761Z"
     },
     {
       "jobId": "j_6bc4e154acca0ecd",
@@ -178,11 +160,29 @@
       "employmentType": "Full-time",
       "employerId": "emp_f975adca587a8ab8",
       "canonicalUrl": "https://example.com/careers/crescent-capital/investor-relations-manager",
-      "postedAt": "2026-09-25T00:00:00.000Z",
-      "expiresAt": "2026-12-31T00:00:00.000Z",
+      "postedAt": "2026-10-23T00:00:00.000Z",
+      "expiresAt": "2027-01-28T00:00:00.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-27T08:44:45.954Z",
-      "lastSeenAt": "2026-10-27T08:44:45.954Z"
+      "firstSeenAt": "2026-10-30T09:43:32.761Z",
+      "lastSeenAt": "2026-10-30T09:43:32.761Z"
+    },
+    {
+      "jobId": "j_9710f41b8373255f",
+      "sourceId": "demo-harbourline",
+      "sourceName": "Harbourline careers (demo)",
+      "externalId": "hb-03",
+      "title": "Financial Controller",
+      "company": "Harbourline Group",
+      "location": "Remote - UAE",
+      "url": "https://example.com/careers/harbourline/financial-controller",
+      "department": "Finance",
+      "employmentType": "Full-time",
+      "employerId": "emp_b0a8a2e3895137ef",
+      "canonicalUrl": "https://example.com/careers/harbourline/financial-controller",
+      "postedAt": "2026-10-22T09:43:32.761Z",
+      "status": "open",
+      "firstSeenAt": "2026-10-30T09:43:32.761Z",
+      "lastSeenAt": "2026-10-30T09:43:32.761Z"
     },
     {
       "jobId": "j_4a9ed67518a03fb4",
@@ -197,11 +197,11 @@
       "employmentType": "Full-time",
       "employerId": "emp_ec64013710ac32d4",
       "canonicalUrl": "https://example.com/careers/al-noor/aml-compliance-analyst",
-      "postedAt": "2026-09-24T00:00:00.000Z",
-      "expiresAt": "2026-12-31T00:00:00.000Z",
+      "postedAt": "2026-10-22T00:00:00.000Z",
+      "expiresAt": "2027-01-28T00:00:00.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-27T08:44:45.954Z",
-      "lastSeenAt": "2026-10-27T08:44:45.954Z"
+      "firstSeenAt": "2026-10-30T09:43:32.761Z",
+      "lastSeenAt": "2026-10-30T09:43:32.761Z"
     },
     {
       "jobId": "j_655cc653731a64d3",
@@ -216,11 +216,11 @@
       "employmentType": "Full-time",
       "employerId": "emp_f85595c6cc777c36",
       "canonicalUrl": "https://example.com/careers/mosaic-fund-services/fund-accountant",
-      "postedAt": "2026-09-23T00:00:00.000Z",
-      "expiresAt": "2026-12-31T00:00:00.000Z",
+      "postedAt": "2026-10-21T00:00:00.000Z",
+      "expiresAt": "2027-01-28T00:00:00.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-27T08:44:45.954Z",
-      "lastSeenAt": "2026-10-27T08:44:45.954Z"
+      "firstSeenAt": "2026-10-30T09:43:32.761Z",
+      "lastSeenAt": "2026-10-30T09:43:32.761Z"
     },
     {
       "jobId": "j_77a1b2e2ec06f25f",
@@ -235,12 +235,12 @@
       "employmentType": "Full-time",
       "employerId": "emp_44cd123125645764",
       "canonicalUrl": "https://example.com/careers/gulf-horizon/portfolio-manager",
-      "postedAt": "2026-09-22T00:00:00.000Z",
-      "expiresAt": "2026-12-31T00:00:00.000Z",
+      "postedAt": "2026-10-20T00:00:00.000Z",
+      "expiresAt": "2027-01-28T00:00:00.000Z",
       "featured": true,
       "status": "open",
-      "firstSeenAt": "2026-10-27T08:44:45.954Z",
-      "lastSeenAt": "2026-10-27T08:44:45.954Z"
+      "firstSeenAt": "2026-10-30T09:43:32.761Z",
+      "lastSeenAt": "2026-10-30T09:43:32.761Z"
     },
     {
       "jobId": "j_52d20cab0c7b3b2f",
@@ -255,11 +255,11 @@
       "employmentType": "Full-time",
       "employerId": "emp_bcca02ba4d119647",
       "canonicalUrl": "https://example.com/careers/harborstone-financial/treasury-analyst",
-      "postedAt": "2026-09-21T00:00:00.000Z",
-      "expiresAt": "2026-12-31T00:00:00.000Z",
+      "postedAt": "2026-10-19T00:00:00.000Z",
+      "expiresAt": "2027-01-28T00:00:00.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-27T08:44:45.954Z",
-      "lastSeenAt": "2026-10-27T08:44:45.954Z"
+      "firstSeenAt": "2026-10-30T09:43:32.761Z",
+      "lastSeenAt": "2026-10-30T09:43:32.761Z"
     },
     {
       "jobId": "j_dd6281a0b2a1324a",
@@ -274,11 +274,11 @@
       "employmentType": "Full-time",
       "employerId": "emp_08abd55fa091bd63",
       "canonicalUrl": "https://example.com/careers/sahra-wealth/wealth-advisor",
-      "postedAt": "2026-09-20T00:00:00.000Z",
-      "expiresAt": "2026-12-31T00:00:00.000Z",
+      "postedAt": "2026-10-18T00:00:00.000Z",
+      "expiresAt": "2027-01-28T00:00:00.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-27T08:44:45.954Z",
-      "lastSeenAt": "2026-10-27T08:44:45.954Z"
+      "firstSeenAt": "2026-10-30T09:43:32.761Z",
+      "lastSeenAt": "2026-10-30T09:43:32.761Z"
     },
     {
       "jobId": "j_93fac4a60d1df133",
@@ -293,11 +293,11 @@
       "employmentType": "Full-time",
       "employerId": "emp_0c77979b994a7b8f",
       "canonicalUrl": "https://example.com/careers/desert-seed-ventures/business-development-manager",
-      "postedAt": "2026-09-19T00:00:00.000Z",
-      "expiresAt": "2026-12-31T00:00:00.000Z",
+      "postedAt": "2026-10-17T00:00:00.000Z",
+      "expiresAt": "2027-01-28T00:00:00.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-27T08:44:45.954Z",
-      "lastSeenAt": "2026-10-27T08:44:45.954Z"
+      "firstSeenAt": "2026-10-30T09:43:32.761Z",
+      "lastSeenAt": "2026-10-30T09:43:32.761Z"
     },
     {
       "jobId": "j_68fa8bbb5ade82d2",
@@ -312,12 +312,12 @@
       "employmentType": "Full-time",
       "employerId": "emp_994ddd5d9c21a8e3",
       "canonicalUrl": "https://example.com/careers/emirates-private-credit/associate",
-      "postedAt": "2026-09-18T00:00:00.000Z",
-      "expiresAt": "2026-12-31T00:00:00.000Z",
+      "postedAt": "2026-10-16T00:00:00.000Z",
+      "expiresAt": "2027-01-28T00:00:00.000Z",
       "featured": true,
       "status": "open",
-      "firstSeenAt": "2026-10-27T08:44:45.954Z",
-      "lastSeenAt": "2026-10-27T08:44:45.954Z"
+      "firstSeenAt": "2026-10-30T09:43:32.761Z",
+      "lastSeenAt": "2026-10-30T09:43:32.761Z"
     },
     {
       "jobId": "j_0541d1957a45a7d9",
@@ -332,11 +332,11 @@
       "employmentType": "Full-time",
       "employerId": "emp_c5ae24a23f21c8c0",
       "canonicalUrl": "https://example.com/careers/lighthouse-asset-partners/client-onboarding-specialist",
-      "postedAt": "2026-09-17T00:00:00.000Z",
-      "expiresAt": "2026-12-31T00:00:00.000Z",
+      "postedAt": "2026-10-15T00:00:00.000Z",
+      "expiresAt": "2027-01-28T00:00:00.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-27T08:44:45.954Z",
-      "lastSeenAt": "2026-10-27T08:44:45.954Z"
+      "firstSeenAt": "2026-10-30T09:43:32.761Z",
+      "lastSeenAt": "2026-10-30T09:43:32.761Z"
     },
     {
       "jobId": "j_b3d269dc23f0c5f0",
@@ -351,11 +351,11 @@
       "employmentType": "Full-time",
       "employerId": "emp_3eaf12fb39625abe",
       "canonicalUrl": "https://example.com/careers/atlas-fund-administration/operations-analyst",
-      "postedAt": "2026-09-16T00:00:00.000Z",
-      "expiresAt": "2026-12-31T00:00:00.000Z",
+      "postedAt": "2026-10-14T00:00:00.000Z",
+      "expiresAt": "2027-01-28T00:00:00.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-27T08:44:45.954Z",
-      "lastSeenAt": "2026-10-27T08:44:45.954Z"
+      "firstSeenAt": "2026-10-30T09:43:32.761Z",
+      "lastSeenAt": "2026-10-30T09:43:32.761Z"
     },
     {
       "jobId": "j_ab20d7ccdcefa6cf",
@@ -370,11 +370,11 @@
       "employmentType": "Full-time",
       "employerId": "emp_2b8bbc4188c553cb",
       "canonicalUrl": "https://example.com/careers/marhaba-holdings/credit-risk-analyst",
-      "postedAt": "2026-09-15T00:00:00.000Z",
-      "expiresAt": "2026-12-31T00:00:00.000Z",
+      "postedAt": "2026-10-13T00:00:00.000Z",
+      "expiresAt": "2027-01-28T00:00:00.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-27T08:44:45.954Z",
-      "lastSeenAt": "2026-10-27T08:44:45.954Z"
+      "firstSeenAt": "2026-10-30T09:43:32.761Z",
+      "lastSeenAt": "2026-10-30T09:43:32.761Z"
     },
     {
       "jobId": "j_1dd27f51e35f8370",
@@ -389,11 +389,11 @@
       "employmentType": "Full-time",
       "employerId": "emp_a1774852cad63c48",
       "canonicalUrl": "https://example.com/careers/vertex-alpha/data-analyst",
-      "postedAt": "2026-09-14T00:00:00.000Z",
-      "expiresAt": "2026-12-31T00:00:00.000Z",
+      "postedAt": "2026-10-12T00:00:00.000Z",
+      "expiresAt": "2027-01-28T00:00:00.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-27T08:44:45.954Z",
-      "lastSeenAt": "2026-10-27T08:44:45.954Z"
+      "firstSeenAt": "2026-10-30T09:43:32.761Z",
+      "lastSeenAt": "2026-10-30T09:43:32.761Z"
     },
     {
       "jobId": "j_0f7c1d5eda3c7da9",
@@ -408,11 +408,11 @@
       "employmentType": "Full-time",
       "employerId": "emp_cfbfd1f7de5eab7c",
       "canonicalUrl": "https://example.com/careers/meydan-legal/legal-counsel-funds",
-      "postedAt": "2026-09-13T00:00:00.000Z",
-      "expiresAt": "2026-12-31T00:00:00.000Z",
+      "postedAt": "2026-10-11T00:00:00.000Z",
+      "expiresAt": "2027-01-28T00:00:00.000Z",
       "status": "open",
-      "firstSeenAt": "2026-10-27T08:44:45.954Z",
-      "lastSeenAt": "2026-10-27T08:44:45.954Z"
+      "firstSeenAt": "2026-10-30T09:43:32.761Z",
+      "lastSeenAt": "2026-10-30T09:43:32.761Z"
     }
   ]
 }

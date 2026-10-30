@@ -1,9 +1,9 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-10-30T06:23:58.900Z",
+  "generatedAt": "2026-10-30T09:43:32.761Z",
   "notice": "Funds.ae public data API.",
-  "buildId": "20261030062358900",
+  "buildId": "20261030094332761",
   "counts": {
     "stories": 22,
     "uae": 13,
@@ -13,7 +13,7 @@
     "employers": 20
   },
   "lastRun": {
-    "at": "2026-10-27T08:44:46.109Z",
+    "at": "2026-10-30T09:43:32.960Z",
     "status": "ok",
     "failedSources": 0,
     "skippedSources": 0,
@@ -22,10 +22,11 @@
   "versions": {
     "events": "8838f19cd66b",
     "sponsors": "92fdc6538f68",
-    "news": "00c59ca49742",
-    "jobs": "ef18244b064d",
-    "employers": "2841573265f2",
-    "content": "54ce6a4c9a3c"
+    "news": "58d90175403f",
+    "jobs": "f14f67ab7fac",
+    "employers": "a6561c0a69c0",
+    "content": "2550326b5d34",
+    "careers": "73289200e8db"
   },
   "capabilities": {
     "submissions": false
