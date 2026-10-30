@@ -22,6 +22,8 @@ const TYPES = {
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',
   '.webp': 'image/webp',
+  // Our own artwork (frontend_demo/img/*.svg). Served with a policy that allows no script and sandboxes the file.
+  '.svg': 'image/svg+xml',
   '.ico': 'image/x-icon',
   '.woff2': 'font/woff2',
   '.txt': 'text/plain; charset=utf-8'
@@ -106,6 +108,7 @@ export function serveStatic(req, res, app, pathname) {
     headers['Content-Security-Policy'] = app.pageCsp;
     headers['X-Frame-Options'] = 'SAMEORIGIN';
   }
+  if (ext === '.svg') headers['Content-Security-Policy'] = "default-src 'none'; style-src 'unsafe-inline'; sandbox";
   if (req.headers['if-none-match'] === etag) {
     res.writeHead(304, headers);
     res.end();

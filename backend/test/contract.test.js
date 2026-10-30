@@ -184,12 +184,14 @@ test('every page but Careers and the home page shows the same Elite Founding Spo
     if (file !== 'this.html') assert.ok(html.includes('data-fundsae-slot="sponsor-founding"'), `${file}: banner slot`);
   }
   const home = read('this.html');
-  // Home: a hero banner (after ramp.com) in place of the Elite Founding Sponsor banner, with a real newsletter form.
+  // Home: a hero banner (headline and an original illustration, no form or links) in place of the Elite Founding Sponsor banner.
   assert.ok(!home.includes('fx-founding') && !home.includes('Your firm here'), 'no Elite Founding Sponsor banner on the home page');
-  for (const s of ['<h1 id="fx-hero-title">Know where the capital is moving.</h1>', '<form class="fx-hero-form" method="post" data-fundsae-form="newsletter">',
-    'name="email" required', '<input type="hidden" name="placement" value="home">', 'name="website" tabindex="-1"', "(document.querySelector('.fx-hero') || mainColumns).before(bar)"]) {
+  for (const s of ['<h1 id="fx-hero-title">Know where the <span>capital</span> is moving.</h1>', '<img src="img/hero-skyline.svg" alt="',
+    "(document.querySelector('.fx-hero') || mainColumns).before(bar)"]) {
     assert.ok(home.includes(s), `hero: ${s}`);
   }
+  assert.ok(!home.includes('fx-hero-form') && !home.includes('fx-hero-links'), 'the hero has no form or links');
+  assert.ok(existsSync(path.join(repo, 'frontend_demo', 'img', 'hero-skyline.svg')), 'the hero illustration is in the repository');
   // Home news tabs: the page script and the connector agree on the names; Global Stories is the world category.
   const connector = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
   assert.ok(home.includes("const REGION_NAMES = ['News', 'Global'];") && home.includes("Global: 'Global Stories'"), 'home tabs are UAE Stories and Global Stories');
@@ -333,7 +335,7 @@ test('every website form posts only field names the API accepts', () => {
   const home = readFileSync(path.join(repo, 'frontend_demo', 'this.html'), 'utf8');
   assert.match(home, /data-fundsae-form', 'newsletter'/);
   for (const n of ["input.name = 'email'", "placement.name = 'placement'", "trapInput.name = 'website'"]) assert.ok(home.includes(n), n);
-  assert.deepEqual([...seen].sort(), ['advertise', 'contact', 'event', 'job', 'newsletter'], 'the home hero carries a newsletter form');
+  assert.deepEqual([...seen].sort(), ['advertise', 'contact', 'event', 'job']);
   // Post a job (PostJob.dc.html, linked from Careers): its choices are the validator's lists, so nothing the
   // page offers is refused by the API.
   const postJob = readFileSync(path.join(repo, 'frontend_demo', 'PostJob.dc.html'), 'utf8');

@@ -365,3 +365,11 @@ test('the Sanity job sink sends exactly one createIfNotExists with the write tok
     mock.close();
   }
 });
+
+test('our SVG artwork is served as an image that can run no script', async () => {
+  const res = await fetch(`${base}/frontend_demo/img/hero-skyline.svg`);
+  assert.equal(res.status, 200);
+  assert.equal(res.headers.get('content-type'), 'image/svg+xml');
+  assert.match(res.headers.get('content-security-policy'), /default-src 'none'.*sandbox/);
+  assert.equal(res.headers.get('x-content-type-options'), 'nosniff');
+});

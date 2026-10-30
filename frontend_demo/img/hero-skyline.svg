@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-labelledby="hero-art-title">
+  <title id="hero-art-title">A stylised UAE skyline with a rising line of capital flowing between the towers</title>
+  <!-- Original artwork for funds.ae (frontend_demo/this.html hero). Brand colours: ink #0E3A43, teal #1F6A6E, mint #4FB3B8, sand #D3B46A. -->
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="45%" r="55%">
+      <stop offset="0" stop-color="#4FB3B8" stop-opacity="0.55"/>
+      <stop offset="0.55" stop-color="#4FB3B8" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#4FB3B8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="sun" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#F3D99A"/>
+      <stop offset="1" stop-color="#D3B46A"/>
+    </radialGradient>
+    <linearGradient id="towerA" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3C9EA3"/>
+      <stop offset="1" stop-color="#164B55"/>
+    </linearGradient>
+    <linearGradient id="towerB" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2F8A8C"/>
+      <stop offset="1" stop-color="#0E3A43"/>
+    </linearGradient>
+    <linearGradient id="towerC" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5FC2C6"/>
+      <stop offset="1" stop-color="#1F6A6E"/>
+    </linearGradient>
+    <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4FB3B8" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#4FB3B8" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4FB3B8" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#4FB3B8" stop-opacity="0"/>
+    </linearGradient>
+    <pattern id="windows" width="10" height="12" patternUnits="userSpaceOnUse">
+      <rect x="3" y="3" width="3" height="5" rx="0.5" fill="#E8F4F3" fill-opacity="0.35"/>
+    </pattern>
+    <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.2" fill="#E8F4F3" fill-opacity="0.12"/>
+    </pattern>
+  </defs>
+
+  <rect width="640" height="400" fill="url(#dots)"/>
+  <circle cx="330" cy="170" r="210" fill="url(#glow)"/>
+  <circle cx="470" cy="96" r="34" fill="url(#sun)" opacity="0.9"/>
+
+  <!-- skyline -->
+  <g>
+    <rect x="40" y="228" width="46" height="102" rx="3" fill="url(#towerB)"/>
+    <rect x="40" y="228" width="46" height="102" rx="3" fill="url(#windows)"/>
+    <rect x="94" y="186" width="54" height="144" rx="3" fill="url(#towerA)"/>
+    <rect x="94" y="186" width="54" height="144" rx="3" fill="url(#windows)"/>
+    <path d="M160 330 V168 Q160 150 178 146 Q196 150 196 168 V330 Z" fill="url(#towerC)"/>
+    <path d="M160 330 V168 Q160 150 178 146 Q196 150 196 168 V330 Z" fill="url(#windows)"/>
+    <rect x="206" y="210" width="40" height="120" rx="3" fill="url(#towerB)"/>
+    <rect x="206" y="210" width="40" height="120" rx="3" fill="url(#windows)"/>
+    <!-- tall spire tower -->
+    <path d="M300 330 L300 150 L306 150 L306 112 L312 112 L312 70 L316 70 L318 28 L320 70 L324 70 L324 112 L330 112 L330 150 L336 150 L336 330 Z" fill="url(#towerC)"/>
+    <path d="M300 330 L300 150 L306 150 L306 112 L312 112 L312 70 L316 70 L318 28 L320 70 L324 70 L324 112 L330 112 L330 150 L336 150 L336 330 Z" fill="url(#windows)"/>
+    <rect x="256" y="176" width="36" height="154" rx="3" fill="url(#towerA)"/>
+    <rect x="256" y="176" width="36" height="154" rx="3" fill="url(#windows)"/>
+    <rect x="346" y="196" width="48" height="134" rx="3" fill="url(#towerB)"/>
+    <rect x="346" y="196" width="48" height="134" rx="3" fill="url(#windows)"/>
+    <!-- sail-shaped tower -->
+    <path d="M404 330 L404 150 Q452 196 452 330 Z" fill="url(#towerC)"/>
+    <path d="M404 330 L404 150 Q452 196 452 330 Z" fill="url(#windows)"/>
+    <rect x="462" y="222" width="44" height="108" rx="3" fill="url(#towerA)"/>
+    <rect x="462" y="222" width="44" height="108" rx="3" fill="url(#windows)"/>
+    <rect x="514" y="192" width="38" height="138" rx="3" fill="url(#towerB)"/>
+    <rect x="514" y="192" width="38" height="138" rx="3" fill="url(#windows)"/>
+    <rect x="560" y="240" width="44" height="90" rx="3" fill="url(#towerA)"/>
+    <rect x="560" y="240" width="44" height="90" rx="3" fill="url(#windows)"/>
+  </g>
+
+  <!-- waterline and reflection -->
+  <rect x="20" y="330" width="600" height="2" fill="#4FB3B8" fill-opacity="0.6"/>
+  <rect x="20" y="332" width="600" height="58" fill="url(#water)"/>
+  <g stroke="#4FB3B8" stroke-opacity="0.25" stroke-width="2" stroke-linecap="round">
+    <line x1="70" y1="348" x2="130" y2="348"/><line x1="200" y1="358" x2="300" y2="358"/>
+    <line x1="340" y1="346" x2="420" y2="346"/><line x1="470" y1="362" x2="560" y2="362"/>
+  </g>
+
+  <!-- rising line of capital -->
+  <path d="M30 300 C110 290 140 262 200 258 S290 214 340 206 S430 150 480 140 S570 92 612 70 L612 330 L30 330 Z" fill="url(#area)" opacity="0.55"/>
+  <path d="M30 300 C110 290 140 262 200 258 S290 214 340 206 S430 150 480 140 S570 92 612 70" fill="none" stroke="#7FD3D6" stroke-width="4" stroke-linecap="round"/>
+  <g fill="#0E3A43" stroke="#7FD3D6" stroke-width="3">
+    <circle cx="200" cy="258" r="6"/><circle cx="340" cy="206" r="6"/><circle cx="480" cy="140" r="6"/>
+  </g>
+  <circle cx="612" cy="70" r="9" fill="#D3B46A" stroke="#F3D99A" stroke-width="3"/>
+
+  <!-- what funds.ae covers -->
+  <g font-family="Jost, Futura, 'Century Gothic', sans-serif" font-size="13" font-weight="600" letter-spacing="0.06em">
+    <g transform="translate(120 222)">
+      <rect x="-6" y="-17" width="118" height="26" rx="13" fill="#0E3A43" fill-opacity="0.82" stroke="#4FB3B8" stroke-opacity="0.6"/>
+      <text x="53" y="0.5" fill="#E8F4F3" text-anchor="middle">REAL ESTATE</text>
+    </g>
+    <g transform="translate(258 168)">
+      <rect x="-6" y="-17" width="134" height="26" rx="13" fill="#0E3A43" fill-opacity="0.82" stroke="#4FB3B8" stroke-opacity="0.6"/>
+      <text x="61" y="0.5" fill="#E8F4F3" text-anchor="middle">PRIVATE EQUITY</text>
+    </g>
+    <g transform="translate(410 110)">
+      <rect x="-6" y="-17" width="152" height="26" rx="13" fill="#0E3A43" fill-opacity="0.82" stroke="#D3B46A" stroke-opacity="0.8"/>
+      <text x="70" y="0.5" fill="#F3D99A" text-anchor="middle">SOVEREIGN WEALTH</text>
+    </g>
+  </g>
+</svg>
