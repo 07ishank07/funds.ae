@@ -114,7 +114,7 @@ frontend_demo/                       Slots: this.html (social-highlights), Adver
 .github/workflows/ci.yml             "studio" job: schema validate + build
 ```
 
-The News Review Queue (stories, sources, categories, the hourly import and its workflows) has its own code map: [NEWS-REVIEW-GUIDE.md](NEWS-REVIEW-GUIDE.md), Part 6.
+The News Review Queue (stories, sources, categories, the daily import and its workflows) has its own code map: [NEWS-REVIEW-GUIDE.md](NEWS-REVIEW-GUIDE.md), Part 6.
 
 ## 4. One-time setup
 

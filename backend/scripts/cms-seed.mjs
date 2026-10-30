@@ -255,7 +255,7 @@ export function buildNewsSeed({ root = REPO_ROOT } = {}) {
   return [
     ...sourceDocs(read('backend/config/sources.news.json')),
     ...taxonomyDocs(read('backend/config/news-taxonomy.json')),
-    { _id: 'newsAggregator', _type: 'newsAggregator', help: 'Sources are fetched every hour. Press "Fetch News Now" (bottom right) to fetch them now; new stories arrive in Pending review within a few minutes.' },
+    { _id: 'newsAggregator', _type: 'newsAggregator', help: 'Sources are fetched once a day at 9:00 am Sydney time. Press "Fetch News Now" (bottom right) to fetch them now; new stories arrive in Pending review within a few minutes.' },
     { _id: 'newsAggregatorState', _type: 'newsAggregatorState', sources: [] },
     { _id: 'newsPublishSignal', _type: 'newsPublishSignal' }
   ];

@@ -1,5 +1,5 @@
-# Fetches news into the News Review Queue in Sanity: every hour, and whenever an editor
-# presses "Fetch News Now" in the Studio (the Sanity webhook sends repository_dispatch
+# Fetches news into the News Review Queue in Sanity: once a day at 09:00 Sydney time, and whenever
+# an editor presses "Fetch News Now" in the Studio (the Sanity webhook sends repository_dispatch
 # "news-fetch"; setup in docs/NEWS-REVIEW-GUIDE.md). You can also run it from the Actions tab.
 #
 # It runs only in live mode with settings.json news.review.store "sanity". New stories enter the
@@ -10,7 +10,11 @@ name: News ingest
 
 on:
   schedule:
-    - cron: "17 * * * *"   # every hour at :17 UTC. GitHub may start it a few minutes late.
+    # GitHub schedules are in UTC, and Sydney is UTC+11 in summer (daylight saving) and UTC+10 in
+    # winter. Both times are scheduled; the first step lets only the one at 09:00 in Sydney fetch.
+    # GitHub may start a scheduled run a few minutes late.
+    - cron: "0 22 * * *"   # 09:00 Sydney during daylight saving (about October to April)
+    - cron: "0 23 * * *"   # 09:00 Sydney the rest of the year
   repository_dispatch:
     types: [news-fetch]
   workflow_dispatch:
@@ -30,28 +34,49 @@ jobs:
       run:
         working-directory: backend
     steps:
+      - name: Only the scheduled run that falls at 09:00 in Sydney goes ahead
+        id: when
+        working-directory: .
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ]; then
+            echo "go=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          offset=$(TZ=Australia/Sydney date +%z)
+          schedule="${{ github.event.schedule }}"
+          if { [ "$offset" = "+1100" ] && [ "$schedule" = "0 22 * * *" ]; } || { [ "$offset" = "+1000" ] && [ "$schedule" = "0 23 * * *" ]; }; then
+            echo "go=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "go=false" >> "$GITHUB_OUTPUT"
+            echo "Sydney is at UTC$offset, so the other daily schedule is the 09:00 run. Nothing to do here."
+          fi
+
       - uses: actions/checkout@v4
+        if: steps.when.outputs.go == 'true'
 
       - uses: actions/setup-node@v4
+        if: steps.when.outputs.go == 'true'
         with:
           node-version: "24"
           cache: npm
           cache-dependency-path: backend/package-lock.json
 
       - run: npm ci --no-audit --no-fund --ignore-scripts
+        if: steps.when.outputs.go == 'true'
 
       - name: Read where the queue lives
+        if: steps.when.outputs.go == 'true'
         id: settings
         run: |
           echo "mode=$(node -p "require('./config/settings.json').mode")" >> "$GITHUB_OUTPUT"
           echo "store=$(node -p "require('./config/settings.json').news?.review?.store || 'file'")" >> "$GITHUB_OUTPUT"
 
       - name: Nothing to do outside live mode with the Sanity queue
-        if: steps.settings.outputs.mode != 'live' || steps.settings.outputs.store != 'sanity'
+        if: steps.when.outputs.go == 'true' && (steps.settings.outputs.mode != 'live' || steps.settings.outputs.store != 'sanity')
         run: echo "News ingest runs in live mode with news.review.store \"sanity\". Demo mode is handled by the daily workflow."
 
       - name: Fetch news into the review queue
-        if: steps.settings.outputs.mode == 'live' && steps.settings.outputs.store == 'sanity'
+        if: steps.when.outputs.go == 'true' && steps.settings.outputs.mode == 'live' && steps.settings.outputs.store == 'sanity'
         env:
           SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
           SANITY_DATASET: ${{ secrets.SANITY_DATASET }}

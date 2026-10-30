@@ -31,7 +31,7 @@ To switch the site to the queue, follow [Part 8: Going live](#8-going-live-setup
 
 ```
  RSS sources (config/sources.news.json, edited in the Studio and pulled by cms:pull)
-   │  hourly GitHub Action "News ingest", or "Fetch News Now" in the Studio
+   │  GitHub Action "News ingest" daily at 09:00 Sydney time, or "Fetch News Now" in the Studio
    ▼
  runNews: fetch → normalise (excerpt ≤ 280) → quality filters → dedupe → classify
           (topics, Capital Types, Asset Classes, geography, transaction type, confidence)
@@ -169,7 +169,7 @@ js/fundsae-news-filter.js            the news page's filter rules (pure; tested 
 js/fundsae-news.js                   the Real Estate Capital News page
 frontend_demo/News.dc.html           that page; frontend_demo/news/*.html are generated story pages
 
-.github/workflows/news-ingest.yml    hourly ingest into the queue, and Fetch News Now (the only write token)
+.github/workflows/news-ingest.yml    daily ingest (09:00 Sydney) into the queue, and Fetch News Now (the only write token)
 .github/workflows/publish-content.yml  cms:pull, publish:content, news:publish, commit (read token)
 ```
 
@@ -214,7 +214,7 @@ If an action refuses, a dialog lists the reasons, for example "the source's lice
 - allow or refuse the publisher's excerpt, images and AI summaries. These default to off for a reason: change them only when the terms allow it;
 - see its health on the **Health** tab: last fetch, errors and whether it has been paused.
 
-Source changes reach the importer after the next **Publish content** run, which your change starts automatically, and take effect at the following hourly fetch.
+Source changes reach the importer after the next **Publish content** run, which your change starts automatically, and take effect at the next daily fetch (or when someone presses Fetch News Now).
 
 ### 7.4 Capital Types and Asset Classes
 
@@ -263,7 +263,7 @@ Do these in order. Until step 7, the site keeps its demo stories and nothing rea
    Leave everything else as it is (Create, Update, Delete; drafts off). Do **not** add `newsArticle`: stories never trigger the site directly. The workflow actions touch `newsPublishSignal` instead, and the projection carries no story content.
 6. **Read sources and categories from Sanity.** In `backend/config/settings.json`, set `"news": { "registry": { "source": "sanity" } }`. Commit and push, then run **Actions → Publish content → Run workflow**. The run copies the registry into `config/sources.news.json` and `config/news-taxonomy.json`. It refuses an empty registry.
 7. **Switch the queue on.** In `settings.json` set `"news": { "review": { "store": "sanity" } }` and `"mode": "live"`, then commit and push. From then on:
-   - **News ingest** fills the queue every hour (check **Actions → News ingest → Run workflow** once by hand).
+   - **News ingest** fills the queue once a day at 09:00 Sydney time (check **Actions → News ingest → Run workflow** once by hand).
    - **Publish content** publishes what approvers publish.
    - The daily workflow keeps running jobs only.
 8. **Clear the demo stories once.** The demo stories are not in the queue, so the safety stop refuses the first live publish. Approve and publish a few real stories first, then run **Actions → Publish content → Run workflow** with **Let the number of live stories fall sharply** ticked. Only this run may drop stories in bulk.
@@ -320,7 +320,7 @@ With AI on, each new story from a source that allows AI summaries gets a suggest
   1. Create an API key at console.anthropic.com and add it as the GitHub secret `ANTHROPIC_API_KEY`.
   2. Set `news.ai.enabled` to `true`.
   3. Tick **Allow AI summaries** on each source whose terms allow it (licence status `terms_reviewed` or `permission_granted`).
-- **Cost:** at most `news.ai.maxPerRun` stories per hourly run (default 40). `news.ai.model` defaults to `claude-opus-5-5`, and `news.ai.effort` to `low`.
+- **Cost:** at most `news.ai.maxPerRun` stories per run (default 40), so about 40 a day plus any Fetch News Now runs. `news.ai.model` defaults to `claude-opus-5-5`, and `news.ai.effort` to `low`.
 
 ## 11. Free-plan limitations
 

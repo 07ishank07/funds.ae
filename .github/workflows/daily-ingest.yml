@@ -1,6 +1,6 @@
 # Runs the jobs ingestion once a day (and, in demo mode, the demo news through the file
 # review queue), commits the updated database and API files, and refreshes the website.
-# In live mode with the Sanity review queue, news is fetched hourly by "News ingest" and
+# In live mode with the Sanity review queue, news is fetched daily at 09:00 Sydney time by "News ingest" and
 # published by "Publish content"; this workflow then fetches jobs only.
 # You can also start it by hand: GitHub > Actions > "Daily news and jobs update" > Run workflow.
 name: Daily news and jobs update

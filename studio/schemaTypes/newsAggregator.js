@@ -21,7 +21,7 @@ export const newsAggregator = defineType({
       type: 'text',
       rows: 2,
       ...locked,
-      initialValue: 'Sources are fetched every hour. Press "Fetch News Now" (bottom right) to fetch them now; new stories arrive in Pending review within a few minutes.',
+      initialValue: 'Sources are fetched once a day at 9:00 am Sydney time. Press "Fetch News Now" (bottom right) to fetch them now; new stories arrive in Pending review within a few minutes.',
     }),
     defineField({name: 'fetchRequestedAt', title: 'Last "Fetch News Now"', type: 'datetime', ...locked}),
     defineField({name: 'fetchRequestedBy', title: 'Requested by', type: 'string', ...locked}),

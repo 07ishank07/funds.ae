@@ -25,7 +25,7 @@ Whenever this guide says **save to GitHub**, do this in vscode.dev:
 | `api/v1/` | The data the pages read (news, jobs, events, sponsors), rebuilt every day |
 | `backend/` | The programs that build `api/v1/`, plus the optional server |
 | `assets/sponsors/` | Older sponsor images. New images are uploaded in the Sanity Studio |
-| `.github/workflows/` | The daily job, the hourly news fetch, the content publisher and the tests |
+| `.github/workflows/` | The daily job, the daily news fetch (09:00 Sydney), the content publisher and the tests |
 
 ## 1. Put the files on GitHub
 
