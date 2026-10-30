@@ -10,8 +10,8 @@ import { mkdtempSync, readFileSync, readdirSync, existsSync, rmSync } from 'node
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { ADVERTISING_TIERS, DB_MODELS, DTO_FIELDS, ENVELOPE_FIELDS, SPONSOR_SLOTS, SUBMISSION_KINDS } from '../src/contracts/models.js';
-import { SUBMISSION_SCHEMAS } from '../src/validation/submissions.js';
+import { ADVERTISING_TIERS, DB_MODELS, DTO_FIELDS, EMPLOYMENT_TYPES, ENVELOPE_FIELDS, SPONSOR_SLOTS, SUBMISSION_KINDS } from '../src/contracts/models.js';
+import { JOB_FORM_OPTIONS, SUBMISSION_SCHEMAS } from '../src/validation/submissions.js';
 
 const backend = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const repo = path.resolve(backend, '..');
@@ -308,7 +308,10 @@ test('every website form posts only field names the API accepts', () => {
       const names = [...body.matchAll(/\bname="([A-Za-z]+)"/g)].map((n) => n[1]);
       const schemaFields = Object.keys(SUBMISSION_SCHEMAS[kind].fields);
       for (const n of names) assert.ok(schemaFields.includes(n), `${file} ${kind} form sends "${n}" which the API rejects`);
-      const required = schemaFields.filter((f) => f !== 'website' && !['message', 'endDate', 'url', 'employmentType'].includes(f));
+      const optional = kind === 'job'
+        ? ['companyUrl', 'workMode', 'employmentType', 'seniority', 'department', 'regulator', 'salaryTo', 'contactRole']
+        : ['message', 'endDate', 'url', 'employmentType'];
+      const required = schemaFields.filter((f) => f !== 'website' && !optional.includes(f));
       for (const r of required) assert.ok(names.includes(r), `${file} ${kind} form lacks required field "${r}"`);
     }
   }
@@ -316,10 +319,18 @@ test('every website form posts only field names the API accepts', () => {
   const home = readFileSync(path.join(repo, 'frontend_demo', 'this.html'), 'utf8');
   assert.match(home, /data-fundsae-form', 'newsletter'/);
   for (const n of ["input.name = 'email'", "placement.name = 'placement'", "trapInput.name = 'website'"]) assert.ok(home.includes(n), n);
-  // "Post a role" was removed from Careers.dc.html (jobs are sourced from the pipeline and
-  // config/jobs.manual.json, not visitor submissions), so no page has a "job" form. The API
-  // still accepts POST /api/v1/submissions/job for a future paid-listing flow.
-  assert.deepEqual([...seen].sort(), ['advertise', 'contact', 'event']);
+  assert.deepEqual([...seen].sort(), ['advertise', 'contact', 'event', 'job']);
+  // Post a job (PostJob.dc.html, linked from Careers): its choices are the validator's lists, so nothing the
+  // page offers is refused by the API.
+  const postJob = readFileSync(path.join(repo, 'frontend_demo', 'PostJob.dc.html'), 'utf8');
+  for (const [name, list] of Object.entries({ ...JOB_FORM_OPTIONS, employmentType: EMPLOYMENT_TYPES })) {
+    const select = new RegExp(`<select[^>]*name="${name}"[^>]*>([\\s\\S]*?)</select>`).exec(postJob);
+    assert.ok(select, `PostJob has a ${name} list`);
+    const values = [...select[1].matchAll(/<option value="([^"]*)"/g)].map((o) => o[1].replace(/&amp;/g, '&')).filter(Boolean);
+    assert.deepEqual(values, list, `${name} choices match the API`);
+  }
+  assert.ok(postJob.includes('fundsae-forms.js'), 'PostJob loads the forms script');
+  assert.ok(readFileSync(path.join(repo, 'frontend_demo', 'Careers.dc.html'), 'utf8').includes('<a class="post-job-btn" href="PostJob.dc.html">Post a job</a>'), 'Careers links to Post a job');
 });
 
 test('the Real Estate Capital News page has its hooks, scripts and a bar link on every page', () => {

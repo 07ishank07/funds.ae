@@ -2,7 +2,7 @@
 
 Most of this is done in a web browser. Nothing needs to be installed unless you want the website forms to work (section 7).
 
-You will: (1) put the files on GitHub, (2) turn on GitHub Pages, (3) let GitHub run the daily job, (4) check the site, (5) manage sponsors, events and page content, (6) switch from demo data to real news, and optionally (7) run the Funds.ae server so the contact, newsletter, sponsorship, "Post a role" and "Submit your event" forms are received.
+You will: (1) put the files on GitHub, (2) turn on GitHub Pages, (3) let GitHub run the daily job, (4) check the site, (5) manage sponsors, events and page content, (6) switch from demo data to real news, and optionally (7) run the Funds.ae server so the contact, newsletter, sponsorship, "Post a job" and "Submit your event" forms are received.
 
 Whenever this guide says **save to GitHub**, do this in vscode.dev:
 
@@ -111,7 +111,7 @@ GitHub Pages only serves files, so it cannot receive forms. To accept them, run 
 5. Read submissions either in `backend/data/submissions/*.jsonl` on the server, or with
    `curl -H "Authorization: Bearer YOUR_ADMIN_API_TOKEN" "https://your-domain.ae/api/v1/admin/submissions?kind=contact"`
    (`kind` is `contact`, `newsletter`, `advertise`, `event` or `job`).
-6. "Post a role" and "Submit your event" entries are never published automatically. Review them. Add the roles you approve to `backend/config/jobs.manual.json` and the events to the Sanity Studio.
+6. "Post a job" (the Post a job page, linked from Careers) and "Submit your event" entries are never published automatically. Review them. Add the roles you approve to `backend/config/jobs.manual.json` and the events to the Sanity Studio. A job entry also carries the salary range, visa line, level, regulator and description, for your review.
 7. Delete old submissions regularly with `npm run submissions:prune` (keeps 180 days by default; change `submissions.retentionDays` in `settings.json`). Update the Privacy Policy page to say what the forms collect and how long it is kept.
 
 Submissions contain personal data. They are stored outside `api/`, are never published, and `.gitignore` keeps them out of GitHub.

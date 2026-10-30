@@ -215,7 +215,11 @@ test('event and job suggestions wait for review', async () => {
   const ev = { title: 'Investor Breakfast', eventType: 'Networking', startDate: dubaiToday(), city: 'Dubai', organiser: 'Example Events', email: 'e@example.com' };
   assert.equal((await post('event', ev)).status, 202);
   assert.equal(stored('event').slice(-1)[0].status, 'pending-review');
-  const job = { title: 'Analyst', company: 'Example Capital', location: 'Dubai', url: 'https://jobs.example.com/1', email: 'hr@example.com' };
+  const job = {
+    title: 'Analyst', company: 'Example Capital', location: 'Dubai', url: 'https://jobs.example.com/1', email: 'hr@example.com',
+    salaryFrom: '18000', salaryCurrency: 'AED', salaryPeriod: 'month', visa: 'Visa sponsorship offered', name: 'Omar Haddad',
+    description: 'Support the investment team with financial models, market research and portfolio reporting.'
+  };
   assert.equal((await post('job', job)).status, 202);
   assert.equal(stored('job').slice(-1)[0].status, 'pending-review');
 });

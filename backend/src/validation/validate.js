@@ -103,6 +103,18 @@ export const rules = {
     });
   },
 
+  /** A whole number from min to max, sent as digits (commas and spaces allowed, e.g. "25,000"). */
+  wholeNumber({ min = 0, max, required = true } = {}) {
+    return optional(required, (raw) => {
+      const digits = typeof raw === 'number' ? String(raw) : typeof raw === 'string' ? raw.replace(/[\s,]/g, '') : '';
+      if (!/^\d{1,12}$/.test(digits)) return { error: 'Enter a whole number, for example 25000.' };
+      const value = Number(digits);
+      if (value < min) return { error: `Enter at least ${min}.` };
+      if (value > max) return { error: `Enter ${max} or less.` };
+      return { value };
+    });
+  },
+
   /** Lowercase letters, numbers and dashes (config ids). */
   id() {
     return optional(true, (raw) => {

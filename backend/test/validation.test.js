@@ -47,13 +47,40 @@ test('emails, links and choices are strictly checked', () => {
     assert.ok(validate(SUBMISSION_SCHEMAS.newsletter, { email: bad, placement: 'home' }, { now }).fields.email, bad);
   }
   assert.ok(validate(SUBMISSION_SCHEMAS.newsletter, { email: 'a@b.ae', placement: 'sidebar' }, { now }).fields.placement);
-  const job = { title: 'Associate', company: 'Example Capital', location: 'DIFC, Dubai', url: 'https://jobs.example.com/1', email: 'hr@example.com' };
+  const job = {
+    title: 'Associate', company: 'Example Capital', location: 'DIFC, Dubai', url: 'https://jobs.example.com/1', email: 'hr@example.com',
+    salaryFrom: '25,000', salaryCurrency: 'AED', salaryPeriod: 'month', visa: 'Visa sponsorship offered', name: 'Sara Ali',
+    description: 'Join the private credit team to originate and monitor direct lending deals across the GCC.'
+  };
   assert.equal(validate(SUBMISSION_SCHEMAS.job, job, { now }).ok, true);
+  assert.equal(validate(SUBMISSION_SCHEMAS.job, job, { now }).value.salaryFrom, 25000, 'salaries are stored as numbers');
   for (const url of ['http://jobs.example.com/1', 'javascript:alert(1)', 'https://user:pass@example.com/', 'https://127.0.0.1/admin', 'https://localhost/x']) {
     assert.ok(validate(SUBMISSION_SCHEMAS.job, { ...job, url }, { now }).fields.url, url);
   }
   assert.ok(validate(SUBMISSION_SCHEMAS.job, { ...job, employmentType: 'Gig' }, { now }).fields.employmentType);
   assert.equal(validate(SUBMISSION_SCHEMAS.job, { ...job, employmentType: 'Contract' }, { now }).value.employmentType, 'Contract');
+});
+
+test('Post a job: salary, visa, description and the filer are required; choices and ranges are checked', () => {
+  const job = {
+    title: 'Associate', company: 'Example Capital', location: 'DIFC, Dubai', url: 'https://jobs.example.com/1', email: 'hr@example.com',
+    salaryFrom: '25000', salaryCurrency: 'AED', salaryPeriod: 'month', visa: 'Must hold own UAE visa', name: 'Sara Ali',
+    description: 'Join the private credit team to originate and monitor direct lending deals across the GCC.'
+  };
+  const fields = (extra) => validate(SUBMISSION_SCHEMAS.job, { ...job, ...extra }, { now }).fields;
+  for (const key of ['salaryFrom', 'salaryCurrency', 'salaryPeriod', 'visa', 'description', 'name']) {
+    const { [key]: _, ...without } = job;
+    assert.ok(validate(SUBMISSION_SCHEMAS.job, without, { now }).fields[key], `${key} is required`);
+  }
+  assert.ok(fields({ salaryFrom: '25k' }).salaryFrom, 'digits only');
+  assert.ok(fields({ salaryTo: '20000' }).salaryTo, 'the range cannot go backwards');
+  assert.deepEqual(fields({ salaryTo: '35000' }), {});
+  assert.ok(fields({ description: 'Too short.' }).description);
+  assert.ok(fields({ visa: 'Maybe' }).visa);
+  assert.ok(fields({ seniority: 'Intern' }).seniority);
+  assert.ok(fields({ regulator: 'FCA' }).regulator);
+  assert.ok(fields({ companyUrl: 'http://example.com' }).companyUrl);
+  assert.deepEqual(fields({ seniority: 'Vice President', regulator: 'DFSA (DIFC)', department: 'Private Credit and Lending', workMode: 'Hybrid', companyUrl: 'https://example.com', contactRole: 'Head of Talent' }), {});
 });
 
 test('advertise enquiries take a package id (the server then checks it is a published package)', () => {

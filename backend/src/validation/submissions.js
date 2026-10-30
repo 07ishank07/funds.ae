@@ -7,10 +7,31 @@
 import { rules } from './validate.js';
 import { EMPLOYMENT_TYPES } from '../contracts/models.js';
 
-const { text, email, httpsUrl, enumOf, isoDate, honeypot, id } = rules;
+const { text, email, httpsUrl, enumOf, isoDate, honeypot, id, wholeNumber } = rules;
 
 const name = text({ min: 2, max: 80 });
 const contactEmail = email();
+
+/**
+ * Choices on the "Post a job" page (frontend_demo/PostJob.dc.html). The page's <option> values must equal
+ * these lists; test/contract.test.js checks that.
+ */
+export const JOB_FORM_OPTIONS = {
+  workMode: ['Onsite', 'Hybrid', 'Remote'],
+  seniority: ['Entry-level', 'Analyst', 'Associate', 'Vice President', 'Director', 'Managing Director / Partner', 'C-suite'],
+  department: [
+    'Investments and Portfolio Management', 'Private Equity and Venture Capital', 'Private Credit and Lending',
+    'Investment Banking and Advisory', 'Wealth Management and Private Banking', 'Research and Analysis', 'Risk Management',
+    'Compliance and AML', 'Legal', 'Finance and Accounting', 'Fund Administration and Operations',
+    'Investor Relations and Fundraising', 'Sales and Business Development', 'Technology and Data',
+    'Real Estate and Infrastructure', 'Human Resources'
+  ],
+  regulator: ['DFSA (DIFC)', 'FSRA (ADGM)', 'SCA', 'CBUAE', 'VARA', 'Not a regulated role'],
+  salaryCurrency: ['AED', 'USD'],
+  salaryPeriod: ['month', 'year'],
+  visa: ['Visa sponsorship offered', 'Must hold own UAE visa', 'Remote from abroad']
+};
+const SALARY_MAX = 100_000_000;
 
 export const SUBMISSION_SCHEMAS = {
   contact: {
@@ -58,16 +79,32 @@ export const SUBMISSION_SCHEMAS = {
     check: (v) => (v.endDate && v.endDate < v.startDate ? { endDate: 'The end date must be on or after the start date.' } : null)
   },
 
+  // "Post a job" (frontend_demo/PostJob.dc.html). The company's website is "companyUrl" because "website" is the
+  // bot trap. An editor reviews every role; approved ones are copied into config/jobs.manual.json.
   job: {
     fields: {
-      title: text({ min: 3, max: 160 }),
       company: text({ min: 2, max: 120 }),
+      companyUrl: httpsUrl({ required: false }),
+      title: text({ min: 3, max: 160 }),
       location: text({ min: 2, max: 160 }),
-      url: httpsUrl(),
+      workMode: enumOf(JOB_FORM_OPTIONS.workMode, { required: false }),
       employmentType: enumOf(EMPLOYMENT_TYPES, { required: false }),
+      seniority: enumOf(JOB_FORM_OPTIONS.seniority, { required: false }),
+      department: enumOf(JOB_FORM_OPTIONS.department, { required: false }),
+      regulator: enumOf(JOB_FORM_OPTIONS.regulator, { required: false }),
+      url: httpsUrl(),
+      salaryFrom: wholeNumber({ min: 1, max: SALARY_MAX }),
+      salaryTo: wholeNumber({ min: 1, max: SALARY_MAX, required: false }),
+      salaryCurrency: enumOf(JOB_FORM_OPTIONS.salaryCurrency),
+      salaryPeriod: enumOf(JOB_FORM_OPTIONS.salaryPeriod),
+      visa: enumOf(JOB_FORM_OPTIONS.visa),
+      description: text({ min: 50, max: 5000, multiline: true }),
+      name,
+      contactRole: text({ min: 2, max: 80, required: false }),
       email: contactEmail,
       website: honeypot()
-    }
+    },
+    check: (v) => (v.salaryTo !== null && v.salaryTo < v.salaryFrom ? { salaryTo: 'The top of the range must be at least the starting salary.' } : null)
   }
 };
 

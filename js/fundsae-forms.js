@@ -31,7 +31,8 @@
     tooMany: 'Too many attempts. Please wait a few minutes and try again.',
     tooLarge: 'Your message is too long. Please shorten it.',
     failed: 'Something went wrong. Please try again later.',
-    endBeforeStart: 'The end date must be on or after the start date.'
+    endBeforeStart: 'The end date must be on or after the start date.',
+    salaryRange: 'The top of the range must be at least the starting salary.'
   };
 
   var CSS =
@@ -116,6 +117,13 @@
 
   /** Checks the browser cannot express as attributes. */
   function extraChecks(form, kind) {
+    if (kind === 'job') {
+      var from = form.elements.namedItem('salaryFrom');
+      var to = form.elements.namedItem('salaryTo');
+      var num = function (field) { return Number(String(field.value || '').replace(/[ ,]/g, '')); };
+      if (from && to && to.value && from.value && num(to) < num(from)) return { salaryTo: MESSAGES.salaryRange };
+      return null;
+    }
     if (kind !== 'event') return null;
     var start = form.elements.namedItem('startDate');
     var end = form.elements.namedItem('endDate');
