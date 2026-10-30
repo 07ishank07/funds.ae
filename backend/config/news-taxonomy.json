@@ -110,17 +110,17 @@
       "keywords": { "data centre": 3, "data center": 3, "hyperscale": 3, "colocation": 3, "digital infrastructure": 3 }
     },
     {
-      "id": "healthcare-life-sciences", "name": "Healthcare & Life Sciences", "displayOrder": 70, "homeSection": "commercial-real-estate",
+      "id": "healthcare-life-sciences", "name": "Healthcare & Life Sciences", "displayOrder": 70, "homeSection": "special-alternative-real-estate",
       "description": "Hospitals, medical offices, laboratories and life-science campuses.",
       "keywords": { "healthcare real estate": 3, "healthcare property": 3, "medical office": 3, "life science": 3, "lab space": 3, "hospital": 2, "laboratory": 2, "clinic": 1 }
     },
     {
-      "id": "student-accommodation", "name": "Student Accommodation", "displayOrder": 80, "homeSection": "residential-real-estate",
+      "id": "student-accommodation", "name": "Student Accommodation", "displayOrder": 80, "homeSection": "special-alternative-real-estate",
       "description": "Purpose-built student accommodation.",
       "keywords": { "student accommodation": 3, "student housing": 3, "purpose-built student": 3, "pbsa": 3, "student residence": 3 }
     },
     {
-      "id": "senior-living", "name": "Senior Living", "displayOrder": 90, "homeSection": "residential-real-estate",
+      "id": "senior-living", "name": "Senior Living", "displayOrder": 90, "homeSection": "special-alternative-real-estate",
       "description": "Retirement communities, assisted living and care homes.",
       "keywords": { "senior living": 3, "retirement community": 3, "retirement village": 3, "care home": 3, "assisted living": 3, "later living": 3, "elderly care": 2 }
     },
@@ -140,7 +140,7 @@
       "keywords": { "public-private partnership": 3, "toll road": 3, "renewable energy": 3, "wind farm": 3, "power plant": 3, "desalination": 3, "district cooling": 3, "battery storage": 3, "ev charging": 3, "solar": 2, "railway": 2, "airport": 2, "metro line": 2, "energy transition": 2, "infrastructure": 1, "utilities": 1 }
     },
     {
-      "id": "alternative-real-estate", "name": "Alternative Real Estate", "displayOrder": 130, "homeSection": "commercial-real-estate",
+      "id": "alternative-real-estate", "name": "Alternative Real Estate", "displayOrder": 130, "homeSection": "special-alternative-real-estate",
       "description": "Self-storage, single-family rental, towers, farmland and other alternatives.",
       "keywords": { "alternative real estate": 3, "self-storage": 3, "self storage": 3, "single-family rental": 3, "manufactured housing": 3, "cell tower": 3, "telecom towers": 3, "farmland": 3, "timberland": 3, "car park": 2 }
     }

@@ -97,12 +97,12 @@ test('meta.json advertises versions, capabilities and every endpoint that exists
     assert.ok(existsSync(path.join(apiDir, file)), file);
   }
   const sectionIds = taxonomy.sections.map((s) => s.id);
-  for (const id of ['residential-real-estate', 'commercial-real-estate', 'infrastructure', 'ai-technology']) assert.ok(sectionIds.includes(id), `section ${id}`);
+  for (const id of ['residential-real-estate', 'commercial-real-estate', 'infrastructure', 'special-alternative-real-estate', 'ai-technology']) assert.ok(sectionIds.includes(id), `section ${id}`);
   const grants = api('news/sections/grants-funding.json');
   assert.ok(grants.items.length > 0);
   assert.ok(grants.items.every((s) => s.category === 'uae' && s.topics.includes('grants-funding')));
   assert.ok(existsSync(path.join(apiDir, meta.endpoints.realEstate)), 'the Real Estate Capital News archive');
-  for (const id of ['residential-real-estate', 'commercial-real-estate', 'infrastructure']) {
+  for (const id of ['residential-real-estate', 'commercial-real-estate', 'infrastructure', 'special-alternative-real-estate']) {
     const section = taxonomy.sections.find((s) => s.id === id);
     assert.ok(section.assetClasses.length > 0, `${id} is fed by Asset Classes`);
     for (const story of api(`news/sections/${id}.json`).items) assert.ok(story.assetClasses.some((a) => section.assetClasses.includes(a.id)), `${story.id} in ${id}`);
@@ -339,7 +339,7 @@ test('the Real Estate Capital News page has its hooks, scripts and a bar link on
     assert.ok(read(`${f}.dc.html`).includes('<a href="News.dc.html">Real Estate News</a>'), `${f} links to Real Estate News`);
   }
   const home = read('this.html');
-  for (const id of ['residential-real-estate', 'commercial-real-estate', 'infrastructure']) {
+  for (const id of ['residential-real-estate', 'commercial-real-estate', 'infrastructure', 'special-alternative-real-estate']) {
     assert.ok(home.includes(`'News.dc.html?section=${id}'`), `the ${id} box's View All opens the page with its Asset Classes`);
   }
 });

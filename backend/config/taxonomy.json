@@ -232,6 +232,7 @@
     { "id": "residential-real-estate", "label": "Residential Real Estate", "homeSection": true },
     { "id": "commercial-real-estate", "label": "Commercial Real Estate", "homeSection": true },
     { "id": "infrastructure", "label": "Infrastructure", "homeSection": true },
+    { "id": "special-alternative-real-estate", "label": "Special & Alternative Real Estate", "homeSection": true },
     { "id": "ai-technology", "label": "Tech and Data Centres", "topics": ["ai-technology"] },
     { "id": "grants-funding", "label": "UAE Business Grants and Funding", "topics": ["grants-funding"], "category": "uae" }
   ],

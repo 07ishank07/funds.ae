@@ -56,11 +56,12 @@ export const NEWS_TRANSACTION_LABELS = {
 };
 
 /** Home page boxes an Asset Class can feed (api/v1/news/sections/<id>.json). */
-export const NEWS_HOME_SECTIONS = ['residential-real-estate', 'commercial-real-estate', 'infrastructure'];
+export const NEWS_HOME_SECTIONS = ['residential-real-estate', 'commercial-real-estate', 'infrastructure', 'special-alternative-real-estate'];
 export const NEWS_HOME_SECTION_LABELS = {
   'residential-real-estate': 'Residential Estate News',
   'commercial-real-estate': 'Commercial Real Estate News',
-  infrastructure: 'Infrastructure Real Estate News'
+  infrastructure: 'Infrastructure Real Estate News',
+  'special-alternative-real-estate': 'Special & Alternative Real Estate News'
 };
 
 /** Text lengths [min, max] and list sizes. Summaries and excerpts stay <= 280 characters (CLAUDE.md legal rules). */

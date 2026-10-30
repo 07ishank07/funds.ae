@@ -99,7 +99,11 @@ test('home tile sections: real estate boxes follow Asset Classes, the other boxe
     const assetClasses = classifyTaxonomy(tc, { title }, { uae: true }).assetClasses.map((id) => ({ id }));
     return sections.filter((s) => storyMatchesSection({ ...cls, assetClasses }, s)).map((s) => s.id);
   };
-  assert.deepEqual(sections.find((s) => s.id === 'residential-real-estate').assetClasses, ['residential-multifamily', 'student-accommodation', 'senior-living']);
+  assert.deepEqual(sections.find((s) => s.id === 'residential-real-estate').assetClasses, ['residential-multifamily']);
+  assert.deepEqual(sections.find((s) => s.id === 'special-alternative-real-estate').assetClasses,
+    ['healthcare-life-sciences', 'student-accommodation', 'senior-living', 'alternative-real-estate']);
+  assert.ok(sectionOf('Self-storage operator expands across Dubai with new facilities').includes('special-alternative-real-estate'), 'alternatives feed the special box');
+  assert.ok(!sectionOf('Self-storage operator expands across Dubai with new facilities').includes('commercial-real-estate'));
   assert.ok(sections.find((s) => s.id === 'infrastructure').assetClasses.includes('data-centres'));
   assert.ok(sectionOf('Dubai villa and apartment prices rise as homebuyers return').includes('residential-real-estate'));
   assert.ok(!sectionOf('Dubai villa and apartment prices rise as homebuyers return').includes('commercial-real-estate'));

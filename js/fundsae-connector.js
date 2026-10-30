@@ -25,7 +25,7 @@
 
   var LIMITS = { newsPerRegion: 15, newsMore: 35, headline: 92, tileHeadline: 110, tiles: 15, eventsPerList: 10, eventsMax: 100, topJobs: 20, topEmployers: 20 };
   var ROLES_DEMO_TOTAL = 120; // Careers page, demo mode: live roles are topped up with dummy roles to this many (3 pages of PER_PAGE = 40 in Careers.dc.html)
-  var TILES_SHOWN = 12; // Residential, Commercial Real Estate, Infrastructure and Grants boxes
+  var TILES_SHOWN = 12; // Residential, Commercial Real Estate, Infrastructure, Special & Alternative and Grants boxes
   // Home news tabs: UAE Stories (key "News", category "uae") and Global Stories (key "Global", category
   // "world"), each in the API's order.
   var REGIONS = { uae: 'News', world: 'Global' };
@@ -970,6 +970,9 @@
       }
       if (hasSlot('tiles-infrastructure')) {
         guard('Infrastructure stories', load('news/sections/infrastructure.json', 'news').then(function (doc) { renderTiles('tiles-infrastructure', doc, TILES_SHOWN); }));
+      }
+      if (hasSlot('tiles-special-alternative-real-estate')) {
+        guard('Special and alternative real estate stories', load('news/sections/special-alternative-real-estate.json', 'news').then(function (doc) { renderTiles('tiles-special-alternative-real-estate', doc, TILES_SHOWN); }));
       }
       if (hasSlot('tiles-grants-funding')) {
         guard('Grants stories', load('news/sections/grants-funding.json', 'news').then(function (doc) { renderTiles('tiles-grants-funding', doc, TILES_SHOWN); }));

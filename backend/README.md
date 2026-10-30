@@ -225,7 +225,7 @@ The connector fills elements marked `data-fundsae-slot`. For each slot it clones
 | Slot | Where | Data |
 |---|---|---|
 | `news` | Home news column (the category bar under the menu filters it by topic): tabs "UAE Stories" (key `News`: stories in the `uae` category) and "Global Stories" (key `Global`: stories in the `world` category, i.e. outside the UAE), "View All", search box `#home-search` | `news.json` |
-| `tiles-residential-real-estate`, `tiles-commercial-real-estate`, `tiles-infrastructure`, `tiles-grants-funding` | Home tile grids | `news/sections/*.json` |
+| `tiles-residential-real-estate`, `tiles-commercial-real-estate`, `tiles-infrastructure`, `tiles-special-alternative-real-estate`, `tiles-grants-funding` | Home tile grids | `news/sections/*.json` |
 | `top-jobs` | Careers page column 2, "Top Jobs" (20 roles) (featured first, then newest; links to the employer posting) | `jobs.json` |
 | `roles`, `employers` | Careers page: roles in column 1 (pager, `?employer=` filter, `#jobId` deep link); "Top Employers" in column 2 (top 20 with initials logos, each linking to the `?employer=` filter) | `jobs.json`, `employers.json` |
 | `events` | Home "Events and Expos" box (next 10) and the Events page `Events.dc.html` (up to `data-fundsae-limit`, with event names); upcoming only | `events.json` |
