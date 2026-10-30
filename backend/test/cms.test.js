@@ -494,3 +494,21 @@ test('publish checks: licence gate, lengths, links, images and duplicates', () =
   assert.deepEqual(check(withRights), []);
   assert.match(check(duplicate).join(' '), /duplicate/);
 });
+
+test('the Exclusive Elite Sponsor (Careers and Events) comes from Sanity with its button text and link', async () => {
+  const { validateSponsors } = await import('../src/pipeline/sponsors.js');
+  const doc = {
+    _id: 'elite-1', slot: 'eliteExclusive', id: 'harbourline-capital', title: 'Harbourline Capital', blurb: 'Hiring across credit and risk in DIFC.',
+    label: 'See open roles', url: 'https://harbourline.example.com/careers', image: { url: 'https://cdn.sanity.io/images/p/d/abc-1600x900.png', mimeType: 'image/png', size: 120000 }
+  };
+  const { config, errors } = toSponsorsConfig([doc]);
+  assert.deepEqual(errors, []);
+  assert.deepEqual(config.eliteExclusive, [{ id: 'harbourline-capital', enabled: true, url: 'https://harbourline.example.com/careers', title: 'Harbourline Capital', blurb: 'Hiring across credit and risk in DIFC.', label: 'See open roles', image: 'https://cdn.sanity.io/images/p/d/abc-1600x900.png' }]);
+  const checked = validateSponsors(config);
+  assert.deepEqual(checked.errors, []);
+  assert.equal(checked.slots.eliteExclusive[0].label, 'See open roles');
+  assert.equal(checked.slots.eliteExclusive[0].sponsored, true, 'shown as sponsored');
+  const tooMany = validateSponsors({ ...config, eliteExclusive: [config.eliteExclusive[0], { ...config.eliteExclusive[0], id: 'second' }] });
+  assert.ok(tooMany.errors.some((e) => /eliteExclusive/.test(e)), 'one sponsor only');
+  assert.ok(validateSponsors({ ...config, eliteExclusive: [{ ...config.eliteExclusive[0], label: 'x'.repeat(25) }] }).errors.length, 'button text up to 24 characters');
+});

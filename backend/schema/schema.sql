@@ -166,7 +166,7 @@ CREATE INDEX IF NOT EXISTS events_start ON events (start_date);
 
 -- Editor-maintained in the Sanity Studio (written to config/sponsors.json by cms:pull).
 CREATE TABLE IF NOT EXISTS sponsor_items (
-    slot        TEXT NOT NULL CHECK (slot IN ('founding', 'platinum', 'gold', 'sponsoredPosts', 'sponsoredMedia', 'professionalServices', 'careerResources')),
+    slot        TEXT NOT NULL CHECK (slot IN ('founding', 'platinum', 'gold', 'sponsoredPosts', 'sponsoredMedia', 'professionalServices', 'eliteExclusive', 'careerResources')),
     id          TEXT NOT NULL CHECK (id ~ '^[a-z0-9][a-z0-9-]{0,60}$'),
     position    INTEGER NOT NULL DEFAULT 0,
     enabled     BOOLEAN NOT NULL DEFAULT TRUE,

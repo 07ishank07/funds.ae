@@ -596,9 +596,10 @@
 </main>
 
 <aside>
-  <!-- Exclusive Elite Sponsor: a dummy sponsor box (fictional employer and image) showing what the Elite Exclusive
-       Partner gets on this page. Demo content only: hidden in live mode (see [data-demo-only] in the styles). -->
-  <section class="elite-sponsor" aria-labelledby="elite-sponsor-title" data-demo-only>
+  <!-- Exclusive Elite Sponsor (sponsor area "eliteExclusive" in Sanity, one sponsor for Careers and Events). The built-in
+       content is a demo sponsor; js/fundsae-connector.js puts in the published sponsor, or in live mode with none the
+       "Space available" advert. Hidden in live mode (data-demo-only) until the connector has filled it. -->
+  <section class="elite-sponsor" aria-labelledby="elite-sponsor-title" data-demo-only data-fundsae-slot="sponsor-elite-exclusive">
     <div class="elite-sponsor-frame"><div class="elite-sponsor-inner">
       <p class="elite-sponsor-tags"><span>Exclusive Elite Sponsor</span><span>Sponsored</span></p>
       <a class="elite-sponsor-media" href="?employer=emp_44cd123125645764#opportunities-title" tabindex="-1" aria-hidden="true"><img src="../assets/sponsors/gulf-horizon-demo.png" width="800" height="450" alt="" loading="lazy" decoding="async"></a>

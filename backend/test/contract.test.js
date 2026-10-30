@@ -273,7 +273,7 @@ test('every page but Careers and the home page shows the same Elite Founding Spo
   assert.match(careers, /<aside>[\s\S]*<section class="top-employers"[\s\S]*?<ol class="top-jobs-list top-employers-list" data-fundsae-slot="employers">[\s\S]*<\/aside>/);
   assert.match(careers, /<li><a href="\?employer=emp_[a-f0-9]{16}#opportunities-title"><span class="tj-rank">1<\/span>/);
   // Exclusive Elite Sponsor: a dummy box leads column 2, with a real image file, and never shows in live mode.
-  assert.match(careers, /<aside>\s*<!--[\s\S]*?-->\s*<section class="elite-sponsor"[^>]*data-demo-only>/);
+  assert.match(careers, /<aside>\s*<!--[\s\S]*?-->\s*<section class="elite-sponsor"[^>]*data-demo-only data-fundsae-slot="sponsor-elite-exclusive">/);
   assert.ok(careers.includes('html[data-fundsae-connected="live"] [data-demo-only] { display: none !important; }'), 'demo-only content is hidden in live mode');
   const sponsorImage = careers.match(/class="elite-sponsor-media"[^>]*><img src="\.\.\/(assets\/sponsors\/[a-z0-9-]+\.png)"/);
   assert.ok(sponsorImage, 'the sponsor box shows an image from assets/sponsors/');
@@ -296,6 +296,13 @@ test('every page but Careers and the home page shows the same Elite Founding Spo
   }
   assert.ok(/<aside>\s*<!-- Exclusive Elite Sponsor[\s\S]*?<section class="elite-sponsor"/.test(events), 'Events: the box opens the right column');
   assert.ok(events.includes('href="Careers.dc.html?employer='), 'Events: the box links to the employer roles on Careers');
+  // Managed in Sanity: both boxes are the sponsor area "eliteExclusive" (one sponsor for both pages), filled by the connector,
+  // which shows the "Space available" advert in live mode when no sponsor is published.
+  for (const page of [careers, events]) assert.ok(page.includes('data-fundsae-slot="sponsor-elite-exclusive"'), 'the box is the eliteExclusive sponsor slot');
+  const sponsorConnector = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
+  for (const s of ["slots('sponsor-elite-exclusive')", "pick('eliteExclusive')", "'Space available'", "'Become the Exclusive Elite Sponsor'", "box.removeAttribute('data-demo-only')"]) {
+    assert.ok(sponsorConnector.includes(s), `connector: ${s}`);
+  }
   const topEmployers = careers.slice(careers.indexOf('data-fundsae-slot="employers"'), careers.indexOf('</ol>', careers.indexOf('data-fundsae-slot="employers"')));
   assert.equal((topEmployers.match(/<li>/g) || []).length, 20, 'Top Employers shows 20');
   assert.equal((topEmployers.match(/class="te-logo"/g) || []).length, 20, 'every Top Employer has a logo');

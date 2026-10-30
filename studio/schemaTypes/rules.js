@@ -38,6 +38,11 @@ export const SPONSOR_SLOTS = {
     where: 'Home page "Featured Partners" and the scrolling strip at the foot of the Careers page.',
     maxItems: 20, sponsored: true, text: { title: 70, website: 80, logoText: 4 }, required: ['title'], images: ['image'], colors: ['colorFrom', 'colorTo']
   },
+  eliteExclusive: {
+    label: 'Exclusive Elite Sponsor (Careers and Events)',
+    where: 'The sponsor box at the top of the right column on the Careers and Events pages. Name, one line, a 16:9 image, the button text (Label, e.g. "See open roles") and its link. Leave it empty to show the "Space available" advert.',
+    maxItems: 1, sponsored: true, text: { title: 60, blurb: 140, label: 24 }, required: ['title'], images: ['image'], colors: []
+  },
   careerResources: {
     label: 'Career Resources (editorial)',
     where: 'Home and Careers "Career Resources". Editorial links, not paid placements.',

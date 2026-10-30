@@ -672,6 +672,54 @@
 
     // Elite Founding Sponsor banner. With no sponsor it keeps its "Your firm here" advert in every
     // mode (that advert is ours, not demo data), so it never shows the "nothing yet" note.
+    // Exclusive Elite Sponsor box (Careers and Events; one sponsor for both, sponsors.json "eliteExclusive").
+    // A published sponsor replaces the page's demo box. With none, live mode shows our "Space available"
+    // advert and demo mode keeps the demo box. The box stays hidden in live mode (data-demo-only) until this ran.
+    slots('sponsor-elite-exclusive').forEach(function (box) {
+      var item = pick('eliteExclusive')[0];
+      var tags = box.querySelectorAll('.elite-sponsor-tags span');
+      var media = box.querySelector('.elite-sponsor-media');
+      var title = box.querySelector('h2');
+      var pitch = box.querySelector('.elite-sponsor-pitch');
+      var cta = box.querySelector('.elite-sponsor-cta');
+      var ctaText = cta && cta.querySelector('span');
+      var own = box.querySelector('.elite-sponsor-own');
+      if (item && item.title) {
+        if (tags[1]) tags[1].textContent = 'Sponsored';
+        if (title) title.textContent = item.title;
+        if (pitch) {
+          if (item.blurb) pitch.textContent = item.blurb;
+          else pitch.remove();
+        }
+        var picture = api.imageUrl(item.image);
+        var img = media && media.querySelector('img');
+        if (media && img && picture) {
+          img.src = picture;
+          img.alt = '';
+          if (!sponsorLink(media, item)) media.removeAttribute('href');
+        } else if (media) {
+          media.remove();
+        }
+        if (cta) {
+          if (ctaText) ctaText.textContent = item.label || 'Find out more';
+          if (!sponsorLink(cta, item)) cta.remove();
+        }
+      } else if (state.mode === 'live') {
+        if (tags[1]) tags[1].textContent = 'Space available';
+        if (title) title.textContent = 'Your firm here';
+        if (pitch) pitch.textContent = 'Put your firm in front of finance professionals on the Careers and Events pages, every day.';
+        if (media) media.remove();
+        if (cta) {
+          if (ctaText) ctaText.textContent = 'Become the Exclusive Elite Sponsor';
+          cta.setAttribute('href', 'Advertise.dc.html#elite-partner');
+          cta.removeAttribute('target');
+          cta.removeAttribute('rel');
+        }
+        if (own) own.remove();
+      }
+      box.removeAttribute('data-demo-only');
+    });
+
     slots('sponsor-founding').forEach(function (banner) {
       var item = pick('founding')[0];
       if (!item || !item.title) return;
@@ -1080,7 +1128,7 @@
         ]).then(function (docs) { renderRoles(docs[0], docs[1]); renderTopJobs(docs[0], docs[2]); }));
       }
       if (hasSlot('events')) guard('Events', load('events.json', 'events').then(renderEvents));
-      var sponsorSlots = ['sponsor-founding', 'sponsor-platinum', 'sponsor-posts', 'sponsor-media', 'sponsor-companies', 'career-resources'];
+      var sponsorSlots = ['sponsor-founding', 'sponsor-platinum', 'sponsor-posts', 'sponsor-media', 'sponsor-companies', 'sponsor-elite-exclusive', 'career-resources'];
       if (sponsorSlots.some(hasSlot)) guard('Sponsors', load('sponsors.json', 'sponsors').then(renderSponsors));
       if (hasSlot('social-highlights') || hasSlot('advertise-tiers') || hasSlot('page-body')) {
         guard('Editorial content', load('content.json', 'content').then(renderContent));

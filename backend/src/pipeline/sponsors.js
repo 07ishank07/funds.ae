@@ -27,6 +27,9 @@ export const SLOT_RULES = {
   sponsoredPosts: { maxItems: 20, sponsored: true, text: { title: 90, blurb: 160, logoText: 4 }, required: ['title'], images: ['image'], colors: ['colorFrom', 'colorTo'] },
   sponsoredMedia: { maxItems: 15, sponsored: true, text: { label: 20, title: 90, blurb: 160 }, required: ['title'], images: ['image'], colors: [] },
   professionalServices: { maxItems: 20, sponsored: true, text: { title: 70, website: 80, logoText: 4 }, required: ['title'], images: ['image'], colors: ['colorFrom', 'colorTo'] },
+  // Exclusive Elite Sponsor box at the top of the right column on Careers and Events (one sponsor for both).
+  // label: the button text; url: the button link.
+  eliteExclusive: { maxItems: 1, sponsored: true, text: { title: 60, blurb: 140, label: 24 }, required: ['title'], images: ['image'], colors: [] },
   careerResources: { maxItems: 12, sponsored: false, text: { title: 70, logoText: 5 }, required: ['title'], images: [], colors: ['colorFrom', 'colorTo'], kinds: CAREER_RESOURCE_TYPES }
 };
 
