@@ -305,6 +305,10 @@
   .opportunities .apply-btn { grid-area: apply; }
   .opportunities .role-meta { margin-top: 8px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font-size: 12px; color: var(--muted); }
   .opportunities .role-meta:empty { display: none; }
+  /* Salary and visa line on jobs posted through Sanity; the title then links to the job's own page. */
+  .opportunities .role-meta .role-pay { flex-basis: 100%; font-weight: 600; color: var(--ink); }
+  .opportunities .role-info h2 a { color: inherit; text-decoration: none; }
+  .opportunities .role-info h2 a:hover { color: #1F6A6E; text-decoration: underline; text-underline-offset: 3px; }
   .pager { margin-top: 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; }
   .pager button {
     min-width: 36px; height: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 3px;

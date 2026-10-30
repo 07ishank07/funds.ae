@@ -187,6 +187,16 @@
     'Enquire about Elite Exclusive': 'استفسر عن الشراكة الحصرية',
     // Careers and Events pages
     'Financial Services Jobs': 'وظائف الخدمات المالية',
+    // Careers from Sanity: resource kinds, job pages and visa lines
+    'Article': 'مقال',
+    'Guide': 'دليل',
+    'Career tip': 'نصيحة مهنية',
+    'External link': 'رابط خارجي',
+    'About the role': 'عن الوظيفة',
+    'Requirements': 'المتطلبات',
+    'Visa sponsorship offered': 'تتوفر كفالة التأشيرة',
+    'Must hold own UAE visa': 'يجب أن تكون لديك تأشيرة إماراتية',
+    'Remote from abroad': 'عن بُعد من الخارج',
     // Post a job page (frontend_demo/PostJob.dc.html)
     'Post a job': 'انشر وظيفة',
     'Post a financial services job': 'انشر وظيفة في الخدمات المالية',

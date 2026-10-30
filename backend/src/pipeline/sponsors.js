@@ -13,6 +13,7 @@ import { log } from '../lib/logger.js';
 import { SPONSOR_SLOTS } from '../contracts/models.js';
 import { toSponsorItemDto } from '../contracts/serializers.js';
 import { cleanText } from '../validation/validate.js';
+import { CAREER_RESOURCE_TYPES } from '../jobs/rules.js';
 
 const HEX = /^#[0-9a-f]{6}$/i;
 const IMAGE_PATH = /^assets\/sponsors\/[a-z0-9][a-z0-9._-]{0,120}\.(png|jpe?g|webp)$/i;
@@ -26,7 +27,7 @@ export const SLOT_RULES = {
   sponsoredPosts: { maxItems: 20, sponsored: true, text: { title: 90, blurb: 160, logoText: 4 }, required: ['title'], images: ['image'], colors: ['colorFrom', 'colorTo'] },
   sponsoredMedia: { maxItems: 15, sponsored: true, text: { label: 20, title: 90, blurb: 160 }, required: ['title'], images: ['image'], colors: [] },
   professionalServices: { maxItems: 20, sponsored: true, text: { title: 70, website: 80, logoText: 4 }, required: ['title'], images: ['image'], colors: ['colorFrom', 'colorTo'] },
-  careerResources: { maxItems: 12, sponsored: false, text: { title: 70, logoText: 5 }, required: ['title'], images: [], colors: ['colorFrom', 'colorTo'] }
+  careerResources: { maxItems: 12, sponsored: false, text: { title: 70, logoText: 5 }, required: ['title'], images: [], colors: ['colorFrom', 'colorTo'], kinds: CAREER_RESOURCE_TYPES }
 };
 
 // Old field and group names, so a hand-edited file gets a helpful message.
@@ -69,7 +70,7 @@ export function validateSponsors(config) {
   for (const slot of SPONSOR_SLOTS) {
     const rule = SLOT_RULES[slot];
     const items = Array.isArray(config[slot]) ? config[slot] : [];
-    const allowed = new Set(['id', 'enabled', 'url', ...Object.keys(rule.text), ...rule.images, ...rule.colors]);
+    const allowed = new Set(['id', 'enabled', 'url', ...Object.keys(rule.text), ...rule.images, ...rule.colors, ...(rule.kinds ? ['resourceType'] : [])]);
     const ids = new Set();
     slots[slot] = [];
 
@@ -95,6 +96,12 @@ export function validateSponsors(config) {
         clean[field] = v || null;
       }
       for (const field of rule.required) if (!clean[field]) errors.push(`${where}: "${field}" is required.`);
+      // Career Resources: the kind of resource (Article, Guide…), shown as a small label.
+      if (rule.kinds) {
+        const kind = item.resourceType ?? null;
+        if (kind !== null && !rule.kinds.includes(kind)) errors.push(`${where}: "resourceType" must be one of ${rule.kinds.join(', ')}.`);
+        clean.resourceType = rule.kinds.includes(kind) ? kind : null;
+      }
 
       const url = checkUrl(item.url);
       if (!url.ok) errors.push(`${where}: link must start with https:// (or be # as a placeholder).`);

@@ -253,6 +253,13 @@ test('every page but Careers shows the same Elite Founding Sponsor banner, and a
   assert.ok(!careers.includes('data-fundsae-slot="events"') && !careers.includes('data-fundsae-form="event"'), 'Careers no longer has events');
   assert.match(careers, /<h1[^>]*>Financial Services Jobs<\/h1>/);
   assert.ok(careers.includes("badge.className = 'role-logo'"), 'job cards carry a dummy employer logo');
+  // Careers from Sanity: the connector follows careers.json for the Top boxes, links posted jobs to their page,
+  // shows the salary/visa line and employer logos (images through setLogoImage, https only, no referrer).
+  const careersConnector = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
+  for (const s of ["load('careers.json', 'careers')", 'pickedOrder(automatic, careersDoc && careersDoc.topJobs)', 'careersDoc && careersDoc.topEmployers',
+    "'jobs/' + job.slug + '.html'", 'salaryText(job.salary)', "img.referrerPolicy = 'no-referrer'", 'item.resourceType']) {
+    assert.ok(careersConnector.includes(s), `connector: ${s}`);
+  }
   // Featured Employers grid is gone; Top Employers in column 2 ranks employers and links to each one's roles.
   assert.ok(!careers.includes('employer-grid') && !careers.includes('Featured Employers'), 'Careers has no Featured Employers grid');
   assert.match(careers, /<aside>[\s\S]*<section class="top-employers"[\s\S]*?<ol class="top-jobs-list top-employers-list" data-fundsae-slot="employers">[\s\S]*<\/aside>/);

@@ -169,6 +169,7 @@ export function toSponsorItemDto(item, { sponsored }) {
     image: nullable(item.image),
     colorFrom: nullable(item.colorFrom),
     colorTo: nullable(item.colorTo),
+    resourceType: nullable(item.resourceType),
     sponsored: Boolean(sponsored)
   };
 }

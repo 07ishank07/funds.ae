@@ -7,7 +7,7 @@ const published = '!(_id in path("drafts.**"))';
 
 export const CONTENT_QUERY = `{
   "sponsors": *[_type == "sponsorItem" && enabled != false && ${published}] | order(slot asc, position asc, title asc) {
-    "id": id.current, slot, title, blurb, label, logoText, website, url, colorFrom, colorTo,
+    "id": id.current, slot, title, blurb, label, logoText, website, url, colorFrom, colorTo, resourceType,
     "image": image.asset->{url, mimeType, size}
   },
   "events": *[_type == "event" && ${published}] | order(startDate asc, title asc) {

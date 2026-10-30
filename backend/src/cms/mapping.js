@@ -37,6 +37,7 @@ export function toSponsorsConfig(docs) {
     const item = { id: doc.id, enabled: true, url: doc.url };
     for (const field of Object.keys(rule.text)) item[field] = doc[field];
     for (const field of rule.colors) item[field] = doc[field];
+    if (rule.kinds && doc.resourceType) item.resourceType = doc.resourceType;
     for (const field of rule.images) {
       const img = doc[field];
       if (!img?.url) continue;

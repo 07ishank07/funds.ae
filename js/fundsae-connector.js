@@ -398,6 +398,41 @@
     return '';
   }
 
+  var JOB_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+  var salaryFmt = new Intl.NumberFormat('en-US');
+  /** The job's own page, for jobs posted through Sanity (frontend_demo/jobs/<slug>.html). */
+  function jobPageHref(job) {
+    return job.slug && JOB_SLUG.test(job.slug) ? 'jobs/' + job.slug + '.html' : null;
+  }
+  /** "AED 25,000–35,000 / month" */
+  function salaryText(s) {
+    if (!s || typeof s.from !== 'number') return '';
+    var range = typeof s.to === 'number' && s.to !== s.from ? salaryFmt.format(s.from) + '–' + salaryFmt.format(s.to) : salaryFmt.format(s.from);
+    return [s.currency, range].filter(Boolean).join(' ') + (s.period ? ' / ' + s.period : '');
+  }
+  /** Puts the employer's logo (https only, never sending the page address) into a logo tile. False when there is none. */
+  function setLogoImage(tile, url, name) {
+    var src = api.httpUrl(url, true);
+    if (!src) return false;
+    tile.textContent = '';
+    var img = document.createElement('img');
+    img.src = src;
+    img.alt = name + ' logo';
+    img.loading = 'lazy';
+    img.referrerPolicy = 'no-referrer';
+    img.style.cssText = 'width:100%;height:100%;object-fit:contain;background:#fff;border-radius:inherit';
+    tile.style.background = '#fff';
+    tile.appendChild(img);
+    return true;
+  }
+  /** The editors' order (careers.json) when they picked one, otherwise the automatic order. */
+  function pickedOrder(list, ids) {
+    if (!Array.isArray(ids) || !ids.length) return list;
+    var byId = {};
+    list.forEach(function (item) { byId[item.id] = item; });
+    return ids.map(function (id) { return byId[id]; }).filter(Boolean);
+  }
+
   function renderRoles(jobsDoc, employersDoc) {
     var list = slots('roles')[0];
     if (!list) return;
@@ -412,19 +447,40 @@
       row.setAttribute('data-type', job.employmentType || '');
       row.setAttribute('data-posted', job.postedAt || '');
       row.setAttribute('data-featured', job.featured ? '1' : '0');
-      row.querySelector('h2').textContent = job.title;
+      // Jobs posted through Sanity have their own page (jobs/<slug>.html); the title links to it.
+      var heading = row.querySelector('h2');
+      heading.textContent = '';
+      var page = jobPageHref(job);
+      if (page) {
+        var titleLink = document.createElement('a');
+        titleLink.href = page;
+        titleLink.textContent = job.title;
+        heading.appendChild(titleLink);
+      } else {
+        heading.textContent = job.title;
+      }
       row.querySelector('.company').textContent = job.company;
-      // Dummy employer logo: initials on a colour from the company name (window.__fundsRoleLogo, Careers.dc.html).
+      // The employer's logo from Sanity, or a dummy logo: initials on a colour from the company name
+      // (window.__fundsRoleLogo, Careers.dc.html).
       var logo = row.querySelector('.role-logo');
       if (logo) {
         var look = typeof window.__fundsRoleLogo === 'function' ? window.__fundsRoleLogo(job.company) : { text: initials(job.company) };
-        logo.textContent = look.text;
-        if (look.colours) logo.style.background = 'linear-gradient(145deg, ' + look.colours + ')';
+        if (!setLogoImage(logo, job.logoUrl, job.company)) {
+          logo.textContent = look.text;
+          if (look.colours) logo.style.background = 'linear-gradient(145deg, ' + look.colours + ')';
+        }
       }
       row.querySelector('.location').textContent = [job.location, job.employmentType].filter(Boolean).join(' · ');
       var meta = row.querySelector('.role-meta');
       if (meta) {
         meta.textContent = '';
+        var pay = [salaryText(job.salary), job.visa].filter(Boolean).join(' · ');
+        if (pay) {
+          var payLine = document.createElement('span');
+          payLine.className = 'role-pay';
+          payLine.textContent = pay;
+          meta.appendChild(payLine);
+        }
         var bits = [job.department, postedAgo(job.postedAt)].filter(Boolean).join(' · ');
         if (bits) {
           var text = document.createElement('span');
@@ -450,17 +506,27 @@
   }
 
   /** Careers page, column 2: the twenty best roles, featured first then newest. Rows link to the employer's own posting. */
-  function renderTopJobs(jobsDoc) {
-    var jobs = api.items(jobsDoc.items, api.valid.job, 'jobs').slice().sort(function (a, b) {
+  function renderTopJobs(jobsDoc, careersDoc) {
+    var all = api.items(jobsDoc.items, api.valid.job, 'jobs');
+    var automatic = all.slice().sort(function (a, b) {
       return (b.featured ? 1 : 0) - (a.featured ? 1 : 0) || String(b.postedAt || '').localeCompare(String(a.postedAt || ''));
-    }).slice(0, LIMITS.topJobs);
+    });
+    // Hand-picked in the Studio (careers.json), in the editors' order; otherwise featured first, then newest.
+    var jobs = pickedOrder(automatic, careersDoc && careersDoc.topJobs).slice(0, LIMITS.topJobs);
     slots('top-jobs').forEach(function (ul) {
       fillList(ul, ':scope > li', jobs, function (li, job) {
         var a = li.querySelector('a');
         a.querySelector('.tj-title').textContent = job.title;
         a.querySelector('.tj-co').textContent = [job.company, job.location].filter(Boolean).join(' · ');
         a.title = job.title + ' at ' + job.company;
-        api.setLink(a, job.url);
+        var page = jobPageHref(job);
+        if (page) {
+          a.href = page;
+          a.removeAttribute('target');
+          a.removeAttribute('rel');
+        } else {
+          api.setLink(a, job.url);
+        }
       });
       Array.prototype.forEach.call(ul.querySelectorAll(':scope > li'), function (li, i) {
         var rank = li.querySelector('.tj-rank');
@@ -500,17 +566,18 @@
 
   /** Careers page, column 2: Top Employers (logo tile, name, open roles), in employers.json order (featured first, then most open roles). Each row
    *  opens the page filtered to that employer's roles (see applyEmployerFilter). */
-  function renderEmployers(doc) {
-    var employers = api.items(doc.items, api.valid.employer, 'employers').slice(0, LIMITS.topEmployers);
+  function renderEmployers(doc, careersDoc) {
+    // Hand-picked in the Studio (careers.json), in the editors' order; otherwise featured first, then most open roles.
+    var employers = pickedOrder(api.items(doc.items, api.valid.employer, 'employers'), careersDoc && careersDoc.topEmployers).slice(0, LIMITS.topEmployers);
     slots('employers').forEach(function (list) {
       var palette = backgroundsOf(children(list, ':scope > li .te-logo'));
       fillList(list, ':scope > li', employers, function (li, employer, i) {
         var a = li.querySelector('a');
         a.setAttribute('href', '?employer=' + encodeURIComponent(employer.id) + '#opportunities-title');
-        a.title = 'Open roles at ' + employer.name;
+        a.title = employer.description ? employer.name + ': ' + employer.description : 'Open roles at ' + employer.name;
         li.querySelector('.tj-rank').textContent = String(i + 1);
         var logo = li.querySelector('.te-logo');
-        if (logo) {
+        if (logo && !setLogoImage(logo, employer.logoUrl, employer.name)) {
           logo.textContent = employer.initials;
           if (palette.length) logo.style.background = palette[i % palette.length];
         }
@@ -695,6 +762,19 @@
         logoBox(a.querySelector(':scope > div, .logo'), item, true);
         var label = a.querySelector('.label') || a.querySelector(':scope > span');
         if (label) label.textContent = item.title;
+        // The kind of resource (Article, Guide, Career tip, External link), as a small label under the title.
+        var kind = a.querySelector('.kind');
+        if (item.resourceType) {
+          if (!kind) {
+            kind = document.createElement('small');
+            kind.className = 'kind';
+            kind.style.cssText = 'display:block;margin-top:2px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#62797D';
+            (label || a).appendChild(kind);
+          }
+          kind.textContent = item.resourceType;
+        } else if (kind) {
+          kind.remove();
+        }
         sponsorLink(a, item);
       });
     });
@@ -987,12 +1067,17 @@
       if (hasSlot('tiles-grants-funding')) {
         guard('Grants stories', load('news/sections/grants-funding.json', 'news').then(function (doc) { renderTiles('tiles-grants-funding', doc, TILES_SHOWN); }));
       }
-      if (hasSlot('employers')) guard('Employers', load('employers.json', 'employers').then(renderEmployers));
+      // careers.json: the Top Employers / Top Jobs picked in the Studio (missing on older data: automatic order).
+      var careersDoc = (hasSlot('employers') || hasSlot('top-jobs')) ? load('careers.json', 'careers').catch(function () { return null; }) : null;
+      if (hasSlot('employers')) {
+        guard('Employers', Promise.all([load('employers.json', 'employers'), careersDoc]).then(function (docs) { renderEmployers(docs[0], docs[1]); }));
+      }
       if (hasSlot('roles') || hasSlot('top-jobs')) {
         guard('Roles', Promise.all([
           load('jobs.json', 'jobs'),
-          load('employers.json', 'employers').catch(function () { return null; })
-        ]).then(function (docs) { renderRoles(docs[0], docs[1]); renderTopJobs(docs[0]); }));
+          load('employers.json', 'employers').catch(function () { return null; }),
+          careersDoc
+        ]).then(function (docs) { renderRoles(docs[0], docs[1]); renderTopJobs(docs[0], docs[2]); }));
       }
       if (hasSlot('events')) guard('Events', load('events.json', 'events').then(renderEvents));
       var sponsorSlots = ['sponsor-founding', 'sponsor-platinum', 'sponsor-posts', 'sponsor-media', 'sponsor-companies', 'career-resources'];

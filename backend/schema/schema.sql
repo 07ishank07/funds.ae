@@ -179,6 +179,7 @@ CREATE TABLE IF NOT EXISTS sponsor_items (
     image       TEXT CHECK (image IS NULL OR image ~* '^(https://|assets/sponsors/)'),
     color_from  TEXT CHECK (color_from IS NULL OR color_from ~* '^#[0-9a-f]{6}$'),
     color_to    TEXT CHECK (color_to IS NULL OR color_to ~* '^#[0-9a-f]{6}$'),
+    resource_type TEXT CHECK (resource_type IS NULL OR resource_type IN ('Article', 'Guide', 'Career tip', 'External link')),  -- careerResources only
     PRIMARY KEY (slot, id)
 );
 

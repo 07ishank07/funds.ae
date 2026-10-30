@@ -293,7 +293,7 @@ export const DB_MODELS = {
   },
   sponsorItems: {
     table: 'sponsor_items',
-    fields: ['id', 'slot', 'position', 'enabled', 'title', 'blurb', 'label', 'logoText', 'website', 'url', 'image', 'colorFrom', 'colorTo']
+    fields: ['id', 'slot', 'position', 'enabled', 'title', 'blurb', 'label', 'logoText', 'website', 'url', 'image', 'colorFrom', 'colorTo', 'resourceType']
   },
   socialHighlights: {
     table: 'social_highlights',
@@ -338,7 +338,7 @@ export const DTO_FIELDS = {
   ],
   employer: ['id', 'name', 'initials', 'openJobs', 'featured', 'logoUrl', 'description', 'website'],
   event: ['id', 'title', 'eventType', 'startDate', 'endDate', 'city', 'venue', 'url', 'organiser', 'featured'],
-  sponsorItem: ['id', 'title', 'blurb', 'label', 'logoText', 'website', 'url', 'image', 'colorFrom', 'colorTo', 'sponsored'],
+  sponsorItem: ['id', 'title', 'blurb', 'label', 'logoText', 'website', 'url', 'image', 'colorFrom', 'colorTo', 'resourceType', 'sponsored'],
   socialHighlight: ['id', 'accountName', 'handle', 'text', 'url', 'initials', 'color'],
   advertiseTier: ['id', 'name', 'badge', 'price', 'priceNote', 'showPrice', 'duration', 'placements', 'features', 'ctaLabel', 'ctaUrl', 'featured'],
   advertisePlacement: ['type', 'label', 'detail'],

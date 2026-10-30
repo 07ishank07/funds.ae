@@ -41,7 +41,9 @@ export const SPONSOR_SLOTS = {
   careerResources: {
     label: 'Career Resources (editorial)',
     where: 'Home and Careers "Career Resources". Editorial links, not paid placements.',
-    maxItems: 12, sponsored: false, text: { title: 70, logoText: 5 }, required: ['title'], images: [], colors: ['colorFrom', 'colorTo']
+    maxItems: 12, sponsored: false, text: { title: 70, logoText: 5 }, required: ['title'], images: [], colors: ['colorFrom', 'colorTo'],
+    // The kind of resource shown as a label (equals CAREER_RESOURCE_TYPES in jobRules.js).
+    kinds: ['Article', 'Guide', 'Career tip', 'External link']
   }
 };
 
