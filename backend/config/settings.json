@@ -64,9 +64,14 @@
     }
   },
   "jobs": {
+    "_help": "source: where hand-posted jobs come from. \"file\": config/jobs.manual.json. \"sanity\": approved jobs from the Careers section of the Sanity Studio (pulled by `npm run ingest:jobs`). review.store: where the funds.ae server puts Post a Job submissions. \"file\": backend/data/submissions. \"sanity\": Pending review in the Studio (needs SANITY_WRITE_TOKEN on the server). Job feeds (sources.jobs.json) are not affected. See docs/SANITY-CMS-GUIDE.md, \"Careers\".",
     "maxAgeDays": 45,
     "relevanceThreshold": 1,
-    "maxPublished": 150
+    "maxPublished": 150,
+    "source": "file",
+    "review": {
+      "store": "file"
+    }
   },
   "content": {
     "_help": "Where sponsors.json, events.json and content.json come from. \"file\": edit them by hand. \"sanity\": the Sanity Studio is the source and `npm run cms:pull` (run by the Publish content workflow) overwrites them. Switch only after importing the current content into Sanity: see docs/SANITY-CMS-GUIDE.md.",
@@ -82,13 +87,14 @@
     "keepPastDays": 30
   },
   "submissions": {
-    "_help": "Website forms (contact, newsletter, advertise, event, job). Only used by the optional server; GitHub Pages cannot receive forms. Stored in backend/data/submissions/ (git-ignored) and deleted after retentionDays by `npm run submissions:prune`.",
+    "_help": "Website forms (contact, newsletter, advertise, event, job). Only used by the optional server; GitHub Pages cannot receive forms. Stored in backend/data/submissions/ (git-ignored) and deleted after retentionDays by `npm run submissions:prune`. endpoint: the server's address when the site is hosted elsewhere (GitHub Pages), e.g. \"https://forms.funds.ae/api/v1/\". It is published in api/v1/meta.json so the forms post there; the server must list the site in ALLOWED_ORIGINS. Empty: forms show the demo notice.",
     "enabled": true,
     "retentionDays": 180,
     "demoMaxPerKind": 500,
     "maxBodyBytes": 16384,
     "writeRatePerMinute": 5,
-    "writeRatePerHour": 30
+    "writeRatePerHour": 30,
+    "endpoint": ""
   },
   "circuitBreaker": {
     "maxConsecutiveFailures": 5,

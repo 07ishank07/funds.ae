@@ -45,10 +45,16 @@ Items marked "(Phase N)" below do not exist yet.
   fields; nothing automated ever changes a status. Only the news publisher writes api/v1/news*, and only
   stories that are published, due, approved by an id in settings news.review.approverIds, unchanged
   since approval (content hash) and from a source whose licence is cleared.
+- Posted jobs follow the same gate: their rules and workflow are studio/schemaTypes/jobRules.js and
+  jobWorkflow.js, mirrored in backend/src/jobs/. The submissions server may only create pending_review
+  jobs (src/jobs/submissionMutations.js); a job reaches api/v1/jobs.json only if published, approved by a
+  review approver, unchanged since approval and unexpired (src/jobs/publicFilter.js). The filer's name and
+  email never leave Sanity.
 - Sanity (studio/) holds hand-written content (sponsors, events, Top Tweets, Advertise packages,
-  About/Privacy/Terms copy) and the news review queue (stories under private `queue.*` ids, news
-  sources, Capital Types, Asset Classes). Never jobs. The dataset is public (Free plan): any document
-  without a dot in its id is readable by anyone. Sanity data enters ONLY through src/cms/mapping.js and
+  About/Privacy/Terms copy), the news review queue (stories under private `queue.*` ids, news
+  sources, Capital Types, Asset Classes) and the Careers section (posted jobs, submissions under private
+  `jobs.*` ids, employers, the Top Employers/Top Jobs lists). Never jobs from job feeds. The dataset is
+  public (Free plan): any document without a dot in its id is readable by anyone. Sanity data enters ONLY through src/cms/mapping.js and
   is validated by the existing pipeline validators before any file is written. Studio limits live in
   studio/schemaTypes/rules.js and must equal the backend's (test/cms.test.js enforces this).
 - Website scripts insert data with textContent only; pages expose data-fundsae-slot hooks and
@@ -66,8 +72,8 @@ Items marked "(Phase N)" below do not exist yet.
 
 ## Security rules
 - Secrets only from environment variables; never commit .env; never log secrets or personal data.
-- The Sanity write token (SANITY_WRITE_TOKEN) is used only by the news importer; everything else,
-  including the news publisher, uses the read-only token.
+- The Sanity write token (SANITY_WRITE_TOKEN) is used only by the news importer and by the funds.ae
+  server for Post a Job submissions; everything else, including both publishers, uses the read-only token.
 - Admin routes require login + role check + CSRF token; 2FA required for editor and above.
 - Validate every input (zod or src/validation). Escape all output (templates auto-escape; the
   website uses textContent only).

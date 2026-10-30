@@ -6,32 +6,16 @@
 
 import { rules } from './validate.js';
 import { EMPLOYMENT_TYPES } from '../contracts/models.js';
+import { JOB_FORM_OPTIONS, JOB_LIMITS } from '../jobs/rules.js';
 
 const { text, email, httpsUrl, enumOf, isoDate, honeypot, id, wholeNumber } = rules;
 
 const name = text({ min: 2, max: 80 });
 const contactEmail = email();
 
-/**
- * Choices on the "Post a job" page (frontend_demo/PostJob.dc.html). The page's <option> values must equal
- * these lists; test/contract.test.js checks that.
- */
-export const JOB_FORM_OPTIONS = {
-  workMode: ['Onsite', 'Hybrid', 'Remote'],
-  seniority: ['Entry-level', 'Analyst', 'Associate', 'Vice President', 'Director', 'Managing Director / Partner', 'C-suite'],
-  department: [
-    'Investments and Portfolio Management', 'Private Equity and Venture Capital', 'Private Credit and Lending',
-    'Investment Banking and Advisory', 'Wealth Management and Private Banking', 'Research and Analysis', 'Risk Management',
-    'Compliance and AML', 'Legal', 'Finance and Accounting', 'Fund Administration and Operations',
-    'Investor Relations and Fundraising', 'Sales and Business Development', 'Technology and Data',
-    'Real Estate and Infrastructure', 'Human Resources'
-  ],
-  regulator: ['DFSA (DIFC)', 'FSRA (ADGM)', 'SCA', 'CBUAE', 'VARA', 'Not a regulated role'],
-  salaryCurrency: ['AED', 'USD'],
-  salaryPeriod: ['month', 'year'],
-  visa: ['Visa sponsorship offered', 'Must hold own UAE visa', 'Remote from abroad']
-};
-const SALARY_MAX = 100_000_000;
+/** Choices on the Post a Job page come from the shared job rules (src/jobs/rules.js = studio/schemaTypes/jobRules.js). */
+export { JOB_FORM_OPTIONS };
+const SALARY_MAX = JOB_LIMITS.salaryMax;
 
 export const SUBMISSION_SCHEMAS = {
   contact: {
@@ -83,10 +67,10 @@ export const SUBMISSION_SCHEMAS = {
   // bot trap. An editor reviews every role; approved ones are copied into config/jobs.manual.json.
   job: {
     fields: {
-      company: text({ min: 2, max: 120 }),
+      company: text({ min: JOB_LIMITS.company[0], max: JOB_LIMITS.company[1] }),
       companyUrl: httpsUrl({ required: false }),
-      title: text({ min: 3, max: 160 }),
-      location: text({ min: 2, max: 160 }),
+      title: text({ min: JOB_LIMITS.title[0], max: JOB_LIMITS.title[1] }),
+      location: text({ min: JOB_LIMITS.location[0], max: JOB_LIMITS.location[1] }),
       workMode: enumOf(JOB_FORM_OPTIONS.workMode, { required: false }),
       employmentType: enumOf(EMPLOYMENT_TYPES, { required: false }),
       seniority: enumOf(JOB_FORM_OPTIONS.seniority, { required: false }),
@@ -98,7 +82,7 @@ export const SUBMISSION_SCHEMAS = {
       salaryCurrency: enumOf(JOB_FORM_OPTIONS.salaryCurrency),
       salaryPeriod: enumOf(JOB_FORM_OPTIONS.salaryPeriod),
       visa: enumOf(JOB_FORM_OPTIONS.visa),
-      description: text({ min: 50, max: 5000, multiline: true }),
+      description: text({ min: JOB_LIMITS.description[0], max: JOB_LIMITS.description[1], multiline: true }),
       name,
       contactRole: text({ min: 2, max: 80, required: false }),
       email: contactEmail,

@@ -298,6 +298,10 @@ const SETTINGS_DEFAULTS = {
   // "sanity": they are written by `npm run cms:pull` from the Sanity Studio (studio/).
   content: { source: 'file' },
   events: { maxPublished: 50, keepPastDays: 30 },
+  // source: where hand-posted jobs come from: "file" (config/jobs.manual.json) or "sanity" (approved jobPosting
+  // documents, docs/SANITY-CMS-GUIDE.md "Careers"). review.store: where the server puts Post a Job submissions:
+  // "file" (backend/data/submissions) or "sanity" (Pending review in the Studio). Job feeds are unaffected.
+  jobs: { maxAgeDays: 45, relevanceThreshold: 1, maxPublished: 150, source: 'file', review: { store: 'file' } },
   employers: { maxPublished: 20 },
   submissions: {
     enabled: true,
@@ -305,7 +309,10 @@ const SETTINGS_DEFAULTS = {
     demoMaxPerKind: 500,
     maxBodyBytes: 16384,
     writeRatePerMinute: 5,
-    writeRatePerHour: 30
+    writeRatePerHour: 30,
+    // The funds.ae server's address when the site is hosted elsewhere (GitHub Pages), e.g.
+    // "https://forms.funds.ae/api/v1/". Published in api/v1/meta.json; forms post there. Empty: forms are off.
+    endpoint: ''
   }
 };
 
@@ -389,6 +396,16 @@ export function loadSettings() {
   if (!['demo', 'live'].includes(settings.mode)) {
     throw new ConfigError('settings.json: "mode" must be "demo" or "live".');
   }
+  settings.jobs.review = { store: 'file', ...(settings.jobs.review || {}) };
+  if (process.env.FUNDSAE_JOBS_SOURCE) settings.jobs.source = process.env.FUNDSAE_JOBS_SOURCE;
+  if (process.env.FUNDSAE_JOBS_STORE) settings.jobs.review.store = process.env.FUNDSAE_JOBS_STORE;
+  if (!['file', 'sanity'].includes(settings.jobs.source)) throw new ConfigError('settings.json: "jobs.source" must be "file" or "sanity".');
+  if (!['file', 'sanity'].includes(settings.jobs.review.store)) throw new ConfigError('settings.json: "jobs.review.store" must be "file" or "sanity".');
+  const endpoint = String(process.env.FUNDSAE_SUBMISSIONS_ENDPOINT ?? settings.submissions.endpoint ?? '').trim();
+  if (endpoint && !/^https:\/\/[^\s"'<>]+\/$/.test(endpoint)) {
+    throw new ConfigError('settings.json: "submissions.endpoint" must be an https address ending with "/", or empty.');
+  }
+  settings.submissions.endpoint = endpoint;
   applyNewsSettings(settings);
   // The environment wins so a deployment can set the address without editing the file.
   const contactEmail = String(process.env.FUNDSAE_CONTACT_EMAIL ?? settings.contactEmail ?? '').trim();
