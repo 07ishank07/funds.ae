@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-10-30T09:43:32.761Z",
+  "generatedAt": "2026-10-31T09:23:42.610Z",
   "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
   "topic": "fundraising",
   "label": "Fund launches and closes",
@@ -14,8 +14,8 @@
       "url": "https://example.com/private-capital-daily/harbourview-fund-vii",
       "source": "Demo Private Capital Daily",
       "sourceId": "demo-private-capital-daily",
-      "publishedAt": "2026-10-29T03:43:32.761Z",
-      "updatedAt": "2026-10-29T03:43:32.761Z",
+      "publishedAt": "2026-10-30T03:23:42.610Z",
+      "updatedAt": "2026-10-30T03:23:42.610Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -36,7 +36,7 @@
           "sourceId": "demo-private-capital-daily",
           "title": "Harbourview Partners closes €4.2bn buyout fund above target",
           "url": "https://example.com/private-capital-daily/harbourview-fund-vii",
-          "publishedAt": "2026-10-29T03:43:32.761Z"
+          "publishedAt": "2026-10-30T03:23:42.610Z"
         }
       ],
       "slug": "harbourview-partners-closes-4-2bn-buyout-fund-above-target-a53b",
@@ -58,7 +58,7 @@
         "label": "Fund close"
       },
       "featured": false,
-      "liveAt": "2026-10-30T09:43:32.761Z"
+      "liveAt": "2026-10-31T09:23:42.610Z"
     },
     {
       "id": "s_5a385db0c12008",
@@ -67,8 +67,8 @@
       "url": "https://example.com/emirates-markets/crescent-peak-secondaries-first-close",
       "source": "Demo Emirates Markets",
       "sourceId": "demo-emirates-markets",
-      "publishedAt": "2026-10-26T06:43:32.000Z",
-      "updatedAt": "2026-10-26T06:43:32.000Z",
+      "publishedAt": "2026-10-27T06:23:42.000Z",
+      "updatedAt": "2026-10-27T06:23:42.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -89,7 +89,7 @@
           "sourceId": "demo-emirates-markets",
           "title": "ADGM-registered Crescent Peak announces first close of GCC secondaries fund",
           "url": "https://example.com/emirates-markets/crescent-peak-secondaries-first-close",
-          "publishedAt": "2026-10-26T06:43:32.000Z"
+          "publishedAt": "2026-10-27T06:23:42.000Z"
         }
       ],
       "slug": "adgm-registered-crescent-peak-announces-first-close-of-gcc-secondaries-fund-fed2",
@@ -115,7 +115,7 @@
         "label": "Fund close"
       },
       "featured": false,
-      "liveAt": "2026-10-30T09:43:32.761Z"
+      "liveAt": "2026-10-31T09:23:42.610Z"
     }
   ]
 }

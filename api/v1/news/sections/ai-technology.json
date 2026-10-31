@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-10-30T09:43:32.761Z",
+  "generatedAt": "2026-10-31T09:23:42.610Z",
   "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
   "section": "ai-technology",
   "label": "Tech and Data Centres",
@@ -14,8 +14,8 @@
       "url": "https://example.com/gulf-wire/qirsh-series-b",
       "source": "Demo Gulf Wire",
       "sourceId": "demo-gulf-wire",
-      "publishedAt": "2026-10-29T03:43:32.000Z",
-      "updatedAt": "2026-10-29T13:43:32.000Z",
+      "publishedAt": "2026-10-30T03:23:42.000Z",
+      "updatedAt": "2026-10-30T13:23:42.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -36,7 +36,7 @@
           "sourceId": "demo-gulf-wire",
           "title": "Dubai-based fintech Qirsh raises $45 million Series B led by Sandline Ventures",
           "url": "https://example.com/gulf-wire/qirsh-series-b",
-          "publishedAt": "2026-10-29T03:43:32.000Z"
+          "publishedAt": "2026-10-30T03:23:42.000Z"
         },
         {
           "articleId": "a_d0a9ae63a58b381b",
@@ -44,7 +44,7 @@
           "sourceId": "demo-emirates-markets",
           "title": "Qirsh secures $45m in Series B round as Dubai payments start-up expands to Riyadh",
           "url": "https://example.com/emirates-markets/qirsh-45m-series-b-riyadh",
-          "publishedAt": "2026-10-29T07:43:32.000Z"
+          "publishedAt": "2026-10-30T07:23:42.000Z"
         },
         {
           "articleId": "a_e72c6985fb047deb",
@@ -52,7 +52,7 @@
           "sourceId": "demo-venture-ledger",
           "title": "Qirsh lands $45 million to take buy-now-pay-later across the Gulf",
           "url": "https://example.com/venture-ledger/qirsh-45-million",
-          "publishedAt": "2026-10-29T13:43:32.000Z"
+          "publishedAt": "2026-10-30T13:23:42.000Z"
         }
       ],
       "slug": "dubai-based-fintech-qirsh-raises-45-million-series-b-led-by-sandline-ventures-47f6",
@@ -69,7 +69,7 @@
         "label": "Capital raising"
       },
       "featured": false,
-      "liveAt": "2026-10-30T09:43:32.761Z"
+      "liveAt": "2026-10-31T09:23:42.610Z"
     },
     {
       "id": "s_a42cf20de9d2eb",
@@ -78,8 +78,8 @@
       "url": "https://example.com/property-sme-wire/brindlecourt-data-centre-fund",
       "source": "Demo Property and SME Wire",
       "sourceId": "demo-property-sme-wire",
-      "publishedAt": "2026-10-29T00:43:32.000Z",
-      "updatedAt": "2026-10-29T00:43:32.000Z",
+      "publishedAt": "2026-10-30T00:23:42.000Z",
+      "updatedAt": "2026-10-30T00:23:42.000Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -100,7 +100,7 @@
           "sourceId": "demo-property-sme-wire",
           "title": "Brindlecourt Infrastructure closes €1.2bn infrastructure fund for European data centres",
           "url": "https://example.com/property-sme-wire/brindlecourt-data-centre-fund",
-          "publishedAt": "2026-10-29T00:43:32.000Z"
+          "publishedAt": "2026-10-30T00:23:42.000Z"
         }
       ],
       "slug": "brindlecourt-infrastructure-closes-1-2bn-infrastructure-fund-for-european-data-58ca",
@@ -131,7 +131,7 @@
         "label": "Fund close"
       },
       "featured": true,
-      "liveAt": "2026-10-30T09:43:32.761Z"
+      "liveAt": "2026-10-31T09:23:42.610Z"
     },
     {
       "id": "s_3569b3929adea8",
@@ -140,8 +140,8 @@
       "url": "https://example.com/venture-ledger/mena-vc-q3",
       "source": "Demo Venture Ledger",
       "sourceId": "demo-venture-ledger",
-      "publishedAt": "2026-10-27T04:43:32.000Z",
-      "updatedAt": "2026-10-27T04:43:32.000Z",
+      "publishedAt": "2026-10-28T04:23:42.000Z",
+      "updatedAt": "2026-10-28T04:23:42.000Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -161,7 +161,7 @@
           "sourceId": "demo-venture-ledger",
           "title": "VC funding to MENA start-ups rose 18% in the third quarter",
           "url": "https://example.com/venture-ledger/mena-vc-q3",
-          "publishedAt": "2026-10-27T04:43:32.000Z"
+          "publishedAt": "2026-10-28T04:23:42.000Z"
         }
       ],
       "slug": "vc-funding-to-mena-start-ups-rose-18-in-the-third-quarter-eebd",
@@ -175,7 +175,7 @@
       ],
       "transactionType": null,
       "featured": false,
-      "liveAt": "2026-10-30T09:43:32.761Z"
+      "liveAt": "2026-10-31T09:23:42.610Z"
     }
   ]
 }

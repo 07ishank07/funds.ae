@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-10-30T09:43:32.761Z",
+  "generatedAt": "2026-10-31T09:23:42.610Z",
   "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
   "topic": "sovereign-wealth",
   "label": "Sovereign wealth",
@@ -14,8 +14,8 @@
       "url": "https://example.com/private-capital-daily/northlight-1bn-round",
       "source": "Demo Private Capital Daily",
       "sourceId": "demo-private-capital-daily",
-      "publishedAt": "2026-10-29T13:43:32.761Z",
-      "updatedAt": "2026-10-29T13:43:32.761Z",
+      "publishedAt": "2026-10-30T13:23:42.610Z",
+      "updatedAt": "2026-10-30T13:23:42.610Z",
       "category": "world",
       "categoryLabel": "Rest of the World",
       "uiLabel": "Global News",
@@ -36,7 +36,7 @@
           "sourceId": "demo-private-capital-daily",
           "title": "Gulf sovereign investors join $1bn round for London AI infrastructure firm Northlight",
           "url": "https://example.com/private-capital-daily/northlight-1bn-round",
-          "publishedAt": "2026-10-29T13:43:32.761Z"
+          "publishedAt": "2026-10-30T13:23:42.610Z"
         }
       ],
       "slug": "gulf-sovereign-investors-join-1bn-round-for-london-ai-infrastructure-firm-845e",
@@ -67,7 +67,7 @@
         "label": "Capital raising"
       },
       "featured": false,
-      "liveAt": "2026-10-30T09:43:32.761Z"
+      "liveAt": "2026-10-31T09:23:42.610Z"
     }
   ]
 }
