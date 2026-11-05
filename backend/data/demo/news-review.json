@@ -17,10 +17,10 @@
       },
       "sourceId": "demo-property-sme-wire",
       "sourceName": "Demo Property and SME Wire",
-      "sourcePublishedAt": "2026-10-31T04:37:14.000Z",
+      "sourcePublishedAt": "2026-11-01T04:29:15.000Z",
       "dateEstimated": false,
-      "importedAt": "2026-11-04T10:37:14.442Z",
-      "lastSeenAt": "2026-11-04T10:37:14.442Z",
+      "importedAt": "2026-11-05T10:29:15.702Z",
+      "lastSeenAt": "2026-11-05T10:29:15.702Z",
       "excerpt": "The real estate fund will target purpose-built student accommodation in university cities.",
       "topic": "real-estate",
       "topics": [
@@ -81,16 +81,16 @@
       ],
       "transactionType": "capital-raising",
       "status": "published",
-      "statusChangedAt": "2026-11-04T10:37:14.442Z",
-      "publishedAt": "2026-11-04T10:37:14.442Z",
+      "statusChangedAt": "2026-11-05T10:29:15.702Z",
+      "publishedAt": "2026-11-05T10:29:15.702Z",
       "publishedById": "demo-editor",
-      "firstPublishedAt": "2026-11-04T10:37:14.442Z",
+      "firstPublishedAt": "2026-11-05T10:29:15.702Z",
       "statusChangedById": "demo-editor",
       "approval": {
         "approvedById": "demo-editor",
         "approvedByName": "Demo editor",
-        "approvedAt": "2026-11-04T10:37:14.442Z",
-        "contentHash": "0fa9a43acaa59ed4"
+        "approvedAt": "2026-11-05T10:29:15.702Z",
+        "contentHash": "b38aeaec3022c7d6"
       }
     },
     {
@@ -109,10 +109,10 @@
       },
       "sourceId": "demo-emirates-markets",
       "sourceName": "Demo Emirates Markets",
-      "sourcePublishedAt": "2026-10-31T07:37:14.000Z",
+      "sourcePublishedAt": "2026-11-01T07:29:15.000Z",
       "dateEstimated": false,
-      "importedAt": "2026-11-04T10:37:14.442Z",
-      "lastSeenAt": "2026-11-04T10:37:14.442Z",
+      "importedAt": "2026-11-05T10:29:15.702Z",
+      "lastSeenAt": "2026-11-05T10:29:15.702Z",
       "excerpt": "The vehicle will buy LP stakes and back GP-led continuation vehicles in the region.",
       "topic": "secondaries",
       "topics": [
@@ -168,16 +168,16 @@
       ],
       "transactionType": "fund-close",
       "status": "published",
-      "statusChangedAt": "2026-11-04T10:37:14.442Z",
-      "publishedAt": "2026-11-04T10:37:14.442Z",
+      "statusChangedAt": "2026-11-05T10:29:15.702Z",
+      "publishedAt": "2026-11-05T10:29:15.702Z",
       "publishedById": "demo-editor",
-      "firstPublishedAt": "2026-11-04T10:37:14.442Z",
+      "firstPublishedAt": "2026-11-05T10:29:15.702Z",
       "statusChangedById": "demo-editor",
       "approval": {
         "approvedById": "demo-editor",
         "approvedByName": "Demo editor",
-        "approvedAt": "2026-11-04T10:37:14.442Z",
-        "contentHash": "27b732f666144f13"
+        "approvedAt": "2026-11-05T10:29:15.702Z",
+        "contentHash": "fe62f7db5776ce5d"
       }
     },
     {
@@ -196,10 +196,10 @@
       },
       "sourceId": "demo-private-capital-daily",
       "sourceName": "Demo Private Capital Daily",
-      "sourcePublishedAt": "2026-11-01T02:37:14.442Z",
+      "sourcePublishedAt": "2026-11-02T02:29:15.702Z",
       "dateEstimated": false,
-      "importedAt": "2026-11-04T10:37:14.442Z",
-      "lastSeenAt": "2026-11-04T10:37:14.442Z",
+      "importedAt": "2026-11-05T10:29:15.702Z",
+      "lastSeenAt": "2026-11-05T10:29:15.702Z",
       "excerpt": "The private credit manager is expanding its mid-market lending team in Frankfurt and Paris.",
       "topic": "private-credit",
       "topics": [
@@ -251,17 +251,17 @@
         "europe"
       ],
       "status": "published",
-      "statusChangedAt": "2026-11-04T10:37:14.442Z",
+      "statusChangedAt": "2026-11-05T10:29:15.702Z",
       "transactionType": null,
-      "publishedAt": "2026-11-04T10:37:14.442Z",
+      "publishedAt": "2026-11-05T10:29:15.702Z",
       "publishedById": "demo-editor",
-      "firstPublishedAt": "2026-11-04T10:37:14.442Z",
+      "firstPublishedAt": "2026-11-05T10:29:15.702Z",
       "statusChangedById": "demo-editor",
       "approval": {
         "approvedById": "demo-editor",
         "approvedByName": "Demo editor",
-        "approvedAt": "2026-11-04T10:37:14.442Z",
-        "contentHash": "49afa2d9cb0cf8ed"
+        "approvedAt": "2026-11-05T10:29:15.702Z",
+        "contentHash": "376d7d1c664a867f"
       }
     },
     {
@@ -280,10 +280,10 @@
       },
       "sourceId": "demo-venture-ledger",
       "sourceName": "Demo Venture Ledger",
-      "sourcePublishedAt": "2026-11-01T05:37:14.000Z",
+      "sourcePublishedAt": "2026-11-02T05:29:15.000Z",
       "dateEstimated": false,
-      "importedAt": "2026-11-04T10:37:14.442Z",
-      "lastSeenAt": "2026-11-04T10:37:14.442Z",
+      "importedAt": "2026-11-05T10:29:15.702Z",
+      "lastSeenAt": "2026-11-05T10:29:15.702Z",
       "excerpt": "Fintech and logistics companies took the largest share of capital, a data provider said.",
       "topic": "venture-capital",
       "topics": [
@@ -325,17 +325,17 @@
         "mena"
       ],
       "status": "published",
-      "statusChangedAt": "2026-11-04T10:37:14.442Z",
+      "statusChangedAt": "2026-11-05T10:29:15.702Z",
       "transactionType": null,
-      "publishedAt": "2026-11-04T10:37:14.442Z",
+      "publishedAt": "2026-11-05T10:29:15.702Z",
       "publishedById": "demo-editor",
-      "firstPublishedAt": "2026-11-04T10:37:14.442Z",
+      "firstPublishedAt": "2026-11-05T10:29:15.702Z",
       "statusChangedById": "demo-editor",
       "approval": {
         "approvedById": "demo-editor",
         "approvedByName": "Demo editor",
-        "approvedAt": "2026-11-04T10:37:14.442Z",
-        "contentHash": "eab24f9af0bcc3b0"
+        "approvedAt": "2026-11-05T10:29:15.702Z",
+        "contentHash": "eadbf7ead9c083f2"
       }
     },
     {
@@ -354,10 +354,10 @@
       },
       "sourceId": "demo-gulf-wire",
       "sourceName": "Demo Gulf Wire",
-      "sourcePublishedAt": "2026-11-01T08:37:14.000Z",
+      "sourcePublishedAt": "2026-11-02T08:29:15.000Z",
       "dateEstimated": false,
-      "importedAt": "2026-11-04T10:37:14.442Z",
-      "lastSeenAt": "2026-11-04T10:37:14.442Z",
+      "importedAt": "2026-11-05T10:29:15.702Z",
+      "lastSeenAt": "2026-11-05T10:29:15.702Z",
       "excerpt": "The acquisition values the Cairo-based company at about $310 million, according to people familiar with the deal.",
       "topic": "mergers-acquisitions",
       "topics": [
@@ -403,16 +403,16 @@
       ],
       "transactionType": "acquisition",
       "status": "published",
-      "statusChangedAt": "2026-11-04T10:37:14.442Z",
-      "publishedAt": "2026-11-04T10:37:14.442Z",
+      "statusChangedAt": "2026-11-05T10:29:15.702Z",
+      "publishedAt": "2026-11-05T10:29:15.702Z",
       "publishedById": "demo-editor",
-      "firstPublishedAt": "2026-11-04T10:37:14.442Z",
+      "firstPublishedAt": "2026-11-05T10:29:15.702Z",
       "statusChangedById": "demo-editor",
       "approval": {
         "approvedById": "demo-editor",
         "approvedByName": "Demo editor",
-        "approvedAt": "2026-11-04T10:37:14.442Z",
-        "contentHash": "2455982c1d152a78"
+        "approvedAt": "2026-11-05T10:29:15.702Z",
+        "contentHash": "4c76672846511a6a"
       }
     },
     {
@@ -431,10 +431,10 @@
       },
       "sourceId": "demo-property-sme-wire",
       "sourceName": "Demo Property and SME Wire",
-      "sourcePublishedAt": "2026-11-01T09:37:14.000Z",
+      "sourcePublishedAt": "2026-11-02T09:29:15.000Z",
       "dateEstimated": false,
-      "importedAt": "2026-11-04T10:37:14.442Z",
-      "lastSeenAt": "2026-11-04T10:37:14.442Z",
+      "importedAt": "2026-11-05T10:29:15.702Z",
+      "lastSeenAt": "2026-11-05T10:29:15.702Z",
       "excerpt": "Each founder receives a grant and access to pilot sites operated by local utilities.",
       "topic": "grants-funding",
       "topics": [
@@ -484,17 +484,17 @@
         "uae"
       ],
       "status": "published",
-      "statusChangedAt": "2026-11-04T10:37:14.442Z",
+      "statusChangedAt": "2026-11-05T10:29:15.702Z",
       "transactionType": null,
-      "publishedAt": "2026-11-04T10:37:14.442Z",
+      "publishedAt": "2026-11-05T10:29:15.702Z",
       "publishedById": "demo-editor",
-      "firstPublishedAt": "2026-11-04T10:37:14.442Z",
+      "firstPublishedAt": "2026-11-05T10:29:15.702Z",
       "statusChangedById": "demo-editor",
       "approval": {
         "approvedById": "demo-editor",
         "approvedByName": "Demo editor",
-        "approvedAt": "2026-11-04T10:37:14.442Z",
-        "contentHash": "d02804b3bd92e4fc"
+        "approvedAt": "2026-11-05T10:29:15.702Z",
+        "contentHash": "f9460a76a39782ae"
       }
     },
     {
@@ -513,10 +513,10 @@
       },
       "sourceId": "demo-private-capital-daily",
       "sourceName": "Demo Private Capital Daily",
-      "sourcePublishedAt": "2026-11-01T10:37:14.442Z",
+      "sourcePublishedAt": "2026-11-02T10:29:15.702Z",
       "dateEstimated": false,
-      "importedAt": "2026-11-04T10:37:14.442Z",
-      "lastSeenAt": "2026-11-04T10:37:14.442Z",
+      "importedAt": "2026-11-05T10:29:15.702Z",
+      "lastSeenAt": "2026-11-05T10:29:15.702Z",
       "excerpt": "A survey of 140 institutional investors found most plan to raise private credit exposure over the next year.",
       "topic": "institutional-investors",
       "topics": [
@@ -582,16 +582,16 @@
       ],
       "transactionType": "institutional-allocation",
       "status": "published",
-      "statusChangedAt": "2026-11-04T10:37:14.442Z",
-      "publishedAt": "2026-11-04T10:37:14.442Z",
+      "statusChangedAt": "2026-11-05T10:29:15.702Z",
+      "publishedAt": "2026-11-05T10:29:15.702Z",
       "publishedById": "demo-editor",
-      "firstPublishedAt": "2026-11-04T10:37:14.442Z",
+      "firstPublishedAt": "2026-11-05T10:29:15.702Z",
       "statusChangedById": "demo-editor",
       "approval": {
         "approvedById": "demo-editor",
         "approvedByName": "Demo editor",
-        "approvedAt": "2026-11-04T10:37:14.442Z",
-        "contentHash": "689374d9f88344cf"
+        "approvedAt": "2026-11-05T10:29:15.702Z",
+        "contentHash": "b7c2a9c74222d089"
       }
     },
     {
@@ -610,10 +610,10 @@
       },
       "sourceId": "demo-venture-ledger",
       "sourceName": "Demo Venture Ledger",
-      "sourcePublishedAt": "2026-11-02T04:37:14.000Z",
+      "sourcePublishedAt": "2026-11-03T04:29:15.000Z",
       "dateEstimated": false,
-      "importedAt": "2026-11-04T10:37:14.442Z",
-      "lastSeenAt": "2026-11-04T10:37:14.442Z",
+      "importedAt": "2026-11-05T10:29:15.702Z",
+      "lastSeenAt": "2026-11-05T10:29:15.702Z",
       "excerpt": "The digital clinic operator plans to enter Indonesia and Vietnam next year.",
       "sourceImageUrl": "https://example.com/images/lumen.png",
       "topic": "venture-capital",
@@ -658,16 +658,16 @@
       ],
       "transactionType": "capital-raising",
       "status": "published",
-      "statusChangedAt": "2026-11-04T10:37:14.442Z",
-      "publishedAt": "2026-11-04T10:37:14.442Z",
+      "statusChangedAt": "2026-11-05T10:29:15.702Z",
+      "publishedAt": "2026-11-05T10:29:15.702Z",
       "publishedById": "demo-editor",
-      "firstPublishedAt": "2026-11-04T10:37:14.442Z",
+      "firstPublishedAt": "2026-11-05T10:29:15.702Z",
       "statusChangedById": "demo-editor",
       "approval": {
         "approvedById": "demo-editor",
         "approvedByName": "Demo editor",
-        "approvedAt": "2026-11-04T10:37:14.442Z",
-        "contentHash": "7f9f843c99db077b"
+        "approvedAt": "2026-11-05T10:29:15.702Z",
+        "contentHash": "cdee25e37f3825f5"
       }
     },
     {
@@ -686,10 +686,10 @@
       },
       "sourceId": "demo-gulf-wire",
       "sourceName": "Demo Gulf Wire",
-      "sourcePublishedAt": "2026-11-02T06:37:14.000Z",
+      "sourcePublishedAt": "2026-11-03T06:29:15.000Z",
       "dateEstimated": false,
-      "importedAt": "2026-11-04T10:37:14.442Z",
-      "lastSeenAt": "2026-11-04T10:37:14.442Z",
+      "importedAt": "2026-11-05T10:29:15.702Z",
+      "lastSeenAt": "2026-11-05T10:29:15.702Z",
       "excerpt": "The financial centre said 38 hedge funds registered in the first half, with assets under management at resident firms up 21 per cent.",
       "topic": "hedge-funds-alternatives",
       "topics": [
@@ -747,17 +747,17 @@
         "uae"
       ],
       "status": "published",
-      "statusChangedAt": "2026-11-04T10:37:14.442Z",
+      "statusChangedAt": "2026-11-05T10:29:15.702Z",
       "transactionType": null,
-      "publishedAt": "2026-11-04T10:37:14.442Z",
+      "publishedAt": "2026-11-05T10:29:15.702Z",
       "publishedById": "demo-editor",
-      "firstPublishedAt": "2026-11-04T10:37:14.442Z",
+      "firstPublishedAt": "2026-11-05T10:29:15.702Z",
       "statusChangedById": "demo-editor",
       "approval": {
         "approvedById": "demo-editor",
         "approvedByName": "Demo editor",
-        "approvedAt": "2026-11-04T10:37:14.442Z",
-        "contentHash": "1269029be9860626"
+        "approvedAt": "2026-11-05T10:29:15.702Z",
+        "contentHash": "06f5eac5b9a63688"
       }
     },
     {
@@ -776,10 +776,10 @@
       },
       "sourceId": "demo-property-sme-wire",
       "sourceName": "Demo Property and SME Wire",
-      "sourcePublishedAt": "2026-11-02T06:37:14.000Z",
+      "sourcePublishedAt": "2026-11-03T06:29:15.000Z",
       "dateEstimated": false,
-      "importedAt": "2026-11-04T10:37:14.442Z",
-      "lastSeenAt": "2026-11-04T10:37:14.442Z",
+      "importedAt": "2026-11-05T10:29:15.702Z",
+      "lastSeenAt": "2026-11-05T10:29:15.702Z",
       "excerpt": "The infrastructure investment programme will co-finance utility-scale solar plants and a desalination upgrade.",
       "topic": "infrastructure",
       "topics": [
@@ -838,16 +838,16 @@
       ],
       "transactionType": "investment",
       "status": "published",
-      "statusChangedAt": "2026-11-04T10:37:14.442Z",
-      "publishedAt": "2026-11-04T10:37:14.442Z",
+      "statusChangedAt": "2026-11-05T10:29:15.702Z",
+      "publishedAt": "2026-11-05T10:29:15.702Z",
       "publishedById": "demo-editor",
-      "firstPublishedAt": "2026-11-04T10:37:14.442Z",
+      "firstPublishedAt": "2026-11-05T10:29:15.702Z",
       "statusChangedById": "demo-editor",
       "approval": {
         "approvedById": "demo-editor",
         "approvedByName": "Demo editor",
-        "approvedAt": "2026-11-04T10:37:14.442Z",
-        "contentHash": "06bd38322435ba4a"
+        "approvedAt": "2026-11-05T10:29:15.702Z",
+        "contentHash": "43735c09198257ec"
       }
     },
     {
@@ -866,10 +866,10 @@
       },
       "sourceId": "demo-private-capital-daily",
       "sourceName": "Demo Private Capital Daily",
-      "sourcePublishedAt": "2026-11-02T08:37:14.442Z",
+      "sourcePublishedAt": "2026-11-03T08:29:15.702Z",
       "dateEstimated": false,
-      "importedAt": "2026-11-04T10:37:14.442Z",
-      "lastSeenAt": "2026-11-04T10:37:14.442Z",
+      "importedAt": "2026-11-05T10:29:15.702Z",
+      "lastSeenAt": "2026-11-05T10:29:15.702Z",
       "excerpt": "GP-led continuation vehicles accounted for almost half of first-half deal value, a broker report found.",
       "topic": "secondaries",
       "topics": [
@@ -907,7 +907,7 @@
       "assetClasses": [],
       "geography": [],
       "status": "pending_review",
-      "statusChangedAt": "2026-11-04T10:37:14.442Z"
+      "statusChangedAt": "2026-11-05T10:29:15.702Z"
     },
     {
       "_id": "queue.a_a615b76c9f9d631c",
@@ -925,10 +925,10 @@
       },
       "sourceId": "demo-emirates-markets",
       "sourceName": "Demo Emirates Markets",
-      "sourcePublishedAt": "2026-11-02T09:37:14.000Z",
+      "sourcePublishedAt": "2026-11-03T09:29:15.000Z",
       "dateEstimated": false,
-      "importedAt": "2026-11-04T10:37:14.442Z",
-      "lastSeenAt": "2026-11-04T10:37:14.442Z",
+      "importedAt": "2026-11-05T10:29:15.702Z",
+      "lastSeenAt": "2026-11-05T10:29:15.702Z",
       "excerpt": "The tender offer is backed by a consortium of regional institutional investors.",
       "topic": "mergers-acquisitions",
       "topics": [
@@ -988,16 +988,16 @@
       ],
       "transactionType": "merger-acquisition",
       "status": "published",
-      "statusChangedAt": "2026-11-04T10:37:14.442Z",
-      "publishedAt": "2026-11-04T10:37:14.442Z",
+      "statusChangedAt": "2026-11-05T10:29:15.702Z",
+      "publishedAt": "2026-11-05T10:29:15.702Z",
       "publishedById": "demo-editor",
-      "firstPublishedAt": "2026-11-04T10:37:14.442Z",
+      "firstPublishedAt": "2026-11-05T10:29:15.702Z",
       "statusChangedById": "demo-editor",
       "approval": {
         "approvedById": "demo-editor",
         "approvedByName": "Demo editor",
-        "approvedAt": "2026-11-04T10:37:14.442Z",
-        "contentHash": "4a2c13cb8befdaec"
+        "approvedAt": "2026-11-05T10:29:15.702Z",
+        "contentHash": "0be8473f15a99fde"
       }
     },
     {
@@ -1016,10 +1016,10 @@
       },
       "sourceId": "demo-emirates-markets",
       "sourceName": "Demo Emirates Markets",
-      "sourcePublishedAt": "2026-11-03T00:37:14.000Z",
+      "sourcePublishedAt": "2026-11-04T00:29:15.000Z",
       "dateEstimated": false,
-      "importedAt": "2026-11-04T10:37:14.442Z",
-      "lastSeenAt": "2026-11-04T10:37:14.442Z",
+      "importedAt": "2026-11-05T10:29:15.702Z",
+      "lastSeenAt": "2026-11-05T10:29:15.702Z",
       "excerpt": "The fund will write cheques of $2 million to $10 million into seed and Series A companies.",
       "topic": "venture-capital",
       "topics": [
@@ -1070,17 +1070,17 @@
         "uae"
       ],
       "status": "published",
-      "statusChangedAt": "2026-11-04T10:37:14.442Z",
+      "statusChangedAt": "2026-11-05T10:29:15.702Z",
       "transactionType": "fund-launch",
-      "publishedAt": "2026-11-04T10:37:14.442Z",
+      "publishedAt": "2026-11-05T10:29:15.702Z",
       "publishedById": "demo-editor",
-      "firstPublishedAt": "2026-11-04T10:37:14.442Z",
+      "firstPublishedAt": "2026-11-05T10:29:15.702Z",
       "statusChangedById": "demo-editor",
       "approval": {
         "approvedById": "demo-editor",
         "approvedByName": "Demo editor",
-        "approvedAt": "2026-11-04T10:37:14.442Z",
-        "contentHash": "556304627a094659"
+        "approvedAt": "2026-11-05T10:29:15.702Z",
+        "contentHash": "22e3e0f808cc3c6b"
       }
     },
     {
@@ -1099,10 +1099,10 @@
       },
       "sourceId": "demo-property-sme-wire",
       "sourceName": "Demo Property and SME Wire",
-      "sourcePublishedAt": "2026-11-03T01:37:14.000Z",
+      "sourcePublishedAt": "2026-11-04T01:29:15.000Z",
       "dateEstimated": false,
-      "importedAt": "2026-11-04T10:37:14.442Z",
-      "lastSeenAt": "2026-11-04T10:37:14.442Z",
+      "importedAt": "2026-11-05T10:29:15.702Z",
+      "lastSeenAt": "2026-11-05T10:29:15.702Z",
       "excerpt": "The final close drew commitments from pension funds and insurers in Europe and Asia.",
       "topic": "infrastructure",
       "topics": [
@@ -1169,17 +1169,17 @@
       ],
       "transactionType": "fund-close",
       "status": "published",
-      "statusChangedAt": "2026-11-04T10:37:14.442Z",
+      "statusChangedAt": "2026-11-05T10:29:15.702Z",
       "featured": true,
-      "publishedAt": "2026-11-04T10:37:14.442Z",
+      "publishedAt": "2026-11-05T10:29:15.702Z",
       "publishedById": "demo-editor",
-      "firstPublishedAt": "2026-11-04T10:37:14.442Z",
+      "firstPublishedAt": "2026-11-05T10:29:15.702Z",
       "statusChangedById": "demo-editor",
       "approval": {
         "approvedById": "demo-editor",
         "approvedByName": "Demo editor",
-        "approvedAt": "2026-11-04T10:37:14.442Z",
-        "contentHash": "dff65fce5ef3ee4b"
+        "approvedAt": "2026-11-05T10:29:15.702Z",
+        "contentHash": "61144cc40b33ff45"
       }
     },
     {
@@ -1198,10 +1198,10 @@
       },
       "sourceId": "demo-gulf-wire",
       "sourceName": "Demo Gulf Wire",
-      "sourcePublishedAt": "2026-11-03T04:37:14.000Z",
+      "sourcePublishedAt": "2026-11-04T04:29:15.000Z",
       "dateEstimated": false,
-      "importedAt": "2026-11-04T10:37:14.442Z",
-      "lastSeenAt": "2026-11-04T10:37:14.442Z",
+      "importedAt": "2026-11-05T10:29:15.702Z",
+      "lastSeenAt": "2026-11-05T10:29:15.702Z",
       "excerpt": "The buy-now-pay-later provider will use the capital to expand into Saudi Arabia and hire 120 staff in its DIFC office.",
       "sourceImageUrl": "https://example.com/images/qirsh.jpg",
       "topic": "venture-capital",
@@ -1244,8 +1244,8 @@
           "url": "https://example.com/emirates-markets/qirsh-45m-series-b-riyadh",
           "canonicalUrl": "https://example.com/emirates-markets/qirsh-45m-series-b-riyadh",
           "guid": "https://example.com/emirates-markets/qirsh-45m-series-b-riyadh",
-          "publishedAt": "2026-11-03T08:37:14.000Z",
-          "attachedAt": "2026-11-04T10:37:14.442Z"
+          "publishedAt": "2026-11-04T08:29:15.000Z",
+          "attachedAt": "2026-11-05T10:29:15.702Z"
         },
         {
           "_key": "a_e72c6985fb047deb",
@@ -1256,8 +1256,8 @@
           "url": "https://example.com/venture-ledger/qirsh-45-million",
           "canonicalUrl": "https://example.com/venture-ledger/qirsh-45-million",
           "guid": "https://example.com/venture-ledger/qirsh-45-million",
-          "publishedAt": "2026-11-03T14:37:14.000Z",
-          "attachedAt": "2026-11-04T10:37:14.442Z"
+          "publishedAt": "2026-11-04T14:29:15.000Z",
+          "attachedAt": "2026-11-05T10:29:15.702Z"
         }
       ],
       "headline": "Dubai-based fintech Qirsh raises $45 million Series B led by Sandline Ventures",
@@ -1274,16 +1274,16 @@
       ],
       "transactionType": "capital-raising",
       "status": "published",
-      "statusChangedAt": "2026-11-04T10:37:14.442Z",
-      "publishedAt": "2026-11-04T10:37:14.442Z",
+      "statusChangedAt": "2026-11-05T10:29:15.702Z",
+      "publishedAt": "2026-11-05T10:29:15.702Z",
       "publishedById": "demo-editor",
-      "firstPublishedAt": "2026-11-04T10:37:14.442Z",
+      "firstPublishedAt": "2026-11-05T10:29:15.702Z",
       "statusChangedById": "demo-editor",
       "approval": {
         "approvedById": "demo-editor",
         "approvedByName": "Demo editor",
-        "approvedAt": "2026-11-04T10:37:14.442Z",
-        "contentHash": "4faffb1ee5eb398e"
+        "approvedAt": "2026-11-05T10:29:15.702Z",
+        "contentHash": "217e7a14529ed7e0"
       }
     },
     {
@@ -1302,10 +1302,10 @@
       },
       "sourceId": "demo-private-capital-daily",
       "sourceName": "Demo Private Capital Daily",
-      "sourcePublishedAt": "2026-11-03T04:37:14.442Z",
+      "sourcePublishedAt": "2026-11-04T04:29:15.702Z",
       "dateEstimated": false,
-      "importedAt": "2026-11-04T10:37:14.442Z",
-      "lastSeenAt": "2026-11-04T10:37:14.442Z",
+      "importedAt": "2026-11-05T10:29:15.702Z",
+      "lastSeenAt": "2026-11-05T10:29:15.702Z",
       "excerpt": "The London-based private equity firm said its seventh flagship fund hit its hard cap after nine months in market.",
       "sourceImageUrl": "https://example.com/images/harbourview.jpg",
       "topic": "private-equity",
@@ -1359,16 +1359,16 @@
       ],
       "transactionType": "fund-close",
       "status": "published",
-      "statusChangedAt": "2026-11-04T10:37:14.442Z",
-      "publishedAt": "2026-11-04T10:37:14.442Z",
+      "statusChangedAt": "2026-11-05T10:29:15.702Z",
+      "publishedAt": "2026-11-05T10:29:15.702Z",
       "publishedById": "demo-editor",
-      "firstPublishedAt": "2026-11-04T10:37:14.442Z",
+      "firstPublishedAt": "2026-11-05T10:29:15.702Z",
       "statusChangedById": "demo-editor",
       "approval": {
         "approvedById": "demo-editor",
         "approvedByName": "Demo editor",
-        "approvedAt": "2026-11-04T10:37:14.442Z",
-        "contentHash": "fa4242a3ccec12bb"
+        "approvedAt": "2026-11-05T10:29:15.702Z",
+        "contentHash": "46a6ac5dc7617235"
       }
     },
     {
@@ -1387,10 +1387,10 @@
       },
       "sourceId": "demo-property-sme-wire",
       "sourceName": "Demo Property and SME Wire",
-      "sourcePublishedAt": "2026-11-03T08:37:14.000Z",
+      "sourcePublishedAt": "2026-11-04T08:29:15.000Z",
       "dateEstimated": false,
-      "importedAt": "2026-11-04T10:37:14.442Z",
-      "lastSeenAt": "2026-11-04T10:37:14.442Z",
+      "importedAt": "2026-11-05T10:29:15.702Z",
+      "lastSeenAt": "2026-11-05T10:29:15.702Z",
       "excerpt": "The SME support programme pairs interest-free soft loans with mentoring from established regional food brands.",
       "topic": "grants-funding",
       "topics": [
@@ -1441,16 +1441,16 @@
       ],
       "transactionType": "debt-financing",
       "status": "published",
-      "statusChangedAt": "2026-11-04T10:37:14.442Z",
-      "publishedAt": "2026-11-04T10:37:14.442Z",
+      "statusChangedAt": "2026-11-05T10:29:15.702Z",
+      "publishedAt": "2026-11-05T10:29:15.702Z",
       "publishedById": "demo-editor",
-      "firstPublishedAt": "2026-11-04T10:37:14.442Z",
+      "firstPublishedAt": "2026-11-05T10:29:15.702Z",
       "statusChangedById": "demo-editor",
       "approval": {
         "approvedById": "demo-editor",
         "approvedByName": "Demo editor",
-        "approvedAt": "2026-11-04T10:37:14.442Z",
-        "contentHash": "754e2ba30f557535"
+        "approvedAt": "2026-11-05T10:29:15.702Z",
+        "contentHash": "62220b44d84467f7"
       }
     },
     {
@@ -1469,10 +1469,10 @@
       },
       "sourceId": "demo-venture-ledger",
       "sourceName": "Demo Venture Ledger",
-      "sourcePublishedAt": "2026-11-03T08:37:14.000Z",
+      "sourcePublishedAt": "2026-11-04T08:29:15.000Z",
       "dateEstimated": false,
-      "importedAt": "2026-11-04T10:37:14.442Z",
-      "lastSeenAt": "2026-11-04T10:37:14.442Z",
+      "importedAt": "2026-11-05T10:29:15.702Z",
+      "lastSeenAt": "2026-11-05T10:29:15.702Z",
       "excerpt": "The grid-storage company will use the funding to open factories in Poland and Spain.",
       "sourceImageUrl": "https://example.com/images/voltwerk.jpg",
       "topic": "venture-capital",
@@ -1517,16 +1517,16 @@
       ],
       "transactionType": "capital-raising",
       "status": "published",
-      "statusChangedAt": "2026-11-04T10:37:14.442Z",
-      "publishedAt": "2026-11-04T10:37:14.442Z",
+      "statusChangedAt": "2026-11-05T10:29:15.702Z",
+      "publishedAt": "2026-11-05T10:29:15.702Z",
       "publishedById": "demo-editor",
-      "firstPublishedAt": "2026-11-04T10:37:14.442Z",
+      "firstPublishedAt": "2026-11-05T10:29:15.702Z",
       "statusChangedById": "demo-editor",
       "approval": {
         "approvedById": "demo-editor",
         "approvedByName": "Demo editor",
-        "approvedAt": "2026-11-04T10:37:14.442Z",
-        "contentHash": "af6d10663a69e4e1"
+        "approvedAt": "2026-11-05T10:29:15.702Z",
+        "contentHash": "761d9b0a0822fbc3"
       }
     },
     {
@@ -1545,10 +1545,10 @@
       },
       "sourceId": "demo-property-sme-wire",
       "sourceName": "Demo Property and SME Wire",
-      "sourcePublishedAt": "2026-11-03T14:37:14.000Z",
+      "sourcePublishedAt": "2026-11-04T14:29:15.000Z",
       "dateEstimated": false,
-      "importedAt": "2026-11-04T10:37:14.442Z",
-      "lastSeenAt": "2026-11-04T10:37:14.442Z",
+      "importedAt": "2026-11-05T10:29:15.702Z",
+      "lastSeenAt": "2026-11-05T10:29:15.702Z",
       "excerpt": "The listed real estate investment trust said demand from e-commerce tenants remains strong across the emirate's industrial zones.",
       "topic": "reits",
       "topics": [
@@ -1608,17 +1608,17 @@
       ],
       "transactionType": "capital-raising",
       "status": "published",
-      "statusChangedAt": "2026-11-04T10:37:14.442Z",
+      "statusChangedAt": "2026-11-05T10:29:15.702Z",
       "featured": true,
-      "publishedAt": "2026-11-04T10:37:14.442Z",
+      "publishedAt": "2026-11-05T10:29:15.702Z",
       "publishedById": "demo-editor",
-      "firstPublishedAt": "2026-11-04T10:37:14.442Z",
+      "firstPublishedAt": "2026-11-05T10:29:15.702Z",
       "statusChangedById": "demo-editor",
       "approval": {
         "approvedById": "demo-editor",
         "approvedByName": "Demo editor",
-        "approvedAt": "2026-11-04T10:37:14.442Z",
-        "contentHash": "42214483bc705de9"
+        "approvedAt": "2026-11-05T10:29:15.702Z",
+        "contentHash": "565ca1f0353693bb"
       }
     },
     {
@@ -1637,10 +1637,10 @@
       },
       "sourceId": "demo-private-capital-daily",
       "sourceName": "Demo Private Capital Daily",
-      "sourcePublishedAt": "2026-11-03T14:37:14.442Z",
+      "sourcePublishedAt": "2026-11-04T14:29:15.702Z",
       "dateEstimated": false,
-      "importedAt": "2026-11-04T10:37:14.442Z",
-      "lastSeenAt": "2026-11-04T10:37:14.442Z",
+      "importedAt": "2026-11-05T10:29:15.702Z",
+      "lastSeenAt": "2026-11-05T10:29:15.702Z",
       "excerpt": "Investors from Abu Dhabi and Riyadh took part alongside US pension funds, people familiar with the matter said.",
       "topic": "institutional-investors",
       "topics": [
@@ -1701,17 +1701,17 @@
         "gcc"
       ],
       "status": "published",
-      "statusChangedAt": "2026-11-04T10:37:14.442Z",
+      "statusChangedAt": "2026-11-05T10:29:15.702Z",
       "transactionType": "capital-raising",
-      "publishedAt": "2026-11-04T10:37:14.442Z",
+      "publishedAt": "2026-11-05T10:29:15.702Z",
       "publishedById": "demo-editor",
-      "firstPublishedAt": "2026-11-04T10:37:14.442Z",
+      "firstPublishedAt": "2026-11-05T10:29:15.702Z",
       "statusChangedById": "demo-editor",
       "approval": {
         "approvedById": "demo-editor",
         "approvedByName": "Demo editor",
-        "approvedAt": "2026-11-04T10:37:14.442Z",
-        "contentHash": "72ea61eaffdf432f"
+        "approvedAt": "2026-11-05T10:29:15.702Z",
+        "contentHash": "edc072ff5a2d4c69"
       }
     },
     {
@@ -1730,10 +1730,10 @@
       },
       "sourceId": "demo-venture-ledger",
       "sourceName": "Demo Venture Ledger",
-      "sourcePublishedAt": "2026-11-03T19:37:14.000Z",
+      "sourcePublishedAt": "2026-11-04T19:29:15.000Z",
       "dateEstimated": false,
-      "importedAt": "2026-11-04T10:37:14.442Z",
-      "lastSeenAt": "2026-11-04T10:37:14.442Z",
+      "importedAt": "2026-11-05T10:29:15.702Z",
+      "lastSeenAt": "2026-11-05T10:29:15.702Z",
       "excerpt": "The company is licensed in the DIFC innovation sandbox.",
       "topic": "venture-capital",
       "topics": [
@@ -1777,7 +1777,7 @@
       ],
       "transactionType": "capital-raising",
       "status": "rejected",
-      "statusChangedAt": "2026-11-04T10:37:14.442Z",
+      "statusChangedAt": "2026-11-05T10:29:15.702Z",
       "rejectionReason": "Seed round below the size we cover.",
       "statusChangedById": "demo-editor"
     },
@@ -1797,10 +1797,10 @@
       },
       "sourceId": "demo-gulf-wire",
       "sourceName": "Demo Gulf Wire",
-      "sourcePublishedAt": "2026-11-04T01:37:14.000Z",
+      "sourcePublishedAt": "2026-11-05T01:29:15.000Z",
       "dateEstimated": false,
-      "importedAt": "2026-11-04T10:37:14.442Z",
-      "lastSeenAt": "2026-11-04T10:37:14.442Z",
+      "importedAt": "2026-11-05T10:29:15.702Z",
+      "lastSeenAt": "2026-11-05T10:29:15.702Z",
       "excerpt": "The ADGM-registered manager said the fund drew commitments from regional pension funds and family offices, and will lend to mid-sized companies across the GCC.",
       "sourceImageUrl": "https://example.com/images/falcon-ridge.jpg",
       "topic": "private-credit",
@@ -1843,8 +1843,8 @@
           "url": "https://example.com/emirates-markets/falcon-ridge-750-million",
           "canonicalUrl": "https://example.com/emirates-markets/falcon-ridge-750-million",
           "guid": "https://example.com/emirates-markets/falcon-ridge-750-million",
-          "publishedAt": "2026-11-04T03:37:14.000Z",
-          "attachedAt": "2026-11-04T10:37:14.442Z"
+          "publishedAt": "2026-11-05T03:29:15.000Z",
+          "attachedAt": "2026-11-05T10:29:15.702Z"
         },
         {
           "_key": "a_7ce855c52942d109",
@@ -1855,8 +1855,8 @@
           "url": "https://example.com/private-capital-daily/falcon-ridge-wraps-up",
           "canonicalUrl": "https://example.com/private-capital-daily/falcon-ridge-wraps-up",
           "guid": "tag:example.com,2026:pcd-205",
-          "publishedAt": "2026-11-04T05:37:14.442Z",
-          "attachedAt": "2026-11-04T10:37:14.442Z"
+          "publishedAt": "2026-11-05T05:29:15.702Z",
+          "attachedAt": "2026-11-05T10:29:15.702Z"
         }
       ],
       "headline": "Abu Dhabi's Falcon Ridge Capital closes $750m second private credit fund",
@@ -1879,17 +1879,17 @@
         "uae"
       ],
       "status": "published",
-      "statusChangedAt": "2026-11-04T10:37:14.442Z",
+      "statusChangedAt": "2026-11-05T10:29:15.702Z",
       "transactionType": "fund-close",
-      "publishedAt": "2026-11-04T10:37:14.442Z",
+      "publishedAt": "2026-11-05T10:29:15.702Z",
       "publishedById": "demo-editor",
-      "firstPublishedAt": "2026-11-04T10:37:14.442Z",
+      "firstPublishedAt": "2026-11-05T10:29:15.702Z",
       "statusChangedById": "demo-editor",
       "approval": {
         "approvedById": "demo-editor",
         "approvedByName": "Demo editor",
-        "approvedAt": "2026-11-04T10:37:14.442Z",
-        "contentHash": "de17c8362c94db9f"
+        "approvedAt": "2026-11-05T10:29:15.702Z",
+        "contentHash": "da30898a92de8b59"
       }
     },
     {
@@ -1908,10 +1908,10 @@
       },
       "sourceId": "demo-gulf-wire",
       "sourceName": "Demo Gulf Wire",
-      "sourcePublishedAt": "2026-11-04T02:37:14.000Z",
+      "sourcePublishedAt": "2026-11-05T02:29:15.000Z",
       "dateEstimated": false,
-      "importedAt": "2026-11-04T10:37:14.442Z",
-      "lastSeenAt": "2026-11-04T10:37:14.442Z",
+      "importedAt": "2026-11-05T10:29:15.702Z",
+      "lastSeenAt": "2026-11-05T10:29:15.702Z",
       "excerpt": "Residential sales rose in the third quarter, brokers said.",
       "topic": "residential-real-estate",
       "topics": [
@@ -1960,7 +1960,7 @@
         "uae"
       ],
       "status": "pending_review",
-      "statusChangedAt": "2026-11-04T10:37:14.442Z"
+      "statusChangedAt": "2026-11-05T10:29:15.702Z"
     },
     {
       "_id": "queue.a_0e2edf9e6e88aa44",
@@ -1978,10 +1978,10 @@
       },
       "sourceId": "demo-property-sme-wire",
       "sourceName": "Demo Property and SME Wire",
-      "sourcePublishedAt": "2026-11-04T02:37:14.000Z",
+      "sourcePublishedAt": "2026-11-05T02:29:15.000Z",
       "dateEstimated": false,
-      "importedAt": "2026-11-04T10:37:14.442Z",
-      "lastSeenAt": "2026-11-04T10:37:14.442Z",
+      "importedAt": "2026-11-05T10:29:15.702Z",
+      "lastSeenAt": "2026-11-05T10:29:15.702Z",
       "excerpt": "Small manufacturers can apply for grants of up to AED 500,000 to modernise equipment and hire local staff.",
       "topic": "grants-funding",
       "topics": [
@@ -2029,17 +2029,17 @@
         "uae"
       ],
       "status": "published",
-      "statusChangedAt": "2026-11-04T10:37:14.442Z",
+      "statusChangedAt": "2026-11-05T10:29:15.702Z",
       "transactionType": null,
-      "publishedAt": "2026-11-04T10:37:14.442Z",
+      "publishedAt": "2026-11-05T10:29:15.702Z",
       "publishedById": "demo-editor",
-      "firstPublishedAt": "2026-11-04T10:37:14.442Z",
+      "firstPublishedAt": "2026-11-05T10:29:15.702Z",
       "statusChangedById": "demo-editor",
       "approval": {
         "approvedById": "demo-editor",
         "approvedByName": "Demo editor",
-        "approvedAt": "2026-11-04T10:37:14.442Z",
-        "contentHash": "caabae51d1910c0a"
+        "approvedAt": "2026-11-05T10:29:15.702Z",
+        "contentHash": "5bfb9a36f3f58cac"
       }
     },
     {
@@ -2058,10 +2058,10 @@
       },
       "sourceId": "demo-property-sme-wire",
       "sourceName": "Demo Property and SME Wire",
-      "sourcePublishedAt": "2026-11-04T05:37:14.000Z",
+      "sourcePublishedAt": "2026-11-05T05:29:15.000Z",
       "dateEstimated": false,
-      "importedAt": "2026-11-04T10:37:14.442Z",
-      "lastSeenAt": "2026-11-04T10:37:14.442Z",
+      "importedAt": "2026-11-05T10:29:15.702Z",
+      "lastSeenAt": "2026-11-05T10:29:15.702Z",
       "excerpt": "The fund will buy completed apartment blocks in established Dubai communities and hold them for rental income.",
       "topic": "residential-real-estate",
       "topics": [
@@ -2118,17 +2118,17 @@
         "uae"
       ],
       "status": "published",
-      "statusChangedAt": "2026-11-04T10:37:14.442Z",
+      "statusChangedAt": "2026-11-05T10:29:15.702Z",
       "transactionType": "fund-launch",
-      "publishedAt": "2026-11-04T10:37:14.442Z",
+      "publishedAt": "2026-11-05T10:29:15.702Z",
       "publishedById": "demo-editor",
-      "firstPublishedAt": "2026-11-04T10:37:14.442Z",
+      "firstPublishedAt": "2026-11-05T10:29:15.702Z",
       "statusChangedById": "demo-editor",
       "approval": {
         "approvedById": "demo-editor",
         "approvedByName": "Demo editor",
-        "approvedAt": "2026-11-04T10:37:14.442Z",
-        "contentHash": "c860b50ecbb8e04e"
+        "approvedAt": "2026-11-05T10:29:15.702Z",
+        "contentHash": "43aa3409206b29a0"
       }
     }
   ],
