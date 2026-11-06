@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-11-05T10:29:15.702Z",
+  "generatedAt": "2026-11-06T10:30:51.040Z",
   "notice": "Headlines and short publisher-supplied excerpts only. Every item links to the original publisher.",
   "topic": "family-offices",
   "label": "Family offices",
@@ -14,8 +14,8 @@
       "url": "https://example.com/emirates-markets/sharjah-family-office-climate-fund",
       "source": "Demo Emirates Markets",
       "sourceId": "demo-emirates-markets",
-      "publishedAt": "2026-11-04T00:29:15.000Z",
-      "updatedAt": "2026-11-04T00:29:15.000Z",
+      "publishedAt": "2026-11-05T00:30:51.000Z",
+      "updatedAt": "2026-11-05T00:30:51.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -36,7 +36,7 @@
           "sourceId": "demo-emirates-markets",
           "title": "Sharjah family office launches $200m venture fund for climate start-ups",
           "url": "https://example.com/emirates-markets/sharjah-family-office-climate-fund",
-          "publishedAt": "2026-11-04T00:29:15.000Z"
+          "publishedAt": "2026-11-05T00:30:51.000Z"
         }
       ],
       "slug": "sharjah-family-office-launches-200m-venture-fund-for-climate-start-ups-6e87",
@@ -58,7 +58,7 @@
         "label": "Fund launch"
       },
       "featured": false,
-      "liveAt": "2026-11-05T10:29:15.702Z"
+      "liveAt": "2026-11-06T10:30:51.040Z"
     },
     {
       "id": "s_062e5f384d5c3e",
@@ -67,8 +67,8 @@
       "url": "https://example.com/gulf-wire/difc-fund-managers-500",
       "source": "Demo Gulf Wire",
       "sourceId": "demo-gulf-wire",
-      "publishedAt": "2026-11-03T06:29:15.000Z",
-      "updatedAt": "2026-11-03T06:29:15.000Z",
+      "publishedAt": "2026-11-04T06:30:51.000Z",
+      "updatedAt": "2026-11-04T06:30:51.000Z",
       "category": "uae",
       "categoryLabel": "UAE",
       "uiLabel": "UAE News",
@@ -89,7 +89,7 @@
           "sourceId": "demo-gulf-wire",
           "title": "DIFC fund managers pass 500 as hedge funds and family offices keep arriving",
           "url": "https://example.com/gulf-wire/difc-fund-managers-500",
-          "publishedAt": "2026-11-03T06:29:15.000Z"
+          "publishedAt": "2026-11-04T06:30:51.000Z"
         }
       ],
       "slug": "difc-fund-managers-pass-500-as-hedge-funds-and-family-offices-keep-arriving-8ed8",
@@ -112,7 +112,7 @@
       ],
       "transactionType": null,
       "featured": false,
-      "liveAt": "2026-11-05T10:29:15.702Z"
+      "liveAt": "2026-11-06T10:30:51.040Z"
     }
   ]
 }
