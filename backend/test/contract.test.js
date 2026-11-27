@@ -174,7 +174,7 @@ test('the website scripts and pages agree on data slots', () => {
 });
 
 // Pages with neither the hero banner nor the Elite Founding Sponsor banner (Careers has its own sponsor box).
-const NO_BANNER_PAGES = ['Careers.dc.html', 'GrantsFunding.dc.html', 'PartnerWithUs.dc.html'];
+const NO_BANNER_PAGES = ['Careers.dc.html', 'Events.dc.html', 'GrantsFunding.dc.html', 'PartnerWithUs.dc.html', 'Videos.dc.html'];
 
 test('every page but the home page and Careers shows the same Elite Founding Sponsor banner, and all link to the Events page', () => {
   const read = (f) => readFileSync(path.join(repo, 'frontend_demo', f), 'utf8');

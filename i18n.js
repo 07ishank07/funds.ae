@@ -214,7 +214,7 @@
     'One partner only': 'شريك واحد فقط',
     'Become an Elite Exclusive Partner': 'كن الشريك الحصري المميز',
     'The key sponsor and partner for Funds.ae.': 'الراعي والشريك الرئيسي لـ Funds.ae.',
-    'Your firm in the Elite Founding Sponsor banner, under the masthead on every Funds.ae page except the home page, Careers, Grants & Funding and Partner with us': 'شركتك في شريط الراعي المؤسس المميز أسفل الترويسة في كل صفحات Funds.ae عدا الصفحة الرئيسية والوظائف والمنح والتمويل وشاركنا',
+    'Your firm in the Elite Founding Sponsor banner, under the masthead on the News, story, About, Contact, Post a Job and policy pages': 'شركتك في شريط الراعي المؤسس المميز أسفل الترويسة في صفحات الأخبار والقصص ومن نحن واتصل بنا وأعلن عن وظيفة والسياسات',
     'The Exclusive Elite Sponsor box, with your image, at the top of the Careers sidebar': 'مربع الراعي الحصري المميز مع صورتك أعلى الشريط الجانبي في صفحة الوظائف',
     'Everything in the Elite Partner package': 'كل ما في باقة شريك النخبة',
     'Exclusive Elite Sponsor': 'الراعي الحصري المميز',
