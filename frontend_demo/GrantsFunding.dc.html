@@ -7,7 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;600;700&family=Jost:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="founding-banner.css">
 <link rel="stylesheet" href="site-header.css">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -71,14 +70,8 @@
   .gf-empty { margin-top: 18px; padding: 24px; border: 1px dashed var(--line); border-radius: 4px; text-align: center; color: var(--muted); }
   .gf-empty[hidden] { display: none; }
 
-  .gf-how { margin-top: 48px; padding-top: 14px; border-top: 2px solid var(--ink); }
-  .gf-how h2, .gf-cta h2 { font-size: 22px; font-weight: 600; line-height: 1.2; }
-  .gf-how ol { margin-top: 16px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; list-style: none; counter-reset: step; }
-  .gf-how li { counter-increment: step; padding: 16px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); }
-  .gf-how li::before { content: counter(step); display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; margin-bottom: 8px; border-radius: 50%; background: var(--ink); color: #FFFFFF; font-size: 13px; font-weight: 600; }
-  .gf-how strong { display: block; font-size: 16px; font-weight: 600; }
-  .gf-how span { display: block; margin-top: 4px; font-size: 14px; color: var(--muted); }
-  .gf-cta { margin-top: 32px; padding: 22px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; border-radius: 6px; background: var(--ink); color: #FFFFFF; }
+  .gf-cta h2 { font-size: 22px; font-weight: 600; line-height: 1.2; }
+  .gf-cta { margin-top: 48px; padding: 22px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; border-radius: 6px; background: var(--ink); color: #FFFFFF; }
   .gf-cta p { margin-top: 4px; color: #CFE3E1; }
   .gf-cta a { padding: 11px 18px; border-radius: 4px; background: var(--gold); color: #0B2228; font-size: 14px; font-weight: 600; text-decoration: none; }
   .gf-cta a:hover { background: #D9BE7A; }
@@ -88,7 +81,7 @@
   @media (max-width: 720px) {
     .gf { padding: 28px 16px 56px; }
     .gf-featured { grid-column: auto; }
-    .gf-list, .gf-how ol, .gf-type-grid { grid-template-columns: minmax(0, 1fr); }
+    .gf-list, .gf-type-grid { grid-template-columns: minmax(0, 1fr); }
     .gf-controls, .gf-field, .gf-search input { width: 100%; }
   }
 
@@ -162,18 +155,6 @@
       <a href="PartnerWithUs.dc.html">Partner with us</a>
   </div>
 </nav>
-<!-- Elite Founding Sponsor banner: same markup and text as this.html; styles in founding-banner.css;
-     js/fundsae-connector.js (slot "sponsor-founding") swaps the advert for a signed sponsor. -->
-<section class="fx-founding" aria-label="Elite Founding Sponsor" data-fundsae-slot="sponsor-founding">
-  <div class="fx-founding-frame">
-    <p class="fx-founding-id">
-      <span class="fx-founding-tags"><span class="fx-founding-label">Elite Founding Sponsor</span><span class="fx-founding-status">Space available</span></span>
-      <span class="fx-founding-brand"><span class="fx-founding-name">Your firm here<span class="fx-caret" aria-hidden="true"></span></span></span>
-    </p>
-    <p class="fx-founding-pitch">Put your firm in front of the UAE's GPs, LPs, family offices and fund service providers, every day.</p>
-    <a class="fx-founding-cta" href="PartnerWithUs.dc.html#elite-partner"><span>Become a founding sponsor</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
-  </div>
-</section>
 <main class="gf">
   <div class="gf-intro">
     <p class="gf-eyebrow">Grants &amp; Funding</p>
@@ -373,15 +354,6 @@
       </article>
   </section>
   <p class="gf-empty" data-gf-empty hidden>Nothing matches these filters. Try another type, emirate or search.</p>
-
-  <section class="gf-how" aria-labelledby="gf-how-title">
-    <h2 id="gf-how-title">How it works</h2>
-    <ol>
-      <li><strong>Check eligibility</strong><span>Licence type, years trading, revenue and sector decide which programmes fit.</span></li>
-      <li><strong>Prepare your documents</strong><span>Trade licence, two years of financials, a business plan and how the money will be used.</span></li>
-      <li><strong>Apply with the provider</strong><span>Funds.ae lists the programmes; the bank, fund or investor makes the decision.</span></li>
-    </ol>
-  </section>
 
   <section class="gf-cta" aria-labelledby="gf-cta-title">
     <div>
