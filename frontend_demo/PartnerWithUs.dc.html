@@ -66,13 +66,17 @@
   .audience ul { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
   .audience li { padding: 6px 12px; border: 1px solid rgba(241, 245, 244, 0.28); border-radius: 999px; font-size: 13px; line-height: 1.3; color: #F1F5F4; }
 
-  /* Benefits: six reasons, three across, each a check mark and a heading */
-  .benefits { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin-top: 8px; }
-  .benefit { display: flex; align-items: center; gap: 12px; min-height: 76px; padding: 20px 28px 20px 0; border-bottom: 1px solid var(--line); }
-  .benefit::before { content: ''; flex: 0 0 22px; width: 22px; height: 22px; border-radius: 50%; background: var(--ink) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center / 13px no-repeat; }
-  .benefit:not(:nth-child(3n + 1)) { padding-inline-start: 28px; border-inline-start: 1px solid var(--line); }
-  .benefit h3 { margin-top: 0; font-size: 18px; font-weight: 600; line-height: 1.3; color: var(--ink); }
-  .benefit p { margin-top: 8px; font-size: 15px; line-height: 1.55; color: var(--muted); }
+  /* Why partner (Option B): photo banner, dark fade towards the bottom, gold eyebrow, headline and a gold-ruled
+     strip of the six benefits (six across, three on tablets, two on phones). */
+  .why { position: relative; overflow: hidden; display: flex; align-items: flex-end; min-height: 420px; border-radius: 6px; background: #0B2228; color: #FFFFFF; }
+  .why-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; }
+  .why::before { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(0deg, rgba(6, 24, 30, 0.94) 0%, rgba(6, 24, 30, 0.72) 45%, rgba(6, 24, 30, 0.2) 100%); }
+  .why-in { position: relative; z-index: 2; width: 100%; padding: 48px 48px 36px; }
+  .why-eb { font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #C9A961; }
+  .why h2 { margin-top: 12px; font-size: clamp(2.2rem, 4.4vw, 3rem); font-weight: 600; line-height: 1.05; letter-spacing: -0.025em; color: #FFFFFF; }
+  .why-list { margin-top: 28px; padding-top: 22px; border-top: 1px solid rgba(201, 169, 97, 0.55); display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 18px 16px; list-style: none; }
+  .why-list li { font-size: 15px; font-weight: 500; line-height: 1.3; color: #F1F5F4; }
+  .why-list li::before { content: ''; display: block; width: 22px; height: 2px; margin-bottom: 10px; background: #C9A961; }
 
   /* Packages: three equal cards; Gold is highlighted, Elite Exclusive is the dark premium card */
   /* Three or four packages sit on one row (editors can publish up to four). */
@@ -128,16 +132,15 @@
 
   @media (max-width: 980px) {
     .pitch, .section-head { grid-template-columns: minmax(0, 1fr); }
-    .benefits { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .benefit, .benefit:not(:nth-child(3n + 1)) { padding: 24px 0; border-inline-start: 0; }
-    .benefit:nth-child(2n) { padding-inline-start: 24px; border-inline-start: 1px solid var(--line); }
+    .why-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .tiers { grid-template-columns: minmax(0, 1fr); max-width: 560px; }
   }
   @media (max-width: 620px) {
     main { padding-top: 32px; }
     .section { margin-top: 56px; }
-    .benefits { grid-template-columns: minmax(0, 1fr); }
-    .benefit:nth-child(2n) { padding-inline-start: 0; border-inline-start: 0; }
+    .why { min-height: 380px; }
+    .why-in { padding: 32px 20px 24px; }
+    .why-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .enquiry form { grid-template-columns: minmax(0, 1fr); }
     .audience, .enquiry { padding: 22px; }
   }
@@ -235,33 +238,21 @@
     </aside>
   </section>
 
-  <!-- Benefits of partnering -->
-  <section class="section" aria-labelledby="benefits-title">
-    <div class="section-head">
-      <div>
-        <p class="eyebrow">Why partner with us</p>
-        <h2 id="benefits-title">Benefits of partnering with Funds.ae</h2>
-      </div>
-    </div>
-    <div class="benefits">
-      <article class="benefit">
-        <h3>Reach the decision-makers</h3>
-      </article>
-      <article class="benefit">
-        <h3>A trusted setting</h3>
-      </article>
-      <article class="benefit">
-        <h3>Seen every day</h3>
-      </article>
-      <article class="benefit">
-        <h3>Focused on your market</h3>
-      </article>
-      <article class="benefit">
-        <h3>Talent and events reach</h3>
-      </article>
-      <article class="benefit">
-        <h3>Clear and accountable</h3>
-      </article>
+  <!-- Why partner: a Dubai skyline at dusk (Unsplash, free licence; see img/CREDITS.md), darkened towards the bottom,
+       with the six benefits in a gold-ruled strip. -->
+  <section class="section why" aria-labelledby="why-title">
+    <img class="why-img" src="img/partner-banner.jpg" alt="The Dubai skyline at dusk" width="1920" height="1280" loading="lazy" decoding="async">
+    <div class="why-in">
+      <p class="why-eb">Why partner with Funds.ae</p>
+      <h2 id="why-title">Be seen.</h2>
+      <ul class="why-list">
+        <li>Reach the decision-makers</li>
+        <li>A trusted setting</li>
+        <li>Seen every day</li>
+        <li>Focused on your market</li>
+        <li>Talent and events reach</li>
+        <li>Clear and accountable</li>
+      </ul>
     </div>
   </section>
 

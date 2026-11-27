@@ -372,7 +372,16 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   // Three package cards (Featured Partner, Gold Partner, Elite Exclusive Partner) under a benefits pitch.
   assert.equal([...advertise.matchAll(/<div class="tier[ "]/g)].length, 3, 'three package cards');
   for (const name of ['Featured Partner', 'Gold Partner', 'Elite Exclusive Partner']) assert.ok(advertise.includes(`<h2>${name}</h2>`), name);
-  assert.ok(advertise.includes('Benefits of partnering with Funds.ae') && advertise.indexOf('id="pitch-title"') < advertise.indexOf('id="packages"'), 'pitch sits above the packages');
+  assert.ok(advertise.indexOf('id="pitch-title"') < advertise.indexOf('id="packages"'), 'pitch sits above the packages');
+  // Why partner (Option B): the licensed Dubai photo banner with "Be seen." and the six benefits, between the pitch and the packages.
+  const why = advertise.slice(advertise.indexOf('<section class="section why"'), advertise.indexOf('</section>', advertise.indexOf('<section class="section why"')));
+  assert.ok(why.includes('<img class="why-img" src="img/partner-banner.jpg" alt="') && why.includes('<h2 id="why-title">Be seen.</h2>'), 'why-partner banner photo and headline');
+  for (const b of ['Reach the decision-makers', 'A trusted setting', 'Seen every day', 'Focused on your market', 'Talent and events reach', 'Clear and accountable']) {
+    assert.ok(why.includes(`<li>${b}</li>`), `benefit: ${b}`);
+  }
+  assert.ok(advertise.indexOf('id="pitch-title"') < advertise.indexOf('class="section why"') && advertise.indexOf('class="section why"') < advertise.indexOf('id="packages"'), 'banner between the pitch and the packages');
+  assert.ok(!/Benefits of partnering|class="benefit|Gulf capital reads/.test(advertise), 'the old benefits grid and the cut text are gone');
+  assert.ok(statSync(path.join(repo, 'frontend_demo', 'img', 'partner-banner.jpg')).size < 600 * 1024 && readFileSync(path.join(repo, 'frontend_demo', 'img', 'CREDITS.md'), 'utf8').includes('partner-banner.jpg'), 'banner photo is light and credited');
   assert.ok(!advertise.includes('advertise-exclusive') && !connector.includes("'advertise-exclusive'"), 'no separate Elite Exclusive hero');
   // Cards are CMS-managed: placements, show-price, duration and CTA are drawn by the connector, and the enquiry
   // form's package list follows the published packages.
