@@ -10,7 +10,7 @@
 export const SPONSOR_SLOTS = {
   founding: {
     label: 'Elite Founding Sponsor',
-    where: 'The banner under the masthead on every page except Careers. Leave it empty to show the "Your firm here" advert.',
+    where: 'The banner under the masthead on the News, About, Contact, Post a Job and policy pages (the others show the hero banner). Leave it empty to show the "Your firm here" advert.',
     maxItems: 1, sponsored: true, text: { title: 60, blurb: 140 }, required: ['title'], images: ['image'], colors: []
   },
   platinum: {

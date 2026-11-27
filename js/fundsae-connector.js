@@ -1042,7 +1042,7 @@
     slots('home-hero').forEach(function (box) {
       var eyebrow = box.querySelector('.fx-hero-eyebrow');
       if (eyebrow && typeof hero.eyebrow === 'string' && hero.eyebrow) eyebrow.textContent = hero.eyebrow;
-      var title = box.querySelector('h1');
+      var title = box.querySelector('.fx-hero-title'); // h1 on the home page, h2 on the other pages
       if (title) {
         title.textContent = '';
         var at = typeof hero.highlight === 'string' && hero.highlight ? hero.title.indexOf(hero.highlight) : -1;

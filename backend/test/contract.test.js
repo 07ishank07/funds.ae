@@ -173,7 +173,10 @@ test('the website scripts and pages agree on data slots', () => {
   for (const slot of declared) assert.ok(used.has(slot), `page declares slot "${slot}" that the connector never fills`);
 });
 
-test('every page but Careers and the home page shows the same Elite Founding Sponsor banner, and all link to the Events page', () => {
+// Pages that show the hero banner under the header bar instead of the Elite Founding Sponsor banner.
+const HERO_PAGES = ['this.html', 'Videos.dc.html', 'PartnerWithUs.dc.html', 'Careers.dc.html', 'Events.dc.html'];
+
+test('every page but the hero pages shows the same Elite Founding Sponsor banner, and all link to the Events page', () => {
   const read = (f) => readFileSync(path.join(repo, 'frontend_demo', f), 'utf8');
   const pages = readdirSync(path.join(repo, 'frontend_demo')).filter((f) => f.endsWith('.html') && !MOVED_PAGES[f]);
   assert.ok(pages.includes('Events.dc.html'), 'Events and Expos has its own page');
@@ -187,8 +190,11 @@ test('every page but Careers and the home page shows the same Elite Founding Spo
     assert.ok(!html.includes('Careers.dc.html#events'), `${file} still links to the old Careers events box`);
     assert.ok(!/Platinum (Sponsors|Partner)/.test(html), `${file} still shows "Platinum" instead of "Elite"`);
     if (file !== 'this.html') assert.match(html, /<a href="Events\.dc\.html"( aria-current="page")?>Events<\/a>/, `${file}: nav Events link`);
-    // Careers shows the Featured Companies strip under its masthead instead, and the home page a hero banner (checked below).
-    if (file === 'Careers.dc.html' || file === 'this.html') continue;
+    // The hero pages show the hero banner instead (checked below and in the hero test).
+    if (HERO_PAGES.includes(file)) {
+      assert.ok(!html.includes('class="fx-founding"') && !html.includes('href="founding-banner.css"'), `${file} has no Elite Founding Sponsor banner`);
+      continue;
+    }
     for (const text of bannerText) assert.ok(html.includes(text), `${file}: banner lacks ${text}`);
     assert.ok(html.includes('founding-banner.css'), `${file} does not load founding-banner.css`);
     assert.match(html, /class="fx-founding-cta" href="(PartnerWithUs\.dc\.html)?#elite-partner"/, `${file}: banner button`);
@@ -197,12 +203,21 @@ test('every page but Careers and the home page shows the same Elite Founding Spo
   const home = read('this.html');
   // Home: a hero banner (headline and an original illustration, no form or links) in place of the Elite Founding Sponsor banner.
   assert.ok(!home.includes('fx-founding') && !home.includes('Your firm here'), 'no Elite Founding Sponsor banner on the home page');
-  for (const s of ['<h1 id="fx-hero-title">Know where the <span>capital</span> is moving.</h1>', '<img src="img/hero-skyline.svg" alt="',
-    "(document.querySelector('.fx-hero') || mainColumns).before(bar)"]) {
+  for (const s of ['<h1 id="fx-hero-title" class="fx-hero-title">Know where the <span>capital</span> is moving.</h1>', '<img src="img/hero-skyline.svg" alt="',
+    "(document.querySelector('.fx-hero') || mainColumns).before(bar)", "heroStyle.href = 'hero-banner.css';"]) {
     assert.ok(home.includes(s), `hero: ${s}`);
   }
   assert.ok(!home.includes('fx-hero-form') && !home.includes('fx-hero-links'), 'the hero has no form or links');
   assert.ok(existsSync(path.join(repo, 'frontend_demo', 'img', 'hero-skyline.svg')), 'the hero illustration is in the repository');
+  // The other hero pages: the same banner right under the header bar, its headline an h2 under the page's own h1.
+  for (const file of HERO_PAGES.filter((f) => f !== 'this.html')) {
+    const html = read(file);
+    const hero = html.slice(html.indexOf('<section class="fx-hero"'), html.indexOf('</section>', html.indexOf('<section class="fx-hero"')));
+    assert.ok(hero.includes('data-fundsae-slot="home-hero"') && html.includes('<link rel="stylesheet" href="hero-banner.css">'), `${file}: hero slot and styles`);
+    assert.ok(hero.includes('<h2 id="fx-hero-title" class="fx-hero-title">Know where the <span>capital</span> is moving.</h2>') && hero.includes('<img src="img/hero-skyline.svg"'), `${file}: hero headline and art`);
+    assert.ok(html.indexOf('</nav>', html.indexOf('<nav class="fx-catbar"')) < html.indexOf('<section class="fx-hero"') && html.indexOf('<section class="fx-hero"') < html.indexOf('<h1'), `${file}: hero sits between the header bar and the page`);
+  }
+  assert.ok(readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8').includes("box.querySelector('.fx-hero-title')"), 'connector fills the h1 or h2 headline');
   // Home news tabs: the page script and the connector agree on the names; Global Stories is the world category.
   const connector = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
   assert.ok(home.includes("const REGION_NAMES = ['News', 'Global'];") && home.includes("Global: 'Global Stories'"), 'home tabs are UAE Stories and Global Stories');

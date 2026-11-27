@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;600;700&family=Jost:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="founding-banner.css">
+<link rel="stylesheet" href="hero-banner.css">
 <link rel="stylesheet" href="site-header.css">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -182,16 +182,16 @@
       <a href="Events.dc.html" aria-current="page">Events</a>
   </div>
 </nav>
-<!-- Elite Founding Sponsor banner: same markup and text as this.html; styles in founding-banner.css;
-     js/fundsae-connector.js (slot "sponsor-founding") swaps the advert for a signed sponsor. -->
-<section class="fx-founding" aria-label="Elite Founding Sponsor" data-fundsae-slot="sponsor-founding">
-  <div class="fx-founding-frame">
-    <p class="fx-founding-id">
-      <span class="fx-founding-tags"><span class="fx-founding-label">Elite Founding Sponsor</span><span class="fx-founding-status">Space available</span></span>
-      <span class="fx-founding-brand"><span class="fx-founding-name">Your firm here<span class="fx-caret" aria-hidden="true"></span></span></span>
-    </p>
-    <p class="fx-founding-pitch">Put your firm in front of the UAE's GPs, LPs, family offices and fund service providers, every day.</p>
-    <a class="fx-founding-cta" href="PartnerWithUs.dc.html#elite-partner"><span>Become a founding sponsor</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+<!-- Hero banner, the same as the home page's: styles in hero-banner.css; js/fundsae-connector.js (slot "home-hero")
+     replaces the text and image with the "Home page hero banner" published in Sanity. -->
+<section class="fx-hero" aria-labelledby="fx-hero-title" data-fundsae-slot="home-hero">
+  <div class="fx-hero-inner">
+    <div class="fx-hero-copy">
+      <p class="fx-hero-eyebrow">Real estate · Infrastructure · Private capital</p>
+      <h2 id="fx-hero-title" class="fx-hero-title">Know where the <span>capital</span> is moving.</h2>
+      <p class="fx-hero-sub">Real estate investment, private equity, sovereign wealth and the funds behind them, from the UAE and around the world. Every story is checked by an editor and links to its publisher.</p>
+    </div>
+    <div class="fx-hero-art"><img src="img/hero-skyline.svg" alt="A stylised UAE skyline with a rising line of capital" width="640" height="400" decoding="async" fetchpriority="high"></div>
   </div>
 </section>
 <div class="page">
