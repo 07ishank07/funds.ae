@@ -243,6 +243,38 @@
     if (news) applyNewsVisibility(news);
   });
 
+  /**
+   * Top UAE Story (home, foot of the news column): the editors' featured UAE story, else the newest UAE story. The
+   * sample picture stays unless the publisher allows its image. Live mode with no UAE story hides the section.
+   */
+  function renderTopUae(stories) {
+    slots('top-uae-story').forEach(function (box) {
+      var uae = stories.filter(function (s) { return regionOf(s) === 'News'; });
+      var story = uae.filter(function (s) { return s.featured; })[0] || uae[0];
+      if (!story) { if (state.mode === 'live') box.hidden = true; return; }
+      var page = /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(story.slug || '') ? 'news/' + story.slug + '.html' : null;
+      var link = function (a) { if (page) a.href = page; else api.setLink(a, story.url); };
+      var title = box.querySelector('.fx-top-uae-title a');
+      if (title) { title.textContent = story.headline; link(title); }
+      var media = box.querySelector('.fx-top-uae-media');
+      if (media) {
+        link(media);
+        var picture = api.imageUrl(story.imageUrl);
+        var img = media.querySelector('img');
+        if (picture && img) { img.src = picture; img.referrerPolicy = 'no-referrer'; }
+      }
+      var asset = Array.isArray(story.assetClasses) && story.assetClasses[0] && story.assetClasses[0].label;
+      var kicker = box.querySelector('.fx-top-uae-kicker');
+      if (kicker) kicker.textContent = asset || story.topicLabel || 'UAE';
+      var sum = box.querySelector('.fx-top-uae-sum');
+      if (sum) { if (story.summary) sum.textContent = truncate(story.summary, 220); else sum.remove(); }
+      var src = box.querySelector('.fx-top-uae-src');
+      var when = !isNaN(Date.parse(story.publishedAt)) ? new Date(story.publishedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Dubai' }) : '';
+      if (src) src.textContent = 'Source: ' + story.source + (when ? ' \u00b7 ' + when : '');
+      box.hidden = false;
+    });
+  }
+
   function renderNews(doc) {
     var news = slots('news')[0];
     if (!news) return;
@@ -260,6 +292,8 @@
       art.setAttribute('data-fundsae-placeholder', '');
       art.removeAttribute('id');
     });
+
+    renderTopUae(stories);
 
     var moreLink = news.querySelector('[data-more-news-region]');
     var anchor = moreLink ? moreLink.parentElement : null;
