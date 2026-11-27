@@ -259,10 +259,10 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
     assert.ok(!catbar.includes('?category=') && !catbar.includes('?capital='), `${page} category bar has no investor-type links`);
     assert.equal(catbar.split('fx-catbar-rule').length - 1, 1, `${page} category bar has one divider`);
     const links = [...catbar.matchAll(/>([^<>]+)<\/a>/g)].map((m) => m[1]);
-    assert.deepEqual(links.slice(-2), ['Events', 'Partner with us'], `${page} category bar ends with Events, then Partner with us`);
+    assert.deepEqual(links, ['Real Estate Stories', 'Videos &amp; Podcasts', 'Grants &amp; Funding', 'Careers', 'Events', 'Partner with us'], `${page} category bar order`);
   }
   // One bar under the masthead: Real Estate Stories, Grants & Funding | Videos & Podcasts, Partner with us, Careers, Events.
-  assert.ok(home.includes("[['Real Estate Stories', null], ['Grants & Funding', { href: 'GrantsFunding.dc.html' }]],"), 'category bar starts with Real Estate Stories and Grants & Funding');
+  assert.ok(home.includes("[['Real Estate Stories', null]],"), 'category bar starts with Real Estate Stories');
   // No grants news box on the home page (its tiles, images and links are gone); the funding-type tiles sit under
   // "Business Grants & Funding Resources".
   const homeScript = home.split(/\r?\n/).filter((l) => l.length < 2000).join('\n'); // skip the bundled page template
@@ -284,7 +284,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   for (const label of ['Sovereign', 'Pension', 'Private Equity', 'REITs', 'Family Offices', 'Banks', 'Government', 'Endowments']) {
     assert.ok(!home.includes(`['${label}', `), `category bar has no ${label} link`);
   }
-  assert.ok(home.includes("[['Videos & Podcasts', { href: 'Videos.dc.html' }], ['Careers', { href: 'Careers.dc.html' }], ['Events', { href: 'Events.dc.html' }], ['Partner with us', { href: 'PartnerWithUs.dc.html' }]]"), 'category bar ends with Videos & Podcasts, Careers, Events and Partner with us links');
+  assert.ok(home.includes("[['Videos & Podcasts', { href: 'Videos.dc.html' }], ['Grants & Funding', { href: 'GrantsFunding.dc.html' }], ['Careers', { href: 'Careers.dc.html' }], ['Events', { href: 'Events.dc.html' }], ['Partner with us', { href: 'PartnerWithUs.dc.html' }]]"), 'category bar ends with Videos & Podcasts, Grants & Funding, Careers, Events and Partner with us');
   for (const gone of ['Latest', 'Fundraising', 'Deals', 'People', 'Venture', 'Credit', 'Secondaries', 'Hedge Funds', 'LPs', 'Regulation', 'Providers']) {
     assert.ok(!home.includes(`['${gone}', [`), `category bar no longer has ${gone}`);
   }

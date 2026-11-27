@@ -12,7 +12,7 @@
 (function () {
   'use strict';
 
-  var MENU = [['Grants & Funding', 'GrantsFunding.dc.html'], ['Videos & Podcasts', 'Videos.dc.html'], ['Careers', 'Careers.dc.html'], ['Events', 'Events.dc.html'], ['Partner with us', 'PartnerWithUs.dc.html'],
+  var MENU = [['Videos & Podcasts', 'Videos.dc.html'], ['Grants & Funding', 'GrantsFunding.dc.html'], ['Careers', 'Careers.dc.html'], ['Events', 'Events.dc.html'], ['Partner with us', 'PartnerWithUs.dc.html'],
     ['About', 'About.dc.html'], ['Contact us', 'Contact.dc.html']];
   var tr = function (s) { return (window.__fundsTr || function (x) { return x; })(s); };
 

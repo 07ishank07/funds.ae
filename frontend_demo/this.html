@@ -1367,8 +1367,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Groups, split by thin rules: [label, filter ids] filters the news; [label, { href }] is a plain link.
         // No investor-type links: the bar is Real Estate Stories, then the site's own pages.
         const CATEGORY_GROUPS = [
-          [['Real Estate Stories', null], ['Grants & Funding', { href: 'GrantsFunding.dc.html' }]],
-          [['Videos & Podcasts', { href: 'Videos.dc.html' }], ['Careers', { href: 'Careers.dc.html' }], ['Events', { href: 'Events.dc.html' }], ['Partner with us', { href: 'PartnerWithUs.dc.html' }]]
+          [['Real Estate Stories', null]],
+          [['Videos & Podcasts', { href: 'Videos.dc.html' }], ['Grants & Funding', { href: 'GrantsFunding.dc.html' }], ['Careers', { href: 'Careers.dc.html' }], ['Events', { href: 'Events.dc.html' }], ['Partner with us', { href: 'PartnerWithUs.dc.html' }]]
         ];
         const bar = document.createElement('nav');
         bar.className = 'fx-catbar';
