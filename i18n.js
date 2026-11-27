@@ -27,8 +27,8 @@
     'Grants & Funding': 'المنح والتمويل',
     // Grants & Funding page
     'Funding opportunities': 'فرص التمويل',
-    'Every type of UAE business funding in one place': 'كل أنواع تمويل الأعمال في الإمارات في مكان واحد',
-    'From SME grants and soft loans to venture capital and export finance, we track the programmes so you never miss an opening.': 'من منح الشركات الصغيرة والمتوسطة والقروض الميسّرة إلى رأس المال الجريء وتمويل الصادرات، نتابع البرامج حتى لا تفوتك أي فرصة.',
+    'Grants & Funding · UAE': 'المنح والتمويل · الإمارات',
+    'Capital for every stage of your business.': 'تمويل لكل مرحلة من مراحل عملك.',
     'SME Grants': 'منح الشركات الصغيرة والمتوسطة',
     'Startup Funding': 'تمويل الشركات الناشئة',
     'Innovation & R&D': 'الابتكار والبحث والتطوير',

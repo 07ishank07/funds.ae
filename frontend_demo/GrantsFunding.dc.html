@@ -21,15 +21,18 @@
 
   /* Grants & Funding: intro, filters, a grid of opportunity cards (the first one featured), how it works, a provider call. */
   .gf { max-width: 1288px; margin: 0 auto; padding: 40px 24px 72px; }
-  .gf-intro { padding-bottom: 24px; border-bottom: 1px solid var(--line); }
-  .gf-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
-  .gf-intro h1 { margin-top: 8px; max-width: 980px; font-size: clamp(2rem, 4.4vw, 3.2rem); font-weight: 700; line-height: 1.08; letter-spacing: -0.02em; }
-  .gf-intro p { margin-top: 10px; max-width: 700px; font-size: 16px; color: var(--muted); }
-  .gf-intro .gf-demo { margin-top: 8px; font-size: 13px; color: var(--ghost); }
+  /* Hero (Option B): full-bleed photo, dark overlay on the left, gold eyebrow and rule, white headline. */
+  .gf-hero { position: relative; overflow: hidden; display: flex; align-items: center; min-height: 440px; background: #0B2228; color: #FFFFFF; }
+  .gf-hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; }
+  .gf-hero::before { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, rgba(6, 24, 30, 0.92) 0%, rgba(6, 24, 30, 0.7) 45%, rgba(6, 24, 30, 0.15) 80%); }
+  .gf-hero-in { position: relative; z-index: 2; width: 100%; max-width: 1288px; margin: 0 auto; padding: 60px 24px; }
+  .gf-hero-eb { font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #C9A961; }
+  .gf-hero h1 { margin-top: 14px; max-width: 680px; font-size: clamp(2.3rem, 4.6vw, 3.4rem); font-weight: 600; line-height: 1.04; letter-spacing: -0.025em; color: #FFFFFF; }
+  .gf-hero-rule { display: block; width: 64px; height: 3px; margin-top: 26px; background: #C9A961; }
 
   /* Browse by type: tiles like the reference (icon, title, short description, count); a tile filters the list. */
   .gf-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-  .gf-types { margin-top: 28px; }
+  .gf-types { margin-top: 0; }
   .gf-type-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
   .gf-type { display: flex; align-items: flex-start; gap: 14px; padding: 20px 20px 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
   .gf-type:hover { border-color: var(--mint); }
@@ -73,6 +76,10 @@
   @media (max-width: 1024px) { .gf-type-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .gf-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } .gf-featured { grid-column: 1 / -1; } }
   @media (max-width: 720px) {
     .gf { padding: 28px 16px 56px; }
+    .gf-hero { min-height: 360px; }
+    .gf-hero::before { background: linear-gradient(0deg, rgba(6, 24, 30, 0.9) 0%, rgba(6, 24, 30, 0.6) 60%, rgba(6, 24, 30, 0.35) 100%); }
+    .gf-hero-in { padding: 40px 16px; }
+    .gf-hero-img { object-position: 40% 60%; }
     .gf-featured { grid-column: auto; }
     .gf-list, .gf-type-grid { grid-template-columns: minmax(0, 1fr); }
   }
@@ -147,14 +154,16 @@
       <a href="PartnerWithUs.dc.html">Partner with us</a>
   </div>
 </nav>
-<main class="gf">
-  <div class="gf-intro">
-    <p class="gf-eyebrow">Grants &amp; Funding</p>
-    <h1>Every type of UAE business funding in one place</h1>
-    <p>From SME grants and soft loans to venture capital and export finance, we track the programmes so you never miss an opening.</p>
-    <p class="gf-demo">Demo data: providers, amounts and dates are placeholders. Always check terms with the provider.</p>
+<!-- Hero: a full-bleed Downtown Dubai photo (Unsplash, free licence; see img/CREDITS.md), darkened on the left. -->
+<section class="gf-hero" aria-labelledby="gf-hero-title">
+  <img class="gf-hero-img" src="img/grants-hero.jpg" alt="Downtown Dubai and the Burj Khalifa above a highway interchange at sunrise" width="1920" height="1280" fetchpriority="high" decoding="async">
+  <div class="gf-hero-in">
+    <p class="gf-hero-eb">Grants &amp; Funding · UAE</p>
+    <h1 id="gf-hero-title">Capital for every stage of your business.</h1>
+    <span class="gf-hero-rule" aria-hidden="true"></span>
   </div>
-
+</section>
+<main class="gf">
   <!-- Browse by type of funding: each tile filters the opportunities below (and can be linked: ?category=<id>). -->
   <section class="gf-types" aria-labelledby="gf-types-title">
     <h2 id="gf-types-title" class="gf-sr">Browse by type of funding</h2>

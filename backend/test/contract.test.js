@@ -430,7 +430,7 @@ test('Grants & Funding page: dummy funding, loan and grant opportunities, browse
   assert.ok(cards.length >= 12, 'at least 12 opportunity cards, each with a type and an emirate');
   assert.equal(cards.length, (main.match(/class="gf-card/g) || []).length, 'every card is filterable');
   for (const type of ['grant', 'loan', 'equity', 'trade']) assert.ok(cards.some((m) => m[1] === type), `at least one ${type}`);
-  assert.ok(main.includes('Demo data:') && main.includes('not financial advice'), 'demo notice and disclaimer');
+  assert.ok(main.includes('not financial advice'), 'disclaimer');
   // Each card: a "TYPE · EMIRATE" line, the company name, one sentence about the funding and a details link.
   const bodies = main.split('<article class="gf-card').slice(1).map((c) => c.slice(0, c.indexOf('</article>')));
   for (const c of bodies) {
@@ -440,8 +440,15 @@ test('Grants & Funding page: dummy funding, loan and grant opportunities, browse
   assert.ok(!/<img|https?:\/\//.test(main), 'no images or external links in the page body');
   const script = page.slice(page.lastIndexOf('<script>'), page.lastIndexOf('</script>'));
   assert.ok(script.includes('count.textContent') && !/innerHTML|insertAdjacentHTML/.test(script), 'the filter script sets text only');
-  // Browse by type of funding: the UAE heading, 12 tiles, every card tagged with known types, every type used.
-  assert.ok(main.includes('<h1>Every type of UAE business funding in one place</h1>'), 'page heading');
+  // Hero (Option B): the licensed Dubai photo and the headline only, between the header bar and the page; the old
+  // intro text and the subtitle are gone.
+  const hero = page.slice(page.indexOf('<section class="gf-hero"'), page.indexOf('</section>', page.indexOf('<section class="gf-hero"')));
+  assert.ok(hero.includes('<img class="gf-hero-img" src="img/grants-hero.jpg" alt="') && hero.includes('<h1 id="gf-hero-title">Capital for every stage of your business.</h1>'), 'hero photo and headline');
+  assert.ok(page.indexOf('<nav class="fx-catbar"') < page.indexOf('<section class="gf-hero"') && page.indexOf('<section class="gf-hero"') < page.indexOf('<main'), 'hero sits under the header bar');
+  assert.ok(!/Every type of UAE business funding|From first-time founders|class="gf-intro"/.test(page), 'no intro text or subtitle');
+  assert.ok(statSync(path.join(repo, 'frontend_demo', 'img', 'grants-hero.jpg')).size < 600 * 1024, 'hero photo under 600 KB');
+  assert.ok(readFileSync(path.join(repo, 'frontend_demo', 'img', 'CREDITS.md'), 'utf8').includes('grants-hero.jpg'), 'hero photo is credited');
+  // Browse by type of funding: 12 tiles, every card tagged with known types, every type used.
   const tiles = [...main.matchAll(/<button type="button" class="gf-type" data-gf-cat="([a-z-]+)" aria-pressed="false">/g)].map((m) => m[1]);
   assert.equal(tiles.length, 12, 'twelve funding-type tiles');
   for (const m of cards) for (const c of m[3].split(' ')) assert.ok(tiles.includes(c), `card type ${c} has a tile`);
