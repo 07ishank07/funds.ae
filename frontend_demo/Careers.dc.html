@@ -231,11 +231,18 @@
   /* Top Employers (aside, under the sponsor box) and Top Jobs (under it): ranked lists. Top Jobs rows link to the employer's own
      posting; Top Employers rows open this page filtered to that employer's roles. */
   .top-jobs, .top-employers { padding: 12px 0 0; border-top: 2px solid var(--ink); margin-bottom: 28px; }
-  .top-employers-list a { align-items: center; }
+  /* Top Employers: a 48px company logo (or initials until a logo is added in Sanity) beside the name and open roles. */
+  .top-employers-list a { align-items: center; gap: 14px; padding: 12px 0; }
   .te-logo {
-    flex: 0 0 32px; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 3px;
-    background: linear-gradient(145deg, #0E3A43, #2F8A8C); color: #FFFFFF; font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
+    flex: 0 0 48px; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 6px; overflow: hidden;
+    background: linear-gradient(145deg, #0E3A43, #2F8A8C); color: #FFFFFF; font-size: 15px; font-weight: 700; letter-spacing: 0.04em;
   }
+  /* A real logo sits whole on white inside a hairline frame, with a little breathing room. */
+  .te-logo:has(img) { border: 1px solid var(--line-2); }
+  .te-logo img { box-sizing: border-box; padding: 4px; }
+  .top-employers-list .tj-rank { align-self: center; }
+  .top-employers-list .tj-title { font-size: 15.5px; line-height: 1.3; }
+  .top-employers-list .tj-co { font-size: 13px; }
   .top-jobs h2, .top-employers h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
   .top-jobs-list { list-style: none; margin: 8px 0 0; padding: 0; }
   .top-jobs-list li { border-bottom: 1px solid var(--line-2); }

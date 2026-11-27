@@ -468,6 +468,9 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   const topEmployers = careers.slice(careers.indexOf('data-fundsae-slot="employers"'), careers.indexOf('</ol>', careers.indexOf('data-fundsae-slot="employers"')));
   assert.equal((topEmployers.match(/<li>/g) || []).length, 20, 'Top Employers shows 20');
   assert.equal((topEmployers.match(/class="te-logo"/g) || []).length, 20, 'every Top Employer has a logo');
+  // Logos are big enough to read: 48px tiles, a real logo shown whole inside a hairline frame.
+  assert.ok(careers.includes('flex: 0 0 48px; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px;') &&
+    careers.includes('.te-logo:has(img) { border: 1px solid var(--line-2); }'), 'Top Employers logos are 48px');
   assert.equal(careers.split('class="partners"').length, 2, 'one Featured Companies strip');
   assert.match(careers, /class="partners-track">\s*<div class="partners-list" data-fundsae-slot="sponsor-companies">/);
   assert.ok(careers.includes('<h2 id="partners-title" class="partners-title">Partners<span class="fxh-sr"> (sponsored)</span></h2>'), 'a Partners heading, labelled as sponsored for screen readers');
