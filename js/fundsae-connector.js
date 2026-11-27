@@ -1265,13 +1265,17 @@
   }
 
   /* ------------------------------- Gulf Economy ------------------------------- */
-  // Home page column 3: IMF real GDP growth and inflation per country (api/v1/economy.json). The rows and the IMF
-  // credit are built with textContent; the source link is fixed to imf.org.
+  // Home page column 3, "Gulf Economy at a Glance": the IMF's projected real GDP and consumer prices per country
+  // (api/v1/economy.json), headed and written as on imf.org ("2026 Projected Real GDP (% Change)": -15.6). The rows and
+  // the IMF credit are built with textContent; the source link is fixed to imf.org.
 
   var IMF_URL = 'https://www.imf.org/external/datamapper/datasets/WEO';
 
+  var ECON_HEADINGS = { gdp: 'Projected Real GDP (% Change)', prices: 'Projected Consumer Prices (% Change)' };
+
+  /** A percent change as the IMF shows it: one decimal, a minus sign when negative, no plus or % sign. */
   function pct(n) {
-    return (n > 0 ? '+' : n < 0 ? '\u2212' : '') + Math.abs(n).toFixed(1) + '%';
+    return (n < 0 ? '\u2212' : '') + Math.abs(n).toFixed(1);
   }
 
   function economyUnavailable() {
@@ -1319,8 +1323,10 @@
         });
         rows.appendChild(tr);
       });
-      var year = box.querySelector('[data-econ-year]');
-      if (year && typeof doc.year === 'number') year.textContent = String(doc.year);
+      box.querySelectorAll('[data-econ-col]').forEach(function (th) {
+        var heading = ECON_HEADINGS[th.getAttribute('data-econ-col')];
+        if (heading) th.textContent = (typeof doc.year === 'number' ? doc.year + ' ' : '') + heading;
+      });
       var link = box.querySelector('[data-econ-source]');
       if (link) { link.textContent = 'International Monetary Fund, ' + dataset; link.href = IMF_URL; }
     });

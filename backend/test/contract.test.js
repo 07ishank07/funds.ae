@@ -173,6 +173,14 @@ test('home page: the Gulf Economy box sits directly above Spotlight and is fille
   const home = readFileSync(path.join(repo, 'frontend_demo', 'this.html'), 'utf8');
   assert.ok(home.includes("economyBox.setAttribute('aria-labelledby', 'gulf-economy-title');"), 'home builds the Gulf Economy box');
   assert.ok(home.includes('careersColumn.insertBefore(economyBox, platinumSection);'), 'Gulf Economy goes right before Spotlight');
+  // Headed as on imf.org: "Gulf Economy at a Glance", "<year> Projected Real GDP (% Change)", "<year> Projected Consumer Prices (% Change)".
+  assert.ok(home.includes('<h2 id="gulf-economy-title">Gulf Economy at a Glance</h2>'), 'box title');
+  assert.ok(home.includes('<th scope="col" data-econ-col="gdp">Projected Real GDP (% Change)</th>') &&
+    home.includes('<th scope="col" data-econ-col="prices">Projected Consumer Prices (% Change)</th>'), 'IMF column headings');
+  const econJs = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
+  assert.ok(econJs.includes("var ECON_HEADINGS = { gdp: 'Projected Real GDP (% Change)', prices: 'Projected Consumer Prices (% Change)' };") &&
+    econJs.includes("th.textContent = (typeof doc.year === 'number' ? doc.year + ' ' : '') + heading;"), 'the year leads each heading');
+  assert.ok(econJs.includes("return (n < 0 ? '\\u2212' : '') + Math.abs(n).toFixed(1);"), 'figures as the IMF shows them: -15.6, 3.6');
   assert.ok(home.includes("tag(box('gulf-economy-title'), 'economy');"), 'the box is the economy slot');
   assert.ok(home.includes('href="https://www.imf.org/external/datamapper/datasets/WEO"') && home.includes('Source: <a data-econ-source'), 'the box credits and links the IMF');
   const connector = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
