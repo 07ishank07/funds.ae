@@ -1221,6 +1221,12 @@ document.addEventListener('DOMContentLoaded', async function() {
             fundTypes.appendChild(tile);
           });
           fundZone.appendChild(fundTypes);
+          // View All under the tiles opens the Grants & Funding page (same small-caps link as under the news boxes).
+          const fundViewAll = document.createElement('a');
+          fundViewAll.className = 'fx-view-all';
+          fundViewAll.href = 'GrantsFunding.dc.html';
+          fundViewAll.textContent = 'View All';
+          fundZone.appendChild(fundViewAll);
           news.after(fundZone);
         }
         if (window.__equalizeFundsColumns) requestAnimationFrame(window.__equalizeFundsColumns);
@@ -1689,7 +1695,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         /* View All links: sentence-case bold in the sidebar boxes (like the Sponsored Posts link), small caps under news-column blocks (like the news list link). */
         .fx-view-all { display: inline-block; margin-top: 14px; font-size: 14px; font-weight: 600; color: var(--fx-accent) !important; text-decoration: none; }
         .fx-view-all:hover { color: #0E3A43 !important; text-decoration: underline; text-underline-offset: 3px; }
-        .news > .fx-view-all { margin-top: 14px; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; }
+        .news > .fx-view-all, .fx-fundzone > .fx-view-all { margin-top: 14px; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; }
 
 
         /* UAE Influencers in the news column: same treatment as Top Tweets (dark rule, small-caps title), profiles two across. */

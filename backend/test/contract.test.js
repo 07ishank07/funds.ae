@@ -176,6 +176,9 @@ test('home page: the Gulf Economy box sits directly above Spotlight and is fille
   // No empty band above the funding tiles: a taller column 3 gives its extra height to row 2, not row 1.
   assert.ok(home.includes('main.wrap { grid-template-rows: auto 1fr !important; }') &&
     home.includes('main.wrap > .fx-fundzone { grid-column: 1 / 3; grid-row: 2; align-self: start;'), 'funding tiles sit right under columns 1 and 2');
+  // View All under the funding tiles opens the Grants & Funding page.
+  assert.ok(home.includes("fundViewAll.href = 'GrantsFunding.dc.html';") && home.includes("fundViewAll.textContent = 'View All';") &&
+    home.includes('fundZone.appendChild(fundViewAll);'), 'funding tiles have a View All link to Grants & Funding');
   // Top Tweets closes the third column, directly under Events and Expos.
   assert.ok(home.includes(`const eventsForTweets = document.querySelector('[aria-labelledby="events-title"]');`) &&
     home.includes("eventsForTweets.insertAdjacentElement('afterend', tweetsBox);"), 'Top Tweets sits under Events and Expos');
