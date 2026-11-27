@@ -147,7 +147,8 @@ export function toHero(doc, errors = []) {
   if (!doc || !doc.title) return undefined;
   const hero = compact({
     eyebrow: doc.eyebrow, title: doc.title, highlight: doc.highlight, subtitle: doc.subtitle, imageAlt: doc.imageAlt,
-    style: doc.style, buttonLabel: doc.buttonLabel, buttonTarget: doc.buttonTarget
+    style: doc.style, buttonLabel: doc.buttonLabel, buttonTarget: doc.buttonTarget,
+    button2Label: doc.button2Label, button2Target: doc.button2Target
   });
   const img = doc.image;
   if (img?.url) {

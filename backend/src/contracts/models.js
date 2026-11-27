@@ -37,9 +37,9 @@ export const ADVERTISE_PLACEMENT_LABELS = {
 // Packages no longer offered. An entry still in Sanity is skipped when content is published (not an error),
 // and the enquiry form no longer accepts it. 'platinum' was the Elite Partner package.
 export const RETIRED_ADVERTISING_TIERS = ['platinum'];
-// Hero banner (Sanity "Home page hero banner"): its style, and the site pages its button may open (Minimal style only).
+// Hero banner (Sanity "Home page hero banner"): its style, and the site pages its two buttons may open (not in Classic).
 // A hero published without a style shows as the first one. Mirrored in studio/schemaTypes/rules.js.
-export const HERO_STYLES = ['minimal', 'classic'];
+export const HERO_STYLES = ['photo', 'minimal', 'classic'];
 export const HERO_BUTTON_TARGETS = {
   news: 'News.dc.html',
   videos: 'Videos.dc.html',
@@ -320,7 +320,7 @@ export const DB_MODELS = {
   },
   homeHero: {
     table: 'home_hero',
-    fields: ['eyebrow', 'title', 'highlight', 'subtitle', 'image', 'imageAlt', 'style', 'buttonLabel', 'buttonTarget']
+    fields: ['eyebrow', 'title', 'highlight', 'subtitle', 'image', 'imageAlt', 'style', 'buttonLabel', 'buttonTarget', 'button2Label', 'button2Target']
   },
   submissions: {
     table: 'submissions',
@@ -357,7 +357,7 @@ export const DTO_FIELDS = {
   advertiseTier: ['id', 'name', 'badge', 'price', 'priceNote', 'showPrice', 'duration', 'placements', 'features', 'ctaLabel', 'ctaUrl', 'featured'],
   advertisePlacement: ['type', 'label', 'detail'],
   page: ['slug', 'title', 'intro', 'updatedAt', 'blocks'],
-  hero: ['eyebrow', 'title', 'highlight', 'subtitle', 'image', 'imageAlt', 'style', 'buttonLabel', 'buttonHref'],
+  hero: ['eyebrow', 'title', 'highlight', 'subtitle', 'image', 'imageAlt', 'style', 'buttonLabel', 'buttonHref', 'button2Label', 'button2Href'],
   pageBlock: ['type', 'list', 'spans'],
   pageSpan: ['text', 'bold', 'italic', 'href'],
   source: [

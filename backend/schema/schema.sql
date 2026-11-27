@@ -234,10 +234,13 @@ CREATE TABLE IF NOT EXISTS home_hero (
     subtitle    TEXT CHECK (subtitle IS NULL OR char_length(subtitle) <= 240),
     image       TEXT CHECK (image IS NULL OR image ~* '^https://'),
     image_alt   TEXT CHECK (image_alt IS NULL OR char_length(image_alt) <= 140),
-    style       TEXT CHECK (style IS NULL OR style IN ('minimal', 'classic')),
+    style       TEXT CHECK (style IS NULL OR style IN ('photo', 'minimal', 'classic')),
     button_label TEXT CHECK (button_label IS NULL OR char_length(button_label) BETWEEN 2 AND 30),
     button_target TEXT CHECK (button_target IS NULL OR button_target IN ('news', 'videos', 'events', 'careers', 'partner')),
-    CHECK ((button_label IS NULL) = (button_target IS NULL))
+    button2_label TEXT CHECK (button2_label IS NULL OR char_length(button2_label) BETWEEN 2 AND 30),
+    button2_target TEXT CHECK (button2_target IS NULL OR button2_target IN ('news', 'videos', 'events', 'careers', 'partner')),
+    CHECK ((button_label IS NULL) = (button_target IS NULL)),
+    CHECK ((button2_label IS NULL) = (button2_target IS NULL))
 );
 
 -- Website form submissions. Personal data: never published, never logged,

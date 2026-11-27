@@ -54,7 +54,7 @@ export const homeHero = defineType({
       name: 'highlight',
       title: 'Word to highlight',
       type: 'string',
-      description: 'A word or phrase from the headline, shown in colour (gold in Classic, teal in Minimal). Leave empty for none.',
+      description: 'A word or phrase from the headline, shown in colour (gold in Photo and Classic, teal in Minimal). Leave empty for none.',
       validation: (rule) =>
         textRule(rule, HERO_LIMITS.highlight, {required: false}).custom((value, {document}) =>
           !value || (document?.title || '').includes(value) ? true : 'Use a word or phrase that appears in the headline.',
@@ -65,14 +65,14 @@ export const homeHero = defineType({
       title: 'Subtitle',
       type: 'text',
       rows: 3,
-      initialValue: 'Your window into the global investment landscape.',
+      initialValue: 'Daily intelligence on the deals, funds and investors shaping Dubai and the Gulf.',
       validation: (rule) => textRule(rule, HERO_LIMITS.subtitle, {required: false}),
     }),
     defineField({
       name: 'buttonLabel',
       title: 'Button text',
       type: 'string',
-      description: 'Minimal style only. Leave empty for no button.',
+      description: 'The main button (Photo and Minimal styles). Leave empty for no button.',
       initialValue: 'Explore the latest news',
       hidden: ({document}) => isClassic(document),
       validation: (rule) =>
@@ -90,10 +90,31 @@ export const homeHero = defineType({
       validation: (rule) => rule.custom((value, {document}) => (value || !document?.buttonLabel ? true : 'Choose the page the button opens.')),
     }),
     defineField({
+      name: 'button2Label',
+      title: 'Second button text',
+      type: 'string',
+      description: 'An outlined button next to the main one (Photo and Minimal styles). Leave empty for none.',
+      initialValue: 'Watch the videos',
+      hidden: ({document}) => isClassic(document),
+      validation: (rule) =>
+        textRule(rule, HERO_LIMITS.button2Label, {required: false}).custom((value, {document}) =>
+          !value || document?.button2Target ? true : 'Choose the page the second button opens.',
+        ),
+    }),
+    defineField({
+      name: 'button2Target',
+      title: 'Second button opens',
+      type: 'string',
+      options: {list: Object.entries(HERO_BUTTON_TARGETS).map(([value, t]) => ({value, title: t.title}))},
+      initialValue: 'videos',
+      hidden: ({document}) => isClassic(document) || !document?.button2Label,
+      validation: (rule) => rule.custom((value, {document}) => (value || !document?.button2Label ? true : 'Choose the page the second button opens.')),
+    }),
+    defineField({
       name: 'image',
       title: 'Image',
       type: 'image',
-      description: `A photo you have the rights to, PNG, JPG or WebP up to ${HERO_LIMITS.imageMaxBytes / 1024 / 1024} MB. Minimal: a wide photo under the text (about 21:9, cropped to fit). Classic: on the right of the banner (about 16:10). Leave empty to keep the built-in skyline illustration.`,
+      description: `A photo you have the rights to, PNG, JPG or WebP up to ${HERO_LIMITS.imageMaxBytes / 1024 / 1024} MB. Photo: it fills the whole banner behind the text (landscape, at least 1920 px wide; the left side is darkened for the text). Minimal: a wide photo under the text (about 21:9, cropped to fit). Classic: on the right of the banner (about 16:10). Leave empty to keep the built-in picture.`,
       options: {accept: 'image/png,image/jpeg,image/webp'},
       validation: heroImageRule,
     }),
@@ -111,6 +132,10 @@ export const homeHero = defineType({
   ],
   preview: {
     select: {title: 'title', style: 'style', media: 'image'},
-    prepare: ({title, style, media}) => ({title: 'Home page hero banner', subtitle: `${style === 'classic' ? 'Classic' : 'Minimal'} · ${title || ''}`, media}),
+    prepare: ({title, style, media}) => ({
+      title: 'Home page hero banner',
+      subtitle: `${(HERO_STYLES.find((s) => s.value === (style || HERO_STYLES[0].value))?.title || '').split(' (')[0]} · ${title || ''}`,
+      media,
+    }),
   },
 })

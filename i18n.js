@@ -24,7 +24,9 @@
     'Careers': 'الوظائف',
     'Partner with us': 'شارك معنا',
     'Videos & Podcasts': 'الفيديو والبودكاست',
-    // Hero banner (Minimal style, built-in copy)
+    // Hero banner (built-in copy)
+    'Daily intelligence on the deals, funds and investors shaping Dubai and the Gulf.': 'معلومات يومية عن الصفقات والصناديق والمستثمرين الذين يشكّلون دبي والخليج.',
+    'Watch the videos': 'شاهد الفيديوهات',
     'The future of capital': 'مستقبل رأس المال',
     'Capital. Markets. Opportunity.': 'رأس المال. الأسواق. الفرص.',
     'Your window into the global investment landscape.': 'نافذتك على مشهد الاستثمار العالمي.',

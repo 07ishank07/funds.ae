@@ -1,7 +1,12 @@
-/* Hero banner, Classic style: headline, gold highlight, subtitle and skyline illustration, under the header bar on the home,
-   Videos & Podcasts, Partner with us, Careers and Events pages. Text and image are edited in Sanity
-   ("Home page hero banner"); js/fundsae-connector.js fills every data-fundsae-slot="home-hero".
+/* Hero banner, under the header bar on the home, Videos & Podcasts, Partner with us, Careers and Events pages.
+   Text, buttons, image and style are edited in Sanity ("Home page hero banner"); js/fundsae-connector.js fills every
+   data-fundsae-slot="home-hero". One markup serves three styles:
+     .fx-hero--photo    Photo (the default): the photo fills the banner, white text and two buttons on a darkened left side
+     .fx-hero--minimal  Minimal: warm off-white, text and buttons, then a wide rounded photo under the text
+     (neither)          Classic: the teal banner with the picture on the right, no buttons
    The headline is the home page's h1 and an h2 elsewhere (those pages have their own h1): .fx-hero-title styles both. */
+
+/* Classic (the base rules) */
 .fx-hero { position: relative; overflow: hidden; background: radial-gradient(120% 140% at 85% 20%, #1F6A6E 0%, #134B55 45%, #0E3A43 100%); color: #FFFFFF; }
 .fx-hero::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(14, 58, 67, 0.55) 0%, rgba(14, 58, 67, 0) 60%); pointer-events: none; }
 .fx-hero *, .fx-hero *::before, .fx-hero *::after { box-sizing: border-box; }
@@ -12,16 +17,47 @@
 .fx-hero-sub { max-width: 520px; margin: 20px 0 0; font-size: clamp(1.05rem, 1.6vw, 1.2rem); line-height: 1.5; color: #CFE3E1; }
 .fx-hero-art { justify-self: end; width: 100%; max-width: 620px; }
 .fx-hero-art img { display: block; width: 100%; height: auto; filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.25)); }
-.fx-hero-btn { display: none; }
+.fx-hero-acts { display: none; }
 @media (max-width: 860px) {
   .fx-hero-inner { grid-template-columns: minmax(0, 1fr); text-align: center; padding: 40px 20px 28px; gap: 18px; }
   .fx-hero-sub { margin-left: auto; margin-right: auto; }
   .fx-hero-art { justify-self: center; max-width: 520px; }
 }
 
-/* Minimal style (the default; editors switch styles in Sanity, "Banner style"): warm off-white, a quiet eyebrow,
-   a bold headline, one line of subtitle, a dark button, then a wide rounded photo under the text. Classic (the
-   teal banner above) is the same markup without .fx-hero--minimal, and never shows the button. */
+/* Buttons (Photo and Minimal): the main one solid, the second one outlined. */
+.fx-hero--photo .fx-hero-acts, .fx-hero--minimal .fx-hero-acts { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.fx-hero-btn, .fx-hero-btn2 { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border: 1px solid transparent; border-radius: 4px;
+  font-size: 14px; font-weight: 600; line-height: 1.2; text-decoration: none; }
+.fx-hero-btn[hidden], .fx-hero-btn2[hidden], .fx-hero-acts[hidden] { display: none; }
+.fx-hero-btn svg { width: 15px; height: 15px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Photo style */
+.fx-hero--photo { min-height: 500px; background: #0B2228; }
+.fx-hero--photo .fx-hero-inner { position: static; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; min-height: 500px; padding: 64px 24px 56px; }
+.fx-hero--photo .fx-hero-art { position: absolute; inset: 0; z-index: 0; max-width: none; }
+.fx-hero--photo .fx-hero-art img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 35%; filter: none; }
+.fx-hero--photo::before { z-index: 1;
+  background: linear-gradient(90deg, rgba(6, 24, 30, 0.9) 0%, rgba(6, 24, 30, 0.66) 40%, rgba(6, 24, 30, 0.1) 78%),
+    linear-gradient(0deg, rgba(6, 24, 30, 0.6), transparent 45%); }
+.fx-hero--photo .fx-hero-copy { position: relative; z-index: 2; max-width: 660px; }
+.fx-hero--photo .fx-hero-eyebrow { font-size: 12px; letter-spacing: 0.18em; color: #C9A961; }
+.fx-hero--photo .fx-hero-title { margin-top: 14px; font-size: clamp(2.2rem, 4.2vw, 3.4rem); line-height: 1.05; letter-spacing: -0.02em; }
+.fx-hero--photo .fx-hero-title span { color: #D9BE7A; }
+.fx-hero--photo .fx-hero-sub { margin-top: 16px; color: #DCE7E6; }
+.fx-hero--photo .fx-hero-btn { background: #C9A961; color: #0B2228; }
+.fx-hero--photo .fx-hero-btn:hover { background: #D9BE7A; }
+.fx-hero--photo .fx-hero-btn2 { border-color: rgba(255, 255, 255, 0.5); color: #FFFFFF; }
+.fx-hero--photo .fx-hero-btn2:hover { border-color: #FFFFFF; background: rgba(255, 255, 255, 0.08); }
+.fx-hero--photo .fx-hero-btn:focus-visible, .fx-hero--photo .fx-hero-btn2:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 3px; }
+@media (max-width: 860px) {
+  .fx-hero--photo, .fx-hero--photo .fx-hero-inner { min-height: 540px; }
+  .fx-hero--photo .fx-hero-inner { text-align: left; padding: 40px 20px 32px; }
+  .fx-hero--photo .fx-hero-sub { margin-left: 0; }
+  .fx-hero--photo .fx-hero-art img { object-position: 42% 30%; }
+  .fx-hero--photo::before { background: linear-gradient(0deg, rgba(6, 24, 30, 0.92) 0%, rgba(6, 24, 30, 0.7) 55%, rgba(6, 24, 30, 0.3) 100%); }
+}
+
+/* Minimal style */
 .fx-hero--minimal { background: #F4F2EC; color: #141414; }
 .fx-hero--minimal::before { display: none; }
 .fx-hero--minimal .fx-hero-inner { display: block; padding: 36px 24px 44px; }
@@ -29,12 +65,12 @@
 .fx-hero--minimal .fx-hero-title { margin-top: 10px; font-size: clamp(1.75rem, 3vw, 2.4rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.01em; color: #141414; }
 .fx-hero--minimal .fx-hero-title span { color: #1F6A6E; }
 .fx-hero--minimal .fx-hero-sub { max-width: 640px; margin-top: 12px; font-size: clamp(1rem, 1.4vw, 1.15rem); line-height: 1.5; color: #4A4843; }
-.fx-hero--minimal .fx-hero-btn { display: inline-flex; align-items: center; gap: 8px; margin-top: 20px; padding: 10px 16px; border-radius: 6px;
-  background: #141414; color: #FFFFFF; font-size: 14px; font-weight: 600; line-height: 1.2; text-decoration: none; }
+.fx-hero--minimal .fx-hero-acts { margin-top: 20px; }
+.fx-hero--minimal .fx-hero-btn { padding: 10px 16px; border-radius: 6px; background: #141414; color: #FFFFFF; }
 .fx-hero--minimal .fx-hero-btn:hover { background: #1F6A6E; }
-.fx-hero--minimal .fx-hero-btn:focus-visible { outline: 2px solid #1F6A6E; outline-offset: 3px; }
-.fx-hero--minimal .fx-hero-btn[hidden] { display: none; }
-.fx-hero-btn svg { width: 15px; height: 15px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.fx-hero--minimal .fx-hero-btn2 { padding: 10px 16px; border-color: rgba(20, 20, 20, 0.35); border-radius: 6px; color: #141414; }
+.fx-hero--minimal .fx-hero-btn2:hover { border-color: #141414; }
+.fx-hero--minimal .fx-hero-btn:focus-visible, .fx-hero--minimal .fx-hero-btn2:focus-visible { outline: 2px solid #1F6A6E; outline-offset: 3px; }
 .fx-hero--minimal .fx-hero-art { max-width: none; margin-top: 28px; }
 .fx-hero--minimal .fx-hero-art img { aspect-ratio: 21 / 9; object-fit: cover; border: 1px solid rgba(20, 20, 20, 0.08); border-radius: 10px; filter: none; }
 @media (max-width: 860px) {

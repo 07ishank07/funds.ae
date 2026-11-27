@@ -1388,11 +1388,11 @@ document.addEventListener('DOMContentLoaded', async function() {
           const heroStyle = document.createElement('link');
           heroStyle.id = 'fx-hero-style';
           heroStyle.rel = 'stylesheet';
-          heroStyle.href = 'hero-banner.css';
+          heroStyle.href = 'hero-banner.css?v=3'; // bump ?v= when the styles change, so browsers fetch the new file
           document.head.appendChild(heroStyle);
         }
         const hero = document.createElement('section');
-        hero.className = 'fx-hero fx-hero--minimal';
+        hero.className = 'fx-hero fx-hero--photo';
         hero.setAttribute('aria-labelledby', 'fx-hero-title');
         // Editable in Sanity ("Home page hero banner"): js/fundsae-connector.js replaces this text and image from content.json.
         hero.setAttribute('data-fundsae-slot', 'home-hero');
@@ -1401,10 +1401,13 @@ document.addEventListener('DOMContentLoaded', async function() {
             <div class="fx-hero-copy">
               <p class="fx-hero-eyebrow">The future of capital</p>
               <h1 id="fx-hero-title" class="fx-hero-title">Capital. Markets. Opportunity.</h1>
-              <p class="fx-hero-sub">Your window into the global investment landscape.</p>
-              <a class="fx-hero-btn" href="News.dc.html"><span>Explore the latest news</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+              <p class="fx-hero-sub">Daily intelligence on the deals, funds and investors shaping Dubai and the Gulf.</p>
+              <div class="fx-hero-acts">
+                <a class="fx-hero-btn" href="News.dc.html"><span>Explore the latest news</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+                <a class="fx-hero-btn2" href="Videos.dc.html"><span>Watch the videos</span></a>
+              </div>
             </div>
-            <div class="fx-hero-art"><img src="img/hero-skyline-warm.svg" alt="A financial district skyline at sunrise, with glass and sandstone towers" width="1600" height="686" decoding="async" fetchpriority="high"></div>
+            <div class="fx-hero-art"><img src="img/hero-dubai.jpg" alt="The Burj Khalifa and Downtown Dubai towers above Sheikh Zayed Road" width="1920" height="1309" decoding="async" fetchpriority="high"></div>
           </div>`;
         mainColumns.before(hero);
       }

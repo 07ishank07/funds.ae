@@ -208,9 +208,11 @@ export function toAdvertiseTierDto(tier) {
   };
 }
 
-/** The hero banner (content.json "hero"). No style means the first (Minimal); the button links only to a known site page. */
+/** The hero banner (content.json "hero"). No style means the first (Photo); the buttons link only to known site pages. */
 export function toHeroDto(hero) {
-  const href = Object.hasOwn(HERO_BUTTON_TARGETS, hero.buttonTarget || '') ? HERO_BUTTON_TARGETS[hero.buttonTarget] : null;
+  const page = (target) => (Object.hasOwn(HERO_BUTTON_TARGETS, target || '') ? HERO_BUTTON_TARGETS[target] : null);
+  const href = page(hero.buttonTarget);
+  const href2 = page(hero.button2Target);
   return {
     eyebrow: hero.eyebrow,
     title: hero.title,
@@ -220,7 +222,9 @@ export function toHeroDto(hero) {
     imageAlt: nullable(hero.imageAlt),
     style: HERO_STYLES.includes(hero.style) ? hero.style : HERO_STYLES[0],
     buttonLabel: href ? nullable(hero.buttonLabel) : null,
-    buttonHref: nullable(hero.buttonLabel) ? href : null
+    buttonHref: nullable(hero.buttonLabel) ? href : null,
+    button2Label: href2 ? nullable(hero.button2Label) : null,
+    button2Href: nullable(hero.button2Label) ? href2 : null
   };
 }
 

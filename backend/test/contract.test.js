@@ -6,7 +6,7 @@
 import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, readFileSync, readdirSync, existsSync, rmSync } from 'node:fs';
+import { mkdtempSync, readFileSync, readdirSync, existsSync, rmSync, statSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -134,7 +134,7 @@ test('schema.sql has a column for every model field', () => {
   const sql = readFileSync(path.join(backend, 'schema', 'schema.sql'), 'utf8');
   const tables = {};
   for (const m of sql.matchAll(/CREATE TABLE IF NOT EXISTS (\w+) \(([\s\S]*?)\n\);/g)) {
-    tables[m[1]] = new Set(m[2].split('\n').map((l) => l.trim().split(/\s+/)[0]).filter((w) => /^[a-z_]+$/.test(w)));
+    tables[m[1]] = new Set(m[2].split('\n').map((l) => l.trim().split(/\s+/)[0]).filter((w) => /^[a-z][a-z0-9_]*$/.test(w)));
   }
   for (const [model, def] of Object.entries(DB_MODELS)) {
     assert.ok(tables[def.table], `schema.sql has no table ${def.table} for ${model}`);
@@ -203,28 +203,34 @@ test('every page but the hero pages shows the same Elite Founding Sponsor banner
   const home = read('this.html');
   // Home: a hero banner (headline and an original illustration, no form or links) in place of the Elite Founding Sponsor banner.
   assert.ok(!home.includes('fx-founding') && !home.includes('Your firm here'), 'no Elite Founding Sponsor banner on the home page');
-  // Built-in hero: the Minimal style (headline, one button to the news page, a wide original illustration).
-  const MINIMAL = ['>The future of capital</p>', 'class="fx-hero-title">Capital. Markets. Opportunity.</h',
-    '<a class="fx-hero-btn" href="News.dc.html"><span>Explore the latest news</span>', '<img src="img/hero-skyline-warm.svg" alt="'];
-  for (const s of [...MINIMAL, '<h1 id="fx-hero-title"', "hero.className = 'fx-hero fx-hero--minimal';",
-    "(document.querySelector('.fx-hero') || mainColumns).before(bar)", "heroStyle.href = 'hero-banner.css';"]) {
+  // Built-in hero: the Photo style (full-bleed Dubai photo, two buttons, no figures row).
+  const PHOTO = ['>The future of capital</p>', 'class="fx-hero-title">Capital. Markets. Opportunity.</h',
+    '<a class="fx-hero-btn" href="News.dc.html"><span>Explore the latest news</span>', '<a class="fx-hero-btn2" href="Videos.dc.html"><span>Watch the videos</span></a>',
+    '<img src="img/hero-dubai.jpg" alt="'];
+  for (const s of [...PHOTO, '<h1 id="fx-hero-title"', "hero.className = 'fx-hero fx-hero--photo';",
+    "(document.querySelector('.fx-hero') || mainColumns).before(bar)", "heroStyle.href = 'hero-banner.css?v=3';"]) {
     assert.ok(home.includes(s), `hero: ${s}`);
   }
   assert.ok(!home.includes('fx-hero-form') && !home.includes('fx-hero-links'), 'the hero has no form or link list');
-  for (const art of ['hero-skyline.svg', 'hero-skyline-warm.svg']) assert.ok(existsSync(path.join(repo, 'frontend_demo', 'img', art)), `${art} is in the repository`);
+  for (const art of ['hero-skyline.svg', 'hero-skyline-warm.svg', 'hero-dubai.jpg']) assert.ok(existsSync(path.join(repo, 'frontend_demo', 'img', art)), `${art} is in the repository`);
+  // The photo is a licensed stock photo (credited in img/CREDITS.md) and light enough for a banner.
+  assert.ok(statSync(path.join(repo, 'frontend_demo', 'img', 'hero-dubai.jpg')).size < 600 * 1024, 'hero photo under 600 KB');
+  assert.ok(readFileSync(path.join(repo, 'frontend_demo', 'img', 'CREDITS.md'), 'utf8').includes('hero-dubai.jpg'), 'hero photo is credited');
   // The other hero pages: the same banner right under the header bar, its headline an h2 under the page's own h1.
   for (const file of HERO_PAGES.filter((f) => f !== 'this.html')) {
     const html = read(file);
     const hero = html.slice(html.indexOf('<section class="fx-hero'), html.indexOf('</section>', html.indexOf('<section class="fx-hero')));
-    assert.ok(hero.startsWith('<section class="fx-hero fx-hero--minimal"') && hero.includes('data-fundsae-slot="home-hero"') && html.includes('<link rel="stylesheet" href="hero-banner.css">'), `${file}: minimal hero slot and styles`);
-    for (const s of MINIMAL) assert.ok(hero.includes(s), `${file}: hero ${s}`);
+    assert.ok(hero.startsWith('<section class="fx-hero fx-hero--photo"') && hero.includes('data-fundsae-slot="home-hero"') && html.includes('<link rel="stylesheet" href="hero-banner.css?v=3">'), `${file}: photo hero slot and styles`);
+    for (const s of PHOTO) assert.ok(hero.includes(s), `${file}: hero ${s}`);
+    assert.ok(!/Stories a year|Sources tracked|Editor-checked/.test(hero), `${file}: no figures row in the hero`);
     assert.ok(hero.includes('<h2 id="fx-hero-title"'), `${file}: hero headline is an h2`);
     assert.ok(html.indexOf('</nav>', html.indexOf('<nav class="fx-catbar"')) < html.indexOf('<section class="fx-hero') && html.indexOf('<section class="fx-hero') < html.indexOf('<h1'), `${file}: hero sits between the header bar and the page`);
   }
   // The connector switches styles and only links the button to a known site page.
   const heroScript = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
   assert.ok(heroScript.includes("box.querySelector('.fx-hero-title')"), 'connector fills the h1 or h2 headline');
-  assert.ok(heroScript.includes("box.classList.toggle('fx-hero--minimal', style === 'minimal')"), 'connector applies the banner style');
+  assert.ok(heroScript.includes("box.classList.toggle('fx-hero--photo', style === 'photo')") && heroScript.includes("box.classList.toggle('fx-hero--minimal', style === 'minimal')"), 'connector applies the banner style');
+  assert.ok(heroScript.includes("box.querySelector('.fx-hero-btn2'), hero.button2Label, hero.button2Href"), 'connector fills the second button');
   const heroPages = JSON.parse(heroScript.match(/var HERO_PAGES = (\[[^\]]+\])/)[1].replace(/'/g, '"'));
   assert.deepEqual(heroPages, Object.values(HERO_BUTTON_TARGETS), 'connector button pages = HERO_BUTTON_TARGETS');
   for (const p of heroPages) assert.ok(existsSync(path.join(repo, 'frontend_demo', p)), `${p} exists`);

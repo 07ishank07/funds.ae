@@ -26,7 +26,7 @@ export const CONTENT_LIMITS = {
   highlights: { maxItems: 5, accountName: [2, 40], handle: [2, 16], text: [10, 140], initials: [1, 3] },
   tiers: { maxItems: 4, name: [2, 40], badge: [2, 20], price: [2, 30], priceNote: [2, 40], duration: [2, 40], features: 8, feature: [2, 120], ctaLabel: [2, 30], placementDetail: [2, 120] },
   pages: { title: [2, 80], intro: [0, 400], blocks: 120, blockText: 2000 },
-  hero: { eyebrow: [2, 60], title: [8, 80], highlight: [0, 30], subtitle: [0, 240], imageAlt: [0, 140], buttonLabel: [2, 30], imageMaxBytes: 1572864 }
+  hero: { eyebrow: [2, 60], title: [8, 80], highlight: [0, 30], subtitle: [0, 240], imageAlt: [0, 140], buttonLabel: [2, 30], button2Label: [2, 30], imageMaxBytes: 1572864 }
 };
 
 const HEX = /^#[0-9a-f]{6}$/i;
@@ -194,12 +194,15 @@ const HERO_SCHEMA = {
     imageAlt: text({ min: 1, max: L.hero.imageAlt[1], required: false }),
     style: enumOf(HERO_STYLES, { required: false }),
     buttonLabel: text({ min: L.hero.buttonLabel[0], max: L.hero.buttonLabel[1], required: false }),
-    buttonTarget: enumOf(Object.keys(HERO_BUTTON_TARGETS), { required: false })
+    buttonTarget: enumOf(Object.keys(HERO_BUTTON_TARGETS), { required: false }),
+    button2Label: text({ min: L.hero.button2Label[0], max: L.hero.button2Label[1], required: false }),
+    button2Target: enumOf(Object.keys(HERO_BUTTON_TARGETS), { required: false })
   },
   check: (v) => {
     if (v.highlight && !v.title.includes(v.highlight)) return { highlight: 'must be a word or phrase from the headline.' };
     if (v.image && !v.imageAlt) return { imageAlt: 'is required with an image (describe it for people who cannot see it).' };
     if (Boolean(v.buttonLabel) !== Boolean(v.buttonTarget)) return { buttonLabel: 'and the page the button opens go together (set both, or neither).' };
+    if (Boolean(v.button2Label) !== Boolean(v.button2Target)) return { button2Label: 'and the page the second button opens go together (set both, or neither).' };
     return null;
   }
 };

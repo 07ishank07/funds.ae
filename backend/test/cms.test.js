@@ -529,17 +529,20 @@ test('the home page hero banner comes from Sanity and is checked before it is pu
   assert.equal(hero.image, 'https://cdn.sanity.io/images/p/d/abc-1600x1000.jpg');
   const ok = validateContent({ hero });
   assert.deepEqual(ok.errors, []);
-  // Published before styles existed: no style, so it shows as Minimal, with no button.
+  // Published before styles existed: no style, so it shows as Photo (the first style), with no buttons.
   assert.deepEqual(ok.content.hero, {
     eyebrow: doc.eyebrow, title: doc.title, highlight: 'Gulf real estate', subtitle: doc.subtitle, image: hero.image, imageAlt: 'Dubai Marina at dusk',
-    style: 'minimal', buttonLabel: null, buttonHref: null
+    style: 'photo', buttonLabel: null, buttonHref: null, button2Label: null, button2Href: null
   });
-  // Style and button come through from Sanity; the button opens a known site page only.
-  const styled = toHero({ ...doc, style: 'classic', buttonLabel: 'Watch the videos', buttonTarget: 'videos' }, []);
+  // Style and both buttons come through from Sanity; each button opens a known site page only.
+  const styled = toHero({ ...doc, style: 'minimal', buttonLabel: 'Read the news', buttonTarget: 'news', button2Label: 'Watch the videos', button2Target: 'videos' }, []);
   const out = validateContent({ hero: styled }).content.hero;
-  assert.equal(out.style, 'classic');
-  assert.equal(out.buttonLabel, 'Watch the videos');
-  assert.equal(out.buttonHref, 'Videos.dc.html');
+  assert.equal(out.style, 'minimal');
+  assert.equal(out.buttonLabel, 'Read the news');
+  assert.equal(out.buttonHref, 'News.dc.html');
+  assert.equal(out.button2Label, 'Watch the videos');
+  assert.equal(out.button2Href, 'Videos.dc.html');
+  assert.equal(validateContent({ hero: { ...hero, style: 'classic' } }).content.hero.style, 'classic');
   assert.equal(validateContent({}).content.hero, null, 'none published: null, and the page keeps its own banner');
   // Refused, so the previous content.json stays live.
   const refused = (extra) => validateContent({ hero: { ...hero, ...extra } }).errors;
@@ -552,6 +555,9 @@ test('the home page hero banner comes from Sanity and is checked before it is pu
   assert.ok(refused({ buttonLabel: 'Read the news' }).some((e) => /buttonLabel/.test(e)), 'button text needs a page');
   assert.ok(refused({ buttonTarget: 'news' }).some((e) => /buttonLabel/.test(e)), 'a page needs button text');
   assert.ok(refused({ buttonLabel: 'x'.repeat(31), buttonTarget: 'news' }).some((e) => /buttonLabel/.test(e)), 'button text length');
+  assert.ok(refused({ button2Label: 'Go', button2Target: 'javascript:alert(1)' }).some((e) => /button2Target/.test(e)), 'the second button opens a listed site page only');
+  assert.ok(refused({ button2Label: 'Watch' }).some((e) => /button2Label/.test(e)), 'second button text needs a page');
+  assert.ok(refused({ button2Target: 'videos' }).some((e) => /button2Label/.test(e)), 'a second page needs button text');
   const big = []; toHero({ ...doc, image: { ...doc.image, size: 2 * 1024 * 1024 } }, big);
   assert.match(big[0], /limit is 1536 KB/);
   const svg = []; toHero({ ...doc, image: { ...doc.image, mimeType: 'image/svg+xml' } }, svg);
