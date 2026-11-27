@@ -217,7 +217,7 @@ test('every page but Careers and the home page shows the same Elite Founding Spo
   }
   // The site menu is in the footer on every page, not in the header.
   assert.ok(home.includes(`nav.m-only[aria-label="Sections"]').forEach((nav) => nav.remove())`), 'home removes both header menus');
-  for (const page of ['About', 'PartnerWithUs', 'Careers', 'Contact', 'Events', 'News', 'Privacy', 'Terms']) {
+  for (const page of ['About', 'PartnerWithUs', 'Careers', 'Contact', 'Events', 'News', 'Privacy', 'Terms', 'Videos']) {
     const html = read(`${page}.dc.html`);
     assert.ok(!html.includes('aria-label="Sections"'), `${page} has no header menu`);
     const footNav = html.slice(html.indexOf('<nav class="foot-nav"'), html.indexOf('</nav>', html.indexOf('<nav class="foot-nav"')));
@@ -230,7 +230,7 @@ test('every page but Careers and the home page shows the same Elite Founding Spo
     assert.ok(html.includes('data-fundsae-date') && html.includes('href="this.html?category=Sovereign"'), `${page} header shows the date and links investor types to the home page`);
     assert.ok(!html.includes('class="masthead"'), `${page} has no old masthead`);
     const catbar = html.slice(html.indexOf('<nav class="fx-catbar"'), html.indexOf('</nav>', html.indexOf('<nav class="fx-catbar"')));
-    for (const [label, href] of [['Partner with us', 'PartnerWithUs.dc.html'], ['Careers', 'Careers.dc.html'], ['Events', 'Events.dc.html']]) {
+    for (const [label, href] of [['Videos &amp; Podcasts', 'Videos.dc.html'], ['Partner with us', 'PartnerWithUs.dc.html'], ['Careers', 'Careers.dc.html'], ['Events', 'Events.dc.html']]) {
       assert.ok(catbar.includes(`<a href="${href}"`) && catbar.includes(`>${label}</a>`), `${page} category bar links to ${label}`);
     }
   }
@@ -238,7 +238,7 @@ test('every page but Careers and the home page shows the same Elite Founding Spo
   for (const label of ['Real Estate Stories', 'Sovereign', 'Pension', 'Private Equity', 'REITs', 'Family Offices', 'Banks', 'Government', 'Endowments']) {
     assert.ok(home.includes(`['${label}', `), `category bar has ${label}`);
   }
-  assert.ok(home.includes("[['Partner with us', { href: 'PartnerWithUs.dc.html' }], ['Careers', { href: 'Careers.dc.html' }], ['Events', { href: 'Events.dc.html' }]]"), 'category bar ends with Partner with us, Careers and Events links');
+  assert.ok(home.includes("[['Videos & Podcasts', { href: 'Videos.dc.html' }], ['Partner with us', { href: 'PartnerWithUs.dc.html' }], ['Careers', { href: 'Careers.dc.html' }], ['Events', { href: 'Events.dc.html' }]]"), 'category bar ends with Videos & Podcasts, Partner with us, Careers and Events links');
   for (const gone of ['Latest', 'Fundraising', 'Deals', 'People', 'Venture', 'Credit', 'Secondaries', 'Hedge Funds', 'LPs', 'Regulation', 'Providers']) {
     assert.ok(!home.includes(`['${gone}', [`), `category bar no longer has ${gone}`);
   }
@@ -360,6 +360,26 @@ test('the Advertise page is now Partner with us: no link or label uses the old n
   assert.ok(read('i18n.js').includes("'Partner with us': "), 'Arabic label for Partner with us');
 });
 
+test('Videos & Podcasts: a header link on every page and a video hub page of dummy videos', () => {
+  const read = (...f) => readFileSync(path.join(repo, ...f), 'utf8');
+  const page = read('frontend_demo', 'Videos.dc.html');
+  for (const f of [...readdirSync(path.join(repo, 'frontend_demo', 'news')).filter((n) => n.endsWith('.html')).map((n) => ['frontend_demo', 'news', n]),
+    ['backend', 'templates', 'story.html'], ['backend', 'templates', 'job.html']]) {
+    assert.ok(read(...f).includes('<a href="../Videos.dc.html">Videos &amp; Podcasts</a>'), `${f.join('/')} header links to Videos & Podcasts`);
+  }
+  assert.ok(read('js', 'fundsae-header.js').includes("['Videos & Podcasts', 'Videos.dc.html']"), 'mobile menu links to Videos & Podcasts');
+  assert.ok(read('frontend_demo', 'this.html').includes('<a href="Videos.dc.html" style="display: inline-block; margin-top: 16px'), 'home box View All opens the page');
+  assert.ok(page.includes('<title>Videos &amp; Podcasts · Funds.ae</title>') && page.includes('<a href="Videos.dc.html" aria-current="page">'), 'title and current link');
+  // Featured episode, Latest row, two large recent cards, then one row per series.
+  assert.ok(page.includes('class="vp-featured"') && page.indexOf('class="vp-featured"') < page.indexOf('id="vp-latest-title"'), 'featured block first');
+  assert.equal([...page.matchAll(/class="vp-card vp-card-big"/g)].length, 2, 'two large recent cards');
+  assert.ok([...page.matchAll(/id="vp-series-\d+"/g)].length >= 5, 'series rows');
+  assert.ok(page.includes('The Funds.ae Podcast') && page.includes('>Podcast<'), 'podcast episodes');
+  assert.ok(page.includes('Demo videos:'), 'marked as demo content');
+  assert.ok(!/<img|<video|<iframe|url\(/.test(page.slice(page.indexOf('<main'), page.indexOf('</main>'))), 'no images, players or embeds (dummy thumbnails are CSS)');
+  assert.ok(read('i18n.js').includes("'Videos & Podcasts': "), 'Arabic label');
+});
+
 test('every website form posts only field names the API accepts', () => {
   const pages = readdirSync(path.join(repo, 'frontend_demo')).filter((f) => f.endsWith('.html'));
   const seen = new Set();
@@ -411,7 +431,7 @@ test('the Real Estate Capital News page has its hooks, scripts and a bar link on
   const order = ['fundsae-api.js', 'fundsae-connector.js', 'fundsae-news-filter.js', 'fundsae-news.js'].map((f) => page.indexOf(`<script src="../js/${f}"`));
   assert.ok(order.every((i, n) => i > 0 && (n === 0 || i > order[n - 1])), 'scripts load in order: api, connector, filter, page');
   // No Real Estate News link in the header; the page is reached from the home page's real estate boxes (View All).
-  for (const f of ['About', 'PartnerWithUs', 'Careers', 'Contact', 'Events', 'News', 'PostJob', 'Privacy', 'Terms']) {
+  for (const f of ['About', 'PartnerWithUs', 'Careers', 'Contact', 'Events', 'News', 'PostJob', 'Privacy', 'Terms', 'Videos']) {
     assert.ok(!read(`${f}.dc.html`).includes('>Real Estate News</a>'), `${f} has no Real Estate News header link`);
   }
   const home = read('this.html');

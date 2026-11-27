@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Videos &amp; Podcasts · Funds.ae</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;600;700&family=Jost:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="founding-banner.css">
+<link rel="stylesheet" href="site-header.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  /* Editorial theme tokens. Keep in sync with the theme block at the end of this.html's script. */
+  :root {
+    --ink: #0E3A43;
+    --ink-2: #3D5A5F;
+    --muted: #587176;
+    --ghost: #62797D;
+    --line: #D3DFDF;
+    --line-2: #E4ECEB;
+    --mint: #4FB3B8;
+    --accent: #1F6A6E;
+    --gold: #C9A961;
+    --surface: #FFFFFF;
+    --wash: #FAFBFA;
+  }
+  body { font-family: 'Jost', 'Futura', 'Century Gothic', sans-serif; background: var(--wash); color: var(--ink); line-height: 1.6; }
+  a { color: inherit; }
+  a:focus-visible, .vp-row:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* Videos & Podcasts, laid out like a news video hub: a featured episode, a Latest row, two large recent
+     cards, then one sideways-scrolling row per series. Thumbnails are CSS only (dummy; no images). */
+  .vp { max-width: 1288px; margin: 0 auto; padding: 40px 24px 72px; }
+  .vp-intro { padding-bottom: 24px; border-bottom: 1px solid var(--line); }
+  .vp-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
+  .vp-intro h1 { margin-top: 6px; font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 600; line-height: 1.1; letter-spacing: -0.015em; }
+  .vp-intro p { margin-top: 10px; max-width: 640px; font-size: 16px; color: var(--muted); }
+  .vp-intro .vp-demo { margin-top: 8px; font-size: 13px; color: var(--ghost); }
+
+  .vp-thumb { position: relative; aspect-ratio: 16 / 9; border-radius: 4px; overflow: hidden; display: flex; align-items: flex-end;
+    background: linear-gradient(145deg, var(--a), var(--b)); }
+  .vp-thumb::before { content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.07) 0 2px, transparent 2px 18px),
+      radial-gradient(circle at 78% 24%, rgba(255, 255, 255, 0.28), transparent 46%); }
+  .vp-thumb::after { content: ''; position: absolute; right: 0; bottom: 0; left: 0; height: 38%;
+    background: linear-gradient(to top, rgba(4, 22, 26, 0.55), transparent); }
+  .vp-t1 { --a: #0E3A43; --b: #4FB3B8; }
+  .vp-t2 { --a: #31556D; --b: #8BA9C1; }
+  .vp-t3 { --a: #8A6330; --b: #D3B46A; }
+  .vp-t4 { --a: #416C56; --b: #9EB9A5; }
+  .vp-t5 { --a: #5B4675; --b: #B4A4C9; }
+  .vp-t6 { --a: #874E4B; --b: #C6A59B; }
+  .vp-t7 { --a: #2F4E6D; --b: #B9C9E0; }
+  .vp-mark { position: relative; z-index: 1; margin: 0 0 10px 12px; max-width: 70%; font-size: 12px; font-weight: 700; line-height: 1.1;
+    letter-spacing: 0.08em; text-transform: uppercase; color: #FFFFFF; }
+  .vp-play { position: absolute; z-index: 1; top: 50%; left: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%;
+    background: rgba(14, 58, 67, 0.82); box-shadow: 0 4px 14px rgba(4, 22, 26, 0.3); }
+  .vp-play::after { content: ''; position: absolute; top: 50%; left: 50%; width: 14px; height: 16px; margin: -8px 0 0 -5px;
+    background: #FFFFFF; clip-path: polygon(0 0, 100% 50%, 0 100%); }
+  .vp-dur { position: absolute; z-index: 1; right: 8px; bottom: 8px; padding: 1px 6px; border-radius: 3px; background: rgba(4, 22, 26, 0.78);
+    font-size: 11px; font-weight: 600; color: #FFFFFF; }
+
+  .vp-featured { position: relative; margin-top: 28px; border-radius: 6px; overflow: hidden; background: var(--ink); color: #F1F5F4; }
+  .vp-featured .vp-thumb { border-radius: 0; aspect-ratio: 21 / 9; }
+  .vp-thumb-big .vp-play { width: 76px; height: 76px; margin: -38px 0 0 -38px; background: var(--gold); }
+  .vp-thumb-big .vp-play::after { width: 22px; height: 26px; margin: -13px 0 0 -7px; background: var(--ink); }
+  .vp-thumb-big .vp-mark { margin: 0 0 16px 18px; font-size: 15px; }
+  .vp-featured .vp-thumb::after { height: 100%; background: linear-gradient(90deg, rgba(4, 22, 26, 0.82) 0%, rgba(4, 22, 26, 0.35) 55%, transparent 80%); }
+  .vp-featured .vp-mark, .vp-featured .vp-dur { display: none; }
+  .vp-featured .vp-play { left: 76%; }
+  .vp-featured-text { position: absolute; z-index: 2; top: 0; bottom: 0; left: 0; width: min(560px, 52%); padding: 32px;
+    display: flex; flex-direction: column; justify-content: center; gap: 8px; }
+  .vp-featured .vp-kind { color: var(--gold); }
+  .vp-featured h2 { font-size: clamp(1.35rem, 2.4vw, 2rem); font-weight: 600; line-height: 1.2; color: #FFFFFF; }
+  .vp-featured .vp-meta { color: #CFE3E1; }
+  .vp-blurb { font-size: 15px; line-height: 1.5; color: #E4EFEE; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+  .vp-section { margin-top: 40px; }
+  .vp-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; padding-top: 12px; border-top: 2px solid var(--ink); }
+  .vp-head h2 { font-size: 22px; font-weight: 600; line-height: 1.2; }
+  .vp-head p { font-size: 14px; color: var(--muted); }
+  .vp-row { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 3 * 20px) / 4); gap: 20px; margin-top: 16px;
+    padding-bottom: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; }
+  .vp-card { position: relative; scroll-snap-align: start; min-width: 0; }
+  .vp-kind { margin-top: 10px; font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+  .vp-title { margin-top: 2px; font-size: 16px; font-weight: 600; line-height: 1.3; }
+  .vp-meta { margin-top: 4px; font-size: 13px; color: var(--ghost); }
+  .vp-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 16px; }
+  .vp-card-big .vp-title { font-size: 21px; }
+  .vp-card-big .vp-thumb-big .vp-play { background: rgba(14, 58, 67, 0.82); }
+  .vp-card-big .vp-thumb-big .vp-play::after { background: #FFFFFF; }
+  .fxh-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  @media (max-width: 960px) { .vp-row { grid-auto-columns: calc((100% - 2 * 20px) / 2.6); } }
+  @media (max-width: 720px) {
+    .vp { padding: 28px 16px 56px; }
+    .vp-featured .vp-thumb { aspect-ratio: 16 / 9; }
+    .vp-featured .vp-thumb::after { height: 38%; background: linear-gradient(to top, rgba(4, 22, 26, 0.55), transparent); }
+    .vp-featured-text { position: static; width: auto; padding: 18px 18px 22px; }
+    .vp-thumb-big .vp-play { width: 56px; height: 56px; margin: -28px 0 0 -28px; }
+    .vp-featured .vp-play { left: 50%; }
+    .vp-two { grid-template-columns: minmax(0, 1fr); }
+    .vp-row { grid-auto-columns: 72%; gap: 14px; }
+  }
+
+  /* Site footer, shared with this.html: double rule, brand, tagline, links. Pinned to the bottom on short pages. */
+  body { min-height: 100vh; display: flex; flex-direction: column; }
+  body > main, body > .page { width: 100%; flex: 1 0 auto; }
+  .site-footer { flex-shrink: 0; margin-top: 40px; background: var(--wash); border-top: 3px double var(--ink); }
+  .foot-inner { max-width: 1288px; margin: 0 auto; padding: 26px 24px 30px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
+  .foot-brand { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; }
+  .foot-brand svg { width: 26px; height: 26px; flex-shrink: 0; }
+  .foot-brand span { font-size: 20px; font-weight: 500; line-height: 1; letter-spacing: -0.015em; }
+  .foot-brand .dot { display: inline-block; width: 0.18em; height: 0.18em; margin: 0 0.05em 0 0.065em; border-radius: 50%; background: var(--mint); overflow: hidden; color: transparent; }
+  .foot-note { font-size: 14px; color: var(--muted); }
+  .foot-nav { margin-left: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; }
+  .foot-nav a { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2); text-decoration: none; }
+  .foot-nav a:hover { color: var(--accent); }
+  .foot-bottom { flex: 1 0 100%; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; margin-top: 8px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .foot-bottom .foot-note { font-size: 13px; color: var(--ghost); }
+  @media (max-width: 720px) { .foot-nav { margin-left: 0; } }
+  /* One typeface across the site: Jost, as on the home page. Skipped in Arabic mode, where i18n.js sets its own font. */
+  html:not([lang="ar"]) body *:not(svg):not(svg *) { font-family: 'Jost', 'Futura', 'Century Gothic', sans-serif !important; }
+</style>
+</head>
+<body>
+<!-- Site header, the same as the home page's (styles in site-header.css, behaviour in js/fundsae-header.js):
+     desktop masthead, mobile bar, then the sticky category bar. Investor types open the home page filtered. -->
+<header class="fxh">
+  <div class="fxh-inner">
+    <div class="topline">
+      <span data-fundsae-date data-fundsae-badge></span>
+      <span class="edition">Real Estate, Infrastructure &amp; Market Intelligence</span>
+      <span aria-hidden="true"></span>
+    </div>
+    <form class="fxh-search" action="this.html" method="get" role="search">
+      <label class="fxh-sr" for="site-search">Search Funds.ae</label>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+      <input id="site-search" name="q" type="search" placeholder="Search news, funds and firms" maxlength="100">
+    </form>
+    <a href="this.html" class="fxh-brand" aria-label="Funds.ae home">
+      <svg viewBox="0 0 140 140" aria-hidden="true"><circle cx="70" cy="70" r="62.83" fill="none" stroke="#0E3A43" stroke-width="10"/><circle cx="53.03" cy="86.97" r="38.83" fill="none" stroke="#0E3A43" stroke-width="10"/><circle cx="42.54" cy="97.46" r="29" fill="#4FB3B8"/></svg>
+      <span class="fxh-word">Funds<span class="dot">.</span>ae</span>
+      <span class="fxh-tagline">Discover. Connect. Grow.</span>
+    </a>
+    <div class="fxh-share" aria-label="Share on social media">
+      <a href="#" aria-label="Share on Facebook (dummy)">f</a>
+      <a href="#" aria-label="Share on X (dummy)">X</a>
+      <a href="#" aria-label="Share on LinkedIn (dummy)">in</a>
+      <a href="#" aria-label="Share on WhatsApp (dummy)">W</a>
+    </div>
+  </div>
+</header>
+<header class="m-only fxh-m">
+  <a href="this.html" class="fxh-mbrand" aria-label="Funds.ae home">
+    <svg viewBox="0 0 140 140" aria-hidden="true"><circle cx="70" cy="70" r="62.83" fill="none" stroke="#F1F5F4" stroke-width="10"/><circle cx="53.03" cy="86.97" r="38.83" fill="none" stroke="#F1F5F4" stroke-width="10"/><circle cx="42.54" cy="97.46" r="29" fill="#4FB3B8"/></svg>
+    <span class="fxh-mword">Funds<span class="dot">.</span>ae</span>
+    <span class="fxh-mtagline">Discover. Connect. Grow.</span>
+  </a>
+  <div>
+    <button type="button" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg></button>
+    <button type="button" aria-label="Open menu"><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></button>
+  </div>
+</header>
+<nav class="fx-catbar" aria-label="News categories">
+  <div class="fx-catbar-row">
+      <a href="this.html">Real Estate Stories</a>
+      <span class="fx-catbar-rule" aria-hidden="true"></span>
+      <a href="this.html?category=Sovereign">Sovereign</a>
+      <a href="this.html?category=Pension">Pension</a>
+      <a href="this.html?category=Private%20Equity">Private Equity</a>
+      <a href="this.html?category=REITs">REITs</a>
+      <a href="this.html?category=Family%20Offices">Family Offices</a>
+      <a href="this.html?category=Banks">Banks</a>
+      <a href="this.html?category=Government">Government</a>
+      <a href="this.html?category=Endowments">Endowments</a>
+      <span class="fx-catbar-rule" aria-hidden="true"></span>
+      <a href="Videos.dc.html" aria-current="page">Videos &amp; Podcasts</a>
+      <a href="PartnerWithUs.dc.html">Partner with us</a>
+      <a href="Careers.dc.html">Careers</a>
+      <a href="Events.dc.html">Events</a>
+  </div>
+</nav>
+<!-- Elite Founding Sponsor banner: same markup and text as this.html; styles in founding-banner.css;
+     js/fundsae-connector.js (slot "sponsor-founding") swaps the advert for a signed sponsor. -->
+<section class="fx-founding" aria-label="Elite Founding Sponsor" data-fundsae-slot="sponsor-founding">
+  <div class="fx-founding-frame">
+    <p class="fx-founding-id">
+      <span class="fx-founding-tags"><span class="fx-founding-label">Elite Founding Sponsor</span><span class="fx-founding-status">Space available</span></span>
+      <span class="fx-founding-brand"><span class="fx-founding-name">Your firm here<span class="fx-caret" aria-hidden="true"></span></span></span>
+    </p>
+    <p class="fx-founding-pitch">Put your firm in front of the UAE's GPs, LPs, family offices and fund service providers, every day.</p>
+    <a class="fx-founding-cta" href="PartnerWithUs.dc.html#elite-partner"><span>Become a founding sponsor</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+  </div>
+</section>
+<main class="vp">
+  <div class="vp-intro">
+    <p class="vp-eyebrow">Watch and listen</p>
+    <h1>Videos &amp; Podcasts</h1>
+    <p>Interviews, deal explainers, event panels and our weekly briefing on private capital in the UAE and beyond.</p>
+    <p class="vp-demo">Demo videos: titles and thumbnails are placeholders. The videos themselves are coming soon.</p>
+  </div>
+
+  <!-- Featured: the newest episode of the weekly briefing. -->
+  <section class="vp-featured" aria-labelledby="vp-featured-title">
+    <div class="vp-thumb vp-t1 vp-thumb-big" aria-hidden="true"><span class="vp-mark">The Capital Briefing</span><span class="vp-play"></span><span class="vp-dur">14:32</span></div>
+    <div class="vp-featured-text">
+      <p class="vp-kind">Video · The Capital Briefing<span class="fxh-sr">, 14:32</span></p>
+      <h2 id="vp-featured-title">Sovereign money, record REIT listings and the Gulf’s private credit rush | The Capital Briefing, Episode 8</h2>
+      <p class="vp-meta">26 Nov 2026 · 14:32</p>
+      <p class="vp-blurb">This week: Gulf sovereign funds step up co-investments in logistics, two Abu Dhabi REITs prepare to list, and why private credit funds are lining up behind mid-market builders.</p>
+    </div>
+  </section>
+
+  <section class="vp-section" aria-labelledby="vp-latest-title">
+    <div class="vp-head"><h2 id="vp-latest-title">Latest videos</h2></div>
+    <div class="vp-row" tabindex="0" aria-label="Latest videos, scrolls sideways">
+      <article class="vp-card">
+        <div class="vp-thumb vp-t4" aria-hidden="true"><span class="vp-mark">Real Estate Capital</span><span class="vp-play"></span><span class="vp-dur">9:48</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 9:48</span></p>
+        <h3 class="vp-title">Why Gulf family offices are backing build-to-rent</h3>
+        <p class="vp-meta">Real Estate Capital · 24 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t2" aria-hidden="true"><span class="vp-mark">GP Conversations</span><span class="vp-play"></span><span class="vp-dur">22:15</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 22:15</span></p>
+        <h3 class="vp-title">Inside a first close: how a DIFC secondaries fund raised its anchor</h3>
+        <p class="vp-meta">GP Conversations · 20 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t3" aria-hidden="true"><span class="vp-mark">Deal Room</span><span class="vp-play"></span><span class="vp-dur">11:02</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 11:02</span></p>
+        <h3 class="vp-title">Data centres, desalination and the new infrastructure trade</h3>
+        <p class="vp-meta">Deal Room · 17 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t7" aria-hidden="true"><span class="vp-mark">Explainers</span><span class="vp-play"></span><span class="vp-dur">5:10</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 5:10</span></p>
+        <h3 class="vp-title">Pension funds and infrastructure debt, explained in five minutes</h3>
+        <p class="vp-meta">Explainers · 13 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t1" aria-hidden="true"><span class="vp-mark">The Capital Briefing</span><span class="vp-play"></span><span class="vp-dur">12:40</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 12:40</span></p>
+        <h3 class="vp-title">The week in UAE real estate capital</h3>
+        <p class="vp-meta">The Capital Briefing · 10 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t5" aria-hidden="true"><span class="vp-mark">The Funds.ae Podcast</span><span class="vp-play"></span><span class="vp-dur">38:05</span></div>
+        <p class="vp-kind">Podcast<span class="fxh-sr">, 38:05</span></p>
+        <h3 class="vp-title">Private credit for SMEs: who is filling the bank gap?</h3>
+        <p class="vp-meta">The Funds.ae Podcast · 6 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t4" aria-hidden="true"><span class="vp-mark">Real Estate Capital</span><span class="vp-play"></span><span class="vp-dur">8:27</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 8:27</span></p>
+        <h3 class="vp-title">Logistics parks: why the Gulf’s warehouses keep filling up</h3>
+        <p class="vp-meta">Real Estate Capital · 24 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t6" aria-hidden="true"><span class="vp-mark">On Stage</span><span class="vp-play"></span><span class="vp-dur">41:12</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 41:12</span></p>
+        <h3 class="vp-title">Panel: what LPs want from first-time fund managers</h3>
+        <p class="vp-meta">On Stage · 20 Nov 2026</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="vp-section" aria-labelledby="vp-recent-title">
+    <div class="vp-head"><h2 id="vp-recent-title">Most recent</h2></div>
+    <div class="vp-two">
+      <article class="vp-card vp-card-big">
+        <div class="vp-thumb vp-t2 vp-thumb-big" aria-hidden="true"><span class="vp-mark">GP Conversations</span><span class="vp-play"></span><span class="vp-dur">18:44</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 18:44</span></p>
+        <h3 class="vp-title">“We were never selling”: a developer on turning down a billion-dirham offer</h3>
+        <p class="vp-meta">GP Conversations · 25 Nov 2026</p>
+      </article>
+      <article class="vp-card vp-card-big">
+        <div class="vp-thumb vp-t1 vp-thumb-big" aria-hidden="true"><span class="vp-mark">The Capital Briefing</span><span class="vp-play"></span><span class="vp-dur">15:09</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 15:09</span></p>
+        <h3 class="vp-title">The AED 78bn housing gap, and the private capital plan to close it</h3>
+        <p class="vp-meta">The Capital Briefing · 24 Nov 2026</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="vp-section" aria-labelledby="vp-series-1">
+    <div class="vp-head"><h2 id="vp-series-1">The Capital Briefing</h2><p>Each week, the biggest UAE and Gulf private capital stories in fifteen minutes.</p></div>
+    <div class="vp-row" tabindex="0" aria-label="The Capital Briefing, scrolls sideways">
+      <article class="vp-card">
+        <div class="vp-thumb vp-t1" aria-hidden="true"><span class="vp-mark">The Capital Briefing</span><span class="vp-play"></span><span class="vp-dur">14:32</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 14:32</span></p>
+        <h3 class="vp-title">REIT listings, sovereign co-investment and the credit squeeze</h3>
+        <p class="vp-meta">The Capital Briefing · 24 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t1" aria-hidden="true"><span class="vp-mark">The Capital Briefing</span><span class="vp-play"></span><span class="vp-dur">13:05</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 13:05</span></p>
+        <h3 class="vp-title">Abu Dhabi logistics takeover: what the price tells us</h3>
+        <p class="vp-meta">The Capital Briefing · 20 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t1" aria-hidden="true"><span class="vp-mark">The Capital Briefing</span><span class="vp-play"></span><span class="vp-dur">12:51</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 12:51</span></p>
+        <h3 class="vp-title">Family offices go direct: the new deal makers</h3>
+        <p class="vp-meta">The Capital Briefing · 17 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t1" aria-hidden="true"><span class="vp-mark">The Capital Briefing</span><span class="vp-play"></span><span class="vp-dur">11:40</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 11:40</span></p>
+        <h3 class="vp-title">Q3 in numbers: Gulf venture and private equity</h3>
+        <p class="vp-meta">The Capital Briefing · 13 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t1" aria-hidden="true"><span class="vp-mark">The Capital Briefing</span><span class="vp-play"></span><span class="vp-dur">13:18</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 13:18</span></p>
+        <h3 class="vp-title">Infrastructure funds and the data-centre boom</h3>
+        <p class="vp-meta">The Capital Briefing · 10 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t1" aria-hidden="true"><span class="vp-mark">The Capital Briefing</span><span class="vp-play"></span><span class="vp-dur">12:02</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 12:02</span></p>
+        <h3 class="vp-title">Why secondaries are having a moment</h3>
+        <p class="vp-meta">The Capital Briefing · 6 Nov 2026</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="vp-section" aria-labelledby="vp-series-2">
+    <div class="vp-head"><h2 id="vp-series-2">GP Conversations</h2><p>Long-form interviews with the fund managers moving capital in the region.</p></div>
+    <div class="vp-row" tabindex="0" aria-label="GP Conversations, scrolls sideways">
+      <article class="vp-card">
+        <div class="vp-thumb vp-t2" aria-hidden="true"><span class="vp-mark">GP Conversations</span><span class="vp-play"></span><span class="vp-dur">31:20</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 31:20</span></p>
+        <h3 class="vp-title">A credit fund founder on lending where banks won’t</h3>
+        <p class="vp-meta">GP Conversations · 24 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t2" aria-hidden="true"><span class="vp-mark">GP Conversations</span><span class="vp-play"></span><span class="vp-dur">27:45</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 27:45</span></p>
+        <h3 class="vp-title">Building a real estate platform from DIFC</h3>
+        <p class="vp-meta">GP Conversations · 20 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t2" aria-hidden="true"><span class="vp-mark">GP Conversations</span><span class="vp-play"></span><span class="vp-dur">24:10</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 24:10</span></p>
+        <h3 class="vp-title">How a family office picks its fund managers</h3>
+        <p class="vp-meta">GP Conversations · 17 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t2" aria-hidden="true"><span class="vp-mark">GP Conversations</span><span class="vp-play"></span><span class="vp-dur">29:58</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 29:58</span></p>
+        <h3 class="vp-title">From banker to GP: lessons from a first fund</h3>
+        <p class="vp-meta">GP Conversations · 13 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t2" aria-hidden="true"><span class="vp-mark">GP Conversations</span><span class="vp-play"></span><span class="vp-dur">22:36</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 22:36</span></p>
+        <h3 class="vp-title">Venture debt in the Gulf, explained by a lender</h3>
+        <p class="vp-meta">GP Conversations · 10 Nov 2026</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="vp-section" aria-labelledby="vp-series-3">
+    <div class="vp-head"><h2 id="vp-series-3">Deal Room</h2><p>Deals taken apart: who paid what, who lent, and why it matters.</p></div>
+    <div class="vp-row" tabindex="0" aria-label="Deal Room, scrolls sideways">
+      <article class="vp-card">
+        <div class="vp-thumb vp-t3" aria-hidden="true"><span class="vp-mark">Deal Room</span><span class="vp-play"></span><span class="vp-dur">10:14</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 10:14</span></p>
+        <h3 class="vp-title">The port takeover that set a new price for Gulf logistics</h3>
+        <p class="vp-meta">Deal Room · 24 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t3" aria-hidden="true"><span class="vp-mark">Deal Room</span><span class="vp-play"></span><span class="vp-dur">9:32</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 9:32</span></p>
+        <h3 class="vp-title">Anatomy of a build-to-rent fund launch</h3>
+        <p class="vp-meta">Deal Room · 20 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t3" aria-hidden="true"><span class="vp-mark">Deal Room</span><span class="vp-play"></span><span class="vp-dur">11:48</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 11:48</span></p>
+        <h3 class="vp-title">How a solar and water platform was financed</h3>
+        <p class="vp-meta">Deal Room · 17 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t3" aria-hidden="true"><span class="vp-mark">Deal Room</span><span class="vp-play"></span><span class="vp-dur">8:55</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 8:55</span></p>
+        <h3 class="vp-title">Inside a GCC secondaries first close</h3>
+        <p class="vp-meta">Deal Room · 13 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t3" aria-hidden="true"><span class="vp-mark">Deal Room</span><span class="vp-play"></span><span class="vp-dur">9:07</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 9:07</span></p>
+        <h3 class="vp-title">The student housing deal with a Gulf anchor</h3>
+        <p class="vp-meta">Deal Room · 10 Nov 2026</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="vp-section" aria-labelledby="vp-series-4">
+    <div class="vp-head"><h2 id="vp-series-4">Real Estate Capital</h2><p>Residential, commercial, infrastructure and alternative real estate investment.</p></div>
+    <div class="vp-row" tabindex="0" aria-label="Real Estate Capital, scrolls sideways">
+      <article class="vp-card">
+        <div class="vp-thumb vp-t4" aria-hidden="true"><span class="vp-mark">Real Estate Capital</span><span class="vp-play"></span><span class="vp-dur">8:40</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 8:40</span></p>
+        <h3 class="vp-title">Where the money is going in Dubai residential</h3>
+        <p class="vp-meta">Real Estate Capital · 24 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t4" aria-hidden="true"><span class="vp-mark">Real Estate Capital</span><span class="vp-play"></span><span class="vp-dur">7:55</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 7:55</span></p>
+        <h3 class="vp-title">Grade A offices: why rents keep rising</h3>
+        <p class="vp-meta">Real Estate Capital · 20 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t4" aria-hidden="true"><span class="vp-mark">Real Estate Capital</span><span class="vp-play"></span><span class="vp-dur">9:21</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 9:21</span></p>
+        <h3 class="vp-title">Data centres, the new alternative asset</h3>
+        <p class="vp-meta">Real Estate Capital · 17 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t4" aria-hidden="true"><span class="vp-mark">Real Estate Capital</span><span class="vp-play"></span><span class="vp-dur">8:12</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 8:12</span></p>
+        <h3 class="vp-title">Hotels and branded residences: who is buying</h3>
+        <p class="vp-meta">Real Estate Capital · 13 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t4" aria-hidden="true"><span class="vp-mark">Real Estate Capital</span><span class="vp-play"></span><span class="vp-dur">7:38</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 7:38</span></p>
+        <h3 class="vp-title">Warehouses on long leases: the REIT favourite</h3>
+        <p class="vp-meta">Real Estate Capital · 10 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t4" aria-hidden="true"><span class="vp-mark">Real Estate Capital</span><span class="vp-play"></span><span class="vp-dur">8:03</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 8:03</span></p>
+        <h3 class="vp-title">Senior living arrives in the Gulf</h3>
+        <p class="vp-meta">Real Estate Capital · 6 Nov 2026</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="vp-section" aria-labelledby="vp-series-5">
+    <div class="vp-head"><h2 id="vp-series-5">The Funds.ae Podcast</h2><p>Conversations about private markets in the Gulf and beyond. New episodes every Tuesday.</p></div>
+    <div class="vp-row" tabindex="0" aria-label="The Funds.ae Podcast, scrolls sideways">
+      <article class="vp-card">
+        <div class="vp-thumb vp-t5" aria-hidden="true"><span class="vp-mark">The Funds.ae Podcast</span><span class="vp-play"></span><span class="vp-dur">38 min</span></div>
+        <p class="vp-kind">Podcast<span class="fxh-sr">, 38 min</span></p>
+        <h3 class="vp-title">Episode 14 · The private credit boom, and its risks</h3>
+        <p class="vp-meta">The Funds.ae Podcast · 24 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t5" aria-hidden="true"><span class="vp-mark">The Funds.ae Podcast</span><span class="vp-play"></span><span class="vp-dur">42 min</span></div>
+        <p class="vp-kind">Podcast<span class="fxh-sr">, 42 min</span></p>
+        <h3 class="vp-title">Episode 13 · What sovereign funds want from partners</h3>
+        <p class="vp-meta">The Funds.ae Podcast · 20 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t5" aria-hidden="true"><span class="vp-mark">The Funds.ae Podcast</span><span class="vp-play"></span><span class="vp-dur">36 min</span></div>
+        <p class="vp-kind">Podcast<span class="fxh-sr">, 36 min</span></p>
+        <h3 class="vp-title">Episode 12 · Islamic finance meets private equity</h3>
+        <p class="vp-meta">The Funds.ae Podcast · 17 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t5" aria-hidden="true"><span class="vp-mark">The Funds.ae Podcast</span><span class="vp-play"></span><span class="vp-dur">40 min</span></div>
+        <p class="vp-kind">Podcast<span class="fxh-sr">, 40 min</span></p>
+        <h3 class="vp-title">Episode 11 · Raising a first fund in a slow market</h3>
+        <p class="vp-meta">The Funds.ae Podcast · 13 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t5" aria-hidden="true"><span class="vp-mark">The Funds.ae Podcast</span><span class="vp-play"></span><span class="vp-dur">33 min</span></div>
+        <p class="vp-kind">Podcast<span class="fxh-sr">, 33 min</span></p>
+        <h3 class="vp-title">Episode 10 · Infrastructure debt for beginners</h3>
+        <p class="vp-meta">The Funds.ae Podcast · 10 Nov 2026</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="vp-section" aria-labelledby="vp-series-6">
+    <div class="vp-head"><h2 id="vp-series-6">On Stage</h2><p>Panels and keynotes from funds.ae events and the region’s investor conferences.</p></div>
+    <div class="vp-row" tabindex="0" aria-label="On Stage, scrolls sideways">
+      <article class="vp-card">
+        <div class="vp-thumb vp-t6" aria-hidden="true"><span class="vp-mark">On Stage</span><span class="vp-play"></span><span class="vp-dur">41:12</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 41:12</span></p>
+        <h3 class="vp-title">Panel: what LPs want from first-time managers</h3>
+        <p class="vp-meta">On Stage · 24 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t6" aria-hidden="true"><span class="vp-mark">On Stage</span><span class="vp-play"></span><span class="vp-dur">28:30</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 28:30</span></p>
+        <h3 class="vp-title">Keynote: the next decade of Gulf private capital</h3>
+        <p class="vp-meta">On Stage · 20 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t6" aria-hidden="true"><span class="vp-mark">On Stage</span><span class="vp-play"></span><span class="vp-dur">37:44</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 37:44</span></p>
+        <h3 class="vp-title">Panel: real estate debt after the rate peak</h3>
+        <p class="vp-meta">On Stage · 17 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t6" aria-hidden="true"><span class="vp-mark">On Stage</span><span class="vp-play"></span><span class="vp-dur">25:16</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 25:16</span></p>
+        <h3 class="vp-title">Fireside chat: building a family office team</h3>
+        <p class="vp-meta">On Stage · 13 Nov 2026</p>
+      </article>
+      <article class="vp-card">
+        <div class="vp-thumb vp-t6" aria-hidden="true"><span class="vp-mark">On Stage</span><span class="vp-play"></span><span class="vp-dur">39:05</span></div>
+        <p class="vp-kind">Video<span class="fxh-sr">, 39:05</span></p>
+        <h3 class="vp-title">Panel: venture capital beyond the capital cities</h3>
+        <p class="vp-meta">On Stage · 10 Nov 2026</p>
+      </article>
+    </div>
+  </section>
+</main>
+<footer class="site-footer">
+  <div class="foot-inner">
+    <a href="this.html" class="foot-brand" aria-label="Funds.ae home">
+      <svg viewBox="0 0 140 140" aria-hidden="true"><circle cx="70" cy="70" r="62.83" fill="none" stroke="#0E3A43" stroke-width="10"/><circle cx="53.03" cy="86.97" r="38.83" fill="none" stroke="#0E3A43" stroke-width="10"/><circle cx="42.54" cy="97.46" r="29" fill="#2F8A8C"/></svg>
+      <span>Funds<span class="dot">.</span>ae</span>
+    </a>
+    <span class="foot-note">Discover. Connect. Grow.</span>
+    <nav class="foot-nav" aria-label="Footer">
+      <a href="About.dc.html">About</a>
+      <a href="Contact.dc.html">Contact us</a>
+      <a href="Terms.dc.html">Terms of Service</a>
+      <a href="Privacy.dc.html">Privacy Policy</a>
+    </nav>
+    <div class="foot-bottom">
+      <span class="foot-note">© 2026 Funds.ae. All rights reserved.</span>
+      <span class="foot-note">Headlines link to the original publishers.</span>
+    </div>
+  </div>
+</footer>
+<script src="../i18n.js"></script>
+<script src="../js/fundsae-header.js" defer></script>
+<script src="../js/fundsae-api.js" defer></script>
+<script src="../js/fundsae-connector.js" defer></script>
+</body>
+</html>

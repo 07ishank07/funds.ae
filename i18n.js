@@ -23,6 +23,7 @@
     'Events': 'الفعاليات',
     'Careers': 'الوظائف',
     'Partner with us': 'شارك معنا',
+    'Videos & Podcasts': 'الفيديو والبودكاست',
     'Sponsor': 'الرعاة',
     'About': 'عن الموقع',
     'Contact us': 'اتصل بنا',
