@@ -185,9 +185,9 @@ test('home page: the Gulf Economy box sits directly above Spotlight and is fille
   assert.ok(home.includes('<a class="fx-cb-btn" href="Careers.dc.html">View finance jobs</a>') && home.includes('src="img/careers-banner.jpg" alt=""'), 'banner links to Careers and shows its photo');
   assert.ok(statSync(path.join(repo, 'frontend_demo', 'img', 'careers-banner.jpg')).size < 400 * 1024 &&
     readFileSync(path.join(repo, 'frontend_demo', 'img', 'CREDITS.md'), 'utf8').includes('| `careers-banner.jpg` |'), 'banner photo is light and credited');
-  // Top UAE Story closes the news column (the empty space above the funding tiles): sample photo, filled by the connector.
+  // Top UAE Story sits above Residential Estate News: sample photo, filled by the connector.
   assert.ok(home.includes("topUae.setAttribute('aria-labelledby', 'top-uae-title');") && home.includes('<h2 id="top-uae-title" class="fx-top-uae-head">Top UAE Story</h2>') &&
-    home.includes('<img src="img/partner-banner.jpg" alt="" loading="lazy">') && home.includes('newsColumn.appendChild(topUae);'), 'Top UAE Story section');
+    home.includes('<img src="img/partner-banner.jpg" alt="" loading="lazy">') && home.includes('newsColumn.insertBefore(topUae, residentialHeading);'), 'Top UAE Story section, above Residential Estate News');
   const topJs = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
   const topFn = topJs.slice(topJs.indexOf('function renderTopUae('), topJs.indexOf('function renderNews('));
   assert.ok(topFn.includes("regionOf(s) === 'News'") && topFn.includes('s.featured') && !/innerHTML/.test(topFn), 'connector picks the featured (else newest) UAE story, with textContent');
