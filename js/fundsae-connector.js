@@ -673,7 +673,7 @@
 
     // Elite Founding Sponsor banner. With no sponsor it keeps its "Your firm here" advert in every
     // mode (that advert is ours, not demo data), so it never shows the "nothing yet" note.
-    // Exclusive Elite Sponsor box (Careers and Events; one sponsor for both, sponsors.json "eliteExclusive").
+    // Exclusive Elite Sponsor box (Careers page; sponsors.json "eliteExclusive").
     // A published sponsor replaces the page's demo box. With none, live mode shows our "Space available"
     // advert and demo mode keeps the demo box. The box stays hidden in live mode (data-demo-only) until this ran.
     slots('sponsor-elite-exclusive').forEach(function (box) {
@@ -708,7 +708,7 @@
       } else if (state.mode === 'live') {
         if (tags[1]) tags[1].textContent = 'Space available';
         if (title) title.textContent = 'Your firm here';
-        if (pitch) pitch.textContent = 'Put your firm in front of finance professionals on the Careers and Events pages, every day.';
+        if (pitch) pitch.textContent = 'Put your firm in front of finance professionals on the Careers page, every day.';
         if (media) media.remove();
         if (cta) {
           if (ctaText) ctaText.textContent = 'Become the Exclusive Elite Sponsor';

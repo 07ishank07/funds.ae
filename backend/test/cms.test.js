@@ -498,7 +498,7 @@ test('publish checks: licence gate, lengths, links, images and duplicates', () =
   assert.match(check(duplicate).join(' '), /duplicate/);
 });
 
-test('the Exclusive Elite Sponsor (Careers and Events) comes from Sanity with its button text and link', async () => {
+test('the Exclusive Elite Sponsor (Careers) comes from Sanity with its button text and link', async () => {
   const { validateSponsors } = await import('../src/pipeline/sponsors.js');
   const doc = {
     _id: 'elite-1', slot: 'eliteExclusive', id: 'harbourline-capital', title: 'Harbourline Capital', blurb: 'Hiring across credit and risk in DIFC.',

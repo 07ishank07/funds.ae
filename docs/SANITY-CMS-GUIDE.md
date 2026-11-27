@@ -33,7 +33,7 @@ The Careers section (posted jobs, employers, the Top Employers and Top Jobs list
 
 | In Sanity (Studio menu) | Shown on the site | Sanity type | Published as |
 |---|---|---|---|
-| **Sponsors**, grouped by area | Elite Founding Sponsor banner, Spotlight (home page), Gold Sponsors (not shown), Sponsored Posts, Videos and Podcasts, Featured Partners, the Exclusive Elite Sponsor box (Careers and Events), Career Resources | `sponsorItem` | `config/sponsors.json` → `api/v1/sponsors.json` |
+| **Sponsors**, grouped by area | Elite Founding Sponsor banner, Spotlight (home page), Gold Sponsors (not shown), Sponsored Posts, Videos and Podcasts, Featured Partners, the Exclusive Elite Sponsor box (Careers), Career Resources | `sponsorItem` | `config/sponsors.json` → `api/v1/sponsors.json` |
 | **Home page hero banner** | The banner under the header bar on the home page: small line, headline with a gold word, subtitle, image | `homeHero` (one document) | `config/content.json` → `api/v1/content.json` `hero` |
 | **Events** | Home "Events and Expos", Events page | `event` | `config/events.json` → `api/v1/events.json` |
 | **Top Tweets (home)** | Home "Top Tweets" box (5 shown) | `socialHighlight` | `config/content.json` → `api/v1/content.json` `slots.socialHighlights` |
@@ -381,7 +381,7 @@ These follow from CLAUDE.md. Code review should check them on every CMS change.
   - **Reorder:** change **Order** (lower first). **Hide:** switch off **Show on the site**. **Delete:** delete the document. Publish after each change.
   - The package with id `exclusive` is the dark Elite Exclusive card that the Elite Founding Sponsor banner links to.
 - **Home page hero banner** (in the Studio menu; it shows on the home page only): choose the **Banner style**: **Photo** (the default: the photo fills the banner, white text on a darkened left side), **Minimal** (light background, a wide photo under the text) or **Classic** (the teal banner with the picture on the right). Edit the small line, the headline, the **Word to highlight** (it must appear in the headline) and the subtitle. The banner has no buttons. Optionally upload a photo you have the rights to (PNG, JPG or WebP up to 1.5 MB, landscape, at least 1920 px wide for Photo) with a description. Publish. Unpublish it to go back to the built-in Photo banner (a licensed Downtown Dubai photo, credited in frontend_demo/img/CREDITS.md).
-- **Exclusive Elite Sponsor** (Sponsors → Exclusive Elite Sponsor (Careers and Events)): one sponsor, shown in the box at the top of the right column on both the Careers and Events pages. Fill in the name, one line, a 16:9 image (up to 500 KB), **Label** (the button text, such as "See open roles") and **Link** (where the button goes). Switch off **Show on the site** or delete it to show the "Space available" advert instead.
+- **Exclusive Elite Sponsor** (Sponsors → Exclusive Elite Sponsor (Careers)): one sponsor, shown in the box at the top of the right column on the Careers page. Fill in the name, one line, a 16:9 image (up to 500 KB), **Label** (the button text, such as "See open roles") and **Link** (where the button goes). Switch off **Show on the site** or delete it to show the "Space available" advert instead.
 - **Links:** they must start with `https://`. On pages, `mailto:` also works.
 - **If the site doesn't update:** tell the developer. The GitHub Action log says exactly which item broke which rule, and the site keeps the last good version in the meantime.
 

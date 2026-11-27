@@ -342,17 +342,15 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.match(careers, /<\/aside>\s*<\/div>\s*<!--[\s\S]*?-->\s*<section class="partners"[\s\S]*?<\/section>\s*<footer/);
   // Job cards carry a dummy initials logo but no Featured tag; Top Employers lists 20, each with an initials logo.
   assert.ok(!/role-featured/.test(careers), 'job cards have no Featured tag');
-  // The Exclusive Elite Sponsor box (demo only) heads the right column of both Careers and Events.
+  // The Exclusive Elite Sponsor box (demo only) heads the right column of Careers; Events no longer has it.
   const events = read('Events.dc.html');
-  for (const page of [careers, events]) {
-    assert.ok(page.includes('<p class="elite-sponsor-tags"><span>Exclusive Elite Sponsor</span><span>Sponsored</span></p>'), 'Exclusive Elite Sponsor box');
-    assert.ok(page.includes('html[data-fundsae-connected="live"] [data-demo-only] { display: none !important; }'), 'hidden in live mode');
-  }
-  assert.ok(/<aside>\s*<!-- Exclusive Elite Sponsor[\s\S]*?<section class="elite-sponsor"/.test(events), 'Events: the box opens the right column');
-  assert.ok(events.includes('href="Careers.dc.html?employer='), 'Events: the box links to the employer roles on Careers');
-  // Managed in Sanity: both boxes are the sponsor area "eliteExclusive" (one sponsor for both pages), filled by the connector,
-  // which shows the "Space available" advert in live mode when no sponsor is published.
-  for (const page of [careers, events]) assert.ok(page.includes('data-fundsae-slot="sponsor-elite-exclusive"'), 'the box is the eliteExclusive sponsor slot');
+  assert.ok(careers.includes('<p class="elite-sponsor-tags"><span>Exclusive Elite Sponsor</span><span>Sponsored</span></p>'), 'Exclusive Elite Sponsor box');
+  assert.ok(careers.includes('html[data-fundsae-connected="live"] [data-demo-only] { display: none !important; }'), 'hidden in live mode');
+  assert.ok(!/elite-sponsor|sponsor-elite-exclusive/.test(events), 'Events has no Exclusive Elite Sponsor box');
+  assert.ok(/<aside>\s*<!-- Field names are the API contract/.test(events), 'Events: the right column starts with the submit forms');
+  // Managed in Sanity: the box is the sponsor area "eliteExclusive", filled by the connector, which shows the
+  // "Space available" advert in live mode when no sponsor is published.
+  assert.ok(careers.includes('data-fundsae-slot="sponsor-elite-exclusive"'), 'the box is the eliteExclusive sponsor slot');
   const sponsorConnector = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
   for (const s of ["slots('sponsor-elite-exclusive')", "pick('eliteExclusive')", "'Space available'", "'Become the Exclusive Elite Sponsor'", "box.removeAttribute('data-demo-only')"]) {
     assert.ok(sponsorConnector.includes(s), `connector: ${s}`);
