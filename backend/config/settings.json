@@ -81,6 +81,11 @@
     "_help": "Top Employers on the Careers page (column 2) are derived from open roles. The list shows 20.",
     "maxPublished": 20
   },
+  "economy": {
+    "_help": "Gulf Economy box on the home page: real GDP growth and inflation from the IMF World Economic Outlook (DataMapper API, no key), refreshed by every full run and by npm run economy. countries: IMF three-letter codes (supported: ARE, SAU, QAT, KWT, OMN, BHR, EGY, MAR, JOR, IRQ, LBN, TUN, DZA), in display order. live false (or FUNDSAE_ECONOMY_LIVE=0) uses the bundled sample instead of fetching.",
+    "live": true,
+    "countries": ["ARE", "SAU", "QAT", "KWT", "OMN", "BHR", "EGY", "MAR"]
+  },
   "events": {
     "_help": "Events come from config/events.json. Upcoming events are published, plus anything that ended in the last keepPastDays.",
     "maxPublished": 50,

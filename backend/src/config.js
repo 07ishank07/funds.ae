@@ -10,6 +10,9 @@ import {
   AI_SUMMARY_LICENSE_STATUSES, NEWS_GEOGRAPHIES, NEWS_HOME_SECTIONS, NEWS_LICENSE_STATUSES, NEWS_LIMITS, NEWS_SOURCE_FOCUSES, NEWS_SOURCE_REGIONS,
   NEWS_SOURCE_TIERS, NEWS_SOURCE_TYPES, NEWS_TRANSACTION_TYPES
 } from './news/rules.js';
+import { ECONOMY_COUNTRIES } from './contracts/models.js';
+
+const ECONOMY_COUNTRY_CODES = Object.keys(ECONOMY_COUNTRIES);
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 export const BACKEND_DIR = path.resolve(here, '..');
@@ -305,6 +308,8 @@ const SETTINGS_DEFAULTS = {
   // "file" (backend/data/submissions) or "sanity" (Pending review in the Studio). Job feeds are unaffected.
   jobs: { maxAgeDays: 45, relevanceThreshold: 1, maxPublished: 150, source: 'file', review: { store: 'file' } },
   employers: { maxPublished: 20 },
+  // Gulf Economy box (src/pipeline/economy.js): IMF figures for these countries, fetched unless live is false.
+  economy: { live: true, countries: ['ARE', 'SAU', 'QAT', 'KWT', 'OMN', 'BHR', 'EGY', 'MAR'] },
   submissions: {
     enabled: true,
     retentionDays: 180,
@@ -408,6 +413,13 @@ export function loadSettings() {
     throw new ConfigError('settings.json: "submissions.endpoint" must be an https address ending with "/", or empty.');
   }
   settings.submissions.endpoint = endpoint;
+  if (process.env.FUNDSAE_ECONOMY_LIVE !== undefined) settings.economy.live = !['0', 'false', ''].includes(process.env.FUNDSAE_ECONOMY_LIVE);
+  if (typeof settings.economy.live !== 'boolean') throw new ConfigError('settings.json: "economy.live" must be true or false.');
+  const economyCountries = settings.economy.countries;
+  if (!Array.isArray(economyCountries) || economyCountries.length < 4 || economyCountries.length > 12 ||
+      economyCountries.some((c) => !ECONOMY_COUNTRY_CODES.includes(c)) || new Set(economyCountries).size !== economyCountries.length) {
+    throw new ConfigError(`settings.json: "economy.countries" must list 4 to 12 different codes from: ${ECONOMY_COUNTRY_CODES.join(', ')}.`);
+  }
   applyNewsSettings(settings);
   // The environment wins so a deployment can set the address without editing the file.
   const contactEmail = String(process.env.FUNDSAE_CONTACT_EMAIL ?? settings.contactEmail ?? '').trim();

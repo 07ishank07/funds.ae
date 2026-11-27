@@ -16,6 +16,7 @@
 //   api/v1/events.json                 upcoming and recent events
 //   api/v1/sponsors.json               sponsor slots
 //   api/v1/content.json                Top Tweets, Partner with us packages, About/Privacy/Terms copy (from Sanity)
+//   api/v1/economy.json                Gulf Economy box: IMF GDP growth and inflation per country (pipeline/economy.js)
 //   api/v1/sources.json                every source and its health
 //   api/v1/taxonomy.json               category, topic and section labels, Capital Types, Asset Classes,
 //                                      geographies and transaction types
@@ -268,6 +269,13 @@ export function publishSponsors(ctx, slots) {
 }
 
 /** content: the validated output of pipeline/content.js, { slots, pages }. */
+/** The Gulf Economy box's figures, as built (and checked) by runEconomy(). */
+export function publishEconomy(ctx, economy) {
+  const doc = listEnvelope(base(ctx, NOTICES.economy), economy.items, { source: economy.source, year: economy.year });
+  write('economy.json', doc);
+  return { countries: economy.items.length, version: versionOf({ source: economy.source, year: economy.year, items: economy.items }) };
+}
+
 export function publishContent(ctx, content) {
   write('content.json', envelope(base(ctx, NOTICES.content), content));
   return {
@@ -324,6 +332,7 @@ export function publishMeta(ctx, { versions = {}, counts = {}, lastRun } = {}) {
       events: 'events.json',
       sponsors: 'sponsors.json',
       content: 'content.json',
+      economy: 'economy.json',
       sources: 'sources.json',
       taxonomy: 'taxonomy.json'
     }

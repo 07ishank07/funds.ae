@@ -37,6 +37,12 @@ export const ADVERTISE_PLACEMENT_LABELS = {
 // Packages no longer offered. An entry still in Sanity is skipped when content is published (not an error),
 // and the enquiry form no longer accepts it. 'platinum' was the Elite Partner package.
 export const RETIRED_ADVERTISING_TIERS = ['platinum'];
+// Gulf Economy box (src/pipeline/economy.js): IMF three-letter code -> [two-letter badge, name].
+export const ECONOMY_COUNTRIES = {
+  ARE: ['AE', 'UAE'], SAU: ['SA', 'Saudi Arabia'], QAT: ['QA', 'Qatar'], KWT: ['KW', 'Kuwait'],
+  OMN: ['OM', 'Oman'], BHR: ['BH', 'Bahrain'], EGY: ['EG', 'Egypt'], MAR: ['MA', 'Morocco'],
+  JOR: ['JO', 'Jordan'], IRQ: ['IQ', 'Iraq'], LBN: ['LB', 'Lebanon'], TUN: ['TN', 'Tunisia'], DZA: ['DZ', 'Algeria']
+};
 // Hero banner (Sanity "Home page hero banner"): its style, and the site pages its two buttons may open (not in Classic).
 // A hero published without a style shows as the first one. Mirrored in studio/schemaTypes/rules.js.
 export const HERO_STYLES = ['photo', 'minimal', 'classic'];
@@ -322,6 +328,11 @@ export const DB_MODELS = {
     table: 'home_hero',
     fields: ['eyebrow', 'title', 'highlight', 'subtitle', 'image', 'imageAlt', 'style', 'buttonLabel', 'buttonTarget', 'button2Label', 'button2Target']
   },
+  // Gulf Economy box: one row per country, replaced by each run (src/pipeline/economy.js).
+  economyFigures: {
+    table: 'economy_figures',
+    fields: ['id', 'country', 'code', 'gdpGrowth', 'inflation', 'year', 'dataset', 'fetchedAt']
+  },
   submissions: {
     table: 'submissions',
     fields: ['id', 'kind', 'status', 'payload', 'email', 'ipHash', 'userAgent', 'createdAt']
@@ -359,6 +370,9 @@ export const DTO_FIELDS = {
   page: ['slug', 'title', 'intro', 'updatedAt', 'blocks'],
   hero: ['eyebrow', 'title', 'highlight', 'subtitle', 'image', 'imageAlt', 'style', 'buttonLabel', 'buttonHref', 'button2Label', 'button2Href'],
   pageBlock: ['type', 'list', 'spans'],
+  // api/v1/economy.json: one country's IMF figures (percent, one decimal) for `year`.
+  economyItem: ['id', 'country', 'code', 'gdpGrowth', 'inflation', 'year'],
+  economySource: ['name', 'dataset', 'url'],
   pageSpan: ['text', 'bold', 'italic', 'href'],
   source: [
     'id', 'kind', 'name', 'homepage', 'type', 'enabled', 'verified', 'region', 'status', 'lastSuccessAt',

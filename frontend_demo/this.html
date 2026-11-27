@@ -797,6 +797,20 @@ document.addEventListener('DOMContentLoaded', async function() {
         platinumSection.setAttribute('aria-labelledby', 'platinum-sponsors-title');
         platinumSection.innerHTML = `<h2 id="platinum-sponsors-title">Spotlight</h2><div class="fx-platinum-list">${platinumSponsors.map(([id, name]) => `<a href="#" class="fx-platinum-tile" aria-label="Gold partner: ${name}"><span class="fx-platinum-img" aria-hidden="true" data-partner="${id}" style="background-image: url('img/partners/${id}.png')"></span><span class="fx-platinum-name">${name}</span></a>`).join('')}</div>`;
         careersColumn.appendChild(platinumSection);
+        // Gulf Economy, directly above Spotlight: IMF real GDP growth and inflation for the Gulf and MENA countries.
+        // js/fundsae-connector.js fills the rows, the year and the IMF credit from api/v1/economy.json (textContent only).
+        const economyBox = document.createElement('section');
+        economyBox.className = 'fx-econ';
+        economyBox.setAttribute('aria-labelledby', 'gulf-economy-title');
+        economyBox.innerHTML = `
+          <div class="fx-econ-head"><h2 id="gulf-economy-title">Gulf Economy</h2><span class="fx-econ-year" data-econ-year></span></div>
+          <table class="fx-econ-table">
+            <caption class="fxb-sr">Real GDP growth and inflation, annual percent change, IMF estimates and forecasts</caption>
+            <thead><tr><th scope="col"><span class="fxb-sr">Country</span></th><th scope="col">GDP growth</th><th scope="col">Inflation</th></tr></thead>
+            <tbody data-econ-rows><tr><td colspan="3" class="fx-econ-note">Loading figures…</td></tr></tbody>
+          </table>
+          <p class="fx-econ-source">Source: <a data-econ-source href="https://www.imf.org/external/datamapper/datasets/WEO" target="_blank" rel="noopener">International Monetary Fund, World Economic Outlook</a>. Estimates and forecasts, annual % change.</p>`;
+        careersColumn.insertBefore(economyBox, platinumSection);
         // The original (undecorated) Subscribe box is removed now that its relabelled copy
         // (morningBriefCopy) is the one shown, at the top of the third column.
         if (morningBrief) morningBrief.remove();
@@ -1683,6 +1697,21 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         /* UAE Influencers in the news column: same treatment as Top Tweets (dark rule, small-caps title), profiles two across. */
 
+        /* Gulf Economy (third column, above Spotlight): IMF figures in a compact table, country badges like a data ticker. */
+        .fx-econ-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+        .fx-econ-year { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #587176; font-variant-numeric: tabular-nums; }
+        .fx-econ-table { width: 100%; margin-top: 10px; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
+        .fx-econ-table thead th { padding: 0 0 6px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #587176; text-align: right; }
+        .fx-econ-table thead th:first-child { text-align: left; }
+        .fx-econ-table tbody th, .fx-econ-table td { padding: 7px 0; border-top: 1px solid var(--fx-line-2, #E4ECEB); }
+        .fx-econ-table tbody th { font-weight: 600; text-align: left; color: #0E3A43; white-space: nowrap; }
+        .fx-econ-table td { width: 30%; text-align: right; color: #0E3A43; }
+        .fx-econ-table td.fx-econ-neg { color: #A4473B; }
+        .fx-econ-table td.fx-econ-note { width: auto; text-align: left; color: #587176; font-style: italic; }
+        .fx-econ-code { display: inline-block; min-width: 24px; margin-right: 8px; padding: 1px 4px; border-radius: 3px; background: #E8F0EF; color: #1F6A6E; font-size: 10px; font-weight: 700; letter-spacing: 0.04em; text-align: center; }
+        .fx-econ-source { margin: 8px 0 0; font-size: 11.5px; line-height: 1.45; color: #587176; }
+        .fx-econ-source a { color: #1F6A6E !important; text-decoration: underline; text-underline-offset: 2px; }
+
         /* Spotlight (platinum slot): five large picture tiles stacked in the third column, name underneath. */
         .fx-platinum-list { margin-top: 14px; display: flex; flex-direction: column; gap: 18px; }
         .fx-platinum-tile { display: block; color: #0E3A43 !important; text-decoration: none; }
@@ -1778,6 +1807,7 @@ document.addEventListener('DOMContentLoaded', async function() {
       tag(inBox('sponsored-podcasts-title', ':scope > div:nth-of-type(2)'), 'sponsor-media');
       tag(inBox('professional-services-title', ':scope > div'), 'sponsor-companies');
       tag(document.querySelector('.fx-platinum-list'), 'sponsor-platinum');
+      tag(box('gulf-economy-title'), 'economy');
       tag(document.querySelector('.news > section[aria-label="Residential Estate News"]'), 'tiles-residential-real-estate');
       tag(document.querySelector('.news > section[aria-label="Commercial Real Estate News"]'), 'tiles-commercial-real-estate');
       tag(document.querySelector('.news > section[aria-label="Infrastructure Real Estate News"]'), 'tiles-infrastructure');

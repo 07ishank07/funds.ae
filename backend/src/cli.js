@@ -39,9 +39,10 @@ import { publishableSponsors } from './pipeline/sponsors.js';
 import { runContent } from './pipeline/content.js';
 import { pullFromSanity, pullRegistryFromSanity } from './cms/pull.js';
 import { loadCareersFromSanity } from './cms/jobs.js';
-import { publishApprovedNews, publishJobs, publishEvents, publishSponsors, publishContent, publishSources, publishMeta } from './pipeline/publish.js';
+import { publishApprovedNews, publishJobs, publishEvents, publishSponsors, publishContent, publishSources, publishMeta, publishEconomy } from './pipeline/publish.js';
+import { runEconomy } from './pipeline/economy.js';
 
-const COMMANDS = ['all', 'news', 'jobs', 'sponsors', 'events', 'content', 'validate', 'reset-feed', 'submissions:prune', 'cms:pull', 'news:publish', 'news:prune'];
+const COMMANDS = ['all', 'news', 'jobs', 'sponsors', 'events', 'content', 'economy', 'validate', 'reset-feed', 'submissions:prune', 'cms:pull', 'news:publish', 'news:prune'];
 
 /** News part of a publish: approved stories only. Empty counts and versions when the safety stop refused. */
 async function newsStep(ctx, options) {
@@ -82,6 +83,21 @@ function eventsStep(ctx) {
   const published = publishEvents(ctx, result.events);
   log.info('events.published', { events: published.events });
   return { ok: true, events: published.events, version: published.version };
+}
+
+/**
+ * Gulf Economy box: IMF figures (src/pipeline/economy.js). Never fails the run: when the IMF cannot be read
+ * the site keeps its current economy.json.
+ */
+async function economyStep(ctx) {
+  const result = await runEconomy(ctx);
+  if (!result.ok) {
+    for (const detail of result.errors) log.warn('economy.not-published', { detail });
+    return { ok: false, kept: result.kept };
+  }
+  const published = publishEconomy(ctx, result.economy);
+  log.info('economy.published', { countries: published.countries, year: result.economy.year, from: result.from });
+  return { ok: true, countries: published.countries, from: result.from, version: published.version };
 }
 
 function contentStep(ctx) {
@@ -289,6 +305,11 @@ async function main() {
       const r = sponsorsStep(ctx);
       run.steps.sponsors = r;
       if (r.ok) versions.sponsors = r.version; else contentFailed = true;
+    }
+    if (['all', 'economy'].includes(command)) {
+      const r = await economyStep(ctx);
+      run.steps.economy = r;
+      if (r.ok) { versions.economy = r.version; counts.economy = r.countries; }
     }
     if (['all', 'content'].includes(command)) {
       const r = contentStep(ctx);

@@ -26,6 +26,7 @@ Items marked "(Phase N)" below do not exist yet.
 - npm run news:prune       delete stale pending and rejected stories from the review queue
 - npm run serve            optional server: pages + API + forms on http://localhost:8080
 - npm run publish:content  validate + publish sponsors, events and content.json
+- npm run economy          refresh api/v1/economy.json (IMF GDP growth and inflation for the home Gulf Economy box)
 - npm run cms:pull         copy published Sanity content into config/ (needs content.source "sanity" + SANITY_* env)
 - npm run cms:seed         build studio/seed/fundsae-seed.ndjson from today's content (for sanity dataset import)
 - (from studio/) npm run dev | build | deploy | schema:validate   Sanity Studio (docs/SANITY-CMS-GUIDE.md)

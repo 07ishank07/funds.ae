@@ -1,0 +1,29 @@
+{
+  "_help": "Sample used when settings.economy.live is false or the IMF cannot be reached on a first run. Real figures copied from the IMF World Economic Outlook (October 2026) DataMapper API on 2026-11-28: NGDP_RPCH (real GDP growth) and PCPIPCH (inflation, average consumer prices), annual percent change.",
+  "indicators": {
+    "NGDP_RPCH": { "label": "Real GDP growth", "source": "World Economic Outlook (October 2026)", "unit": "Annual percent change" },
+    "PCPIPCH": { "label": "Inflation rate, average consumer prices", "source": "World Economic Outlook (October 2026)", "unit": "Annual percent change" }
+  },
+  "values": {
+    "NGDP_RPCH": {
+      "ARE": { "2024": 6.6, "2025": 6.2, "2026": -3.9, "2027": 7.7 },
+      "SAU": { "2024": 2.6, "2025": 4.6, "2026": -3.3, "2027": 7.9 },
+      "QAT": { "2024": 2.9, "2025": 1.8, "2026": -15.6, "2027": 18.8 },
+      "KWT": { "2024": -1.5, "2025": 2.7, "2026": -16.7, "2027": 17.1 },
+      "OMN": { "2024": 1.6, "2025": 2.4, "2026": 4.1, "2027": 2.2 },
+      "BHR": { "2024": 2.9, "2025": 3.5, "2026": -11.3, "2027": 13.9 },
+      "EGY": { "2024": 2.4, "2025": 4.4, "2026": 5.1, "2027": 4.7 },
+      "MAR": { "2024": 4.4, "2025": 4.9, "2026": 4.5, "2027": 4.2 }
+    },
+    "PCPIPCH": {
+      "ARE": { "2024": 1.7, "2025": 1.3, "2026": 4.5, "2027": 2.5 },
+      "SAU": { "2024": 1.5, "2025": 2, "2026": 1.9, "2027": 2.2 },
+      "QAT": { "2024": 1.2, "2025": 0.6, "2026": 3.6, "2027": 3.1 },
+      "KWT": { "2024": 2.9, "2025": 2.4, "2026": 2.2, "2027": 2.4 },
+      "OMN": { "2024": 0.6, "2025": 1, "2026": 3.2, "2027": 2.7 },
+      "BHR": { "2024": 0.9, "2025": -0.1, "2026": 2.2, "2027": 1.5 },
+      "EGY": { "2024": 33.3, "2025": 20.4, "2026": 13.3, "2027": 14.8 },
+      "MAR": { "2024": 0.9, "2025": 0.8, "2026": 0.9, "2027": 1.4 }
+    }
+  }
+}

@@ -25,13 +25,13 @@ const MOVED_PAGES = { 'Advertise.dc.html': 'PartnerWithUs.dc.html' };
 const snake = (s) => s.replace(/[A-Z]/g, (c) => '_' + c.toLowerCase());
 
 before(() => {
-  const env = { ...process.env, FUNDSAE_MODE: 'demo', FUNDSAE_DATA_DIR: path.join(tmp, 'data'), FUNDSAE_API_DIR: apiDir, GITHUB_ACTIONS: '' };
+  const env = { ...process.env, FUNDSAE_MODE: 'demo', FUNDSAE_ECONOMY_LIVE: '0', FUNDSAE_DATA_DIR: path.join(tmp, 'data'), FUNDSAE_API_DIR: apiDir, GITHUB_ACTIONS: '' };
   execFileSync(process.execPath, ['src/cli.js', 'all'], { cwd: backend, env, encoding: 'utf8' });
 });
 after(() => rmSync(tmp, { recursive: true, force: true }));
 
 test('every API document carries the shared envelope', () => {
-  const files = ['meta.json', 'news.json', 'jobs.json', 'employers.json', 'events.json', 'sponsors.json', 'content.json', 'sources.json', 'taxonomy.json'];
+  const files = ['meta.json', 'news.json', 'jobs.json', 'employers.json', 'events.json', 'sponsors.json', 'content.json', 'economy.json', 'sources.json', 'taxonomy.json'];
   for (const f of files) {
     const doc = api(f);
     for (const key of ENVELOPE_FIELDS) assert.ok(key in doc, `${f} lacks ${key}`);
@@ -96,7 +96,7 @@ test('content.json has the Sanity-managed slots and pages, with the contract fie
 
 test('meta.json advertises versions, capabilities and every endpoint that exists', () => {
   const meta = api('meta.json');
-  assert.deepEqual(Object.keys(meta.versions).sort(), ['careers', 'content', 'employers', 'events', 'jobs', 'news', 'sponsors']);
+  assert.deepEqual(Object.keys(meta.versions).sort(), ['careers', 'content', 'economy', 'employers', 'events', 'jobs', 'news', 'sponsors']);
   assert.deepEqual(meta.capabilities, { submissions: false }, 'static hosting cannot take forms');
   const taxonomy = api('taxonomy.json');
   for (const t of taxonomy.topics) assert.ok(existsSync(path.join(apiDir, 'news', 'topics', `${t.id}.json`)), t.id);
@@ -154,6 +154,31 @@ test('the JSON store holds no fields the schema does not know about', () => {
   const reviewFields = new Set([...DB_MODELS.newsReviewItems.fields, ...Object.keys(DB_MODELS.newsReviewItems.system)]);
   for (const doc of queue.docs) for (const k of Object.keys(doc)) assert.ok(reviewFields.has(k), `review document has unmapped field "${k}"`);
   check(data('jobs-db.json').jobs, 'jobs');
+});
+
+test('economy.json: IMF figures with the IMF credit, exactly the contract fields', () => {
+  const doc = api('economy.json');
+  assert.equal(doc.count, doc.items.length);
+  assert.ok(doc.items.length >= 4, 'economy.json has countries');
+  for (const item of doc.items) sameKeys(item, DTO_FIELDS.economyItem, `economy ${item.id}`);
+  sameKeys(doc.source, DTO_FIELDS.economySource, 'economy source');
+  assert.equal(doc.source.name, 'International Monetary Fund');
+  assert.equal(doc.source.url, 'https://www.imf.org/external/datamapper/datasets/WEO');
+  assert.match(doc.notice, /^Source: International Monetary Fund, World Economic Outlook/);
+  assert.deepEqual(doc.items.map((i) => i.code), ['AE', 'SA', 'QA', 'KW', 'OM', 'BH', 'EG', 'MA']);
+  assert.ok(api('meta.json').versions.economy, 'meta.json versions economy.json');
+});
+
+test('home page: the Gulf Economy box sits directly above Spotlight and is filled with textContent', () => {
+  const home = readFileSync(path.join(repo, 'frontend_demo', 'this.html'), 'utf8');
+  assert.ok(home.includes("economyBox.setAttribute('aria-labelledby', 'gulf-economy-title');"), 'home builds the Gulf Economy box');
+  assert.ok(home.includes('careersColumn.insertBefore(economyBox, platinumSection);'), 'Gulf Economy goes right before Spotlight');
+  assert.ok(home.includes("tag(box('gulf-economy-title'), 'economy');"), 'the box is the economy slot');
+  assert.ok(home.includes('href="https://www.imf.org/external/datamapper/datasets/WEO"') && home.includes('Source: <a data-econ-source'), 'the box credits and links the IMF');
+  const connector = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
+  const render = connector.slice(connector.indexOf('function renderEconomy('), connector.indexOf('/* ------------------------------------ main'));
+  assert.ok(render.includes('api.valid.economyItem') && render.includes('textContent') && !/innerHTML/.test(render), 'economy rows are built with textContent from validated items');
+  assert.ok(connector.includes("load('economy.json', 'economy')"), 'connector loads economy.json');
 });
 
 test('the website scripts and pages agree on data slots', () => {

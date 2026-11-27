@@ -138,6 +138,7 @@ Base URL: `https://<site>/api/v1/`, either GitHub Pages (static files) or the se
 | `events.json` | `GET /api/v1/events?status=upcoming\|past&limit=&offset=` | Upcoming and recent events, soonest first |
 | `sponsors.json` | `GET /api/v1/sponsors` | `{ slots: { founding, platinum, gold, sponsoredPosts, sponsoredMedia, professionalServices, careerResources } }` |
 | `content.json` | `GET /api/v1/content` | `{ slots: { socialHighlights, advertiseTiers }, pages: { about?, privacy?, terms? } }` (only published pages are present) |
+| `economy.json` | `GET /api/v1/economy` | Home "Gulf Economy" box: `{ source: { name, dataset, url }, year, count, items: [{ id, country, code, gdpGrowth, inflation, year }] }`, IMF World Economic Outlook figures (percent). Written by `npm run economy` and every full run; if the IMF cannot be read the file is kept |
 | `sources.json`, `taxonomy.json` | `GET /api/v1/sources`, `/taxonomy` | Source health; categories, topics, sections |
 
 Query parameters are validated against an allow-list (`v` is always allowed for cache-busting). `category`, `topic` and `section` must exist in `taxonomy.json`; `q` ≤ 100 characters; `limit` 1–100 (default 20); `offset` 0–10000. Anything else returns 400.
@@ -231,6 +232,7 @@ The connector fills elements marked `data-fundsae-slot`. For each slot it clones
 | `events` | Home "Events and Expos" box (next 10) and the Events page `Events.dc.html` (up to `data-fundsae-limit`, with event names); upcoming only | `events.json` |
 | `sponsor-platinum`, `sponsor-gold`, `sponsor-posts`, `sponsor-media`, `sponsor-companies`, `career-resources` | Sponsor areas on both pages | `sponsors.json` slots |
 | `sponsor-founding` | Banner under the masthead on every page except Careers (styles in `frontend_demo/founding-banner.css`). With no `founding` sponsor it keeps its "Your firm here" advert in every mode (never "Nothing to show yet") | `sponsors.json` `founding` |
+| `economy` | Home "Gulf Economy" box (column 3, above Spotlight): a row per country (badge, name, GDP growth, inflation), the year and the IMF credit link. If the file can't be loaded: "Figures unavailable right now." | `economy.json` |
 | `social-highlights` | Home "Top Tweets" (first 5): avatar initials, name, @handle, our one-line summary, link to the post | `content.json` `slots.socialHighlights` |
 | `advertise-tiers` | Advertise page package cards, managed in Sanity (up to 4; defaults Featured Partner `silver`, Gold Partner `gold`, Elite Exclusive Partner `exclusive` = the dark card with `id="elite-partner"`). Each card: badge, title, price (if `showPrice`), duration, home page placements switched on, other inclusions, CTA (`ctaLabel`, `ctaUrl` or the enquiry form with `data-fundsae-tier` preselected). The enquiry form's package list is filled from the same packages, and the server accepts only published package ids. With no packages published the built-in cards stay | `content.json` `slots.advertiseTiers` |
 | `page-body` (`data-fundsae-page="about\|privacy\|terms"` on `<main>`) | Title, lead, "Last updated" and the body `<section>`s (sections marked `data-fundsae-keep`, such as About's team grid, stay). With no page published the built-in copy stays, in every mode | `content.json` `pages` |
@@ -303,7 +305,7 @@ Record shapes are defined once in `src/contracts/models.js`. `schema/schema.sql`
 ## 8. Operations
 
 - **Commands:**
-  - `npm run ingest` (everything), `ingest:news`, `ingest:jobs`, `publish:sponsors`, `publish:events`, `publish:content`
+  - `npm run ingest` (everything), `ingest:news`, `ingest:jobs`, `publish:sponsors`, `publish:events`, `publish:content`, `economy` (IMF figures for the Gulf Economy box)
   - `news:publish` (stories approvers published; `-- --allow-drop` passes the safety stop), `news:prune`, `cms:pull`, `cms:seed`
   - `validate`, `check-sources -- --config`, `reset-feed -- <id>`, `submissions:prune`
   - `serve`

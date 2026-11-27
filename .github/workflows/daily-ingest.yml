@@ -58,7 +58,7 @@ jobs:
           SANITY_DATASET: ${{ secrets.SANITY_DATASET }}
           SANITY_READ_TOKEN: ${{ secrets.SANITY_READ_TOKEN }}
         run: |
-          if [ "${{ steps.settings.outputs.store }}" = "sanity" ]; then npm run ingest:jobs; else npm run ingest; fi
+          if [ "${{ steps.settings.outputs.store }}" = "sanity" ]; then npm run ingest:jobs && npm run economy; else npm run ingest; fi
 
       - name: Save results to the repository
         working-directory: .

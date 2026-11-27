@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 
 const backend = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const tmp = mkdtempSync(path.join(tmpdir(), 'fundsae-'));
-const env = { ...process.env, FUNDSAE_MODE: 'demo', FUNDSAE_DATA_DIR: path.join(tmp, 'data'), FUNDSAE_API_DIR: path.join(tmp, 'api'), GITHUB_ACTIONS: '' };
+const env = { ...process.env, FUNDSAE_MODE: 'demo', FUNDSAE_ECONOMY_LIVE: '0', FUNDSAE_DATA_DIR: path.join(tmp, 'data'), FUNDSAE_API_DIR: path.join(tmp, 'api'), GITHUB_ACTIONS: '' };
 const run = (cmd) => execFileSync(process.execPath, ['src/cli.js', cmd], { cwd: backend, env, encoding: 'utf8' });
 const api = (file) => JSON.parse(readFileSync(path.join(tmp, 'api', file), 'utf8'));
 const queue = () => JSON.parse(readFileSync(path.join(tmp, 'data', 'demo', 'news-review.json'), 'utf8')).docs;

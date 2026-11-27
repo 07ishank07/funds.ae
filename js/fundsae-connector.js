@@ -1118,6 +1118,68 @@
     renderPage(doc.pages && typeof doc.pages === 'object' ? doc.pages : {});
   }
 
+  /* ------------------------------- Gulf Economy ------------------------------- */
+  // Home page column 3: IMF real GDP growth and inflation per country (api/v1/economy.json). The rows and the IMF
+  // credit are built with textContent; the source link is fixed to imf.org.
+
+  var IMF_URL = 'https://www.imf.org/external/datamapper/datasets/WEO';
+
+  function pct(n) {
+    return (n > 0 ? '+' : n < 0 ? '\u2212' : '') + Math.abs(n).toFixed(1) + '%';
+  }
+
+  function economyUnavailable() {
+    slots('economy').forEach(function (box) {
+      var rows = box.querySelector('[data-econ-rows]');
+      if (!rows || rows.querySelector('[data-econ-country]')) return;
+      rows.textContent = '';
+      var tr = document.createElement('tr');
+      var td = document.createElement('td');
+      td.colSpan = 3;
+      td.className = 'fx-econ-note';
+      td.textContent = 'Figures unavailable right now.';
+      tr.appendChild(td);
+      rows.appendChild(tr);
+    });
+  }
+
+  function renderEconomy(doc) {
+    var list = api.items(doc && doc.items, api.valid.economyItem, 'economy figures');
+    if (!list.length) { economyUnavailable(); return; }
+    var source = (doc && doc.source) || {};
+    var dataset = typeof source.dataset === 'string' && /^World Economic Outlook( \((January|April|July|October) \d{4}\))?$/.test(source.dataset)
+      ? source.dataset : 'World Economic Outlook';
+    slots('economy').forEach(function (box) {
+      var rows = box.querySelector('[data-econ-rows]');
+      if (!rows) return;
+      rows.textContent = '';
+      list.forEach(function (item) {
+        var tr = document.createElement('tr');
+        tr.setAttribute('data-econ-country', item.id);
+        var name = document.createElement('th');
+        name.scope = 'row';
+        var badge = document.createElement('span');
+        badge.className = 'fx-econ-code';
+        badge.setAttribute('aria-hidden', 'true');
+        badge.textContent = item.code;
+        name.appendChild(badge);
+        name.appendChild(document.createTextNode(item.country + (item.year !== doc.year ? ' (' + item.year + ')' : '')));
+        tr.appendChild(name);
+        [item.gdpGrowth, item.inflation].forEach(function (value, i) {
+          var td = document.createElement('td');
+          td.textContent = pct(value);
+          if (i === 0 && value < 0) td.className = 'fx-econ-neg';
+          tr.appendChild(td);
+        });
+        rows.appendChild(tr);
+      });
+      var year = box.querySelector('[data-econ-year]');
+      if (year && typeof doc.year === 'number') year.textContent = String(doc.year);
+      var link = box.querySelector('[data-econ-source]');
+      if (link) { link.textContent = 'International Monetary Fund, ' + dataset; link.href = IMF_URL; }
+    });
+  }
+
   /* ------------------------------------ main ----------------------------------- */
 
   function guard(label, promise) {
@@ -1159,12 +1221,16 @@
         ]).then(function (docs) { renderRoles(docs[0], docs[1]); renderTopJobs(docs[0], docs[2]); }));
       }
       if (hasSlot('events')) guard('Events', load('events.json', 'events').then(renderEvents));
+      if (hasSlot('economy')) {
+        guard('Gulf economy figures', load('economy.json', 'economy').then(renderEconomy, function (err) { economyUnavailable(); throw err; }));
+      }
       var sponsorSlots = ['sponsor-founding', 'sponsor-platinum', 'sponsor-posts', 'sponsor-media', 'sponsor-companies', 'sponsor-elite-exclusive', 'career-resources'];
       if (sponsorSlots.some(hasSlot)) guard('Sponsors', load('sponsors.json', 'sponsors').then(renderSponsors));
       if (hasSlot('social-highlights') || hasSlot('advertise-tiers') || hasSlot('page-body') || hasSlot('home-hero')) {
         guard('Editorial content', load('content.json', 'content').then(renderContent));
       }
     }).catch(function (err) {
+      economyUnavailable();
       api.warn('The API could not be reached; the page keeps its built-in content', err);
     });
   }

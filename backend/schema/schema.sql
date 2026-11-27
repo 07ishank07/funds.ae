@@ -243,6 +243,19 @@ CREATE TABLE IF NOT EXISTS home_hero (
     CHECK ((button2_label IS NULL) = (button2_target IS NULL))
 );
 
+-- Gulf Economy box on the home page: IMF World Economic Outlook figures (percent), one row per country,
+-- replaced by each run (src/pipeline/economy.js). Published as api/v1/economy.json with the IMF credit.
+CREATE TABLE IF NOT EXISTS economy_figures (
+    id          TEXT PRIMARY KEY CHECK (id ~ '^[A-Z]{3}$'),      -- IMF country code, e.g. ARE
+    country     TEXT NOT NULL CHECK (char_length(country) BETWEEN 2 AND 40),
+    code        TEXT NOT NULL CHECK (code ~ '^[A-Z]{2}$'),       -- badge, e.g. AE
+    gdp_growth  NUMERIC(5,1) NOT NULL CHECK (gdp_growth BETWEEN -60 AND 60),
+    inflation   NUMERIC(6,1) NOT NULL CHECK (inflation BETWEEN -30 AND 1000),
+    year        SMALLINT NOT NULL CHECK (year BETWEEN 2000 AND 2100),
+    dataset     TEXT NOT NULL,                                   -- e.g. World Economic Outlook (October 2026)
+    fetched_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
 -- Website form submissions. Personal data: never published, never logged,
 -- deleted after settings.submissions.retentionDays (npm run submissions:prune).
 CREATE TABLE IF NOT EXISTS submissions (

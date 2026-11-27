@@ -16,6 +16,7 @@
     "publish:sponsors": "node src/cli.js sponsors",
     "publish:events": "node src/cli.js events",
     "publish:content": "node src/cli.js content",
+    "economy": "node src/cli.js economy",
     "cms:pull": "node src/cli.js cms:pull",
     "cms:seed": "node scripts/cms-seed.mjs",
     "validate": "node src/cli.js validate",

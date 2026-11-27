@@ -234,6 +234,12 @@ Please read these yourself in a browser; each takes a few minutes. Where a terms
 
 When you have read one, add its `termsUrl` and your decision (section 5). Based on the pattern above, expect most of these to say personal and non-commercial too.
 
+### 7.5 Official data (not news)
+
+| Source | Used for | Terms | Decision |
+|---|---|---|---|
+| International Monetary Fund, World Economic Outlook (DataMapper API) | Home "Gulf Economy" box: real GDP growth and inflation per country (`backend/src/pipeline/economy.js`, `api/v1/economy.json`) | [Copyright and Usage](https://www.imf.org/en/about/copyright-and-terms), section "The Use of IMF Data": the WEO database may be downloaded, published and distributed, commercial use included, if it appears accurately and credits the IMF as the source with a link to the dataset; material transformation must be stated. Read 2026-11-28. | Allowed. Figures are shown as the IMF publishes them (one decimal) and the box always shows "Source: International Monetary Fund, World Economic Outlook (edition)" linking to https://www.imf.org/external/datamapper/datasets/WEO. |
+
 ## 8. Keeping this current
 
 - Re-check terms before launch and then once a year. Publishers change them: the Guardian's changelog shows at least three changes in 2023 alone.

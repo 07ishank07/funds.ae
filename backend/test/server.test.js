@@ -27,7 +27,7 @@ async function start(env, name) {
 }
 
 before(async () => {
-  const env = { ...process.env, FUNDSAE_MODE: 'demo', FUNDSAE_DATA_DIR: path.join(tmp, 'data'), FUNDSAE_API_DIR: apiDir, GITHUB_ACTIONS: '' };
+  const env = { ...process.env, FUNDSAE_MODE: 'demo', FUNDSAE_ECONOMY_LIVE: '0', FUNDSAE_DATA_DIR: path.join(tmp, 'data'), FUNDSAE_API_DIR: apiDir, GITHUB_ACTIONS: '' };
   execFileSync(process.execPath, ['src/cli.js', 'all'], { cwd: backend, env, encoding: 'utf8' });
   const main = await start({ ALLOWED_ORIGINS: 'https://funds.example', ADMIN_API_TOKEN: ADMIN, WRITE_RATE_LIMIT_PER_MIN: '1000', WRITE_RATE_LIMIT_PER_HOUR: '1000' }, 'main');
   base = main.url;
@@ -107,7 +107,7 @@ test('jobs by employer, events by status, and the static file names', async () =
   const past = (await json('/api/v1/events?status=past')).body.items;
   assert.ok(past.every((e) => (e.endDate || e.startDate) < today));
 
-  for (const f of ['news.json', 'news/uae.json', 'news/topics/private-credit.json', 'news/sections/residential-real-estate.json', 'news/sections/commercial-real-estate.json', 'news/sections/ai-technology.json', 'employers.json', 'events.json', 'sponsors.json', 'content.json']) {
+  for (const f of ['news.json', 'news/uae.json', 'news/topics/private-credit.json', 'news/sections/residential-real-estate.json', 'news/sections/commercial-real-estate.json', 'news/sections/ai-technology.json', 'employers.json', 'events.json', 'sponsors.json', 'content.json', 'economy.json']) {
     assert.equal((await get(`/api/v1/${f}?v=abc123`)).status, 200, f);
   }
   const content = (await json('/api/v1/content')).body;

@@ -159,6 +159,11 @@
         Array.isArray(t.features) && t.features.every(str) && optStr(t.ctaLabel) &&
         (t.ctaUrl === null || /^https:\/\//.test(t.ctaUrl)) && typeof t.featured === 'boolean';
     },
+    economyItem: function (e) {
+      var pct = function (n) { return typeof n === 'number' && isFinite(n); };
+      return !!e && /^[A-Z]{3}$/.test(e.id) && str(e.country) && /^[A-Z]{2}$/.test(e.code) && pct(e.gdpGrowth) && pct(e.inflation) &&
+        typeof e.year === 'number' && e.year > 1999 && e.year < 2101;
+    },
     page: function (p) {
       return !!p && str(p.slug) && str(p.title) && optStr(p.intro) && (p.updatedAt === null || DATE.test(p.updatedAt)) &&
         Array.isArray(p.blocks) && p.blocks.length > 0 && p.blocks.every(pageBlock);

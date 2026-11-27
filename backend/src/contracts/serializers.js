@@ -157,6 +157,18 @@ export function toEventDto(event) {
   };
 }
 
+/** One country's figures in api/v1/economy.json (src/pipeline/economy.js checks them first). */
+export function toEconomyItemDto(item) {
+  return {
+    id: item.id,
+    country: item.country,
+    code: item.code,
+    gdpGrowth: item.gdpGrowth,
+    inflation: item.inflation,
+    year: item.year
+  };
+}
+
 export function toSponsorItemDto(item, { sponsored }) {
   return {
     id: item.id,

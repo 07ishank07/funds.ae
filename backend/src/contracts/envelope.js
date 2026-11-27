@@ -14,6 +14,7 @@ export const NOTICES = {
   employers: 'Employers are derived from the open roles listed on Funds.ae.',
   careers: 'The Top Employers and Top Jobs on the Careers page, in the order the Funds.ae editors chose.',
   content: 'Editorial content written by the Funds.ae team. Top Tweets items link to the original posts.',
+  economy: 'Source: International Monetary Fund, World Economic Outlook (estimates and forecasts, annual percent change), https://www.imf.org/external/datamapper/datasets/WEO. Shown as published by the IMF.',
   general: 'Funds.ae public data API.'
 };
 
