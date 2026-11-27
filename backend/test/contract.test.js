@@ -410,12 +410,13 @@ test('Videos & Podcasts: a header link on every page and a video hub page of dum
   assert.ok(read('i18n.js').includes("'Videos & Podcasts': "), 'Arabic label');
 });
 
-test('Grants & Funding page: dummy funding, loan and grant opportunities with working filters', () => {
+test('Grants & Funding page: dummy funding, loan and grant opportunities, browsed by type of funding', () => {
   const page = readFileSync(path.join(repo, 'frontend_demo', 'GrantsFunding.dc.html'), 'utf8');
   const main = page.slice(page.indexOf('<main'), page.indexOf('</main>'));
   assert.ok(page.includes('<title>Grants &amp; Funding · Funds.ae</title>') && page.includes('<a href="GrantsFunding.dc.html" aria-current="page">'), 'title and current header link');
-  for (const type of ['all', 'grant', 'loan', 'equity', 'trade']) assert.ok(main.includes(`data-gf-type="${type}"`), `filter chip ${type}`);
-  assert.ok(main.includes('data-gf-emirate') && main.includes('data-gf-search') && main.includes('data-gf-count') && main.includes('data-gf-empty'), 'emirate, search, count and empty message');
+  // The funding-type tiles are the only filter: no type chips, emirate select or search box.
+  assert.ok(!/data-gf-type=|data-gf-emirate|data-gf-search|class="gf-chip/.test(page), 'no type chips, emirate filter or search box');
+  assert.ok(main.includes('data-gf-results') && main.includes('data-gf-count') && main.includes('data-gf-empty'), 'results heading, count and empty message');
   const cards = [...main.matchAll(/<article class="gf-card[^"]*" data-type="(grant|loan|equity|trade)" data-emirate="(abu-dhabi|dubai|sharjah|northern|uae)" data-cats="([a-z -]+)">/g)];
   assert.ok(cards.length >= 12, 'at least 12 opportunity cards, each with a type and an emirate');
   assert.equal(cards.length, (main.match(/class="gf-card/g) || []).length, 'every card is filterable');

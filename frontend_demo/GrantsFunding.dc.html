@@ -44,16 +44,9 @@
   .gf-active button { padding: 3px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink-2); font: inherit; font-size: 13px; cursor: pointer; }
   .gf-active button:hover { border-color: var(--ink); color: var(--ink); }
   .gf-cats { margin-top: 10px; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; color: var(--accent); }
-  .gf-filters { scroll-margin-top: 70px; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; }
-  .gf-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-  .gf-chip { padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink-2); font: inherit; font-size: 13px; font-weight: 500; cursor: pointer; }
-  .gf-chip:hover { border-color: var(--accent); color: var(--ink); }
-  .gf-chip[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: #FFFFFF; }
-  .gf-controls { display: flex; flex-wrap: wrap; gap: 12px; }
-  .gf-field { display: flex; flex-direction: column; gap: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ghost); }
-  .gf-field select, .gf-field input { height: 38px; padding: 0 10px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); color: var(--ink); font: inherit; font-size: 14px; letter-spacing: 0; text-transform: none; }
-  .gf-search input { width: 240px; }
-  .gf-count { margin-top: 18px; font-size: 13px; color: var(--ghost); }
+  .gf-results { scroll-margin-top: 70px; margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--line); }
+  .gf-results .gf-active { margin-top: 0; margin-bottom: 8px; }
+  .gf-count { margin-top: 0; font-size: 13px; color: var(--ghost); }
 
   .gf-list { margin-top: 12px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
   /* Cards (like the reference): a "TYPE · EMIRATE" line, the company name, one sentence about the funding, a link. */
@@ -82,7 +75,6 @@
     .gf { padding: 28px 16px 56px; }
     .gf-featured { grid-column: auto; }
     .gf-list, .gf-type-grid { grid-template-columns: minmax(0, 1fr); }
-    .gf-controls, .gf-field, .gf-search input { width: 100%; }
   }
 
   /* Site footer, shared with this.html: double rule, brand, tagline, links. Pinned to the bottom on short pages. */
@@ -218,33 +210,10 @@
     </div>
   </section>
 
-  <!-- Filters: the script below shows and hides the cards (data-type, data-emirate, text); it adds no markup. -->
-  <div class="gf-filters" data-gf-filters>
-    <div class="gf-chips" role="group" aria-label="Type of funding">
-      <button type="button" class="gf-chip" data-gf-type="all" aria-pressed="true">All</button>
-      <button type="button" class="gf-chip" data-gf-type="grant" aria-pressed="false">Grants</button>
-      <button type="button" class="gf-chip" data-gf-type="loan" aria-pressed="false">Loans</button>
-      <button type="button" class="gf-chip" data-gf-type="equity" aria-pressed="false">Equity and venture</button>
-      <button type="button" class="gf-chip" data-gf-type="trade" aria-pressed="false">Trade and export finance</button>
-    </div>
-    <div class="gf-controls">
-      <label class="gf-field"><span>Emirate</span>
-        <select data-gf-emirate>
-          <option value="all">All UAE</option>
-          <option value="abu-dhabi">Abu Dhabi</option>
-          <option value="dubai">Dubai</option>
-          <option value="sharjah">Sharjah</option>
-          <option value="northern">Northern Emirates</option>
-          <option value="uae">UAE-wide</option>
-        </select>
-      </label>
-      <label class="gf-field gf-search"><span>Search</span>
-        <input type="search" data-gf-search placeholder="Provider, sector or programme" maxlength="80">
-      </label>
-    </div>
-  </div>
+  <div class="gf-results" data-gf-results>
   <p class="gf-active" data-gf-active hidden>Type: <strong data-gf-active-name></strong> <button type="button" data-gf-clear aria-label="Clear the type of funding">Clear &times;</button></p>
   <p class="gf-count" data-gf-count role="status" aria-live="polite">Showing 15 of 15 opportunities</p>
+  </div>
 
   <section class="gf-list" aria-label="Funding opportunities">
       <article class="gf-card gf-featured" data-type="grant" data-emirate="uae" data-cats="sme-grants export">
@@ -353,7 +322,7 @@
         <a class="gf-link" href="#" aria-label="View details: Ras Port Supply Finance (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
   </section>
-  <p class="gf-empty" data-gf-empty hidden>Nothing matches these filters. Try another type, emirate or search.</p>
+  <p class="gf-empty" data-gf-empty hidden>Nothing listed for this type of funding yet.</p>
 
   <section class="gf-cta" aria-labelledby="gf-cta-title">
     <div>
@@ -389,31 +358,21 @@
 <script src="../js/fundsae-api.js" defer></script>
 <script src="../js/fundsae-connector.js" defer></script>
 <script>
-  // Grants & Funding filters: a funding-type tile (also ?category=<id> in the address), the type chips, the emirate
-  // and the search box together show or hide the cards already on the page and update the count.
-  // Text is set with textContent only.
+  // Grants & Funding: a funding-type tile (also ?category=<id> in the address) shows only that type's cards and
+  // updates the count. Text is set with textContent only.
   (function () {
     var cards = Array.prototype.slice.call(document.querySelectorAll('.gf-card'));
     var tiles = Array.prototype.slice.call(document.querySelectorAll('[data-gf-cat]'));
-    var chips = Array.prototype.slice.call(document.querySelectorAll('[data-gf-type]'));
-    var emirate = document.querySelector('[data-gf-emirate]');
-    var search = document.querySelector('[data-gf-search]');
     var count = document.querySelector('[data-gf-count]');
     var empty = document.querySelector('[data-gf-empty]');
     var active = document.querySelector('[data-gf-active]');
     var activeName = document.querySelector('[data-gf-active-name]');
-    var results = document.querySelector('[data-gf-filters]');
-    var type = 'all';
+    var results = document.querySelector('[data-gf-results]');
     var cat = '';
     function apply() {
-      var where = emirate ? emirate.value : 'all';
-      var q = search ? search.value.trim().toLowerCase() : '';
       var shown = 0;
       cards.forEach(function (card) {
-        var ok = (type === 'all' || card.getAttribute('data-type') === type) &&
-          (!cat || (' ' + card.getAttribute('data-cats') + ' ').indexOf(' ' + cat + ' ') !== -1) &&
-          (where === 'all' || card.getAttribute('data-emirate') === where || card.getAttribute('data-emirate') === 'uae') &&
-          (!q || card.textContent.toLowerCase().indexOf(q) !== -1);
+        var ok = !cat || (' ' + card.getAttribute('data-cats') + ' ').indexOf(' ' + cat + ' ') !== -1;
         card.hidden = !ok;
         if (ok) shown++;
       });
@@ -432,7 +391,7 @@
         window.history.replaceState(null, '', url);
       } catch (e) { /* the address just stays as it was */ }
       apply();
-      if (scroll && results) results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (scroll && results) results.scrollIntoView({ block: 'start' });
     }
     tiles.forEach(function (tile) {
       tile.addEventListener('click', function () {
@@ -442,15 +401,6 @@
     });
     var clear = document.querySelector('[data-gf-clear]');
     if (clear) clear.addEventListener('click', function () { setCategory('', false); });
-    chips.forEach(function (chip) {
-      chip.addEventListener('click', function () {
-        type = chip.getAttribute('data-gf-type');
-        chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c === chip)); });
-        apply();
-      });
-    });
-    if (emirate) emirate.addEventListener('change', apply);
-    if (search) search.addEventListener('input', apply);
     // Opened with ?category=<id>: select that type, then jump to the results once the page has finished loading.
     var start = new URLSearchParams(window.location.search).get('category');
     if (start) {
