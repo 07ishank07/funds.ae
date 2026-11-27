@@ -173,6 +173,9 @@ test('home page: the Gulf Economy box sits directly above Spotlight and is fille
   const home = readFileSync(path.join(repo, 'frontend_demo', 'this.html'), 'utf8');
   assert.ok(home.includes("economyBox.setAttribute('aria-labelledby', 'gulf-economy-title');"), 'home builds the Gulf Economy box');
   assert.ok(home.includes('careersColumn.insertBefore(economyBox, platinumSection);'), 'Gulf Economy goes right before Spotlight');
+  // No empty band above the funding tiles: a taller column 3 gives its extra height to row 2, not row 1.
+  assert.ok(home.includes('main.wrap { grid-template-rows: auto 1fr !important; }') &&
+    home.includes('main.wrap > .fx-fundzone { grid-column: 1 / 3; grid-row: 2; align-self: start;'), 'funding tiles sit right under columns 1 and 2');
   // Top Tweets closes the third column, directly under Events and Expos.
   assert.ok(home.includes(`const eventsForTweets = document.querySelector('[aria-labelledby="events-title"]');`) &&
     home.includes("eventsForTweets.insertAdjacentElement('afterend', tweetsBox);"), 'Top Tweets sits under Events and Expos');

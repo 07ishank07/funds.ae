@@ -1633,9 +1633,12 @@ document.addEventListener('DOMContentLoaded', async function() {
            each opens the Grants & Funding page filtered to that type. */
         .fx-fundtypes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
         @media (min-width: 981px) {
+          /* Row 1 fits columns 1 and 2 exactly; when column 3 (which spans both rows) is taller, the extra height goes
+             to row 2, under the funding tiles, never as a gap above them. */
+          main.wrap { grid-template-rows: auto 1fr !important; }
           main.wrap > .news { grid-column: 1; grid-row: 1; }
           main.wrap > aside { grid-column: 2; grid-row: 1; }
-          main.wrap > .fx-fundzone { grid-column: 1 / 3; grid-row: 2; padding-bottom: 8px; }
+          main.wrap > .fx-fundzone { grid-column: 1 / 3; grid-row: 2; align-self: start; padding-bottom: 8px; }
           main.wrap > :last-child:not(.fx-fundzone) { grid-column: 3; grid-row: 1 / span 2; }
         }
         @media (min-width: 981px) and (max-width: 1180px) { .fx-fundtypes { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
