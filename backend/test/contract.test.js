@@ -263,7 +263,11 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   }
   // One bar under the masthead: Real Estate Stories, Grants & Funding | Videos & Podcasts, Partner with us, Careers, Events.
   assert.ok(home.includes("[['Real Estate Stories', null], ['Grants & Funding', { href: 'GrantsFunding.dc.html' }]],"), 'category bar starts with Real Estate Stories and Grants & Funding');
-  assert.ok(home.includes("'UAE Business Grants and Funding news': 'GrantsFunding.dc.html'"), 'the home grants box View All opens the Grants & Funding page');
+  // No grants news box on the home page (its tiles, images and links are gone); the funding-type tiles sit under
+  // "Business Grants & Funding Resources".
+  const homeScript = home.split(/\r?\n/).filter((l) => l.length < 2000).join('\n'); // skip the bundled page template
+  assert.ok(!/UAE Business Grants|grantsBox|tiles-grants-funding/.test(homeScript), 'no UAE Business Grants & Funding Resources box');
+  assert.ok(home.includes("otherFundingHeading.textContent = 'Business Grants & Funding Resources';") && !homeScript.includes("'Other Funding Resources'"), 'the funding tiles heading');
   // Other Funding Resources: the Grants & Funding page's type tiles (same ids, titles and counts), each linking to
   // that page filtered; the old placeholder links are gone.
   const grantsPage = readFileSync(path.join(repo, 'frontend_demo', 'GrantsFunding.dc.html'), 'utf8');

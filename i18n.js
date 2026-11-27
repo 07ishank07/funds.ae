@@ -109,7 +109,7 @@
     'Regulation': 'التنظيم',
     'Providers': 'مزودو الخدمات',
     'UAE Business Grants & Funding Resources': 'المنح ومصادر التمويل لأعمال الإمارات',
-    'Other Funding Resources': 'مصادر تمويل أخرى',
+    'Business Grants & Funding Resources': 'المنح ومصادر تمويل الأعمال',
     'Residential Estate News': 'أخبار العقارات السكنية',
     'Commercial Real Estate News': 'أخبار العقارات التجارية',
     'Infrastructure News': 'أخبار البنية التحتية',

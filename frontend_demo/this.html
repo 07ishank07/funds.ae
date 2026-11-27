@@ -852,7 +852,6 @@ document.addEventListener('DOMContentLoaded', async function() {
           @media (max-width: 620px) {
             main.wrap { padding-right: 16px !important; padding-left: 16px !important; }
             [aria-label="Residential Estate News"], [aria-label="Commercial Real Estate News"], [aria-label="Infrastructure Real Estate News"], [aria-label="Special & Alternative Real Estate News"] { grid-template-columns: minmax(0, 1fr) !important; }
-            [aria-label="UAE Business Grants and Funding news"] { grid-template-columns: minmax(0, 1fr) !important; }
             .fx-fundtypes { grid-template-columns: minmax(0, 1fr) !important; }
             .news article:hover { transform: none; }
           }
@@ -1177,60 +1176,9 @@ document.addEventListener('DOMContentLoaded', async function() {
           } else {
             news.appendChild(eventsPanel);
           }
-          const grantsHeading = document.createElement('h2');
-          grantsHeading.textContent = 'UAE Business Grants & Funding Resources';
-          // Anchor for links to this box (this.html#grants-funding); the sticky bar must not cover it.
-          grantsHeading.id = 'grants-funding';
-          grantsHeading.style.cssText = 'scroll-margin-top: 64px; margin: 32px 0 0; padding-top: 24px; border-top: 1px solid #DAE5E4; font-size: 22px; font-weight: 600; color: #0E3A43';
-          news.appendChild(grantsHeading);
-          const grantsBox = document.createElement('section');
-          grantsBox.setAttribute('aria-label', 'UAE Business Grants and Funding news');
-          grantsBox.style.cssText = 'display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 16px; padding: 18px; border: 1px solid #DAE5E4; border-radius: 14px; background: #FFFFFF; box-shadow: 0 8px 24px rgba(14, 58, 67, 0.06)';
-          grantsBox.innerHTML = `
-            <article style="min-width: 0">
-              <div role="img" aria-label="Dummy SME grant image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #0E3A43, #4FB3B8); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">SME GRANTS</div>
-              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">New SME grant round opens for UAE-based founders</a>
-            </article>
-            <article style="min-width: 0">
-              <div role="img" aria-label="Dummy venture capital image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #B58B52, #6B4E32); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">VENTURE CAPITAL</div>
-              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Regional VCs raise fresh capital for early-stage founders</a>
-            </article>
-            <article style="min-width: 0">
-              <div role="img" aria-label="Dummy angel investor image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #7F9A97, #164B55); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">ANGEL NETWORK</div>
-              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Gulf angel network doubles membership this year</a>
-            </article>
-            <article style="min-width: 0">
-              <div role="img" aria-label="Dummy crowdfunding image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #C9A9A0, #874E4B); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">CROWDFUNDING</div>
-              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Equity crowdfunding platforms report record activity</a>
-            </article>
-            <article style="min-width: 0">
-              <div role="img" aria-label="Dummy free zone incubator image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #6F8E8D, #2B6A74); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">INCUBATORS</div>
-              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Free zone incubators expand support for early founders</a>
-            </article>
-            <article style="min-width: 0">
-              <div role="img" aria-label="Dummy innovation grant image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #4F8A8B, #1C5965); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">INNOVATION GRANTS</div>
-              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Federal innovation grants target deep tech startups</a>
-            </article>
-            <article style="min-width: 0">
-              <div role="img" aria-label="Dummy trade finance image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #D3B46A, #8A6330); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">TRADE FINANCE</div>
-              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Trade finance facilities expand for exporting SMEs</a>
-            </article>
-            <article style="min-width: 0">
-              <div role="img" aria-label="Dummy private equity image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #B4A4C9, #5B4675); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">PRIVATE EQUITY</div>
-              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Private equity access programme opens to growth-stage firms</a>
-            </article>
-            <article style="min-width: 0">
-              <div role="img" aria-label="Dummy export credit image" style="height: 116px; border-radius: 10px; background: linear-gradient(145deg, #C6A59B, #794C47); display: flex; align-items: flex-end; padding: 10px; color: #FFFFFF; font-size: 11px; font-weight: 600; letter-spacing: 0.08em">EXPORT CREDIT</div>
-              <a href="#" style="display: block; margin-top: 10px; font-family: 'Newsreader', Georgia, serif; font-size: 17px; font-weight: 600; line-height: 1.3; color: #0E3A43">Export credit scheme extends cover for new markets</a>
-            </article>`;
-          grantsBox.querySelectorAll('[role="img"]').forEach((image) => {
-            image.style.width = '78%';
-            image.style.maxWidth = '150px';
-          });
-          news.appendChild(grantsBox);
 
           const otherFundingHeading = document.createElement('h2');
-          otherFundingHeading.textContent = 'Other Funding Resources';
+          otherFundingHeading.textContent = 'Business Grants & Funding Resources';
           otherFundingHeading.style.cssText = 'margin: 32px 0 0; padding-top: 24px; border-top: 1px solid #DAE5E4; font-size: 22px; font-weight: 600; color: #0E3A43';
           news.appendChild(otherFundingHeading);
           // Funding by type: the Grants & Funding page's twelve type tiles (same ids, titles and counts), each opening
@@ -1272,15 +1220,9 @@ document.addEventListener('DOMContentLoaded', async function() {
       }
     }
 
-    // Grow the two tile grids from 9 to 15 tiles by cloning a tile and changing its label, headline and colour.
+    // Grow the Residential tile grid from 9 to 15 tiles by cloning a tile and changing its label, headline and colour.
     {
       const extraTiles = {
-        'UAE Business Grants and Funding news': [
-          ['SEED FUNDING', 'Seed funds open new cheque sizes for UAE startups', '#0E3A43, #7F9A97'],
-          ['SME SCHEMES', 'Federal SME support scheme opens for applications', '#8A6330, #B58B52'],
-          ['GREEN FINANCE', 'Green finance grants back clean-energy ventures', '#416C56, #9EB9A5'],
-          ['WOMEN FOUNDERS', 'New fund backs women-led businesses across the Gulf', '#874E4B, #C9A9A0'],
-        ],
         'Residential Estate News': [
           ['AFFORDABLE HOMES', 'Affordable housing pipeline widens across the northern emirates', '#4F8A8B, #1C5965'],
           ['MORTGAGES', 'Mortgage lenders widen terms for UAE homebuyers', '#31556D, #8BA9C1'],
@@ -1311,9 +1253,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         'Residential Estate News': 'News.dc.html?section=residential-real-estate',
         'Commercial Real Estate News': 'News.dc.html?section=commercial-real-estate',
         'Infrastructure Real Estate News': 'News.dc.html?section=infrastructure',
-        'Special & Alternative Real Estate News': 'News.dc.html?section=special-alternative-real-estate',
-        // The grants box opens the Grants & Funding page (programmes from banks, funds and investors).
-        'UAE Business Grants and Funding news': 'GrantsFunding.dc.html'
+        'Special & Alternative Real Estate News': 'News.dc.html?section=special-alternative-real-estate'
       };
       const makeViewAll = (href = '#') => {
         const link = document.createElement('a');
@@ -1326,7 +1266,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         document.querySelector('#professional-services-title'),
       ].map((heading) => heading && heading.closest('section'));
       inside.forEach((box) => { if (box && !box.querySelector('.fx-view-all')) box.appendChild(makeViewAll()); });
-      ['UAE Business Grants and Funding news', 'Residential Estate News', 'Commercial Real Estate News', 'Infrastructure Real Estate News', 'Special & Alternative Real Estate News'].forEach((label) => {
+      ['Residential Estate News', 'Commercial Real Estate News', 'Infrastructure Real Estate News', 'Special & Alternative Real Estate News'].forEach((label) => {
         const box = document.querySelector('.news > section[aria-label="' + label + '"]');
         if (box && !(box.nextElementSibling && box.nextElementSibling.classList.contains('fx-view-all'))) box.after(makeViewAll(VIEW_ALL_HREF[label]));
       });
@@ -1670,11 +1610,11 @@ document.addEventListener('DOMContentLoaded', async function() {
         /* Tile grids: smaller images and type (same size in every box; the data-fundsae-tag selectors cover live tiles, which the connector strips of role=img). Grants stays five across (15 tiles = 3 rows);
            Real Estate is kept at three across (15 tiles = 5 rows) so 3 images/headlines share
            one row, as on Grants' 760px breakpoint. */
-        .news > section[aria-label="Residential Estate News"], .news > section[aria-label="Commercial Real Estate News"], .news > section[aria-label="Infrastructure Real Estate News"], .news > section[aria-label="Special & Alternative Real Estate News"], .news > section[aria-label="UAE Business Grants and Funding news"] { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; column-gap: 12px !important; row-gap: 18px !important; }
+        .news > section[aria-label="Residential Estate News"], .news > section[aria-label="Commercial Real Estate News"], .news > section[aria-label="Infrastructure Real Estate News"], .news > section[aria-label="Special & Alternative Real Estate News"] { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; column-gap: 12px !important; row-gap: 18px !important; }
         .news > section[aria-label] [role="img"][style*="height: 116px"], .news > section[aria-label] [role="img"][style*="height:116px"], .news > section[aria-label] [data-fundsae-tag][style*="height: 116px"], .news > section[aria-label] [data-fundsae-tag][style*="height:116px"] { box-sizing: border-box; width: 100% !important; max-width: none !important; height: 68px !important; padding: 6px 8px !important; font-family: var(--fx-mono); font-size: 9px !important; letter-spacing: 0.06em !important; line-height: 1.2; }
         .news > section[aria-label] article > a { margin-top: 8px !important; font-size: 13px !important; line-height: 1.3 !important; }
-        @media (max-width: 480px) { .news > section[aria-label="Residential Estate News"], .news > section[aria-label="Commercial Real Estate News"], .news > section[aria-label="Infrastructure Real Estate News"], .news > section[aria-label="Special & Alternative Real Estate News"], .news > section[aria-label="UAE Business Grants and Funding news"] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
-        /* Other Funding Resources: funding-type tiles (icon, title, short description, programme count), two across;
+        @media (max-width: 480px) { .news > section[aria-label="Residential Estate News"], .news > section[aria-label="Commercial Real Estate News"], .news > section[aria-label="Infrastructure Real Estate News"], .news > section[aria-label="Special & Alternative Real Estate News"] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
+        /* Business Grants & Funding Resources: funding-type tiles (icon, title, short description, programme count), two across;
            each opens the Grants & Funding page filtered to that type. */
         .fx-fundtypes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
         .fx-fundtype { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border: 1px solid #DAE5E4; border-radius: 12px; background: #FFFFFF; color: #0E3A43; text-decoration: none; }
@@ -1827,7 +1767,6 @@ document.addEventListener('DOMContentLoaded', async function() {
       tag(document.querySelector('.news > section[aria-label="Commercial Real Estate News"]'), 'tiles-commercial-real-estate');
       tag(document.querySelector('.news > section[aria-label="Infrastructure Real Estate News"]'), 'tiles-infrastructure');
       tag(document.querySelector('.news > section[aria-label="Special & Alternative Real Estate News"]'), 'tiles-special-alternative-real-estate');
-      tag(document.querySelector('.news > section[aria-label="UAE Business Grants and Funding news"]'), 'tiles-grants-funding');
       tag(inBox('tweets-title', ':scope > div'), 'social-highlights');
       const dateLine = document.querySelector('.fx-topline > span:first-child');
       if (dateLine) {
