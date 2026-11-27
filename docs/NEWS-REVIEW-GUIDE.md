@@ -135,7 +135,7 @@ studio/
   schemaTypes/newsWorkflow.js        planAction(), planSave(), approvalHash(), publishBlockers() (pure)
   schemaTypes/newsArticle.js         the story document (queue.<articleId>)
   schemaTypes/newsSource.js          a news source: feed, licence, permissions (+ components/SourceHealth.jsx)
-  schemaTypes/newsTaxonomy.js        capitalType (category bar: showInNav, navLabel), assetClass (homeSection)
+  schemaTypes/newsTaxonomy.js        capitalType (showInNav and navLabel hidden; the header bar no longer lists investor types), assetClass (homeSection)
   schemaTypes/newsAggregator.js      newsAggregator (Fetch News Now), newsAggregatorState, newsPublishSignal
   actions/newsActions.jsx            workflow actions, "Save changes", Fetch News Now
   structure.js                       News Review Queue and "News sources and categories" menus

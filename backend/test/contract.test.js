@@ -227,29 +227,30 @@ test('every page but Careers and the home page shows the same Elite Founding Spo
     // Header: the home page's masthead, mobile bar and category bar, from the shared stylesheet and script.
     assert.ok(html.includes('href="site-header.css"') && html.includes('src="../js/fundsae-header.js"'), `${page} uses the shared header`);
     assert.ok(html.includes('class="fxh"') && html.includes('class="m-only fxh-m"') && html.includes('class="fx-catbar"'), `${page} has the home page header`);
-    assert.ok(html.includes('data-fundsae-date') && html.includes('href="this.html?category=Sovereign"'), `${page} header shows the date and links investor types to the home page`);
+    assert.ok(html.includes('data-fundsae-date'), `${page} header shows the date`);
     assert.ok(!html.includes('class="masthead"'), `${page} has no old masthead`);
     const catbar = html.slice(html.indexOf('<nav class="fx-catbar"'), html.indexOf('</nav>', html.indexOf('<nav class="fx-catbar"')));
     for (const [label, href] of [['Videos &amp; Podcasts', 'Videos.dc.html'], ['Partner with us', 'PartnerWithUs.dc.html'], ['Careers', 'Careers.dc.html'], ['Events', 'Events.dc.html']]) {
       assert.ok(catbar.includes(`<a href="${href}"`) && catbar.includes(`>${label}</a>`), `${page} category bar links to ${label}`);
     }
+    // No investor-type links: Real Estate Stories, one divider, then the site's pages.
+    assert.ok(!catbar.includes('?category=') && !catbar.includes('?capital='), `${page} category bar has no investor-type links`);
+    assert.equal(catbar.split('fx-catbar-rule').length - 1, 1, `${page} category bar has one divider`);
   }
-  // One bar under the masthead: Top | the investor types | Partner with us (a link to the Partner with us page).
-  for (const label of ['Real Estate Stories', 'Sovereign', 'Pension', 'Private Equity', 'REITs', 'Family Offices', 'Banks', 'Government', 'Endowments']) {
-    assert.ok(home.includes(`['${label}', `), `category bar has ${label}`);
+  // One bar under the masthead: Real Estate Stories | Videos & Podcasts, Partner with us, Careers, Events.
+  assert.ok(home.includes("[['Real Estate Stories', null]],"), 'category bar starts with Real Estate Stories');
+  for (const label of ['Sovereign', 'Pension', 'Private Equity', 'REITs', 'Family Offices', 'Banks', 'Government', 'Endowments']) {
+    assert.ok(!home.includes(`['${label}', `), `category bar has no ${label} link`);
   }
   assert.ok(home.includes("[['Videos & Podcasts', { href: 'Videos.dc.html' }], ['Partner with us', { href: 'PartnerWithUs.dc.html' }], ['Careers', { href: 'Careers.dc.html' }], ['Events', { href: 'Events.dc.html' }]]"), 'category bar ends with Videos & Podcasts, Partner with us, Careers and Events links');
   for (const gone of ['Latest', 'Fundraising', 'Deals', 'People', 'Venture', 'Credit', 'Secondaries', 'Hedge Funds', 'LPs', 'Regulation', 'Providers']) {
     assert.ok(!home.includes(`['${gone}', [`), `category bar no longer has ${gone}`);
   }
   assert.ok(!home.includes('fx-investorbar'), 'no separate investor row');
-  // The bar's built-in investor types are Capital Types (editors replace them from the Studio at runtime).
-  const capitalIds = JSON.parse(readFileSync(path.join(backend, 'config', 'news-taxonomy.json'), 'utf8')).capitalTypes.map((c) => c.id);
+  // The connector no longer rebuilds the bar from the Capital Types editors mark for it.
   const barBlock = home.slice(home.indexOf('const CATEGORY_GROUPS'), home.indexOf('const bar = document.createElement'));
-  const barIds = [...barBlock.matchAll(/'capital:([a-z0-9-]+)'/g)].map((m) => m[1]);
-  assert.equal(barIds.length, 8, 'eight investor types in the built-in bar');
-  for (const id of barIds) assert.ok(capitalIds.includes(id), `category bar Capital Type ${id} exists in news-taxonomy.json`);
-  assert.ok(connector.includes("load('taxonomy.json', 'news').then(renderCatbar)"), 'the connector rebuilds the bar from the published Capital Types');
+  assert.ok(!barBlock.includes("'capital:"), 'no investor types in the built-in bar');
+  assert.ok(!connector.includes('renderCatbar') && !connector.includes('fx-catbar'), 'the connector does not touch the category bar');
   assert.ok(connector.includes("document.addEventListener('fundsae:news-topics'") && home.includes("new CustomEvent('fundsae:news-topics'"), 'category bar filters Latest Stories through the connector');
   assert.ok(!home.includes('Tech and Data Centre News') && !connector.includes('tiles-ai-technology'), 'home has no Tech and Data Centre box');
   assert.ok(home.includes('if (careersBox) careersBox.remove();') && !home.includes("'home-jobs'"), 'home has no UAE Careers box');

@@ -100,19 +100,22 @@ export const capitalType = defineType({
   type: 'document',
   fields: [
     ...sharedFields('Sovereign Wealth Funds'),
+    // The header's category bar no longer lists investor types, so these two fields are hidden. They stay in
+    // the schema (and the API) so existing values are kept and the links can come back without a migration.
     defineField({
       name: 'showInNav',
       title: 'Show in the category bar',
       type: 'boolean',
       description: `The bar under the masthead on every page. Up to ${NEWS_LIMITS.navItems} types fit.`,
       initialValue: false,
+      hidden: true,
     }),
     defineField({
       name: 'navLabel',
       title: 'Category bar label',
       type: 'string',
       description: 'A short label for the bar, for example "Sovereign".',
-      hidden: ({document}) => !document?.showInNav,
+      hidden: true,
       validation: (rule) =>
         rule.custom((value, {document}) => {
           if (!document?.showInNav) return true
@@ -126,11 +129,8 @@ export const capitalType = defineType({
   ],
   orderings: byOrder,
   preview: {
-    select: {title: 'name', order: 'displayOrder', nav: 'showInNav', label: 'navLabel'},
-    prepare: ({title, order, nav, label}) => ({
-      title: title || '(no name)',
-      subtitle: `${order ?? '?'}${nav ? ` · category bar: ${label || title}` : ''}`,
-    }),
+    select: {title: 'name', order: 'displayOrder'},
+    prepare: ({title, order}) => ({title: title || '(no name)', subtitle: `${order ?? '?'}`}),
   },
 })
 
