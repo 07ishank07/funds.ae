@@ -12,7 +12,7 @@
   'use strict';
 
   var MENU = [['Real Estate Stories', 'this.html'], ['Videos & Podcasts', 'Videos.dc.html'], ['Grants & Funding', 'GrantsFunding.dc.html'],
-    ['Careers', 'Careers.dc.html'], ['Events', 'Events.dc.html'], ['Partner with us', 'PartnerWithUs.dc.html'],
+    ['Events', 'Events.dc.html'], ['Finance Careers', 'Careers.dc.html'], ['Partner with us', 'PartnerWithUs.dc.html'],
     ['About', 'About.dc.html'], ['Contact us', 'Contact.dc.html']];
   var tr = function (s) { return (window.__fundsTr || function (x) { return x; })(s); };
 

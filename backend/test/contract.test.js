@@ -179,6 +179,12 @@ test('home page: the Gulf Economy box sits directly above Spotlight and is fille
   // View All under the funding tiles opens the Grants & Funding page.
   assert.ok(home.includes("fundViewAll.href = 'GrantsFunding.dc.html';") && home.includes("fundViewAll.textContent = 'View All';") &&
     home.includes('fundZone.appendChild(fundViewAll);'), 'funding tiles have a View All link to Grants & Funding');
+  // Finance Careers banner: directly under the funding tiles (inside the zone that spans columns 1 and 2), licensed photo.
+  assert.ok(home.includes("careersBanner.className = 'fx-careers-banner';") && home.includes('fundZone.appendChild(careersBanner);') &&
+    home.indexOf('fundZone.appendChild(fundViewAll);') < home.indexOf('fundZone.appendChild(careersBanner);'), 'Finance Careers banner under the funding tiles');
+  assert.ok(home.includes('<a class="fx-cb-btn" href="Careers.dc.html">View finance jobs</a>') && home.includes('src="img/careers-banner.jpg" alt=""'), 'banner links to Careers and shows its photo');
+  assert.ok(statSync(path.join(repo, 'frontend_demo', 'img', 'careers-banner.jpg')).size < 400 * 1024 &&
+    readFileSync(path.join(repo, 'frontend_demo', 'img', 'CREDITS.md'), 'utf8').includes('| `careers-banner.jpg` |'), 'banner photo is light and credited');
   // Top Tweets closes the third column, directly under Events and Expos.
   assert.ok(home.includes(`const eventsForTweets = document.querySelector('[aria-labelledby="events-title"]');`) &&
     home.includes("eventsForTweets.insertAdjacentElement('afterend', tweetsBox);"), 'Top Tweets sits under Events and Expos');
@@ -345,14 +351,14 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
     // No investor-type links: Real Estate Stories, then the site's sections (Partner with us is the button).
     assert.ok(!catbar.includes('?category=') && !catbar.includes('?capital='), `${page} category bar has no investor-type links`);
     const links = [...catbar.matchAll(/<a href="([^"]+)"[^>]*>([^<>]+)<\/a>/g)].map((m) => [m[1], m[2]]);
-    assert.deepEqual(links, [['this.html', 'Real Estate Stories'], ['Videos.dc.html', 'Videos &amp; Podcasts'], ['GrantsFunding.dc.html', 'Grants &amp; Funding'], ['Careers.dc.html', 'Careers'], ['Events.dc.html', 'Events']], `${page} header sections and order`);
+    assert.deepEqual(links, [['this.html', 'Real Estate Stories'], ['Videos.dc.html', 'Videos &amp; Podcasts'], ['GrantsFunding.dc.html', 'Grants &amp; Funding'], ['Events.dc.html', 'Events'], ['Careers.dc.html', 'Finance Careers']], `${page} header sections and order`);
   }
   // The home page builds the same header (its own bar inside), hides the design's headers and their search box.
   assert.ok(home.includes("siteHeader.className = 'fxb';") && home.includes('<a class="fxb-cta" href="PartnerWithUs.dc.html">Partner with us</a>') && home.includes("headerCss.href = 'site-header.css?v=2';"), 'home builds the option B header');
   assert.ok(home.includes('html body header.d-only, html body header.m-only { display: none !important; }'), 'home hides the design headers (and their search box)');
   const headerJs = readFileSync(path.join(repo, 'js', 'fundsae-header.js'), 'utf8');
   assert.ok(!/runSearch|Search news, funds and firms|fxh-search-panel/.test(headerJs) && headerJs.includes("header.fxb button[aria-label=\"Open menu\"]"), 'header script: menu only, no search');
-  // One bar in the header: Real Estate Stories | Videos & Podcasts, Grants & Funding, Careers, Events.
+  // One bar in the header: Real Estate Stories | Videos & Podcasts, Grants & Funding, Events, Finance Careers.
   assert.ok(home.includes("[['Real Estate Stories', null]],"), 'category bar starts with Real Estate Stories');
   // No grants news box on the home page (its tiles, images and links are gone); the funding-type tiles sit under
   // "Business Grants & Funding Resources".
@@ -376,7 +382,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   for (const label of ['Sovereign', 'Pension', 'Private Equity', 'REITs', 'Family Offices', 'Banks', 'Government', 'Endowments']) {
     assert.ok(!home.includes(`['${label}', `), `category bar has no ${label} link`);
   }
-  assert.ok(home.includes("[['Videos & Podcasts', { href: 'Videos.dc.html' }], ['Grants & Funding', { href: 'GrantsFunding.dc.html' }], ['Careers', { href: 'Careers.dc.html' }], ['Events', { href: 'Events.dc.html' }]]"), 'home bar ends with Videos & Podcasts, Grants & Funding, Careers and Events (Partner with us is the button)');
+  assert.ok(home.includes("[['Videos & Podcasts', { href: 'Videos.dc.html' }], ['Grants & Funding', { href: 'GrantsFunding.dc.html' }], ['Events', { href: 'Events.dc.html' }], ['Finance Careers', { href: 'Careers.dc.html' }]]"), 'home bar ends with Videos & Podcasts, Grants & Funding, Events and Finance Careers (Partner with us is the button)');
   for (const gone of ['Latest', 'Fundraising', 'Deals', 'People', 'Venture', 'Credit', 'Secondaries', 'Hedge Funds', 'LPs', 'Regulation', 'Providers']) {
     assert.ok(!home.includes(`['${gone}', [`), `category bar no longer has ${gone}`);
   }
