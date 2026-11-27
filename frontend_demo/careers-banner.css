@@ -2,6 +2,7 @@
  * Finance Careers banner, shared by the home page (under the funding tiles, columns 1 and 2) and the top of the
  * Careers page: a licensed photo (img/careers-banner.jpg, credited in img/CREDITS.md) on the right under a dark
  * teal wash, with a small label, a heading (h2 on home, the page h1 on Careers), a line of text and buttons.
+ * .fx-careers-banner--card is the column-sized version (Events page, column 2): text at the foot over a darker wash.
  */
 .fx-careers-banner { position: relative; display: flex; align-items: center; min-height: 230px; border-radius: 3px; overflow: hidden; background: #0E3A43; }
 .fx-fundzone > .fx-careers-banner { margin-top: 28px; }
@@ -18,6 +19,14 @@
 .fx-cb-btn--ghost { background: transparent; color: #FFFFFF !important; border-color: rgba(255, 255, 255, 0.7); }
 .fx-cb-btn--ghost:hover { background: rgba(255, 255, 255, 0.12); }
 .fx-cb-btn:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 3px; }
+/* Column-sized card: the photo fills the card, the text sits at the bottom. */
+.fx-careers-banner--card { align-items: flex-end; min-height: 330px; margin-bottom: 28px; }
+.fx-careers-banner--card .fx-cb-photo { object-position: 78% 50%; }
+.fx-careers-banner--card::before { background: linear-gradient(0deg, rgba(14, 58, 67, 0.97) 0%, rgba(14, 58, 67, 0.82) 52%, rgba(14, 58, 67, 0.3) 100%); }
+.fx-careers-banner--card .fx-cb-text { max-width: none; padding: 22px 22px 24px; }
+.fx-careers-banner--card .fx-cb-title { font-size: 23px !important; line-height: 1.18 !important; }
+.fx-careers-banner--card .fx-cb-sub { font-size: 13.5px; }
+.fx-careers-banner--card .fx-cb-btn { margin-top: 16px; }
 @media (max-width: 620px) {
   .fx-careers-banner::before { background: rgba(14, 58, 67, 0.82); }
   .fx-cb-text { padding: 24px 20px; }

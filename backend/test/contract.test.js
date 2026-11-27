@@ -413,7 +413,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.ok(!careers.includes('data-fundsae-slot="events"') && !careers.includes('data-fundsae-form="event"'), 'Careers no longer has events');
   // The Finance Careers banner (as on the home page) tops the page; its heading is the page h1. No Demo data badge.
   assert.match(careers, /<h1 id="careers-banner-title" class="fx-cb-title">Your next move in finance<\/h1>/);
-  assert.ok(careers.includes('href="careers-banner.css?v=1"') && careers.includes('<img class="fx-cb-photo" src="img/careers-banner.jpg" alt="">'), 'Careers shows the banner');
+  assert.ok(careers.includes('href="careers-banner.css?v=2"') && careers.includes('<img class="fx-cb-photo" src="img/careers-banner.jpg" alt="">'), 'Careers shows the banner');
   assert.ok(careers.includes('<a class="fx-cb-btn" href="#opportunities">View finance jobs</a>') && careers.includes('id="opportunities"'), 'View finance jobs jumps to the listings');
   assert.ok(!careers.includes('Financial Services Jobs') && careers.indexOf('fx-careers-top') < careers.indexOf('id="opportunities"'), 'banner replaces the old heading, above the listings');
   // Grants & Funding banner (the Grants page hero: photo, label, headline) in column 2, directly above Career Resources;
@@ -476,7 +476,9 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.ok(!/elite-sponsor|sponsor-elite-exclusive/.test(events), 'Events has no Exclusive Elite Sponsor box');
   assert.ok(!read('PartnerWithUs.dc.html').includes('Exclusive Elite Sponsor box') &&
     !readFileSync(path.join(backend, 'config', 'content.json'), 'utf8').includes('Exclusive Elite Sponsor box'), 'no package promises the box');
-  assert.ok(/<aside>\s*<!-- Field names are the API contract/.test(events), 'Events: the right column starts with the submit forms');
+  // Events column 2: the Finance Careers banner (column-sized card, linking to Careers), then the submit forms.
+  assert.ok(/<aside>\s*<!--[^>]*-->\s*<section class="fx-careers-banner fx-careers-banner--card"[\s\S]*?<a class="fx-cb-btn" href="Careers.dc.html">View finance jobs<\/a>\s*<\/div>\s*<\/section>\s*<!-- Field names are the API contract/.test(events), 'Events: the careers banner, then the submit forms');
+  assert.ok(events.includes('href="careers-banner.css?v=2"') && events.includes('<img class="fx-cb-photo" src="img/careers-banner.jpg" alt="" loading="lazy">'), 'Events loads the banner styles and photo');
   const sponsorConnector = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
   assert.ok(!sponsorConnector.includes("slots('sponsor-elite-exclusive')") && !sponsorConnector.includes("pick('eliteExclusive')"), 'connector no longer fills the box');
   const topEmployers = careers.slice(careers.indexOf('data-fundsae-slot="employers"'), careers.indexOf('</ol>', careers.indexOf('data-fundsae-slot="employers"')));

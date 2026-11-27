@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;600;700&family=Jost:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="site-header.css?v=2">
+<link rel="stylesheet" href="careers-banner.css?v=2">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   /* Editorial theme tokens. Keep in sync with the theme block at the end of this.html's script. */
@@ -197,6 +198,16 @@
 </main>
 
 <aside>
+  <!-- Finance Careers banner (the home page's, column-sized; careers-banner.css), above Submit your event. -->
+  <section class="fx-careers-banner fx-careers-banner--card" aria-labelledby="careers-banner-title">
+    <img class="fx-cb-photo" src="img/careers-banner.jpg" alt="" loading="lazy">
+    <div class="fx-cb-text">
+      <p class="fx-cb-eyebrow">Finance Careers</p>
+      <h2 id="careers-banner-title" class="fx-cb-title">Your next move in finance</h2>
+      <p class="fx-cb-sub">Roles across private equity, venture capital, private credit, banking and fund services.</p>
+      <a class="fx-cb-btn" href="Careers.dc.html">View finance jobs</a>
+    </div>
+  </section>
   <!-- Field names are the API contract (POST /api/v1/submissions/event). -->
   <div class="submit-forms">
     <details id="submit-event" open>
