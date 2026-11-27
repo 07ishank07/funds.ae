@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 686" role="img" aria-labelledby="t">
+  <title id="t">A financial district skyline at sunrise: glass and sandstone towers, a gate-shaped building and a city stretching to the horizon</title>
+  <!-- Original illustration for Funds.ae (placeholder for the Minimal hero banner until an editor uploads a photo). -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#B9CCD8"/>
+      <stop offset="0.38" stop-color="#E3DCCF"/>
+      <stop offset="0.62" stop-color="#F4D3A9"/>
+      <stop offset="0.78" stop-color="#F2BF86"/>
+      <stop offset="1" stop-color="#E9B27A"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FFF4DC" stop-opacity="1"/>
+      <stop offset="0.25" stop-color="#FFE2AE" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#F6C487" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="haze" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F3CFA0" stop-opacity="0"/>
+      <stop offset="1" stop-color="#EFC48F" stop-opacity="0.85"/>
+    </linearGradient>
+    <linearGradient id="glassL" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#8FA4AE"/>
+      <stop offset="0.55" stop-color="#C9D2D2"/>
+      <stop offset="1" stop-color="#E9D7BD"/>
+    </linearGradient>
+    <linearGradient id="glassR" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#E7D2B4"/>
+      <stop offset="1" stop-color="#9BA9AF"/>
+    </linearGradient>
+    <linearGradient id="sand" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#9C7656"/>
+      <stop offset="0.5" stop-color="#C79C6E"/>
+      <stop offset="1" stop-color="#E2B888"/>
+    </linearGradient>
+    <linearGradient id="sandDark" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#6E5240"/>
+      <stop offset="1" stop-color="#A78163"/>
+    </linearGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#B99474"/>
+      <stop offset="1" stop-color="#7E6450"/>
+    </linearGradient>
+    <pattern id="win" width="14" height="18" patternUnits="userSpaceOnUse">
+      <rect width="14" height="18" fill="none"/>
+      <rect x="2" y="3" width="9" height="11" fill="#FFF3DD" opacity="0.28"/>
+    </pattern>
+    <pattern id="winDark" width="12" height="16" patternUnits="userSpaceOnUse">
+      <rect x="2" y="3" width="7" height="9" fill="#3E3128" opacity="0.28"/>
+    </pattern>
+    <pattern id="stripes" width="10" height="10" patternUnits="userSpaceOnUse">
+      <rect width="10" height="2" fill="#FFFFFF" opacity="0.18"/>
+    </pattern>
+  </defs>
+
+  <!-- Sky and sun -->
+  <rect width="1600" height="686" fill="url(#sky)"/>
+  <circle cx="1210" cy="430" r="260" fill="url(#sun)"/>
+  <circle cx="1210" cy="430" r="34" fill="#FFF6E4" opacity="0.95"/>
+
+  <!-- Far city, fading into the haze -->
+  <g fill="#D7BEA0" opacity="0.75">
+    <path d="M0 470h40v-38h26v24h30v-52h22v66h34v-30h28v-46h18v76h40v-22h36v-60h16v82h44v-34h30v-28h24v62h38v-44h20v-36h14v80h42v-26h34v-58h18v84h46v-40h28v52h30v-70h22v70h40v-30h36v-48h16v78h44v-36h30v54h36v-62h20v62h42v-40h34v-56h18v96h40v-28h34v40h38v-74h20v74h42v-36h30v-22h26v58h40v-44h24v44h40v-60h20v60h36v-30h30v-42h18v72h40v-24h34v40h34v-56h20v56h46V686H0z"/>
+  </g>
+  <rect y="380" width="1600" height="160" fill="url(#haze)"/>
+
+  <!-- Mid towers -->
+  <g>
+    <rect x="78" y="262" width="74" height="300" fill="url(#sand)"/>
+    <rect x="78" y="262" width="74" height="300" fill="url(#win)"/>
+    <rect x="168" y="318" width="58" height="250" fill="url(#glassL)"/>
+    <rect x="168" y="318" width="58" height="250" fill="url(#stripes)"/>
+    <rect x="236" y="214" width="64" height="360" fill="url(#sandDark)"/>
+    <rect x="236" y="214" width="64" height="360" fill="url(#winDark)"/>
+    <rect x="566" y="300" width="56" height="270" fill="url(#glassL)"/>
+    <rect x="566" y="300" width="56" height="270" fill="url(#stripes)"/>
+    <rect x="634" y="250" width="44" height="320" fill="url(#sand)"/>
+    <rect x="634" y="250" width="44" height="320" fill="url(#win)"/>
+    <rect x="890" y="236" width="62" height="330" fill="url(#sand)"/>
+    <rect x="890" y="236" width="62" height="330" fill="url(#win)"/>
+    <rect x="1290" y="286" width="70" height="290" fill="url(#glassL)"/>
+    <rect x="1290" y="286" width="70" height="290" fill="url(#stripes)"/>
+    <rect x="1372" y="330" width="52" height="250" fill="url(#sand)"/>
+    <rect x="1372" y="330" width="52" height="250" fill="url(#win)"/>
+    <rect x="1452" y="270" width="80" height="320" fill="url(#sandDark)"/>
+    <rect x="1452" y="270" width="80" height="320" fill="url(#winDark)"/>
+  </g>
+
+  <!-- Spire tower with a crown (left of centre) -->
+  <g>
+    <path d="M402 600V196l34-46 34 46v404z" fill="url(#sand)"/>
+    <path d="M402 600V196l34-46 34 46v404z" fill="url(#win)"/>
+    <path d="M436 150l-6-10 6-62 6 62z" fill="#8C6A50"/>
+    <rect x="414" y="214" width="44" height="18" fill="#7E5F48" opacity="0.6"/>
+    <circle cx="436" cy="190" r="9" fill="#F8E7C6" opacity="0.8"/>
+    <path d="M330 600V262l26-30h28v368z" fill="url(#sandDark)"/>
+    <path d="M330 600V262l26-30h28v368z" fill="url(#winDark)"/>
+    <path d="M478 600V286h48l16 22v292z" fill="url(#glassR)"/>
+    <path d="M478 600V286h48l16 22v292z" fill="url(#stripes)"/>
+  </g>
+
+  <!-- Twin towers with triangular tops (right) -->
+  <g>
+    <path d="M1008 610V214l64-96v492z" fill="url(#glassL)"/>
+    <path d="M1072 118l26 40v452h-26z" fill="#8E9EA6"/>
+    <path d="M1008 610V214l64-96v492z" fill="url(#stripes)"/>
+    <path d="M1072 118v-58" stroke="#8E9EA6" stroke-width="3"/>
+    <path d="M1150 610V170l58-88v528z" fill="url(#glassL)"/>
+    <path d="M1208 82l24 36v492h-24z" fill="#8E9EA6"/>
+    <path d="M1150 610V170l58-88v528z" fill="url(#stripes)"/>
+    <path d="M1208 82v-66" stroke="#8E9EA6" stroke-width="3"/>
+  </g>
+
+  <!-- Gate building (centre): a square arch on a podium -->
+  <g>
+    <path d="M676 640V452h210v188h-62V516h-86v124z" fill="url(#sandDark)"/>
+    <path d="M676 640V452h210v188h-62V516h-86v124z" fill="url(#winDark)"/>
+    <rect x="668" y="440" width="226" height="16" fill="#5D4636"/>
+    <rect x="738" y="516" width="86" height="12" fill="#3F3029" opacity="0.5"/>
+  </g>
+
+  <!-- Podium blocks, roads with light trails, palms -->
+  <g>
+    <rect x="0" y="560" width="1600" height="126" fill="url(#ground)"/>
+    <rect x="40" y="574" width="190" height="52" fill="#A48264"/>
+    <rect x="40" y="574" width="190" height="52" fill="url(#win)"/>
+    <rect x="270" y="590" width="120" height="40" fill="#9A7A5E"/>
+    <rect x="920" y="584" width="150" height="46" fill="#A48264"/>
+    <rect x="920" y="584" width="150" height="46" fill="url(#win)"/>
+    <rect x="1250" y="592" width="210" height="40" fill="#9A7A5E"/>
+    <rect x="1250" y="592" width="210" height="40" fill="url(#win)"/>
+    <path d="M0 650C360 628 720 640 1060 626S1460 612 1600 620v14C1460 626 1260 640 1060 642S360 646 0 664z" fill="#5E4A3C"/>
+    <path d="M0 655C360 634 720 645 1060 632S1460 618 1600 626" fill="none" stroke="#FFD89A" stroke-width="2" opacity="0.8" stroke-dasharray="26 14"/>
+    <path d="M0 660C360 640 720 650 1060 638S1460 624 1600 631" fill="none" stroke="#F49B6A" stroke-width="2" opacity="0.7" stroke-dasharray="18 22"/>
+    <g fill="#5F6F4E">
+      <circle cx="560" cy="612" r="12"/><circle cx="590" cy="616" r="10"/><circle cx="618" cy="610" r="12"/>
+      <circle cx="1110" cy="606" r="12"/><circle cx="1138" cy="610" r="10"/><circle cx="1166" cy="604" r="12"/>
+      <circle cx="244" cy="640" r="10"/><circle cx="1500" cy="640" r="11"/>
+    </g>
+  </g>
+
+  <!-- Morning light across the scene -->
+  <rect width="1600" height="686" fill="url(#sun)" opacity="0.12"/>
+</svg>

@@ -20,7 +20,7 @@ const { CONTENT_LIMITS, safeHref, validateContent } = await import('../src/pipel
 const { SLOT_RULES } = await import('../src/pipeline/sponsors.js');
 const { validateEvents } = await import('../src/pipeline/events.js');
 const { publishContent } = await import('../src/pipeline/publish.js');
-const { ADVERTISE_PLACEMENTS, ADVERTISE_PLACEMENT_LABELS, ADVERTISING_TIERS, DTO_FIELDS, ENVELOPE_FIELDS, PAGE_SLUGS, SPONSOR_SLOTS } = await import('../src/contracts/models.js');
+const { ADVERTISE_PLACEMENTS, ADVERTISE_PLACEMENT_LABELS, ADVERTISING_TIERS, DTO_FIELDS, HERO_BUTTON_TARGETS, HERO_STYLES, ENVELOPE_FIELDS, PAGE_SLUGS, SPONSOR_SLOTS } = await import('../src/contracts/models.js');
 const studio = await import('../../studio/schemaTypes/rules.js');
 
 const NOW = new Date('2026-10-07T06:00:00Z');
@@ -381,6 +381,8 @@ test('the Studio enforces the same content limits as the backend', () => {
   assert.deepEqual(studio.TIER_LIMITS, CONTENT_LIMITS.tiers);
   assert.deepEqual(studio.PAGE_LIMITS, CONTENT_LIMITS.pages);
   assert.deepEqual(studio.HERO_LIMITS, CONTENT_LIMITS.hero);
+  assert.deepEqual(studio.HERO_STYLES.map((s) => s.value), HERO_STYLES);
+  assert.deepEqual(Object.fromEntries(Object.entries(studio.HERO_BUTTON_TARGETS).map(([k, v]) => [k, v.page])), HERO_BUTTON_TARGETS);
   assert.deepEqual(studio.PLACEMENT_TYPES, ADVERTISE_PLACEMENTS);
   assert.deepEqual(studio.PLACEMENT_LABELS, ADVERTISE_PLACEMENT_LABELS);
   assert.deepEqual(studio.PAGE_SLUGS, PAGE_SLUGS);
@@ -527,7 +529,17 @@ test('the home page hero banner comes from Sanity and is checked before it is pu
   assert.equal(hero.image, 'https://cdn.sanity.io/images/p/d/abc-1600x1000.jpg');
   const ok = validateContent({ hero });
   assert.deepEqual(ok.errors, []);
-  assert.deepEqual(ok.content.hero, { eyebrow: doc.eyebrow, title: doc.title, highlight: 'Gulf real estate', subtitle: doc.subtitle, image: hero.image, imageAlt: 'Dubai Marina at dusk' });
+  // Published before styles existed: no style, so it shows as Minimal, with no button.
+  assert.deepEqual(ok.content.hero, {
+    eyebrow: doc.eyebrow, title: doc.title, highlight: 'Gulf real estate', subtitle: doc.subtitle, image: hero.image, imageAlt: 'Dubai Marina at dusk',
+    style: 'minimal', buttonLabel: null, buttonHref: null
+  });
+  // Style and button come through from Sanity; the button opens a known site page only.
+  const styled = toHero({ ...doc, style: 'classic', buttonLabel: 'Watch the videos', buttonTarget: 'videos' }, []);
+  const out = validateContent({ hero: styled }).content.hero;
+  assert.equal(out.style, 'classic');
+  assert.equal(out.buttonLabel, 'Watch the videos');
+  assert.equal(out.buttonHref, 'Videos.dc.html');
   assert.equal(validateContent({}).content.hero, null, 'none published: null, and the page keeps its own banner');
   // Refused, so the previous content.json stays live.
   const refused = (extra) => validateContent({ hero: { ...hero, ...extra } }).errors;
@@ -535,6 +547,11 @@ test('the home page hero banner comes from Sanity and is checked before it is pu
   assert.ok(refused({ imageAlt: undefined }).some((e) => /imageAlt/.test(e)), 'an image needs a description');
   assert.ok(refused({ title: 'x'.repeat(81) }).length, 'headline length');
   assert.ok(refused({ image: 'http://example.com/a.jpg' }).length, 'https images only');
+  assert.ok(refused({ style: 'neon' }).some((e) => /style/.test(e)), 'known styles only');
+  assert.ok(refused({ buttonLabel: 'Go', buttonTarget: 'https://evil.example' }).some((e) => /buttonTarget/.test(e)), 'the button opens a listed site page only');
+  assert.ok(refused({ buttonLabel: 'Read the news' }).some((e) => /buttonLabel/.test(e)), 'button text needs a page');
+  assert.ok(refused({ buttonTarget: 'news' }).some((e) => /buttonLabel/.test(e)), 'a page needs button text');
+  assert.ok(refused({ buttonLabel: 'x'.repeat(31), buttonTarget: 'news' }).some((e) => /buttonLabel/.test(e)), 'button text length');
   const big = []; toHero({ ...doc, image: { ...doc.image, size: 2 * 1024 * 1024 } }, big);
   assert.match(big[0], /limit is 1536 KB/);
   const svg = []; toHero({ ...doc, image: { ...doc.image, mimeType: 'image/svg+xml' } }, svg);

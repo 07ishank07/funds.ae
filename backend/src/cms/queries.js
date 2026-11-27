@@ -24,7 +24,7 @@ export const CONTENT_QUERY = `{
     slug, title, intro, updatedAt, body
   },
   "hero": *[_id == "homeHero"][0] {
-    eyebrow, title, highlight, subtitle, imageAlt, "image": image.asset->{url, mimeType, size}
+    eyebrow, title, highlight, subtitle, imageAlt, style, buttonLabel, buttonTarget, "image": image.asset->{url, mimeType, size}
   }
 }`;
 

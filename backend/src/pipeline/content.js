@@ -15,7 +15,7 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { CONFIG_DIR, readJson } from '../config.js';
 import { log } from '../lib/logger.js';
-import { ADVERTISE_PLACEMENTS, PAGE_BLOCK_TYPES, PAGE_LIST_TYPES, PAGE_SLUGS, RETIRED_ADVERTISING_TIERS } from '../contracts/models.js';
+import { ADVERTISE_PLACEMENTS, HERO_BUTTON_TARGETS, HERO_STYLES, PAGE_BLOCK_TYPES, PAGE_LIST_TYPES, PAGE_SLUGS, RETIRED_ADVERTISING_TIERS } from '../contracts/models.js';
 import { toAdvertiseTierDto, toHeroDto, toPageDto, toSocialHighlightDto } from '../contracts/serializers.js';
 import { EMAIL_RE, cleanInline, cleanText, rules, validate } from '../validation/validate.js';
 import { isSafePublicUrl } from '../lib/http.js';
@@ -26,7 +26,7 @@ export const CONTENT_LIMITS = {
   highlights: { maxItems: 5, accountName: [2, 40], handle: [2, 16], text: [10, 140], initials: [1, 3] },
   tiers: { maxItems: 4, name: [2, 40], badge: [2, 20], price: [2, 30], priceNote: [2, 40], duration: [2, 40], features: 8, feature: [2, 120], ctaLabel: [2, 30], placementDetail: [2, 120] },
   pages: { title: [2, 80], intro: [0, 400], blocks: 120, blockText: 2000 },
-  hero: { eyebrow: [2, 60], title: [8, 80], highlight: [0, 30], subtitle: [0, 240], imageAlt: [0, 140], imageMaxBytes: 1572864 }
+  hero: { eyebrow: [2, 60], title: [8, 80], highlight: [0, 30], subtitle: [0, 240], imageAlt: [0, 140], buttonLabel: [2, 30], imageMaxBytes: 1572864 }
 };
 
 const HEX = /^#[0-9a-f]{6}$/i;
@@ -182,7 +182,8 @@ const PAGE_SCHEMA = {
   }
 };
 
-// The home page hero banner. The highlighted word (shown in gold) must appear in the headline; an image needs a description.
+// The hero banner. The highlighted word must appear in the headline; an image needs a description; the button
+// (Minimal style) needs both its text and the site page it opens, chosen from HERO_BUTTON_TARGETS.
 const HERO_SCHEMA = {
   fields: {
     eyebrow: text({ min: L.hero.eyebrow[0], max: L.hero.eyebrow[1] }),
@@ -190,11 +191,15 @@ const HERO_SCHEMA = {
     highlight: text({ min: 1, max: L.hero.highlight[1], required: false }),
     subtitle: text({ min: 1, max: L.hero.subtitle[1], required: false }),
     image: httpsUrl({ required: false }),
-    imageAlt: text({ min: 1, max: L.hero.imageAlt[1], required: false })
+    imageAlt: text({ min: 1, max: L.hero.imageAlt[1], required: false }),
+    style: enumOf(HERO_STYLES, { required: false }),
+    buttonLabel: text({ min: L.hero.buttonLabel[0], max: L.hero.buttonLabel[1], required: false }),
+    buttonTarget: enumOf(Object.keys(HERO_BUTTON_TARGETS), { required: false })
   },
   check: (v) => {
     if (v.highlight && !v.title.includes(v.highlight)) return { highlight: 'must be a word or phrase from the headline.' };
     if (v.image && !v.imageAlt) return { imageAlt: 'is required with an image (describe it for people who cannot see it).' };
+    if (Boolean(v.buttonLabel) !== Boolean(v.buttonTarget)) return { buttonLabel: 'and the page the button opens go together (set both, or neither).' };
     return null;
   }
 };

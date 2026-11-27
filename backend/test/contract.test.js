@@ -10,7 +10,7 @@ import { mkdtempSync, readFileSync, readdirSync, existsSync, rmSync } from 'node
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { ADVERTISING_TIERS, DB_MODELS, DTO_FIELDS, EMPLOYMENT_TYPES, ENVELOPE_FIELDS, SPONSOR_SLOTS, SUBMISSION_KINDS } from '../src/contracts/models.js';
+import { ADVERTISING_TIERS, DB_MODELS, DTO_FIELDS, EMPLOYMENT_TYPES, ENVELOPE_FIELDS, HERO_BUTTON_TARGETS, SPONSOR_SLOTS, SUBMISSION_KINDS } from '../src/contracts/models.js';
 import { JOB_FORM_OPTIONS, SUBMISSION_SCHEMAS } from '../src/validation/submissions.js';
 
 const backend = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -203,21 +203,31 @@ test('every page but the hero pages shows the same Elite Founding Sponsor banner
   const home = read('this.html');
   // Home: a hero banner (headline and an original illustration, no form or links) in place of the Elite Founding Sponsor banner.
   assert.ok(!home.includes('fx-founding') && !home.includes('Your firm here'), 'no Elite Founding Sponsor banner on the home page');
-  for (const s of ['<h1 id="fx-hero-title" class="fx-hero-title">Know where the <span>capital</span> is moving.</h1>', '<img src="img/hero-skyline.svg" alt="',
+  // Built-in hero: the Minimal style (headline, one button to the news page, a wide original illustration).
+  const MINIMAL = ['>The future of capital</p>', 'class="fx-hero-title">Capital. Markets. Opportunity.</h',
+    '<a class="fx-hero-btn" href="News.dc.html"><span>Explore the latest news</span>', '<img src="img/hero-skyline-warm.svg" alt="'];
+  for (const s of [...MINIMAL, '<h1 id="fx-hero-title"', "hero.className = 'fx-hero fx-hero--minimal';",
     "(document.querySelector('.fx-hero') || mainColumns).before(bar)", "heroStyle.href = 'hero-banner.css';"]) {
     assert.ok(home.includes(s), `hero: ${s}`);
   }
-  assert.ok(!home.includes('fx-hero-form') && !home.includes('fx-hero-links'), 'the hero has no form or links');
-  assert.ok(existsSync(path.join(repo, 'frontend_demo', 'img', 'hero-skyline.svg')), 'the hero illustration is in the repository');
+  assert.ok(!home.includes('fx-hero-form') && !home.includes('fx-hero-links'), 'the hero has no form or link list');
+  for (const art of ['hero-skyline.svg', 'hero-skyline-warm.svg']) assert.ok(existsSync(path.join(repo, 'frontend_demo', 'img', art)), `${art} is in the repository`);
   // The other hero pages: the same banner right under the header bar, its headline an h2 under the page's own h1.
   for (const file of HERO_PAGES.filter((f) => f !== 'this.html')) {
     const html = read(file);
-    const hero = html.slice(html.indexOf('<section class="fx-hero"'), html.indexOf('</section>', html.indexOf('<section class="fx-hero"')));
-    assert.ok(hero.includes('data-fundsae-slot="home-hero"') && html.includes('<link rel="stylesheet" href="hero-banner.css">'), `${file}: hero slot and styles`);
-    assert.ok(hero.includes('<h2 id="fx-hero-title" class="fx-hero-title">Know where the <span>capital</span> is moving.</h2>') && hero.includes('<img src="img/hero-skyline.svg"'), `${file}: hero headline and art`);
-    assert.ok(html.indexOf('</nav>', html.indexOf('<nav class="fx-catbar"')) < html.indexOf('<section class="fx-hero"') && html.indexOf('<section class="fx-hero"') < html.indexOf('<h1'), `${file}: hero sits between the header bar and the page`);
+    const hero = html.slice(html.indexOf('<section class="fx-hero'), html.indexOf('</section>', html.indexOf('<section class="fx-hero')));
+    assert.ok(hero.startsWith('<section class="fx-hero fx-hero--minimal"') && hero.includes('data-fundsae-slot="home-hero"') && html.includes('<link rel="stylesheet" href="hero-banner.css">'), `${file}: minimal hero slot and styles`);
+    for (const s of MINIMAL) assert.ok(hero.includes(s), `${file}: hero ${s}`);
+    assert.ok(hero.includes('<h2 id="fx-hero-title"'), `${file}: hero headline is an h2`);
+    assert.ok(html.indexOf('</nav>', html.indexOf('<nav class="fx-catbar"')) < html.indexOf('<section class="fx-hero') && html.indexOf('<section class="fx-hero') < html.indexOf('<h1'), `${file}: hero sits between the header bar and the page`);
   }
-  assert.ok(readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8').includes("box.querySelector('.fx-hero-title')"), 'connector fills the h1 or h2 headline');
+  // The connector switches styles and only links the button to a known site page.
+  const heroScript = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
+  assert.ok(heroScript.includes("box.querySelector('.fx-hero-title')"), 'connector fills the h1 or h2 headline');
+  assert.ok(heroScript.includes("box.classList.toggle('fx-hero--minimal', style === 'minimal')"), 'connector applies the banner style');
+  const heroPages = JSON.parse(heroScript.match(/var HERO_PAGES = (\[[^\]]+\])/)[1].replace(/'/g, '"'));
+  assert.deepEqual(heroPages, Object.values(HERO_BUTTON_TARGETS), 'connector button pages = HERO_BUTTON_TARGETS');
+  for (const p of heroPages) assert.ok(existsSync(path.join(repo, 'frontend_demo', p)), `${p} exists`);
   // Home news tabs: the page script and the connector agree on the names; Global Stories is the world category.
   const connector = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
   assert.ok(home.includes("const REGION_NAMES = ['News', 'Global'];") && home.includes("Global: 'Global Stories'"), 'home tabs are UAE Stories and Global Stories');

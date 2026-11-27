@@ -83,7 +83,20 @@ export const PAGE_SLUGS = ['about', 'privacy', 'terms'];
 export const PAGE_LIMITS = { title: [2, 80], intro: [0, 400], blocks: 120, blockText: 2000 };
 
 /** The home page hero banner (equals CONTENT_LIMITS.hero in backend/src/pipeline/content.js). */
-export const HERO_LIMITS = { eyebrow: [2, 60], title: [8, 80], highlight: [0, 30], subtitle: [0, 240], imageAlt: [0, 140], imageMaxBytes: 1572864 };
+// Hero banner styles and the site pages its button may open (Minimal style). Must equal HERO_STYLES and
+// HERO_BUTTON_TARGETS in backend/src/contracts/models.js (test/cms.test.js checks).
+export const HERO_STYLES = [
+  {value: 'minimal', title: 'Minimal (light, with a wide photo under the text)'},
+  {value: 'classic', title: 'Classic (teal, with the picture on the right)'},
+]
+export const HERO_BUTTON_TARGETS = {
+  news: {page: 'News.dc.html', title: 'Real estate news'},
+  videos: {page: 'Videos.dc.html', title: 'Videos & Podcasts'},
+  events: {page: 'Events.dc.html', title: 'Events and Expos'},
+  careers: {page: 'Careers.dc.html', title: 'Careers'},
+  partner: {page: 'PartnerWithUs.dc.html', title: 'Partner with us'},
+}
+export const HERO_LIMITS = { eyebrow: [2, 60], title: [8, 80], highlight: [0, 30], subtitle: [0, 240], imageAlt: [0, 140], buttonLabel: [2, 30], imageMaxBytes: 1572864 };
 
 export const HEX_COLOR = /^#[0-9A-Fa-f]{6}$/;
 export const ID_PATTERN = /^[a-z0-9][a-z0-9-]{1,60}$/;

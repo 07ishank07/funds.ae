@@ -5,7 +5,7 @@
 // Rule: every DTO key in models.js DTO_FIELDS is always present; optional
 // values are null, never "".
 
-import { ADVERTISE_PLACEMENT_LABELS } from './models.js';
+import { ADVERTISE_PLACEMENT_LABELS, HERO_BUTTON_TARGETS, HERO_STYLES } from './models.js';
 import {
   NEWS_GEOGRAPHIES, NEWS_GEOGRAPHY_LABELS, NEWS_TRANSACTION_LABELS, NEWS_TRANSACTION_TYPES, PUBLISHABLE_LICENSE_STATUSES
 } from '../news/rules.js';
@@ -208,15 +208,19 @@ export function toAdvertiseTierDto(tier) {
   };
 }
 
-/** The home page hero banner (content.json "hero"). */
+/** The hero banner (content.json "hero"). No style means the first (Minimal); the button links only to a known site page. */
 export function toHeroDto(hero) {
+  const href = Object.hasOwn(HERO_BUTTON_TARGETS, hero.buttonTarget || '') ? HERO_BUTTON_TARGETS[hero.buttonTarget] : null;
   return {
     eyebrow: hero.eyebrow,
     title: hero.title,
     highlight: nullable(hero.highlight),
     subtitle: nullable(hero.subtitle),
     image: nullable(hero.image),
-    imageAlt: nullable(hero.imageAlt)
+    imageAlt: nullable(hero.imageAlt),
+    style: HERO_STYLES.includes(hero.style) ? hero.style : HERO_STYLES[0],
+    buttonLabel: href ? nullable(hero.buttonLabel) : null,
+    buttonHref: nullable(hero.buttonLabel) ? href : null
   };
 }
 

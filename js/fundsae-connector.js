@@ -1037,9 +1037,32 @@
 
   /** Home page hero banner (content.json "hero", the Studio's "Home page hero banner"). With none published the
    *  page keeps its built-in banner. The gold word is a span; everything goes in with textContent. */
+  // The pages the hero's button may open (HERO_BUTTON_TARGETS in backend/src/contracts/models.js).
+  var HERO_PAGES = ['News.dc.html', 'Videos.dc.html', 'Events.dc.html', 'Careers.dc.html', 'PartnerWithUs.dc.html'];
+  var HERO_ART = { minimal: 'img/hero-skyline-warm.svg', classic: 'img/hero-skyline.svg' };
+  var HERO_ART_ALT = {
+    minimal: 'A financial district skyline at sunrise, with glass and sandstone towers',
+    classic: 'A stylised UAE skyline with a rising line of capital'
+  };
+
   function renderHero(hero) {
     if (!hero || typeof hero !== 'object' || typeof hero.title !== 'string' || !hero.title) return;
+    var style = hero.style === 'classic' ? 'classic' : 'minimal';
     slots('home-hero').forEach(function (box) {
+      // Banner style (Sanity "Banner style"): Minimal is the pages' built-in look; Classic is the teal banner.
+      box.classList.toggle('fx-hero--minimal', style === 'minimal');
+      var btn = box.querySelector('.fx-hero-btn');
+      if (btn) {
+        var label = btn.querySelector('span');
+        var href = typeof hero.buttonHref === 'string' && HERO_PAGES.indexOf(hero.buttonHref) !== -1 ? hero.buttonHref : null;
+        if (style === 'minimal' && href && label && typeof hero.buttonLabel === 'string' && hero.buttonLabel) {
+          label.textContent = hero.buttonLabel;
+          btn.setAttribute('href', href);
+          btn.hidden = false;
+        } else {
+          btn.hidden = true;
+        }
+      }
       var eyebrow = box.querySelector('.fx-hero-eyebrow');
       if (eyebrow && typeof hero.eyebrow === 'string' && hero.eyebrow) eyebrow.textContent = hero.eyebrow;
       var title = box.querySelector('.fx-hero-title'); // h1 on the home page, h2 on the other pages
@@ -1068,6 +1091,10 @@
         img.alt = typeof hero.imageAlt === 'string' ? hero.imageAlt : '';
         img.removeAttribute('width');
         img.removeAttribute('height');
+      } else if (img) {
+        // No photo uploaded: the built-in illustration that suits the style.
+        img.setAttribute('src', HERO_ART[style]);
+        img.alt = HERO_ART_ALT[style];
       }
     });
   }

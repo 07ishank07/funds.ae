@@ -24,6 +24,11 @@
     'Careers': 'الوظائف',
     'Partner with us': 'شارك معنا',
     'Videos & Podcasts': 'الفيديو والبودكاست',
+    // Hero banner (Minimal style, built-in copy)
+    'The future of capital': 'مستقبل رأس المال',
+    'Capital. Markets. Opportunity.': 'رأس المال. الأسواق. الفرص.',
+    'Your window into the global investment landscape.': 'نافذتك على مشهد الاستثمار العالمي.',
+    'Explore the latest news': 'استكشف آخر الأخبار',
     'Sponsor': 'الرعاة',
     'About': 'عن الموقع',
     'Contact us': 'اتصل بنا',

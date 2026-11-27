@@ -145,7 +145,10 @@ export function toPages(docs) {
 /** The home page hero (Sanity singleton "homeHero"), or undefined when none is published. Image: PNG, JPG or WebP up to 1.5 MB. */
 export function toHero(doc, errors = []) {
   if (!doc || !doc.title) return undefined;
-  const hero = compact({ eyebrow: doc.eyebrow, title: doc.title, highlight: doc.highlight, subtitle: doc.subtitle, imageAlt: doc.imageAlt });
+  const hero = compact({
+    eyebrow: doc.eyebrow, title: doc.title, highlight: doc.highlight, subtitle: doc.subtitle, imageAlt: doc.imageAlt,
+    style: doc.style, buttonLabel: doc.buttonLabel, buttonTarget: doc.buttonTarget
+  });
   const img = doc.image;
   if (img?.url) {
     if (!IMAGE_TYPES.includes(img.mimeType)) errors.push(`Sanity home hero: the image must be PNG, JPG or WebP (it is ${img.mimeType || 'unknown'}).`);
