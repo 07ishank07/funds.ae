@@ -1180,7 +1180,12 @@ document.addEventListener('DOMContentLoaded', async function() {
           const otherFundingHeading = document.createElement('h2');
           otherFundingHeading.textContent = 'Business Grants & Funding Resources';
           otherFundingHeading.style.cssText = 'margin: 32px 0 0; padding-top: 24px; border-top: 1px solid #DAE5E4; font-size: 22px; font-weight: 600; color: #0E3A43';
-          news.appendChild(otherFundingHeading);
+          // Business Grants & Funding Resources is its own block after the news column: on desktop it spans columns
+          // 1 and 2 (column 3 runs down beside it); on phones it follows the news, as before.
+          const fundZone = document.createElement('section');
+          fundZone.className = 'fx-fundzone';
+          fundZone.setAttribute('aria-label', 'Business Grants & Funding Resources');
+          fundZone.appendChild(otherFundingHeading);
           // Funding by type: the Grants & Funding page's twelve type tiles (same ids, titles and counts), each opening
           // that page filtered to its type. Text is set with textContent; the icons are fixed line drawings.
           const FUND_TYPES = [
@@ -1214,7 +1219,8 @@ document.addEventListener('DOMContentLoaded', async function() {
             tile.appendChild(text);
             fundTypes.appendChild(tile);
           });
-          news.appendChild(fundTypes);
+          fundZone.appendChild(fundTypes);
+          news.after(fundZone);
         }
         if (window.__equalizeFundsColumns) requestAnimationFrame(window.__equalizeFundsColumns);
       }
@@ -1602,7 +1608,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         .news a[data-more-news-region] { font-size: 13px !important; letter-spacing: 0.12em; text-transform: uppercase; }
 
         /* News-column section blocks: ruled label, then a flat grid */
-        .news > h2 {
+        .news > h2, .fx-fundzone > h2 {
           margin-top: 44px !important; padding-top: 12px !important; border-top: 2px solid var(--fx-ink) !important;
           font-size: 13px !important; font-weight: 600 !important; letter-spacing: 0.14em; text-transform: uppercase;
         }
@@ -1617,7 +1623,15 @@ document.addEventListener('DOMContentLoaded', async function() {
         @media (max-width: 480px) { .news > section[aria-label="Residential Estate News"], .news > section[aria-label="Commercial Real Estate News"], .news > section[aria-label="Infrastructure Real Estate News"], .news > section[aria-label="Special & Alternative Real Estate News"] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
         /* Business Grants & Funding Resources: funding-type tiles (icon, title, short description, programme count), two across;
            each opens the Grants & Funding page filtered to that type. */
-        .fx-fundtypes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+        .fx-fundtypes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+        @media (min-width: 981px) {
+          main.wrap > .news { grid-column: 1; grid-row: 1; }
+          main.wrap > aside { grid-column: 2; grid-row: 1; }
+          main.wrap > .fx-fundzone { grid-column: 1 / 3; grid-row: 2; padding-bottom: 8px; }
+          main.wrap > :last-child:not(.fx-fundzone) { grid-column: 3; grid-row: 1 / span 2; }
+        }
+        @media (min-width: 981px) and (max-width: 1180px) { .fx-fundtypes { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+        @media (max-width: 980px) { .fx-fundtypes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
         .fx-fundtype { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border: 1px solid #DAE5E4; border-radius: 12px; background: #FFFFFF; color: #0E3A43; text-decoration: none; }
         .fx-fundtype:hover { border-color: #4FB3B8; }
         .fx-fundtype:focus-visible { outline: 2px solid #1F6A6E; outline-offset: 2px; }

@@ -280,6 +280,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.equal(pageTypes.length, 12, 'twelve types on the Grants & Funding page');
   assert.deepEqual(homeTypes, pageTypes, 'home funding tiles match the Grants & Funding page types and counts');
   assert.ok(home.includes("tile.href = 'GrantsFunding.dc.html?category=' + id;") && !home.includes('otherFundingBox') && !home.includes("'Startup Visa Guide'"), 'tiles link to the filtered page; old links gone');
+  assert.ok(home.includes('news.after(fundZone);') && home.includes('main.wrap > .fx-fundzone { grid-column: 1 / 3; grid-row: 2;') && home.includes('.fx-fundtypes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));'), 'the funding tiles span columns 1 and 2, four across');
   assert.ok(readFileSync(path.join(repo, 'js', 'fundsae-header.js'), 'utf8').includes("['Grants & Funding', 'GrantsFunding.dc.html']"), 'mobile menu links to Grants & Funding');
   for (const tpl of ['story.html', 'job.html']) {
     assert.ok(readFileSync(path.join(backend, 'templates', tpl), 'utf8').includes('<a href="../GrantsFunding.dc.html">Grants &amp; Funding</a>'), `${tpl} header links to Grants & Funding`);
