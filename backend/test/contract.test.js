@@ -207,6 +207,12 @@ test('Real Estate News: one landing page with three parallel columns, opened by 
   assert.ok(page.includes('role="status" aria-live="polite" data-fundsae-news-more-status'), 'Load more announces its result');
   assert.ok(!page.includes('News.dc.html') && !page.includes('View all real estate news'), 'no View all link to the old feed');
   assert.ok(page.includes('src="../js/fundsae-connector.js"'), 'page loads the connector');
+  // Each column has its own banner photo behind the lead story: licensed, credited and light enough for the web.
+  for (const [col, file] of [['residential', 're-residential.jpg'], ['commercial', 're-commercial.jpg'], ['alternative', 're-alternative.jpg']]) {
+    assert.ok(page.includes(`url('img/${file}') center / cover no-repeat`), `${col} column shows ${file}`);
+    assert.ok(statSync(path.join(repo, 'frontend_demo', 'img', file)).size < 400 * 1024, `${file} under 400 KB`);
+    assert.ok(readFileSync(path.join(repo, 'frontend_demo', 'img', 'CREDITS.md'), 'utf8').includes(`| \`${file}\` |`), `${file} is credited`);
+  }
   assert.equal((page.match(/<article class="ren-(lead|item)" data-ren-demo>/g) || []).length, 48, 'sixteen built-in demo headlines per column (eight, then Load more)');
   // Home: every real estate box's View All opens this page at its column; none is limited to one category any more.
   const home = readFileSync(path.join(repo, 'frontend_demo', 'this.html'), 'utf8');

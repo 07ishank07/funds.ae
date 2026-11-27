@@ -46,9 +46,11 @@
   .ren-col { scroll-margin-top: 84px; }
   .ren-col > h2 { padding-top: 10px; border-top: 2px solid var(--ink); font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
   .ren-stories { display: flex; flex-direction: column; margin-top: 14px; }
-  .ren-visual { position: relative; display: flex; align-items: flex-end; aspect-ratio: 16 / 9; padding: 12px; border-radius: 3px; overflow: hidden; background: linear-gradient(145deg, #0E3A43, #4FB3B8); text-decoration: none; }
-  #commercial .ren-visual { background: linear-gradient(145deg, #31556D, #8BA9C1); }
-  #alternative .ren-visual { background: linear-gradient(145deg, #5B4A2E, #C9A25E); }
+  /* Each column's banner photo (licensed Unsplash photos, credited in img/CREDITS.md) behind the lead story; a
+     publisher image, when its source allows images, is laid on top. The colour shows while the photo loads. */
+  .ren-visual { position: relative; display: flex; align-items: flex-end; aspect-ratio: 16 / 9; padding: 12px; border-radius: 3px; overflow: hidden; background: #0E3A43 url('img/re-residential.jpg') center / cover no-repeat; text-decoration: none; }
+  #commercial .ren-visual { background: #31556D url('img/re-commercial.jpg') center / cover no-repeat; }
+  #alternative .ren-visual { background: #3F5A3A url('img/re-alternative.jpg') center / cover no-repeat; }
   .ren-visual img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .ren-tag { position: relative; padding: 2px 8px; border-radius: 3px; background: rgba(255, 255, 255, 0.92); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); }
   .ren-lead { padding-bottom: 16px; border-bottom: 1px solid var(--line); }
