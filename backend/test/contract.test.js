@@ -173,6 +173,9 @@ test('home page: the Gulf Economy box sits directly above Spotlight and is fille
   const home = readFileSync(path.join(repo, 'frontend_demo', 'this.html'), 'utf8');
   assert.ok(home.includes("economyBox.setAttribute('aria-labelledby', 'gulf-economy-title');"), 'home builds the Gulf Economy box');
   assert.ok(home.includes('careersColumn.insertBefore(economyBox, platinumSection);'), 'Gulf Economy goes right before Spotlight');
+  // Top Tweets closes the third column, directly under Events and Expos.
+  assert.ok(home.includes(`const eventsForTweets = document.querySelector('[aria-labelledby="events-title"]');`) &&
+    home.includes("eventsForTweets.insertAdjacentElement('afterend', tweetsBox);"), 'Top Tweets sits under Events and Expos');
   // Headed as on imf.org: "Gulf Economy at a Glance", "<year> Projected Real GDP (% Change)", "<year> Projected Consumer Prices (% Change)".
   assert.ok(home.includes('<h2 id="gulf-economy-title">Gulf Economy at a Glance</h2>'), 'box title');
   assert.ok(home.includes('<th scope="col" data-econ-col="gdp">Projected Real GDP (% Change)</th>') &&

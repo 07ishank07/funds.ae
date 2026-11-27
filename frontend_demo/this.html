@@ -1320,14 +1320,21 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
         influencersBox.appendChild(makeViewAll());
       }
-      // Top Tweets closes the second column, directly under Thought Leaders and Influencers, with its View All link
-      // inside the card. Five tweets show (see .fx-tweets).
+      // Top Tweets closes the third column, directly under Events and Expos (the column's gap spaces it), with its
+      // View All link inside the card. Five tweets show (see .fx-tweets). Without the events box it stays in the second
+      // column, under Thought Leaders and Influencers.
       const tweetsBox = document.querySelector('#tweets-title') && document.querySelector('#tweets-title').closest('section');
       if (tweetsBox) {
-        tweetsBox.style.marginTop = '28px';
         tweetsBox.classList.add('fx-tweets');
-        const tweetsAnchor = influencersBox || sponsoredForVoices;
-        if (tweetsAnchor) tweetsAnchor.insertAdjacentElement('afterend', tweetsBox);
+        const eventsForTweets = document.querySelector('[aria-labelledby="events-title"]');
+        if (eventsForTweets) {
+          tweetsBox.style.marginTop = '0';
+          eventsForTweets.insertAdjacentElement('afterend', tweetsBox);
+        } else {
+          tweetsBox.style.marginTop = '28px';
+          const tweetsAnchor = influencersBox || sponsoredForVoices;
+          if (tweetsAnchor) tweetsAnchor.insertAdjacentElement('afterend', tweetsBox);
+        }
         tweetsBox.appendChild(makeViewAll());
       }
     }
@@ -1753,7 +1760,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         .fx-voices > a.fx-voice-lead:hover .fx-voice-img { filter: brightness(1.05); }
         main.wrap aside > section[aria-labelledby="uae-influencers-title"] > p { margin-top: 6px !important; }
 
-        /* Top Tweets (second column, bottom): social-feed list. Avatar, bold name and tweet text per row with hairline
+        /* Top Tweets (third column, bottom, under Events and Expos): social-feed list. Avatar, bold name and tweet text per row with hairline
            dividers; the first five show, View All opens the rest. */
         .fx-tweets > div { gap: 0 !important; margin-top: 8px !important; }
         .fx-tweets > div > a { align-items: flex-start !important; gap: 12px !important; padding: 12px 0; border-bottom: 1px solid var(--fx-line-2); }
