@@ -4,6 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Real Estate Capital News · Funds.ae</title>
+<script>
+  // Old one-category links (News.dc.html?section=<real estate box>) forward to the shared Real Estate News page,
+  // at that box's column; Infrastructure is part of Alternative. Without ?section= this page is the full feed.
+  (function () {
+    var COLUMN = { 'residential-real-estate': 'residential', 'commercial-real-estate': 'commercial', 'infrastructure': 'alternative', 'special-alternative-real-estate': 'alternative' };
+    var section = new URLSearchParams(window.location.search).get('section');
+    if (section && Object.prototype.hasOwnProperty.call(COLUMN, section)) window.location.replace('RealEstateNews.dc.html#' + COLUMN[section]);
+  })();
+</script>
 <meta name="description" content="Real estate investment and capital markets news: who is investing, in what, and where. Every story is checked by an editor and links to the original publisher.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

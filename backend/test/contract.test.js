@@ -581,6 +581,10 @@ test('the Real Estate Capital News page has its hooks, scripts and a bar link on
   const home = read('this.html');
   // The home boxes' View All links open the landing page (tested above); it links here, unfiltered.
   assert.ok(read('RealEstateNews.dc.html').includes('<a class="ren-all-link" href="News.dc.html">'), 'the landing page opens the full feed');
+  // Old one-category links (bookmarks, cached home pages) forward to the landing page at the matching column.
+  assert.ok(page.includes("var COLUMN = { 'residential-real-estate': 'residential', 'commercial-real-estate': 'commercial', 'infrastructure': 'alternative', 'special-alternative-real-estate': 'alternative' };") &&
+    page.includes("window.location.replace('RealEstateNews.dc.html#' + COLUMN[section])"), 'News.dc.html?section=<box> forwards to Real Estate News');
+  assert.ok(page.indexOf('window.location.replace') < page.indexOf('</head>'), 'the forward runs before the page draws');
   // Every real estate tile shows its source in small text; live tiles get the publisher's name.
   assert.ok(home.includes("source.className = 'fx-tile-source'"), 'real estate tiles carry a source line');
   assert.ok(readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8').includes("art.querySelector('.fx-tile-source')"), 'the connector fills the source line');
