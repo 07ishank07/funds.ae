@@ -57,7 +57,7 @@
 
   /* Pitch: the case for partnering, with the audience panel beside it */
   .pitch { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(280px, 1fr); gap: 32px; align-items: stretch; }
-  .pitch-copy { padding: 8px 0; }
+  .pitch-copy { display: flex; flex-direction: column; justify-content: center; padding: 8px 0; }
   .pitch h1 { margin-top: 14px; font-size: clamp(2.3rem, 5vw, 3.6rem); font-weight: 600; line-height: 1.04; letter-spacing: -0.03em; color: var(--ink); }
   .pitch h1 em { font-style: normal; color: var(--accent); }
   .audience { display: flex; flex-direction: column; padding: 28px; border-radius: 3px; background: var(--ink); color: #F1F5F4; background-image: radial-gradient(circle at 100% 0, rgba(79, 179, 184, 0.3), transparent 55%); }
@@ -66,11 +66,12 @@
   .audience ul { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
   .audience li { padding: 6px 12px; border: 1px solid rgba(241, 245, 244, 0.28); border-radius: 999px; font-size: 13px; line-height: 1.3; color: #F1F5F4; }
 
-  /* Benefits: six reasons, three across */
+  /* Benefits: six reasons, three across, each a check mark and a heading */
   .benefits { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin-top: 8px; }
-  .benefit { padding: 28px 28px 28px 0; border-bottom: 1px solid var(--line); }
+  .benefit { display: flex; align-items: center; gap: 12px; min-height: 76px; padding: 20px 28px 20px 0; border-bottom: 1px solid var(--line); }
+  .benefit::before { content: ''; flex: 0 0 22px; width: 22px; height: 22px; border-radius: 50%; background: var(--ink) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center / 13px no-repeat; }
   .benefit:not(:nth-child(3n + 1)) { padding-inline-start: 28px; border-inline-start: 1px solid var(--line); }
-  .benefit h3 { margin-top: 0; font-size: 19px; font-weight: 600; line-height: 1.3; color: var(--ink); }
+  .benefit h3 { margin-top: 0; font-size: 18px; font-weight: 600; line-height: 1.3; color: var(--ink); }
   .benefit p { margin-top: 8px; font-size: 15px; line-height: 1.55; color: var(--muted); }
 
   /* Packages: three equal cards; Gold is highlighted, Elite Exclusive is the dark premium card */
@@ -260,7 +261,6 @@
       </article>
       <article class="benefit">
         <h3>Clear and accountable</h3>
-        <p>Every paid placement is labelled as sponsored, and partners receive a monthly performance summary.</p>
       </article>
     </div>
   </section>
@@ -274,7 +274,6 @@
         <p class="eyebrow">Packages</p>
         <h2 id="packages-title">Choose your partnership</h2>
       </div>
-      <p>Ways to work with Funds.ae, each built around placements on our pages. Pricing shown is placeholder content.</p>
     </div>
     <div class="tiers" data-fundsae-slot="advertise-tiers">
       <div class="tier">
