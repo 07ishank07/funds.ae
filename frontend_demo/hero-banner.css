@@ -1,4 +1,4 @@
-/* Hero banner, under the header bar on the home, Videos & Podcasts, Partner with us, Careers and Events pages.
+/* Hero banner, under the header bar on the home page (no buttons in its markup; the button rules stay for later).
    Text, buttons, image and style are edited in Sanity ("Home page hero banner"); js/fundsae-connector.js fills every
    data-fundsae-slot="home-hero". One markup serves three styles:
      .fx-hero--photo    Photo (the default): the photo fills the banner, white text and two buttons on a darkened left side

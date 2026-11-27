@@ -1065,7 +1065,8 @@
     if (!hero || typeof hero !== 'object' || typeof hero.title !== 'string' || !hero.title) return;
     var style = hero.style === 'classic' || hero.style === 'minimal' ? hero.style : 'photo';
     slots('home-hero').forEach(function (box) {
-      // Banner style (Sanity "Banner style"): Photo is the pages' built-in look; Minimal is light; Classic is the teal banner.
+      // Banner style (Sanity "Banner style"): Photo is the built-in look; Minimal is light; Classic is the teal banner.
+      // The home page banner has no buttons in its markup, so heroButton finds none and shows nothing.
       box.classList.toggle('fx-hero--photo', style === 'photo');
       box.classList.toggle('fx-hero--minimal', style === 'minimal');
       var buttons = style !== 'classic';

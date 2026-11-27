@@ -1179,7 +1179,9 @@ document.addEventListener('DOMContentLoaded', async function() {
           }
           const grantsHeading = document.createElement('h2');
           grantsHeading.textContent = 'UAE Business Grants & Funding Resources';
-          grantsHeading.style.cssText = 'margin: 32px 0 0; padding-top: 24px; border-top: 1px solid #DAE5E4; font-size: 22px; font-weight: 600; color: #0E3A43';
+          // The header's "Grants & Funding" link (this.html#grants-funding) lands here; the sticky bar must not cover it.
+          grantsHeading.id = 'grants-funding';
+          grantsHeading.style.cssText = 'scroll-margin-top: 64px; margin: 32px 0 0; padding-top: 24px; border-top: 1px solid #DAE5E4; font-size: 22px; font-weight: 600; color: #0E3A43';
           news.appendChild(grantsHeading);
           const grantsBox = document.createElement('section');
           grantsBox.setAttribute('aria-label', 'UAE Business Grants and Funding news');
@@ -1226,6 +1228,14 @@ document.addEventListener('DOMContentLoaded', async function() {
             image.style.maxWidth = '150px';
           });
           news.appendChild(grantsBox);
+          // Arriving from another page's Grants & Funding link: this script builds the box after the browser's own jump to
+          // #grants-funding, and live stories above it load later still, so scroll once the page has loaded and again a
+          // moment after (unless the visitor has scrolled in between).
+          if (window.location.hash === '#grants-funding') {
+            const toGrants = () => { const target = document.getElementById('grants-funding'); if (target) target.scrollIntoView(); return window.scrollY; };
+            const settle = () => setTimeout(() => { const at = toGrants(); setTimeout(() => { if (Math.abs(window.scrollY - at) < 4) toGrants(); }, 900); }, 250);
+            if (document.readyState === 'complete') settle(); else window.addEventListener('load', settle, { once: true });
+          }
 
           const otherFundingHeading = document.createElement('h2');
           otherFundingHeading.textContent = 'Other Funding Resources';
@@ -1402,10 +1412,6 @@ document.addEventListener('DOMContentLoaded', async function() {
               <p class="fx-hero-eyebrow">The future of capital</p>
               <h1 id="fx-hero-title" class="fx-hero-title">Capital. Markets. Opportunity.</h1>
               <p class="fx-hero-sub">Daily intelligence on the deals, funds and investors shaping Dubai and the Gulf.</p>
-              <div class="fx-hero-acts">
-                <a class="fx-hero-btn" href="News.dc.html"><span>Explore the latest news</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
-                <a class="fx-hero-btn2" href="Videos.dc.html"><span>Watch the videos</span></a>
-              </div>
             </div>
             <div class="fx-hero-art"><img src="img/hero-dubai.jpg" alt="The Burj Khalifa and Downtown Dubai towers above Sheikh Zayed Road" width="1920" height="1309" decoding="async" fetchpriority="high"></div>
           </div>`;
@@ -1422,7 +1428,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Groups, split by thin rules: [label, filter ids] filters the news; [label, { href }] is a plain link.
         // No investor-type links: the bar is Real Estate Stories, then the site's own pages.
         const CATEGORY_GROUPS = [
-          [['Real Estate Stories', null]],
+          [['Real Estate Stories', null], ['Grants & Funding', { href: 'this.html#grants-funding' }]],
           [['Videos & Podcasts', { href: 'Videos.dc.html' }], ['Partner with us', { href: 'PartnerWithUs.dc.html' }], ['Careers', { href: 'Careers.dc.html' }], ['Events', { href: 'Events.dc.html' }]]
         ];
         const bar = document.createElement('nav');

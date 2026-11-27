@@ -24,6 +24,7 @@
     'Careers': 'الوظائف',
     'Partner with us': 'شارك معنا',
     'Videos & Podcasts': 'الفيديو والبودكاست',
+    'Grants & Funding': 'المنح والتمويل',
     // Hero banner (built-in copy)
     'Daily intelligence on the deals, funds and investors shaping Dubai and the Gulf.': 'معلومات يومية عن الصفقات والصناديق والمستثمرين الذين يشكّلون دبي والخليج.',
     'Watch the videos': 'شاهد الفيديوهات',
@@ -180,7 +181,7 @@
     'One partner only': 'شريك واحد فقط',
     'Become an Elite Exclusive Partner': 'كن الشريك الحصري المميز',
     'The key sponsor and partner for Funds.ae.': 'الراعي والشريك الرئيسي لـ Funds.ae.',
-    'Your firm in the Elite Founding Sponsor banner, under the masthead on the News, About, Contact and policy pages': 'شركتك في شريط الراعي المؤسس المميز أسفل الترويسة في صفحات الأخبار ومن نحن واتصل بنا والسياسات',
+    'Your firm in the Elite Founding Sponsor banner, under the masthead on every Funds.ae page except the home page and Careers': 'شركتك في شريط الراعي المؤسس المميز أسفل الترويسة في كل صفحات Funds.ae عدا الصفحة الرئيسية والوظائف',
     'The Exclusive Elite Sponsor box, with your image, at the top of the Careers sidebar': 'مربع الراعي الحصري المميز مع صورتك أعلى الشريط الجانبي في صفحة الوظائف',
     'Everything in the Elite Partner package': 'كل ما في باقة شريك النخبة',
     'Exclusive Elite Sponsor': 'الراعي الحصري المميز',

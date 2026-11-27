@@ -1,14 +1,14 @@
 // The hero banner: one fixed document ("homeHero"). Published as backend/config/content.json ->
-// api/v1/content.json (hero), which js/fundsae-connector.js puts into the banner under the header bar on the home,
-// Videos & Podcasts, Partner with us, Careers and Events pages. With nothing published the pages keep their built-in
-// banner. Limits: HERO_LIMITS in rules.js; styles and button pages: HERO_STYLES and HERO_BUTTON_TARGETS.
+// api/v1/content.json (hero), which js/fundsae-connector.js puts into the banner under the header bar on the home
+// page. With nothing published the page keeps its built-in banner. The banner has no buttons: the button fields are
+// hidden (their values are kept, so buttons can come back without a data change).
+// Limits: HERO_LIMITS in rules.js; styles and button pages: HERO_STYLES and HERO_BUTTON_TARGETS.
 
 import {defineField, defineType} from 'sanity'
 import {HERO_BUTTON_TARGETS, HERO_LIMITS, HERO_STYLES, IMAGE_TYPES} from './rules.js'
 import {textRule} from './validators.js'
 
 const API_VERSION = '2025-02-19'
-const isClassic = (document) => document?.style === 'classic'
 
 /** PNG, JPG or WebP up to HERO_LIMITS.imageMaxBytes (a wide banner image is larger than a sponsor logo). */
 const heroImageRule = (rule) =>
@@ -31,7 +31,7 @@ export const homeHero = defineType({
       name: 'style',
       title: 'Banner style',
       type: 'string',
-      description: 'Applies on every page that shows the banner.',
+      description: 'The look of the home page banner.',
       options: {list: HERO_STYLES, layout: 'radio'},
       initialValue: HERO_STYLES[0].value,
       validation: (rule) => rule.required(),
@@ -73,8 +73,7 @@ export const homeHero = defineType({
       title: 'Button text',
       type: 'string',
       description: 'The main button (Photo and Minimal styles). Leave empty for no button.',
-      initialValue: 'Explore the latest news',
-      hidden: ({document}) => isClassic(document),
+      hidden: true, // the banner has no buttons (stored values are kept)
       validation: (rule) =>
         textRule(rule, HERO_LIMITS.buttonLabel, {required: false}).custom((value, {document}) =>
           !value || document?.buttonTarget ? true : 'Choose the page the button opens.',
@@ -85,8 +84,7 @@ export const homeHero = defineType({
       title: 'Button opens',
       type: 'string',
       options: {list: Object.entries(HERO_BUTTON_TARGETS).map(([value, t]) => ({value, title: t.title}))},
-      initialValue: 'news',
-      hidden: ({document}) => isClassic(document) || !document?.buttonLabel,
+      hidden: true,
       validation: (rule) => rule.custom((value, {document}) => (value || !document?.buttonLabel ? true : 'Choose the page the button opens.')),
     }),
     defineField({
@@ -94,8 +92,7 @@ export const homeHero = defineType({
       title: 'Second button text',
       type: 'string',
       description: 'An outlined button next to the main one (Photo and Minimal styles). Leave empty for none.',
-      initialValue: 'Watch the videos',
-      hidden: ({document}) => isClassic(document),
+      hidden: true, // the banner has no buttons (stored values are kept)
       validation: (rule) =>
         textRule(rule, HERO_LIMITS.button2Label, {required: false}).custom((value, {document}) =>
           !value || document?.button2Target ? true : 'Choose the page the second button opens.',
@@ -106,8 +103,7 @@ export const homeHero = defineType({
       title: 'Second button opens',
       type: 'string',
       options: {list: Object.entries(HERO_BUTTON_TARGETS).map(([value, t]) => ({value, title: t.title}))},
-      initialValue: 'videos',
-      hidden: ({document}) => isClassic(document) || !document?.button2Label,
+      hidden: true,
       validation: (rule) => rule.custom((value, {document}) => (value || !document?.button2Label ? true : 'Choose the page the second button opens.')),
     }),
     defineField({
