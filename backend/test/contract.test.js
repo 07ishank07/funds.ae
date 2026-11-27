@@ -321,7 +321,8 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   for (const p of heroPages) assert.ok(existsSync(path.join(repo, 'frontend_demo', p)), `${p} exists`);
   // Home news tabs: the page script and the connector agree on the names; Global Stories is the world category.
   const connector = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
-  assert.ok(home.includes("const REGION_NAMES = ['News', 'Global'];") && home.includes("Global: 'Global Stories'"), 'home tabs are UAE Stories and Global Stories');
+  assert.ok(home.includes("const REGION_NAMES = ['News', 'GCC', 'Global'];") && home.includes("const REGION_LABELS = { News: 'UAE Stories', GCC: 'GCC Stories', Global: 'International Stories' };"), 'home tabs are UAE, GCC and International Stories');
+  assert.ok(home.includes('data-more-news-region="GCC"') && home.includes("gccStories.forEach(([title, source]) => dummyStories.push(['GCC', title, source]));"), 'GCC tab has its View All and demo stories');
   assert.ok(home.includes("News: 'UAE Stories'"), 'News tab is labelled UAE Stories');
   assert.ok(home.includes('<h2 id="platinum-sponsors-title">Spotlight</h2>') && home.includes("url('img/partners/${id}.png')"), 'Spotlight box with dummy pictures');
   assert.ok(!home.includes('gold-sponsors-title') && !home.includes("'sponsor-gold'"), 'home has no Gold Sponsors box');
@@ -404,7 +405,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.ok(home.includes('sponsoredForVoices.after(influencersBox)'), 'Influencers follow Sponsored Posts in column 2');
   assert.ok(home.includes("leadVoice.classList.add('fx-voice-lead')") && existsSync(path.join(repo, 'frontend_demo', 'img', 'influencers', 'top-voice.png')), 'top influencer leads with a dummy picture');
   assert.ok(home.includes('videosPodcastsBox.after(sponsoredPostsBox)') && !home.includes('careersColumn.insertBefore(sponsoredPostsBox'), 'Sponsored Posts sits in column 2 under Videos and Podcasts');
-  assert.ok(connector.includes("var NEWS_REGIONS = ['News', 'Global'];") && connector.includes("var REGIONS = { uae: 'News', world: 'Global' };"), 'connector tabs match');
+  assert.ok(connector.includes("var NEWS_REGIONS = ['News', 'GCC', 'Global'];") && connector.includes("var REGIONS = { uae: 'News', world: 'Global' };") && connector.includes('stories.forEach(function (s) { addTo(regionOf(s), s); });'), 'connector tabs match');
   assert.ok(!/'(UAE News|Global News|Business Funding)'/.test(home + connector), 'old tab names are gone');
   assert.ok(home.includes("['Events', { href: 'Events.dc.html' }]") && home.includes("'Events.dc.html#submit-event'"), 'home links to the Events page');
   assert.ok(home.includes("[['About', 'About.dc.html'], ['Contact us', 'Contact.dc.html']]") && home.includes("'../js/fundsae-header.js'"), 'home footer and shared header script');

@@ -919,7 +919,7 @@ document.addEventListener('DOMContentLoaded', async function() {
           document.querySelectorAll('[data-more-news-region]').forEach((link) => {
             link.style.display = link.dataset.moreNewsRegion === region ? 'inline-block' : 'none';
           });
-          // Residential Estate News stays under UAE Stories, but not under Global Stories. Queried each call (not closed over) because the box is
+          // Residential Estate News stays under UAE and GCC Stories, but not under International Stories. Queried each call (not closed over) because the box is
           // created later, further down this same script.
           // Commercial and Alternative Real Estate News follow the same rule.
           ['Residential Estate News', 'Commercial Real Estate News', 'Alternative Real Estate News'].forEach((label) => {
@@ -942,9 +942,11 @@ document.addEventListener('DOMContentLoaded', async function() {
             if (/^(all|markets?|funds?)$/i.test(tab.textContent.trim())) tab.remove();
           });
           let tabs = Array.from(tabRow.querySelectorAll('button'));
-          const REGION_NAMES = ['News', 'Global'];
-          // Visible tab labels; the region key stays 'News' because the connector filters on it.
-          const REGION_LABELS = { News: 'UAE Stories', Global: 'Global Stories' };
+          // Three tabs, one story in exactly one of them (js/fundsae-connector.js regionOf): UAE Stories (any story about
+          // the UAE), GCC Stories (the other five GCC states, no UAE) and International Stories (no GCC country at all).
+          const REGION_NAMES = ['News', 'GCC', 'Global'];
+          // Visible tab labels; the region keys stay 'News' and 'Global' because the connector filters on them.
+          const REGION_LABELS = { News: 'UAE Stories', GCC: 'GCC Stories', Global: 'International Stories' };
           if (tabs.length >= 2) {
             // The region is kept in a data attribute, not read back from the label, so the label can be translated (i18n.js).
             const translate = window.__fundsTr || ((text) => text);
@@ -1033,7 +1035,6 @@ document.addEventListener('DOMContentLoaded', async function() {
           ['Swiss wealth managers add private credit to client portfolios', 'The Finance Loop'],
           ['Australian super funds prepare for infrastructure expansion', 'Global Capital Post'],
           ['Japanese conglomerates increase venture investment abroad', 'Market Signal'],
-          ['Middle East sovereign funds diversify into private markets', 'The Investor Wire'],
           ['South Korean regulators outline new fintech licensing rules', 'Finance Frontier'],
           ['Brazilian fund managers see inflows into local equities', 'Global Economy Watch'],
           ['German family offices expand direct lending activity', 'The Trading Desk'],
@@ -1043,7 +1044,23 @@ document.addEventListener('DOMContentLoaded', async function() {
           ['Chinese asset managers expand offshore fund offerings', 'Global Business Wire'],
           ['Nordic pension funds increase allocations to private equity', 'Finance & Markets Today']
         ];
-        // Global Stories tab: stories from outside the UAE.
+        // GCC Stories tab: the other five GCC states (no UAE).
+        const gccStories = [
+          ['Saudi wealth fund backs new private credit platform in Riyadh', 'Gulf Finance Wire'],
+          ['Qatar Investment Authority expands venture programme for local founders', 'Khaleej Capital Report'],
+          ['Kuwaiti family offices increase allocations to regional private equity', 'Gulf Capital Daily'],
+          ['Bahrain fintech bay adds new licences for digital lenders', 'Manama Markets Review'],
+          ['Oman sovereign fund launches infrastructure co-investment vehicle', 'Muscat Business Wire'],
+          ['Riyadh office demand lifts Saudi REIT valuations', 'Arabian Property Journal'],
+          ['Saudi exchange sees record listings from mid-sized firms', 'Gulf Finance Wire'],
+          ['Doha asset managers launch Sharia-compliant income fund', 'Khaleej Capital Report'],
+          ['Middle East sovereign funds diversify into private markets', 'The Investor Wire'],
+          ['Kuwait pension fund commits to global infrastructure managers', 'Gulf Capital Daily'],
+          ['Bahraini banks step up SME lending under new guarantee scheme', 'Manama Markets Review'],
+          ['Saudi venture funding rises as more startups move to Riyadh', 'Arabian Property Journal']
+        ];
+        gccStories.forEach(([title, source]) => dummyStories.push(['GCC', title, source]));
+        // International Stories tab: stories with no GCC country.
         globalStories.forEach(([title, source]) => dummyStories.push(['Global', title, source]));
         dummyStories.forEach(([region, title, source]) => {
           const article = document.createElement('article');
@@ -1054,7 +1071,7 @@ document.addEventListener('DOMContentLoaded', async function() {
           news.appendChild(article);
         });
         const allArticles = Array.from(news.querySelectorAll('article'));
-        ['News', 'Global'].forEach((region) => {
+        ['News', 'GCC', 'Global'].forEach((region) => {
           allArticles.filter((article) => article.dataset.newsRegion === region).slice(15).forEach((article) => article.remove());
         });
         Array.from(news.querySelectorAll('article')).forEach((article) => {
@@ -1070,7 +1087,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
         const moreNewsLinks = document.createElement('div');
         moreNewsLinks.style.cssText = 'display: flex; gap: 16px; padding: 20px 0 8px';
-        moreNewsLinks.innerHTML = '<a href="#" data-more-news-region="News" style="display: inline-block; font-size: 14px; font-weight: 600; color: #1F6A6E">View All</a><a href="#" data-more-news-region="Global" style="display: none; font-size: 14px; font-weight: 600; color: #1F6A6E">View All</a>';
+        moreNewsLinks.innerHTML = '<a href="#" data-more-news-region="News" style="display: inline-block; font-size: 14px; font-weight: 600; color: #1F6A6E">View All</a><a href="#" data-more-news-region="GCC" style="display: none; font-size: 14px; font-weight: 600; color: #1F6A6E">View All</a><a href="#" data-more-news-region="Global" style="display: none; font-size: 14px; font-weight: 600; color: #1F6A6E">View All</a>';
         news.appendChild(moreNewsLinks);
         applyNewsRegion(activeNewsRegion);
         const eventsPanel = sidebar && sidebar.querySelector('[aria-labelledby="events-title"]');

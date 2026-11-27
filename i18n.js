@@ -78,6 +78,8 @@
     'UAE Stories': 'أخبار الإمارات',
     'Fundraising': 'جمع التمويل',
     'Global Stories': 'أخبار عالمية',
+    'GCC Stories': 'أخبار دول الخليج',
+    'International Stories': 'أخبار دولية',
     // Partner with us page
     'Featured Partner': 'شريك مميز',
     'Partner with Funds.ae': 'شارك مع Funds.ae',

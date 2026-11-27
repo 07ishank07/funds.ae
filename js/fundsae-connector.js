@@ -26,10 +26,25 @@
   var LIMITS = { newsPerRegion: 15, newsMore: 35, headline: 92, tileHeadline: 110, tiles: 15, eventsPerList: 10, eventsMax: 100, topJobs: 20, topEmployers: 20 };
   var ROLES_DEMO_TOTAL = 120; // Careers page, demo mode: live roles are topped up with dummy roles to this many (3 pages of PER_PAGE = 40 in Careers.dc.html)
   var TILES_SHOWN = 12; // Residential, Commercial Real Estate, Infrastructure and Special & Alternative boxes
-  // Home news tabs: UAE Stories (key "News", category "uae") and Global Stories (key "Global", category
-  // "world"), each in the API's order.
+  // Home news tabs, each in the API's order: UAE Stories (key "News"), GCC Stories ("GCC": the other five GCC states,
+  // no UAE) and International Stories ("Global": no GCC country). regionOf() puts every story in exactly one tab.
   var REGIONS = { uae: 'News', world: 'Global' };
-  var NEWS_REGIONS = ['News', 'Global'];
+  var NEWS_REGIONS = ['News', 'GCC', 'Global'];
+  var GCC_GEOGRAPHIES = ['saudi-arabia', 'gcc'];
+  var GCC_WORDS = /\b(saudi|ksa|riyadh|jeddah|dammam|qatar|qatari|doha|kuwait|kuwaiti|bahrain|bahraini|manama|oman|omani|muscat|gcc)\b/i;
+
+  /**
+   * Which home tab a story belongs to. By the editors' geography: UAE first, then Saudi Arabia / other GCC, else
+   * International. A story without geography: a "uae" story stays UAE, a world story that names a GCC state is GCC.
+   */
+  function regionOf(story) {
+    var geo = (Array.isArray(story.geography) ? story.geography : []).map(function (g) { return g && g.id; });
+    if (geo.indexOf('uae') !== -1) return 'News';
+    if (geo.some(function (id) { return GCC_GEOGRAPHIES.indexOf(id) !== -1; })) return 'GCC';
+    if (geo.length) return 'Global';
+    if (story.category === 'uae') return 'News';
+    return GCC_WORDS.test(story.headline || '') ? 'GCC' : (REGIONS[story.category] || 'Global');
+  }
   var EMPTY_TEXT = 'Nothing to show yet. Check back soon.';
   var NAV_ID = /^[a-z0-9][a-z0-9-]{0,60}$/; // a Capital Type id, as used in "capital:<id>" news topics
   var state = { mode: null };
@@ -250,10 +265,7 @@
     var anchor = moreLink ? moreLink.parentElement : null;
     var byRegion = {};
     var addTo = function (region, story) { (byRegion[region] = byRegion[region] || []).push(story); };
-    stories.forEach(function (s) {
-      var region = REGIONS[s.category];
-      if (region) addTo(region, s);
-    });
+    stories.forEach(function (s) { addTo(regionOf(s), s); });
 
     NEWS_REGIONS.forEach(function (region) {
       var list = (byRegion[region] || []).slice(0, LIMITS.newsPerRegion + LIMITS.newsMore);
