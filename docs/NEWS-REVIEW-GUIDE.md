@@ -163,11 +163,11 @@ backend/
   scripts/cms-seed.mjs               studio/seed/fundsae-news-seed.ndjson (registry, categories, singletons)
   test/newsPipeline.test.js          ingest, dedupe, approval, scheduling, held stories, safety stop
   test/newsReview.test.js, sanityQueue.test.js, workflow.test.js, registry.test.js, taxonomy.test.js,
-  storyPages.test.js, newsFilter.test.js, ai.test.js, cms.test.js (Studio == backend parity)
+  storyPages.test.js, ai.test.js, cms.test.js (Studio == backend parity)
 
-js/fundsae-news-filter.js            the news page's filter rules (pure; tested under node)
-js/fundsae-news.js                   the Real Estate Capital News page
-frontend_demo/News.dc.html           that page; frontend_demo/news/*.html are generated story pages
+frontend_demo/RealEstateNews.dc.html  Real Estate News: Residential, Commercial and Alternative (with Infrastructure)
+                                     columns side by side, filled by js/fundsae-connector.js, with Load more;
+                                     frontend_demo/news/*.html are generated story pages (News.dc.html forwards here)
 
 .github/workflows/news-ingest.yml    daily ingest (09:00 Sydney) into the queue, and Fetch News Now (the only write token)
 .github/workflows/publish-content.yml  cms:pull, publish:content, news:publish, commit (read token)
@@ -188,7 +188,7 @@ Open the Studio (`https://fundsae.sanity.studio`, or the address in `studio/.env
 3. Edit the Editorial tab:
    - **Headline:** 12-160 characters. Rewrite clickbait; keep it factual.
    - **Summary:** 20-280 characters, in our own words, using only facts in the headline and excerpt. Never paste more than a few words from the article. The publisher's excerpt can stand as the summary only while the source allows excerpts.
-   - **Capital Types** (who provides the money) and **Asset Classes** (what is bought or built): choose every one that clearly applies, and none if you are unsure. A story with an Asset Class appears on the Real Estate Capital News page.
+   - **Capital Types** (who provides the money) and **Asset Classes** (what is bought or built): choose every one that clearly applies, and none if you are unsure. A story whose Asset Class belongs to a home real estate box appears in that box and in its column on the Real Estate News page.
    - **Image:** leave it empty unless the source allows images, or you upload one and tick **I confirm we have the rights to use this image**.
 4. Press **Save changes** (bottom right) to keep your edits. Nothing goes on the site yet.
 5. Then choose an action from the same menu:

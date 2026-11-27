@@ -122,7 +122,7 @@
     'Infrastructure News': 'أخبار البنية التحتية',
     'Infrastructure Real Estate News': 'أخبار عقارات البنية التحتية',
     'Special & Alternative Real Estate News': 'أخبار العقارات المتخصصة والبديلة',
-    // Real Estate Capital News page (frontend_demo/News.dc.html) and story pages
+    // Real Estate News page (frontend_demo/RealEstateNews.dc.html) and story pages
     'Real Estate News': 'أخبار العقارات',
     'Real Estate Capital News': 'أخبار رأس المال العقاري',
     'Search': 'بحث',

@@ -21,7 +21,7 @@ const api = (file) => JSON.parse(readFileSync(path.join(apiDir, file), 'utf8'));
 const data = (file) => JSON.parse(readFileSync(path.join(tmp, 'data', 'demo', file), 'utf8'));
 const sameKeys = (obj, fields, where) => assert.deepEqual(Object.keys(obj).sort(), [...fields].sort(), where);
 // Old page addresses kept only to forward to the renamed page (no header, banner or connector).
-const MOVED_PAGES = { 'Advertise.dc.html': 'PartnerWithUs.dc.html' };
+const MOVED_PAGES = { 'Advertise.dc.html': 'PartnerWithUs.dc.html', 'News.dc.html': 'RealEstateNews.dc.html' };
 const snake = (s) => s.replace(/[A-Z]/g, (c) => '_' + c.toLowerCase());
 
 before(() => {
@@ -194,9 +194,12 @@ test('Real Estate News: one landing page with three parallel columns, opened by 
   const sections = new Set(api('taxonomy.json').sections.map((s) => s.id));
   for (const [, ids] of cols) for (const id of ids.split(',')) assert.ok(sections.has(id), `section ${id} exists`);
   assert.ok(page.includes('<h1>Real Estate News</h1>'), 'page title');
-  assert.equal((page.match(/<a[^>]* href="News\.dc\.html">View all real estate news/g) || []).length, 2, 'the common View all link (top and bottom) opens the full feed');
+  // Load more news adds stories on this page (no link to another page); the old feed page is gone.
+  assert.ok(page.includes('<div class="ren-more"><button type="button" data-fundsae-news-more hidden>Load more news</button></div>'), 'Load more news button');
+  assert.ok(page.includes('role="status" aria-live="polite" data-fundsae-news-more-status'), 'Load more announces its result');
+  assert.ok(!page.includes('News.dc.html') && !page.includes('View all real estate news'), 'no View all link to the old feed');
   assert.ok(page.includes('src="../js/fundsae-connector.js"'), 'page loads the connector');
-  assert.equal((page.match(/<article class="ren-(lead|item)" data-ren-demo>/g) || []).length, 24, 'eight built-in demo headlines per column');
+  assert.equal((page.match(/<article class="ren-(lead|item)" data-ren-demo>/g) || []).length, 48, 'sixteen built-in demo headlines per column (eight, then Load more)');
   // Home: every real estate box's View All opens this page at its column; none is limited to one category any more.
   const home = readFileSync(path.join(repo, 'frontend_demo', 'this.html'), 'utf8');
   for (const [label, href] of [['Residential Estate News', 'residential'], ['Commercial Real Estate News', 'commercial'], ['Infrastructure Real Estate News', 'alternative'], ['Special & Alternative Real Estate News', 'alternative']]) {
@@ -207,6 +210,8 @@ test('Real Estate News: one landing page with three parallel columns, opened by 
   const render = connector.slice(connector.indexOf('/* ---------------------------- Real Estate News page'), connector.indexOf('/* ------------------------------- Gulf Economy'));
   assert.ok(render.includes('api.valid.story') && render.includes('textContent') && !/innerHTML/.test(render), 'columns are built with textContent from validated stories');
   assert.ok(render.includes("state.mode !== 'live'"), 'demo headlines only outside live mode');
+  assert.ok(render.includes('var COLUMN_STORIES = 8;') && render.includes('newsColumns.shown += COLUMN_STORIES;') &&
+    render.includes('more.hidden = !left;'), 'Load more adds eight per column and hides when nothing is left');
 });
 
 test('the website scripts and pages agree on data slots', () => {
@@ -292,7 +297,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   }
   // The site menu is in the footer on every page, not in the header.
   assert.ok(home.includes(`nav.m-only[aria-label="Sections"]').forEach((nav) => nav.remove())`), 'home removes both header menus');
-  for (const page of ['About', 'PartnerWithUs', 'Careers', 'Contact', 'Events', 'GrantsFunding', 'News', 'Privacy', 'RealEstateNews', 'Terms', 'Videos']) {
+  for (const page of ['About', 'PartnerWithUs', 'Careers', 'Contact', 'Events', 'GrantsFunding', 'Privacy', 'RealEstateNews', 'Terms', 'Videos']) {
     const html = read(`${page}.dc.html`);
     assert.ok(!html.includes('aria-label="Sections"'), `${page} has no header menu`);
     const footNav = html.slice(html.indexOf('<nav class="foot-nav"'), html.indexOf('</nav>', html.indexOf('<nav class="foot-nav"')));
@@ -461,7 +466,7 @@ test('the Advertise page is now Partner with us: no link or label uses the old n
   assert.ok(read('frontend_demo', 'PartnerWithUs.dc.html').includes('<title>Partner with us · Funds.ae</title>'), 'page title');
   for (const [old, now] of Object.entries(MOVED_PAGES)) {
     const stub = read('frontend_demo', old);
-    assert.ok(stub.includes(`url=${now}"`) && stub.includes(`location.replace('${now}' + location.search + location.hash)`), `${old} forwards to ${now}`);
+    assert.ok(stub.includes(`url=${now}"`) && stub.includes(`location.replace('${now}' + `), `${old} forwards to ${now}`);
     assert.ok(stub.includes('name="robots" content="noindex"') && !stub.includes('<form'), `${old} is only a redirect`);
   }
   assert.ok(read('i18n.js').includes("'Partner with us': "), 'Arabic label for Partner with us');
@@ -561,31 +566,28 @@ test('every website form posts only field names the API accepts', () => {
   assert.ok(readFileSync(path.join(repo, 'frontend_demo', 'Careers.dc.html'), 'utf8').includes('<a class="post-job-btn" href="PostJob.dc.html">Post a job</a>'), 'Careers links to Post a job');
 });
 
-test('the Real Estate Capital News page has its hooks, scripts and a bar link on every page', () => {
-  const read = (f) => readFileSync(path.join(repo, 'frontend_demo', f), 'utf8');
-  const page = read('News.dc.html');
-  for (const hook of ['data-fundsae-news', 'data-fundsae-news-search', 'data-fundsae-news-sort', 'data-fundsae-news-filter="capital"',
-    'data-fundsae-news-filter="asset"', 'data-fundsae-news-filter="geo"', 'data-fundsae-news-list', 'data-fundsae-news-more',
-    'data-fundsae-news-empty', 'data-fundsae-news-status', 'data-fundsae-news-clear']) {
-    assert.ok(page.includes(hook), `News.dc.html has ${hook}`);
+test('the old news feed page is removed: News.dc.html only forwards to Real Estate News, and nothing links to it', () => {
+  const read = (...p) => readFileSync(path.join(repo, ...p), 'utf8');
+  const stub = read('frontend_demo', 'News.dc.html');
+  assert.ok(!stub.includes('data-fundsae-news') && !stub.includes('<header') && stub.length < 2000, 'News.dc.html has no page left');
+  // Old one-category links (bookmarks, cached home pages) open the matching column.
+  assert.ok(stub.includes("var COLUMN = { 'residential-real-estate': 'residential', 'commercial-real-estate': 'commercial', 'infrastructure': 'alternative', 'special-alternative-real-estate': 'alternative' };") &&
+    stub.includes("location.replace('RealEstateNews.dc.html' + hash)"), 'News.dc.html?section=<box> forwards to that column');
+  for (const gone of ['fundsae-news.js', 'fundsae-news-filter.js']) assert.ok(!existsSync(path.join(repo, 'js', gone)), `js/${gone} is removed`);
+  // No page, story page, template or script links to the old page any more.
+  const files = [
+    ...readdirSync(path.join(repo, 'frontend_demo')).filter((f) => f.endsWith('.html') && !MOVED_PAGES[f]).map((f) => ['frontend_demo', f]),
+    ...readdirSync(path.join(repo, 'frontend_demo', 'news')).filter((f) => f.endsWith('.html')).map((f) => ['frontend_demo', 'news', f]),
+    ['backend', 'templates', 'story.html'], ['backend', 'templates', 'job.html'], ['backend', 'src', 'pipeline', 'storyPages.js'],
+    ['js', 'fundsae-connector.js'], ['js', 'fundsae-header.js'], ['i18n.js']
+  ];
+  for (const f of files) assert.ok(!/(^|[^A-Za-z])News\.dc\.html/.test(read(...f)), `${f.join('/')} links to the removed News.dc.html`);
+  // No Real Estate News link in the header; the page is reached from the home page's real estate boxes (View All).
+  for (const f of ['About', 'PartnerWithUs', 'Careers', 'Contact', 'Events', 'GrantsFunding', 'PostJob', 'Privacy', 'RealEstateNews', 'Terms', 'Videos']) {
+    assert.ok(!read('frontend_demo', `${f}.dc.html`).includes('>Real Estate News</a>'), `${f} has no Real Estate News header link`);
   }
-  const script = readFileSync(path.join(repo, 'js', 'fundsae-news.js'), 'utf8');
-  for (const [, name] of script.matchAll(/hook\('([a-z-]+)'\)/g)) assert.ok(page.includes(`data-fundsae-news-${name}`), `the page has the ${name} hook the script uses`);
-  assert.ok(!/innerHTML|insertAdjacentHTML/.test(script.replace(/^\s*\/\/.*$/gm, '')), 'the page script inserts data with textContent only');
-  const order = ['fundsae-api.js', 'fundsae-connector.js', 'fundsae-news-filter.js', 'fundsae-news.js'].map((f) => page.indexOf(`<script src="../js/${f}"`));
-  assert.ok(order.every((i, n) => i > 0 && (n === 0 || i > order[n - 1])), 'scripts load in order: api, connector, filter, page');
-  // No Real Estate News link in the header; the page is reached from the Real Estate News landing page (View all).
-  for (const f of ['About', 'PartnerWithUs', 'Careers', 'Contact', 'Events', 'GrantsFunding', 'News', 'PostJob', 'Privacy', 'RealEstateNews', 'Terms', 'Videos']) {
-    assert.ok(!read(`${f}.dc.html`).includes('>Real Estate News</a>'), `${f} has no Real Estate News header link`);
-  }
-  const home = read('this.html');
-  // The home boxes' View All links open the landing page (tested above); it links here, unfiltered.
-  assert.ok(read('RealEstateNews.dc.html').includes('<a class="ren-all-link" href="News.dc.html">'), 'the landing page opens the full feed');
-  // Old one-category links (bookmarks, cached home pages) forward to the landing page at the matching column.
-  assert.ok(page.includes("var COLUMN = { 'residential-real-estate': 'residential', 'commercial-real-estate': 'commercial', 'infrastructure': 'alternative', 'special-alternative-real-estate': 'alternative' };") &&
-    page.includes("window.location.replace('RealEstateNews.dc.html#' + COLUMN[section])"), 'News.dc.html?section=<box> forwards to Real Estate News');
-  assert.ok(page.indexOf('window.location.replace') < page.indexOf('</head>'), 'the forward runs before the page draws');
   // Every real estate tile shows its source in small text; live tiles get the publisher's name.
+  const home = read('frontend_demo', 'this.html');
   assert.ok(home.includes("source.className = 'fx-tile-source'"), 'real estate tiles carry a source line');
-  assert.ok(readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8').includes("art.querySelector('.fx-tile-source')"), 'the connector fills the source line');
+  assert.ok(read('js', 'fundsae-connector.js').includes("art.querySelector('.fx-tile-source')"), 'the connector fills the source line');
 });

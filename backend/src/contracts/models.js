@@ -47,7 +47,7 @@ export const ECONOMY_COUNTRIES = {
 // A hero published without a style shows as the first one. Mirrored in studio/schemaTypes/rules.js.
 export const HERO_STYLES = ['photo', 'minimal', 'classic'];
 export const HERO_BUTTON_TARGETS = {
-  news: 'News.dc.html',
+  news: 'RealEstateNews.dc.html',
   videos: 'Videos.dc.html',
   events: 'Events.dc.html',
   careers: 'Careers.dc.html',

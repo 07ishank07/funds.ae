@@ -539,7 +539,7 @@ test('the home page hero banner comes from Sanity and is checked before it is pu
   const out = validateContent({ hero: styled }).content.hero;
   assert.equal(out.style, 'minimal');
   assert.equal(out.buttonLabel, 'Read the news');
-  assert.equal(out.buttonHref, 'News.dc.html');
+  assert.equal(out.buttonHref, 'RealEstateNews.dc.html');
   assert.equal(out.button2Label, 'Watch the videos');
   assert.equal(out.button2Href, 'Videos.dc.html');
   assert.equal(validateContent({ hero: { ...hero, style: 'classic' } }).content.hero.style, 'classic');

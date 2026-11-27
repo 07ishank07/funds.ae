@@ -1038,7 +1038,7 @@
   /** Home page hero banner (content.json "hero", the Studio's "Home page hero banner"). With none published the
    *  page keeps its built-in banner. The gold word is a span; everything goes in with textContent. */
   // The pages the hero's button may open (HERO_BUTTON_TARGETS in backend/src/contracts/models.js).
-  var HERO_PAGES = ['News.dc.html', 'Videos.dc.html', 'Events.dc.html', 'Careers.dc.html', 'PartnerWithUs.dc.html'];
+  var HERO_PAGES = ['RealEstateNews.dc.html', 'Videos.dc.html', 'Events.dc.html', 'Careers.dc.html', 'PartnerWithUs.dc.html'];
   var HERO_ART = { photo: 'img/hero-dubai.jpg', minimal: 'img/hero-skyline-warm.svg', classic: 'img/hero-skyline.svg' };
   var HERO_ART_ALT = {
     photo: 'The Burj Khalifa and Downtown Dubai towers above Sheikh Zayed Road',
@@ -1121,11 +1121,13 @@
   /* ---------------------------- Real Estate News page --------------------------- */
   // RealEstateNews.dc.html: three parallel columns (slot "news-column"). Each column lists the stories of the page
   // sections named in data-fundsae-sections (the Alternative column also carries Infrastructure), newest first: a lead
-  // story with picture, summary and source, then headlines. Built with textContent only. The column's built-in
-  // headlines (data-ren-demo) are demo content: in demo mode they follow the real stories up to COLUMN_STORIES, in
-  // live mode they go.
+  // story with picture, summary and source, then headlines. Built with textContent only. COLUMN_STORIES show per
+  // column; "Load more news" (data-fundsae-news-more) adds COLUMN_STORIES more to every column on the same page and
+  // hides itself once nothing is left. The column's built-in headlines (data-ren-demo) are demo content: in demo mode
+  // they follow the real stories, in live mode they go.
 
   var COLUMN_STORIES = 8;
+  var newsColumns = { list: [], shown: COLUMN_STORIES, wired: false };
   var SECTION_ID = /^[a-z0-9-]{2,60}$/;
   var STORY_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
   var COLUMN_DATE = typeof Intl !== 'undefined' ? new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Dubai' }) : null;
@@ -1207,6 +1209,39 @@
     return art;
   }
 
+  /** Shows the first newsColumns.shown entries of one column (lead story first). */
+  function drawNewsColumn(column) {
+    var list = column.box.querySelector('.ren-stories');
+    if (!list) return;
+    list.textContent = '';
+    if (!column.entries.length) {
+      var empty = document.createElement('p');
+      empty.className = 'ren-empty';
+      empty.textContent = 'No stories yet. Check back soon.';
+      list.appendChild(empty);
+      return;
+    }
+    column.entries.slice(0, newsColumns.shown).forEach(function (entry, i) { list.appendChild(columnArticle(entry, i === 0)); });
+  }
+
+  /** Load more news: visible while any column has stories still hidden. */
+  function updateNewsMore() {
+    var more = document.querySelector('[data-fundsae-news-more]');
+    if (!more) return;
+    var left = newsColumns.list.some(function (c) { return c.entries.length > newsColumns.shown; });
+    more.hidden = !left;
+    if (!newsColumns.wired) {
+      newsColumns.wired = true;
+      more.addEventListener('click', function () {
+        newsColumns.shown += COLUMN_STORIES;
+        newsColumns.list.forEach(drawNewsColumn);
+        updateNewsMore();
+        var status = document.querySelector('[data-fundsae-news-more-status]');
+        if (status) status.textContent = more.hidden ? 'All stories are shown.' : 'More stories loaded.';
+      });
+    }
+  }
+
   function renderNewsColumn(box, docs) {
     var seen = {};
     var stories = [];
@@ -1218,19 +1253,15 @@
       });
     });
     stories.sort(function (a, b) { return (Date.parse(b.publishedAt) || 0) - (Date.parse(a.publishedAt) || 0); });
-    var entries = stories.slice(0, COLUMN_STORIES).map(columnEntry);
-    if (state.mode !== 'live') entries = entries.concat(columnDemoEntries(box)).slice(0, COLUMN_STORIES);
-    var list = box.querySelector('.ren-stories');
-    if (!list) return;
-    list.textContent = '';
-    if (!entries.length) {
-      var empty = document.createElement('p');
-      empty.className = 'ren-empty';
-      empty.textContent = 'No stories yet. Check back soon.';
-      list.appendChild(empty);
-      return;
+    var entries = stories.map(columnEntry);
+    if (state.mode !== 'live') {
+      var demo = columnDemoEntries(box);
+      entries = entries.concat(demo).slice(0, Math.max(entries.length, demo.length));
     }
-    entries.forEach(function (entry, i) { list.appendChild(columnArticle(entry, i === 0)); });
+    var column = { box: box, entries: entries };
+    newsColumns.list.push(column);
+    drawNewsColumn(column);
+    updateNewsMore();
   }
 
   /* ------------------------------- Gulf Economy ------------------------------- */

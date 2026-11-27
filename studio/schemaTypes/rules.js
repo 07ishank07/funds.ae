@@ -91,7 +91,7 @@ export const HERO_STYLES = [
   {value: 'classic', title: 'Classic (teal, with the picture on the right)'},
 ]
 export const HERO_BUTTON_TARGETS = {
-  news: {page: 'News.dc.html', title: 'Real estate news'},
+  news: {page: 'RealEstateNews.dc.html', title: 'Real estate news'},
   videos: {page: 'Videos.dc.html', title: 'Videos & Podcasts'},
   events: {page: 'Events.dc.html', title: 'Events and Expos'},
   careers: {page: 'Careers.dc.html', title: 'Careers'},

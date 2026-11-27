@@ -41,13 +41,15 @@ test('a story page shows the headline, our summary, the source and a link to the
   assert.match(html, /Source: <strong>Example Wire<\/strong>/);
   assert.match(html, /<time datetime="2026-10-25T06:00:00.000Z">25 October 2026<\/time>/);
   assert.match(html, /<a class="read" href="https:\/\/example.com\/adia-cppib" target="_blank" rel="noopener noreferrer">Read the full story at Example Wire/);
-  assert.match(html, /<a href="..\/News.dc.html\?capital=sovereign-wealth">Sovereign Wealth Funds<\/a>/);
-  assert.match(html, /\?asset=industrial-logistics">Industrial &amp; Logistics<\/a>/);
+  // Tags are plain labels: there is no filtered news page any more.
+  assert.match(html, /<li><span>Sovereign Wealth Funds<\/span><\/li>/);
+  assert.match(html, /<li><span>Industrial &amp; Logistics<\/span><\/li>/);
+  assert.ok(!/(^|[^A-Za-z])News\.dc\.html/.test(html), 'no link to the removed news page');
   assert.match(html, /<span class="deal">Acquisition<\/span>/);
   assert.match(html, /<title>ADIA and CPPIB buy Abu Dhabi logistics park · Funds.ae<\/title>/);
   assert.ok(!html.includes('rel="canonical"'), 'no canonical link without a public address');
   assert.ok(!html.includes('<figure>'), 'no image unless the story carries one');
-  assert.ok(html.includes('href="../News.dc.html">Real Estate Capital News</a>'));
+  assert.ok(html.includes('href="../RealEstateNews.dc.html">Real Estate News</a>'));
 });
 
 test('everything from the story is escaped', () => {

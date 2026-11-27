@@ -36,13 +36,14 @@ const dateText = (iso) => {
 function tagList(story) {
   const chips = [];
   if (story.transactionType) chips.push(`<li><span class="deal">${escapeHtml(story.transactionType.label)}</span></li>`);
-  const linked = (param, tags) =>
+  // Capital Types, Asset Classes and geographies are plain labels (there is no filtered news page to open).
+  const labels = (tags) =>
     tags
       .filter((t) => TAG_ID.test(t.id))
-      .forEach((t) => chips.push(`<li><a href="../News.dc.html?${param}=${t.id}">${escapeHtml(t.label)}</a></li>`));
-  linked('capital', story.capitalTypes);
-  linked('asset', story.assetClasses);
-  linked('geo', story.geography);
+      .forEach((t) => chips.push(`<li><span>${escapeHtml(t.label)}</span></li>`));
+  labels(story.capitalTypes);
+  labels(story.assetClasses);
+  labels(story.geography);
   return chips.length ? `    <ul class="tags" aria-label="Categories">${chips.join('')}</ul>\n` : '';
 }
 
@@ -79,8 +80,8 @@ export function renderStoryPage(story, { template, publicBaseUrl = '', seo = {} 
     pageTitle: escapeHtml((seo.title || story.headline).trim()),
     pageDescription: escapeHtml((seo.description || story.summary || '').trim()),
     canonical: canonical ? `<link rel="canonical" href="${escapeHtml(canonical)}">\n<meta property="og:url" content="${escapeHtml(canonical)}">\n` : '',
-    sectionHref: realEstate ? '../News.dc.html' : '../this.html',
-    sectionLabel: realEstate ? 'Real Estate Capital News' : 'Funds.ae news',
+    sectionHref: realEstate ? '../RealEstateNews.dc.html' : '../this.html',
+    sectionLabel: realEstate ? 'Real Estate News' : 'Funds.ae news',
     tags: tagList(story),
     headline: escapeHtml(story.headline),
     sourceName: escapeHtml(story.source),
