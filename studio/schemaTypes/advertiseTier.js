@@ -1,4 +1,4 @@
-// One package card on the Advertise page. Editors add, edit, hide, reorder and delete packages here.
+// One package card on the Partner with us page. Editors add, edit, hide, reorder and delete packages here.
 // The package id is the value the enquiry form sends, so "Get started" keeps pre-selecting the right package.
 // Published as backend/config/content.json -> api/v1/content.json (slots.advertiseTiers).
 
@@ -11,7 +11,7 @@ const TIER_TITLES = {silver: 'Featured Partner', gold: 'Gold Partner', platinum:
 
 export const advertiseTier = defineType({
   name: 'advertiseTier',
-  title: 'Advertise package',
+  title: 'Partner with us package',
   type: 'document',
   validation: maxPerGroup({
     type: 'advertiseTier',

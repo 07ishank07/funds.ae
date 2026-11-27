@@ -42,7 +42,7 @@ export async function handleSubmission(req, res, app, kind) {
   if (!result.ok) {
     throw new HttpProblem(400, 'Some fields need attention.', { code: 'validation_failed', fields: result.fields });
   }
-  // Advertise enquiries name one of the packages currently published (editors add and remove them in Sanity).
+  // Partner with us enquiries name one of the packages currently published (editors add and remove them in Sanity).
   if (kind === 'advertise' && !publishedTiers(app).includes(result.value.tier)) {
     throw new HttpProblem(400, 'Some fields need attention.', { code: 'validation_failed', fields: { tier: 'Choose one of the listed packages.' } });
   }
@@ -82,7 +82,7 @@ export async function handleSubmission(req, res, app, kind) {
   return accepted();
 }
 
-/** Package ids on the Advertise page now (api/v1/content.json), or the default packages before any are published. */
+/** Package ids on the Partner with us page now (api/v1/content.json), or the default packages before any are published. */
 function publishedTiers(app) {
   let doc = null;
   try { doc = app.readApi ? app.readApi('content.json') : null; } catch { doc = null; }

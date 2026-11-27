@@ -15,7 +15,7 @@
 //   frontend_demo/jobs/<slug>.html     one static page per job posted through Sanity (pipeline/jobPages.js)
 //   api/v1/events.json                 upcoming and recent events
 //   api/v1/sponsors.json               sponsor slots
-//   api/v1/content.json                Top Tweets, Advertise packages, About/Privacy/Terms copy (from Sanity)
+//   api/v1/content.json                Top Tweets, Partner with us packages, About/Privacy/Terms copy (from Sanity)
 //   api/v1/sources.json                every source and its health
 //   api/v1/taxonomy.json               category, topic and section labels, Capital Types, Asset Classes,
 //                                      geographies and transaction types

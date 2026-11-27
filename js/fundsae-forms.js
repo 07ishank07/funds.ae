@@ -193,7 +193,7 @@
   }
 
   /**
-   * Advertise page: "Get started" on a tier preselects it in the enquiry form.
+   * Partner with us page: "Get started" on a tier preselects it in the enquiry form.
    * One delegated listener, so package cards the connector renders from the API work too.
    */
   function bindTierButtons() {

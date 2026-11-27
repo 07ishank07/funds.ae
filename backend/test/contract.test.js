@@ -20,6 +20,8 @@ const apiDir = path.join(tmp, 'api');
 const api = (file) => JSON.parse(readFileSync(path.join(apiDir, file), 'utf8'));
 const data = (file) => JSON.parse(readFileSync(path.join(tmp, 'data', 'demo', file), 'utf8'));
 const sameKeys = (obj, fields, where) => assert.deepEqual(Object.keys(obj).sort(), [...fields].sort(), where);
+// Old page addresses kept only to forward to the renamed page (no header, banner or connector).
+const MOVED_PAGES = { 'Advertise.dc.html': 'PartnerWithUs.dc.html' };
 const snake = (s) => s.replace(/[A-Z]/g, (c) => '_' + c.toLowerCase());
 
 before(() => {
@@ -173,7 +175,7 @@ test('the website scripts and pages agree on data slots', () => {
 
 test('every page but Careers and the home page shows the same Elite Founding Sponsor banner, and all link to the Events page', () => {
   const read = (f) => readFileSync(path.join(repo, 'frontend_demo', f), 'utf8');
-  const pages = readdirSync(path.join(repo, 'frontend_demo')).filter((f) => f.endsWith('.html'));
+  const pages = readdirSync(path.join(repo, 'frontend_demo')).filter((f) => f.endsWith('.html') && !MOVED_PAGES[f]);
   assert.ok(pages.includes('Events.dc.html'), 'Events and Expos has its own page');
   const bannerText = [
     '>Elite Founding Sponsor<', '>Space available<', '>Your firm here<', '>Become a founding sponsor<',
@@ -189,7 +191,7 @@ test('every page but Careers and the home page shows the same Elite Founding Spo
     if (file === 'Careers.dc.html' || file === 'this.html') continue;
     for (const text of bannerText) assert.ok(html.includes(text), `${file}: banner lacks ${text}`);
     assert.ok(html.includes('founding-banner.css'), `${file} does not load founding-banner.css`);
-    assert.match(html, /class="fx-founding-cta" href="(Advertise\.dc\.html)?#elite-partner"/, `${file}: banner button`);
+    assert.match(html, /class="fx-founding-cta" href="(PartnerWithUs\.dc\.html)?#elite-partner"/, `${file}: banner button`);
     if (file !== 'this.html') assert.ok(html.includes('data-fundsae-slot="sponsor-founding"'), `${file}: banner slot`);
   }
   const home = read('this.html');
@@ -215,28 +217,28 @@ test('every page but Careers and the home page shows the same Elite Founding Spo
   }
   // The site menu is in the footer on every page, not in the header.
   assert.ok(home.includes(`nav.m-only[aria-label="Sections"]').forEach((nav) => nav.remove())`), 'home removes both header menus');
-  for (const page of ['About', 'Advertise', 'Careers', 'Contact', 'Events', 'News', 'Privacy', 'Terms']) {
+  for (const page of ['About', 'PartnerWithUs', 'Careers', 'Contact', 'Events', 'News', 'Privacy', 'Terms']) {
     const html = read(`${page}.dc.html`);
     assert.ok(!html.includes('aria-label="Sections"'), `${page} has no header menu`);
     const footNav = html.slice(html.indexOf('<nav class="foot-nav"'), html.indexOf('</nav>', html.indexOf('<nav class="foot-nav"')));
     // Footer: About, Contact us and the legal links only (the same on every page).
     for (const label of ['About', 'Contact us', 'Terms of Service', 'Privacy Policy']) assert.ok(footNav.includes(`>${label}</a>`), `${page} footer links to ${label}`);
-    for (const label of ['Top news', 'Careers', 'Events', 'Advertise']) assert.ok(!footNav.includes(`>${label}</a>`), `${page} footer has no ${label}`);
+    for (const label of ['Top news', 'Careers', 'Events', 'Partner with us']) assert.ok(!footNav.includes(`>${label}</a>`), `${page} footer has no ${label}`);
     // Header: the home page's masthead, mobile bar and category bar, from the shared stylesheet and script.
     assert.ok(html.includes('href="site-header.css"') && html.includes('src="../js/fundsae-header.js"'), `${page} uses the shared header`);
     assert.ok(html.includes('class="fxh"') && html.includes('class="m-only fxh-m"') && html.includes('class="fx-catbar"'), `${page} has the home page header`);
     assert.ok(html.includes('data-fundsae-date') && html.includes('href="this.html?category=Sovereign"'), `${page} header shows the date and links investor types to the home page`);
     assert.ok(!html.includes('class="masthead"'), `${page} has no old masthead`);
     const catbar = html.slice(html.indexOf('<nav class="fx-catbar"'), html.indexOf('</nav>', html.indexOf('<nav class="fx-catbar"')));
-    for (const [label, href] of [['Advertise', 'Advertise.dc.html'], ['Careers', 'Careers.dc.html'], ['Events', 'Events.dc.html']]) {
+    for (const [label, href] of [['Partner with us', 'PartnerWithUs.dc.html'], ['Careers', 'Careers.dc.html'], ['Events', 'Events.dc.html']]) {
       assert.ok(catbar.includes(`<a href="${href}"`) && catbar.includes(`>${label}</a>`), `${page} category bar links to ${label}`);
     }
   }
-  // One bar under the masthead: Top | the investor types | Advertise (a link to the Advertise page).
+  // One bar under the masthead: Top | the investor types | Partner with us (a link to the Partner with us page).
   for (const label of ['Real Estate Stories', 'Sovereign', 'Pension', 'Private Equity', 'REITs', 'Family Offices', 'Banks', 'Government', 'Endowments']) {
     assert.ok(home.includes(`['${label}', `), `category bar has ${label}`);
   }
-  assert.ok(home.includes("[['Advertise', { href: 'Advertise.dc.html' }], ['Careers', { href: 'Careers.dc.html' }], ['Events', { href: 'Events.dc.html' }]]"), 'category bar ends with Advertise, Careers and Events links');
+  assert.ok(home.includes("[['Partner with us', { href: 'PartnerWithUs.dc.html' }], ['Careers', { href: 'Careers.dc.html' }], ['Events', { href: 'Events.dc.html' }]]"), 'category bar ends with Partner with us, Careers and Events links');
   for (const gone of ['Latest', 'Fundraising', 'Deals', 'People', 'Venture', 'Credit', 'Secondaries', 'Hedge Funds', 'LPs', 'Regulation', 'Providers']) {
     assert.ok(!home.includes(`['${gone}', [`), `category bar no longer has ${gone}`);
   }
@@ -319,8 +321,8 @@ test('every page but Careers and the home page shows the same Elite Founding Spo
   assert.match(careers, /class="partners-track">\s*<div class="partners-list" data-fundsae-slot="sponsor-companies">/);
   assert.ok(careers.includes('<h2 id="partners-title" class="partners-title">Partners<span class="fxh-sr"> (sponsored)</span></h2>'), 'a Partners heading, labelled as sponsored for screen readers');
   assert.ok(!careers.includes('partners-head') && !careers.includes('Feature your firm'), 'no visible tag or link above the strip');
-  // Advertise: one package choice per API tier, and the Elite Exclusive Partner advert preselects its own.
-  const advertise = read('Advertise.dc.html');
+  // Partner with us: one package choice per API tier, and the Elite Exclusive Partner advert preselects its own.
+  const advertise = read('PartnerWithUs.dc.html');
   const options = [...advertise.matchAll(/<option value="([a-z]+)"/g)].map((m) => m[1]);
   assert.deepEqual(options.sort(), [...ADVERTISING_TIERS].sort());
   assert.match(advertise, /id="elite-partner"[\s\S]*data-fundsae-tier="exclusive"/);
@@ -334,6 +336,28 @@ test('every page but Careers and the home page shows the same Elite Founding Spo
   for (const slot of ['class="placements"', 'class="features"', 'class="duration"', 'class="price"']) assert.ok(advertise.includes(slot), `card template has ${slot}`);
   assert.ok(!/\.tier:not\(\.exclusive\) \.price \{ display: none/.test(advertise), 'prices are shown or hidden by the showPrice field, not page CSS');
   assert.ok(connector.includes("price.hidden = !tier.showPrice") && connector.includes("select[name=\"tier\"]") && connector.includes('tier.ctaUrl'), 'connector draws showPrice, CTA and the package list');
+});
+
+test('the Advertise page is now Partner with us: no link or label uses the old name, and the old address forwards', () => {
+  const read = (...f) => readFileSync(path.join(repo, ...f), 'utf8');
+  const files = [
+    ...readdirSync(path.join(repo, 'frontend_demo')).filter((f) => f.endsWith('.html') && !MOVED_PAGES[f]).map((f) => ['frontend_demo', f]),
+    ...readdirSync(path.join(repo, 'frontend_demo', 'news')).filter((f) => f.endsWith('.html')).map((f) => ['frontend_demo', 'news', f]),
+    ['backend', 'templates', 'story.html'], ['backend', 'templates', 'job.html'], ['js', 'fundsae-header.js'], ['js', 'fundsae-connector.js']
+  ];
+  for (const f of files) {
+    const text = read(...f);
+    assert.ok(!text.includes('Advertise.dc.html'), `${f.join('/')} links to the old Advertise page`);
+    assert.ok(!/>Advertise</.test(text) && !text.includes("['Advertise',"), `${f.join('/')} still says Advertise`);
+  }
+  assert.ok(read('js', 'fundsae-header.js').includes("['Partner with us', 'PartnerWithUs.dc.html']"), 'header menu links to Partner with us');
+  assert.ok(read('frontend_demo', 'PartnerWithUs.dc.html').includes('<title>Partner with us · Funds.ae</title>'), 'page title');
+  for (const [old, now] of Object.entries(MOVED_PAGES)) {
+    const stub = read('frontend_demo', old);
+    assert.ok(stub.includes(`url=${now}"`) && stub.includes(`location.replace('${now}' + location.search + location.hash)`), `${old} forwards to ${now}`);
+    assert.ok(stub.includes('name="robots" content="noindex"') && !stub.includes('<form'), `${old} is only a redirect`);
+  }
+  assert.ok(read('i18n.js').includes("'Partner with us': "), 'Arabic label for Partner with us');
 });
 
 test('every website form posts only field names the API accepts', () => {
@@ -387,7 +411,7 @@ test('the Real Estate Capital News page has its hooks, scripts and a bar link on
   const order = ['fundsae-api.js', 'fundsae-connector.js', 'fundsae-news-filter.js', 'fundsae-news.js'].map((f) => page.indexOf(`<script src="../js/${f}"`));
   assert.ok(order.every((i, n) => i > 0 && (n === 0 || i > order[n - 1])), 'scripts load in order: api, connector, filter, page');
   // No Real Estate News link in the header; the page is reached from the home page's real estate boxes (View All).
-  for (const f of ['About', 'Advertise', 'Careers', 'Contact', 'Events', 'News', 'PostJob', 'Privacy', 'Terms']) {
+  for (const f of ['About', 'PartnerWithUs', 'Careers', 'Contact', 'Events', 'News', 'PostJob', 'Privacy', 'Terms']) {
     assert.ok(!read(`${f}.dc.html`).includes('>Real Estate News</a>'), `${f} has no Real Estate News header link`);
   }
   const home = read('this.html');

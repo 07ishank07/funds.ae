@@ -95,7 +95,7 @@ You are not starting from zero. This table is the gap analysis every later part 
 | Frontend | `frontend_demo/*.html` with `js/fundsae-*.js` filling data slots | Unchanged contract, plus topic (category) pages |
 | Forms | Contact, newsletter, advertise, event and job submissions, validated and rate-limited | Keep. Add Cloudflare Turnstile and email notifications |
 
-> **Fix this first (it affects Claude Code).** `C:\Users\ishan\Downloads\CLAUDE.md` is a playbook for a different project (a UNSW student society site). Claude Code loads `CLAUDE.md` files from **parent folders** too, so every session in `funds.ae` sees those unrelated instructions. Its "Power Delivery Network" wording has already leaked into `Advertise.dc.html` once. Rename that file or move `funds.ae` out of `Downloads` before you start (Phase 0).
+> **Fix this first (it affects Claude Code).** `C:\Users\ishan\Downloads\CLAUDE.md` is a playbook for a different project (a UNSW student society site). Claude Code loads `CLAUDE.md` files from **parent folders** too, so every session in `funds.ae` sees those unrelated instructions. Its "Power Delivery Network" wording has already leaked into `PartnerWithUs.dc.html` once. Rename that file or move `funds.ae` out of `Downloads` before you start (Phase 0).
 
 ---
 

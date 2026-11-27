@@ -22,10 +22,10 @@ export const JOB_STATUSES = ['open', 'closed', 'expired'];
 export const SPONSOR_SLOTS = ['founding', 'platinum', 'gold', 'sponsoredPosts', 'sponsoredMedia', 'professionalServices', 'eliteExclusive', 'careerResources'];
 export const SUBMISSION_KINDS = ['contact', 'newsletter', 'advertise', 'event', 'job'];
 export const SUBMISSION_STATUSES = ['new', 'pending-review', 'approved', 'rejected', 'spam'];
-// Advertise packages are editor-defined in Sanity (any id like 'gold' or 'silver-plus'). These are the default
+// Partner with us packages are editor-defined in Sanity (any id like 'gold' or 'silver-plus'). These are the default
 // packages: the seed, the page's built-in fallback cards and the enquiry form's fallback list.
 export const ADVERTISING_TIERS = ['silver', 'gold', 'exclusive'];
-// Home page placements a package can include, each switched on and described per package (Advertise cards).
+// Home page placements a package can include, each switched on and described per package (Partner with us cards).
 export const ADVERTISE_PLACEMENTS = ['sponsoredPosts', 'videos', 'events', 'influencers', 'tweets'];
 export const ADVERTISE_PLACEMENT_LABELS = {
   sponsoredPosts: 'Sponsored Posts',
@@ -203,7 +203,7 @@ export { NEWS_STATUSES, NEWS_GEOGRAPHIES, NEWS_TRANSACTION_TYPES, NEWS_HOME_SECT
  */
 
 /**
- * @typedef {Object} AdvertiseTierRecord  (config/content.json "advertiseTiers"; Advertise page cards)
+ * @typedef {Object} AdvertiseTierRecord  (config/content.json "advertiseTiers"; Partner with us page cards)
  * @property {string} id            package id, lowercase letters, numbers and dashes (the value the enquiry form sends)
  * @property {boolean} [enabled]
  * @property {string} name

@@ -711,7 +711,7 @@
         if (media) media.remove();
         if (cta) {
           if (ctaText) ctaText.textContent = 'Become the Exclusive Elite Sponsor';
-          cta.setAttribute('href', 'Advertise.dc.html#elite-partner');
+          cta.setAttribute('href', 'PartnerWithUs.dc.html#elite-partner');
           cta.removeAttribute('target');
           cta.removeAttribute('rel');
         }
@@ -883,7 +883,7 @@
     });
   }
 
-  /** Advertise page: one card per package, in the published order (editors add, hide and reorder packages in
+  /** Partner with us page: one card per package, in the published order (editors add, hide and reorder packages in
    *  Sanity). The "exclusive" package is the dark card and carries id="elite-partner", which the Elite Founding
    *  Sponsor banner links to. The enquiry form's package list follows the same packages. */
   function renderTiers(tiers) {

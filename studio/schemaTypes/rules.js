@@ -66,7 +66,7 @@ export const EVENT_LIMITS = {
 /** Top Tweets box on the home page. */
 export const HIGHLIGHT_LIMITS = { maxItems: 5, accountName: [2, 40], handle: [2, 16], text: [10, 140], initials: [1, 3] };
 
-/** Advertise page packages. Package ids are editor-defined (ID_PATTERN); the defaults are ADVERTISING_TIERS in
+/** Partner with us page packages. Package ids are editor-defined (ID_PATTERN); the defaults are ADVERTISING_TIERS in
  *  backend/src/contracts/models.js. Placement types and labels equal ADVERTISE_PLACEMENTS / ADVERTISE_PLACEMENT_LABELS. */
 export const TIER_LIMITS = { maxItems: 4, name: [2, 40], badge: [2, 20], price: [2, 30], priceNote: [2, 40], duration: [2, 40], features: 8, feature: [2, 120], ctaLabel: [2, 30], placementDetail: [2, 120] };
 export const PLACEMENT_TYPES = ['sponsoredPosts', 'videos', 'events', 'influencers', 'tweets'];

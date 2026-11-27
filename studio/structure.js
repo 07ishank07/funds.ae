@@ -165,8 +165,8 @@ export const structure = (S, context) =>
         .title('Top Tweets (home)')
         .child(S.documentTypeList('socialHighlight').title('Top Tweets').defaultOrdering(byPosition)),
       S.listItem()
-        .title('Advertise packages')
-        .child(S.documentTypeList('advertiseTier').title('Advertise packages').defaultOrdering(byPosition)),
+        .title('Partner with us packages')
+        .child(S.documentTypeList('advertiseTier').title('Partner with us packages').defaultOrdering(byPosition)),
       S.listItem()
         .title('Pages')
         .child(

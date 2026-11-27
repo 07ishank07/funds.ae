@@ -12,7 +12,7 @@
 (function () {
   'use strict';
 
-  var MENU = [['Advertise', 'Advertise.dc.html'], ['Careers', 'Careers.dc.html'], ['Events', 'Events.dc.html'],
+  var MENU = [['Partner with us', 'PartnerWithUs.dc.html'], ['Careers', 'Careers.dc.html'], ['Events', 'Events.dc.html'],
     ['About', 'About.dc.html'], ['Contact us', 'Contact.dc.html']];
   var tr = function (s) { return (window.__fundsTr || function (x) { return x; })(s); };
 

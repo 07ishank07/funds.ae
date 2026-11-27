@@ -6,7 +6,7 @@
 //   cd ../studio && npx sanity datasets import seed/fundsae-seed.ndjson development --replace
 //
 // Reads:  backend/config/sponsors.json (+ images in assets/sponsors/), backend/config/events.json,
-//         the package cards in frontend_demo/Advertise.dc.html and the body copy of
+//         the package cards in frontend_demo/PartnerWithUs.dc.html and the body copy of
 //         About/Privacy/Terms (sections marked data-fundsae-keep are skipped).
 // Writes: studio/seed/fundsae-seed.ndjson (git-ignored). Nothing is sent anywhere.
 //
@@ -124,7 +124,7 @@ export function pageFromHtml(html, slug, siteUrl) {
 
 const TIER_POSITIONS = { silver: 10, gold: 20, exclusive: 40 };
 
-/** Advertise packages, with all their fields, from config/content.json (the mirror of what Sanity publishes). */
+/** Partner with us packages, with all their fields, from config/content.json (the mirror of what Sanity publishes). */
 export function tierDocs(tiers) {
   return (tiers || []).filter((t) => t.id !== 'platinum').map((t, i) => compact({
     _id: `tier-${t.id}`,

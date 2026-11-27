@@ -22,7 +22,7 @@
     'Top news': 'أبرز الأخبار',
     'Events': 'الفعاليات',
     'Careers': 'الوظائف',
-    'Advertise': 'الإعلان',
+    'Partner with us': 'شارك معنا',
     'Sponsor': 'الرعاة',
     'About': 'عن الموقع',
     'Contact us': 'اتصل بنا',
@@ -37,7 +37,7 @@
     'UAE Stories': 'أخبار الإمارات',
     'Fundraising': 'جمع التمويل',
     'Global Stories': 'أخبار عالمية',
-    // Advertise page
+    // Partner with us page
     'Featured Partner': 'شريك مميز',
     'Partner with Funds.ae': 'شارك مع Funds.ae',
     'View packages': 'اعرض الباقات',
@@ -156,10 +156,9 @@
     'Send message (dummy)': 'إرسال الرسالة (تجريبي)',
     'General enquiries': 'الاستفسارات العامة',
     'Press & media': 'الصحافة والإعلام',
-    'Advertising & sponsorship': 'الإعلان والرعاية',
+    'Partnerships & sponsorship': 'الشراكات والرعاية',
     'Phone': 'الهاتف',
     'Office': 'المكتب',
-    'Advertise & Sponsor': 'الإعلان والرعاية',
     'Most popular': 'الأكثر شعبية',
     'Silver Sponsor': 'راعٍ فضي',
     'Gold Sponsor': 'راعٍ ذهبي',
@@ -168,7 +167,7 @@
     'Elite': 'النخبة',
     'Elite Partner': 'شريك النخبة',
     'Get started (dummy)': 'ابدأ الآن (تجريبي)',
-    // Advertise page: Elite Exclusive Partner advert
+    // Partner with us page: Elite Exclusive Partner advert
     'Elite Exclusive Partner': 'الشريك الحصري المميز',
     'One partner only': 'شريك واحد فقط',
     'Become an Elite Exclusive Partner': 'كن الشريك الحصري المميز',

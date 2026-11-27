@@ -18,7 +18,7 @@ Whenever this guide says **save to GitHub**, do this in vscode.dev:
 
 | Folder or file | What it is |
 |---|---|
-| `frontend_demo/` | The website pages: `this.html` (home), `Careers.dc.html`, `Advertise.dc.html`, `Contact.dc.html`, `About.dc.html`, `Privacy.dc.html`, `Terms.dc.html` |
+| `frontend_demo/` | The website pages: `this.html` (home), `Careers.dc.html`, `PartnerWithUs.dc.html`, `Contact.dc.html`, `About.dc.html`, `Privacy.dc.html`, `Terms.dc.html` |
 | `index.html` | Sends visitors from the site root to `frontend_demo/this.html` |
 | `i18n.js` | The English / Arabic switch used by every page |
 | `js/` | The scripts that fill the pages with data and send the forms. The pages already load them; there is nothing to paste |
@@ -69,7 +69,7 @@ You can see the raw data too, for example `.../api/v1/news.json` or `.../api/v1/
 
 ## 5. Manage sponsors, events and page content
 
-Sponsors, events, the home page "Top Tweets", the Advertise packages and the About, Privacy and Terms copy are edited in the Sanity Studio at `https://fundsae.sanity.studio`.
+Sponsors, events, the home page "Top Tweets", the Partner with us packages and the About, Privacy and Terms copy are edited in the Sanity Studio at `https://fundsae.sanity.studio`.
 
 1. Open the Studio and sign in with the account you were invited with.
 2. Choose an area on the left, make your change and click **Publish**. Drafts are never shown on the site.

@@ -2,7 +2,7 @@
  * Site header shared by the .dc.html pages, matching the home page (this.html):
  *   desktop  top line (date | tagline | language) · search · centred logo · share icons
  *   mobile   dark bar with the logo, language, search and menu buttons (js/fundsae-header.js wires them)
- *   both     the sticky category bar (Top | investor types | Advertise, Careers, Events)
+ *   both     the sticky category bar (Top | investor types | Partner with us, Careers, Events)
  * Sizes and colours are the home page's computed values. Self-contained: tokens are repeated here.
  */
 .fxh, .fxh-m, .fx-catbar {

@@ -256,7 +256,7 @@ test('the admin listing needs the token, and is off without one', async () => {
   assert.equal((await fetch(`${noToken.url}/api/v1/admin/submissions?kind=contact`, { headers: { authorization: 'Bearer too-short' } })).status, 404);
 });
 
-test('advertise enquiries must name a package currently published on the Advertise page', async () => {
+test('advertise enquiries must name a package currently published on the Partner with us page', async () => {
   const enquiry = { name: 'Sara Ali', email: 'sara@example.ae', company: 'Example Capital' };
   assert.equal((await post('advertise', { ...enquiry, tier: 'gold' })).status, 202, 'a published package');
   for (const tier of ['platinum', 'silver-plus']) {
