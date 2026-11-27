@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-11-27T20:29:31.694Z",
+  "generatedAt": "2026-11-27T22:02:15.520Z",
   "notice": "Source: International Monetary Fund, World Economic Outlook (estimates and forecasts, annual percent change), https://www.imf.org/external/datamapper/datasets/WEO. Shown as published by the IMF.",
   "source": {
     "name": "International Monetary Fund",
@@ -9,7 +9,7 @@
     "url": "https://www.imf.org/external/datamapper/datasets/WEO"
   },
   "year": 2026,
-  "count": 8,
+  "count": 6,
   "items": [
     {
       "id": "ARE",
@@ -57,22 +57,6 @@
       "code": "BH",
       "gdpGrowth": -11.3,
       "inflation": 2.2,
-      "year": 2026
-    },
-    {
-      "id": "EGY",
-      "country": "Egypt",
-      "code": "EG",
-      "gdpGrowth": 5.1,
-      "inflation": 13.3,
-      "year": 2026
-    },
-    {
-      "id": "MAR",
-      "country": "Morocco",
-      "code": "MA",
-      "gdpGrowth": 4.5,
-      "inflation": 0.9,
       "year": 2026
     }
   ]

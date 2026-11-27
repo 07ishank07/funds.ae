@@ -11,7 +11,7 @@ import { DTO_FIELDS } from '../src/contracts/models.js';
 const backend = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const sample = JSON.parse(readFileSync(path.join(backend, 'fixtures', 'economy', 'imf-weo.json'), 'utf8'));
 const settings = JSON.parse(readFileSync(path.join(backend, 'config', 'settings.json'), 'utf8'));
-const COUNTRIES = ['ARE', 'SAU', 'QAT', 'KWT', 'OMN', 'BHR', 'EGY', 'MAR'];
+const COUNTRIES = ['ARE', 'SAU', 'QAT', 'KWT', 'OMN', 'BHR'];
 const now = new Date('2026-11-28T08:00:00Z');
 const clone = (x) => JSON.parse(JSON.stringify(x));
 
@@ -27,7 +27,7 @@ function stubImf(imf = sample) {
   return { fetchJson, calls };
 }
 
-test('settings list the Gulf and MENA countries the box shows', () => {
+test('settings list the six GCC states the box shows (no Egypt or Morocco)', () => {
   assert.deepEqual(settings.economy.countries, COUNTRIES);
   assert.equal(settings.economy.live, true);
 });
@@ -40,19 +40,20 @@ test('buildEconomy: the configured countries in order, this year, exactly the co
   assert.deepEqual(r.economy.items.map((i) => i.id), COUNTRIES);
   for (const item of r.economy.items) assert.deepEqual(Object.keys(item).sort(), [...DTO_FIELDS.economyItem].sort());
   assert.deepEqual(r.economy.items[0], { id: 'ARE', country: 'UAE', code: 'AE', gdpGrowth: -3.9, inflation: 4.5, year: 2026 });
-  assert.equal(r.economy.items.find((i) => i.id === 'EGY').inflation, 13.3);
+  assert.equal(r.economy.items.find((i) => i.id === 'QAT').inflation, 3.6);
+  assert.ok(!r.economy.items.some((i) => ['EGY', 'MAR'].includes(i.id)), 'no Egypt or Morocco');
 });
 
 test('buildEconomy: rounds to one decimal and falls back to the latest earlier year', () => {
   const imf = clone(sample);
   imf.values.NGDP_RPCH.OMN['2026'] = 4.0749;
-  delete imf.values.PCPIPCH.MAR['2026'];
+  delete imf.values.PCPIPCH.BHR['2026'];
   const r = buildEconomy(imf, { countries: COUNTRIES, now });
   assert.ok(r.ok);
   assert.equal(r.economy.items.find((i) => i.id === 'OMN').gdpGrowth, 4.1);
-  const mar = r.economy.items.find((i) => i.id === 'MAR');
-  assert.equal(mar.year, 2025);
-  assert.equal(mar.gdpGrowth, 4.9);
+  const bhr = r.economy.items.find((i) => i.id === 'BHR');
+  assert.equal(bhr.year, 2025);
+  assert.equal(bhr.gdpGrowth, 3.5);
   assert.equal(r.economy.year, 2026);
 });
 

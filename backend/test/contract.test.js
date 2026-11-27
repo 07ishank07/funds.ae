@@ -165,7 +165,7 @@ test('economy.json: IMF figures with the IMF credit, exactly the contract fields
   assert.equal(doc.source.name, 'International Monetary Fund');
   assert.equal(doc.source.url, 'https://www.imf.org/external/datamapper/datasets/WEO');
   assert.match(doc.notice, /^Source: International Monetary Fund, World Economic Outlook/);
-  assert.deepEqual(doc.items.map((i) => i.code), ['AE', 'SA', 'QA', 'KW', 'OM', 'BH', 'EG', 'MA']);
+  assert.deepEqual(doc.items.map((i) => i.code), ['AE', 'SA', 'QA', 'KW', 'OM', 'BH']);
   assert.ok(api('meta.json').versions.economy, 'meta.json versions economy.json');
 });
 

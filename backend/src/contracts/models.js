@@ -37,11 +37,11 @@ export const ADVERTISE_PLACEMENT_LABELS = {
 // Packages no longer offered. An entry still in Sanity is skipped when content is published (not an error),
 // and the enquiry form no longer accepts it. 'platinum' was the Elite Partner package.
 export const RETIRED_ADVERTISING_TIERS = ['platinum'];
-// Gulf Economy box (src/pipeline/economy.js): IMF three-letter code -> [two-letter badge, name].
+// Gulf Economy box (src/pipeline/economy.js): IMF three-letter code -> [two-letter badge, name]. funds.ae covers the
+// UAE and the Gulf, so these are the six GCC states.
 export const ECONOMY_COUNTRIES = {
   ARE: ['AE', 'UAE'], SAU: ['SA', 'Saudi Arabia'], QAT: ['QA', 'Qatar'], KWT: ['KW', 'Kuwait'],
-  OMN: ['OM', 'Oman'], BHR: ['BH', 'Bahrain'], EGY: ['EG', 'Egypt'], MAR: ['MA', 'Morocco'],
-  JOR: ['JO', 'Jordan'], IRQ: ['IQ', 'Iraq'], LBN: ['LB', 'Lebanon'], TUN: ['TN', 'Tunisia'], DZA: ['DZ', 'Algeria']
+  OMN: ['OM', 'Oman'], BHR: ['BH', 'Bahrain']
 };
 // Hero banner (Sanity "Home page hero banner"): its style, and the site pages its two buttons may open (not in Classic).
 // A hero published without a style shows as the first one. Mirrored in studio/schemaTypes/rules.js.

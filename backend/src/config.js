@@ -309,7 +309,7 @@ const SETTINGS_DEFAULTS = {
   jobs: { maxAgeDays: 45, relevanceThreshold: 1, maxPublished: 150, source: 'file', review: { store: 'file' } },
   employers: { maxPublished: 20 },
   // Gulf Economy box (src/pipeline/economy.js): IMF figures for these countries, fetched unless live is false.
-  economy: { live: true, countries: ['ARE', 'SAU', 'QAT', 'KWT', 'OMN', 'BHR', 'EGY', 'MAR'] },
+  economy: { live: true, countries: ['ARE', 'SAU', 'QAT', 'KWT', 'OMN', 'BHR'] },
   submissions: {
     enabled: true,
     retentionDays: 180,

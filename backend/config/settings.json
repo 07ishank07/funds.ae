@@ -82,9 +82,9 @@
     "maxPublished": 20
   },
   "economy": {
-    "_help": "Gulf Economy box on the home page: real GDP growth and inflation from the IMF World Economic Outlook (DataMapper API, no key), refreshed by every full run and by npm run economy. countries: IMF three-letter codes (supported: ARE, SAU, QAT, KWT, OMN, BHR, EGY, MAR, JOR, IRQ, LBN, TUN, DZA), in display order. live false (or FUNDSAE_ECONOMY_LIVE=0) uses the bundled sample instead of fetching.",
+    "_help": "Gulf Economy box on the home page: real GDP growth and inflation from the IMF World Economic Outlook (DataMapper API, no key), refreshed by every full run and by npm run economy. countries: IMF three-letter codes (the six GCC states: ARE, SAU, QAT, KWT, OMN, BHR), in display order. live false (or FUNDSAE_ECONOMY_LIVE=0) uses the bundled sample instead of fetching.",
     "live": true,
-    "countries": ["ARE", "SAU", "QAT", "KWT", "OMN", "BHR", "EGY", "MAR"]
+    "countries": ["ARE", "SAU", "QAT", "KWT", "OMN", "BHR"]
   },
   "events": {
     "_help": "Events come from config/events.json. Upcoming events are published, plus anything that ended in the last keepPastDays.",
