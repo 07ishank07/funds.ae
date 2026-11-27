@@ -416,7 +416,12 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.ok(careers.includes('href="careers-banner.css?v=1"') && careers.includes('<img class="fx-cb-photo" src="img/careers-banner.jpg" alt="">'), 'Careers shows the banner');
   assert.ok(careers.includes('<a class="fx-cb-btn" href="#opportunities">View finance jobs</a>') && careers.includes('id="opportunities"'), 'View finance jobs jumps to the listings');
   assert.ok(!careers.includes('Financial Services Jobs') && careers.indexOf('fx-careers-top') < careers.indexOf('id="opportunities"'), 'banner replaces the old heading, above the listings');
-  // Grants & Funding banner (the Grants page hero: photo, label, headline) in column 2, directly above Career Resources.
+  // Grants & Funding banner (the Grants page hero: photo, label, headline) in column 2, directly above Career Resources;
+  // the home page shows the same card in column 2, directly above Sponsored Posts. Both use grants-promo.css.
+  const homePage = read('this.html');
+  assert.ok(careers.includes('href="grants-promo.css?v=1"') && homePage.includes("promoCss.href = 'grants-promo.css?v=1';"), 'shared banner styles');
+  assert.ok(homePage.includes('sponsoredPostsBox.before(grantsPromo);') && homePage.includes("grantsPromo.href = 'GrantsFunding.dc.html';") &&
+    homePage.includes('<img class="gf-promo-img" src="img/grants-hero.jpg" alt="" loading="lazy">'), 'home: Grants & Funding banner above Sponsored Posts');
   assert.ok(careers.includes('<a class="gf-promo" href="GrantsFunding.dc.html" aria-labelledby="gf-promo-title">') &&
     careers.includes('<img class="gf-promo-img" src="img/grants-hero.jpg" alt="" loading="lazy">') &&
     careers.includes('id="gf-promo-title">Capital for every stage of your business.</span>'), 'Grants & Funding banner on Careers');

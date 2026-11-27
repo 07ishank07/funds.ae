@@ -850,6 +850,29 @@ document.addEventListener('DOMContentLoaded', async function() {
         const videosPodcastsBox = document.querySelector('[aria-labelledby="sponsored-podcasts-title"]');
         if (videosPodcastsBox) sidebar.insertBefore(videosPodcastsBox, sidebar.firstElementChild);
         if (videosPodcastsBox && sponsoredPostsBox) videosPodcastsBox.after(sponsoredPostsBox);
+        // Grants & Funding banner (as on the Careers page, grants-promo.css) directly above Sponsored Posts.
+        if (sponsoredPostsBox) {
+          if (!document.getElementById('fx-grants-promo-css')) {
+            const promoCss = document.createElement('link');
+            promoCss.id = 'fx-grants-promo-css';
+            promoCss.rel = 'stylesheet';
+            promoCss.href = 'grants-promo.css?v=1';
+            document.head.appendChild(promoCss);
+          }
+          const grantsPromo = document.createElement('a');
+          grantsPromo.className = 'gf-promo';
+          grantsPromo.href = 'GrantsFunding.dc.html';
+          grantsPromo.setAttribute('aria-labelledby', 'gf-promo-title');
+          grantsPromo.innerHTML = `
+            <img class="gf-promo-img" src="img/grants-hero.jpg" alt="" loading="lazy">
+            <span class="gf-promo-in">
+              <span class="gf-promo-eb">Grants &amp; Funding</span>
+              <span class="gf-promo-title" id="gf-promo-title">Capital for every stage of your business.</span>
+              <span class="gf-promo-rule" aria-hidden="true"></span>
+              <span class="gf-promo-cta">Explore grants and funding <span aria-hidden="true">&rarr;</span></span>
+            </span>`;
+          sponsoredPostsBox.before(grantsPromo);
+        }
         careersColumn.appendChild(professionalServicesBox);
         window.__careersColumn = careersColumn;
         main.appendChild(careersColumn);
