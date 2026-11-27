@@ -208,7 +208,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   // Built-in hero: the Photo style (full-bleed Dubai photo), with no buttons and no figures row.
   for (const s of ['>The future of capital</p>', '<h1 id="fx-hero-title" class="fx-hero-title">Capital. Markets. Opportunity.</h1>',
     '<img src="img/hero-dubai.jpg" alt="', "hero.className = 'fx-hero fx-hero--photo';",
-    "(document.querySelector('.fx-hero') || mainColumns).before(bar)", "heroStyle.href = 'hero-banner.css?v=3';"]) {
+    "(designHeader || document.querySelector('.fx-hero') || mainColumns).before(dateLine, siteHeader);", "heroStyle.href = 'hero-banner.css?v=3';"]) {
     assert.ok(home.includes(s), `hero: ${s}`);
   }
   assert.ok(!home.includes('fx-hero-form') && !home.includes('fx-hero-links'), 'the hero has no form or link list');
@@ -246,22 +246,25 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
     // Footer: About, Contact us and the legal links only (the same on every page).
     for (const label of ['About', 'Contact us', 'Terms of Service', 'Privacy Policy']) assert.ok(footNav.includes(`>${label}</a>`), `${page} footer links to ${label}`);
     for (const label of ['Top news', 'Careers', 'Events', 'Partner with us']) assert.ok(!footNav.includes(`>${label}</a>`), `${page} footer has no ${label}`);
-    // Header: the home page's masthead, mobile bar and category bar, from the shared stylesheet and script.
-    assert.ok(html.includes('href="site-header.css"') && html.includes('src="../js/fundsae-header.js"'), `${page} uses the shared header`);
-    assert.ok(html.includes('class="fxh"') && html.includes('class="m-only fxh-m"') && html.includes('class="fx-catbar"'), `${page} has the home page header`);
-    assert.ok(html.includes('data-fundsae-date'), `${page} header shows the date`);
-    assert.ok(!html.includes('class="masthead"'), `${page} has no old masthead`);
-    const catbar = html.slice(html.indexOf('<nav class="fx-catbar"'), html.indexOf('</nav>', html.indexOf('<nav class="fx-catbar"')));
-    for (const [label, href] of [['Grants &amp; Funding', 'GrantsFunding.dc.html'], ['Videos &amp; Podcasts', 'Videos.dc.html'], ['Partner with us', 'PartnerWithUs.dc.html'], ['Careers', 'Careers.dc.html'], ['Events', 'Events.dc.html']]) {
-      assert.ok(catbar.includes(`<a href="${href}"`) && catbar.includes(`>${label}</a>`), `${page} category bar links to ${label}`);
-    }
-    // No investor-type links: Real Estate Stories, one divider, then the site's pages.
+    // Header (option B): a date line, then one sticky row with the logo, the sections, the language slot, the
+    // Partner with us button and the phone menu button. No search box and no share icons.
+    assert.ok(html.includes('href="site-header.css?v=2"') && html.includes('src="../js/fundsae-header.js"'), `${page} uses the shared header`);
+    assert.ok(html.includes('<div class="fxb-top">') && html.includes('<header class="fxb">') && html.includes('<nav class="fx-catbar fxb-nav" aria-label="News categories">'), `${page} has the option B header`);
+    assert.ok(html.includes('data-fundsae-date') && html.includes('<span class="fxb-lang"></span>') && html.includes('aria-label="Open menu"'), `${page} header has the date, language slot and menu button`);
+    assert.ok(/<a class="fxb-cta" href="PartnerWithUs\.dc\.html"( aria-current="page")?>Partner with us<\/a>/.test(html), `${page} header has the Partner with us button`);
+    assert.ok(!/class="fxh"|fxh-search|Search news, funds and firms|Share on social media|class="masthead"/.test(html), `${page} has no old masthead, search box or share icons`);
+    const catbar = html.slice(html.indexOf('<nav class="fx-catbar'), html.indexOf('</nav>', html.indexOf('<nav class="fx-catbar')));
+    // No investor-type links: Real Estate Stories, then the site's sections (Partner with us is the button).
     assert.ok(!catbar.includes('?category=') && !catbar.includes('?capital='), `${page} category bar has no investor-type links`);
-    assert.equal(catbar.split('fx-catbar-rule').length - 1, 1, `${page} category bar has one divider`);
-    const links = [...catbar.matchAll(/>([^<>]+)<\/a>/g)].map((m) => m[1]);
-    assert.deepEqual(links, ['Real Estate Stories', 'Videos &amp; Podcasts', 'Grants &amp; Funding', 'Careers', 'Events', 'Partner with us'], `${page} category bar order`);
+    const links = [...catbar.matchAll(/<a href="([^"]+)"[^>]*>([^<>]+)<\/a>/g)].map((m) => [m[1], m[2]]);
+    assert.deepEqual(links, [['this.html', 'Real Estate Stories'], ['Videos.dc.html', 'Videos &amp; Podcasts'], ['GrantsFunding.dc.html', 'Grants &amp; Funding'], ['Careers.dc.html', 'Careers'], ['Events.dc.html', 'Events']], `${page} header sections and order`);
   }
-  // One bar under the masthead: Real Estate Stories, Grants & Funding | Videos & Podcasts, Partner with us, Careers, Events.
+  // The home page builds the same header (its own bar inside), hides the design's headers and their search box.
+  assert.ok(home.includes("siteHeader.className = 'fxb';") && home.includes('<a class="fxb-cta" href="PartnerWithUs.dc.html">Partner with us</a>') && home.includes("headerCss.href = 'site-header.css?v=2';"), 'home builds the option B header');
+  assert.ok(home.includes('html body header.d-only, html body header.m-only { display: none !important; }'), 'home hides the design headers (and their search box)');
+  const headerJs = readFileSync(path.join(repo, 'js', 'fundsae-header.js'), 'utf8');
+  assert.ok(!/runSearch|Search news, funds and firms|fxh-search-panel/.test(headerJs) && headerJs.includes("header.fxb button[aria-label=\"Open menu\"]"), 'header script: menu only, no search');
+  // One bar in the header: Real Estate Stories | Videos & Podcasts, Grants & Funding, Careers, Events.
   assert.ok(home.includes("[['Real Estate Stories', null]],"), 'category bar starts with Real Estate Stories');
   // No grants news box on the home page (its tiles, images and links are gone); the funding-type tiles sit under
   // "Business Grants & Funding Resources".
@@ -284,7 +287,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   for (const label of ['Sovereign', 'Pension', 'Private Equity', 'REITs', 'Family Offices', 'Banks', 'Government', 'Endowments']) {
     assert.ok(!home.includes(`['${label}', `), `category bar has no ${label} link`);
   }
-  assert.ok(home.includes("[['Videos & Podcasts', { href: 'Videos.dc.html' }], ['Grants & Funding', { href: 'GrantsFunding.dc.html' }], ['Careers', { href: 'Careers.dc.html' }], ['Events', { href: 'Events.dc.html' }], ['Partner with us', { href: 'PartnerWithUs.dc.html' }]]"), 'category bar ends with Videos & Podcasts, Grants & Funding, Careers, Events and Partner with us');
+  assert.ok(home.includes("[['Videos & Podcasts', { href: 'Videos.dc.html' }], ['Grants & Funding', { href: 'GrantsFunding.dc.html' }], ['Careers', { href: 'Careers.dc.html' }], ['Events', { href: 'Events.dc.html' }]]"), 'home bar ends with Videos & Podcasts, Grants & Funding, Careers and Events (Partner with us is the button)');
   for (const gone of ['Latest', 'Fundraising', 'Deals', 'People', 'Venture', 'Credit', 'Secondaries', 'Hedge Funds', 'LPs', 'Regulation', 'Providers']) {
     assert.ok(!home.includes(`['${gone}', [`), `category bar no longer has ${gone}`);
   }

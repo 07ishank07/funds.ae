@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;600;700&family=Jost:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="founding-banner.css">
-<link rel="stylesheet" href="site-header.css">
+<link rel="stylesheet" href="site-header.css?v=2">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   /* Editorial theme tokens. Keep in sync with the theme block at the end of this.html's script. */
@@ -108,55 +108,29 @@
 </style>
 </head>
 <body>
-<!-- Site header, the same as the home page's (styles in site-header.css, behaviour in js/fundsae-header.js):
-     desktop masthead, mobile bar, then the sticky category bar. Investor types open the home page filtered. -->
-<header class="fxh">
-  <div class="fxh-inner">
-    <div class="topline">
-      <span data-fundsae-date data-fundsae-badge></span>
-      <span class="edition">Real Estate, Infrastructure &amp; Market Intelligence</span>
-      <span aria-hidden="true"></span>
-    </div>
-    <form class="fxh-search" action="this.html" method="get" role="search">
-      <label class="fxh-sr" for="site-search">Search Funds.ae</label>
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
-      <input id="site-search" name="q" type="search" placeholder="Search news, funds and firms" maxlength="100">
-    </form>
-    <a href="this.html" class="fxh-brand" aria-label="Funds.ae home">
-      <svg viewBox="0 0 140 140" aria-hidden="true"><circle cx="70" cy="70" r="62.83" fill="none" stroke="#0E3A43" stroke-width="10"/><circle cx="53.03" cy="86.97" r="38.83" fill="none" stroke="#0E3A43" stroke-width="10"/><circle cx="42.54" cy="97.46" r="29" fill="#4FB3B8"/></svg>
-      <span class="fxh-word">Funds<span class="dot">.</span>ae</span>
-      <span class="fxh-tagline">Discover. Connect. Grow.</span>
-    </a>
-    <div class="fxh-share" aria-label="Share on social media">
-      <a href="#" aria-label="Share on Facebook (dummy)">f</a>
-      <a href="#" aria-label="Share on X (dummy)">X</a>
-      <a href="#" aria-label="Share on LinkedIn (dummy)">in</a>
-      <a href="#" aria-label="Share on WhatsApp (dummy)">W</a>
+<!-- Site header, option B (styles in site-header.css, behaviour in js/fundsae-header.js): a slim date line, then one
+     sticky row with the logo, the sections, the language switch (i18n.js fills .fxb-lang), Partner with us and, on
+     phones, a menu button that opens the site menu (About and Contact us too). -->
+<div class="fxb-top"><div class="fxb-in"><span data-fundsae-date data-fundsae-badge></span><span class="fxb-tagline">Real estate, infrastructure and market intelligence</span></div></div>
+<header class="fxb">
+  <div class="fxb-in">
+    <a href="this.html" class="fxb-brand" aria-label="Funds.ae home"><svg viewBox="0 0 140 140" aria-hidden="true"><circle cx="70" cy="70" r="62.83" fill="none" stroke="#0E3A43" stroke-width="10"/><circle cx="53.03" cy="86.97" r="38.83" fill="none" stroke="#0E3A43" stroke-width="10"/><circle cx="42.54" cy="97.46" r="29" fill="#4FB3B8"/></svg><span class="fxb-word">Funds<span class="dot">.</span>ae</span></a>
+    <nav class="fx-catbar fxb-nav" aria-label="News categories">
+      <div class="fx-catbar-row">
+        <a href="this.html">Real Estate Stories</a>
+        <a href="Videos.dc.html">Videos &amp; Podcasts</a>
+        <a href="GrantsFunding.dc.html">Grants &amp; Funding</a>
+        <a href="Careers.dc.html">Careers</a>
+        <a href="Events.dc.html">Events</a>
+      </div>
+    </nav>
+    <div class="fxb-tools">
+      <span class="fxb-lang"></span>
+      <a class="fxb-cta" href="PartnerWithUs.dc.html">Partner with us</a>
+      <button type="button" class="fxb-menu" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></button>
     </div>
   </div>
 </header>
-<header class="m-only fxh-m">
-  <a href="this.html" class="fxh-mbrand" aria-label="Funds.ae home">
-    <svg viewBox="0 0 140 140" aria-hidden="true"><circle cx="70" cy="70" r="62.83" fill="none" stroke="#F1F5F4" stroke-width="10"/><circle cx="53.03" cy="86.97" r="38.83" fill="none" stroke="#F1F5F4" stroke-width="10"/><circle cx="42.54" cy="97.46" r="29" fill="#4FB3B8"/></svg>
-    <span class="fxh-mword">Funds<span class="dot">.</span>ae</span>
-    <span class="fxh-mtagline">Discover. Connect. Grow.</span>
-  </a>
-  <div>
-    <button type="button" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg></button>
-    <button type="button" aria-label="Open menu"><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></button>
-  </div>
-</header>
-<nav class="fx-catbar" aria-label="News categories">
-  <div class="fx-catbar-row">
-      <a href="this.html">Real Estate Stories</a>
-      <span class="fx-catbar-rule" aria-hidden="true"></span>
-      <a href="Videos.dc.html">Videos &amp; Podcasts</a>
-      <a href="GrantsFunding.dc.html">Grants &amp; Funding</a>
-      <a href="Careers.dc.html">Careers</a>
-      <a href="Events.dc.html">Events</a>
-      <a href="PartnerWithUs.dc.html">Partner with us</a>
-  </div>
-</nav>
 <!-- Elite Founding Sponsor banner: same markup and text as this.html; styles in founding-banner.css;
      js/fundsae-connector.js (slot "sponsor-founding") swaps the advert for a signed sponsor. -->
 <section class="fx-founding" aria-label="Elite Founding Sponsor" data-fundsae-slot="sponsor-founding">

@@ -1368,7 +1368,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         // No investor-type links: the bar is Real Estate Stories, then the site's own pages.
         const CATEGORY_GROUPS = [
           [['Real Estate Stories', null]],
-          [['Videos & Podcasts', { href: 'Videos.dc.html' }], ['Grants & Funding', { href: 'GrantsFunding.dc.html' }], ['Careers', { href: 'Careers.dc.html' }], ['Events', { href: 'Events.dc.html' }], ['Partner with us', { href: 'PartnerWithUs.dc.html' }]]
+          [['Videos & Podcasts', { href: 'Videos.dc.html' }], ['Grants & Funding', { href: 'GrantsFunding.dc.html' }], ['Careers', { href: 'Careers.dc.html' }], ['Events', { href: 'Events.dc.html' }]]
         ];
         const bar = document.createElement('nav');
         bar.className = 'fx-catbar';
@@ -1420,40 +1420,41 @@ document.addEventListener('DOMContentLoaded', async function() {
             else news.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
         }, true);
+        // Header option B, the same as the other pages (styles in site-header.css, menu button in js/fundsae-header.js):
+        // a slim date line, then one sticky row with the logo, this bar, the language switch (i18n.js fills .fxb-lang),
+        // Partner with us and the phone menu button. It replaces the design's own headers (and their search box).
+        if (!document.getElementById('fx-site-header-css')) {
+          const headerCss = document.createElement('link');
+          headerCss.id = 'fx-site-header-css';
+          headerCss.rel = 'stylesheet';
+          headerCss.href = 'site-header.css?v=2';
+          document.head.appendChild(headerCss);
+        }
         const catbarStyle = document.createElement('style');
         catbarStyle.id = 'fx-catbar-style';
         catbarStyle.textContent = `
-          .fx-catbar {
-            position: sticky; top: 0; z-index: 50; flex-shrink: 0; box-sizing: border-box; width: 100%;
-            border-top: 1px solid rgba(14, 58, 67, 0.15); border-bottom: 1px solid rgba(14, 58, 67, 0.15);
-            background: rgba(250, 251, 250, 0.94); box-shadow: 0 1px 0 rgba(14, 58, 67, 0.08);
-            -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
-          }
-          .fx-catbar-row {
-            display: flex; align-items: stretch; box-sizing: border-box; max-width: 1288px; margin: 0 auto; padding: 0 14px;
-            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
-          }
-          .fx-catbar-row::-webkit-scrollbar { display: none; }
-          /* Centred. Auto margins (not justify-content: center) so a row wider than the screen still scrolls
-             from its first item instead of clipping it. */
-          .fx-catbar-row > :first-child { margin-inline-start: auto; }
-          .fx-catbar-row > :last-child { margin-inline-end: auto; }
-          .fx-catbar a {
-            position: relative; display: flex; flex-shrink: 0; align-items: center; height: 40px; padding: 0 10px; white-space: nowrap;
-            font-family: 'Jost', 'Futura', 'Century Gothic', sans-serif; font-size: 13px; font-weight: 500;
-            color: rgba(14, 58, 67, 0.65); text-decoration: none; transition: color 0.15s;
-          }
-          .fx-catbar a:hover { color: #0E3A43; }
-          .fx-catbar a:focus-visible { outline: 2px solid #1F6A6E; outline-offset: -2px; }
-          .fx-catbar a[aria-current="true"] { color: #0E3A43; font-weight: 600; }
-          .fx-catbar a[aria-current="true"]::after { content: ''; position: absolute; right: 10px; bottom: -1px; left: 10px; height: 2px; background: #1F6A6E; }
-          .fx-catbar-rule { flex-shrink: 0; width: 1px; margin: 10px 6px; background: rgba(14, 58, 67, 0.15); }
-          main.wrap > .news { scroll-margin-top: 56px; }
-          @media (max-width: 620px) { .fx-catbar-row { padding: 0 6px; } }
-          html[lang="ar"] .fx-catbar a { font-family: inherit; }
+          html body header.d-only, html body header.m-only { display: none !important; }
+          main.wrap > .news { scroll-margin-top: 80px; }
         `;
         document.head.appendChild(catbarStyle);
-        (document.querySelector('.fx-hero') || mainColumns).before(bar);
+        const dateLine = document.createElement('div');
+        dateLine.className = 'fxb-top';
+        dateLine.innerHTML = '<div class="fxb-in"><span data-fundsae-date data-fundsae-badge></span><span class="fxb-tagline">Real estate, infrastructure and market intelligence</span></div>';
+        dateLine.querySelector('[data-fundsae-date]').textContent = ((document.querySelector('#top-news + span') || {}).textContent || '').trim();
+        const siteHeader = document.createElement('header');
+        siteHeader.className = 'fxb';
+        siteHeader.innerHTML = `<div class="fxb-in">
+          <a href="this.html" class="fxb-brand" aria-label="Funds.ae home"><svg viewBox="0 0 140 140" aria-hidden="true"><circle cx="70" cy="70" r="62.83" fill="none" stroke="#0E3A43" stroke-width="10"/><circle cx="53.03" cy="86.97" r="38.83" fill="none" stroke="#0E3A43" stroke-width="10"/><circle cx="42.54" cy="97.46" r="29" fill="#4FB3B8"/></svg><span class="fxb-word">Funds<span class="dot">.</span>ae</span></a>
+          <div class="fxb-tools">
+            <span class="fxb-lang"></span>
+            <a class="fxb-cta" href="PartnerWithUs.dc.html">Partner with us</a>
+            <button type="button" class="fxb-menu" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></button>
+          </div>
+        </div>`;
+        bar.classList.add('fxb-nav');
+        siteHeader.querySelector('.fxb-in').insertBefore(bar, siteHeader.querySelector('.fxb-tools'));
+        const designHeader = document.querySelector('header.d-only');
+        (designHeader || document.querySelector('.fx-hero') || mainColumns).before(dateLine, siteHeader);
       }
     }
 
@@ -1768,11 +1769,7 @@ document.addEventListener('DOMContentLoaded', async function() {
       tag(document.querySelector('.news > section[aria-label="Infrastructure Real Estate News"]'), 'tiles-infrastructure');
       tag(document.querySelector('.news > section[aria-label="Special & Alternative Real Estate News"]'), 'tiles-special-alternative-real-estate');
       tag(inBox('tweets-title', ':scope > div'), 'social-highlights');
-      const dateLine = document.querySelector('.fx-topline > span:first-child');
-      if (dateLine) {
-        dateLine.setAttribute('data-fundsae-date', '');
-        dateLine.setAttribute('data-fundsae-badge', '');
-      }
+      // The date and Demo data badge are the header's date line (.fxb-top, built with the header above).
       // The UAE Careers box is no longer shown on the home page. It is removed only now, after
       // the layout above has placed Subscribe and Events relative to it.
       const careersBox = box('careers-title');

@@ -480,9 +480,10 @@
     applying = false;
   }
 
-  /** Put the toggle where the masthead strip's right-hand slot is, plus a compact copy in the mobile header. */
+  /** Put the toggle in the header's language slot (.fxb-lang, every screen size); older layouts: the masthead strip's
+   *  right-hand slot, plus a compact copy in the mobile header. */
   function mountButtons() {
-    var slot = document.querySelector('.fx-topline > span:last-child, .topline > span:last-child');
+    var slot = document.querySelector('.fxb-lang') || document.querySelector('.fx-topline > span:last-child, .topline > span:last-child');
     if (slot && !slot.querySelector('.fx-lang')) {
       slot.removeAttribute('aria-hidden');
       var b = document.createElement('button');
@@ -491,7 +492,7 @@
       b.addEventListener('click', function () { var n = lang === 'ar' ? 'en' : 'ar'; savePref(n); apply(n); });
       slot.appendChild(b);
     }
-    var mobile = document.querySelector('header.m-only > div:last-child');
+    var mobile = !document.querySelector('.fxb-lang') && document.querySelector('header.m-only > div:last-child');
     if (mobile && !mobile.querySelector('.fx-lang-m')) {
       var m = document.createElement('button');
       m.type = 'button';
