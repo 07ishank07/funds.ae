@@ -33,6 +33,8 @@
     'Funding opportunities': 'فرص التمويل',
     'Grants & Funding · UAE': 'المنح والتمويل · الإمارات',
     'Capital for every stage of your business.': 'تمويل لكل مرحلة من مراحل عملك.',
+    'Explore grants and funding': 'استكشف المنح والتمويل',
+    'Capital for every stage of your business.': 'تمويل لكل مرحلة من مراحل عملك.',
     'SME Grants': 'منح الشركات الصغيرة والمتوسطة',
     'Startup Funding': 'تمويل الشركات الناشئة',
     'Innovation & R&D': 'الابتكار والبحث والتطوير',
