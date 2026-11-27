@@ -421,7 +421,12 @@ test('Grants & Funding page: dummy funding, loan and grant opportunities with wo
   assert.equal(cards.length, (main.match(/class="gf-card/g) || []).length, 'every card is filterable');
   for (const type of ['grant', 'loan', 'equity', 'trade']) assert.ok(cards.some((m) => m[1] === type), `at least one ${type}`);
   assert.ok(main.includes('Demo data:') && main.includes('not financial advice'), 'demo notice and disclaimer');
-  assert.equal((main.match(/\(demo\)/g) || []).length, cards.length, 'every provider is marked (demo)');
+  // Each card: a "TYPE · EMIRATE" line, the company name, one sentence about the funding and a details link.
+  const bodies = main.split('<article class="gf-card').slice(1).map((c) => c.slice(0, c.indexOf('</article>')));
+  for (const c of bodies) {
+    assert.match(c, /<p class="gf-kicker">(Grant|Loan|Equity|Trade finance) · /, 'card type line');
+    assert.match(c, /<h3>[^<]{3,}<\/h3>\s*<p class="gf-brief">[^<]{20,}<\/p>\s*<a class="gf-link" href="#"/, 'company name, brief text, then the link');
+  }
   assert.ok(!/<img|https?:\/\//.test(main), 'no images or external links in the page body');
   const script = page.slice(page.lastIndexOf('<script>'), page.lastIndexOf('</script>'));
   assert.ok(script.includes('count.textContent') && !/innerHTML|insertAdjacentHTML/.test(script), 'the filter script sets text only');

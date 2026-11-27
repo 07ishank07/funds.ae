@@ -40,36 +40,17 @@
   .gf-count { margin-top: 18px; font-size: 13px; color: var(--ghost); }
 
   .gf-list { margin-top: 12px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
-  .gf-card { display: flex; flex-direction: column; gap: 10px; padding: 18px 18px 16px; border: 1px solid var(--line); border-top: 3px solid var(--ink); border-radius: 4px; background: var(--surface); }
+  /* Cards (like the reference): a "TYPE · EMIRATE" line, the company name, one sentence about the funding, a link. */
+  .gf-card { display: flex; flex-direction: column; padding: 24px 24px 22px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
   .gf-card[hidden] { display: none; }
-  .gf-featured { grid-column: 1 / -1; border-top-color: var(--gold); background: linear-gradient(120deg, #FFFFFF 55%, #F7F1E4); }
-  .gf-featured h3 { font-size: 24px; }
-  .gf-featured .gf-amount { font-size: 26px; }
-  .gf-featured .gf-terms { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .gf-top { display: flex; align-items: center; gap: 8px; }
-  .gf-tag { padding: 2px 8px; border-radius: 3px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
-  .gf-tag-grant { background: #E3F2EC; color: #0F5C45; }
-  .gf-tag-loan { background: #E6EEF6; color: #1F4E79; }
-  .gf-tag-equity { background: #F1EAF7; color: #5B3A7A; }
-  .gf-tag-trade { background: #F7EEDF; color: #7A5418; }
-  .gf-pick { padding: 2px 8px; border-radius: 3px; background: var(--gold); color: #2B2210; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
-  .gf-where { margin-left: auto; font-size: 12px; color: var(--ghost); }
-  .gf-provider { display: flex; align-items: center; gap: 10px; }
-  .gf-logo { display: flex; align-items: center; justify-content: center; flex: 0 0 36px; width: 36px; height: 36px; border-radius: 6px; background: var(--ink); color: #FFFFFF; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; }
-  .gf-provider strong { display: block; font-size: 14px; font-weight: 600; line-height: 1.3; }
-  .gf-provider small { display: block; font-size: 12px; color: var(--ghost); }
-  .gf-card h3 { font-size: 18px; font-weight: 600; line-height: 1.25; }
-  .gf-amount { font-size: 20px; font-weight: 600; color: var(--accent); }
-  .gf-terms { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 10px 0; border-top: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); }
-  .gf-terms dt { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ghost); }
-  .gf-terms dd { font-size: 14px; color: var(--ink); }
-  .gf-elig { font-size: 14px; color: var(--ink-2); }
-  .gf-elig span { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ghost); }
-  .gf-sectors { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; }
-  .gf-sectors li { padding: 2px 8px; border: 1px solid var(--line); border-radius: 999px; font-size: 12px; color: var(--ink-2); }
-  .gf-foot { margin-top: auto; padding-top: 6px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px; font-size: 13px; color: var(--ink-2); }
-  .gf-deadline b { font-weight: 600; color: var(--ink); }
-  .gf-soon { font-size: 12px; color: var(--ghost); }
+  .gf-kicker { font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ghost); }
+  .gf-card h3 { margin-top: 6px; font-size: 22px; font-weight: 600; line-height: 1.25; color: var(--ink); }
+  .gf-brief { margin-top: 10px; font-size: 16px; line-height: 1.65; color: var(--ink-2); }
+  .gf-link { margin-top: auto; padding-top: 22px; align-self: flex-start; font-size: 16px; font-weight: 600; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+  .gf-link:hover { color: var(--accent); }
+  .gf-featured { grid-column: span 2; border-color: var(--gold); background: #FCF8EF; }
+  .gf-featured h3 { font-size: 26px; }
+  .gf-pick { color: #8A6A1F; }
   .gf-empty { margin-top: 18px; padding: 24px; border: 1px dashed var(--line); border-radius: 4px; text-align: center; color: var(--muted); }
   .gf-empty[hidden] { display: none; }
 
@@ -86,11 +67,11 @@
   .gf-cta a:hover { background: #D9BE7A; }
   .gf-disclaimer { margin-top: 22px; font-size: 12px; color: var(--ghost); max-width: 860px; }
 
-  @media (max-width: 1024px) { .gf-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 1024px) { .gf-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } .gf-featured { grid-column: 1 / -1; } }
   @media (max-width: 720px) {
     .gf { padding: 28px 16px 56px; }
+    .gf-featured { grid-column: auto; }
     .gf-list, .gf-how ol { grid-template-columns: minmax(0, 1fr); }
-    .gf-featured .gf-terms { grid-template-columns: minmax(0, 1fr); }
     .gf-controls, .gf-field, .gf-search input { width: 100%; }
   }
 
@@ -213,199 +194,94 @@
 
   <section class="gf-list" aria-label="Funding opportunities">
       <article class="gf-card gf-featured" data-type="grant" data-emirate="uae">
-        <div class="gf-top">
-          <span class="gf-tag gf-tag-grant">Grant</span><span class="gf-pick">Featured</span>
-          <span class="gf-where">UAE-wide</span>
-        </div>
-        <div class="gf-provider"><span class="gf-logo" aria-hidden="true">CI</span><span><strong>Crescent Innovation Fund (demo)</strong><small>Development fund</small></span></div>
-        <h3>SME Growth Grant 2027</h3>
-        <p class="gf-amount">Up to AED 500,000</p>
-        <dl class="gf-terms"><div><dt>Co-funding</dt><dd>50% of approved costs</dd></div><div><dt>Paid in</dt><dd>Three milestones</dd></div><div><dt>Decision</dt><dd>About 8 weeks</dd></div></dl>
-        <p class="gf-elig"><span>Who can apply</span>UAE-licensed SMEs, 2+ years trading, under AED 50m revenue, with a growth or export plan.</p>
-        <ul class="gf-sectors"><li>Manufacturing</li><li>Technology</li><li>Food security</li></ul>
-        <div class="gf-foot"><span class="gf-deadline">Deadline: <b>31 March 2027</b></span><span class="gf-soon">Details coming soon</span></div>
+        <p class="gf-kicker">Grant · UAE-wide · <span class="gf-pick">Featured</span></p>
+        <h3>Crescent Innovation Fund</h3>
+        <p class="gf-brief">Grants of up to AED 500,000, covering half the cost of growth and export projects for established SMEs.</p>
+        <a class="gf-link" href="#" aria-label="View details: Crescent Innovation Fund (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
       <article class="gf-card" data-type="grant" data-emirate="abu-dhabi">
-        <div class="gf-top">
-          <span class="gf-tag gf-tag-grant">Grant</span>
-          <span class="gf-where">Abu Dhabi</span>
-        </div>
-        <div class="gf-provider"><span class="gf-logo" aria-hidden="true">HG</span><span><strong>Harbour Gate SME Fund (demo)</strong><small>Development fund</small></span></div>
-        <h3>Industrial Upgrade Grant</h3>
-        <p class="gf-amount">AED 100k – 1m</p>
-        <dl class="gf-terms"><div><dt>Co-funding</dt><dd>40% of equipment cost</dd></div><div><dt>Paid in</dt><dd>Two tranches</dd></div></dl>
-        <p class="gf-elig"><span>Who can apply</span>Abu Dhabi manufacturers automating or cutting energy use.</p>
-        <ul class="gf-sectors"><li>Manufacturing</li><li>Energy</li></ul>
-        <div class="gf-foot"><span class="gf-deadline">Deadline: <b>15 February 2027</b></span><span class="gf-soon">Details coming soon</span></div>
+        <p class="gf-kicker">Grant · Abu Dhabi</p>
+        <h3>Harbour Gate SME Fund</h3>
+        <p class="gf-brief">Grants of AED 100k to 1m towards new equipment for manufacturers automating or cutting energy use.</p>
+        <a class="gf-link" href="#" aria-label="View details: Harbour Gate SME Fund (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
       <article class="gf-card" data-type="grant" data-emirate="dubai">
-        <div class="gf-top">
-          <span class="gf-tag gf-tag-grant">Grant</span>
-          <span class="gf-where">Dubai</span>
-        </div>
-        <div class="gf-provider"><span class="gf-logo" aria-hidden="true">LI</span><span><strong>Lumen Impact Foundation (demo)</strong><small>Foundation</small></span></div>
-        <h3>Climate Tech Pilot Grant</h3>
-        <p class="gf-amount">Up to AED 250,000</p>
-        <dl class="gf-terms"><div><dt>Co-funding</dt><dd>Up to 100% for pilots</dd></div><div><dt>Term</dt><dd>12-month pilot</dd></div></dl>
-        <p class="gf-elig"><span>Who can apply</span>Early-stage climate and water start-ups with a working prototype.</p>
-        <ul class="gf-sectors"><li>Climate</li><li>Water</li></ul>
-        <div class="gf-foot"><span class="gf-deadline">Deadline: <b>Rolling</b></span><span class="gf-soon">Details coming soon</span></div>
+        <p class="gf-kicker">Grant · Dubai</p>
+        <h3>Lumen Impact Foundation</h3>
+        <p class="gf-brief">Pilot grants of up to AED 250,000 for early-stage climate and water start-ups.</p>
+        <a class="gf-link" href="#" aria-label="View details: Lumen Impact Foundation (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
       <article class="gf-card" data-type="grant" data-emirate="sharjah">
-        <div class="gf-top">
-          <span class="gf-tag gf-tag-grant">Grant</span>
-          <span class="gf-where">Sharjah</span>
-        </div>
-        <div class="gf-provider"><span class="gf-logo" aria-hidden="true">SR</span><span><strong>Sharjah Research Park (demo)</strong><small>Free zone</small></span></div>
-        <h3>R&amp;D Voucher Programme</h3>
-        <p class="gf-amount">AED 50k – 300k</p>
-        <dl class="gf-terms"><div><dt>Co-funding</dt><dd>70% of lab and testing costs</dd></div><div><dt>Paid</dt><dd>On invoice</dd></div></dl>
-        <p class="gf-elig"><span>Who can apply</span>Free zone companies working with a UAE university or lab.</p>
-        <ul class="gf-sectors"><li>Research</li><li>Health</li></ul>
-        <div class="gf-foot"><span class="gf-deadline">Deadline: <b>30 April 2027</b></span><span class="gf-soon">Details coming soon</span></div>
+        <p class="gf-kicker">Grant · Sharjah</p>
+        <h3>Sharjah Research Park</h3>
+        <p class="gf-brief">R&amp;D vouchers of AED 50k to 300k for companies working with a UAE university or lab.</p>
+        <a class="gf-link" href="#" aria-label="View details: Sharjah Research Park (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
       <article class="gf-card" data-type="loan" data-emirate="uae">
-        <div class="gf-top">
-          <span class="gf-tag gf-tag-loan">Loan</span>
-          <span class="gf-where">UAE-wide</span>
-        </div>
-        <div class="gf-provider"><span class="gf-logo" aria-hidden="true">SC</span><span><strong>Saffron Capital Bank (demo)</strong><small>Bank</small></span></div>
-        <h3>SME Working Capital Line</h3>
-        <p class="gf-amount">AED 250k – 5m</p>
-        <dl class="gf-terms"><div><dt>Rate</dt><dd>EIBOR + 3.5% a year</dd></div><div><dt>Tenor</dt><dd>Up to 36 months</dd></div></dl>
-        <p class="gf-elig"><span>Who can apply</span>2+ years audited accounts; no collateral up to AED 1m.</p>
-        <ul class="gf-sectors"><li>All sectors</li></ul>
-        <div class="gf-foot"><span class="gf-deadline">Deadline: <b>Rolling</b></span><span class="gf-soon">Details coming soon</span></div>
+        <p class="gf-kicker">Loan · UAE-wide</p>
+        <h3>Saffron Capital Bank</h3>
+        <p class="gf-brief">Working capital lines of AED 250k to 5m for SMEs with two years of audited accounts.</p>
+        <a class="gf-link" href="#" aria-label="View details: Saffron Capital Bank (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
       <article class="gf-card" data-type="loan" data-emirate="dubai">
-        <div class="gf-top">
-          <span class="gf-tag gf-tag-loan">Loan</span>
-          <span class="gf-where">Dubai</span>
-        </div>
-        <div class="gf-provider"><span class="gf-logo" aria-hidden="true">AW</span><span><strong>Al Waha Islamic Finance (demo)</strong><small>Islamic bank</small></span></div>
-        <h3>Murabaha Equipment Finance</h3>
-        <p class="gf-amount">AED 100k – 3m</p>
-        <dl class="gf-terms"><div><dt>Profit rate</dt><dd>From 5.9% a year</dd></div><div><dt>Tenor</dt><dd>Up to 60 months</dd></div></dl>
-        <p class="gf-elig"><span>Who can apply</span>Sharia-compliant equipment purchase; 20% down payment.</p>
-        <ul class="gf-sectors"><li>Logistics</li><li>Healthcare</li></ul>
-        <div class="gf-foot"><span class="gf-deadline">Deadline: <b>Rolling</b></span><span class="gf-soon">Details coming soon</span></div>
+        <p class="gf-kicker">Loan · Dubai</p>
+        <h3>Al Waha Islamic Finance</h3>
+        <p class="gf-brief">Sharia-compliant Murabaha finance of AED 100k to 3m for business equipment.</p>
+        <a class="gf-link" href="#" aria-label="View details: Al Waha Islamic Finance (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
       <article class="gf-card" data-type="loan" data-emirate="abu-dhabi">
-        <div class="gf-top">
-          <span class="gf-tag gf-tag-loan">Loan</span>
-          <span class="gf-where">Abu Dhabi</span>
-        </div>
-        <div class="gf-provider"><span class="gf-logo" aria-hidden="true">PC</span><span><strong>Pearl Coast Development Bank (demo)</strong><small>Development bank</small></span></div>
-        <h3>Startup Soft Loan</h3>
-        <p class="gf-amount">AED 50k – 1m</p>
-        <dl class="gf-terms"><div><dt>Rate</dt><dd>2% a year</dd></div><div><dt>Grace period</dt><dd>12 months</dd></div></dl>
-        <p class="gf-elig"><span>Who can apply</span>Emirati founders, company under 3 years old, majority UAE-owned.</p>
-        <ul class="gf-sectors"><li>All sectors</li></ul>
-        <div class="gf-foot"><span class="gf-deadline">Deadline: <b>28 February 2027</b></span><span class="gf-soon">Details coming soon</span></div>
+        <p class="gf-kicker">Loan · Abu Dhabi</p>
+        <h3>Pearl Coast Development Bank</h3>
+        <p class="gf-brief">Low-rate soft loans of AED 50k to 1m for Emirati founders, with a 12-month grace period.</p>
+        <a class="gf-link" href="#" aria-label="View details: Pearl Coast Development Bank (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
       <article class="gf-card" data-type="loan" data-emirate="northern">
-        <div class="gf-top">
-          <span class="gf-tag gf-tag-loan">Loan</span>
-          <span class="gf-where">Northern Emirates</span>
-        </div>
-        <div class="gf-provider"><span class="gf-logo" aria-hidden="true">NE</span><span><strong>Northern Emirates SME Credit (demo)</strong><small>Credit fund</small></span></div>
-        <h3>Revenue-Based Finance</h3>
-        <p class="gf-amount">AED 75k – 750k</p>
-        <dl class="gf-terms"><div><dt>Repayment</dt><dd>6% of monthly revenue</dd></div><div><dt>Cap</dt><dd>1.4x the amount drawn</dd></div></dl>
-        <p class="gf-elig"><span>Who can apply</span>Online and subscription businesses with steady monthly revenue.</p>
-        <ul class="gf-sectors"><li>E-commerce</li><li>Software</li></ul>
-        <div class="gf-foot"><span class="gf-deadline">Deadline: <b>Rolling</b></span><span class="gf-soon">Details coming soon</span></div>
+        <p class="gf-kicker">Loan · Northern Emirates</p>
+        <h3>Northern Emirates SME Credit</h3>
+        <p class="gf-brief">Revenue-based finance of AED 75k to 750k, repaid as a share of monthly sales.</p>
+        <a class="gf-link" href="#" aria-label="View details: Northern Emirates SME Credit (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
       <article class="gf-card" data-type="equity" data-emirate="dubai">
-        <div class="gf-top">
-          <span class="gf-tag gf-tag-equity">Equity</span>
-          <span class="gf-where">Dubai</span>
-        </div>
-        <div class="gf-provider"><span class="gf-logo" aria-hidden="true">OA</span><span><strong>Oasis Angel Network (demo)</strong><small>Angel network</small></span></div>
-        <h3>Pre-Seed and Seed Rounds</h3>
-        <p class="gf-amount">AED 200k – 2m</p>
-        <dl class="gf-terms"><div><dt>Ticket</dt><dd>AED 200k – 2m per round</dd></div><div><dt>Stake</dt><dd>Typically 10–20%</dd></div></dl>
-        <p class="gf-elig"><span>Who can apply</span>Founder-led start-ups with an MVP and first customers.</p>
-        <ul class="gf-sectors"><li>Fintech</li><li>Proptech</li><li>Health</li></ul>
-        <div class="gf-foot"><span class="gf-deadline">Deadline: <b>Pitch nights monthly</b></span><span class="gf-soon">Details coming soon</span></div>
+        <p class="gf-kicker">Equity · Dubai</p>
+        <h3>Oasis Angel Network</h3>
+        <p class="gf-brief">Pre-seed and seed investment of AED 200k to 2m for founder-led start-ups with first customers.</p>
+        <a class="gf-link" href="#" aria-label="View details: Oasis Angel Network (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
       <article class="gf-card" data-type="equity" data-emirate="abu-dhabi">
-        <div class="gf-top">
-          <span class="gf-tag gf-tag-equity">Equity</span>
-          <span class="gf-where">Abu Dhabi</span>
-        </div>
-        <div class="gf-provider"><span class="gf-logo" aria-hidden="true">SV</span><span><strong>Sandstone Ventures (demo)</strong><small>Venture capital</small></span></div>
-        <h3>Series A Growth Fund</h3>
-        <p class="gf-amount">AED 5m – 25m</p>
-        <dl class="gf-terms"><div><dt>Ticket</dt><dd>Lead or co-lead</dd></div><div><dt>Focus</dt><dd>GCC scale-ups</dd></div></dl>
-        <p class="gf-elig"><span>Who can apply</span>B2B companies with AED 4m+ annual recurring revenue.</p>
-        <ul class="gf-sectors"><li>Software</li><li>AI</li><li>Logistics</li></ul>
-        <div class="gf-foot"><span class="gf-deadline">Deadline: <b>Rolling</b></span><span class="gf-soon">Details coming soon</span></div>
+        <p class="gf-kicker">Equity · Abu Dhabi</p>
+        <h3>Sandstone Ventures</h3>
+        <p class="gf-brief">Series A investment of AED 5m to 25m for B2B scale-ups across the GCC.</p>
+        <a class="gf-link" href="#" aria-label="View details: Sandstone Ventures (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
       <article class="gf-card" data-type="equity" data-emirate="uae">
-        <div class="gf-top">
-          <span class="gf-tag gf-tag-equity">Equity</span>
-          <span class="gf-where">UAE-wide</span>
-        </div>
-        <div class="gf-provider"><span class="gf-logo" aria-hidden="true">GI</span><span><strong>Gulf Impact Partners (demo)</strong><small>Impact fund</small></span></div>
-        <h3>Sustainable Growth Equity</h3>
-        <p class="gf-amount">AED 10m – 50m</p>
-        <dl class="gf-terms"><div><dt>Ticket</dt><dd>Minority stakes</dd></div><div><dt>Hold</dt><dd>5–7 years</dd></div></dl>
-        <p class="gf-elig"><span>Who can apply</span>Profitable SMEs in renewables, water, food and education.</p>
-        <ul class="gf-sectors"><li>Renewables</li><li>Education</li></ul>
-        <div class="gf-foot"><span class="gf-deadline">Deadline: <b>Q2 2027 window</b></span><span class="gf-soon">Details coming soon</span></div>
+        <p class="gf-kicker">Equity · UAE-wide</p>
+        <h3>Gulf Impact Partners</h3>
+        <p class="gf-brief">Growth equity of AED 10m to 50m for profitable SMEs in renewables, water, food and education.</p>
+        <a class="gf-link" href="#" aria-label="View details: Gulf Impact Partners (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
       <article class="gf-card" data-type="equity" data-emirate="sharjah">
-        <div class="gf-top">
-          <span class="gf-tag gf-tag-equity">Equity</span>
-          <span class="gf-where">Sharjah</span>
-        </div>
-        <div class="gf-provider"><span class="gf-logo" aria-hidden="true">CF</span><span><strong>CrowdForge UAE (demo)</strong><small>Crowdfunding platform</small></span></div>
-        <h3>Equity Crowdfunding Campaigns</h3>
-        <p class="gf-amount">AED 500k – 5m</p>
-        <dl class="gf-terms"><div><dt>Platform fee</dt><dd>5% of funds raised</dd></div><div><dt>Campaign</dt><dd>60 days</dd></div></dl>
-        <p class="gf-elig"><span>Who can apply</span>UAE companies with a consumer brand and a community to rally.</p>
-        <ul class="gf-sectors"><li>Consumer</li><li>F&amp;B</li></ul>
-        <div class="gf-foot"><span class="gf-deadline">Deadline: <b>Rolling</b></span><span class="gf-soon">Details coming soon</span></div>
+        <p class="gf-kicker">Equity · Sharjah</p>
+        <h3>CrowdForge UAE</h3>
+        <p class="gf-brief">Equity crowdfunding campaigns raising AED 500k to 5m from a brand’s own customers and community.</p>
+        <a class="gf-link" href="#" aria-label="View details: CrowdForge UAE (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
       <article class="gf-card" data-type="trade" data-emirate="dubai">
-        <div class="gf-top">
-          <span class="gf-tag gf-tag-trade">Trade finance</span>
-          <span class="gf-where">Dubai</span>
-        </div>
-        <div class="gf-provider"><span class="gf-logo" aria-hidden="true">FT</span><span><strong>Falcon Trade Finance (demo)</strong><small>Trade financier</small></span></div>
-        <h3>Invoice Discounting</h3>
-        <p class="gf-amount">AED 100k – 10m</p>
-        <dl class="gf-terms"><div><dt>Advance</dt><dd>Up to 90% of invoice value</dd></div><div><dt>Fee</dt><dd>From 1.2% a month</dd></div></dl>
-        <p class="gf-elig"><span>Who can apply</span>B2B exporters and suppliers with rated buyers.</p>
-        <ul class="gf-sectors"><li>Trade</li><li>Manufacturing</li></ul>
-        <div class="gf-foot"><span class="gf-deadline">Deadline: <b>Rolling</b></span><span class="gf-soon">Details coming soon</span></div>
+        <p class="gf-kicker">Trade finance · Dubai</p>
+        <h3>Falcon Trade Finance</h3>
+        <p class="gf-brief">Invoice discounting that advances up to 90% of what your business customers owe you.</p>
+        <a class="gf-link" href="#" aria-label="View details: Falcon Trade Finance (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
       <article class="gf-card" data-type="trade" data-emirate="uae">
-        <div class="gf-top">
-          <span class="gf-tag gf-tag-trade">Trade finance</span>
-          <span class="gf-where">UAE-wide</span>
-        </div>
-        <div class="gf-provider"><span class="gf-logo" aria-hidden="true">ME</span><span><strong>Meridian Export Credit (demo)</strong><small>Export credit agency</small></span></div>
-        <h3>Export Credit Insurance and Guarantees</h3>
-        <p class="gf-amount">Up to AED 20m cover</p>
-        <dl class="gf-terms"><div><dt>Cover</dt><dd>Up to 90% of buyer risk</dd></div><div><dt>Markets</dt><dd>150+ countries</dd></div></dl>
-        <p class="gf-elig"><span>Who can apply</span>UAE-made goods and services sold abroad on credit terms.</p>
-        <ul class="gf-sectors"><li>Export</li><li>Industry</li></ul>
-        <div class="gf-foot"><span class="gf-deadline">Deadline: <b>Rolling</b></span><span class="gf-soon">Details coming soon</span></div>
+        <p class="gf-kicker">Trade finance · UAE-wide</p>
+        <h3>Meridian Export Credit</h3>
+        <p class="gf-brief">Export credit insurance and guarantees of up to AED 20m for UAE goods sold abroad.</p>
+        <a class="gf-link" href="#" aria-label="View details: Meridian Export Credit (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
       <article class="gf-card" data-type="trade" data-emirate="northern">
-        <div class="gf-top">
-          <span class="gf-tag gf-tag-trade">Trade finance</span>
-          <span class="gf-where">Northern Emirates</span>
-        </div>
-        <div class="gf-provider"><span class="gf-logo" aria-hidden="true">RP</span><span><strong>Ras Port Supply Finance (demo)</strong><small>Free zone</small></span></div>
-        <h3>Supply Chain Finance Programme</h3>
-        <p class="gf-amount">AED 250k – 15m</p>
-        <dl class="gf-terms"><div><dt>Rate</dt><dd>From 7% a year</dd></div><div><dt>Tenor</dt><dd>30–180 days</dd></div></dl>
-        <p class="gf-elig"><span>Who can apply</span>Free zone importers and their approved suppliers.</p>
-        <ul class="gf-sectors"><li>Logistics</li><li>Trade</li></ul>
-        <div class="gf-foot"><span class="gf-deadline">Deadline: <b>Rolling</b></span><span class="gf-soon">Details coming soon</span></div>
+        <p class="gf-kicker">Trade finance · Northern Emirates</p>
+        <h3>Ras Port Supply Finance</h3>
+        <p class="gf-brief">Supply chain finance of AED 250k to 15m for free zone importers and their suppliers.</p>
+        <a class="gf-link" href="#" aria-label="View details: Ras Port Supply Finance (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
   </section>
   <p class="gf-empty" data-gf-empty hidden>Nothing matches these filters. Try another type, emirate or search.</p>
