@@ -407,13 +407,28 @@
     return api.tr('Posted {n} months ago').replace('{n}', String(Math.floor(days / 30)));
   }
 
-  /** Emirate for the Location filter: the API's location text is free-form ("DIFC, Dubai", "ADGM", "Remote - UAE"). */
+  // Main Gulf cities for the Careers Location filter: [pattern in the free-form location text, city, country code].
+  var GULF_CITIES = [
+    [/abu dhabi|adgm/, 'Abu Dhabi', 'AE'], [/dubai|difc/, 'Dubai', 'AE'], [/sharjah/, 'Sharjah', 'AE'], [/ajman/, 'Ajman', 'AE'],
+    [/ras al[ -]khaimah|\brak\b/, 'Ras Al Khaimah', 'AE'], [/fujairah/, 'Fujairah', 'AE'], [/umm al[ -]quwain/, 'Umm Al Quwain', 'AE'],
+    [/riyadh/, 'Riyadh', 'SA'], [/jeddah|jiddah/, 'Jeddah', 'SA'], [/dammam|khobar|dhahran/, 'Dammam', 'SA'],
+    [/doha|qatar/, 'Doha', 'QA'], [/kuwait/, 'Kuwait City', 'KW'], [/manama|bahrain/, 'Manama', 'BH'], [/muscat|oman/, 'Muscat', 'OM']
+  ];
+  var GULF_COUNTRIES = [[/\buae\b|emirates/, 'AE'], [/saudi|\bksa\b/, 'SA']];
+
+  /** City for the Location filter: the API's location text is free-form ("DIFC, Dubai", "Riyadh, KSA", "Remote - UAE"). */
   function cityOf(location) {
     var l = String(location || '').toLowerCase();
-    if (/abu dhabi|adgm/.test(l)) return 'Abu Dhabi';
-    if (/dubai|difc/.test(l)) return 'Dubai';
-    if (/sharjah/.test(l)) return 'Sharjah';
     if (/remote/.test(l)) return 'Remote';
+    for (var i = 0; i < GULF_CITIES.length; i++) if (GULF_CITIES[i][0].test(l)) return GULF_CITIES[i][1];
+    return '';
+  }
+
+  /** Gulf country code (AE, SA, QA, KW, BH, OM) for the Location filter's "All <country>" choices, or ''. */
+  function countryOf(location) {
+    var l = String(location || '').toLowerCase();
+    for (var i = 0; i < GULF_CITIES.length; i++) if (GULF_CITIES[i][0].test(l)) return GULF_CITIES[i][2];
+    for (var j = 0; j < GULF_COUNTRIES.length; j++) if (GULF_COUNTRIES[j][0].test(l)) return GULF_COUNTRIES[j][1];
     return '';
   }
 
@@ -462,8 +477,8 @@
       row.id = job.id;
       row.setAttribute('data-employer', job.employerId);
       row.setAttribute('data-city', cityOf(job.location));
+      row.setAttribute('data-country', countryOf(job.location));
       row.setAttribute('data-department', job.department || '');
-      row.setAttribute('data-type', job.employmentType || '');
       row.setAttribute('data-posted', job.postedAt || '');
       row.setAttribute('data-featured', job.featured ? '1' : '0');
       // Jobs posted through Sanity have their own page (jobs/<slug>.html); the title links to it.
@@ -514,7 +529,15 @@
     });
     if (!filled) return;
     if (state.mode === 'demo' && jobs.length) {
-      dummies.slice(jobs.length, ROLES_DEMO_TOTAL).forEach(function (row) { list.appendChild(row); });
+      dummies.slice(jobs.length, ROLES_DEMO_TOTAL).forEach(function (row) {
+        // Demo roles carry their place in the location line ("Family office, Abu Dhabi"): tag them for the Location filter.
+        var where = row.querySelector('.location');
+        if (where && !row.hasAttribute('data-city')) {
+          row.setAttribute('data-city', cityOf(where.textContent));
+          row.setAttribute('data-country', countryOf(where.textContent));
+        }
+        list.appendChild(row);
+      });
     }
     applyEmployerFilter(list, employersDoc ? api.items(employersDoc.items, api.valid.employer, 'employers') : []);
     if (typeof window.__fundsInitFilters === 'function') window.__fundsInitFilters();

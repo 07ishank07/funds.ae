@@ -416,6 +416,16 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.ok(careers.includes('href="careers-banner.css?v=1"') && careers.includes('<img class="fx-cb-photo" src="img/careers-banner.jpg" alt="">'), 'Careers shows the banner');
   assert.ok(careers.includes('<a class="fx-cb-btn" href="#opportunities">View finance jobs</a>') && careers.includes('id="opportunities"'), 'View finance jobs jumps to the listings');
   assert.ok(!careers.includes('Financial Services Jobs') && careers.indexOf('fx-careers-top') < careers.indexOf('id="opportunities"'), 'banner replaces the old heading, above the listings');
+  // Filters: no search box and no Job type; Location lists every main Gulf country and its main cities, plus Remote.
+  assert.ok(!careers.includes('id="job-search-input"') && !careers.includes('id="jf-type"'), 'no search box or Job type filter');
+  assert.ok(careers.includes('<label>Location<select id="jf-city"><option value="">All Gulf locations</option></select></label>') &&
+    careers.includes('<label>Function<select id="jf-department">'), 'Location and Function filters');
+  for (const place of ["['AE', 'United Arab Emirates'", "['SA', 'Saudi Arabia', ['Riyadh', 'Jeddah', 'Dammam']]", "['QA', 'Qatar', ['Doha']]",
+    "['KW', 'Kuwait', ['Kuwait City']]", "['BH', 'Bahrain', ['Manama']]", "['OM', 'Oman', ['Muscat']]"]) {
+    assert.ok(careers.includes(place), `Location lists ${place}`);
+  }
+  const rolesJs = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
+  assert.ok(rolesJs.includes("row.setAttribute('data-country', countryOf(job.location));") && rolesJs.includes("[/riyadh/, 'Riyadh', 'SA']"), 'roles are tagged with their Gulf country and city');
   assert.ok(careers.includes("badge.className = 'role-logo'"), 'job cards carry a dummy employer logo');
   // Careers from Sanity: the connector follows careers.json for the Top boxes, links posted jobs to their page,
   // shows the salary/visa line and employer logos (images through setLogoImage, https only, no referrer).
