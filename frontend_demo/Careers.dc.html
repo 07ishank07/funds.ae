@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;600;700&family=Jost:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="site-header.css?v=2">
+<link rel="stylesheet" href="careers-banner.css?v=1">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   /* Editorial theme tokens. Keep in sync with the theme block at the end of this.html's script. */
@@ -95,19 +96,9 @@
   @media (max-width: 860px) {
     .page { grid-template-columns: minmax(0, 1fr); }
   }
-  /* Page heading: "Financial Services Jobs", above Current Opportunities */
-  .intro { margin-bottom: 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; }
-  /* "Post a job" beside the heading: opens PostJob.dc.html */
-  .post-job-btn { display: inline-flex; align-items: center; height: 40px; padding: 0 18px; border-radius: 3px; background: var(--ink); color: #F1F5F4; font-size: 14px; font-weight: 600; text-decoration: none; white-space: nowrap; }
-  .post-job-btn:hover { background: #1F6A6E; }
-  .intro h1 {
-    font-family: 'Newsreader', Georgia, serif;
-    font-size: clamp(1.75rem, 3.2vw, 2.25rem);
-    font-weight: 600;
-    line-height: 1.15;
-    letter-spacing: -0.015em;
-    color: var(--ink);
-  }
+  /* Finance Careers banner at the top (careers-banner.css), then Current Opportunities. */
+  .fx-careers-top { margin-bottom: 28px; }
+  .opportunities { scroll-margin-top: 84px; }
   .intro p {
     margin-top: 12px;
     max-width: 640px;
@@ -379,12 +370,21 @@
 </header>
 <div class="page">
 <main>
-  <div class="intro">
-    <h1 data-fundsae-badge>Financial Services Jobs</h1>
-    <a class="post-job-btn" href="PostJob.dc.html">Post a job</a>
-  </div>
+  <!-- Finance Careers banner (careers-banner.css), the same as on the home page; the page heading is its h1. -->
+  <section class="fx-careers-banner fx-careers-top" aria-labelledby="careers-banner-title">
+    <img class="fx-cb-photo" src="img/careers-banner.jpg" alt="">
+    <div class="fx-cb-text">
+      <p class="fx-cb-eyebrow">Finance Careers</p>
+      <h1 id="careers-banner-title" class="fx-cb-title">Your next move in UAE finance</h1>
+      <p class="fx-cb-sub">Roles across private equity, venture capital, private credit, banking and fund services.</p>
+      <div class="fx-cb-acts">
+        <a class="fx-cb-btn" href="#opportunities">View finance jobs</a>
+        <a class="fx-cb-btn fx-cb-btn--ghost post-job-btn" href="PostJob.dc.html">Post a job</a>
+      </div>
+    </div>
+  </section>
 
-  <section class="opportunities" aria-labelledby="opportunities-title">
+  <section class="opportunities" id="opportunities" aria-labelledby="opportunities-title">
     <h2 id="opportunities-title">Current Opportunities</h2>
     <div class="job-search" role="search" aria-label="Search current opportunities">
       <div class="job-search-row">

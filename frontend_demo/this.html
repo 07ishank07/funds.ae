@@ -1229,6 +1229,14 @@ document.addEventListener('DOMContentLoaded', async function() {
           fundZone.appendChild(fundViewAll);
           // Finance Careers banner, directly under the funding tiles and across columns 1 and 2: a licensed photo
           // (img/careers-banner.jpg, credited in img/CREDITS.md) under a dark teal wash, with a button to the Careers page.
+          // The same banner tops the Careers page; both use careers-banner.css.
+          if (!document.getElementById('fx-careers-banner-css')) {
+            const bannerCss = document.createElement('link');
+            bannerCss.id = 'fx-careers-banner-css';
+            bannerCss.rel = 'stylesheet';
+            bannerCss.href = 'careers-banner.css?v=1';
+            document.head.appendChild(bannerCss);
+          }
           const careersBanner = document.createElement('section');
           careersBanner.className = 'fx-careers-banner';
           careersBanner.setAttribute('aria-labelledby', 'careers-banner-title');
@@ -1709,22 +1717,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         /* View All links: sentence-case bold in the sidebar boxes (like the Sponsored Posts link), small caps under news-column blocks (like the news list link). */
         .fx-view-all { display: inline-block; margin-top: 14px; font-size: 14px; font-weight: 600; color: var(--fx-accent) !important; text-decoration: none; }
         .fx-view-all:hover { color: #0E3A43 !important; text-decoration: underline; text-underline-offset: 3px; }
-        /* Finance Careers banner (under the funding tiles, columns 1 and 2): photo on the right, text on a teal wash. */
-        .fx-careers-banner { position: relative; display: flex; align-items: center; min-height: 230px; margin-top: 28px; border-radius: 3px; overflow: hidden; background: #0E3A43; }
-        .fx-careers-banner .fx-cb-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 70% 50%; }
-        .fx-careers-banner::before { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, rgba(14, 58, 67, 0.96) 0%, rgba(14, 58, 67, 0.86) 40%, rgba(14, 58, 67, 0.25) 78%, rgba(14, 58, 67, 0.1) 100%); }
-        .fx-cb-text { position: relative; z-index: 2; max-width: 470px; padding: 30px 34px; color: #FFFFFF; }
-        .fx-cb-eyebrow { margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #9FD8DB; }
-        .fx-careers-banner .fx-cb-title { margin: 8px 0 0 !important; padding: 0 !important; border: 0 !important; font-size: 28px !important; font-weight: 600 !important; line-height: 1.2 !important; letter-spacing: -0.01em !important; text-transform: none !important; color: #FFFFFF !important; }
-        .fx-cb-sub { margin: 10px 0 0; font-size: 14.5px; line-height: 1.5; color: rgba(255, 255, 255, 0.86); }
-        .fx-cb-btn { display: inline-block; margin-top: 18px; padding: 10px 18px; border-radius: 3px; background: #FFFFFF; font-size: 14px; font-weight: 600; color: #0E3A43 !important; text-decoration: none; }
-        .fx-cb-btn:hover { background: #E8F0EF; }
-        .fx-cb-btn:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 3px; }
-        @media (max-width: 620px) {
-          .fx-careers-banner::before { background: rgba(14, 58, 67, 0.82); }
-          .fx-cb-text { padding: 24px 20px; }
-          .fx-careers-banner .fx-cb-title { font-size: 23px !important; }
-        }
         .news > .fx-view-all, .fx-fundzone > .fx-view-all { margin-top: 14px; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; }
 
 

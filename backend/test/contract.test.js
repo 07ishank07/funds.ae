@@ -411,7 +411,11 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.ok(read('Events.dc.html').includes('data-fundsae-slot="events"'), 'the Events page lists events');
   const careers = read('Careers.dc.html');
   assert.ok(!careers.includes('data-fundsae-slot="events"') && !careers.includes('data-fundsae-form="event"'), 'Careers no longer has events');
-  assert.match(careers, /<h1[^>]*>Financial Services Jobs<\/h1>/);
+  // The Finance Careers banner (as on the home page) tops the page; its heading is the page h1. No Demo data badge.
+  assert.match(careers, /<h1 id="careers-banner-title" class="fx-cb-title">Your next move in UAE finance<\/h1>/);
+  assert.ok(careers.includes('href="careers-banner.css?v=1"') && careers.includes('<img class="fx-cb-photo" src="img/careers-banner.jpg" alt="">'), 'Careers shows the banner');
+  assert.ok(careers.includes('<a class="fx-cb-btn" href="#opportunities">View finance jobs</a>') && careers.includes('id="opportunities"'), 'View finance jobs jumps to the listings');
+  assert.ok(!careers.includes('Financial Services Jobs') && careers.indexOf('fx-careers-top') < careers.indexOf('id="opportunities"'), 'banner replaces the old heading, above the listings');
   assert.ok(careers.includes("badge.className = 'role-logo'"), 'job cards carry a dummy employer logo');
   // Careers from Sanity: the connector follows careers.json for the Top boxes, links posted jobs to their page,
   // shows the salary/visa line and employer logos (images through setLogoImage, https only, no referrer).
@@ -599,7 +603,7 @@ test('every website form posts only field names the API accepts', () => {
     assert.deepEqual(values, list, `${name} choices match the API`);
   }
   assert.ok(postJob.includes('fundsae-forms.js'), 'PostJob loads the forms script');
-  assert.ok(readFileSync(path.join(repo, 'frontend_demo', 'Careers.dc.html'), 'utf8').includes('<a class="post-job-btn" href="PostJob.dc.html">Post a job</a>'), 'Careers links to Post a job');
+  assert.ok(readFileSync(path.join(repo, 'frontend_demo', 'Careers.dc.html'), 'utf8').includes('<a class="fx-cb-btn fx-cb-btn--ghost post-job-btn" href="PostJob.dc.html">Post a job</a>'), 'Careers links to Post a job (in its banner)');
 });
 
 test('the old news feed page is removed: News.dc.html only forwards to Real Estate News, and nothing links to it', () => {
