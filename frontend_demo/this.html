@@ -1268,12 +1268,13 @@ document.addEventListener('DOMContentLoaded', async function() {
     // "View All" link at the bottom of the list-style boxes. News-column blocks get it just below the box,
     // because their boxes are grids and an extra child would become a grid cell.
     {
-      // The four real estate boxes open the Real Estate Capital News page with that box's Asset Classes.
+      // The four real estate boxes open the shared Real Estate News page (three columns side by side) at their own
+      // column; Infrastructure is part of the Alternative Real Estate column.
       const VIEW_ALL_HREF = {
-        'Residential Estate News': 'News.dc.html?section=residential-real-estate',
-        'Commercial Real Estate News': 'News.dc.html?section=commercial-real-estate',
-        'Infrastructure Real Estate News': 'News.dc.html?section=infrastructure',
-        'Special & Alternative Real Estate News': 'News.dc.html?section=special-alternative-real-estate'
+        'Residential Estate News': 'RealEstateNews.dc.html#residential',
+        'Commercial Real Estate News': 'RealEstateNews.dc.html#commercial',
+        'Infrastructure Real Estate News': 'RealEstateNews.dc.html#alternative',
+        'Special & Alternative Real Estate News': 'RealEstateNews.dc.html#alternative'
       };
       const makeViewAll = (href = '#') => {
         const link = document.createElement('a');

@@ -1118,6 +1118,121 @@
     renderPage(doc.pages && typeof doc.pages === 'object' ? doc.pages : {});
   }
 
+  /* ---------------------------- Real Estate News page --------------------------- */
+  // RealEstateNews.dc.html: three parallel columns (slot "news-column"). Each column lists the stories of the page
+  // sections named in data-fundsae-sections (the Alternative column also carries Infrastructure), newest first: a lead
+  // story with picture, summary and source, then headlines. Built with textContent only. The column's built-in
+  // headlines (data-ren-demo) are demo content: in demo mode they follow the real stories up to COLUMN_STORIES, in
+  // live mode they go.
+
+  var COLUMN_STORIES = 8;
+  var SECTION_ID = /^[a-z0-9-]{2,60}$/;
+  var STORY_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+  var COLUMN_DATE = typeof Intl !== 'undefined' ? new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Dubai' }) : null;
+
+  function columnSections(box) {
+    return String(box.getAttribute('data-fundsae-sections') || '').split(',').map(function (s) { return s.trim(); })
+      .filter(function (s) { return SECTION_ID.test(s); });
+  }
+
+  /** The column's built-in demo headlines as plain entries (headline, summary, source line, tag). */
+  function columnDemoEntries(box) {
+    return children(box, '[data-ren-demo]').map(function (art) {
+      var text = function (sel) { var n = art.querySelector(sel); return n ? n.textContent.trim() : ''; };
+      return { headline: text('h3'), summary: text('.ren-sum'), meta: text('.ren-meta'), tag: text('.ren-tag'), href: '#', external: false, image: null };
+    });
+  }
+
+  function columnEntry(story) {
+    var date = COLUMN_DATE && !isNaN(Date.parse(story.publishedAt)) ? COLUMN_DATE.format(new Date(story.publishedAt)) : '';
+    var asset = Array.isArray(story.assetClasses) && story.assetClasses[0] && story.assetClasses[0].label;
+    var page = STORY_SLUG.test(story.slug || '') ? 'news/' + story.slug + '.html' : null;
+    return {
+      headline: story.headline,
+      summary: story.summary || '',
+      meta: story.source + (date ? ' \u00b7 ' + date : ''),
+      tag: asset || story.topicLabel || '',
+      href: page || story.url,
+      external: !page,
+      image: api.imageUrl(story.imageUrl)
+    };
+  }
+
+  function columnLink(a, entry) {
+    a.textContent = entry.headline;
+    if (entry.external) api.setLink(a, entry.href);
+    else a.href = entry.href;
+  }
+
+  function columnArticle(entry, lead) {
+    var art = document.createElement('article');
+    art.className = lead ? 'ren-lead' : 'ren-item';
+    if (lead) {
+      var visual = document.createElement('a');
+      visual.className = 'ren-visual';
+      visual.tabIndex = -1;
+      visual.setAttribute('aria-hidden', 'true');
+      if (entry.external) api.setLink(visual, entry.href); else visual.href = entry.href;
+      if (entry.image) {
+        var img = document.createElement('img');
+        img.src = entry.image;
+        img.alt = '';
+        img.loading = 'lazy';
+        img.referrerPolicy = 'no-referrer';
+        visual.appendChild(img);
+      }
+      if (entry.tag) {
+        var tag = document.createElement('span');
+        tag.className = 'ren-tag';
+        tag.textContent = entry.tag;
+        visual.appendChild(tag);
+      }
+      art.appendChild(visual);
+    }
+    var h3 = document.createElement('h3');
+    var a = document.createElement('a');
+    columnLink(a, entry);
+    h3.appendChild(a);
+    art.appendChild(h3);
+    if (lead && entry.summary) {
+      var sum = document.createElement('p');
+      sum.className = 'ren-sum';
+      sum.textContent = entry.summary;
+      art.appendChild(sum);
+    }
+    var meta = document.createElement('p');
+    meta.className = 'ren-meta';
+    meta.textContent = entry.meta;
+    art.appendChild(meta);
+    return art;
+  }
+
+  function renderNewsColumn(box, docs) {
+    var seen = {};
+    var stories = [];
+    docs.forEach(function (doc) {
+      api.items(doc && doc.items, api.valid.story, 'stories').forEach(function (story) {
+        if (seen[story.id]) return;
+        seen[story.id] = true;
+        stories.push(story);
+      });
+    });
+    stories.sort(function (a, b) { return (Date.parse(b.publishedAt) || 0) - (Date.parse(a.publishedAt) || 0); });
+    var entries = stories.slice(0, COLUMN_STORIES).map(columnEntry);
+    if (state.mode !== 'live') entries = entries.concat(columnDemoEntries(box)).slice(0, COLUMN_STORIES);
+    var list = box.querySelector('.ren-stories');
+    if (!list) return;
+    list.textContent = '';
+    if (!entries.length) {
+      var empty = document.createElement('p');
+      empty.className = 'ren-empty';
+      empty.textContent = 'No stories yet. Check back soon.';
+      list.appendChild(empty);
+      return;
+    }
+    entries.forEach(function (entry, i) { list.appendChild(columnArticle(entry, i === 0)); });
+  }
+
   /* ------------------------------- Gulf Economy ------------------------------- */
   // Home page column 3: IMF real GDP growth and inflation per country (api/v1/economy.json). The rows and the IMF
   // credit are built with textContent; the source link is fixed to imf.org.
@@ -1221,6 +1336,12 @@
         ]).then(function (docs) { renderRoles(docs[0], docs[1]); renderTopJobs(docs[0], docs[2]); }));
       }
       if (hasSlot('events')) guard('Events', load('events.json', 'events').then(renderEvents));
+      slots('news-column').forEach(function (box) {
+        var sections = columnSections(box);
+        if (!sections.length) return;
+        guard('Real estate news column', Promise.all(sections.map(function (id) { return load('news/sections/' + id + '.json', 'news'); }))
+          .then(function (docs) { renderNewsColumn(box, docs); }));
+      });
       if (hasSlot('economy')) {
         guard('Gulf economy figures', load('economy.json', 'economy').then(renderEconomy, function (err) { economyUnavailable(); throw err; }));
       }

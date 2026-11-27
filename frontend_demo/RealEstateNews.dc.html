@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Real Estate News · Funds.ae</title>
+<meta name="description" content="Residential, commercial and alternative real estate capital news, side by side. Every story is checked by an editor and links to the original publisher.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;600;700&family=Jost:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site-header.css?v=2">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  /* Editorial theme tokens. Keep in sync with the theme block at the end of this.html's script. */
+  :root {
+    --ink: #0E3A43;
+    --ink-2: #3D5A5F;
+    --muted: #587176;
+    --ghost: #62797D;
+    --line: #D3DFDF;
+    --line-2: #E4ECEB;
+    --mint: #4FB3B8;
+    --accent: #1F6A6E;
+    --accent-2: #1F6A6E;
+    --surface: #FFFFFF;
+    --panel: #E8F0EF;
+    --wash: #FAFBFA;
+    --serif: 'Newsreader', Georgia, serif;
+    --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  body {
+    font-family: 'Jost', 'Futura', 'Century Gothic', sans-serif;
+    background: var(--wash);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  a { color: inherit; }
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  main.ren-page { max-width: 1240px; margin: 0 auto; padding: 40px 24px 72px; }
+  /* Intro: title and lead on the left, the common "View all real estate news" link on the right. */
+  .ren-intro { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 32px; padding-bottom: 22px; border-bottom: 1px solid var(--line); }
+  .ren-intro h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); font-weight: 600; letter-spacing: -0.015em; color: var(--ink); }
+  .ren-intro .lead { margin-top: 10px; max-width: 700px; font-size: 16px; color: var(--muted); }
+  .ren-all-link { flex-shrink: 0; font-size: 14px; font-weight: 600; color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+  .ren-all-link:hover { color: var(--ink); }
+  /* Three parallel columns (MENAFN "News by Industry" structure): heading, lead story with picture and summary, headlines. */
+  .ren-cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36px; margin-top: 30px; align-items: start; }
+  .ren-col { scroll-margin-top: 84px; }
+  .ren-col > h2 { padding-top: 10px; border-top: 2px solid var(--ink); font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
+  .ren-stories { display: flex; flex-direction: column; margin-top: 14px; }
+  .ren-visual { position: relative; display: flex; align-items: flex-end; aspect-ratio: 16 / 9; padding: 12px; border-radius: 3px; overflow: hidden; background: linear-gradient(145deg, #0E3A43, #4FB3B8); text-decoration: none; }
+  #commercial .ren-visual { background: linear-gradient(145deg, #31556D, #8BA9C1); }
+  #alternative .ren-visual { background: linear-gradient(145deg, #5B4A2E, #C9A25E); }
+  .ren-visual img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .ren-tag { position: relative; padding: 2px 8px; border-radius: 3px; background: rgba(255, 255, 255, 0.92); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); }
+  .ren-lead { padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+  .ren-lead h3 { margin-top: 12px; font-size: 21px; font-weight: 600; line-height: 1.28; }
+  .ren-sum { margin-top: 8px; font-size: 14.5px; line-height: 1.55; color: #33494E; }
+  .ren-item { padding: 12px 0; border-bottom: 1px solid var(--line-2); }
+  .ren-item h3 { font-size: 15.5px; font-weight: 600; line-height: 1.35; }
+  .ren-col h3 a { color: var(--ink); text-decoration: none; }
+  .ren-col h3 a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+  .ren-meta { margin-top: 5px; font-size: 12.5px; color: var(--muted); }
+  .ren-empty { padding: 16px 0; font-size: 14px; color: var(--ghost); }
+  .ren-more { display: flex; justify-content: center; margin-top: 40px; }
+  .ren-more a { padding: 12px 24px; border-radius: 3px; background: var(--ink); font-size: 14px; font-weight: 600; color: #fff; text-decoration: none; }
+  .ren-more a:hover { background: var(--accent); }
+  .ren-note { margin-top: 32px; font-size: 13px; color: var(--ghost); text-align: center; }
+  [hidden] { display: none !important; }
+  @media (max-width: 980px) {
+    .ren-cols { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+    .ren-lead h3 { font-size: 20px; }
+  }
+  @media (max-width: 560px) {
+    main.ren-page { padding: 28px 16px 56px; }
+    .ren-all-link { font-size: 13px; }
+  }
+  /* Site footer, shared with this.html: double rule, brand, tagline, links. Pinned to the bottom on short pages. */
+  body { min-height: 100vh; display: flex; flex-direction: column; }
+  body > main, body > .page { width: 100%; flex: 1 0 auto; }
+  .site-footer { flex-shrink: 0; margin-top: 40px; background: var(--wash); border-top: 3px double var(--ink); }
+  .foot-inner { max-width: 1288px; margin: 0 auto; padding: 26px 24px 30px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
+  .foot-brand { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; }
+  .foot-brand svg { width: 26px; height: 26px; flex-shrink: 0; }
+  .foot-brand span { font-size: 20px; font-weight: 500; line-height: 1; letter-spacing: -0.015em; }
+  .foot-brand .dot { display: inline-block; width: 0.18em; height: 0.18em; margin: 0 0.05em 0 0.065em; border-radius: 50%; background: var(--mint); overflow: hidden; color: transparent; }
+  .foot-note { font-size: 14px; color: var(--muted); }
+  .foot-nav { margin-left: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; }
+  .foot-nav a { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2); text-decoration: none; }
+  .foot-nav a:hover { color: var(--accent); }
+  .foot-bottom { flex: 1 0 100%; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; margin-top: 8px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .foot-bottom .foot-note { font-size: 13px; color: var(--ghost); }
+  @media (max-width: 720px) { .foot-nav { margin-left: 0; } }
+  /* One typeface across the site: Jost, as on the home page. Replaces the serif headlines and monospace labels.
+     Sizes, weights and caps styling are unchanged. Skipped in Arabic mode, where i18n.js sets its own font. */
+  html:not([lang="ar"]) body *:not(svg):not(svg *) { font-family: 'Jost', 'Futura', 'Century Gothic', sans-serif !important; }
+</style>
+</head>
+<body>
+<!-- Site header, option B (styles in site-header.css, behaviour in js/fundsae-header.js): a slim date line, then one
+     sticky row with the logo, the sections, the language switch (i18n.js fills .fxb-lang), Partner with us and, on
+     phones, a menu button that opens the site menu (About and Contact us too). -->
+<div class="fxb-top"><div class="fxb-in"><span data-fundsae-date data-fundsae-badge></span><span class="fxb-tagline">Real estate, infrastructure and market intelligence</span></div></div>
+<header class="fxb">
+  <div class="fxb-in">
+    <a href="this.html" class="fxb-brand" aria-label="Funds.ae home"><svg viewBox="0 0 140 140" aria-hidden="true"><circle cx="70" cy="70" r="62.83" fill="none" stroke="#0E3A43" stroke-width="10"/><circle cx="53.03" cy="86.97" r="38.83" fill="none" stroke="#0E3A43" stroke-width="10"/><circle cx="42.54" cy="97.46" r="29" fill="#4FB3B8"/></svg><span class="fxb-word">Funds<span class="dot">.</span>ae</span></a>
+    <nav class="fx-catbar fxb-nav" aria-label="News categories">
+      <div class="fx-catbar-row">
+        <a href="this.html">Real Estate Stories</a>
+        <a href="Videos.dc.html">Videos &amp; Podcasts</a>
+        <a href="GrantsFunding.dc.html">Grants &amp; Funding</a>
+        <a href="Careers.dc.html">Careers</a>
+        <a href="Events.dc.html">Events</a>
+      </div>
+    </nav>
+    <div class="fxb-tools">
+      <span class="fxb-lang"></span>
+      <a class="fxb-cta" href="PartnerWithUs.dc.html">Partner with us</a>
+      <button type="button" class="fxb-menu" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></button>
+    </div>
+  </div>
+</header>
+<!-- Real Estate News: one landing page with three parallel columns (Residential, Commercial, Alternative; Alternative also
+     carries Infrastructure). js/fundsae-connector.js (slot "news-column") fills each column from the sections named in
+     data-fundsae-sections; the built-in headlines (data-ren-demo) are demo content, shown in demo mode only.
+     "View all real estate news" opens the complete feed, News.dc.html. -->
+<main class="ren-page">
+  <div class="ren-intro">
+    <div>
+      <h1>Real Estate News</h1>
+      <p class="lead">Residential, commercial and alternative real estate capital news from the UAE and beyond. Every story is checked by an editor and links to the original publisher.</p>
+    </div>
+    <a class="ren-all-link" href="News.dc.html">View all real estate news &rarr;</a>
+  </div>
+  <div class="ren-cols">
+      <section class="ren-col" id="residential" aria-labelledby="ren-residential-title" data-fundsae-slot="news-column" data-fundsae-sections="residential-real-estate">
+        <h2 id="ren-residential-title">Residential Real Estate</h2>
+        <div class="ren-stories">
+          <article class="ren-lead" data-ren-demo>
+            <a class="ren-visual" href="#" tabindex="-1" aria-hidden="true"><span class="ren-tag">Build to Rent</span></a>
+            <h3><a href="#">Dubai build-to-rent platform lines up AED 750m for 2,000 new homes</a></h3>
+            <p class="ren-sum">A Dubai developer and a regional pension fund plan a build-to-rent platform for mid-market renters in Dubai South and Al Furjan. Dummy summary for the demo.</p>
+            <p class="ren-meta">Demo Property Wire</p>
+          </article>
+          <article class="ren-item" data-ren-demo><h3><a href="#">Abu Dhabi family office backs AED 220m villa community on Yas Island</a></h3><p class="ren-meta">Demo Gulf Wire</p></article>
+          <article class="ren-item" data-ren-demo><h3><a href="#">Sharjah developer closes first residential fund for overseas investors</a></h3><p class="ren-meta">Demo Emirates Markets</p></article>
+          <article class="ren-item" data-ren-demo><h3><a href="#">Ras Al Khaimah waterfront apartments draw European private capital</a></h3><p class="ren-meta">Demo Property Wire</p></article>
+          <article class="ren-item" data-ren-demo><h3><a href="#">Saudi housing developer raises SAR 1bn from Gulf institutions</a></h3><p class="ren-meta">Demo Gulf Wire</p></article>
+          <article class="ren-item" data-ren-demo><h3><a href="#">Dubai serviced apartments fund doubles its target after strong demand</a></h3><p class="ren-meta">Demo Property and SME Wire</p></article>
+          <article class="ren-item" data-ren-demo><h3><a href="#">Ajman affordable housing scheme secures Islamic financing</a></h3><p class="ren-meta">Demo Emirates Markets</p></article>
+          <article class="ren-item" data-ren-demo><h3><a href="#">Golden visa demand lifts Dubai off-plan sales in third quarter</a></h3><p class="ren-meta">Demo Property Wire</p></article>
+        </div>
+      </section>
+      <section class="ren-col" id="commercial" aria-labelledby="ren-commercial-title" data-fundsae-slot="news-column" data-fundsae-sections="commercial-real-estate">
+        <h2 id="ren-commercial-title">Commercial Real Estate</h2>
+        <div class="ren-stories">
+          <article class="ren-lead" data-ren-demo>
+            <a class="ren-visual" href="#" tabindex="-1" aria-hidden="true"><span class="ren-tag">Offices</span></a>
+            <h3><a href="#">Abu Dhabi investor buys Grade A office tower in DIFC for AED 1.1bn</a></h3>
+            <p class="ren-sum">The deal is one of the largest office sales in Dubai this year and is backed by a mix of equity and Islamic debt. Dummy summary for the demo.</p>
+            <p class="ren-meta">Demo Gulf Wire</p>
+          </article>
+          <article class="ren-item" data-ren-demo><h3><a href="#">Dubai logistics REIT adds two Jebel Ali warehouses to its portfolio</a></h3><p class="ren-meta">Demo Property and SME Wire</p></article>
+          <article class="ren-item" data-ren-demo><h3><a href="#">Riyadh retail centre refinanced with SAR 900m sukuk</a></h3><p class="ren-meta">Demo Gulf Wire</p></article>
+          <article class="ren-item" data-ren-demo><h3><a href="#">ADGM-based fund launches AED 500m flexible office strategy</a></h3><p class="ren-meta">Demo Emirates Markets</p></article>
+          <article class="ren-item" data-ren-demo><h3><a href="#">Qatar hotel owner sells stake in Doha business district hotels</a></h3><p class="ren-meta">Demo Property Wire</p></article>
+          <article class="ren-item" data-ren-demo><h3><a href="#">Sharjah industrial park expansion backed by regional private equity</a></h3><p class="ren-meta">Demo Emirates Markets</p></article>
+          <article class="ren-item" data-ren-demo><h3><a href="#">Dubai mall owner plans listing of retail property portfolio</a></h3><p class="ren-meta">Demo Gulf Wire</p></article>
+          <article class="ren-item" data-ren-demo><h3><a href="#">Abu Dhabi port operator signs AED 400m logistics park lease</a></h3><p class="ren-meta">Demo Property and SME Wire</p></article>
+        </div>
+      </section>
+      <section class="ren-col" id="alternative" aria-labelledby="ren-alternative-title" data-fundsae-slot="news-column" data-fundsae-sections="special-alternative-real-estate,infrastructure">
+        <h2 id="ren-alternative-title">Alternative Real Estate</h2>
+        <div class="ren-stories">
+          <article class="ren-lead" data-ren-demo>
+            <a class="ren-visual" href="#" tabindex="-1" aria-hidden="true"><span class="ren-tag">Data Centres</span></a>
+            <h3><a href="#">Gulf sovereign fund commits $600m to UAE data centre campus</a></h3>
+            <p class="ren-sum">The campus near Abu Dhabi will host cloud and AI workloads and is the fund's largest digital infrastructure bet in the region. Dummy summary for the demo.</p>
+            <p class="ren-meta">Demo Private Capital Daily</p>
+          </article>
+          <article class="ren-item" data-ren-demo><h3><a href="#">Dubai student housing operator raises AED 300m for new campus beds</a></h3><p class="ren-meta">Demo Property Wire</p></article>
+          <article class="ren-item" data-ren-demo><h3><a href="#">Abu Dhabi healthcare real estate fund buys three outpatient clinics</a></h3><p class="ren-meta">Demo Gulf Wire</p></article>
+          <article class="ren-item" data-ren-demo><h3><a href="#">Saudi infrastructure fund backs Red Sea desalination plant</a></h3><p class="ren-meta">Demo Private Capital Daily</p></article>
+          <article class="ren-item" data-ren-demo><h3><a href="#">UAE senior living platform secures first institutional investor</a></h3><p class="ren-meta">Demo Emirates Markets</p></article>
+          <article class="ren-item" data-ren-demo><h3><a href="#">Self-storage operator expands across Dubai with private equity backing</a></h3><p class="ren-meta">Demo Property and SME Wire</p></article>
+          <article class="ren-item" data-ren-demo><h3><a href="#">Oman solar park reaches financial close with Gulf lenders</a></h3><p class="ren-meta">Demo Private Capital Daily</p></article>
+          <article class="ren-item" data-ren-demo><h3><a href="#">Dubai cold storage developer raises funds for food logistics hubs</a></h3><p class="ren-meta">Demo Gulf Wire</p></article>
+        </div>
+      </section>
+  </div>
+  <div class="ren-more"><a href="News.dc.html">View all real estate news</a></div>
+  <p class="ren-note">Funds.ae summarises news from other publishers. A headline opens our story page, which links to the full article at the publisher.</p>
+</main>
+<footer class="site-footer">
+  <div class="foot-inner">
+    <a href="this.html" class="foot-brand" aria-label="Funds.ae home">
+      <svg viewBox="0 0 140 140" aria-hidden="true"><circle cx="70" cy="70" r="62.83" fill="none" stroke="#0E3A43" stroke-width="10"/><circle cx="53.03" cy="86.97" r="38.83" fill="none" stroke="#0E3A43" stroke-width="10"/><circle cx="42.54" cy="97.46" r="29" fill="#2F8A8C"/></svg>
+      <span>Funds<span class="dot">.</span>ae</span>
+    </a>
+    <span class="foot-note">Discover. Connect. Grow.</span>
+    <nav class="foot-nav" aria-label="Footer">
+      <a href="About.dc.html">About</a>
+      <a href="Contact.dc.html">Contact us</a>
+      <a href="Terms.dc.html">Terms of Service</a>
+      <a href="Privacy.dc.html">Privacy Policy</a>
+    </nav>
+    <div class="foot-bottom">
+      <span class="foot-note">© 2026 Funds.ae. All rights reserved.</span>
+      <span class="foot-note">Headlines link to the original publishers.</span>
+    </div>
+  </div>
+</footer>
+<script src="../i18n.js"></script>
+<script src="../js/fundsae-header.js" defer></script>
+<script src="../js/fundsae-api.js" defer></script>
+<script src="../js/fundsae-connector.js" defer></script>
+</body>
+</html>
