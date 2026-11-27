@@ -23,7 +23,7 @@
     'Events': 'الفعاليات',
     'Careers': 'الوظائف',
     'Finance Careers': 'الوظائف المالية',
-    'Your next move in UAE finance': 'خطوتك التالية في قطاع التمويل في الإمارات',
+    'Your next move in finance': 'خطوتك التالية في قطاع التمويل',
     'Roles across private equity, venture capital, private credit, banking and fund services.': 'وظائف في الملكية الخاصة ورأس المال الجريء والائتمان الخاص والمصارف وخدمات الصناديق.',
     'View finance jobs': 'تصفح الوظائف المالية',
     'Partner with us': 'شارك معنا',

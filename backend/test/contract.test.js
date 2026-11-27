@@ -412,7 +412,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   const careers = read('Careers.dc.html');
   assert.ok(!careers.includes('data-fundsae-slot="events"') && !careers.includes('data-fundsae-form="event"'), 'Careers no longer has events');
   // The Finance Careers banner (as on the home page) tops the page; its heading is the page h1. No Demo data badge.
-  assert.match(careers, /<h1 id="careers-banner-title" class="fx-cb-title">Your next move in UAE finance<\/h1>/);
+  assert.match(careers, /<h1 id="careers-banner-title" class="fx-cb-title">Your next move in finance<\/h1>/);
   assert.ok(careers.includes('href="careers-banner.css?v=1"') && careers.includes('<img class="fx-cb-photo" src="img/careers-banner.jpg" alt="">'), 'Careers shows the banner');
   assert.ok(careers.includes('<a class="fx-cb-btn" href="#opportunities">View finance jobs</a>') && careers.includes('id="opportunities"'), 'View finance jobs jumps to the listings');
   assert.ok(!careers.includes('Financial Services Jobs') && careers.indexOf('fx-careers-top') < careers.indexOf('id="opportunities"'), 'banner replaces the old heading, above the listings');
