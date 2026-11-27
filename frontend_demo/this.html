@@ -1179,7 +1179,7 @@ document.addEventListener('DOMContentLoaded', async function() {
           }
           const grantsHeading = document.createElement('h2');
           grantsHeading.textContent = 'UAE Business Grants & Funding Resources';
-          // The header's "Grants & Funding" link (this.html#grants-funding) lands here; the sticky bar must not cover it.
+          // Anchor for links to this box (this.html#grants-funding); the sticky bar must not cover it.
           grantsHeading.id = 'grants-funding';
           grantsHeading.style.cssText = 'scroll-margin-top: 64px; margin: 32px 0 0; padding-top: 24px; border-top: 1px solid #DAE5E4; font-size: 22px; font-weight: 600; color: #0E3A43';
           news.appendChild(grantsHeading);
@@ -1228,14 +1228,6 @@ document.addEventListener('DOMContentLoaded', async function() {
             image.style.maxWidth = '150px';
           });
           news.appendChild(grantsBox);
-          // Arriving from another page's Grants & Funding link: this script builds the box after the browser's own jump to
-          // #grants-funding, and live stories above it load later still, so scroll once the page has loaded and again a
-          // moment after (unless the visitor has scrolled in between).
-          if (window.location.hash === '#grants-funding') {
-            const toGrants = () => { const target = document.getElementById('grants-funding'); if (target) target.scrollIntoView(); return window.scrollY; };
-            const settle = () => setTimeout(() => { const at = toGrants(); setTimeout(() => { if (Math.abs(window.scrollY - at) < 4) toGrants(); }, 900); }, 250);
-            if (document.readyState === 'complete') settle(); else window.addEventListener('load', settle, { once: true });
-          }
 
           const otherFundingHeading = document.createElement('h2');
           otherFundingHeading.textContent = 'Other Funding Resources';
@@ -1314,7 +1306,10 @@ document.addEventListener('DOMContentLoaded', async function() {
         'Residential Estate News': 'News.dc.html?section=residential-real-estate',
         'Commercial Real Estate News': 'News.dc.html?section=commercial-real-estate',
         'Infrastructure Real Estate News': 'News.dc.html?section=infrastructure',
-        'Special & Alternative Real Estate News': 'News.dc.html?section=special-alternative-real-estate'
+        'Special & Alternative Real Estate News': 'News.dc.html?section=special-alternative-real-estate',
+        // The grants and funding boxes open the Grants & Funding page (programmes from banks, funds and investors).
+        'UAE Business Grants and Funding news': 'GrantsFunding.dc.html',
+        'Other Funding Resources': 'GrantsFunding.dc.html'
       };
       const makeViewAll = (href = '#') => {
         const link = document.createElement('a');
@@ -1428,7 +1423,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Groups, split by thin rules: [label, filter ids] filters the news; [label, { href }] is a plain link.
         // No investor-type links: the bar is Real Estate Stories, then the site's own pages.
         const CATEGORY_GROUPS = [
-          [['Real Estate Stories', null], ['Grants & Funding', { href: 'this.html#grants-funding' }]],
+          [['Real Estate Stories', null], ['Grants & Funding', { href: 'GrantsFunding.dc.html' }]],
           [['Videos & Podcasts', { href: 'Videos.dc.html' }], ['Careers', { href: 'Careers.dc.html' }], ['Events', { href: 'Events.dc.html' }], ['Partner with us', { href: 'PartnerWithUs.dc.html' }]]
         ];
         const bar = document.createElement('nav');

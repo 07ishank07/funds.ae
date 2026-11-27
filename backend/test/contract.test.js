@@ -239,7 +239,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   }
   // The site menu is in the footer on every page, not in the header.
   assert.ok(home.includes(`nav.m-only[aria-label="Sections"]').forEach((nav) => nav.remove())`), 'home removes both header menus');
-  for (const page of ['About', 'PartnerWithUs', 'Careers', 'Contact', 'Events', 'News', 'Privacy', 'Terms', 'Videos']) {
+  for (const page of ['About', 'PartnerWithUs', 'Careers', 'Contact', 'Events', 'GrantsFunding', 'News', 'Privacy', 'Terms', 'Videos']) {
     const html = read(`${page}.dc.html`);
     assert.ok(!html.includes('aria-label="Sections"'), `${page} has no header menu`);
     const footNav = html.slice(html.indexOf('<nav class="foot-nav"'), html.indexOf('</nav>', html.indexOf('<nav class="foot-nav"')));
@@ -252,7 +252,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
     assert.ok(html.includes('data-fundsae-date'), `${page} header shows the date`);
     assert.ok(!html.includes('class="masthead"'), `${page} has no old masthead`);
     const catbar = html.slice(html.indexOf('<nav class="fx-catbar"'), html.indexOf('</nav>', html.indexOf('<nav class="fx-catbar"')));
-    for (const [label, href] of [['Grants &amp; Funding', 'this.html#grants-funding'], ['Videos &amp; Podcasts', 'Videos.dc.html'], ['Partner with us', 'PartnerWithUs.dc.html'], ['Careers', 'Careers.dc.html'], ['Events', 'Events.dc.html']]) {
+    for (const [label, href] of [['Grants &amp; Funding', 'GrantsFunding.dc.html'], ['Videos &amp; Podcasts', 'Videos.dc.html'], ['Partner with us', 'PartnerWithUs.dc.html'], ['Careers', 'Careers.dc.html'], ['Events', 'Events.dc.html']]) {
       assert.ok(catbar.includes(`<a href="${href}"`) && catbar.includes(`>${label}</a>`), `${page} category bar links to ${label}`);
     }
     // No investor-type links: Real Estate Stories, one divider, then the site's pages.
@@ -262,11 +262,11 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
     assert.deepEqual(links.slice(-2), ['Events', 'Partner with us'], `${page} category bar ends with Events, then Partner with us`);
   }
   // One bar under the masthead: Real Estate Stories, Grants & Funding | Videos & Podcasts, Partner with us, Careers, Events.
-  assert.ok(home.includes("[['Real Estate Stories', null], ['Grants & Funding', { href: 'this.html#grants-funding' }]],"), 'category bar starts with Real Estate Stories and Grants & Funding');
-  assert.ok(home.includes("grantsHeading.id = 'grants-funding';") && home.includes("if (window.location.hash === '#grants-funding') {"), 'Grants & Funding lands on the home page grants box');
-  assert.ok(readFileSync(path.join(repo, 'js', 'fundsae-header.js'), 'utf8').includes("['Grants & Funding', 'this.html#grants-funding']"), 'mobile menu links to Grants & Funding');
+  assert.ok(home.includes("[['Real Estate Stories', null], ['Grants & Funding', { href: 'GrantsFunding.dc.html' }]],"), 'category bar starts with Real Estate Stories and Grants & Funding');
+  assert.ok(home.includes("'UAE Business Grants and Funding news': 'GrantsFunding.dc.html'") && home.includes("'Other Funding Resources': 'GrantsFunding.dc.html'"), 'the home funding boxes open the Grants & Funding page');
+  assert.ok(readFileSync(path.join(repo, 'js', 'fundsae-header.js'), 'utf8').includes("['Grants & Funding', 'GrantsFunding.dc.html']"), 'mobile menu links to Grants & Funding');
   for (const tpl of ['story.html', 'job.html']) {
-    assert.ok(readFileSync(path.join(backend, 'templates', tpl), 'utf8').includes('<a href="../this.html#grants-funding">Grants &amp; Funding</a>'), `${tpl} header links to Grants & Funding`);
+    assert.ok(readFileSync(path.join(backend, 'templates', tpl), 'utf8').includes('<a href="../GrantsFunding.dc.html">Grants &amp; Funding</a>'), `${tpl} header links to Grants & Funding`);
   }
   for (const label of ['Sovereign', 'Pension', 'Private Equity', 'REITs', 'Family Offices', 'Banks', 'Government', 'Endowments']) {
     assert.ok(!home.includes(`['${label}', `), `category bar has no ${label} link`);
@@ -410,6 +410,23 @@ test('Videos & Podcasts: a header link on every page and a video hub page of dum
   assert.ok(read('i18n.js').includes("'Videos & Podcasts': "), 'Arabic label');
 });
 
+test('Grants & Funding page: dummy funding, loan and grant opportunities with working filters', () => {
+  const page = readFileSync(path.join(repo, 'frontend_demo', 'GrantsFunding.dc.html'), 'utf8');
+  const main = page.slice(page.indexOf('<main'), page.indexOf('</main>'));
+  assert.ok(page.includes('<title>Grants &amp; Funding · Funds.ae</title>') && page.includes('<a href="GrantsFunding.dc.html" aria-current="page">'), 'title and current header link');
+  for (const type of ['all', 'grant', 'loan', 'equity', 'trade']) assert.ok(main.includes(`data-gf-type="${type}"`), `filter chip ${type}`);
+  assert.ok(main.includes('data-gf-emirate') && main.includes('data-gf-search') && main.includes('data-gf-count') && main.includes('data-gf-empty'), 'emirate, search, count and empty message');
+  const cards = [...main.matchAll(/<article class="gf-card[^"]*" data-type="(grant|loan|equity|trade)" data-emirate="(abu-dhabi|dubai|sharjah|northern|uae)">/g)];
+  assert.ok(cards.length >= 12, 'at least 12 opportunity cards, each with a type and an emirate');
+  assert.equal(cards.length, (main.match(/class="gf-card/g) || []).length, 'every card is filterable');
+  for (const type of ['grant', 'loan', 'equity', 'trade']) assert.ok(cards.some((m) => m[1] === type), `at least one ${type}`);
+  assert.ok(main.includes('Demo data:') && main.includes('not financial advice'), 'demo notice and disclaimer');
+  assert.equal((main.match(/\(demo\)/g) || []).length, cards.length, 'every provider is marked (demo)');
+  assert.ok(!/<img|https?:\/\//.test(main), 'no images or external links in the page body');
+  const script = page.slice(page.lastIndexOf('<script>'), page.lastIndexOf('</script>'));
+  assert.ok(script.includes('count.textContent') && !/innerHTML|insertAdjacentHTML/.test(script), 'the filter script sets text only');
+});
+
 test('every website form posts only field names the API accepts', () => {
   const pages = readdirSync(path.join(repo, 'frontend_demo')).filter((f) => f.endsWith('.html'));
   const seen = new Set();
@@ -461,7 +478,7 @@ test('the Real Estate Capital News page has its hooks, scripts and a bar link on
   const order = ['fundsae-api.js', 'fundsae-connector.js', 'fundsae-news-filter.js', 'fundsae-news.js'].map((f) => page.indexOf(`<script src="../js/${f}"`));
   assert.ok(order.every((i, n) => i > 0 && (n === 0 || i > order[n - 1])), 'scripts load in order: api, connector, filter, page');
   // No Real Estate News link in the header; the page is reached from the home page's real estate boxes (View All).
-  for (const f of ['About', 'PartnerWithUs', 'Careers', 'Contact', 'Events', 'News', 'PostJob', 'Privacy', 'Terms', 'Videos']) {
+  for (const f of ['About', 'PartnerWithUs', 'Careers', 'Contact', 'Events', 'GrantsFunding', 'News', 'PostJob', 'Privacy', 'Terms', 'Videos']) {
     assert.ok(!read(`${f}.dc.html`).includes('>Real Estate News</a>'), `${f} has no Real Estate News header link`);
   }
   const home = read('this.html');

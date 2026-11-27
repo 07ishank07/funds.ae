@@ -25,6 +25,18 @@
     'Partner with us': 'شارك معنا',
     'Videos & Podcasts': 'الفيديو والبودكاست',
     'Grants & Funding': 'المنح والتمويل',
+    // Grants & Funding page
+    'Funding opportunities': 'فرص التمويل',
+    'Grants': 'المنح',
+    'Loans': 'القروض',
+    'Equity and venture': 'الاستثمار في رأس المال',
+    'Trade and export finance': 'تمويل التجارة والتصدير',
+    'All UAE': 'كل الإمارات',
+    'Who can apply': 'من يمكنه التقديم',
+    'Details coming soon': 'التفاصيل قريباً',
+    'How it works': 'كيف يعمل',
+    'Offer funding to UAE businesses?': 'هل تقدّم تمويلاً للشركات في الإمارات؟',
+    'List your programme': 'أدرج برنامجك',
     // Hero banner (built-in copy)
     'Daily intelligence on the deals, funds and investors shaping Dubai and the Gulf.': 'معلومات يومية عن الصفقات والصناديق والمستثمرين الذين يشكّلون دبي والخليج.',
     'Watch the videos': 'شاهد الفيديوهات',
