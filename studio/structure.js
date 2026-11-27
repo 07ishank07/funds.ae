@@ -1,5 +1,5 @@
-// The Studio's left-hand menu: the News Review Queue first, then everything else
-// arranged by where it appears on funds.ae.
+// The Studio's left-hand menu, organised like the website: one group per page (Home, Real Estate News,
+// Events, Finance Careers, Partner with us), then Site-wide items. Every sponsor area appears exactly once.
 
 import {PAGE_TITLES} from './schemaTypes/page.js'
 import {PAGE_SLUGS, SPONSOR_SLOTS} from './schemaTypes/rules.js'
@@ -126,62 +126,70 @@ export const sponsorTemplates = Object.keys(SPONSOR_SLOTS).map((slot) => ({
   value: {slot, enabled: true, position: 10},
 }))
 
+/** One sponsor area (a slot of sponsorItem documents), with a "new" button that pre-fills the slot. */
+const sponsorArea = (S, slot) =>
+  S.listItem()
+    .id(slot)
+    .title(`${SPONSOR_SLOTS[slot].label} (max ${SPONSOR_SLOTS[slot].maxItems})`)
+    .child(
+      S.documentTypeList('sponsorItem')
+        .title(SPONSOR_SLOTS[slot].label)
+        .filter('_type == "sponsorItem" && slot == $slot')
+        .params({slot})
+        .defaultOrdering(byPosition)
+        .initialValueTemplates([S.initialValueTemplateItem(`sponsorItem-${slot}`)]),
+    )
+
+/** A top-level page group: the site page's name, then everything edited for that page. */
+const pageGroup = (S, id, title, items) => S.listItem().id(id).title(title).child(S.list().title(title).items(items))
+
+// The menu mirrors the website: one group per page, in the order of the site's header, then site-wide items.
+// Nothing here changes what is stored; it only decides where each document is found.
 export const structure = (S, context) =>
   S.list()
     .title('funds.ae')
     .items([
-      newsQueue(S),
-      newsSettings(S),
-      careers(S, context),
+      pageGroup(S, 'page-home', 'Home page', [
+        // One fixed document: the banner at the top of the home page. Unpublish it to show the built-in banner.
+        S.listItem().id('home-hero').title('Hero banner').child(S.document().schemaType('homeHero').documentId('homeHero')),
+        sponsorArea(S, 'platinum'),
+        sponsorArea(S, 'sponsoredPosts'),
+        sponsorArea(S, 'sponsoredMedia'),
+        sponsorArea(S, 'professionalServices'),
+        S.listItem().id('top-tweets').title('Top Tweets').child(S.documentTypeList('socialHighlight').title('Top Tweets').defaultOrdering(byPosition)),
+      ]),
+      pageGroup(S, 'page-news', 'Real Estate News', [newsQueue(S), newsSettings(S)]),
+      pageGroup(S, 'page-events', 'Events', [
+        S.listItem().id('events').title('Events').child(S.documentTypeList('event').title('Events').defaultOrdering([{field: 'startDate', direction: 'desc'}])),
+      ]),
+      pageGroup(S, 'page-careers', 'Finance Careers', [careers(S, context), sponsorArea(S, 'careerResources')]),
+      pageGroup(S, 'page-partner', 'Partner with us', [
+        S.listItem().id('packages').title('Packages').child(S.documentTypeList('advertiseTier').title('Partner with us packages').defaultOrdering(byPosition)),
+      ]),
       S.divider(),
-      S.listItem()
-        .title('Sponsors')
-        .child(
-          S.list()
-            .title('Sponsor areas')
-            .items(
-              Object.entries(SPONSOR_SLOTS).map(([slot, rules]) =>
-                S.listItem()
-                  .id(slot)
-                  .title(`${rules.label} (max ${rules.maxItems})`)
-                  .child(
-                    S.documentTypeList('sponsorItem')
-                      .title(rules.label)
-                      .filter('_type == "sponsorItem" && slot == $slot')
-                      .params({slot})
-                      .defaultOrdering(byPosition)
-                      .initialValueTemplates([S.initialValueTemplateItem(`sponsorItem-${slot}`)]),
-                  ),
+      pageGroup(S, 'site-wide', 'Site-wide', [
+        sponsorArea(S, 'founding'),
+        S.listItem()
+          .id('pages')
+          .title('About, Privacy and Terms')
+          .child(
+            S.list()
+              .title('Pages')
+              .items(
+                // One fixed document per page, so there is never a second "Privacy Policy".
+                PAGE_SLUGS.map((slug) =>
+                  S.listItem()
+                    .id(slug)
+                    .title(PAGE_TITLES[slug])
+                    .child(S.document().schemaType('page').documentId(`page-${slug}`).initialValueTemplate(`page-${slug}`)),
+                ),
               ),
-            ),
-        ),
-      // One fixed document: the banner at the top of the home page. Unpublish it to show the built-in banner.
-      S.listItem().id('home-hero').title('Home page hero banner').child(S.document().schemaType('homeHero').documentId('homeHero')),
-      S.listItem()
-        .title('Events')
-        .child(S.documentTypeList('event').title('Events').defaultOrdering([{field: 'startDate', direction: 'desc'}])),
-      S.divider(),
-      S.listItem()
-        .title('Top Tweets (home)')
-        .child(S.documentTypeList('socialHighlight').title('Top Tweets').defaultOrdering(byPosition)),
-      S.listItem()
-        .title('Partner with us packages')
-        .child(S.documentTypeList('advertiseTier').title('Partner with us packages').defaultOrdering(byPosition)),
-      S.listItem()
-        .title('Pages')
-        .child(
-          S.list()
-            .title('Pages')
-            .items(
-              // One fixed document per page, so there is never a second "Privacy Policy".
-              PAGE_SLUGS.map((slug) =>
-                S.listItem()
-                  .id(slug)
-                  .title(PAGE_TITLES[slug])
-                  .child(S.document().schemaType('page').documentId(`page-${slug}`).initialValueTemplate(`page-${slug}`)),
-              ),
-            ),
-        ),
+          ),
+        S.divider(),
+        // Kept so stored documents stay valid; nothing here shows on the site at present.
+        sponsorArea(S, 'gold'),
+        sponsorArea(S, 'eliteExclusive'),
+      ]),
     ])
 
 export const pageTemplates = PAGE_SLUGS.map((slug) => ({
