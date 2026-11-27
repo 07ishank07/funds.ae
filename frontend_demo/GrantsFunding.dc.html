@@ -24,11 +24,28 @@
   .gf { max-width: 1288px; margin: 0 auto; padding: 40px 24px 72px; }
   .gf-intro { padding-bottom: 24px; border-bottom: 1px solid var(--line); }
   .gf-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
-  .gf-intro h1 { margin-top: 6px; font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 600; line-height: 1.1; letter-spacing: -0.015em; }
+  .gf-intro h1 { margin-top: 8px; max-width: 980px; font-size: clamp(2rem, 4.4vw, 3.2rem); font-weight: 700; line-height: 1.08; letter-spacing: -0.02em; }
   .gf-intro p { margin-top: 10px; max-width: 700px; font-size: 16px; color: var(--muted); }
   .gf-intro .gf-demo { margin-top: 8px; font-size: 13px; color: var(--ghost); }
 
-  .gf-filters { margin-top: 24px; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; }
+  /* Browse by type: tiles like the reference (icon, title, short description, count); a tile filters the list. */
+  .gf-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .gf-types { margin-top: 28px; }
+  .gf-type-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  .gf-type { display: flex; align-items: flex-start; gap: 14px; padding: 20px 20px 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
+  .gf-type:hover { border-color: var(--mint); }
+  .gf-type[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent) inset; background: #F2F8F7; }
+  .gf-type svg { flex: 0 0 26px; width: 26px; height: 26px; margin-top: 2px; fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .gf-type-text strong { display: block; font-size: 17px; font-weight: 600; line-height: 1.3; }
+  .gf-type-text span { display: block; margin-top: 6px; font-size: 14px; line-height: 1.5; color: var(--muted); }
+  .gf-type-text small { display: block; margin-top: 8px; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; color: var(--accent); }
+  .gf-active { margin-top: 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 14px; color: var(--ink-2); }
+  .gf-active[hidden] { display: none; }
+  .gf-active strong { font-weight: 600; color: var(--ink); }
+  .gf-active button { padding: 3px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink-2); font: inherit; font-size: 13px; cursor: pointer; }
+  .gf-active button:hover { border-color: var(--ink); color: var(--ink); }
+  .gf-cats { margin-top: 10px; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; color: var(--accent); }
+  .gf-filters { scroll-margin-top: 70px; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; }
   .gf-chips { display: flex; flex-wrap: wrap; gap: 8px; }
   .gf-chip { padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink-2); font: inherit; font-size: 13px; font-weight: 500; cursor: pointer; }
   .gf-chip:hover { border-color: var(--accent); color: var(--ink); }
@@ -67,11 +84,11 @@
   .gf-cta a:hover { background: #D9BE7A; }
   .gf-disclaimer { margin-top: 22px; font-size: 12px; color: var(--ghost); max-width: 860px; }
 
-  @media (max-width: 1024px) { .gf-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } .gf-featured { grid-column: 1 / -1; } }
+  @media (max-width: 1024px) { .gf-type-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .gf-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } .gf-featured { grid-column: 1 / -1; } }
   @media (max-width: 720px) {
     .gf { padding: 28px 16px 56px; }
     .gf-featured { grid-column: auto; }
-    .gf-list, .gf-how ol { grid-template-columns: minmax(0, 1fr); }
+    .gf-list, .gf-how ol, .gf-type-grid { grid-template-columns: minmax(0, 1fr); }
     .gf-controls, .gf-field, .gf-search input { width: 100%; }
   }
 
@@ -159,11 +176,66 @@
 </section>
 <main class="gf">
   <div class="gf-intro">
-    <p class="gf-eyebrow">Funding opportunities</p>
-    <h1>Grants &amp; Funding</h1>
-    <p>Grants, loans and investment programmes for UAE businesses, from banks, development funds, investors and trade financiers.</p>
+    <p class="gf-eyebrow">Grants &amp; Funding</p>
+    <h1>Every type of UAE business funding in one place</h1>
+    <p>From SME grants and soft loans to venture capital and export finance, we track the programmes so you never miss an opening.</p>
     <p class="gf-demo">Demo data: providers, amounts and dates are placeholders. Always check terms with the provider.</p>
   </div>
+
+  <!-- Browse by type of funding: each tile filters the opportunities below (and can be linked: ?category=<id>). -->
+  <section class="gf-types" aria-labelledby="gf-types-title">
+    <h2 id="gf-types-title" class="gf-sr">Browse by type of funding</h2>
+    <div class="gf-type-grid">
+      <button type="button" class="gf-type" data-gf-cat="sme-grants" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M9 21v-4h6v4M8 7h2M14 7h2M8 11h2M14 11h2"/></svg>
+        <span class="gf-type-text"><strong>SME Grants</strong><span>Grants for established businesses across all sectors</span><small>2 programmes</small></span>
+      </button>
+      <button type="button" class="gf-type" data-gf-cat="startup" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 15l-3-3c2-6 7-9 14-9 0 7-3 12-9 14z"/><path d="M6 15c-1.5 1-2.5 3.5-2.5 5.5 2 0 4.5-1 5.5-2.5"/><circle cx="14.5" cy="9.5" r="1.5"/></svg>
+        <span class="gf-type-text"><strong>Startup Funding</strong><span>Pre-seed and early-stage funding for new founders</span><small>3 programmes</small></span>
+      </button>
+      <button type="button" class="gf-type" data-gf-cat="rd" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-9V3"/><path d="M7.5 15h9"/></svg>
+        <span class="gf-type-text"><strong>Innovation &amp; R&amp;D</strong><span>Research, prototypes and lab partnerships</span><small>2 programmes</small></span>
+      </button>
+      <button type="button" class="gf-type" data-gf-cat="technology" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="1"/><rect x="9.5" y="9.5" width="5" height="5"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg>
+        <span class="gf-type-text"><strong>Technology &amp; AI</strong><span>Digital transformation, AI and deep tech funding</span><small>2 programmes</small></span>
+      </button>
+      <button type="button" class="gf-type" data-gf-cat="green" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21c0-9 5-15 15-16-1 10-7 15-15 16z"/><path d="M5 21c3-5 6-8 10-10"/></svg>
+        <span class="gf-type-text"><strong>Green &amp; Sustainability</strong><span>Net zero, renewables, water and clean energy</span><small>2 programmes</small></span>
+      </button>
+      <button type="button" class="gf-type" data-gf-cat="manufacturing" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21V10l6 4v-4l6 4V5h6v16z"/><path d="M7 18h2M12 18h2M17 18h2"/></svg>
+        <span class="gf-type-text"><strong>Manufacturing &amp; Industry</strong><span>Equipment, automation and productivity funding</span><small>2 programmes</small></span>
+      </button>
+      <button type="button" class="gf-type" data-gf-cat="export" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3.5 3.5 3.5 14.5 0 18M12 3c-3.5 3.5-3.5 14.5 0 18"/></svg>
+        <span class="gf-type-text"><strong>Export &amp; Trade Finance</strong><span>Export credit, insurance and trade finance</span><small>4 programmes</small></span>
+      </button>
+      <button type="button" class="gf-type" data-gf-cat="sme-loans" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 10v4M18 10v4"/></svg>
+        <span class="gf-type-text"><strong>SME Loans</strong><span>Working capital, equipment and soft loans</span><small>4 programmes</small></span>
+      </button>
+      <button type="button" class="gf-type" data-gf-cat="islamic" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 10.5 4a6.3 6.3 0 0 0 9.5 10.5z"/><path d="M17 4.5l.7 1.5 1.6.3-1.2 1.1.3 1.6-1.4-.8-1.4.8.3-1.6-1.2-1.1 1.6-.3z"/></svg>
+        <span class="gf-type-text"><strong>Islamic Finance</strong><span>Sharia-compliant Murabaha and Ijara funding</span><small>1 programme</small></span>
+      </button>
+      <button type="button" class="gf-type" data-gf-cat="emirati" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V3"/><path d="M5 4h14l-2.5 4L19 12H5"/></svg>
+        <span class="gf-type-text"><strong>Emirati Founders</strong><span>Programmes for UAE nationals starting a business</span><small>1 programme</small></span>
+      </button>
+      <button type="button" class="gf-type" data-gf-cat="venture" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>
+        <span class="gf-type-text"><strong>Venture &amp; Angel Investment</strong><span>Equity from angels, VCs and crowdfunding</span><small>4 programmes</small></span>
+      </button>
+      <button type="button" class="gf-type" data-gf-cat="free-zone" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        <span class="gf-type-text"><strong>Free Zone Support</strong><span>Packages and finance from UAE free zones</span><small>2 programmes</small></span>
+      </button>
+    </div>
+  </section>
 
   <!-- Filters: the script below shows and hides the cards (data-type, data-emirate, text); it adds no markup. -->
   <div class="gf-filters" data-gf-filters>
@@ -190,97 +262,113 @@
       </label>
     </div>
   </div>
+  <p class="gf-active" data-gf-active hidden>Type: <strong data-gf-active-name></strong> <button type="button" data-gf-clear aria-label="Clear the type of funding">Clear &times;</button></p>
   <p class="gf-count" data-gf-count role="status" aria-live="polite">Showing 15 of 15 opportunities</p>
 
   <section class="gf-list" aria-label="Funding opportunities">
-      <article class="gf-card gf-featured" data-type="grant" data-emirate="uae">
+      <article class="gf-card gf-featured" data-type="grant" data-emirate="uae" data-cats="sme-grants export">
         <p class="gf-kicker">Grant · UAE-wide · <span class="gf-pick">Featured</span></p>
         <h3>Crescent Innovation Fund</h3>
         <p class="gf-brief">Grants of up to AED 500,000, covering half the cost of growth and export projects for established SMEs.</p>
+        <p class="gf-cats">SME Grants · Export &amp; Trade Finance</p>
         <a class="gf-link" href="#" aria-label="View details: Crescent Innovation Fund (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
-      <article class="gf-card" data-type="grant" data-emirate="abu-dhabi">
+      <article class="gf-card" data-type="grant" data-emirate="abu-dhabi" data-cats="sme-grants manufacturing">
         <p class="gf-kicker">Grant · Abu Dhabi</p>
         <h3>Harbour Gate SME Fund</h3>
         <p class="gf-brief">Grants of AED 100k to 1m towards new equipment for manufacturers automating or cutting energy use.</p>
+        <p class="gf-cats">SME Grants · Manufacturing &amp; Industry</p>
         <a class="gf-link" href="#" aria-label="View details: Harbour Gate SME Fund (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
-      <article class="gf-card" data-type="grant" data-emirate="dubai">
+      <article class="gf-card" data-type="grant" data-emirate="dubai" data-cats="green startup rd">
         <p class="gf-kicker">Grant · Dubai</p>
         <h3>Lumen Impact Foundation</h3>
         <p class="gf-brief">Pilot grants of up to AED 250,000 for early-stage climate and water start-ups.</p>
+        <p class="gf-cats">Green &amp; Sustainability · Startup Funding · Innovation &amp; R&amp;D</p>
         <a class="gf-link" href="#" aria-label="View details: Lumen Impact Foundation (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
-      <article class="gf-card" data-type="grant" data-emirate="sharjah">
+      <article class="gf-card" data-type="grant" data-emirate="sharjah" data-cats="rd free-zone">
         <p class="gf-kicker">Grant · Sharjah</p>
         <h3>Sharjah Research Park</h3>
         <p class="gf-brief">R&amp;D vouchers of AED 50k to 300k for companies working with a UAE university or lab.</p>
+        <p class="gf-cats">Innovation &amp; R&amp;D · Free Zone Support</p>
         <a class="gf-link" href="#" aria-label="View details: Sharjah Research Park (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
-      <article class="gf-card" data-type="loan" data-emirate="uae">
+      <article class="gf-card" data-type="loan" data-emirate="uae" data-cats="sme-loans">
         <p class="gf-kicker">Loan · UAE-wide</p>
         <h3>Saffron Capital Bank</h3>
         <p class="gf-brief">Working capital lines of AED 250k to 5m for SMEs with two years of audited accounts.</p>
+        <p class="gf-cats">SME Loans</p>
         <a class="gf-link" href="#" aria-label="View details: Saffron Capital Bank (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
-      <article class="gf-card" data-type="loan" data-emirate="dubai">
+      <article class="gf-card" data-type="loan" data-emirate="dubai" data-cats="islamic sme-loans">
         <p class="gf-kicker">Loan · Dubai</p>
         <h3>Al Waha Islamic Finance</h3>
         <p class="gf-brief">Sharia-compliant Murabaha finance of AED 100k to 3m for business equipment.</p>
+        <p class="gf-cats">Islamic Finance · SME Loans</p>
         <a class="gf-link" href="#" aria-label="View details: Al Waha Islamic Finance (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
-      <article class="gf-card" data-type="loan" data-emirate="abu-dhabi">
+      <article class="gf-card" data-type="loan" data-emirate="abu-dhabi" data-cats="emirati startup sme-loans">
         <p class="gf-kicker">Loan · Abu Dhabi</p>
         <h3>Pearl Coast Development Bank</h3>
         <p class="gf-brief">Low-rate soft loans of AED 50k to 1m for Emirati founders, with a 12-month grace period.</p>
+        <p class="gf-cats">Emirati Founders · Startup Funding · SME Loans</p>
         <a class="gf-link" href="#" aria-label="View details: Pearl Coast Development Bank (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
-      <article class="gf-card" data-type="loan" data-emirate="northern">
+      <article class="gf-card" data-type="loan" data-emirate="northern" data-cats="sme-loans technology">
         <p class="gf-kicker">Loan · Northern Emirates</p>
         <h3>Northern Emirates SME Credit</h3>
         <p class="gf-brief">Revenue-based finance of AED 75k to 750k, repaid as a share of monthly sales.</p>
+        <p class="gf-cats">SME Loans · Technology &amp; AI</p>
         <a class="gf-link" href="#" aria-label="View details: Northern Emirates SME Credit (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
-      <article class="gf-card" data-type="equity" data-emirate="dubai">
+      <article class="gf-card" data-type="equity" data-emirate="dubai" data-cats="venture startup">
         <p class="gf-kicker">Equity · Dubai</p>
         <h3>Oasis Angel Network</h3>
         <p class="gf-brief">Pre-seed and seed investment of AED 200k to 2m for founder-led start-ups with first customers.</p>
+        <p class="gf-cats">Venture &amp; Angel Investment · Startup Funding</p>
         <a class="gf-link" href="#" aria-label="View details: Oasis Angel Network (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
-      <article class="gf-card" data-type="equity" data-emirate="abu-dhabi">
+      <article class="gf-card" data-type="equity" data-emirate="abu-dhabi" data-cats="venture technology">
         <p class="gf-kicker">Equity · Abu Dhabi</p>
         <h3>Sandstone Ventures</h3>
         <p class="gf-brief">Series A investment of AED 5m to 25m for B2B scale-ups across the GCC.</p>
+        <p class="gf-cats">Venture &amp; Angel Investment · Technology &amp; AI</p>
         <a class="gf-link" href="#" aria-label="View details: Sandstone Ventures (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
-      <article class="gf-card" data-type="equity" data-emirate="uae">
+      <article class="gf-card" data-type="equity" data-emirate="uae" data-cats="venture green">
         <p class="gf-kicker">Equity · UAE-wide</p>
         <h3>Gulf Impact Partners</h3>
         <p class="gf-brief">Growth equity of AED 10m to 50m for profitable SMEs in renewables, water, food and education.</p>
+        <p class="gf-cats">Venture &amp; Angel Investment · Green &amp; Sustainability</p>
         <a class="gf-link" href="#" aria-label="View details: Gulf Impact Partners (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
-      <article class="gf-card" data-type="equity" data-emirate="sharjah">
+      <article class="gf-card" data-type="equity" data-emirate="sharjah" data-cats="venture">
         <p class="gf-kicker">Equity · Sharjah</p>
         <h3>CrowdForge UAE</h3>
         <p class="gf-brief">Equity crowdfunding campaigns raising AED 500k to 5m from a brand’s own customers and community.</p>
+        <p class="gf-cats">Venture &amp; Angel Investment</p>
         <a class="gf-link" href="#" aria-label="View details: CrowdForge UAE (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
-      <article class="gf-card" data-type="trade" data-emirate="dubai">
+      <article class="gf-card" data-type="trade" data-emirate="dubai" data-cats="export">
         <p class="gf-kicker">Trade finance · Dubai</p>
         <h3>Falcon Trade Finance</h3>
         <p class="gf-brief">Invoice discounting that advances up to 90% of what your business customers owe you.</p>
+        <p class="gf-cats">Export &amp; Trade Finance</p>
         <a class="gf-link" href="#" aria-label="View details: Falcon Trade Finance (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
-      <article class="gf-card" data-type="trade" data-emirate="uae">
+      <article class="gf-card" data-type="trade" data-emirate="uae" data-cats="export manufacturing">
         <p class="gf-kicker">Trade finance · UAE-wide</p>
         <h3>Meridian Export Credit</h3>
         <p class="gf-brief">Export credit insurance and guarantees of up to AED 20m for UAE goods sold abroad.</p>
+        <p class="gf-cats">Export &amp; Trade Finance · Manufacturing &amp; Industry</p>
         <a class="gf-link" href="#" aria-label="View details: Meridian Export Credit (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
-      <article class="gf-card" data-type="trade" data-emirate="northern">
+      <article class="gf-card" data-type="trade" data-emirate="northern" data-cats="export free-zone">
         <p class="gf-kicker">Trade finance · Northern Emirates</p>
         <h3>Ras Port Supply Finance</h3>
         <p class="gf-brief">Supply chain finance of AED 250k to 15m for free zone importers and their suppliers.</p>
+        <p class="gf-cats">Export &amp; Trade Finance · Free Zone Support</p>
         <a class="gf-link" href="#" aria-label="View details: Ras Port Supply Finance (coming soon)">View details <span aria-hidden="true">&rarr;</span></a>
       </article>
   </section>
@@ -329,22 +417,29 @@
 <script src="../js/fundsae-api.js" defer></script>
 <script src="../js/fundsae-connector.js" defer></script>
 <script>
-  // Grants & Funding filters: type chips, emirate and search show or hide the cards already on the page and update
-  // the count. Text is set with textContent only.
+  // Grants & Funding filters: a funding-type tile (also ?category=<id> in the address), the type chips, the emirate
+  // and the search box together show or hide the cards already on the page and update the count.
+  // Text is set with textContent only.
   (function () {
     var cards = Array.prototype.slice.call(document.querySelectorAll('.gf-card'));
+    var tiles = Array.prototype.slice.call(document.querySelectorAll('[data-gf-cat]'));
     var chips = Array.prototype.slice.call(document.querySelectorAll('[data-gf-type]'));
     var emirate = document.querySelector('[data-gf-emirate]');
     var search = document.querySelector('[data-gf-search]');
     var count = document.querySelector('[data-gf-count]');
     var empty = document.querySelector('[data-gf-empty]');
+    var active = document.querySelector('[data-gf-active]');
+    var activeName = document.querySelector('[data-gf-active-name]');
+    var results = document.querySelector('[data-gf-filters]');
     var type = 'all';
+    var cat = '';
     function apply() {
       var where = emirate ? emirate.value : 'all';
       var q = search ? search.value.trim().toLowerCase() : '';
       var shown = 0;
       cards.forEach(function (card) {
         var ok = (type === 'all' || card.getAttribute('data-type') === type) &&
+          (!cat || (' ' + card.getAttribute('data-cats') + ' ').indexOf(' ' + cat + ' ') !== -1) &&
           (where === 'all' || card.getAttribute('data-emirate') === where || card.getAttribute('data-emirate') === 'uae') &&
           (!q || card.textContent.toLowerCase().indexOf(q) !== -1);
         card.hidden = !ok;
@@ -353,6 +448,28 @@
       if (count) count.textContent = 'Showing ' + shown + ' of ' + cards.length + ' opportunities';
       if (empty) empty.hidden = shown !== 0;
     }
+    function setCategory(id, scroll) {
+      var tile = tiles.filter(function (t) { return t.getAttribute('data-gf-cat') === id; })[0];
+      cat = tile ? id : '';
+      tiles.forEach(function (t) { t.setAttribute('aria-pressed', String(t === tile)); });
+      if (active) active.hidden = !tile;
+      if (activeName) activeName.textContent = tile ? tile.querySelector('strong').textContent : '';
+      try {
+        var url = new URL(window.location.href);
+        if (cat) url.searchParams.set('category', cat); else url.searchParams.delete('category');
+        window.history.replaceState(null, '', url);
+      } catch (e) { /* the address just stays as it was */ }
+      apply();
+      if (scroll && results) results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    tiles.forEach(function (tile) {
+      tile.addEventListener('click', function () {
+        var id = tile.getAttribute('data-gf-cat');
+        setCategory(cat === id ? '' : id, cat !== id);
+      });
+    });
+    var clear = document.querySelector('[data-gf-clear]');
+    if (clear) clear.addEventListener('click', function () { setCategory('', false); });
     chips.forEach(function (chip) {
       chip.addEventListener('click', function () {
         type = chip.getAttribute('data-gf-type');
@@ -362,6 +479,13 @@
     });
     if (emirate) emirate.addEventListener('change', apply);
     if (search) search.addEventListener('input', apply);
+    // Opened with ?category=<id>: select that type, then jump to the results once the page has finished loading.
+    var start = new URLSearchParams(window.location.search).get('category');
+    if (start) {
+      setCategory(start, false);
+      var jump = function () { if (cat && results) results.scrollIntoView({ block: 'start' }); };
+      if (document.readyState === 'complete') jump(); else window.addEventListener('load', jump, { once: true });
+    }
   })();
 </script>
 </body>

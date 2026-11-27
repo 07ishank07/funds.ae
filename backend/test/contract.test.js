@@ -416,7 +416,7 @@ test('Grants & Funding page: dummy funding, loan and grant opportunities with wo
   assert.ok(page.includes('<title>Grants &amp; Funding · Funds.ae</title>') && page.includes('<a href="GrantsFunding.dc.html" aria-current="page">'), 'title and current header link');
   for (const type of ['all', 'grant', 'loan', 'equity', 'trade']) assert.ok(main.includes(`data-gf-type="${type}"`), `filter chip ${type}`);
   assert.ok(main.includes('data-gf-emirate') && main.includes('data-gf-search') && main.includes('data-gf-count') && main.includes('data-gf-empty'), 'emirate, search, count and empty message');
-  const cards = [...main.matchAll(/<article class="gf-card[^"]*" data-type="(grant|loan|equity|trade)" data-emirate="(abu-dhabi|dubai|sharjah|northern|uae)">/g)];
+  const cards = [...main.matchAll(/<article class="gf-card[^"]*" data-type="(grant|loan|equity|trade)" data-emirate="(abu-dhabi|dubai|sharjah|northern|uae)" data-cats="([a-z -]+)">/g)];
   assert.ok(cards.length >= 12, 'at least 12 opportunity cards, each with a type and an emirate');
   assert.equal(cards.length, (main.match(/class="gf-card/g) || []).length, 'every card is filterable');
   for (const type of ['grant', 'loan', 'equity', 'trade']) assert.ok(cards.some((m) => m[1] === type), `at least one ${type}`);
@@ -425,11 +425,18 @@ test('Grants & Funding page: dummy funding, loan and grant opportunities with wo
   const bodies = main.split('<article class="gf-card').slice(1).map((c) => c.slice(0, c.indexOf('</article>')));
   for (const c of bodies) {
     assert.match(c, /<p class="gf-kicker">(Grant|Loan|Equity|Trade finance) · /, 'card type line');
-    assert.match(c, /<h3>[^<]{3,}<\/h3>\s*<p class="gf-brief">[^<]{20,}<\/p>\s*<a class="gf-link" href="#"/, 'company name, brief text, then the link');
+    assert.match(c, /<h3>[^<]{3,}<\/h3>\s*<p class="gf-brief">[^<]{20,}<\/p>\s*<p class="gf-cats">[^<]+<\/p>\s*<a class="gf-link" href="#"/, 'company name, brief text, funding types, then the link');
   }
   assert.ok(!/<img|https?:\/\//.test(main), 'no images or external links in the page body');
   const script = page.slice(page.lastIndexOf('<script>'), page.lastIndexOf('</script>'));
   assert.ok(script.includes('count.textContent') && !/innerHTML|insertAdjacentHTML/.test(script), 'the filter script sets text only');
+  // Browse by type of funding: the UAE heading, 12 tiles, every card tagged with known types, every type used.
+  assert.ok(main.includes('<h1>Every type of UAE business funding in one place</h1>'), 'page heading');
+  const tiles = [...main.matchAll(/<button type="button" class="gf-type" data-gf-cat="([a-z-]+)" aria-pressed="false">/g)].map((m) => m[1]);
+  assert.equal(tiles.length, 12, 'twelve funding-type tiles');
+  for (const m of cards) for (const c of m[3].split(' ')) assert.ok(tiles.includes(c), `card type ${c} has a tile`);
+  for (const id of tiles) assert.ok(cards.some((m) => m[3].split(' ').includes(id)), `tile ${id} lists at least one programme`);
+  assert.ok(script.includes("get('category')") && script.includes('history.replaceState'), 'a type can be linked with ?category=');
 });
 
 test('every website form posts only field names the API accepts', () => {
