@@ -96,8 +96,8 @@
   @media (max-width: 860px) {
     .page { grid-template-columns: minmax(0, 1fr); }
   }
-  /* Grants & Funding banner at the foot of column 2 (under Career Resources): the Grants & Funding page's hero, card-sized. */
-  .gf-promo { position: relative; display: flex; align-items: flex-end; min-height: 300px; margin-top: 28px; border-radius: 3px; overflow: hidden; background: #0B2228; color: #FFFFFF; text-decoration: none; }
+  /* Grants & Funding banner in column 2, directly above Career Resources: the Grants & Funding page's hero, card-sized. */
+  .gf-promo { position: relative; display: flex; align-items: flex-end; min-height: 300px; margin: 0 0 28px; border-radius: 3px; overflow: hidden; background: #0B2228; color: #FFFFFF; text-decoration: none; }
   .gf-promo-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; transition: transform 0.3s; }
   .gf-promo::before { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(0deg, rgba(6, 24, 30, 0.94) 0%, rgba(6, 24, 30, 0.7) 50%, rgba(6, 24, 30, 0.25) 100%); }
   .gf-promo-in { position: relative; z-index: 2; display: flex; flex-direction: column; padding: 22px 22px 24px; }
@@ -589,6 +589,17 @@
     </ol>
     <a class="top-jobs-all" href="#opportunities-title">See all roles</a>
   </section>
+  <!-- Grants & Funding banner: the Grants & Funding page's hero (same photo, label and headline) in a column-sized
+       card, directly above Career Resources; the whole card opens that page. -->
+  <a class="gf-promo" href="GrantsFunding.dc.html" aria-labelledby="gf-promo-title">
+    <img class="gf-promo-img" src="img/grants-hero.jpg" alt="" loading="lazy">
+    <span class="gf-promo-in">
+      <span class="gf-promo-eb">Grants &amp; Funding</span>
+      <span class="gf-promo-title" id="gf-promo-title">Capital for every stage of your business.</span>
+      <span class="gf-promo-rule" aria-hidden="true"></span>
+      <span class="gf-promo-cta">Explore grants and funding <span aria-hidden="true">&rarr;</span></span>
+    </span>
+  </a>
   <section class="resources-box">
     <h2>Career Resources</h2>
     <div class="links" data-fundsae-slot="career-resources">
@@ -605,17 +616,6 @@
       <a href="#"><div class="logo" aria-hidden="true" style="background: linear-gradient(145deg, #8BA9C1, #31556D)">MOVE</div><span class="label">Relocating to the UAE for work (demo)</span></a>
     </div>
   </section>
-  <!-- Grants & Funding banner: the Grants & Funding page's hero (same photo, label and headline) in a column-sized
-       card; the whole card opens that page. -->
-  <a class="gf-promo" href="GrantsFunding.dc.html" aria-labelledby="gf-promo-title">
-    <img class="gf-promo-img" src="img/grants-hero.jpg" alt="" loading="lazy">
-    <span class="gf-promo-in">
-      <span class="gf-promo-eb">Grants &amp; Funding</span>
-      <span class="gf-promo-title" id="gf-promo-title">Capital for every stage of your business.</span>
-      <span class="gf-promo-rule" aria-hidden="true"></span>
-      <span class="gf-promo-cta">Explore grants and funding <span aria-hidden="true">&rarr;</span></span>
-    </span>
-  </a>
 </aside>
 </div>
 <!-- Featured Partners (sponsor slot "professionalServices"): a partners strip at the foot of the page that scrolls
