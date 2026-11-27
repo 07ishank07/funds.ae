@@ -216,10 +216,17 @@ test('Real Estate News: one landing page with three parallel columns, opened by 
   assert.equal((page.match(/<article class="ren-(lead|item)" data-ren-demo>/g) || []).length, 48, 'sixteen built-in demo headlines per column (eight, then Load more)');
   // Home: every real estate box's View All opens this page at its column; none is limited to one category any more.
   const home = readFileSync(path.join(repo, 'frontend_demo', 'this.html'), 'utf8');
-  for (const [label, href] of [['Residential Estate News', 'residential'], ['Commercial Real Estate News', 'commercial'], ['Infrastructure Real Estate News', 'alternative'], ['Special & Alternative Real Estate News', 'alternative']]) {
+  for (const [label, href] of [['Residential Estate News', 'residential'], ['Commercial Real Estate News', 'commercial'], ['Alternative Real Estate News', 'alternative']]) {
     assert.ok(home.includes(`'${label}': 'RealEstateNews.dc.html#${href}'`), `${label} View All opens the Real Estate News page`);
   }
   assert.ok(!home.includes('News.dc.html?section='), 'no View All is limited to one category');
+  // One home box, Alternative Real Estate News, for the Infrastructure and Special & Alternative stories together.
+  assert.ok(home.includes("addTileSection('Alternative Real Estate News', [") &&
+    home.includes(`tag(document.querySelector('.news > section[aria-label="Alternative Real Estate News"]'), 'tiles-alternative-real-estate');`), 'one Alternative Real Estate News box');
+  assert.ok(!/Infrastructure Real Estate News|Special &(amp;)? Alternative Real Estate News/.test(home), 'the two old boxes are gone');
+  const tilesJs = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
+  assert.ok(tilesJs.includes("var ALTERNATIVE_SECTIONS = ['special-alternative-real-estate', 'infrastructure'];") &&
+    tilesJs.includes("renderTiles('tiles-alternative-real-estate', mergeStoryDocs(docs), TILES_SHOWN)"), 'the box merges both sections');
   const connector = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
   const render = connector.slice(connector.indexOf('/* ---------------------------- Real Estate News page'), connector.indexOf('/* ------------------------------- Gulf Economy'));
   assert.ok(render.includes('api.valid.story') && render.includes('textContent') && !/innerHTML/.test(render), 'columns are built with textContent from validated stories');

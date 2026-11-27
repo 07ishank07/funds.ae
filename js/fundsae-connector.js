@@ -348,6 +348,24 @@
 
   // padTo (optional): the box always shows this many tiles. Live mode shows only real stories;
   // demo mode tops the live stories up with the page's own dummy tiles so the box never looks half empty.
+  // Home "Alternative Real Estate News" box: one box for the Infrastructure and Special & Alternative page sections.
+  var ALTERNATIVE_SECTIONS = ['special-alternative-real-estate', 'infrastructure'];
+
+  /** Several story lists as one: each story once, newest first. */
+  function mergeStoryDocs(docs) {
+    var seen = {};
+    var items = [];
+    docs.forEach(function (doc) {
+      (doc && Array.isArray(doc.items) ? doc.items : []).forEach(function (story) {
+        if (!story || seen[story.id]) return;
+        seen[story.id] = true;
+        items.push(story);
+      });
+    });
+    items.sort(function (a, b) { return (Date.parse(b.publishedAt) || 0) - (Date.parse(a.publishedAt) || 0); });
+    return { items: items };
+  }
+
   function renderTiles(slotName, doc, padTo) {
     var stories = api.items(doc.items, api.valid.story, 'stories').slice(0, padTo || LIMITS.tiles);
     slots(slotName).forEach(function (box) {
@@ -1354,11 +1372,10 @@
       if (hasSlot('tiles-commercial-real-estate')) {
         guard('Commercial real estate stories', load('news/sections/commercial-real-estate.json', 'news').then(function (doc) { renderTiles('tiles-commercial-real-estate', doc, TILES_SHOWN); }));
       }
-      if (hasSlot('tiles-infrastructure')) {
-        guard('Infrastructure stories', load('news/sections/infrastructure.json', 'news').then(function (doc) { renderTiles('tiles-infrastructure', doc, TILES_SHOWN); }));
-      }
-      if (hasSlot('tiles-special-alternative-real-estate')) {
-        guard('Special and alternative real estate stories', load('news/sections/special-alternative-real-estate.json', 'news').then(function (doc) { renderTiles('tiles-special-alternative-real-estate', doc, TILES_SHOWN); }));
+      if (hasSlot('tiles-alternative-real-estate')) {
+        // One home box for two page sections: Infrastructure and Special & Alternative, merged newest first.
+        guard('Alternative real estate stories', Promise.all(ALTERNATIVE_SECTIONS.map(function (id) { return load('news/sections/' + id + '.json', 'news'); }))
+          .then(function (docs) { renderTiles('tiles-alternative-real-estate', mergeStoryDocs(docs), TILES_SHOWN); }));
       }
       // careers.json: the Top Employers / Top Jobs picked in the Studio (missing on older data: automatic order).
       var careersDoc = (hasSlot('employers') || hasSlot('top-jobs')) ? load('careers.json', 'careers').catch(function () { return null; }) : null;

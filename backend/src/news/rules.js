@@ -60,8 +60,9 @@ export const NEWS_HOME_SECTIONS = ['residential-real-estate', 'commercial-real-e
 export const NEWS_HOME_SECTION_LABELS = {
   'residential-real-estate': 'Residential Estate News',
   'commercial-real-estate': 'Commercial Real Estate News',
-  infrastructure: 'Infrastructure Real Estate News',
-  'special-alternative-real-estate': 'Special & Alternative Real Estate News'
+  // Both feed the home page's one "Alternative Real Estate News" box (and the Alternative column of Real Estate News).
+  infrastructure: 'Alternative Real Estate News (Infrastructure)',
+  'special-alternative-real-estate': 'Alternative Real Estate News (Special & Alternative)'
 };
 
 /** Text lengths [min, max] and list sizes. Summaries and excerpts stay <= 280 characters (CLAUDE.md legal rules). */
