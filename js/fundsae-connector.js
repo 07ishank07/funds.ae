@@ -752,7 +752,7 @@
       }
     });
 
-    // Gold Partners: picture tiles. A sponsor's own image wins; then the page's dummy picture for that sponsor id
+    // Spotlight (home page): picture tiles. A sponsor's own image wins; then the page's dummy picture for that sponsor id
     // (data-partner); then the dummy pictures in turn; then the sponsor's colours.
     slots('sponsor-platinum').forEach(function (box) {
       var dummies = children(box, ':scope > a > .fx-platinum-img');

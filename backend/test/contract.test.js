@@ -207,7 +207,7 @@ test('every page but Careers and the home page shows the same Elite Founding Spo
   const connector = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
   assert.ok(home.includes("const REGION_NAMES = ['News', 'Global'];") && home.includes("Global: 'Global Stories'"), 'home tabs are UAE Stories and Global Stories');
   assert.ok(home.includes("News: 'UAE Stories'"), 'News tab is labelled UAE Stories');
-  assert.ok(home.includes('<h2 id="platinum-sponsors-title">Gold Partners</h2>') && home.includes("url('img/partners/${id}.png')"), 'Gold Partners box with dummy pictures');
+  assert.ok(home.includes('<h2 id="platinum-sponsors-title">Spotlight</h2>') && home.includes("url('img/partners/${id}.png')"), 'Spotlight box with dummy pictures');
   assert.ok(!home.includes('gold-sponsors-title') && !home.includes("'sponsor-gold'"), 'home has no Gold Sponsors box');
   // Every Gold Partner in sponsors.json has its own dummy picture, and the page lists the same ids.
   const partnerIds = JSON.parse(readFileSync(path.join(backend, 'config', 'sponsors.json'), 'utf8')).platinum.map((p) => p.id);
@@ -291,8 +291,8 @@ test('every page but Careers and the home page shows the same Elite Founding Spo
   const png = readFileSync(path.join(repo, sponsorImage[1]));
   assert.equal(png.subarray(1, 4).toString(), 'PNG', 'the sponsor image is a PNG');
   assert.ok(png.length <= 500 * 1024, 'the sponsor image is within the 500 KB sponsor-image limit');
-  // The Gold Partners box is on the home page only; the gold slot is not shown anywhere.
-  assert.ok(!careers.includes('data-fundsae-slot="sponsor-platinum"') && !careers.includes('data-fundsae-slot="sponsor-gold"'), 'Careers has no Gold Partners or Gold Sponsors box');
+  // The Spotlight box is on the home page only; the gold slot is not shown anywhere.
+  assert.ok(!careers.includes('data-fundsae-slot="sponsor-platinum"') && !careers.includes('data-fundsae-slot="sponsor-gold"'), 'Careers has no Spotlight or Gold Sponsors box');
   // Featured Companies strip at the foot of Careers (no Elite Founding Sponsor banner on this page): the scrolling
   // track holds the sponsor slot, labelled as sponsored.
   assert.ok(!careers.includes('sponsor-founding') && !careers.includes('founding-banner.css'), 'Careers has no Elite Founding Sponsor banner');

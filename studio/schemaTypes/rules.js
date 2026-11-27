@@ -14,7 +14,7 @@ export const SPONSOR_SLOTS = {
     maxItems: 1, sponsored: true, text: { title: 60, blurb: 140 }, required: ['title'], images: ['image'], colors: []
   },
   platinum: {
-    label: 'Gold Partners',
+    label: 'Spotlight (home page)',
     where: 'Home page, third column: 5 large picture tiles. Add an image; dummy pictures show until you do.',
     maxItems: 5, sponsored: true, text: { title: 60 }, required: ['title'], images: ['image'], colors: ['colorFrom', 'colorTo']
   },

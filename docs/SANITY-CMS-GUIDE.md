@@ -33,7 +33,7 @@ The Careers section (posted jobs, employers, the Top Employers and Top Jobs list
 
 | In Sanity (Studio menu) | Shown on the site | Sanity type | Published as |
 |---|---|---|---|
-| **Sponsors**, grouped by area | Elite Founding Sponsor banner, Gold Partners, Gold Sponsors (not shown), Sponsored Posts, Videos and Podcasts, Featured Partners, the Exclusive Elite Sponsor box (Careers and Events), Career Resources | `sponsorItem` | `config/sponsors.json` → `api/v1/sponsors.json` |
+| **Sponsors**, grouped by area | Elite Founding Sponsor banner, Spotlight (home page), Gold Sponsors (not shown), Sponsored Posts, Videos and Podcasts, Featured Partners, the Exclusive Elite Sponsor box (Careers and Events), Career Resources | `sponsorItem` | `config/sponsors.json` → `api/v1/sponsors.json` |
 | **Home page hero banner** | The banner at the top of the home page: small line, headline with a gold word, subtitle, image | `homeHero` (one document) | `config/content.json` → `api/v1/content.json` `hero` |
 | **Events** | Home "Events and Expos", Events page | `event` | `config/events.json` → `api/v1/events.json` |
 | **Top Tweets (home)** | Home "Top Tweets" box (5 shown) | `socialHighlight` | `config/content.json` → `api/v1/content.json` `slots.socialHighlights` |
@@ -372,7 +372,7 @@ These follow from CLAUDE.md. Code review should check them on every CMS change.
   4. Drafts, meaning unpublished changes, are never shown.
 - **Take something down without deleting it:** switch off **Show on the site** and publish.
 - **Order:** lower **Order** numbers show first.
-- **Limits:** the Studio tells you when a field is too long or an area is full. Each area holds only as many items as the page has room for: one founding sponsor, 5 Gold Partners, 5 Top Tweets, 4 Partner with us packages.
+- **Limits:** the Studio tells you when a field is too long or an area is full. Each area holds only as many items as the page has room for: one founding sponsor, 5 Spotlight tiles, 5 Top Tweets, 4 Partner with us packages.
 - **Top Tweets:** write one line in your own words about the post, then paste the link to the post. Don't paste the post's text.
 - **Partner with us packages** (Partner with us packages in the Studio menu). Each document is one card on the Partner with us page and one choice in its enquiry form:
   - **Add** a package: create a document, give it a **Package id** (for example `silver-plus`; lowercase letters, numbers and dashes; keep it once the package is live, because enquiries record it), a title and a price. The page has room for 4 packages.

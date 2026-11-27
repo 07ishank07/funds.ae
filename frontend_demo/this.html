@@ -788,14 +788,14 @@ document.addEventListener('DOMContentLoaded', async function() {
         } else {
           sidebar.appendChild(tweets);
         }
-        // Gold Partners (the "platinum" sponsor slot): five picture tiles (dummy images until a sponsor adds
+        // Spotlight (the "platinum" sponsor slot): five picture tiles (dummy images until a sponsor adds
         // one in Sanity) with the partner's name underneath, in the third column (careersColumn). It is an
         // <aside> section, so the generic "main.wrap aside > section" card styling applies.
         // [sponsor id in Sanity, name]; each partner has its own dummy picture, img/partners/<id>.png.
         const platinumSponsors = [['sandhaven-capital', 'Sandhaven Capital (demo)'], ['tidewell-holdings', 'Tidewell Holdings (demo)'], ['qamar-ridge-partners', 'Qamar Ridge Partners (demo)'], ['almira-private-bank', 'Almira Private Bank (demo)'], ['saltmarsh-investments', 'Saltmarsh Investments (demo)']];
         const platinumSection = document.createElement('section');
         platinumSection.setAttribute('aria-labelledby', 'platinum-sponsors-title');
-        platinumSection.innerHTML = `<h2 id="platinum-sponsors-title">Gold Partners</h2><div class="fx-platinum-list">${platinumSponsors.map(([id, name]) => `<a href="#" class="fx-platinum-tile" aria-label="Gold partner: ${name}"><span class="fx-platinum-img" aria-hidden="true" data-partner="${id}" style="background-image: url('img/partners/${id}.png')"></span><span class="fx-platinum-name">${name}</span></a>`).join('')}</div>`;
+        platinumSection.innerHTML = `<h2 id="platinum-sponsors-title">Spotlight</h2><div class="fx-platinum-list">${platinumSponsors.map(([id, name]) => `<a href="#" class="fx-platinum-tile" aria-label="Gold partner: ${name}"><span class="fx-platinum-img" aria-hidden="true" data-partner="${id}" style="background-image: url('img/partners/${id}.png')"></span><span class="fx-platinum-name">${name}</span></a>`).join('')}</div>`;
         careersColumn.appendChild(platinumSection);
         // The original (undecorated) Subscribe box is removed now that its relabelled copy
         // (morningBriefCopy) is the one shown, at the top of the third column.
@@ -827,7 +827,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Dune Payments Advisory</span></span></a>
             <a href="#" style="display: block; padding: 8px 0; border-bottom: 1px solid #DAE5E4; color: #0E3A43; text-decoration: none"><span><span style="display: block; font-size: 13px; font-weight: 600; line-height: 1.3">Pearl Trust Services</span></span></a>
           </div>`;
-        // Column 3 order: Subscribe to stay ahead on top, then Gold Partners, Events and Expos (placed further down)
+        // Column 3 order: Subscribe to stay ahead on top, then Spotlight, Events and Expos (placed further down)
         // and Featured Partners.
         const newsletterBox = sidebar.querySelector('[aria-labelledby="brief-title-careers"]');
         if (newsletterBox) careersColumn.insertBefore(newsletterBox, careersColumn.firstChild);
@@ -1730,7 +1730,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         /* UAE Influencers in the news column: same treatment as Top Tweets (dark rule, small-caps title), profiles two across. */
 
-        /* Gold Partners (platinum slot): five large picture tiles stacked in the third column, name underneath. */
+        /* Spotlight (platinum slot): five large picture tiles stacked in the third column, name underneath. */
         .fx-platinum-list { margin-top: 14px; display: flex; flex-direction: column; gap: 18px; }
         .fx-platinum-tile { display: block; color: #0E3A43 !important; text-decoration: none; }
         .fx-platinum-img { display: block; aspect-ratio: 16 / 9; border: 1px solid var(--fx-line); border-radius: 3px; background: #E8F0EF center / cover no-repeat; }
