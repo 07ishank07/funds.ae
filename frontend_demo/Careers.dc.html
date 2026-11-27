@@ -370,7 +370,6 @@
         <label>Location<select id="jf-city"><option value="">All Gulf locations</option></select></label>
         <label>Function<select id="jf-department"><option value="">All functions</option></select></label>
         <label>Sort by<select id="jf-sort">
-          <option value="featured">Featured first</option>
           <option value="newest">Newest</option>
           <option value="company">Company A to Z</option>
         </select></label>
@@ -796,8 +795,8 @@
    data-fundsae-filtered attribute (a row is shown only if every one of them allows it), then the pager above is
    re-run so the page count reflects only the matching rows. Location always lists the main Gulf locations (each
    country, then its main cities; js/fundsae-connector.js tags every role with data-country and data-city); Function
-   is built from the roles' own data-department. The menus appear once the connector has rendered the roles and
-   called window.__fundsInitFilters(). */
+   always lists the finance functions below (the connector tags every role with data-function from its department
+   and title). The menus appear once the connector has rendered the roles and called window.__fundsInitFilters(). */
 (function () {
   // Main Gulf locations: [country code, country, main cities]. Values: "country:AE" (any city there) or a city name.
   var GULF = [
@@ -808,6 +807,8 @@
     ['BH', 'Bahrain', ['Manama']],
     ['OM', 'Oman', ['Muscat']]
   ];
+  // Finance job functions, in menu order (labels equal the connector's JOB_FUNCTIONS).
+  var FUNCTIONS = ['Investments & Portfolio Management', 'Private Equity', 'Venture Capital', 'Private Credit & Debt', 'Hedge Funds & Trading', 'Real Estate & Infrastructure', 'Investment Banking & Corporate Finance', 'Wealth & Private Banking', 'Investor Relations & Fundraising', 'Research & Analysis', 'Risk Management', 'Compliance & Regulatory', 'Legal', 'Finance & Accounting', 'Treasury', 'Tax', 'Audit', 'Fund Administration & Operations', 'Sales & Business Development', 'Fintech & Technology', 'ESG & Sustainable Finance'];
   var status = document.getElementById('job-search-status');
   var list = document.querySelector('.opportunities .roles');
   var bar = document.getElementById('job-filters');
@@ -832,14 +833,14 @@
   }
 
   function sortRows() {
-    var mode = sortSel ? sortSel.value : 'featured';
+    var mode = sortSel ? sortSel.value : 'newest';
     var rows = roles();
     var time = function (r) { return Date.parse(r.getAttribute('data-posted') || '') || 0; };
     var featured = function (r) { return r.getAttribute('data-featured') === '1' ? 1 : 0; };
     rows.sort(function (a, b) {
       if (mode === 'company') return (a.querySelector('.company').textContent || '').localeCompare(b.querySelector('.company').textContent || '') || time(b) - time(a);
-      if (mode === 'newest') return time(b) - time(a);
-      return featured(b) - featured(a) || time(b) - time(a);
+      if (mode === 'featured') return featured(b) - featured(a) || time(b) - time(a);
+      return time(b) - time(a);
     });
     rows.forEach(function (row) { list.appendChild(row); });
   }
@@ -850,7 +851,7 @@
     rows.forEach(function (row) {
       var employerOk = !employerId || row.getAttribute('data-employer') === employerId;
       var cityOk = !selects.city || locationOk(row, selects.city.value);
-      var departmentOk = !selects.department || !selects.department.value || row.getAttribute('data-department') === selects.department.value;
+      var departmentOk = !selects.department || !selects.department.value || row.getAttribute('data-function') === selects.department.value;
       if (employerOk && cityOk && departmentOk) { row.removeAttribute('data-fundsae-filtered'); matches++; }
       else row.setAttribute('data-fundsae-filtered', '');
     });
@@ -907,24 +908,22 @@
     var rows = roles();
     var any = !!selects.city;
     fillLocations(rows);
-    ['department'].forEach(function (k) {
-      var sel = selects[k];
-      if (!sel) return;
-      var keep = sel.value;
+    // Function: every finance function, with the number of roles where there are any.
+    var fnSel = selects.department;
+    if (fnSel) {
+      var keep = fnSel.value;
       var seen = {};
-      rows.forEach(function (r) { var v = r.getAttribute('data-' + k); if (v) seen[v] = (seen[v] || 0) + 1; });
-      var values = Object.keys(seen).sort();
-      while (sel.options.length > 1) sel.remove(1);
-      values.forEach(function (v) {
+      rows.forEach(function (r) { var v = r.getAttribute('data-function'); if (v) seen[v] = (seen[v] || 0) + 1; });
+      while (fnSel.options.length > 1) fnSel.remove(1);
+      FUNCTIONS.forEach(function (v) {
         var o = document.createElement('option');
         o.value = v;
-        o.textContent = v + ' (' + seen[v] + ')';
-        sel.appendChild(o);
+        o.textContent = seen[v] ? v + ' (' + seen[v] + ')' : v;
+        fnSel.appendChild(o);
       });
-      sel.value = values.indexOf(keep) >= 0 ? keep : '';
-      sel.closest('label').hidden = !values.length;
-      if (values.length) any = true;
-    });
+      fnSel.value = FUNCTIONS.indexOf(keep) >= 0 ? keep : '';
+      any = true;
+    }
     bar.hidden = !any;
     sortRows();
     apply();

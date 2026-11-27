@@ -416,6 +416,39 @@
   ];
   var GULF_COUNTRIES = [[/\buae\b|emirates/, 'AE'], [/saudi|\bksa\b/, 'SA']];
 
+  // Finance job functions for the Careers Function filter: [pattern in "department | title", label], first match wins
+  // (so "Credit Risk Analyst" is Risk Management). Labels equal FUNCTIONS in Careers.dc.html.
+  var JOB_FUNCTIONS = [
+    [/\besg\b|sustainab|impact invest|climate/, 'ESG & Sustainable Finance'],
+    [/complian|regulat|\baml\b|\bkyc\b|financial crime/, 'Compliance & Regulatory'],
+    [/legal|counsel|lawyer|paralegal/, 'Legal'],
+    [/\brisk\b/, 'Risk Management'],
+    [/treasur/, 'Treasury'],
+    [/\btax/, 'Tax'],
+    [/audit/, 'Audit'],
+    [/investor relations|fundrais|capital raising/, 'Investor Relations & Fundraising'],
+    [/fund admin|fund account|operations|onboarding|settlement|middle office|back office|custody/, 'Fund Administration & Operations'],
+    [/private equity|buyout/, 'Private Equity'],
+    [/venture|\bvc\b/, 'Venture Capital'],
+    [/credit|debt|lending|\bloans?\b/, 'Private Credit & Debt'],
+    [/real estate|property|infrastructure|\breits?\b/, 'Real Estate & Infrastructure'],
+    [/trading|trader|hedge fund|quant|systematic|multi-strategy/, 'Hedge Funds & Trading'],
+    [/corporate development|corporate finance|m&a|mergers|investment bank|capital markets/, 'Investment Banking & Corporate Finance'],
+    [/wealth|private bank|client advisory|relationship manager|family office/, 'Wealth & Private Banking'],
+    [/research|economist|strategist/, 'Research & Analysis'],
+    [/fintech|platform|product|engineer|developer|\bdata\b|technology|digital|\bit\b/, 'Fintech & Technology'],
+    [/business development|\bsales\b|distribution/, 'Sales & Business Development'],
+    [/\bfinance\b|account|controller|\bcfo\b|financial report|fp&a/, 'Finance & Accounting'],
+    [/invest|portfolio|asset management|fund manager|analyst|associate/, 'Investments & Portfolio Management']
+  ];
+
+  /** Finance function for the Careers Function filter, from the job's department and title ('' when none fits). */
+  function functionOf(department, title) {
+    var text = (String(department || '') + ' | ' + String(title || '')).toLowerCase();
+    for (var i = 0; i < JOB_FUNCTIONS.length; i++) if (JOB_FUNCTIONS[i][0].test(text)) return JOB_FUNCTIONS[i][1];
+    return '';
+  }
+
   /** City for the Location filter: the API's location text is free-form ("DIFC, Dubai", "Riyadh, KSA", "Remote - UAE"). */
   function cityOf(location) {
     var l = String(location || '').toLowerCase();
@@ -479,6 +512,7 @@
       row.setAttribute('data-city', cityOf(job.location));
       row.setAttribute('data-country', countryOf(job.location));
       row.setAttribute('data-department', job.department || '');
+      row.setAttribute('data-function', functionOf(job.department, job.title));
       row.setAttribute('data-posted', job.postedAt || '');
       row.setAttribute('data-featured', job.featured ? '1' : '0');
       // Jobs posted through Sanity have their own page (jobs/<slug>.html); the title links to it.
@@ -536,6 +570,8 @@
           row.setAttribute('data-city', cityOf(where.textContent));
           row.setAttribute('data-country', countryOf(where.textContent));
         }
+        var titleEl = row.querySelector('h2');
+        if (titleEl && !row.hasAttribute('data-function')) row.setAttribute('data-function', functionOf('', titleEl.textContent));
         list.appendChild(row);
       });
     }

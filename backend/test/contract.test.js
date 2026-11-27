@@ -431,6 +431,15 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
     assert.ok(careers.includes(place), `Location lists ${place}`);
   }
   const rolesJs = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
+  // Function lists every finance function; the connector maps each role to one of the same labels. Sort has no
+  // "Featured first": Newest is the default.
+  const pageFunctions = JSON.parse(careers.match(/var FUNCTIONS = (\[[^\]]+\]);/)[1].replace(/'/g, '"'));
+  const fnBlock = rolesJs.slice(rolesJs.indexOf('var JOB_FUNCTIONS = ['), rolesJs.indexOf('];', rolesJs.indexOf('var JOB_FUNCTIONS = [')));
+  const jsFunctions = [...fnBlock.matchAll(/, '([^']+)'\]/g)].map((m) => m[1]);
+  assert.ok(pageFunctions.length >= 20 && ['Private Equity', 'Venture Capital', 'Private Credit & Debt', 'Wealth & Private Banking', 'Compliance & Regulatory', 'Fund Administration & Operations', 'Treasury'].every((f) => pageFunctions.includes(f)), 'finance functions listed');
+  assert.deepEqual([...jsFunctions].sort(), [...pageFunctions].sort(), 'the connector maps roles to exactly the menu functions');
+  assert.ok(rolesJs.includes("row.setAttribute('data-function', functionOf(job.department, job.title));"), 'roles are tagged with a function');
+  assert.ok(!careers.includes('<option value="featured">Featured first</option>') && careers.includes('<option value="newest">Newest</option>'), 'no Featured first sort');
   assert.ok(rolesJs.includes("row.setAttribute('data-country', countryOf(job.location));") && rolesJs.includes("[/riyadh/, 'Riyadh', 'SA']"), 'roles are tagged with their Gulf country and city');
   assert.ok(careers.includes("badge.className = 'role-logo'"), 'job cards carry a dummy employer logo');
   // Careers from Sanity: the connector follows careers.json for the Top boxes, links posted jobs to their page,
