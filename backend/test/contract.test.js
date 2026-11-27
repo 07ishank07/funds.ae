@@ -428,14 +428,9 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.ok(!careers.includes('employer-grid') && !careers.includes('Featured Employers'), 'Careers has no Featured Employers grid');
   assert.match(careers, /<aside>[\s\S]*<section class="top-employers"[\s\S]*?<ol class="top-jobs-list top-employers-list" data-fundsae-slot="employers">[\s\S]*<\/aside>/);
   assert.match(careers, /<li><a href="\?employer=emp_[a-f0-9]{16}#opportunities-title"><span class="tj-rank">1<\/span>/);
-  // Exclusive Elite Sponsor: a dummy box leads column 2, with a real image file, and never shows in live mode.
-  assert.match(careers, /<aside>\s*<!--[\s\S]*?-->\s*<section class="elite-sponsor"[^>]*data-demo-only data-fundsae-slot="sponsor-elite-exclusive">/);
+  // No Exclusive Elite Sponsor box: column 2 starts with Top Employers.
+  assert.match(careers, /<aside>\s*<!-- Top Employers:/);
   assert.ok(careers.includes('html[data-fundsae-connected="live"] [data-demo-only] { display: none !important; }'), 'demo-only content is hidden in live mode');
-  const sponsorImage = careers.match(/class="elite-sponsor-media"[^>]*><img src="\.\.\/(assets\/sponsors\/[a-z0-9-]+\.png)"/);
-  assert.ok(sponsorImage, 'the sponsor box shows an image from assets/sponsors/');
-  const png = readFileSync(path.join(repo, sponsorImage[1]));
-  assert.equal(png.subarray(1, 4).toString(), 'PNG', 'the sponsor image is a PNG');
-  assert.ok(png.length <= 500 * 1024, 'the sponsor image is within the 500 KB sponsor-image limit');
   // The Spotlight box is on the home page only; the gold slot is not shown anywhere.
   assert.ok(!careers.includes('data-fundsae-slot="sponsor-platinum"') && !careers.includes('data-fundsae-slot="sponsor-gold"'), 'Careers has no Spotlight or Gold Sponsors box');
   // Featured Companies strip at the foot of Careers (no Elite Founding Sponsor banner on this page): the scrolling
@@ -444,19 +439,16 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.match(careers, /<\/aside>\s*<\/div>\s*<!--[\s\S]*?-->\s*<section class="partners"[\s\S]*?<\/section>\s*<footer/);
   // Job cards carry a dummy initials logo but no Featured tag; Top Employers lists 20, each with an initials logo.
   assert.ok(!/role-featured/.test(careers), 'job cards have no Featured tag');
-  // The Exclusive Elite Sponsor box (demo only) heads the right column of Careers; Events no longer has it.
+  // The Exclusive Elite Sponsor box is gone from Careers (and Events), the connector no longer fills it and the
+  // Elite package no longer promises it.
   const events = read('Events.dc.html');
-  assert.ok(careers.includes('<p class="elite-sponsor-tags"><span>Exclusive Elite Sponsor</span><span>Sponsored</span></p>'), 'Exclusive Elite Sponsor box');
-  assert.ok(careers.includes('html[data-fundsae-connected="live"] [data-demo-only] { display: none !important; }'), 'hidden in live mode');
+  assert.ok(!/elite-sponsor|sponsor-elite-exclusive/.test(careers), 'Careers has no Exclusive Elite Sponsor box');
   assert.ok(!/elite-sponsor|sponsor-elite-exclusive/.test(events), 'Events has no Exclusive Elite Sponsor box');
+  assert.ok(!read('PartnerWithUs.dc.html').includes('Exclusive Elite Sponsor box') &&
+    !readFileSync(path.join(backend, 'config', 'content.json'), 'utf8').includes('Exclusive Elite Sponsor box'), 'no package promises the box');
   assert.ok(/<aside>\s*<!-- Field names are the API contract/.test(events), 'Events: the right column starts with the submit forms');
-  // Managed in Sanity: the box is the sponsor area "eliteExclusive", filled by the connector, which shows the
-  // "Space available" advert in live mode when no sponsor is published.
-  assert.ok(careers.includes('data-fundsae-slot="sponsor-elite-exclusive"'), 'the box is the eliteExclusive sponsor slot');
   const sponsorConnector = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
-  for (const s of ["slots('sponsor-elite-exclusive')", "pick('eliteExclusive')", "'Space available'", "'Become the Exclusive Elite Sponsor'", "box.removeAttribute('data-demo-only')"]) {
-    assert.ok(sponsorConnector.includes(s), `connector: ${s}`);
-  }
+  assert.ok(!sponsorConnector.includes("slots('sponsor-elite-exclusive')") && !sponsorConnector.includes("pick('eliteExclusive')"), 'connector no longer fills the box');
   const topEmployers = careers.slice(careers.indexOf('data-fundsae-slot="employers"'), careers.indexOf('</ol>', careers.indexOf('data-fundsae-slot="employers"')));
   assert.equal((topEmployers.match(/<li>/g) || []).length, 20, 'Top Employers shows 20');
   assert.equal((topEmployers.match(/class="te-logo"/g) || []).length, 20, 'every Top Employer has a logo');
