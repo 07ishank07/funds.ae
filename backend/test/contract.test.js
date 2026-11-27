@@ -263,7 +263,16 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   }
   // One bar under the masthead: Real Estate Stories, Grants & Funding | Videos & Podcasts, Partner with us, Careers, Events.
   assert.ok(home.includes("[['Real Estate Stories', null], ['Grants & Funding', { href: 'GrantsFunding.dc.html' }]],"), 'category bar starts with Real Estate Stories and Grants & Funding');
-  assert.ok(home.includes("'UAE Business Grants and Funding news': 'GrantsFunding.dc.html'") && home.includes("'Other Funding Resources': 'GrantsFunding.dc.html'"), 'the home funding boxes open the Grants & Funding page');
+  assert.ok(home.includes("'UAE Business Grants and Funding news': 'GrantsFunding.dc.html'"), 'the home grants box View All opens the Grants & Funding page');
+  // Other Funding Resources: the Grants & Funding page's type tiles (same ids, titles and counts), each linking to
+  // that page filtered; the old placeholder links are gone.
+  const grantsPage = readFileSync(path.join(repo, 'frontend_demo', 'GrantsFunding.dc.html'), 'utf8');
+  const pageTypes = [...grantsPage.matchAll(/data-gf-cat="([a-z-]+)" aria-pressed="false">[\s\S]*?<strong>([^<]+)<\/strong><span>[^<]+<\/span><small>([^<]+)<\/small>/g)]
+    .map((m) => [m[1], m[2].replace(/&amp;/g, '&'), m[3]]);
+  const homeTypes = [...home.matchAll(/^\s*\['([a-z-]+)', '([^']+)', '[^']+', '([^']+)', '/gm)].map((m) => [m[1], m[2], m[3]]);
+  assert.equal(pageTypes.length, 12, 'twelve types on the Grants & Funding page');
+  assert.deepEqual(homeTypes, pageTypes, 'home funding tiles match the Grants & Funding page types and counts');
+  assert.ok(home.includes("tile.href = 'GrantsFunding.dc.html?category=' + id;") && !home.includes('otherFundingBox') && !home.includes("'Startup Visa Guide'"), 'tiles link to the filtered page; old links gone');
   assert.ok(readFileSync(path.join(repo, 'js', 'fundsae-header.js'), 'utf8').includes("['Grants & Funding', 'GrantsFunding.dc.html']"), 'mobile menu links to Grants & Funding');
   for (const tpl of ['story.html', 'job.html']) {
     assert.ok(readFileSync(path.join(backend, 'templates', tpl), 'utf8').includes('<a href="../GrantsFunding.dc.html">Grants &amp; Funding</a>'), `${tpl} header links to Grants & Funding`);
