@@ -516,6 +516,16 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   // No Featured Employers grid and no Top Employers box: column 2 starts with Jobs by location, then Top Jobs.
   assert.ok(!careers.includes('employer-grid') && !careers.includes('Featured Employers'), 'Careers has no Featured Employers grid');
   assert.ok(!careers.includes('class="top-employers"') && !careers.includes('data-fundsae-slot="employers"') && !careers.includes('.te-logo'), 'Careers has no Top Employers box');
+  // The page's styles are well formed: every declaration sits inside a rule (a stray one breaks the rule after it).
+  {
+    let depth = 0;
+    for (const line of careers.slice(careers.indexOf('<style>') + 7, careers.indexOf('</style>')).split(/\r?\n/)) {
+      const code = line.replace(/\/\*.*?\*\//g, '');
+      assert.ok(depth > 0 || !/^\s+[a-z-]+:\s[^{]*;\s*$/.test(code), `stray CSS declaration outside a rule: ${line.trim()}`);
+      depth += (code.match(/{/g) || []).length - (code.match(/}/g) || []).length;
+    }
+    assert.equal(depth, 0, 'balanced braces in the Careers styles');
+  }
   assert.match(careers, /<aside>\s*<!-- Jobs by location:[\s\S]*?<\/section>\s*<section class="top-jobs"/);
   assert.ok(careers.includes('html[data-fundsae-connected="live"] [data-demo-only] { display: none !important; }'), 'demo-only content is hidden in live mode');
   // The Spotlight box is on the home page only; the gold slot is not shown anywhere.
@@ -556,9 +566,8 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.ok(jbl.includes('<h2 id="jobs-location-title">Jobs by location</h2>'), 'Jobs by location tops column 2');
   assert.deepEqual([...jbl.matchAll(/data-jbl-country="([A-Z]{2})"><svg class="jbl-flag"/g)].map((m) => m[1]), ['AE', 'SA', 'QA', 'KW', 'BH', 'OM'], 'the six GCC countries, with flags');
   assert.ok(careers.includes("var value = 'country:' + card.getAttribute('data-jbl-country');") && careers.includes('syncLocationCards(byCountry);'), 'cards filter by country and show the counts');
-  // Browse jobs by function: under Current Opportunities, drawn from the Function menu's list, each link filtering by it.
-  assert.ok(careers.indexOf('id="job-pager"') < careers.indexOf('<h2 id="browse-functions-title">Browse jobs by function</h2>') &&
-    careers.indexOf('<h2 id="browse-functions-title">Browse jobs by function</h2>') < careers.indexOf('</main>'), 'Browse jobs by function sits under the job list');
+  // Browse jobs by function: the top of the page (above the banner), drawn from the Function menu's list, each link filtering by it.
+  assert.ok(/<main>\s*<!-- Browse jobs by function[\s\S]*?<\/section>\s*<!-- Finance Careers banner/.test(careers), 'Browse jobs by function tops the page');
   assert.ok(careers.includes('FUNCTIONS.forEach(function (fn) {') && careers.includes("a.setAttribute('data-bf-function', fn);") &&
     careers.includes('syncFunctionLinks(seen);') && careers.includes("selects.department.value = selects.department.value === fn ? '' : fn;"), 'links come from the Function list, show counts and filter');
   // Careers sidebar boxes carry the site palette: sand Top Jobs, slate Career Resources.

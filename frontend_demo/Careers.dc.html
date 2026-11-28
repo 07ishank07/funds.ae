@@ -220,7 +220,6 @@
   html[data-fundsae-connected="live"] [data-demo-only] { display: none !important; }
   /* Top Jobs (column 2, under Jobs by location): a ranked list; each row links to the employer's own posting. */
   .top-jobs { padding: 12px 0 0; border-top: 2px solid var(--ink); margin-bottom: 28px; }
-    flex: 0 0 48px; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 6px; overflow: hidden;
   .top-jobs h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
   .top-jobs-list { list-style: none; margin: 8px 0 0; padding: 0; }
   .top-jobs-list li { border-bottom: 1px solid var(--line-2); }
@@ -340,7 +339,7 @@
      slate for Career Resources; mint washes on the filters, job tags and page background. ---- */
   body { background: linear-gradient(180deg, #EEF6F5 0, var(--wash) 420px) no-repeat, var(--wash); }
   /* Browse jobs by function: a soft panel under the job list, every function with its count, three columns. */
-  .browse-functions { margin-top: 36px; padding: 22px 24px 18px; border: 1px solid var(--line-2); border-top: 3px solid #1F6A6E; border-radius: var(--r); background: linear-gradient(180deg, #EAF4F3 0, #FFFFFF 90px); box-shadow: var(--shadow); scroll-margin-top: 84px; }
+  .browse-functions { margin: 0 0 28px; padding: 22px 24px 18px; border: 1px solid var(--line-2); border-top: 3px solid #1F6A6E; border-radius: var(--r); background: linear-gradient(180deg, #EAF4F3 0, #FFFFFF 90px); box-shadow: var(--shadow); scroll-margin-top: 84px; }
   .browse-functions h2 { display: flex; align-items: center; gap: 9px; font-size: 13px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); }
   .browse-functions h2::before { content: ""; flex: 0 0 auto; width: 8px; height: 8px; border-radius: 2px; background: #1F6A6E; transform: rotate(45deg); }
   .bf-list { list-style: none; margin: 14px 0 0; padding: 0; column-count: 3; column-gap: 28px; }
@@ -431,6 +430,14 @@
 </header>
 <div class="page">
 <main>
+  <!-- Browse jobs by function (top of the page): every choice of the Function menu with its number of roles, in three columns. The
+       filters script at the foot of the page draws the links (textContent only); a click filters Current
+       Opportunities to that function, a second click clears it. -->
+  <section class="browse-functions" aria-labelledby="browse-functions-title">
+    <h2 id="browse-functions-title">Browse jobs by function</h2>
+    <ul class="bf-list" data-bf-list></ul>
+  </section>
+
   <!-- Finance Careers banner (careers-banner.css), the same as on the home page; the page heading is its h1. -->
   <section class="fx-careers-banner fx-careers-top" aria-labelledby="careers-banner-title" data-fundsae-slot="banner-careers">
     <img class="fx-cb-photo" src="img/careers-banner.jpg" alt="">
@@ -616,13 +623,6 @@
     <nav class="pager" id="job-pager" aria-label="Job pages"></nav>
   </section>
 
-  <!-- Browse jobs by function: every choice of the Function menu with its number of roles, in three columns. The
-       filters script at the foot of the page draws the links (textContent only); a click filters Current
-       Opportunities to that function, a second click clears it. -->
-  <section class="browse-functions" aria-labelledby="browse-functions-title">
-    <h2 id="browse-functions-title">Browse jobs by function</h2>
-    <ul class="bf-list" data-bf-list></ul>
-  </section>
 </main>
 
 <aside>
