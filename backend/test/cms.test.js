@@ -361,7 +361,7 @@ test('the seed import (npm run cms:seed) holds today\'s content and passes the b
   assert.deepEqual(skipped.errors, []);
   assert.deepEqual(skipped.content.slots.advertiseTiers.map((t) => t.id), ['silver', 'gold', 'exclusive']);
   const privacy = content.content.pages.privacy;
-  assert.ok(privacy.blocks.some((b) => b.spans.some((s) => s.href === 'https://funds.ae/frontend_demo/Contact.dc.html')), 'relative links become https links on the site');
+  assert.ok(privacy.blocks.some((b) => b.spans.some((s) => s.href === 'https://funds.ae/frontend_demo/PartnerWithUs.dc.html#contact')), 'relative links become https links on the site');
   assert.ok(privacy.blocks.some((b) => b.type === 'li' && b.list === 'bullet'));
 });
 

@@ -402,7 +402,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         // About and Contact us sit in the footer, ahead of the legal links (same as the .dc.html pages).
         if (footerNav && !footerNav.querySelector('a[href="About.dc.html"]')) {
           const firstLegal = footerNav.querySelector('a[href="Terms.dc.html"]');
-          [['About', 'About.dc.html'], ['Contact us', 'Contact.dc.html']].forEach(([label, href]) => {
+          [['About', 'About.dc.html'], ['Contact us', 'PartnerWithUs.dc.html#contact']].forEach(([label, href]) => {
             const link = document.createElement('a');
             link.href = href;
             link.textContent = label;

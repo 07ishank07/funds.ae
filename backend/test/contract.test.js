@@ -21,7 +21,7 @@ const api = (file) => JSON.parse(readFileSync(path.join(apiDir, file), 'utf8'));
 const data = (file) => JSON.parse(readFileSync(path.join(tmp, 'data', 'demo', file), 'utf8'));
 const sameKeys = (obj, fields, where) => assert.deepEqual(Object.keys(obj).sort(), [...fields].sort(), where);
 // Old page addresses kept only to forward to the renamed page (no header, banner or connector).
-const MOVED_PAGES = { 'Advertise.dc.html': 'PartnerWithUs.dc.html', 'News.dc.html': 'RealEstateNews.dc.html' };
+const MOVED_PAGES = { 'Advertise.dc.html': 'PartnerWithUs.dc.html', 'News.dc.html': 'RealEstateNews.dc.html', 'Contact.dc.html': 'PartnerWithUs.dc.html#contact' };
 const snake = (s) => s.replace(/[A-Z]/g, (c) => '_' + c.toLowerCase());
 
 before(() => {
@@ -382,7 +382,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   }
   // The site menu is in the footer on every page, not in the header.
   assert.ok(home.includes(`nav.m-only[aria-label="Sections"]').forEach((nav) => nav.remove())`), 'home removes both header menus');
-  for (const page of ['About', 'PartnerWithUs', 'Careers', 'Contact', 'Events', 'GrantsFunding', 'PodcastEpisode', 'Privacy', 'RealEstateNews', 'Terms', 'Videos']) {
+  for (const page of ['About', 'PartnerWithUs', 'Careers', 'Events', 'GrantsFunding', 'PodcastEpisode', 'Privacy', 'RealEstateNews', 'Terms', 'Videos']) {
     const html = read(`${page}.dc.html`);
     assert.ok(!html.includes('aria-label="Sections"'), `${page} has no header menu`);
     const footNav = html.slice(html.indexOf('<nav class="foot-nav"'), html.indexOf('</nav>', html.indexOf('<nav class="foot-nav"')));
@@ -456,7 +456,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.ok(connector.includes("var NEWS_REGIONS = ['News', 'GCC', 'Global'];") && connector.includes("var REGIONS = { uae: 'News', world: 'Global' };") && connector.includes('stories.forEach(function (s) { addTo(regionOf(s), s); });'), 'connector tabs match');
   assert.ok(!/'(UAE News|Global News|Business Funding)'/.test(home + connector), 'old tab names are gone');
   assert.ok(home.includes("['Events', { href: 'Events.dc.html' }]") && home.includes("'Events.dc.html#submit-event'"), 'home links to the Events page');
-  assert.ok(home.includes("[['About', 'About.dc.html'], ['Contact us', 'Contact.dc.html']]") && home.includes("'../js/fundsae-header.js'"), 'home footer and shared header script');
+  assert.ok(home.includes("[['About', 'About.dc.html'], ['Contact us', 'PartnerWithUs.dc.html#contact']]") && home.includes("'../js/fundsae-header.js'"), 'home footer and shared header script');
   assert.ok(read('Events.dc.html').includes('data-fundsae-slot="events"'), 'the Events page lists events');
   const careers = read('Careers.dc.html');
   assert.ok(!careers.includes('data-fundsae-slot="events"') && !careers.includes('data-fundsae-form="event"'), 'Careers no longer has events');
@@ -582,7 +582,7 @@ test('the Advertise page is now Partner with us: no link or label uses the old n
   assert.ok(read('frontend_demo', 'PartnerWithUs.dc.html').includes('<title>Partner with us · Funds.ae</title>'), 'page title');
   for (const [old, now] of Object.entries(MOVED_PAGES)) {
     const stub = read('frontend_demo', old);
-    assert.ok(stub.includes(`url=${now}"`) && stub.includes(`location.replace('${now}' + `), `${old} forwards to ${now}`);
+    assert.ok(stub.includes(`url=${now}"`) && stub.includes(`location.replace('${now}'`), `${old} forwards to ${now}`);
     assert.ok(stub.includes('name="robots" content="noindex"') && !stub.includes('<form'), `${old} is only a redirect`);
   }
   assert.ok(read('i18n.js').includes("'Partner with us': "), 'Arabic label for Partner with us');
@@ -710,7 +710,7 @@ test('the old news feed page is removed: News.dc.html only forwards to Real Esta
   ];
   for (const f of files) assert.ok(!/(^|[^A-Za-z])News\.dc\.html/.test(read(...f)), `${f.join('/')} links to the removed News.dc.html`);
   // No Real Estate News link in the header; the page is reached from the home page's real estate boxes (View All).
-  for (const f of ['About', 'PartnerWithUs', 'Careers', 'Contact', 'Events', 'GrantsFunding', 'PostJob', 'Privacy', 'RealEstateNews', 'Terms', 'Videos']) {
+  for (const f of ['About', 'PartnerWithUs', 'Careers', 'Events', 'GrantsFunding', 'PostJob', 'Privacy', 'RealEstateNews', 'Terms', 'Videos']) {
     assert.ok(!read('frontend_demo', `${f}.dc.html`).includes('>Real Estate News</a>'), `${f} has no Real Estate News header link`);
   }
   // Every real estate tile shows its source in small text; live tiles get the publisher's name.
@@ -718,3 +718,23 @@ test('the old news feed page is removed: News.dc.html only forwards to Real Esta
   assert.ok(home.includes("source.className = 'fx-tile-source'"), 'real estate tiles carry a source line');
   assert.ok(read('js', 'fundsae-connector.js').includes("art.querySelector('.fx-tile-source')"), 'the connector fills the source line');
 });
+
+test('Contact us is part of Partner with us: the footer opens it, and the old page only forwards there', () => {
+  const read = (...p) => readFileSync(path.join(repo, ...p), 'utf8');
+  const partner = read('frontend_demo', 'PartnerWithUs.dc.html');
+  assert.ok(partner.includes('<section class="section" id="contact" aria-labelledby="contact-title">') && partner.includes('<form method="post" data-fundsae-form="contact">') &&
+    partner.includes('<h3>Contact details</h3>') && partner.includes('src="../js/fundsae-forms.js"'), 'Partner with us has the contact form and details');
+  assert.ok(partner.indexOf('data-fundsae-form="advertise"') < partner.indexOf('id="contact"'), 'after the sponsorship enquiry');
+  const ids = [...partner.replace(/<!--[\s\S]*?-->/g, '').matchAll(/ id="([^"]+)"/g)].map((m) => m[1]);
+  assert.equal(new Set(ids).size, ids.length, 'no repeated ids on the page (two forms)');
+  // No page, story/job page, template, menu or content links to the old page any more.
+  const files = [
+    ...readdirSync(path.join(repo, 'frontend_demo')).filter((f) => f.endsWith('.html') && !MOVED_PAGES[f]).map((f) => ['frontend_demo', f]),
+    ...readdirSync(path.join(repo, 'frontend_demo', 'news')).filter((f) => f.endsWith('.html')).map((f) => ['frontend_demo', 'news', f]),
+    ['backend', 'templates', 'story.html'], ['backend', 'templates', 'job.html'], ['js', 'fundsae-header.js'], ['backend', 'config', 'content.json']
+  ];
+  for (const f of files) assert.ok(!read(...f).includes('Contact.dc.html'), `${f.join('/')} links to the old Contact page`);
+  assert.ok(read('frontend_demo', 'About.dc.html').includes('<a href="PartnerWithUs.dc.html#contact">Contact us</a>'), 'footer Contact us opens the section');
+  assert.ok(!read('frontend_demo', 'About.dc.html').includes('<a href="#">Contact us'), "About's Get in touch button opens the section too");
+});
+

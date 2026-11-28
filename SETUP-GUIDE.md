@@ -18,7 +18,7 @@ Whenever this guide says **save to GitHub**, do this in vscode.dev:
 
 | Folder or file | What it is |
 |---|---|
-| `frontend_demo/` | The website pages: `this.html` (home), `Careers.dc.html`, `PartnerWithUs.dc.html`, `Contact.dc.html`, `About.dc.html`, `Privacy.dc.html`, `Terms.dc.html` |
+| `frontend_demo/` | The website pages: `this.html` (home), `Careers.dc.html`, `PartnerWithUs.dc.html` (which includes Contact us; `Contact.dc.html` only forwards there), `About.dc.html`, `Privacy.dc.html`, `Terms.dc.html` |
 | `index.html` | Sends visitors from the site root to `frontend_demo/this.html` |
 | `i18n.js` | The English / Arabic switch used by every page |
 | `js/` | The scripts that fill the pages with data and send the forms. The pages already load them; there is nothing to paste |
