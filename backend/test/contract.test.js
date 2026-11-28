@@ -566,8 +566,8 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.ok(jbl.includes('<h2 id="jobs-location-title">Jobs by location</h2>'), 'Jobs by location tops column 2');
   assert.deepEqual([...jbl.matchAll(/data-jbl-country="([A-Z]{2})"><svg class="jbl-flag"/g)].map((m) => m[1]), ['AE', 'SA', 'QA', 'KW', 'BH', 'OM'], 'the six GCC countries, with flags');
   assert.ok(careers.includes("var value = 'country:' + card.getAttribute('data-jbl-country');") && careers.includes('syncLocationCards(byCountry);'), 'cards filter by country and show the counts');
-  // Browse jobs by function: the top of the page (above the banner), drawn from the Function menu's list, each link filtering by it.
-  assert.ok(/<main>\s*<!-- Browse jobs by function[\s\S]*?<\/section>\s*<!-- Finance Careers banner/.test(careers), 'Browse jobs by function tops the page');
+  // Browse jobs by function: under the banner, above Current Opportunities, drawn from the Function menu's list, each link filtering by it.
+  assert.ok(/<main>\s*<!-- Finance Careers banner[\s\S]*?<\/section>\s*<!-- Browse jobs by function[\s\S]*?<\/section>\s*<section class="opportunities"/.test(careers), 'the banner, then Browse jobs by function, then Current Opportunities');
   assert.ok(careers.includes('FUNCTIONS.forEach(function (fn) {') && careers.includes("a.setAttribute('data-bf-function', fn);") &&
     careers.includes('syncFunctionLinks(seen);') && careers.includes("selects.department.value = selects.department.value === fn ? '' : fn;"), 'links come from the Function list, show counts and filter');
   // Careers sidebar boxes carry the site palette: sand Top Jobs, slate Career Resources.
