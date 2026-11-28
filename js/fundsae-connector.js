@@ -975,7 +975,7 @@
 
   /** Partner with us page: one card per package, in the published order (editors add, hide and reorder packages in
    *  Sanity). The "exclusive" package is the dark card and carries id="elite-partner", which the Elite Founding
-   *  Sponsor banner links to. The enquiry form's package list follows the same packages. */
+   *  Sponsor banner links to. */
   function renderTiers(tiers) {
     if (!tiers.length) return;
     slots('advertise-tiers').forEach(function (box) {
@@ -1030,28 +1030,15 @@
           cta.setAttribute('data-fundsae-tier', tier.id);
           cta.textContent = label;
           cta.setAttribute('aria-label', label + ': ' + tier.name);
-          // A package link goes there; otherwise the button opens the enquiry form with this package selected.
+          // A package link goes there; otherwise the button opens Contact us (js/fundsae-forms.js fills the subject).
           if (!tier.ctaUrl || !api.setLink(cta, tier.ctaUrl, { httpsOnly: true })) {
-            cta.setAttribute('href', '#enquiry');
+            cta.setAttribute('href', '#contact');
             cta.removeAttribute('target');
             cta.removeAttribute('rel');
           }
         }
       });
     });
-    var select = document.querySelector('[data-fundsae-form="advertise"] select[name="tier"]');
-    if (select) {
-      var current = select.value;
-      select.textContent = '';
-      tiers.forEach(function (tier) {
-        var option = document.createElement('option');
-        option.value = tier.id;
-        option.textContent = tier.name;
-        select.appendChild(option);
-      });
-      var keep = tiers.some(function (t) { return t.id === current; });
-      select.value = keep ? current : (tiers.filter(function (t) { return t.featured; })[0] || tiers[0]).id;
-    }
   }
 
   var updatedFmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });

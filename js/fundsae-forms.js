@@ -193,18 +193,23 @@
   }
 
   /**
-   * Partner with us page: "Get started" on a tier preselects it in the enquiry form.
-   * One delegated listener, so package cards the connector renders from the API work too.
+   * Partner with us page: "Get started" on a package opens Contact us with the subject "<package> enquiry" (unless the
+   * visitor already typed one). One delegated listener, so package cards the connector renders from the API work too.
    */
   function bindTierButtons() {
+    var filled = '';
     document.addEventListener('click', function (event) {
       var button = event.target instanceof Element ? event.target.closest('[data-fundsae-tier]') : null;
-      if (!button) return;
-      var form = document.querySelector('[data-fundsae-form="advertise"]');
+      if (!button || button.getAttribute('href') !== '#contact') return;
+      var form = document.querySelector('[data-fundsae-form="contact"]');
       if (!form) return;
-      var select = form.elements.namedItem('tier');
-      var tier = button.getAttribute('data-fundsae-tier');
-      if (select && Array.prototype.some.call(select.options, function (o) { return o.value === tier; })) select.value = tier;
+      var card = button.closest('.tier');
+      var heading = card ? card.querySelector('h2') : null;
+      var subject = form.elements.namedItem('subject');
+      if (heading && subject && (!subject.value || subject.value === filled)) {
+        filled = (heading.textContent.trim() + ' enquiry').slice(0, 120);
+        subject.value = filled;
+      }
       setTimeout(function () {
         var first = form.elements.namedItem('name');
         if (first) first.focus({ preventScroll: true });

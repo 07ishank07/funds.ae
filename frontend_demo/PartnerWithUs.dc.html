@@ -117,7 +117,6 @@
   .tiers-foot { margin-top: 18px; font-size: 13px; color: var(--ghost); }
 
   /* Enquiry: why get in touch, beside the form (same field styles as the Contact page) */
-  .enquiry-wrap { margin-top: 32px; }
   .enquiry { padding: 28px; border: 1px solid var(--line); border-top: 3px solid var(--ink); border-radius: 3px; background: var(--surface); scroll-margin-top: 24px; }
   .enquiry h3 { font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
   .enquiry form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 16px; margin-top: 18px; }
@@ -245,7 +244,7 @@
   </section>
 
   <!-- Packages, managed in Sanity (Partner with us packages). js/fundsae-connector.js (slot "advertise-tiers") redraws these
-       cards and the enquiry form's package list from api/v1/content.json; the cards below only show if the API is
+       cards from api/v1/content.json (each button opens Contact us below); the cards below only show if the API is
        unreachable. The "exclusive" card gets id="elite-partner", which the Elite Founding Sponsor banner links to. -->
   <section class="section" id="packages" aria-labelledby="packages-title">
     <div class="section-head">
@@ -269,7 +268,7 @@
           <li>Monthly performance summary (dummy)</li>
           <li>Limited to 15 partners</li>
         </ul>
-        <a class="cta" href="#enquiry" data-fundsae-tier="silver">Get started</a>
+        <a class="cta" href="#contact" data-fundsae-tier="silver">Get started</a>
       </div>
       <div class="tier featured">
         <span class="badge">Most popular</span>
@@ -288,7 +287,7 @@
           <li>A listing in "Career Resources" on the Careers page</li>
           <li>Limited to 5 partners</li>
         </ul>
-        <a class="cta" href="#enquiry" data-fundsae-tier="gold">Get started</a>
+        <a class="cta" href="#contact" data-fundsae-tier="gold">Get started</a>
       </div>
       <div class="tier exclusive" id="elite-partner">
         <span class="badge">One partner only</span>
@@ -307,67 +306,21 @@
           <li>Everything in the Gold Partner package</li>
           <li>Exclusive: one partner at a time</li>
         </ul>
-        <a class="cta" href="#enquiry" data-fundsae-tier="exclusive">Enquire</a>
+        <a class="cta" href="#contact" data-fundsae-tier="exclusive">Enquire</a>
       </div>
     </div>
     <p class="tiers-foot">Every paid placement is labelled as sponsored.</p>
   </section>
 
-  <!-- Enquiry -->
-  <section class="section" aria-labelledby="talk-title">
-    <div class="section-head">
-      <div>
-        <p class="eyebrow">Get in touch</p>
-        <h2 id="talk-title">Talk to our partnerships team</h2>
-      </div>
-      <p>Tell us what you want to achieve and we will come back with the current rate card and availability.</p>
-    </div>
-    <div class="enquiry-wrap">
-      <div class="enquiry" id="enquiry" aria-labelledby="enquiry-title">
-        <h3 id="enquiry-title">Sponsorship enquiry</h3>
-        <!-- Field names are the API contract (POST /api/v1/submissions/advertise). -->
-        <form method="post" data-fundsae-form="advertise">
-          <div class="field">
-            <label for="adv-name">Name</label>
-            <input id="adv-name" name="name" type="text" required minlength="2" maxlength="80" autocomplete="name">
-          </div>
-          <div class="field">
-            <label for="adv-email">Email</label>
-            <input id="adv-email" name="email" type="email" required maxlength="254" autocomplete="email">
-          </div>
-          <div class="field">
-            <label for="adv-company">Company</label>
-            <input id="adv-company" name="company" type="text" required minlength="2" maxlength="120" autocomplete="organization">
-          </div>
-          <div class="field">
-            <label for="adv-tier">Package</label>
-            <select id="adv-tier" name="tier" required>
-              <option value="silver">Featured Partner</option>
-              <option value="gold" selected>Gold Partner</option>
-              <option value="exclusive">Elite Exclusive Partner</option>
-            </select>
-          </div>
-          <div class="field wide">
-            <label for="adv-message">Message (optional)</label>
-            <textarea id="adv-message" name="message" maxlength="2000"></textarea>
-          </div>
-          <div class="fx-hp" aria-hidden="true"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
-          <button type="submit" class="submit-btn">Send enquiry</button>
-          <p class="fx-form-status" data-fundsae-form-status role="status" aria-live="polite"></p>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- Contact us (this replaces the separate Contact page; the footer's "Contact us" opens #contact): a general
-       message form and the contact details. -->
+  <!-- Contact us (this replaces the separate Contact page and the old sponsorship enquiry; the footer's "Contact us"
+       and the package buttons open #contact): a general message form and the contact details. -->
   <section class="section" id="contact" aria-labelledby="contact-title">
     <div class="section-head">
       <div>
         <p class="eyebrow">Contact us</p>
         <h2 id="contact-title">Get in touch with Funds.ae</h2>
       </div>
-      <p>News tips, corrections, press, careers or anything else: send us a message or use the details below. We reply within two working days.</p>
+      <p>Partnerships and sponsorship, news tips, corrections, press, careers or anything else: send us a message or use the details below. We reply within two working days.</p>
     </div>
     <div class="contact-grid">
       <div class="enquiry">

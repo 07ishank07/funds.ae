@@ -540,10 +540,10 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.match(careers, /class="partners-track">\s*<div class="partners-list" data-fundsae-slot="sponsor-companies">/);
   assert.ok(careers.includes('<h2 id="partners-title" class="partners-title">Partners<span class="fxh-sr"> (sponsored)</span></h2>'), 'a Partners heading, labelled as sponsored for screen readers');
   assert.ok(!careers.includes('partners-head') && !careers.includes('Feature your firm'), 'no visible tag or link above the strip');
-  // Partner with us: one package choice per API tier, and the Elite Exclusive Partner advert preselects its own.
+  // Partner with us: one package card button per API tier (each opens Contact us), and the Elite Exclusive Partner card is #elite-partner.
   const advertise = read('PartnerWithUs.dc.html');
-  const options = [...advertise.matchAll(/<option value="([a-z]+)"/g)].map((m) => m[1]);
-  assert.deepEqual(options.sort(), [...ADVERTISING_TIERS].sort());
+  const cardTiers = [...advertise.matchAll(/data-fundsae-tier="([a-z]+)"/g)].map((m) => m[1]);
+  assert.deepEqual(cardTiers.sort(), [...ADVERTISING_TIERS].sort());
   assert.match(advertise, /id="elite-partner"[\s\S]*data-fundsae-tier="exclusive"/);
   // Three package cards (Featured Partner, Gold Partner, Elite Exclusive Partner) under a benefits pitch.
   assert.equal([...advertise.matchAll(/<div class="tier[ "]/g)].length, 3, 'three package cards');
@@ -563,7 +563,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   // form's package list follows the published packages.
   for (const slot of ['class="placements"', 'class="features"', 'class="duration"', 'class="price"']) assert.ok(advertise.includes(slot), `card template has ${slot}`);
   assert.ok(!/\.tier:not\(\.exclusive\) \.price \{ display: none/.test(advertise), 'prices are shown or hidden by the showPrice field, not page CSS');
-  assert.ok(connector.includes("price.hidden = !tier.showPrice") && connector.includes("select[name=\"tier\"]") && connector.includes('tier.ctaUrl'), 'connector draws showPrice, CTA and the package list');
+  assert.ok(connector.includes("price.hidden = !tier.showPrice") && connector.includes('tier.ctaUrl') && connector.includes("cta.setAttribute('href', '#contact');"), 'connector draws showPrice and the CTA (which opens Contact us)');
 });
 
 test('the Advertise page is now Partner with us: no link or label uses the old name, and the old address forwards', () => {
@@ -679,7 +679,7 @@ test('every website form posts only field names the API accepts', () => {
   const home = readFileSync(path.join(repo, 'frontend_demo', 'this.html'), 'utf8');
   assert.match(home, /data-fundsae-form', 'newsletter'/);
   for (const n of ["input.name = 'email'", "placement.name = 'placement'", "trapInput.name = 'website'"]) assert.ok(home.includes(n), n);
-  assert.deepEqual([...seen].sort(), ['advertise', 'contact', 'event', 'job']);
+  assert.deepEqual([...seen].sort(), ['contact', 'event', 'job']); // partnership enquiries use Contact us (the advertise API stays for older clients)
   // Post a job (PostJob.dc.html, linked from Careers): its choices are the validator's lists, so nothing the
   // page offers is refused by the API.
   const postJob = readFileSync(path.join(repo, 'frontend_demo', 'PostJob.dc.html'), 'utf8');
@@ -724,7 +724,12 @@ test('Contact us is part of Partner with us: the footer opens it, and the old pa
   const partner = read('frontend_demo', 'PartnerWithUs.dc.html');
   assert.ok(partner.includes('<section class="section" id="contact" aria-labelledby="contact-title">') && partner.includes('<form method="post" data-fundsae-form="contact">') &&
     partner.includes('<h3>Contact details</h3>') && partner.includes('src="../js/fundsae-forms.js"'), 'Partner with us has the contact form and details');
-  assert.ok(partner.indexOf('data-fundsae-form="advertise"') < partner.indexOf('id="contact"'), 'after the sponsorship enquiry');
+  // One form only: the separate sponsorship enquiry is gone and the package buttons open Contact us instead.
+  assert.ok(!partner.includes('data-fundsae-form="advertise"') && !partner.includes('id="enquiry"') && !partner.includes('Talk to our partnerships team'), 'no separate sponsorship enquiry');
+  assert.equal([...partner.matchAll(/href="#contact" data-fundsae-tier="/g)].length, 3, 'each package button opens Contact us');
+  assert.ok(partner.indexOf('id="packages"') < partner.indexOf('id="contact"'), 'Contact us follows the packages');
+  const forms = read('js', 'fundsae-forms.js');
+  assert.ok(forms.includes(`document.querySelector('[data-fundsae-form="contact"]')`) && forms.includes("filled = (heading.textContent.trim() + ' enquiry').slice(0, 120);"), 'a package button fills the subject');
   const ids = [...partner.replace(/<!--[\s\S]*?-->/g, '').matchAll(/ id="([^"]+)"/g)].map((m) => m[1]);
   assert.equal(new Set(ids).size, ids.length, 'no repeated ids on the page (two forms)');
   // No page, story/job page, template, menu or content links to the old page any more.
