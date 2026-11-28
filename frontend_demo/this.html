@@ -946,6 +946,13 @@ document.addEventListener('DOMContentLoaded', async function() {
           const currentNews = document.querySelector('.news');
           const tabRow = currentNews && currentNews.querySelector('.tabs-row');
           if (!tabRow) return;
+          // Each tab's top story sits directly under the tabs, above that tab's headline links (moved here once the
+          // design's tab row exists; checked again on every pass so it stays there).
+          let topAnchor = tabRow;
+          currentNews.querySelectorAll(':scope > .fx-top-uae[data-top-region]').forEach((topStory) => {
+            if (topAnchor.nextElementSibling !== topStory) topAnchor.after(topStory);
+            topAnchor = topStory;
+          });
           Array.from(tabRow.querySelectorAll('button')).forEach((tab) => {
             if (/^(all|markets?|funds?)$/i.test(tab.textContent.trim())) tab.remove();
           });
@@ -1357,8 +1364,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         const box = document.querySelector('.news > section[aria-label="' + label + '"]');
         if (box && !(box.nextElementSibling && box.nextElementSibling.classList.contains('fx-view-all'))) box.after(makeViewAll(VIEW_ALL_HREF[label]));
       });
-      // Top story of each news tab, above Residential Estate News: UAE Top Story (UAE Stories), GCC Top Story (GCC
-      // Stories) and International Top Story (International Stories); only the open tab's shows. Each is a picture
+      // Top story of each news tab, directly under the tabs and above the headline links: UAE Top Story (UAE Stories),
+      // GCC Top Story (GCC Stories) and International Top Story (International Stories); only the open tab's shows. Each is a picture
       // beside the headline, summary and source. js/fundsae-connector.js (slot "top-story", data-top-region) shows that
       // tab's featured story, or else its newest (UAE: the editors' pin first); until then the sample shows. The photos
       // are the site's licensed sample photos (img/CREDITS.md) until a publisher allows its own image.
@@ -1390,8 +1397,10 @@ document.addEventListener('DOMContentLoaded', async function() {
                 <p class="fx-top-uae-src">Source: ${source} (dummy)</p>
               </div>
             </article>`;
-          // Directly above Residential Estate News (its heading), else at the foot of the news column.
-          if (residentialHeading) newsColumn.insertBefore(topStory, residentialHeading);
+          // Directly under the tabs (limitNewsTabs keeps it there); if the tabs are not built yet, above the real estate boxes.
+          const tabsRow = newsColumn.querySelector(':scope > .tabs-row');
+          if (tabsRow) newsColumn.insertBefore(topStory, tabsRow.nextElementSibling);
+          else if (residentialHeading) newsColumn.insertBefore(topStory, residentialHeading);
           else newsColumn.appendChild(topStory);
         });
       }
@@ -1827,7 +1836,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         .fx-econ-source a { color: #1F6A6E !important; text-decoration: underline; text-underline-offset: 2px; }
 
         /* UAE / GCC / International Top Story (news column, one per tab): ink rule and small-caps label, then a picture beside the story. */
-        .fx-top-uae { margin-top: 32px; padding-top: 12px; border-top: 2px solid var(--fx-ink, #0E3A43); }
+        .fx-top-uae { margin-top: 14px; padding-bottom: 16px; border-bottom: 1px solid var(--fx-line, #D3DFDF); }
         .fx-top-uae-head { margin: 0 !important; font-size: 13px !important; font-weight: 600 !important; letter-spacing: 0.14em; text-transform: uppercase; color: #0E3A43 !important; }
         .fx-top-uae-card { display: grid; grid-template-columns: minmax(0, 46%) minmax(0, 1fr); gap: 18px; margin-top: 14px; align-items: start; }
         .fx-top-uae-media { position: relative; display: block; aspect-ratio: 4 / 3; border-radius: 3px; overflow: hidden; background: #0E3A43; }

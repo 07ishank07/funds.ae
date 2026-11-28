@@ -222,8 +222,8 @@ test('home page: the Gulf Economy box sits directly above Spotlight and is fille
   for (const [region, id, heading, photo] of [['News', 'top-uae-title', 'UAE Top Story', 'img/partner-banner.jpg'], ['GCC', 'top-gcc-title', 'GCC Top Story', 'img/re-commercial.jpg'], ['Global', 'top-intl-title', 'International Top Story', 'img/careers-banner.jpg']]) {
     assert.ok(home.includes(`['${region}', '${id}', '${heading}', `) && home.includes(`'${photo}'`), `${heading} section with a licensed sample photo`);
   }
-  assert.ok(home.includes("topStory.setAttribute('data-fundsae-slot', 'top-story');") && home.includes('newsColumn.insertBefore(topStory, residentialHeading);') &&
-    home.includes("topStory.style.display = topStory.dataset.topRegion === region ? '' : 'none';"), 'each tab shows its own top story, above Residential Estate News');
+  assert.ok(home.includes("topStory.setAttribute('data-fundsae-slot', 'top-story');") && home.includes('if (topAnchor.nextElementSibling !== topStory) topAnchor.after(topStory);') &&
+    home.includes("topStory.style.display = topStory.dataset.topRegion === region ? '' : 'none';"), 'each tab shows its own top story, directly under the tabs and above the headline links');
   const topJs = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
   const topFn = topJs.slice(topJs.indexOf('function renderTopUae('), topJs.indexOf('function renderNews('));
   assert.ok(topFn.includes('regionOf(s) === region') && topFn.includes('s.featured') && topFn.includes("region === 'News' && siteSettings.topUaeStoryId") && !/innerHTML/.test(topFn), 'connector picks each tab\'s featured (else newest) story, the UAE pin first, with textContent');
