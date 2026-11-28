@@ -101,37 +101,37 @@
       "placements": [
         {
           "placement": "sponsoredPosts",
-          "enabled": true,
-          "detail": "The lead sponsored post, every week"
+          "enabled": false,
+          "detail": "Agreed in the partnership"
         },
         {
           "placement": "videos",
-          "enabled": true,
-          "detail": "The lead video and a sponsored podcast series"
+          "enabled": false,
+          "detail": "Agreed in the partnership"
         },
         {
           "placement": "events",
-          "enabled": true,
-          "detail": "The highlighted event card"
+          "enabled": false,
+          "detail": "Agreed in the partnership"
         },
         {
           "placement": "influencers",
-          "enabled": true,
-          "detail": "The Top voice feature"
+          "enabled": false,
+          "detail": "Agreed in the partnership"
         },
         {
           "placement": "tweets",
-          "enabled": true,
-          "detail": "Your posts in Top Tweets"
+          "enabled": false,
+          "detail": "Agreed in the partnership"
         }
       ],
       "features": [
-        "Everything in Elite Partner, plus:",
-        "Your firm in the Elite Founding Sponsor banner, under the masthead on every Funds.ae page except Careers",
-        "The Finance Careers banner and one country in Jobs by location",
+        "Selective partnership for:",
         "Category exclusivity",
-        "A quarterly strategy session",
-        "Exclusive: one partner at a time"
+        "Home page banner",
+        "Strategic business growth partnership",
+        "Consulting-based solution",
+        "Monthly meeting to review and adjust the approach"
       ],
       "featured": false
     }

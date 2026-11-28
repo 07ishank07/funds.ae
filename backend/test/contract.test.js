@@ -624,6 +624,11 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   const eliteCard = advertise.slice(advertise.indexOf('<h2>Elite Partner</h2>'), advertise.indexOf('data-fundsae-tier="gold"'));
   for (const line of ['Everything in Gold Partner, plus:', 'The Spotlight logo on the home page', '20 job posts a month, 2 pinned in Top Jobs', 'Limited number of partners',
     'Additional featured listings in Videos and Podcasts', 'A feature in Thought Leaders']) assert.ok(eliteCard.includes(line), `Elite Partner: ${line}`);
+  // Exclusive Partner: a selective, one-to-one partnership (no placement lines).
+  const exclusiveCard = advertise.slice(advertise.indexOf('<h2>Exclusive Partner</h2>'), advertise.indexOf('data-fundsae-tier="exclusive"'));
+  assert.ok(exclusiveCard.includes('<ul class="placements" hidden></ul>'), 'Exclusive Partner has no placement lines');
+  for (const line of ['Selective partnership for:', 'Category exclusivity', 'Home page banner', 'Strategic business growth partnership', 'Consulting-based solution',
+    'Monthly meeting to review and adjust the approach']) assert.ok(exclusiveCard.includes(line), `Exclusive Partner: ${line}`);
   assert.ok(advertise.includes('<div class="tier featured">\n        <span class="badge">Recommended</span>\n        <h2>Gold Partner</h2>'.split('\n').join(advertise.includes('\r\n') ? '\r\n' : '\n')), 'Gold Partner is the recommended package');
   assert.ok(advertise.indexOf('id="pitch-title"') < advertise.indexOf('id="packages"'), 'pitch sits above the packages');
   // Why partner (Option B): the licensed Dubai photo banner with "Be seen." and the six benefits, between the pitch and the packages.
