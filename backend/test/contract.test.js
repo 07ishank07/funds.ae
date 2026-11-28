@@ -578,6 +578,8 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.ok(/@media \(prefers-reduced-motion: reduce\) \{\s*\.partners-viewport/.test(wall), 'the wall stands still for reduced motion');
   assert.ok(!/innerHTML/.test(wallJs) && wallJs.includes("list.setAttribute('data-fundsae-slot', 'sponsor-companies');") && wallJs.includes("copy.setAttribute('aria-hidden', 'true');"), 'the script builds the wall with textContent and keeps the loop copy hidden');
   assert.ok(!careers.includes('Featured Partners strip: keeps an aria-hidden copy'), 'one loop script, shared');
+  // Top Jobs ranks are uniform: one solid teal circle style for every number (no different top three).
+  assert.ok(careers.includes('.top-jobs .top-jobs-list .tj-rank { background: var(--tone); color: #FFFFFF; }') && !careers.includes('nth-child(-n+3) .tj-rank'), 'uniform Top Jobs ranks');
   // Top hiring companies: below Top Jobs, 10 employers (name, open jobs), each opening the list filtered to its roles.
   const hiring = careers.slice(careers.indexOf('<section class="top-hiring"'), careers.indexOf('</section>', careers.indexOf('<section class="top-hiring"')));
   assert.ok(careers.indexOf('<section class="top-jobs"') < careers.indexOf('<section class="top-hiring"') && careers.indexOf('<section class="top-hiring"') < careers.indexOf('class="gf-promo"'), 'Top hiring companies sits below Top Jobs');

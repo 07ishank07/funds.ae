@@ -406,7 +406,8 @@
     flex: 0 0 24px; display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; margin-top: 1px;
     border-radius: 50%; background: var(--tone-soft); color: var(--tone); font-size: 11.5px; font-weight: 700; line-height: 1;
   }
-  .top-jobs li:nth-child(-n+3) .tj-rank { background: var(--tone); color: #FFFFFF; }
+  /* Every rank looks the same: a solid teal circle with a white number. */
+  .top-jobs .top-jobs-list .tj-rank { background: var(--tone); color: #FFFFFF; }
   .top-jobs .top-jobs-list a:hover, .resources-box .links a:hover { background: var(--tone-soft); }
   .top-jobs-list a:hover .tj-title { color: var(--tone); }
   .top-jobs .top-jobs-all { color: var(--tone); }
