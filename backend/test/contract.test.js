@@ -500,7 +500,21 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   const pageFunctions = JSON.parse(careers.match(/var FUNCTIONS = (\[[^\]]+\]);/)[1].replace(/'/g, '"'));
   const fnBlock = rolesJs.slice(rolesJs.indexOf('var JOB_FUNCTIONS = ['), rolesJs.indexOf('];', rolesJs.indexOf('var JOB_FUNCTIONS = [')));
   const jsFunctions = [...fnBlock.matchAll(/, '([^']+)'\]/g)].map((m) => m[1]);
-  assert.ok(pageFunctions.length >= 20 && ['Private Equity', 'Venture Capital', 'Private Credit & Debt', 'Wealth & Private Banking', 'Compliance & Regulatory', 'Fund Administration & Operations', 'Treasury'].every((f) => pageFunctions.includes(f)), 'finance functions listed');
+  assert.ok(pageFunctions.length >= 26 && ['Private Equity', 'Venture Capital', 'Private Credit & Debt', 'Wealth & Private Banking', 'Compliance & Regulatory', 'Fund Administration & Operations',
+    'Treasury & Capital Management', 'Corporate & Commercial Banking', 'Sales Trading & Brokerage', 'Quantitative Research & Investing', 'Actuarial & Insurance', 'Structured & Trade Finance', 'Audit & Assurance'].every((f) => pageFunctions.includes(f)), 'finance functions listed');
+  {
+    // The usual finance job families each land in a function (the connector's rules, run on sample titles).
+    const rules = [...fnBlock.matchAll(/\[\/(.+?)\/, '([^']+)'\]/g)].map((m) => [new RegExp(m[1]), m[2]]);
+    const fnOf = (title) => (rules.find(([re]) => re.test(title.toLowerCase())) || [null, ''])[1];
+    for (const [title, fn] of [['Investment Banker', 'Investment Banking & Corporate Finance'], ['Corporate Banker', 'Corporate & Commercial Banking'], ['Private Banker', 'Wealth & Private Banking'],
+      ['Options Trader', 'Hedge Funds & Trading'], ['Cryptocurrency Trader', 'Hedge Funds & Trading'], ['Equity Sales Trader', 'Sales Trading & Brokerage'], ['Commodities Broker', 'Sales Trading & Brokerage'],
+      ['Execution Trader', 'Sales Trading & Brokerage'], ['Quant Portfolio Manager', 'Quantitative Research & Investing'], ['Fund Manager', 'Investments & Portfolio Management'],
+      ['Asset Allocation Officer', 'Investments & Portfolio Management'], ['Wealth Manager', 'Wealth & Private Banking'], ['Life Actuary', 'Actuarial & Insurance'],
+      ['Control Assurance Manager', 'Audit & Assurance'], ['Prudential Capital Manager', 'Treasury & Capital Management'], ['Structured Finance Associate', 'Structured & Trade Finance'],
+      ['Trade Finance Officer', 'Structured & Trade Finance'], ['Finance Officer', 'Finance & Accounting']]) {
+      assert.equal(fnOf(title), fn, title);
+    }
+  }
   assert.deepEqual([...jsFunctions].sort(), [...pageFunctions].sort(), 'the connector maps roles to exactly the menu functions');
   assert.ok(rolesJs.includes("row.setAttribute('data-function', functionOf(job.department, job.title));"), 'roles are tagged with a function');
   assert.ok(!careers.includes('<option value="featured">Featured first</option>') && careers.includes('<option value="newest">Newest</option>'), 'no Featured first sort');

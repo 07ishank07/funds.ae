@@ -479,28 +479,36 @@
 
   // Finance job functions for the Careers Function filter: [pattern in "department | title", label], first match wins
   // (so "Credit Risk Analyst" is Risk Management). Labels equal FUNCTIONS in Careers.dc.html.
+  // Finance job functions for the Careers Function filter (first match wins). They cover the usual finance job families:
+  // banking, trading, sales trading, brokerage and execution, portfolio, investment, fund and asset management, asset
+  // allocation, quantitative investment, wealth, actuarial, assurance, capital management, structured and trade finance.
   var JOB_FUNCTIONS = [
     [/\besg\b|sustainab|impact invest|climate/, 'ESG & Sustainable Finance'],
     [/complian|regulat|\baml\b|\bkyc\b|financial crime/, 'Compliance & Regulatory'],
     [/legal|counsel|lawyer|paralegal/, 'Legal'],
+    [/actuar|insurance|underwrit|reinsur/, 'Actuarial & Insurance'],
     [/\brisk\b/, 'Risk Management'],
-    [/treasur/, 'Treasury'],
+    [/treasur|capital management|capital manager|\balm\b|liquidity/, 'Treasury & Capital Management'],
     [/\btax/, 'Tax'],
-    [/audit/, 'Audit'],
+    [/audit|assurance/, 'Audit & Assurance'],
     [/investor relations|fundrais|capital raising/, 'Investor Relations & Fundraising'],
     [/fund admin|fund account|operations|onboarding|settlement|middle office|back office|custody/, 'Fund Administration & Operations'],
     [/private equity|buyout/, 'Private Equity'],
     [/venture|\bvc\b/, 'Venture Capital'],
+    [/structured finance|trade finance|trading finance|project finance|development finance|export finance|supply chain finance/, 'Structured & Trade Finance'],
     [/credit|debt|lending|\bloans?\b/, 'Private Credit & Debt'],
     [/real estate|property|infrastructure|\breits?\b/, 'Real Estate & Infrastructure'],
-    [/trading|trader|hedge fund|quant|systematic|multi-strategy/, 'Hedge Funds & Trading'],
+    [/quantitative|\bquant\b|systematic/, 'Quantitative Research & Investing'],
+    [/sales trad|broker|execution trad|execution desk|\bexecution\b/, 'Sales Trading & Brokerage'],
+    [/trading|trader|hedge fund|multi-strategy|derivative|\boptions\b|\bfx\b|currenc|crypto|commodit/, 'Hedge Funds & Trading'],
     [/corporate development|corporate finance|m&a|mergers|investment bank|capital markets/, 'Investment Banking & Corporate Finance'],
-    [/wealth|private bank|client advisory|relationship manager|family office/, 'Wealth & Private Banking'],
+    [/wealth|private bank|client advisory|family office/, 'Wealth & Private Banking'],
+    [/commercial bank|corporate bank|retail bank|transaction bank|relationship manager|\bbanker\b|banking/, 'Corporate & Commercial Banking'],
     [/research|economist|strategist/, 'Research & Analysis'],
     [/fintech|platform|product|engineer|developer|\bdata\b|technology|digital|\bit\b/, 'Fintech & Technology'],
     [/business development|\bsales\b|distribution/, 'Sales & Business Development'],
     [/\bfinance\b|account|controller|\bcfo\b|financial report|fp&a/, 'Finance & Accounting'],
-    [/invest|portfolio|asset management|fund manager|analyst|associate/, 'Investments & Portfolio Management']
+    [/invest|portfolio|asset management|asset allocation|fund manag|\bcio\b|analyst|associate/, 'Investments & Portfolio Management']
   ];
 
   /** Finance function for the Careers Function filter, from the job's department and title ('' when none fits). */
