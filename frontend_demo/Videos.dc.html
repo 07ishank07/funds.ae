@@ -34,6 +34,27 @@
      (PodcastEpisode.dc.html). Thumbnails are CSS only (demo content; no images, players or embeds). The cards are
      drawn by js/fundsae-media.js. */
   .vp { max-width: 1288px; margin: 0 auto; padding: 32px 24px 64px; }
+  /* Banner advert at the top (example: a learning institute): a full-width photo with a dark fade from the left, a
+     Sponsored label, gold eyebrow and rule, a large white headline, one line of copy and a gold button. */
+  .ad-learning { position: relative; display: flex; align-items: center; min-height: 300px; margin-bottom: 24px; overflow: hidden; border-radius: 8px; background: #091C21; color: #FFFFFF; text-decoration: none; }
+  .ad-learning img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 50%; transition: transform 0.7s ease; }
+  .ad-learning::before { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, rgba(9, 28, 33, 0.96) 0%, rgba(9, 28, 33, 0.86) 36%, rgba(9, 28, 33, 0.3) 72%, rgba(9, 28, 33, 0.12) 100%); }
+  .ad-learning:hover img { transform: scale(1.03); }
+  .ad-learning:focus-visible { outline: 2px solid #C9A961; outline-offset: 3px; }
+  .ad-learning .ad-label { position: absolute; z-index: 2; top: 16px; right: 16px; padding: 3px 8px; border: 1px solid rgba(255, 255, 255, 0.55); border-radius: 2px; font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #FFFFFF; }
+  .ad-learning .ad-in { position: relative; z-index: 2; display: block; max-width: 580px; padding: 36px 40px; }
+  .ad-learning .ad-eb { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: #E6C982; }
+  .ad-learning .ad-title { display: block; margin-top: 10px; font-size: clamp(1.7rem, 3vw, 2.25rem); font-weight: 600; line-height: 1.1; letter-spacing: -0.02em; color: #FFFFFF; }
+  .ad-learning .ad-rule { display: block; width: 40px; height: 2px; margin: 16px 0 14px; background: #C9A961; }
+  .ad-learning .ad-sub { display: block; font-size: 15px; line-height: 1.55; color: rgba(241, 245, 244, 0.86); }
+  .ad-learning .ad-cta { display: inline-block; margin-top: 20px; padding: 11px 18px; border-radius: 2px; background: #C9A961; color: #091C21; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+  .ad-learning:hover .ad-cta { background: #E6C982; }
+  @media (max-width: 620px) {
+    .ad-learning { align-items: flex-end; min-height: 380px; }
+    .ad-learning::before { background: linear-gradient(180deg, rgba(9, 28, 33, 0.25) 0%, rgba(9, 28, 33, 0.7) 45%, rgba(9, 28, 33, 0.96) 100%); }
+    .ad-learning .ad-in { padding: 24px 20px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .ad-learning img { transition: none; } .ad-learning:hover img { transform: none; } }
   .vp-intro { padding-bottom: 18px; }
   .vp-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
   .vp-intro h1 { margin-top: 4px; font-size: clamp(1.75rem, 3.2vw, 2.25rem); font-weight: 600; line-height: 1.15; letter-spacing: -0.015em; }
@@ -155,12 +176,21 @@
   </div>
 </header>
 <main class="vp">
-  <div class="vp-intro">
-    <p class="vp-eyebrow">Watch and listen</p>
-    <h1>Videos &amp; Podcasts</h1>
-    <p>Videos, podcast episodes, interviews and event sessions on private capital in the UAE, the Gulf and beyond.</p>
-    <p class="vp-demo">Demo videos: titles and thumbnails are placeholders. The videos and audio are coming soon.</p>
-  </div>
+  <h1 class="fxh-sr">Videos &amp; Podcasts</h1>
+  <!-- Banner advert (example): a learning institute's executive education programme, on a full-width photo of a
+       library atrium (Unsplash, free licence; see img/CREDITS.md). Labelled as sponsored; it opens the Partner with us
+       packages, where this space is booked. No real university or institute is named. -->
+  <a class="ad-learning" href="PartnerWithUs.dc.html#packages" aria-label="Sponsored (demo): Master private markets, on your schedule. Advertise in this space">
+    <img src="img/ad-learning.jpg" alt="" width="1600" height="560">
+    <span class="ad-label">Sponsored · demo</span>
+    <span class="ad-in">
+      <span class="ad-eb">Executive education</span>
+      <span class="ad-title">Master private markets, on your schedule.</span>
+      <span class="ad-rule" aria-hidden="true"></span>
+      <span class="ad-sub">A part-time programme in private equity, private credit and fund management, taught in Dubai and online.</span>
+      <span class="ad-cta">Advertise in this space</span>
+    </span>
+  </a>
   <nav class="vp-tabs" aria-label="Videos and Podcasts sections">
     <button type="button" data-vp-tab="all" aria-pressed="true">All</button>
     <button type="button" data-vp-tab="videos" aria-pressed="false">Videos</button>

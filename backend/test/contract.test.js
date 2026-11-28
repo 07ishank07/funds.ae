@@ -704,8 +704,12 @@ test('Videos & Podcasts: a header link on every page and a video hub page of dum
   assert.deepEqual(tabs, [['all', 'All'], ['videos', 'Videos'], ['podcasts', 'Podcasts'], ['interviews', 'Interviews'], ['events', 'Events']], 'section tabs');
   assert.ok(page.includes('<div data-vp-library></div>') && page.includes('src="../js/fundsae-media.js"'), 'the library is drawn by the media script');
   assert.ok(!/vp-featured|vp-row|vp-card-big/.test(page), 'no oversized featured banner or scrolling rows');
-  assert.ok(page.includes('Demo videos:'), 'marked as demo content');
-  assert.ok(!/<img|<video|<iframe|url\(/.test(page.slice(page.indexOf('<main'), page.indexOf('</main>'))), 'no images, players or embeds (dummy thumbnails are CSS)');
+  // The top of the page is a banner advert (example: a learning institute), labelled sponsored, with a hidden page title.
+  assert.ok(page.includes('<h1 class="fxh-sr">Videos &amp; Podcasts</h1>') && !page.includes('class="vp-intro"') && !page.includes('Demo videos:'), 'no intro text, hidden page title');
+  assert.ok(/<a class="ad-learning" href="PartnerWithUs\.dc\.html#packages"[\s\S]*?<span class="ad-label">Sponsored · demo<\/span>[\s\S]*?<\/a>\s*<nav class="vp-tabs"/.test(page), 'banner advert above the tabs');
+  assert.ok(statSync(path.join(repo, 'frontend_demo', 'img', 'ad-learning.jpg')).size < 300 * 1024 && read('frontend_demo', 'img', 'CREDITS.md').includes('| `ad-learning.jpg` |'), 'advert photo is light and credited');
+  const vpMain = page.slice(page.indexOf('<main'), page.indexOf('</main>')).replace('<img src="img/ad-learning.jpg" alt="" width="1600" height="560">', '');
+  assert.ok(!/<img|<video|<iframe|url\(/.test(vpMain), 'no other images, players or embeds (dummy thumbnails are CSS)');
   const media = read('js', 'fundsae-media.js');
   for (const [id, title, description] of [['videos', 'Videos', 'News clips, interviews and documentaries.'], ['podcasts', 'Podcasts', 'Audio episodes, each with its own episode page.'],
     ['interviews', 'Interviews', 'CEOs, investors, developers and fund managers.'], ['events', 'Events', 'Conferences, panel discussions and webinars.']]) {
