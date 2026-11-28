@@ -549,6 +549,8 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.ok(/@media \(prefers-reduced-motion: reduce\) \{\s*\.partners-viewport/.test(wall), 'the wall stands still for reduced motion');
   assert.ok(!/innerHTML/.test(wallJs) && wallJs.includes("list.setAttribute('data-fundsae-slot', 'sponsor-companies');") && wallJs.includes("copy.setAttribute('aria-hidden', 'true');"), 'the script builds the wall with textContent and keeps the loop copy hidden');
   assert.ok(!careers.includes('Featured Partners strip: keeps an aria-hidden copy'), 'one loop script, shared');
+  // Careers sidebar boxes carry the site palette: teal Top Employers, sand Top Jobs, slate Career Resources.
+  for (const [box, tone] of [['.top-employers', '#1F6A6E'], ['.top-jobs', '#9A7135'], ['.resources-box', '#31556D']]) assert.ok(careers.includes(box + ' { --tone: ' + tone + ';'), box + ' colour');
   for (const page of ['Careers.dc.html', 'Events.dc.html', 'Videos.dc.html']) {
     const html = read(page);
     assert.ok(html.includes('<link rel="stylesheet" href="partners-wall.css?v=1">'), `${page} loads partners-wall.css`);
