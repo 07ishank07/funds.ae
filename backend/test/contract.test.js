@@ -506,6 +506,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.ok(!careers.includes('<option value="featured">Featured first</option>') && careers.includes('<option value="newest">Newest</option>'), 'no Featured first sort');
   assert.ok(rolesJs.includes("row.setAttribute('data-country', countryOf(job.location));") && rolesJs.includes("[/riyadh/, 'Riyadh', 'SA']"), 'roles are tagged with their Gulf country and city');
   assert.ok(careers.includes("badge.className = 'role-logo'"), 'job cards carry a dummy employer logo');
+  assert.ok(careers.includes('  var PER_PAGE = 20, TOTAL = 120;'), 'the job list shows 20 roles per page');
   // Job cards: accent line, then location, salary and job type rows with outline icons; the connector fills each row.
   assert.ok(careers.includes("accent.className = 'role-accent';") && careers.includes("facts.className = 'role-facts';") &&
     careers.includes("factRow(facts, 'location', where);") && careers.includes("factRow(facts, 'salary', salary);") && careers.includes("factRow(facts, 'type', type);"), 'job cards have the fact rows');

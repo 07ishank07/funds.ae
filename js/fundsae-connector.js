@@ -24,7 +24,7 @@
   }
 
   var LIMITS = { newsPerRegion: 15, newsMore: 35, headline: 92, tileHeadline: 110, tiles: 15, eventsPerList: 10, eventsMax: 100, topJobs: 20 };
-  var ROLES_DEMO_TOTAL = 120; // Careers page, demo mode: live roles are topped up with dummy roles to this many (3 pages of PER_PAGE = 40 in Careers.dc.html)
+  var ROLES_DEMO_TOTAL = 120; // Careers page, demo mode: live roles are topped up with dummy roles to this many (6 pages of PER_PAGE = 20 in Careers.dc.html)
   var TILES_SHOWN = 12; // Residential, Commercial Real Estate, Infrastructure and Special & Alternative boxes
   // Home news tabs, each in the API's order: UAE Stories (key "News"), GCC Stories ("GCC": the other five GCC states,
   // no UAE) and International Stories ("Global": no GCC country). regionOf() puts every story in exactly one tab.

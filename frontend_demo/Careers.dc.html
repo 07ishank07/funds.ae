@@ -201,7 +201,7 @@
   /* One typeface across the site: Jost, as on the home page. Replaces the serif headlines and monospace labels.
      Sizes, weights and caps styling are unchanged. Skipped in Arabic mode, where i18n.js sets its own font. */
   html:not([lang="ar"]) body *:not(svg):not(svg *) { font-family: 'Jost', 'Futura', 'Century Gothic', sans-serif !important; }
-  /* Current Opportunities: compact two-column job cards, 40 per page */
+  /* Current Opportunities: compact two-column job cards, 20 per page */
   .opportunities .roles {
     margin-top: 16px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;
     border: 0; border-radius: 0; background: transparent; overflow: visible;
@@ -785,12 +785,12 @@
   </div>
 </footer>
 <script>
-/* Job list pager: 40 roles per page. Until live data arrives it shows 120 placeholder roles (three pages).
+/* Job list pager: 20 roles per page. Until live data arrives it shows 120 placeholder roles (six pages).
    js/fundsae-connector.js replaces the rows with roles from the API and calls
    window.__fundsPaginateRoles(focusId) again. Rows marked data-fundsae-filtered
    (the employer filter, or the job search box below) are left out of the pages. */
 (function () {
-  var PER_PAGE = 40, TOTAL = 120;
+  var PER_PAGE = 20, TOTAL = 120;
   var list = document.querySelector('.roles');
   var pager = document.getElementById('job-pager');
   if (!list || !pager) return;
