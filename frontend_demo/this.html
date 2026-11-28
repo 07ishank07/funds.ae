@@ -920,19 +920,22 @@ document.addEventListener('DOMContentLoaded', async function() {
           document.querySelectorAll('[data-more-news-region]').forEach((link) => {
             link.style.display = link.dataset.moreNewsRegion === region ? 'inline-block' : 'none';
           });
-          // Residential Estate News stays under UAE and GCC Stories, but not under International Stories. Queried each call (not closed over) because the box is
+          // Residential, Commercial and Alternative Real Estate News show under UAE Stories only (not GCC or International Stories). Queried each call (not closed over) because the box is
           // created later, further down this same script.
           // Commercial and Alternative Real Estate News follow the same rule.
           ['Residential Estate News', 'Commercial Real Estate News', 'Alternative Real Estate News'].forEach((label) => {
             const tileBox = document.querySelector('.news > section[aria-label="' + label + '"]');
             if (!tileBox) return;
-            const show = region !== 'Global';
+            const show = region === 'News';
             // 'grid', not '': the box's own inline style sets display:grid (for the tile
             // columns), so clearing it back to '' would fall through to the browser default
             // (block), stacking every tile in one column instead of three.
             tileBox.style.display = show ? 'grid' : 'none';
             const heading = tileBox.previousElementSibling;
             if (heading && heading.tagName === 'H2') heading.style.display = show ? '' : 'none';
+            // Its View All link goes with it.
+            const viewAll = tileBox.nextElementSibling;
+            if (viewAll && viewAll.classList.contains('fx-view-all')) viewAll.style.display = show ? '' : 'none';
           });
         };
         const limitNewsTabs = () => {

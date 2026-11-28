@@ -361,6 +361,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   // Home news tabs: the page script and the connector agree on the names; Global Stories is the world category.
   const connector = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
   assert.ok(home.includes("const REGION_NAMES = ['News', 'GCC', 'Global'];") && home.includes("const REGION_LABELS = { News: 'UAE Stories', GCC: 'GCC Stories', Global: 'International Stories' };"), 'home tabs are UAE, GCC and International Stories');
+  assert.ok(home.includes("const show = region === 'News';") && home.includes("if (viewAll && viewAll.classList.contains('fx-view-all')) viewAll.style.display = show ? '' : 'none';"), 'real estate boxes (and their View All) under UAE Stories only');
   assert.ok(home.includes('data-more-news-region="GCC"') && home.includes("gccStories.forEach(([title, source]) => dummyStories.push(['GCC', title, source]));"), 'GCC tab has its View All and demo stories');
   assert.ok(home.includes("News: 'UAE Stories'"), 'News tab is labelled UAE Stories');
   assert.ok(home.includes('<h2 id="platinum-sponsors-title">Spotlight</h2>') && home.includes("url('img/partners/${id}.png')"), 'Spotlight box with dummy pictures');
