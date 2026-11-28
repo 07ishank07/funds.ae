@@ -244,6 +244,7 @@
     // Partner with us page: Elite Exclusive Partner advert
     'Elite Exclusive Partner': 'الشريك الحصري المميز',
     'One partner only': 'شريك واحد فقط',
+    'Exclusive Partnership': 'شراكة حصرية',
     'Become an Elite Exclusive Partner': 'كن الشريك الحصري المميز',
     'The key sponsor and partner for Funds.ae.': 'الراعي والشريك الرئيسي لـ Funds.ae.',
     'Your firm in the Elite Founding Sponsor banner, under the masthead on the News, story, About, Contact, Post a Job and policy pages': 'شركتك في شريط الراعي المؤسس المميز أسفل الترويسة في صفحات الأخبار والقصص ومن نحن واتصل بنا وأعلن عن وظيفة والسياسات',
