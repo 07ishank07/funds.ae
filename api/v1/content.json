@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-11-28T09:03:20.432Z",
+  "generatedAt": "2026-11-28T09:28:51.847Z",
   "notice": "Editorial content written by the Funds.ae team. Top Tweets items link to the original posts.",
   "slots": {
     "socialHighlights": [],
@@ -18,21 +18,29 @@
           {
             "type": "sponsoredPosts",
             "label": "Sponsored Posts",
-            "detail": "Two sponsored posts a month"
+            "detail": "Two sponsored posts a month on the home page, rotating"
+          },
+          {
+            "type": "videos",
+            "label": "Videos and Podcasts",
+            "detail": "Two featured listings in Videos and Podcasts"
           },
           {
             "type": "events",
             "label": "Events and Expos",
-            "detail": "A featured listing in Industry Events"
+            "detail": "Two featured listings a month in Industry Events"
+          },
+          {
+            "type": "tweets",
+            "label": "Top Tweets (X posts)",
+            "detail": "One of your tweets in Top Tweets on the home page, rotating"
           }
         ],
         "features": [
-          "Your logo in the Partners strip on the home, Careers, Industry Events and Watch & Learn pages",
-          "A picture tile in \"Gold Partners\" on the home page",
-          "A listing in Top hiring companies and Career Resources on the Careers page",
-          "5 job posts a month, 1 pinned in Top Jobs",
-          "Monthly performance report",
-          "Limited to 10 partners"
+          "Home page: a Featured Partner link to your firm",
+          "Careers page: a listing in Top hiring companies",
+          "Careers page: a link in Career Resources",
+          "Careers page: 10 job posts a month, 1 pinned in Top Jobs"
         ],
         "ctaLabel": null,
         "ctaUrl": null,

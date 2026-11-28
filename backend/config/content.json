@@ -18,17 +18,17 @@
         {
           "placement": "sponsoredPosts",
           "enabled": true,
-          "detail": "Two sponsored posts a month"
+          "detail": "Two sponsored posts a month on the home page, rotating"
         },
         {
           "placement": "videos",
-          "enabled": false,
-          "detail": "Not included"
+          "enabled": true,
+          "detail": "Two featured listings in Videos and Podcasts"
         },
         {
           "placement": "events",
           "enabled": true,
-          "detail": "A featured listing in Industry Events"
+          "detail": "Two featured listings a month in Industry Events"
         },
         {
           "placement": "influencers",
@@ -37,17 +37,15 @@
         },
         {
           "placement": "tweets",
-          "enabled": false,
-          "detail": "Not included"
+          "enabled": true,
+          "detail": "One of your tweets in Top Tweets on the home page, rotating"
         }
       ],
       "features": [
-        "Your logo in the Partners strip on the home, Careers, Industry Events and Watch & Learn pages",
-        "A picture tile in \"Gold Partners\" on the home page",
-        "A listing in Top hiring companies and Career Resources on the Careers page",
-        "5 job posts a month, 1 pinned in Top Jobs",
-        "Monthly performance report",
-        "Limited to 10 partners"
+        "Home page: a Featured Partner link to your firm",
+        "Careers page: a listing in Top hiring companies",
+        "Careers page: a link in Career Resources",
+        "Careers page: 10 job posts a month, 1 pinned in Top Jobs"
       ],
       "featured": true
     },
