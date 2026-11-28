@@ -473,7 +473,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   // The Finance Careers banner (as on the home page) tops the page; its heading is the page h1. No Demo data badge.
   assert.match(careers, /<h1 id="careers-banner-title" class="fx-cb-title">Your next move in finance<\/h1>/);
   assert.ok(careers.includes('href="careers-banner.css?v=2"') && careers.includes('<img class="fx-cb-photo" src="img/careers-banner.jpg" alt="">'), 'Careers shows the banner');
-  assert.ok(careers.includes('<a class="fx-cb-btn" href="#opportunities">View finance jobs</a>') && careers.includes('id="opportunities"'), 'View finance jobs jumps to the listings');
+  assert.ok(!careers.includes('View finance jobs') && careers.includes('<a class="fx-cb-btn fx-cb-btn--ghost post-job-btn" href="PostJob.dc.html">Post a job</a>'), 'the Careers banner keeps only Post a job');
   assert.ok(!careers.includes('Financial Services Jobs') && careers.indexOf('fx-careers-top') < careers.indexOf('id="opportunities"'), 'banner replaces the old heading, above the listings');
   // Grants & Funding banner (the Grants page hero: photo, label, headline) in column 2, directly above Career Resources;
   // the home page shows the same card in column 2, directly above Sponsored Posts. Both use grants-promo.css.
