@@ -434,7 +434,8 @@
       fillList(box, ':scope > article', stories, function (art, story, i) {
         var tag = art.querySelector('[role="img"], [data-fundsae-tag]');
         if (tag) {
-          tag.textContent = String(story.topicLabel || '').toUpperCase();
+          // The tile's picture (a licensed photo on the home page) carries no text: the headline sits underneath.
+          tag.textContent = '';
           tag.removeAttribute('role');
           tag.setAttribute('aria-hidden', 'true');
           tag.setAttribute('data-fundsae-tag', '');

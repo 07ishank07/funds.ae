@@ -281,6 +281,16 @@ test('Real Estate News: one landing page with three parallel columns, opened by 
   assert.ok(home.includes("addTileSection('Alternative Real Estate News', [") &&
     home.includes(`tag(document.querySelector('.news > section[aria-label="Alternative Real Estate News"]'), 'tiles-alternative-real-estate');`), 'one Alternative Real Estate News box');
   assert.ok(!/Infrastructure Real Estate News|Special &(amp;)? Alternative Real Estate News/.test(home), 'the two old boxes are gone');
+  // Every tile of the three boxes has its own licensed photo (img/re/, credited, light), with no label text on it.
+  const rePhotos = readdirSync(path.join(repo, 'frontend_demo', 'img', 're')).filter((f) => f.endsWith('.jpg'));
+  assert.equal(rePhotos.length, 36, 'twelve photos per box');
+  const reCredits = readFileSync(path.join(repo, 'frontend_demo', 'img', 'CREDITS.md'), 'utf8');
+  for (const f of rePhotos) {
+    assert.ok(home.includes(`'${f.replace(/\.jpg$/, '')}'`), `${f} is used on the home page`);
+    assert.ok(reCredits.includes(`| \`re/${f}\` |`), `${f} is credited`);
+    assert.ok(statSync(path.join(repo, 'frontend_demo', 'img', 're', f)).size < 150 * 1024, `${f} under 150 KB`);
+  }
+  assert.ok(home.includes("image.textContent = '';") && readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8').includes("tag.textContent = '';"), 'no label text on the tile photos');
   const tilesJs = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
   assert.ok(tilesJs.includes("var ALTERNATIVE_SECTIONS = ['special-alternative-real-estate', 'infrastructure'];") &&
     tilesJs.includes("renderTiles('tiles-alternative-real-estate', uaeOnly(mergeStoryDocs(docs)), TILES_SHOWN)"), 'the box merges both sections');

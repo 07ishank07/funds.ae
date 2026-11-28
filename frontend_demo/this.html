@@ -1352,6 +1352,29 @@ document.addEventListener('DOMContentLoaded', async function() {
       });
     }
 
+    // Real estate tile photos: every tile of the Residential, Commercial and Alternative boxes shows a licensed Unsplash
+    // photo (img/re/, credited in img/CREDITS.md) matching its topic, with no label text on the image; only the headline
+    // and source line sit underneath. js/fundsae-connector.js keeps each tile's photo, by position, for live stories.
+    {
+      const RE_PHOTOS = {
+        'Residential Estate News': ['res-01-dubai-skyline', 'res-02-abu-dhabi-homes', 'res-03-uae-property', 'res-04-sharjah-homes', 'res-05-waterfront', 'res-06-villas', 'res-07-rak-resorts', 'res-08-build-to-rent', 'res-09-off-plan', 'res-10-affordable-homes', 'res-11-mortgages', 'res-12-townhouses'],
+        'Commercial Real Estate News': ['com-01-offices', 'com-02-logistics', 'com-03-retail', 'com-04-reits', 'com-05-hotels', 'com-06-industrial', 'com-07-business-parks', 'com-08-warehousing', 'com-09-flexible-offices', 'com-10-mixed-use', 'com-11-free-zones', 'com-12-cre-debt'],
+        'Alternative Real Estate News': ['alt-01-data-centres', 'alt-02-student-housing', 'alt-03-ports', 'alt-04-healthcare', 'alt-05-infra-funds', 'alt-06-self-storage', 'alt-07-renewables', 'alt-08-senior-living', 'alt-09-utilities', 'alt-10-life-sciences', 'alt-11-rail', 'alt-12-co-living']
+      };
+      Object.entries(RE_PHOTOS).forEach(([label, photos]) => {
+        document.querySelectorAll('.news > section[aria-label="' + label + '"] > article').forEach((article, i) => {
+          const image = article.querySelector('[role="img"], [data-fundsae-tag]');
+          if (!image || !photos[i]) return;
+          image.textContent = '';
+          image.removeAttribute('role');
+          image.removeAttribute('aria-label');
+          image.setAttribute('aria-hidden', 'true');
+          image.setAttribute('data-fundsae-tag', '');
+          image.style.background = "#DCE7E6 url('img/re/" + photos[i] + ".jpg') center / cover no-repeat";
+        });
+      });
+    }
+
     // "View All" link at the bottom of the list-style boxes. News-column blocks get it just below the box,
     // because their boxes are grids and an extra child would become a grid cell.
     {
