@@ -353,6 +353,28 @@
      slate for Career Resources; mint washes on the filters, job tags and page background. ---- */
   body { background: linear-gradient(180deg, #EEF6F5 0, var(--wash) 420px) no-repeat, var(--wash); }
   .top-employers { --tone: #1F6A6E; --tone-soft: #E3F1F0; --tint: #F1F8F7; }
+  /* Jobs by location: six country cards, two across, each a flag beside the name and the number of roles. */
+  .jobs-by-location {
+    --tone: #2F8A8C; --tone-soft: #E1F2F2; --tint: #F3FAFA;
+    padding: 20px 20px 18px; border: 1px solid var(--line-2); border-top: 3px solid var(--tone); border-radius: var(--r);
+    background: linear-gradient(180deg, var(--tone-soft) 0, var(--tint) 110px); box-shadow: var(--shadow);
+  }
+  .jobs-by-location h2 { display: flex; align-items: center; gap: 9px; font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--tone); }
+  .jobs-by-location h2::before { content: ""; flex: 0 0 auto; width: 8px; height: 8px; border-radius: 2px; background: var(--tone); transform: rotate(45deg); }
+  .jbl-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+  .jbl-card {
+    display: flex; align-items: center; gap: 12px; min-width: 0; padding: 12px; border: 1px solid var(--line-2); border-radius: 10px;
+    background: #FFFFFF; color: var(--ink); text-decoration: none; transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+  }
+  .jbl-card:hover { border-color: #9FD0D0; box-shadow: var(--shadow); transform: translateY(-1px); }
+  .jbl-card[aria-current="true"] { border-color: var(--tone); box-shadow: 0 0 0 2px rgba(47, 138, 140, 0.22); }
+  .jbl-flag { flex: 0 0 36px; width: 36px; height: 24px; border-radius: 3px; box-shadow: 0 0 0 1px rgba(14, 58, 67, 0.14); }
+  .jbl-text { min-width: 0; }
+  .jbl-name { display: block; font-size: 14.5px; font-weight: 600; line-height: 1.2; color: #1F6A6E; }
+  .jbl-count { display: block; margin-top: 2px; font-size: 12.5px; line-height: 1.2; color: var(--muted); }
+  .jbl-count:empty { display: none; }
+  @media (max-width: 860px) and (min-width: 521px) { .jbl-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (prefers-reduced-motion: reduce) { .jbl-card { transition: none; } .jbl-card:hover { transform: none; } }
   .top-jobs { --tone: #9A7135; --tone-soft: #F4EADB; --tint: #FBF6EE; }
   .resources-box { --tone: #31556D; --tone-soft: #E4ECF2; --tint: #F3F6F9; }
   .top-employers, .top-jobs, .resources-box {
@@ -596,6 +618,20 @@
 </main>
 
 <aside>
+  <!-- Jobs by location: the six GCC countries with their flags (simplified, drawn inline) and the number of open roles.
+       A click filters Current Opportunities to that country (the Location menu's "country:XX"); a second click clears
+       it. The counts are filled by the filters script at the foot of the page once the roles are on the page. -->
+  <section class="jobs-by-location" aria-labelledby="jobs-location-title">
+    <h2 id="jobs-location-title">Jobs by location</h2>
+    <div class="jbl-grid">
+    <a class="jbl-card" href="#opportunities" data-jbl-country="AE"><svg class="jbl-flag" viewBox="0 0 36 24" aria-hidden="true"><rect width="36" height="8" fill="#00732F"/><rect y="8" width="36" height="8" fill="#FFFFFF"/><rect y="16" width="36" height="8" fill="#000000"/><rect width="9" height="24" fill="#FF0000"/></svg><span class="jbl-text"><span class="jbl-name">UAE</span><span class="jbl-count" data-jbl-count></span></span></a>
+    <a class="jbl-card" href="#opportunities" data-jbl-country="SA"><svg class="jbl-flag" viewBox="0 0 36 24" aria-hidden="true"><rect width="36" height="24" fill="#006C35"/><path d="M10 9.5c1.6-1.6 3.2 1.6 4.8 0s3.2 1.6 4.8 0 3.2 1.6 4.8 0 1.6.8 1.6 0" fill="none" stroke="#FFFFFF" stroke-width="1.3" stroke-linecap="round"/><path d="M10 15.5h15.5l1.5-1" fill="none" stroke="#FFFFFF" stroke-width="1.2" stroke-linecap="round"/></svg><span class="jbl-text"><span class="jbl-name">Saudi Arabia</span><span class="jbl-count" data-jbl-count></span></span></a>
+    <a class="jbl-card" href="#opportunities" data-jbl-country="QA"><svg class="jbl-flag" viewBox="0 0 36 24" aria-hidden="true"><rect width="36" height="24" fill="#8A1538"/><polygon points="0,0 9,0 13,1.33 9,2.67 13,4 9,5.33 13,6.67 9,8 13,9.33 9,10.67 13,12 9,13.33 13,14.67 9,16 13,17.33 9,18.67 13,20 9,21.33 13,22.67 9,24 0,24" fill="#FFFFFF"/></svg><span class="jbl-text"><span class="jbl-name">Qatar</span><span class="jbl-count" data-jbl-count></span></span></a>
+    <a class="jbl-card" href="#opportunities" data-jbl-country="KW"><svg class="jbl-flag" viewBox="0 0 36 24" aria-hidden="true"><rect width="36" height="8" fill="#007A3D"/><rect y="8" width="36" height="8" fill="#FFFFFF"/><rect y="16" width="36" height="8" fill="#CE1126"/><polygon points="0,0 9,8 9,16 0,24" fill="#000000"/></svg><span class="jbl-text"><span class="jbl-name">Kuwait</span><span class="jbl-count" data-jbl-count></span></span></a>
+    <a class="jbl-card" href="#opportunities" data-jbl-country="BH"><svg class="jbl-flag" viewBox="0 0 36 24" aria-hidden="true"><rect width="36" height="24" fill="#CE1126"/><polygon points="0,0 8,0 12,2.4 8,4.8 12,7.2 8,9.6 12,12 8,14.4 12,16.8 8,19.2 12,21.6 8,24 0,24" fill="#FFFFFF"/></svg><span class="jbl-text"><span class="jbl-name">Bahrain</span><span class="jbl-count" data-jbl-count></span></span></a>
+    <a class="jbl-card" href="#opportunities" data-jbl-country="OM"><svg class="jbl-flag" viewBox="0 0 36 24" aria-hidden="true"><rect width="36" height="24" fill="#DB161B"/><rect x="10" width="26" height="8" fill="#FFFFFF"/><rect x="10" y="16" width="26" height="8" fill="#008000"/></svg><span class="jbl-text"><span class="jbl-name">Oman</span><span class="jbl-count" data-jbl-count></span></span></a>
+    </div>
+  </section>
   <!-- Top Employers: ranked like Top Jobs (featured employers first, then most open roles). Each row opens this page
        filtered to that employer's roles (?employer=, handled by js/fundsae-connector.js), which fills the list from employers.json. -->
   <section class="top-employers" aria-labelledby="top-employers-title">
@@ -878,6 +914,22 @@
   if (!list) return;
 
   var employerId = new URLSearchParams(location.search).get('employer');
+  // Jobs by location (column 2): one card per GCC country.
+  var locationCards = Array.prototype.slice.call(document.querySelectorAll('[data-jbl-country]'));
+
+  /** Puts each country's number of roles on its card (when given) and marks the country the list is filtered to. */
+  function syncLocationCards(byCountry) {
+    locationCards.forEach(function (card) {
+      var code = card.getAttribute('data-jbl-country');
+      if (byCountry) {
+        var n = byCountry[code] || 0;
+        card.querySelector('[data-jbl-count]').textContent = '(' + n + ')';
+        card.setAttribute('aria-label', card.querySelector('.jbl-name').textContent + ': ' + n + (n === 1 ? ' job' : ' jobs'));
+      }
+      if (selects.city && selects.city.value === 'country:' + code) card.setAttribute('aria-current', 'true');
+      else card.removeAttribute('aria-current');
+    });
+  }
 
   function roles() { return Array.prototype.slice.call(list.querySelectorAll(':scope > .role')); }
 
@@ -920,6 +972,7 @@
     status.textContent = narrowed
       ? (matches ? matches + ' of ' + rows.length + (rows.length === 1 ? ' role' : ' roles') + ' match your filters.' : 'No roles match your filters.')
       : (bar && !bar.hidden ? rows.length + (rows.length === 1 ? ' role' : ' roles') : '');
+    syncLocationCards();
     if (typeof window.__fundsPaginateRoles === 'function') window.__fundsPaginateRoles();
   }
 
@@ -960,6 +1013,7 @@
     sel.appendChild(remote);
     sel.value = keep;
     if (sel.value !== keep) sel.value = '';
+    syncLocationCards(byCountry);
   }
 
   /* Fill the menus: Location from the fixed Gulf list, Function from the roles, keeping any current choice. */
@@ -990,6 +1044,18 @@
   };
 
   Object.keys(selects).forEach(function (k) { if (selects[k]) selects[k].addEventListener('change', apply); });
+  // A country card filters the list to that country (a second click clears it), then shows the list. Until the
+  // menus are ready the card is a plain link to the list.
+  locationCards.forEach(function (card) {
+    card.addEventListener('click', function (event) {
+      if (!selects.city || !bar || bar.hidden) return;
+      event.preventDefault();
+      var value = 'country:' + card.getAttribute('data-jbl-country');
+      selects.city.value = selects.city.value === value ? '' : value;
+      apply();
+      document.getElementById('opportunities').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
   if (sortSel) sortSel.addEventListener('change', function () { sortRows(); apply(); });
   if (resetBtn) resetBtn.addEventListener('click', function () {
     Object.keys(selects).forEach(function (k) { if (selects[k]) selects[k].value = ''; });

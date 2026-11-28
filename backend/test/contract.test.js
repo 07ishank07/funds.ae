@@ -517,8 +517,8 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.ok(!careers.includes('employer-grid') && !careers.includes('Featured Employers'), 'Careers has no Featured Employers grid');
   assert.match(careers, /<aside>[\s\S]*<section class="top-employers"[\s\S]*?<ol class="top-jobs-list top-employers-list" data-fundsae-slot="employers">[\s\S]*<\/aside>/);
   assert.match(careers, /<li><a href="\?employer=emp_[a-f0-9]{16}#opportunities-title"><span class="tj-rank">1<\/span>/);
-  // No Exclusive Elite Sponsor box: column 2 starts with Top Employers.
-  assert.match(careers, /<aside>\s*<!-- Top Employers:/);
+  // No Exclusive Elite Sponsor box: column 2 starts with Jobs by location, then Top Employers.
+  assert.match(careers, /<aside>\s*<!-- Jobs by location:[\s\S]*?<\/section>\s*<!-- Top Employers:/);
   assert.ok(careers.includes('html[data-fundsae-connected="live"] [data-demo-only] { display: none !important; }'), 'demo-only content is hidden in live mode');
   // The Spotlight box is on the home page only; the gold slot is not shown anywhere.
   assert.ok(!careers.includes('data-fundsae-slot="sponsor-platinum"') && !careers.includes('data-fundsae-slot="sponsor-gold"'), 'Careers has no Spotlight or Gold Sponsors box');
@@ -559,6 +559,11 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.ok(/@media \(prefers-reduced-motion: reduce\) \{\s*\.partners-viewport/.test(wall), 'the wall stands still for reduced motion');
   assert.ok(!/innerHTML/.test(wallJs) && wallJs.includes("list.setAttribute('data-fundsae-slot', 'sponsor-companies');") && wallJs.includes("copy.setAttribute('aria-hidden', 'true');"), 'the script builds the wall with textContent and keeps the loop copy hidden');
   assert.ok(!careers.includes('Featured Partners strip: keeps an aria-hidden copy'), 'one loop script, shared');
+  // Jobs by location: first in column 2, one flag card per GCC country, each filtering the list to its country.
+  const jbl = careers.slice(careers.indexOf('<aside>'), careers.indexOf('class="top-employers"'));
+  assert.ok(jbl.includes('<h2 id="jobs-location-title">Jobs by location</h2>'), 'Jobs by location tops column 2');
+  assert.deepEqual([...jbl.matchAll(/data-jbl-country="([A-Z]{2})"><svg class="jbl-flag"/g)].map((m) => m[1]), ['AE', 'SA', 'QA', 'KW', 'BH', 'OM'], 'the six GCC countries, with flags');
+  assert.ok(careers.includes("var value = 'country:' + card.getAttribute('data-jbl-country');") && careers.includes('syncLocationCards(byCountry);'), 'cards filter by country and show the counts');
   // Careers sidebar boxes carry the site palette: teal Top Employers, sand Top Jobs, slate Career Resources.
   for (const [box, tone] of [['.top-employers', '#1F6A6E'], ['.top-jobs', '#9A7135'], ['.resources-box', '#31556D']]) assert.ok(careers.includes(box + ' { --tone: ' + tone + ';'), box + ' colour');
   for (const page of ['Careers.dc.html', 'Events.dc.html', 'Videos.dc.html']) {
