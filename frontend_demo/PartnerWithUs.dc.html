@@ -102,7 +102,7 @@
   .tier ul.placements:has(+ ul.features:not([hidden])) { flex: none; }
   .tier li > span { display: block; min-width: 0; }
   /* The card's lead-in line ("Everything in Gold Partner, plus:"), above its benefits. */
-  .tier .tier-lead { margin: 18px 0 -6px; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+  .tier .tier-lead { margin: 18px 0 -6px; font-size: 12px; font-weight: 600; line-height: 1.7; letter-spacing: 0.12em; text-transform: uppercase; white-space: pre-line; color: var(--accent); }
   .tier.exclusive .tier-lead { color: var(--mint); }
   .tier li strong { display: block; font-weight: 600; }
   .tier li .detail { display: block; margin-top: 1px; font-size: 14px; color: var(--muted); }
@@ -352,7 +352,8 @@
         <h2>Exclusive Partner</h2>
         <div class="price">AED 35,000 <small>/ month</small></div>
         <p class="duration" hidden></p>
-        <p class="tier-lead">Selective partnership for:</p>
+        <p class="tier-lead">Everything in Elite Partner, plus:
+Selective partnership for:</p>
         <ul class="placements" hidden></ul>
         <ul class="features">
           <li><span><strong>Category exclusivity</strong><span class="detail">The only partner in your category</span></span></li>

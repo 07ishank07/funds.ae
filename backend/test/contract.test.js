@@ -642,7 +642,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.equal(advertise.split('<small>/ month</small>').length - 1, 3, 'every price reads per month, with no billing terms');
   for (const price of ['AED 9,000', 'AED 15,000', 'AED 35,000']) assert.ok(advertise.includes('<div class="price">' + price + ' <small>/ month</small></div>'), price);
   assert.ok(advertise.includes('<span class="badge">Exclusive Partnership</span>') && !advertise.includes('One partner only'), 'Exclusive Partner badge');
-  assert.ok(exclusiveCard.includes('<ul class="placements" hidden></ul>') && exclusiveCard.includes('<p class="tier-lead">Selective partnership for:</p>'), 'Exclusive Partner lead-in, no placement lines');
+  assert.ok(exclusiveCard.includes('<ul class="placements" hidden></ul>') && /<p class="tier-lead">Everything in Elite Partner, plus:\r?\nSelective partnership for:<\/p>/.test(exclusiveCard), 'Exclusive Partner lead-in, no placement lines');
   for (const [h, d] of [['Category exclusivity', 'The only partner in your category'], ['Home page banner', 'Your brand in the banner on the home page'],
     ['Business growth', 'A strategic business growth partnership'], ['Consulting', 'A consulting-based solution'], ['Monthly review', 'A meeting each month to review and adjust the approach']]) {
     assert.ok(exclusiveCard.includes(benefit(h, d)), `Exclusive Partner: ${h}`);

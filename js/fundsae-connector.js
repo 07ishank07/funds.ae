@@ -936,13 +936,15 @@
   }
 
   /** Partner with us package benefits. "Heading: description" becomes a dark heading over the description (like the
-   *  placement lines); other lines show as written. Returns the lead-in line ("Everything in Gold Partner, plus:"), a
-   *  first line ending in ":", which the card shows above its benefits ('' when none). */
+   *  placement lines); other lines show as written. Returns the lead-in ("Everything in Gold Partner, plus:"): the first
+   *  lines that end in ":", one per line, which the card shows above its benefits ('' when none). */
   function fillBenefits(ul, lines) {
-    var lead = lines.length && /:\s*$/.test(lines[0]) ? lines[0] : '';
+    var leads = [];
+    while (leads.length < lines.length && /:\s*$/.test(lines[leads.length])) leads.push(lines[leads.length]);
+    var lead = leads.join('\n');
     if (!ul) return lead;
     ul.textContent = '';
-    lines.slice(lead ? 1 : 0).forEach(function (line) {
+    lines.slice(leads.length).forEach(function (line) {
       var li = document.createElement('li');
       var cut = line.indexOf(': ');
       if (cut > 0) {
