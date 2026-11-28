@@ -556,6 +556,8 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   // The Exclusive Elite Sponsor box is gone from Careers (and Events), the connector no longer fills it and the
   // Elite package no longer promises it.
   const events = read('Events.dc.html');
+  // Industry Events carries the Partner with us page's exclusive look: deep teal-black, gold accents, a gold eyebrow.
+  assert.ok(events.includes('  body { background: #091C21; }') && events.includes('--gold: #C9A961;') && events.includes('<p class="eyebrow">Industry Events</p>'), 'Events uses the Partner page look');
   assert.ok(!/elite-sponsor|sponsor-elite-exclusive/.test(careers), 'Careers has no Exclusive Elite Sponsor box');
   assert.ok(!/elite-sponsor|sponsor-elite-exclusive/.test(events), 'Events has no Exclusive Elite Sponsor box');
   assert.ok(!read('PartnerWithUs.dc.html').includes('Exclusive Elite Sponsor box') &&

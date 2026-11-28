@@ -85,10 +85,48 @@
   .submit-forms input { width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 3px; font: inherit; font-size: 14px; color: var(--ink); background: var(--surface); }
   .submit-forms .submit-btn { width: 100%; height: 40px; padding: 0 18px; border: 0; border-radius: 3px; background: var(--ink); color: #F1F5F4; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
   .submit-forms .submit-btn:hover { background: var(--accent); }
+  /* ---- Exclusive brand look, the same as the Partner with us page: the page sits on a deep teal-black, with gold
+     eyebrows, hairlines, dates and buttons, white headings and soft grey-teal text. The header and footer keep the
+     site's light look. ---- */
+  body { background: #091C21; }
+  .page {
+    --gold: #C9A961; --gold-2: #E6C982; --lux-panel: #0E262C; --lux-line: rgba(230, 201, 130, 0.18);
+    --lux-text: #F1F5F4; --lux-muted: #9DB7B6; --lux-ink: #091C21;
+    color: var(--lux-text);
+  }
+  .page a:focus-visible, .page button:focus-visible, .page input:focus-visible, .page summary:focus-visible { outline-color: var(--gold); }
+  .intro .eyebrow { margin: 0; max-width: none; font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-2); }
+  .intro h1 { margin-top: 10px; color: #FFFFFF; }
+  .intro p:not(.eyebrow) { color: var(--lux-muted); }
+  /* Upcoming events: one dark panel with a gold top rule; dates in gold, event names in white. */
+  .events { padding: 22px 24px 8px; border: 1px solid var(--lux-line); border-top: 2px solid var(--gold); border-radius: 6px; background: var(--lux-panel); }
+  .events h2 { color: var(--gold-2); }
+  .events-headings { border-bottom-color: var(--lux-line); color: var(--lux-muted); }
+  .events-list li { border-bottom-color: rgba(230, 201, 130, 0.1); }
+  .events-list li:last-child { border-bottom: 0; }
+  .events-list .day { color: var(--gold-2); }
+  .events-list .month, .events-list .event-type, .events-list .city { color: var(--lux-muted); }
+  .events-list .event-title { color: #FFFFFF; }
+  .events-list a.event-title[href]:hover { color: var(--gold-2); }
+  /* Column 2: the careers card and the Submit your event form as dark panels. */
+  aside { border-left-color: var(--lux-line); }
+  aside .fx-careers-banner { border: 1px solid var(--lux-line); border-radius: 6px; }
+  aside .fx-careers-banner .fx-cb-eyebrow { color: var(--gold-2); }
+  aside .fx-careers-banner .fx-cb-btn { border-color: var(--gold); background: var(--gold); color: var(--lux-ink) !important; }
+  aside .fx-careers-banner .fx-cb-btn:hover { border-color: var(--gold-2); background: var(--gold-2); }
+  .submit-forms details { border: 1px solid var(--lux-line); border-top: 2px solid var(--gold); border-radius: 6px; background: var(--lux-panel); color: var(--lux-text); }
+  .submit-forms summary { color: var(--gold-2); }
+  .submit-forms details > p, .submit-forms label { color: var(--lux-muted); }
+  .submit-forms input { border-color: rgba(230, 201, 130, 0.22); background: rgba(255, 255, 255, 0.04); color: #FFFFFF; color-scheme: dark; }
+  .submit-forms input::placeholder { color: #6F8A8A; }
+  .submit-forms .submit-btn { background: var(--gold); color: var(--lux-ink); }
+  .submit-forms .submit-btn:hover { background: var(--gold-2); }
+  .page .fx-form-status { color: var(--lux-muted); }
+
   /* Site footer, shared with this.html: double rule, brand, tagline, links. Pinned to the bottom on short pages. */
   body { min-height: 100vh; display: flex; flex-direction: column; }
   body > main, body > .page { width: 100%; flex: 1 0 auto; }
-  .site-footer { flex-shrink: 0; margin-top: 40px; background: var(--wash); border-top: 3px double var(--ink); }
+  .site-footer { flex-shrink: 0; margin-top: 0; background: var(--wash); border-top: 3px double var(--ink); }
   .foot-inner { max-width: 1288px; margin: 0 auto; padding: 26px 24px 30px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
   .foot-brand { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; }
   .foot-brand svg { width: 26px; height: 26px; flex-shrink: 0; }
@@ -132,6 +170,7 @@
 <div class="page">
 <main>
   <div class="intro">
+    <p class="eyebrow">Industry Events</p>
     <h1 data-fundsae-badge>Events and Expos</h1>
     <p>Finance, investment and fintech events across the UAE. Event details are supplied by organisers. Check with the organiser before you travel.</p>
   </div>
