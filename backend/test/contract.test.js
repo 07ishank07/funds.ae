@@ -540,6 +540,9 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.match(careers, /class="partners-track">\s*<div class="partners-list" data-fundsae-slot="sponsor-companies">/);
   assert.ok(careers.includes('<h2 id="partners-title" class="partners-title">Partners<span class="fxh-sr"> (sponsored)</span></h2>'), 'a Partners heading, labelled as sponsored for screen readers');
   assert.ok(!careers.includes('partners-head') && !careers.includes('Feature your firm'), 'no visible tag or link above the strip');
+  // Partners: a dark logo wall, two rows of white logos (mark and name) gliding right to left; still for reduced motion.
+  assert.ok(careers.includes('grid-template-rows: repeat(2, 76px)') && careers.includes('background: #0B2A30') && careers.includes('.partner .logo:not([style*="url("])') && !careers.includes('var(--serif) !important'), 'partners logo wall');
+  assert.ok(/@media \(prefers-reduced-motion: reduce\) \{\s*\.partners-viewport/.test(careers), 'the wall stands still for reduced motion');
   // Partner with us: one package card button per API tier (each opens Contact us), and the Elite Exclusive Partner card is #elite-partner.
   const advertise = read('PartnerWithUs.dc.html');
   const cardTiers = [...advertise.matchAll(/data-fundsae-tier="([a-z]+)"/g)].map((m) => m[1]);

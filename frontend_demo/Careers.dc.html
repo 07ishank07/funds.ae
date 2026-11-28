@@ -276,40 +276,130 @@
   .pager button:hover:not([disabled]):not([aria-current="page"]) { border-color: var(--ink); }
   .pager button[aria-current="page"] { background: var(--ink); border-color: var(--ink); color: #FFFFFF; cursor: default; }
   .pager button[disabled] { color: var(--ghost); cursor: default; opacity: 0.6; }
-  /* Featured Partners: a partners strip at the foot of the page. One row of logo cards glides right to left in an
-     endless loop over two identical lists (the second is an aria-hidden copy made by the script at the foot of the page).
-     It pauses on hover or keyboard focus, and stands still, scrollable by hand, for people who ask for reduced motion. */
-  .partners { flex-shrink: 0; width: 100%; max-width: 1288px; margin: 8px auto 0; padding: 0 24px; }
-  /* The rule above the strip (drawn apart from the viewport, whose edges fade). */
-  .partners::before { content: ""; display: block; border-top: 2px solid var(--ink); }
-  .partners-title { margin-top: 12px; font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
-  .partners-viewport {
-    margin-top: 16px; overflow: hidden; direction: ltr;
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 72px, #000 calc(100% - 72px), transparent);
-    mask-image: linear-gradient(90deg, transparent, #000 72px, #000 calc(100% - 72px), transparent);
+  /* Partners: a dark logo wall across the foot of the page. Two rows of logos glide right to left in an endless loop
+     over two identical lists (the second is an aria-hidden copy made by the script at the foot of the page). Each logo is
+     the sponsor's mark (its image, or its initials in an outlined tile) beside its name, in white. The strip pauses on
+     hover or keyboard focus (the other logos dim), and stands still as a wrapped grid for people who ask for reduced motion. */
+  .partners {
+    flex-shrink: 0; width: 100%; margin: 56px 0 0; padding: 40px 0 44px; color: #FFFFFF;
+    background: #0B2A30 radial-gradient(1100px 260px at 50% 0%, rgba(79, 179, 184, 0.12), transparent 70%);
   }
-  .partners-track { display: flex; width: max-content; animation: partners-scroll var(--partners-duration, 120s) linear infinite; }
+  .partners + .site-footer { margin-top: 0; }
+  .partners-title { max-width: 1288px; margin: 0 auto; padding: 0 24px; text-align: center; font-size: 12px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: #9FD8DB; }
+  .partners-viewport {
+    margin-top: 22px; overflow: hidden; direction: ltr;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 120px, #000 calc(100% - 120px), transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 120px, #000 calc(100% - 120px), transparent);
+  }
+  .partners-track { display: flex; width: max-content; animation: partners-scroll var(--partners-duration, 60s) linear infinite; }
   .partners-viewport:hover .partners-track, .partners-viewport:focus-within .partners-track { animation-play-state: paused; }
   @keyframes partners-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-  /* Partner names in the style of a "who we cover" strip: bold serif names, a small dot between them, no cards. The logo
-     tile and website the connector fills stay in the markup but are not shown. */
-  .partners-list { display: flex; align-items: center; gap: 24px; padding: 14px 24px 14px 0; }
-  .partner { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 24px; color: var(--ink); text-decoration: none; white-space: nowrap; }
-  .partner::after { content: "\00B7"; font-size: 22px; line-height: 1; color: var(--ghost); }
-  .partner .logo, .partner .site { display: none; }
-  .partner > span { display: inline; }
-  html:not([lang="ar"]) body .partners .partner .name { font-family: var(--serif) !important; }
-  .partner .name { font-size: 23px; font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; transition: color 0.15s; }
-  .partner:hover .name, .partner:focus-visible .name { color: var(--accent); }
+  .partners-list { display: grid; grid-auto-flow: column; grid-template-rows: repeat(2, 76px); grid-auto-columns: 236px; }
+  .partner {
+    display: flex; align-items: center; justify-content: center; gap: 11px; min-width: 0; padding: 0 18px;
+    color: rgba(255, 255, 255, 0.8); text-decoration: none; transition: color 0.2s, opacity 0.2s;
+  }
+  .partners-viewport:hover .partner:not(:hover) { opacity: 0.5; }
+  .partner:hover, .partner:focus-visible { color: #FFFFFF; }
+  .partner:focus-visible { outline: 2px solid #9FD8DB; outline-offset: -6px; border-radius: 10px; }
+  .partner .logo {
+    flex: 0 0 32px; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 9px;
+    font-size: 9.5px; font-weight: 700; letter-spacing: 0.04em; line-height: 1; color: inherit;
+  }
+  /* Initials (no logo image yet): an outlined white mark instead of the coloured tile. A real logo stays on its white tile. */
+  .partner .logo:not([style*="url("]) { border: 1.5px solid currentColor; background: transparent !important; }
+  .partner > span { min-width: 0; }
+  .partner .name {
+    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden;
+    font-size: 15px; font-weight: 600; line-height: 1.2; letter-spacing: -0.01em;
+  }
+  .partner .site { display: none; }
   .partners[data-still] .partners-track { animation: none; }
   .partners[data-still] .partners-viewport { -webkit-mask-image: none; mask-image: none; }
   @media (prefers-reduced-motion: reduce) {
-    .partners-track { animation: none; }
-    .partners-viewport { overflow-x: auto; scroll-snap-type: x mandatory; -webkit-mask-image: none; mask-image: none; }
+    .partners-viewport { -webkit-mask-image: none; mask-image: none; }
+    .partners-track { width: auto; max-width: 1288px; margin: 0 auto; padding: 0 24px; animation: none; }
+    .partners-list { flex: 1; grid-auto-flow: row; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); grid-template-rows: none; grid-auto-rows: 72px; }
     .partners-list[aria-hidden="true"] { display: none; }
-    .partner { scroll-snap-align: start; }
+    .partner { transition: none; }
   }
-  @media (max-width: 620px) { .partners { padding: 0 16px; } .partner .name { font-size: 19px; } }
+  @media (max-width: 620px) {
+    .partners { margin-top: 40px; padding: 32px 0 34px; }
+    .partners-viewport { -webkit-mask-image: linear-gradient(90deg, transparent, #000 40px, #000 calc(100% - 40px), transparent); mask-image: linear-gradient(90deg, transparent, #000 40px, #000 calc(100% - 40px), transparent); }
+    .partners-list { grid-template-rows: repeat(2, 64px); grid-auto-columns: 196px; }
+    .partner .name { font-size: 14px; }
+  }
+
+  /* ---- Modern look: rounded white cards with soft shadows, pill buttons and tag chips, a calmer sidebar ---- */
+  .page {
+    --r: 14px;
+    --shadow: 0 1px 2px rgba(14, 58, 67, 0.05), 0 6px 18px -8px rgba(14, 58, 67, 0.14);
+    --shadow-up: 0 2px 6px rgba(14, 58, 67, 0.06), 0 18px 36px -14px rgba(14, 58, 67, 0.28);
+    padding-top: 32px; gap: 0 32px;
+  }
+  .fx-careers-top { margin-bottom: 36px; border-radius: var(--r); }
+  .fx-careers-top .fx-cb-btn { padding: 11px 20px; border-radius: 999px; }
+  /* Current Opportunities: a clear title, the filters in one soft panel, then the job cards */
+  .opportunities { padding-top: 0; border-top: 0; }
+  .opportunities > h2 { font-size: 24px; font-weight: 600; line-height: 1.2; letter-spacing: -0.015em; text-transform: none; }
+  .job-search { margin-top: 14px; padding: 16px; border: 1px solid var(--line-2); border-radius: var(--r); background: var(--surface); box-shadow: var(--shadow); }
+  .job-search-status { margin-top: 10px; min-height: 0; }
+  .job-search-status:empty { display: none; }
+  .job-filters select {
+    height: 42px; padding: 0 36px 0 12px; border-color: var(--line); border-radius: 10px; -webkit-appearance: none; appearance: none; cursor: pointer;
+    background: #F7FAF9 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23587176' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 13px center / 11px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  html[dir="rtl"] .job-filters select { padding: 0 12px 0 36px; background-position: left 13px center; }
+  .job-filters select:hover { border-color: #A9BFBF; }
+  .job-filters select:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(31, 106, 110, 0.18); }
+  .job-filters button { height: 34px; padding: 0 14px; border-radius: 999px; }
+  .opportunities .roles { margin-top: 18px; gap: 14px; border-top: 0; }
+  .opportunities .role {
+    grid-template-columns: 44px minmax(0, 1fr); column-gap: 14px; padding: 18px; border: 1px solid var(--line-2); border-radius: var(--r);
+    box-shadow: var(--shadow); transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  }
+  .opportunities .role:last-child { border-bottom: 1px solid var(--line-2); }
+  .opportunities .role:hover { background: var(--surface); border-color: #BFD6D6; box-shadow: var(--shadow-up); transform: translateY(-2px); }
+  .opportunities .role-logo { width: 44px; height: 44px; border-radius: 12px; font-size: 13px; }
+  .opportunities .role-info h2 { font-size: 16.5px; }
+  .opportunities .role-info .company { margin-top: 3px; font-size: 13px; font-weight: 600; letter-spacing: 0; color: var(--accent); }
+  .opportunities .role-info .location { margin-top: 1px; font-size: 12.5px; letter-spacing: 0; color: var(--muted); }
+  .opportunities .role-meta { margin-top: 10px; }
+  .opportunities .role-meta > span:not(.role-pay) { display: inline-flex; padding: 3px 10px; border-radius: 999px; background: var(--panel); color: var(--ink-2); font-size: 12px; }
+  .opportunities .apply-btn {
+    justify-self: start; height: 34px; padding: 0 16px; border: 1px solid var(--ink); border-radius: 999px; background: transparent;
+    color: var(--ink); font-size: 13px; transition: background 0.15s, color 0.15s;
+  }
+  .opportunities .apply-btn::after { content: "\2192"; margin-left: 6px; transition: transform 0.15s; }
+  html[dir="rtl"] .opportunities .apply-btn::after { content: "\2190"; margin: 0 6px 0 0; }
+  .opportunities .apply-btn:hover { background: var(--ink); color: #FFFFFF; }
+  .opportunities .apply-btn:hover::after { transform: translateX(2px); }
+  .pager { margin-top: 24px; }
+  .pager button { min-width: 38px; height: 38px; border-radius: 999px; }
+  /* Sidebar: each block is a white card */
+  aside { gap: 24px; padding-left: 0; border-left: 0; }
+  .top-employers, .top-jobs, .resources-box {
+    margin-bottom: 0; padding: 20px 20px 12px; border: 1px solid var(--line-2); border-radius: var(--r); background: var(--surface); box-shadow: var(--shadow);
+  }
+  .resources-box { padding-bottom: 18px; }
+  .top-jobs h2, .top-employers h2, .resources-box h2 { font-size: 12px; letter-spacing: 0.16em; color: var(--muted); }
+  .top-jobs-list li:last-child { border-bottom: 0; }
+  .top-jobs-list a { margin: 0 -8px; padding: 10px 8px; border-radius: 10px; transition: background 0.15s; }
+  .top-jobs-list a:hover { background: var(--panel); }
+  .tj-rank { flex-basis: 20px; font-size: 13px; color: var(--ghost); }
+  .te-logo { flex-basis: 40px; width: 40px; height: 40px; border-radius: 11px; font-size: 13px; }
+  .top-jobs-all { margin-top: 8px; }
+  .resources-box .links { gap: 4px; }
+  .resources-box .links a { margin: 0 -8px; padding: 7px 8px; border-radius: 10px; transition: background 0.15s; }
+  .resources-box .links a:hover { background: var(--panel); }
+  .resources-box .logo { border-radius: 10px; }
+  .gf-promo { margin-bottom: 0; border-radius: var(--r); }
+  @media (max-width: 860px) { aside { margin-top: 32px; } }
+  @media (prefers-reduced-motion: reduce) {
+    .opportunities .role, .opportunities .apply-btn, .opportunities .apply-btn::after { transition: none; }
+    .opportunities .role:hover { transform: none; }
+  }
 </style>
 </head>
 <body>
@@ -607,8 +697,8 @@
   </section>
 </aside>
 </div>
-<!-- Featured Partners (sponsor slot "professionalServices"): a partners strip at the foot of the page that scrolls
-     right to left in an endless loop. js/fundsae-connector.js fills the list from sponsors.json; the script at the foot
+<!-- Featured Partners (sponsor slot "professionalServices"): a dark logo wall at the foot of the page, two rows that
+     scroll right to left in an endless loop. js/fundsae-connector.js fills the list from sponsors.json; the script at the foot
      of the page adds the aria-hidden copy the loop needs. These cards are the built-in content shown until the API answers. -->
 <!-- "Partners" heading; screen readers also hear that these are sponsored placements (links carry rel="sponsored"). -->
 <section class="partners" aria-labelledby="partners-title">
@@ -929,7 +1019,7 @@
 <script>
 /* Featured Partners strip: keeps an aria-hidden copy of the list beside it so the right-to-left loop is seamless,
    and makes a fresh copy whenever js/fundsae-connector.js swaps the placeholder cards for sponsors.json data.
-   The speed stays the same whatever the number of companies (about 6 seconds each, an unhurried ~45 px/s). */
+   Two rows of logos: the speed stays the same whatever the number of companies (an unhurried ~40 px/s). */
 (function () {
   var section = document.querySelector('.partners');
   var track = section && section.querySelector('.partners-track');
@@ -947,7 +1037,7 @@
     copy.setAttribute('aria-hidden', 'true');
     copy.querySelectorAll('a').forEach(function (a) { a.tabIndex = -1; });
     track.appendChild(copy);
-    track.style.setProperty('--partners-duration', (count * 6) + 's');
+    track.style.setProperty('--partners-duration', (count * 3) + 's');
   }
   sync();
   new MutationObserver(sync).observe(list, { childList: true });
