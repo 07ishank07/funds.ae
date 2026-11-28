@@ -488,7 +488,7 @@ The Studio's menu is organised like the website. Open the page you want to chang
 
 | Menu group | What you edit there |
 |---|---|
-| **Home page** | Hero banner, Top UAE Story (pin), Spotlight, Sponsored Posts, Videos and Podcasts (sponsored), Featured Partners, Top Tweets |
+| **Home page** | Hero banner, UAE Top Story (pin), Spotlight, Sponsored Posts, Videos and Podcasts (sponsored), Featured Partners, Top Tweets |
 | **Real Estate News** | The News Review Queue; news sources, Capital Types and Asset Classes |
 | **Grants & Funding** | Programmes (the opportunity cards) and Types of funding (the twelve tiles, also on the home page) |
 | **Events** | Events and Expos |
@@ -511,7 +511,7 @@ The Studio's menu is organised like the website. Open the page you want to chang
 
 ### 12.3 Site settings
 
-- **Top UAE Story (pin):** choose a published UAE story to show as the home page's Top UAE Story. Clear it to go back to the automatic choice (the featured UAE story, or else the newest). A pinned story that is no longer live is ignored.
+- **UAE Top Story (pin):** choose a published UAE story to show as the home page's UAE Top Story (the GCC and International Top Stories pick themselves: featured, else newest). Clear it to go back to the automatic choice (the featured UAE story, or else the newest). A pinned story that is no longer live is ignored.
 - **Footer tagline:** the short line beside the logo in every page's footer ("Discover. Connect. Grow." today).
 - The site does not show a contact email, so none is kept here: nothing personal is stored in site settings.
 

@@ -937,6 +937,10 @@ document.addEventListener('DOMContentLoaded', async function() {
             const viewAll = tileBox.nextElementSibling;
             if (viewAll && viewAll.classList.contains('fx-view-all')) viewAll.style.display = show ? '' : 'none';
           });
+          // Each tab shows its own top story (UAE, GCC or International Top Story).
+          document.querySelectorAll('.news > .fx-top-uae[data-top-region]').forEach((topStory) => {
+            topStory.style.display = topStory.dataset.topRegion === region ? '' : 'none';
+          });
         };
         const limitNewsTabs = () => {
           const currentNews = document.querySelector('.news');
@@ -1353,30 +1357,43 @@ document.addEventListener('DOMContentLoaded', async function() {
         const box = document.querySelector('.news > section[aria-label="' + label + '"]');
         if (box && !(box.nextElementSibling && box.nextElementSibling.classList.contains('fx-view-all'))) box.after(makeViewAll(VIEW_ALL_HREF[label]));
       });
-      // Top UAE Story sits above Residential Estate News in the news column: a picture beside the
-      // headline, summary and source. js/fundsae-connector.js (slot "top-uae-story") shows the editors' featured UAE
-      // story, or else the newest one; until then (or with no picture from the publisher) the sample photo shows.
+      // Top story of each news tab, above Residential Estate News: UAE Top Story (UAE Stories), GCC Top Story (GCC
+      // Stories) and International Top Story (International Stories); only the open tab's shows. Each is a picture
+      // beside the headline, summary and source. js/fundsae-connector.js (slot "top-story", data-top-region) shows that
+      // tab's featured story, or else its newest (UAE: the editors' pin first); until then the sample shows. The photos
+      // are the site's licensed sample photos (img/CREDITS.md) until a publisher allows its own image.
       const newsColumn = document.querySelector('main.wrap > .news');
       if (newsColumn && !document.getElementById('top-uae-title')) {
-        const topUae = document.createElement('section');
-        topUae.className = 'fx-top-uae';
-        topUae.setAttribute('aria-labelledby', 'top-uae-title');
-        topUae.innerHTML = `
-          <h2 id="top-uae-title" class="fx-top-uae-head">Top UAE Story</h2>
-          <article class="fx-top-uae-card">
-            <a class="fx-top-uae-media" href="#" tabindex="-1" aria-hidden="true"><img src="img/partner-banner.jpg" alt="" loading="lazy"><span class="fx-top-uae-tag">UAE</span></a>
-            <div class="fx-top-uae-text">
-              <p class="fx-top-uae-kicker">Real estate · Abu Dhabi</p>
-              <h3 class="fx-top-uae-title"><a href="#">Abu Dhabi investor commits AED 2bn to new UAE build-to-rent homes</a></h3>
-              <p class="fx-top-uae-sum">A sovereign-backed investor plans thousands of rental homes across Abu Dhabi and Dubai, one of the largest housing commitments of the year. Dummy summary for the demo.</p>
-              <p class="fx-top-uae-src">Source: Gulf Property Wire (dummy)</p>
-            </div>
-          </article>`;
-        // Directly above Residential Estate News (its heading), else at the foot of the news column.
+        const TOP_STORIES = [
+          ['News', 'top-uae-title', 'UAE Top Story', 'UAE', 'img/partner-banner.jpg', 'Real estate · Abu Dhabi', 'Abu Dhabi investor commits AED 2bn to new UAE build-to-rent homes', 'A sovereign-backed investor plans thousands of rental homes across Abu Dhabi and Dubai, one of the largest housing commitments of the year. Dummy summary for the demo.', 'Gulf Property Wire'],
+          ['GCC', 'top-gcc-title', 'GCC Top Story', 'GCC', 'img/re-commercial.jpg', 'Sovereign wealth · Saudi Arabia', 'Saudi wealth fund backs new private credit platform in Riyadh', 'The platform will lend to mid-sized companies across the Kingdom, part of a wider push to grow private credit in the Gulf. Dummy summary for the demo.', 'Gulf Finance Wire'],
+          ['Global', 'top-intl-title', 'International Top Story', 'International', 'img/careers-banner.jpg', 'Private equity · Europe', 'European buyout fund closes above target as investors return', 'Pension funds and sovereign investors from the Gulf joined the fund, which will back mid-market companies in Europe. Dummy summary for the demo.', 'Global Markets Wire']
+        ];
         const residentialBox = newsColumn.querySelector(':scope > section[aria-label="Residential Estate News"]');
         const residentialHeading = residentialBox && residentialBox.previousElementSibling && residentialBox.previousElementSibling.tagName === 'H2' ? residentialBox.previousElementSibling : residentialBox;
-        if (residentialHeading) newsColumn.insertBefore(topUae, residentialHeading);
-        else newsColumn.appendChild(topUae);
+        TOP_STORIES.forEach(([region, titleId, heading, tagText, photo, kicker, headline, summary, source]) => {
+          const topStory = document.createElement('section');
+          topStory.className = 'fx-top-uae';
+          topStory.dataset.topRegion = region;
+          topStory.setAttribute('aria-labelledby', titleId);
+          topStory.setAttribute('data-fundsae-slot', 'top-story');
+          // UAE Stories is the tab open on arrival; the tab buttons show the right one from then on.
+          topStory.style.display = region === 'News' ? '' : 'none';
+          topStory.innerHTML = `
+            <h2 id="${titleId}" class="fx-top-uae-head">${heading}</h2>
+            <article class="fx-top-uae-card">
+              <a class="fx-top-uae-media" href="#" tabindex="-1" aria-hidden="true"><img src="${photo}" alt="" loading="lazy"><span class="fx-top-uae-tag">${tagText}</span></a>
+              <div class="fx-top-uae-text">
+                <p class="fx-top-uae-kicker">${kicker}</p>
+                <h3 class="fx-top-uae-title"><a href="#">${headline}</a></h3>
+                <p class="fx-top-uae-sum">${summary}</p>
+                <p class="fx-top-uae-src">Source: ${source} (dummy)</p>
+              </div>
+            </article>`;
+          // Directly above Residential Estate News (its heading), else at the foot of the news column.
+          if (residentialHeading) newsColumn.insertBefore(topStory, residentialHeading);
+          else newsColumn.appendChild(topStory);
+        });
       }
       // UAE Thought Leaders and Influencers sits in the second column, directly under Sponsored Posts,
       // with its View All link inside the card. Fifteen people are listed (the first ten show, see .fx-voices).
@@ -1809,7 +1826,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         .fx-econ-source { margin: 8px 0 0; font-size: 11.5px; line-height: 1.45; color: #587176; }
         .fx-econ-source a { color: #1F6A6E !important; text-decoration: underline; text-underline-offset: 2px; }
 
-        /* Top UAE Story (foot of the news column): ink rule and small-caps label, then a picture beside the story. */
+        /* UAE / GCC / International Top Story (news column, one per tab): ink rule and small-caps label, then a picture beside the story. */
         .fx-top-uae { margin-top: 32px; padding-top: 12px; border-top: 2px solid var(--fx-ink, #0E3A43); }
         .fx-top-uae-head { margin: 0 !important; font-size: 13px !important; font-weight: 600 !important; letter-spacing: 0.14em; text-transform: uppercase; color: #0E3A43 !important; }
         .fx-top-uae-card { display: grid; grid-template-columns: minmax(0, 46%) minmax(0, 1fr); gap: 18px; margin-top: 14px; align-items: start; }
@@ -1924,7 +1941,6 @@ document.addEventListener('DOMContentLoaded', async function() {
       tag(inBox('professional-services-title', ':scope > div'), 'sponsor-companies');
       tag(document.querySelector('.fx-platinum-list'), 'sponsor-platinum');
       tag(box('gulf-economy-title'), 'economy');
-      tag(box('top-uae-title'), 'top-uae-story');
       tag(document.querySelector('.news > section[aria-label="Residential Estate News"]'), 'tiles-residential-real-estate');
       tag(document.querySelector('.news > section[aria-label="Commercial Real Estate News"]'), 'tiles-commercial-real-estate');
       // Alternative Real Estate News: the Infrastructure and Special & Alternative stories together (js/fundsae-connector.js).

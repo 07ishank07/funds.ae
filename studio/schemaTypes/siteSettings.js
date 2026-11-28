@@ -18,7 +18,7 @@ export const siteSettings = defineType({
   fields: [
     defineField({
       name: 'topUaeStory',
-      title: 'Top UAE Story (home page)',
+      title: 'UAE Top Story (home page)',
       type: 'reference',
       to: [{type: 'newsArticle'}],
       weak: true,

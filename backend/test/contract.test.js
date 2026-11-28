@@ -120,7 +120,7 @@ test('content.json has the Sanity-managed slots and pages, with the contract fie
   const settingsJs = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
   const settingsFn = settingsJs.slice(settingsJs.indexOf('function renderSettings('), settingsJs.indexOf('function renderBanners('));
   assert.ok(settingsFn.includes('el.textContent = tagline') && !/innerHTML/.test(settingsFn), 'footer tagline set with textContent');
-  assert.ok(settingsJs.includes('var pinned = siteSettings.topUaeStoryId && uae.filter('), 'the pin only takes a live UAE story');
+  assert.ok(settingsJs.includes("var pinned = region === 'News' && siteSettings.topUaeStoryId && inTab.filter("), 'the pin only takes a live UAE story');
   // The home page tags its hero as the slot the connector fills.
   const home = readFileSync(path.join(repo, 'frontend_demo', 'this.html'), 'utf8');
   assert.ok(home.includes("hero.setAttribute('data-fundsae-slot', 'home-hero')"), 'home hero slot');
@@ -218,12 +218,15 @@ test('home page: the Gulf Economy box sits directly above Spotlight and is fille
   assert.ok(home.includes('<a class="fx-cb-btn" href="Careers.dc.html">View finance jobs</a>') && home.includes('src="img/careers-banner.jpg" alt=""'), 'banner links to Careers and shows its photo');
   assert.ok(statSync(path.join(repo, 'frontend_demo', 'img', 'careers-banner.jpg')).size < 400 * 1024 &&
     readFileSync(path.join(repo, 'frontend_demo', 'img', 'CREDITS.md'), 'utf8').includes('| `careers-banner.jpg` |'), 'banner photo is light and credited');
-  // Top UAE Story sits above Residential Estate News: sample photo, filled by the connector.
-  assert.ok(home.includes("topUae.setAttribute('aria-labelledby', 'top-uae-title');") && home.includes('<h2 id="top-uae-title" class="fx-top-uae-head">Top UAE Story</h2>') &&
-    home.includes('<img src="img/partner-banner.jpg" alt="" loading="lazy">') && home.includes('newsColumn.insertBefore(topUae, residentialHeading);'), 'Top UAE Story section, above Residential Estate News');
+  // A top story per news tab (UAE, GCC, International), above Residential Estate News; the open tab's shows.
+  for (const [region, id, heading, photo] of [['News', 'top-uae-title', 'UAE Top Story', 'img/partner-banner.jpg'], ['GCC', 'top-gcc-title', 'GCC Top Story', 'img/re-commercial.jpg'], ['Global', 'top-intl-title', 'International Top Story', 'img/careers-banner.jpg']]) {
+    assert.ok(home.includes(`['${region}', '${id}', '${heading}', `) && home.includes(`'${photo}'`), `${heading} section with a licensed sample photo`);
+  }
+  assert.ok(home.includes("topStory.setAttribute('data-fundsae-slot', 'top-story');") && home.includes('newsColumn.insertBefore(topStory, residentialHeading);') &&
+    home.includes("topStory.style.display = topStory.dataset.topRegion === region ? '' : 'none';"), 'each tab shows its own top story, above Residential Estate News');
   const topJs = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
   const topFn = topJs.slice(topJs.indexOf('function renderTopUae('), topJs.indexOf('function renderNews('));
-  assert.ok(topFn.includes("regionOf(s) === 'News'") && topFn.includes('s.featured') && !/innerHTML/.test(topFn), 'connector picks the featured (else newest) UAE story, with textContent');
+  assert.ok(topFn.includes('regionOf(s) === region') && topFn.includes('s.featured') && topFn.includes("region === 'News' && siteSettings.topUaeStoryId") && !/innerHTML/.test(topFn), 'connector picks each tab\'s featured (else newest) story, the UAE pin first, with textContent');
   // Top Tweets closes the third column, directly under Events and Expos.
   assert.ok(home.includes(`const eventsForTweets = document.querySelector('[aria-labelledby="events-title"]');`) &&
     home.includes("eventsForTweets.insertAdjacentElement('afterend', tweetsBox);"), 'Top Tweets sits under Events and Expos');

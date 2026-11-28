@@ -79,6 +79,9 @@
     'Fundraising': 'جمع التمويل',
     'Global Stories': 'أخبار عالمية',
     'GCC Stories': 'أخبار دول الخليج',
+    'UAE Top Story': 'أبرز أخبار الإمارات',
+    'GCC Top Story': 'أبرز أخبار دول الخليج',
+    'International Top Story': 'أبرز الأخبار الدولية',
     'International Stories': 'أخبار دولية',
     // Partner with us page
     'Featured Partner': 'شريك مميز',

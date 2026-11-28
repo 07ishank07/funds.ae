@@ -244,15 +244,17 @@
   });
 
   /**
-   * Top UAE Story (home, foot of the news column): the editors' featured UAE story, else the newest UAE story. The
-   * sample picture stays unless the publisher allows its image. Live mode with no UAE story hides the section.
+   * Top story of each home news tab (slot "top-story", data-top-region News / GCC / Global): that tab's featured
+   * story, else its newest; for UAE the editors' pin (Sanity Site settings) comes first. The sample picture stays
+   * unless the publisher allows its image. Live mode with no story for a tab hides that tab's section.
    */
   function renderTopUae(stories) {
-    slots('top-uae-story').forEach(function (box) {
-      var uae = stories.filter(function (s) { return regionOf(s) === 'News'; });
-      // The editors' pin (Sanity Site settings) when it is a live UAE story; else the featured one; else the newest.
-      var pinned = siteSettings.topUaeStoryId && uae.filter(function (s) { return s.id === siteSettings.topUaeStoryId; })[0];
-      var story = pinned || uae.filter(function (s) { return s.featured; })[0] || uae[0];
+    slots('top-story').forEach(function (box) {
+      var region = box.getAttribute('data-top-region');
+      if (NEWS_REGIONS.indexOf(region) === -1) return;
+      var inTab = stories.filter(function (s) { return regionOf(s) === region; });
+      var pinned = region === 'News' && siteSettings.topUaeStoryId && inTab.filter(function (s) { return s.id === siteSettings.topUaeStoryId; })[0];
+      var story = pinned || inTab.filter(function (s) { return s.featured; })[0] || inTab[0];
       if (!story) { if (state.mode === 'live') box.hidden = true; return; }
       var page = /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(story.slug || '') ? 'news/' + story.slug + '.html' : null;
       var link = function (a) { if (page) a.href = page; else api.setLink(a, story.url); };
@@ -267,7 +269,7 @@
       }
       var asset = Array.isArray(story.assetClasses) && story.assetClasses[0] && story.assetClasses[0].label;
       var kicker = box.querySelector('.fx-top-uae-kicker');
-      if (kicker) kicker.textContent = asset || story.topicLabel || 'UAE';
+      if (kicker) kicker.textContent = asset || story.topicLabel || '';
       var sum = box.querySelector('.fx-top-uae-sum');
       if (sum) { if (story.summary) sum.textContent = truncate(story.summary, 220); else sum.remove(); }
       var src = box.querySelector('.fx-top-uae-src');

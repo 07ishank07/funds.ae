@@ -150,7 +150,7 @@ export const structure = (S, context) =>
     .title('funds.ae')
     .items([
       pageGroup(S, 'page-home', 'Home page', [
-        S.listItem().id('home-top-story').title('Top UAE Story (pin)').child(S.document().schemaType('siteSettings').documentId('siteSettings')),
+        S.listItem().id('home-top-story').title('UAE Top Story (pin)').child(S.document().schemaType('siteSettings').documentId('siteSettings')),
         // One fixed document: the banner at the top of the home page. Unpublish it to show the built-in banner.
         S.listItem().id('home-hero').title('Hero banner').child(S.document().schemaType('homeHero').documentId('homeHero')),
         sponsorArea(S, 'platinum'),
