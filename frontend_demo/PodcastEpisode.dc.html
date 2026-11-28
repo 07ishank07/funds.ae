@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Podcast episode · Funds.ae</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;600;700&family=Jost:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site-header.css?v=2">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  /* Editorial theme tokens. Keep in sync with the theme block at the end of this.html's script. */
+  :root {
+    --ink: #0E3A43;
+    --ink-2: #3D5A5F;
+    --muted: #587176;
+    --ghost: #62797D;
+    --line: #D3DFDF;
+    --line-2: #E4ECEB;
+    --mint: #4FB3B8;
+    --accent: #1F6A6E;
+    --gold: #C9A961;
+    --surface: #FFFFFF;
+    --wash: #FAFBFA;
+  }
+  body { font-family: 'Jost', 'Futura', 'Century Gothic', sans-serif; background: var(--wash); color: var(--ink); line-height: 1.6; }
+  a { color: inherit; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* Videos & Podcasts: a compact intro, section tabs (All, Videos, Podcasts, Interviews, Events) in the style of the
+     home page's news tabs, then one section per type with four cards across. Podcast episodes have their own page
+     (PodcastEpisode.dc.html). Thumbnails are CSS only (demo content; no images, players or embeds). The cards are
+     drawn by js/fundsae-media.js. */
+  .vp { max-width: 1288px; margin: 0 auto; padding: 32px 24px 64px; }
+  .vp-intro { padding-bottom: 18px; }
+  .vp-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
+  .vp-intro h1 { margin-top: 4px; font-size: clamp(1.75rem, 3.2vw, 2.25rem); font-weight: 600; line-height: 1.15; letter-spacing: -0.015em; }
+  .vp-intro p { margin-top: 8px; max-width: 640px; font-size: 15px; color: var(--muted); }
+  .vp-intro .vp-demo { margin-top: 6px; font-size: 12.5px; color: var(--ghost); }
+
+  .vp-tabs { display: flex; flex-wrap: wrap; gap: 4px 22px; border-bottom: 1px solid var(--line); scroll-margin-top: 90px; }
+  .vp-tabs button { padding: 10px 0; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; background: none; font: inherit;
+    font-size: 13px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #4B676C; cursor: pointer; }
+  .vp-tabs button:hover { color: var(--ink); }
+  .vp-tabs button[aria-pressed="true"] { border-bottom-color: #2F8A8C; font-weight: 600; color: var(--ink); }
+  .vp-tabs button:focus-visible, .vp-more:focus-visible, .vp-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .vp-section { margin-top: 28px; }
+  .vp-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 14px; padding-top: 10px; border-top: 2px solid var(--ink); }
+  .vp-head h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; line-height: 1.3; }
+  .vp-head p { font-size: 13px; color: var(--muted); }
+  .vp-more { margin-left: auto; padding: 0; border: 0; background: none; font: inherit; font-size: 12px; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--accent); cursor: pointer; }
+  .vp-more::after { content: ' \2192'; }
+  .vp-more:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+  .vp-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px 18px; margin-top: 14px; }
+  .vp-card { display: block; min-width: 0; color: inherit; text-decoration: none; }
+  a.vp-card:hover .vp-title { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+
+  .vp-thumb { position: relative; aspect-ratio: 16 / 9; border-radius: 3px; overflow: hidden; display: flex; align-items: flex-end;
+    background: linear-gradient(145deg, var(--a), var(--b)); }
+  .vp-thumb::after { content: ''; position: absolute; right: 0; bottom: 0; left: 0; height: 45%; background: linear-gradient(to top, rgba(4, 22, 26, 0.5), transparent); }
+  .vp-t1 { --a: #0E3A43; --b: #4FB3B8; }
+  .vp-t2 { --a: #31556D; --b: #8BA9C1; }
+  .vp-t3 { --a: #8A6330; --b: #D3B46A; }
+  .vp-t4 { --a: #416C56; --b: #9EB9A5; }
+  .vp-t5 { --a: #5B4675; --b: #B4A4C9; }
+  .vp-t6 { --a: #874E4B; --b: #C6A59B; }
+  .vp-t7 { --a: #2F4E6D; --b: #B9C9E0; }
+  .vp-mark { position: relative; z-index: 1; margin: 0 0 8px 10px; max-width: 70%; font-size: 11px; font-weight: 700; line-height: 1.15; color: #FFFFFF; }
+  .vp-play { position: absolute; z-index: 1; top: 50%; left: 50%; width: 36px; height: 36px; margin: -18px 0 0 -18px; border-radius: 50%; background: rgba(255, 255, 255, 0.92); }
+  .vp-play::after { content: ''; position: absolute; top: 50%; left: 50%; width: 11px; height: 13px; margin: -6.5px 0 0 -4px; background: var(--ink); clip-path: polygon(0 0, 100% 50%, 0 100%); }
+  .vp-dur { position: absolute; z-index: 1; right: 7px; bottom: 7px; padding: 1px 5px; border-radius: 3px; background: rgba(4, 22, 26, 0.78); font-size: 11px; font-weight: 600; color: #FFFFFF; }
+  .vp-thumb-big .vp-play { width: 60px; height: 60px; margin: -30px 0 0 -30px; }
+  .vp-thumb-big .vp-play::after { width: 18px; height: 21px; margin: -10.5px 0 0 -6px; }
+  .vp-thumb-big .vp-mark { margin: 0 0 14px 16px; font-size: 14px; }
+
+  .vp-kind { margin-top: 8px; font-size: 10.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+  .vp-title { margin-top: 2px; font-size: 15px; font-weight: 600; line-height: 1.3; color: var(--ink); }
+  .vp-meta { margin-top: 3px; font-size: 12.5px; color: var(--ghost); }
+  .fxh-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* Podcast episode page */
+  .ep-crumbs { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ghost); }
+  .ep-crumbs a { color: var(--accent); text-decoration: none; }
+  .ep-crumbs a:hover { text-decoration: underline; }
+  .ep { max-width: 780px; margin-top: 18px; }
+  .ep-title { margin-top: 4px; font-size: clamp(1.6rem, 3vw, 2.1rem); font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
+  .ep-player { max-width: 560px; margin-top: 18px; }
+  .ep-soon { margin-top: 8px; font-size: 13px; color: var(--ghost); }
+  .ep-blurb { margin-top: 18px; font-size: 16px; line-height: 1.6; color: #33494E; }
+  .ep-blurb a { color: var(--accent); }
+  .ep-sub { margin-top: 22px; font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
+  .ep-topics { margin: 8px 0 0 20px; font-size: 15px; line-height: 1.7; color: #33494E; }
+  .ep .vp-section { margin-top: 34px; }
+  .ep .vp-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  @media (max-width: 960px) { .vp-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) {
+    .vp { padding: 24px 16px 48px; }
+    .vp-tabs { flex-wrap: nowrap; gap: 18px; overflow-x: auto; scrollbar-width: none; }
+    .vp-tabs::-webkit-scrollbar { display: none; }
+    .vp-tabs button { flex-shrink: 0; font-size: 12px; }
+    .vp-grid, .ep .vp-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; }
+    .vp-title { font-size: 14px; }
+    .vp-meta { font-size: 11.5px; }
+    .vp-mark { display: none; }
+    .vp-head .vp-more { margin-left: 0; }
+  }
+
+  /* Site footer, shared with this.html: double rule, brand, tagline, links. Pinned to the bottom on short pages. */
+  body { min-height: 100vh; display: flex; flex-direction: column; }
+  body > main, body > .page { width: 100%; flex: 1 0 auto; }
+  .site-footer { flex-shrink: 0; margin-top: 40px; background: var(--wash); border-top: 3px double var(--ink); }
+  .foot-inner { max-width: 1288px; margin: 0 auto; padding: 26px 24px 30px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
+  .foot-brand { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; }
+  .foot-brand svg { width: 26px; height: 26px; flex-shrink: 0; }
+  .foot-brand span { font-size: 20px; font-weight: 500; line-height: 1; letter-spacing: -0.015em; }
+  .foot-brand .dot { display: inline-block; width: 0.18em; height: 0.18em; margin: 0 0.05em 0 0.065em; border-radius: 50%; background: var(--mint); overflow: hidden; color: transparent; }
+  .foot-note { font-size: 14px; color: var(--muted); }
+  .foot-nav { margin-left: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; }
+  .foot-nav a { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2); text-decoration: none; }
+  .foot-nav a:hover { color: var(--accent); }
+  .foot-bottom { flex: 1 0 100%; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; margin-top: 8px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .foot-bottom .foot-note { font-size: 13px; color: var(--ghost); }
+  @media (max-width: 720px) { .foot-nav { margin-left: 0; } }
+  /* One typeface across the site: Jost, as on the home page. Skipped in Arabic mode, where i18n.js sets its own font. */
+  html:not([lang="ar"]) body *:not(svg):not(svg *) { font-family: 'Jost', 'Futura', 'Century Gothic', sans-serif !important; }
+</style>
+</head>
+<body>
+<!-- Site header, option B (styles in site-header.css, behaviour in js/fundsae-header.js): a slim date line, then one
+     sticky row with the logo, the sections, the language switch (i18n.js fills .fxb-lang), Partner with us and, on
+     phones, a menu button that opens the site menu (About and Contact us too). -->
+<div class="fxb-top"><div class="fxb-in"><span data-fundsae-date data-fundsae-badge></span><span class="fxb-tagline">Real estate, infrastructure and market intelligence</span></div></div>
+<header class="fxb">
+  <div class="fxb-in">
+    <a href="this.html" class="fxb-brand" aria-label="Funds.ae home"><svg viewBox="0 0 140 140" aria-hidden="true"><circle cx="70" cy="70" r="62.83" fill="none" stroke="#0E3A43" stroke-width="10"/><circle cx="53.03" cy="86.97" r="38.83" fill="none" stroke="#0E3A43" stroke-width="10"/><circle cx="42.54" cy="97.46" r="29" fill="#4FB3B8"/></svg><span class="fxb-word">Funds<span class="dot">.</span>ae</span></a>
+    <nav class="fx-catbar fxb-nav" aria-label="News categories">
+      <div class="fx-catbar-row">
+        <a href="this.html">Real Estate Stories</a>
+        <a href="Videos.dc.html" aria-current="page">Videos &amp; Podcasts</a>
+        <a href="GrantsFunding.dc.html">Grants &amp; Funding</a>
+        <a href="Events.dc.html">Events</a>
+        <a href="Careers.dc.html">Finance Careers</a>
+      </div>
+    </nav>
+    <div class="fxb-tools">
+      <span class="fxb-lang"></span>
+      <a class="fxb-cta" href="PartnerWithUs.dc.html">Partner with us</a>
+      <button type="button" class="fxb-menu" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></button>
+    </div>
+  </div>
+</header>
+<main class="vp">
+  <p class="ep-crumbs"><a href="Videos.dc.html">Videos &amp; Podcasts</a> / <a href="Videos.dc.html?section=podcasts">Podcasts</a></p>
+  <!-- js/fundsae-media.js draws the episode from ?ep=<id>: title, date and length, the player (coming soon), what is
+       covered and more episodes. -->
+  <article class="ep" data-vp-episode>
+    <h1 class="ep-title">Podcast episode</h1>
+  </article>
+  <noscript><p class="vp-meta">This page needs JavaScript to show the episode.</p></noscript>
+</main>
+<footer class="site-footer">
+  <div class="foot-inner">
+    <a href="this.html" class="foot-brand" aria-label="Funds.ae home">
+      <svg viewBox="0 0 140 140" aria-hidden="true"><circle cx="70" cy="70" r="62.83" fill="none" stroke="#0E3A43" stroke-width="10"/><circle cx="53.03" cy="86.97" r="38.83" fill="none" stroke="#0E3A43" stroke-width="10"/><circle cx="42.54" cy="97.46" r="29" fill="#2F8A8C"/></svg>
+      <span>Funds<span class="dot">.</span>ae</span>
+    </a>
+    <span class="foot-note">Discover. Connect. Grow.</span>
+    <nav class="foot-nav" aria-label="Footer">
+      <a href="About.dc.html">About</a>
+      <a href="Contact.dc.html">Contact us</a>
+      <a href="Terms.dc.html">Terms of Service</a>
+      <a href="Privacy.dc.html">Privacy Policy</a>
+    </nav>
+    <div class="foot-bottom">
+      <span class="foot-note">© 2026 Funds.ae. All rights reserved.</span>
+      <span class="foot-note">Headlines link to the original publishers.</span>
+    </div>
+  </div>
+</footer>
+<script src="../i18n.js"></script>
+<script src="../js/fundsae-header.js" defer></script>
+<script src="../js/fundsae-api.js" defer></script>
+<script src="../js/fundsae-connector.js" defer></script>
+<script src="../js/fundsae-media.js" defer></script>
+</body>
+</html>

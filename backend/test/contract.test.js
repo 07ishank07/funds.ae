@@ -315,7 +315,7 @@ test('the website scripts and pages agree on data slots', () => {
 });
 
 // Pages with neither the hero banner nor the Elite Founding Sponsor banner (Careers has its own sponsor box).
-const NO_BANNER_PAGES = ['Careers.dc.html', 'Events.dc.html', 'GrantsFunding.dc.html', 'PartnerWithUs.dc.html', 'RealEstateNews.dc.html', 'Videos.dc.html'];
+const NO_BANNER_PAGES = ['Careers.dc.html', 'Events.dc.html', 'GrantsFunding.dc.html', 'PartnerWithUs.dc.html', 'PodcastEpisode.dc.html', 'RealEstateNews.dc.html', 'Videos.dc.html'];
 
 test('every page but the home page and Careers shows the same Elite Founding Sponsor banner, and all link to the Events page', () => {
   const read = (f) => readFileSync(path.join(repo, 'frontend_demo', f), 'utf8');
@@ -382,7 +382,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   }
   // The site menu is in the footer on every page, not in the header.
   assert.ok(home.includes(`nav.m-only[aria-label="Sections"]').forEach((nav) => nav.remove())`), 'home removes both header menus');
-  for (const page of ['About', 'PartnerWithUs', 'Careers', 'Contact', 'Events', 'GrantsFunding', 'Privacy', 'RealEstateNews', 'Terms', 'Videos']) {
+  for (const page of ['About', 'PartnerWithUs', 'Careers', 'Contact', 'Events', 'GrantsFunding', 'PodcastEpisode', 'Privacy', 'RealEstateNews', 'Terms', 'Videos']) {
     const html = read(`${page}.dc.html`);
     assert.ok(!html.includes('aria-label="Sections"'), `${page} has no header menu`);
     const footNav = html.slice(html.indexOf('<nav class="foot-nav"'), html.indexOf('</nav>', html.indexOf('<nav class="foot-nav"')));
@@ -598,13 +598,24 @@ test('Videos & Podcasts: a header link on every page and a video hub page of dum
   assert.ok(read('js', 'fundsae-header.js').includes("['Videos & Podcasts', 'Videos.dc.html']"), 'mobile menu links to Videos & Podcasts');
   assert.ok(read('frontend_demo', 'this.html').includes('<a href="Videos.dc.html" style="display: inline-block; margin-top: 16px'), 'home box View All opens the page');
   assert.ok(page.includes('<title>Videos &amp; Podcasts · Funds.ae</title>') && page.includes('<a href="Videos.dc.html" aria-current="page">'), 'title and current link');
-  // Featured episode, Latest row, two large recent cards, then one row per series.
-  assert.ok(page.includes('class="vp-featured"') && page.indexOf('class="vp-featured"') < page.indexOf('id="vp-latest-title"'), 'featured block first');
-  assert.equal([...page.matchAll(/class="vp-card vp-card-big"/g)].length, 2, 'two large recent cards');
-  assert.ok([...page.matchAll(/id="vp-series-\d+"/g)].length >= 5, 'series rows');
-  assert.ok(page.includes('The Funds.ae Podcast') && page.includes('>Podcast<'), 'podcast episodes');
+  // Tabs: All, Videos, Podcasts, Interviews, Events; js/fundsae-media.js draws the compact sections (no big banner).
+  const tabs = [...page.matchAll(/<button type="button" data-vp-tab="([a-z]+)" aria-pressed="(?:true|false)">([^<]+)<\/button>/g)].map((m) => [m[1], m[2]]);
+  assert.deepEqual(tabs, [['all', 'All'], ['videos', 'Videos'], ['podcasts', 'Podcasts'], ['interviews', 'Interviews'], ['events', 'Events']], 'section tabs');
+  assert.ok(page.includes('<div data-vp-library></div>') && page.includes('src="../js/fundsae-media.js"'), 'the library is drawn by the media script');
+  assert.ok(!/vp-featured|vp-row|vp-card-big/.test(page), 'no oversized featured banner or scrolling rows');
   assert.ok(page.includes('Demo videos:'), 'marked as demo content');
   assert.ok(!/<img|<video|<iframe|url\(/.test(page.slice(page.indexOf('<main'), page.indexOf('</main>'))), 'no images, players or embeds (dummy thumbnails are CSS)');
+  const media = read('js', 'fundsae-media.js');
+  for (const [id, title, description] of [['videos', 'Videos', 'News clips, interviews and documentaries.'], ['podcasts', 'Podcasts', 'Audio episodes, each with its own episode page.'],
+    ['interviews', 'Interviews', 'CEOs, investors, developers and fund managers.'], ['events', 'Events', 'Conferences, panel discussions and webinars.']]) {
+    assert.ok(media.includes(`id: '${id}', kind: `) && media.includes(`title: '${title}', description: '${description}'`), `${title} section and description`);
+  }
+  assert.ok(!/innerHTML/.test(media) && media.includes("return 'PodcastEpisode.dc.html?ep=' + encodeURIComponent(item.id);"), 'textContent only; podcasts link to their episode page');
+  // Each podcast episode has its own page (PodcastEpisode.dc.html?ep=<id>) with the site header and footer.
+  const episode = read('frontend_demo', 'PodcastEpisode.dc.html');
+  assert.ok(episode.includes('<article class="ep" data-vp-episode>') && episode.includes('src="../js/fundsae-media.js"') &&
+    episode.includes('<a href="Videos.dc.html?section=podcasts">Podcasts</a>') && episode.includes('<a href="Videos.dc.html" aria-current="page">'), 'podcast episode page');
+  for (const id of ['ep-14', 'ep-13', 'ep-12', 'ep-11', 'ep-10', 'ep-9']) assert.ok(media.includes(`'${id}': [`), `episode ${id} has its page text`);
   assert.ok(read('i18n.js').includes("'Videos & Podcasts': "), 'Arabic label');
 });
 
