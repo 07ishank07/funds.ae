@@ -488,12 +488,10 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.ok(read('GrantsFunding.dc.html').includes('<p class="gf-hero-eb">Grants &amp; Funding</p>'), 'Grants hero label without UAE');
   // Filters: no search box and no Job type; Location lists every main Gulf country and its main cities, plus Remote.
   assert.ok(!careers.includes('id="job-search-input"') && !careers.includes('id="jf-type"'), 'no search box or Job type filter');
-  assert.ok(careers.includes('<label>Location<select id="jf-city"><option value="">All Gulf locations</option></select></label>') &&
-    careers.includes('<label>Function<select id="jf-department">'), 'Location and Function filters');
-  for (const place of ["['AE', 'United Arab Emirates'", "['SA', 'Saudi Arabia', ['Riyadh', 'Jeddah', 'Dammam']]", "['QA', 'Qatar', ['Doha']]",
-    "['KW', 'Kuwait', ['Kuwait City']]", "['BH', 'Bahrain', ['Manama']]", "['OM', 'Oman', ['Muscat']]"]) {
-    assert.ok(careers.includes(place), `Location lists ${place}`);
-  }
+  // No filter menus: the Jobs by location cards and Browse jobs by function links filter the list; a count line stays.
+  assert.ok(!/<select id="jf-(city|department|sort)"/.test(careers) && !careers.includes('id="job-filters"'), 'no Location, Function or Sort menus');
+  assert.ok(careers.includes('<p id="job-search-status" class="job-search-status" role="status" aria-live="polite"></p>') &&
+    careers.includes('<button type="button" id="jf-reset" class="jf-clear" hidden>Clear filter</button>'), 'role count and Clear filter');
   const rolesJs = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
   // Function lists every finance function; the connector maps each role to one of the same labels. Sort has no
   // "Featured first": Newest is the default.
@@ -517,7 +515,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   }
   assert.deepEqual([...jsFunctions].sort(), [...pageFunctions].sort(), 'the connector maps roles to exactly the menu functions');
   assert.ok(rolesJs.includes("row.setAttribute('data-function', functionOf(job.department, job.title));"), 'roles are tagged with a function');
-  assert.ok(!careers.includes('<option value="featured">Featured first</option>') && careers.includes('<option value="newest">Newest</option>'), 'no Featured first sort');
+  assert.ok(careers.includes('rows.sort(function (a, b) { return time(b) - time(a); });'), 'roles are listed newest first');
   assert.ok(rolesJs.includes("row.setAttribute('data-country', countryOf(job.location));") && rolesJs.includes("[/riyadh/, 'Riyadh', 'SA']"), 'roles are tagged with their Gulf country and city');
   assert.ok(careers.includes("badge.className = 'role-logo'"), 'job cards carry a dummy employer logo');
   assert.ok(careers.includes('  var PER_PAGE = 20, TOTAL = 120;'), 'the job list shows 20 roles per page');
@@ -591,7 +589,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   const jbl = careers.slice(careers.indexOf('<aside>'), careers.indexOf('class="top-jobs"'));
   assert.ok(jbl.includes('<h2 id="jobs-location-title">Jobs by location</h2>'), 'Jobs by location tops column 2');
   assert.deepEqual([...jbl.matchAll(/data-jbl-country="([A-Z]{2})"><svg class="jbl-flag"/g)].map((m) => m[1]), ['AE', 'SA', 'QA', 'KW', 'BH', 'OM'], 'the six GCC countries, with flags');
-  assert.ok(careers.includes("var value = 'country:' + card.getAttribute('data-jbl-country');") && careers.includes('syncLocationCards(byCountry);'), 'cards filter by country and show the counts');
+  assert.ok(careers.includes("var value = 'country:' + card.getAttribute('data-jbl-country');") && careers.includes('syncLocationCards(byCountry);') && careers.includes('if (!ready) return;'), 'cards filter by country and show the counts');
   // Browse jobs by function: under the banner, above Current Opportunities, drawn from the Function menu's list, each link filtering by it.
   assert.ok(/<main>\s*<!-- Finance Careers banner[\s\S]*?<\/section>\s*<!-- Browse jobs by function[\s\S]*?<\/section>\s*<section class="opportunities"/.test(careers), 'the banner, then Browse jobs by function, then Current Opportunities');
   assert.ok(careers.includes('FUNCTIONS.forEach(function (fn) {') && careers.includes("a.setAttribute('data-bf-function', fn);") &&

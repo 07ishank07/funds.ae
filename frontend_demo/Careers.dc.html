@@ -231,16 +231,6 @@
   .top-jobs-list a:hover .tj-title { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
   .top-jobs-all { display: inline-block; margin-top: 12px; font-size: 14px; font-weight: 600; color: var(--accent); text-decoration: none; }
   .top-jobs-all:hover { text-decoration: underline; text-underline-offset: 3px; }
-  /* Job filters and sort */
-  .job-filters { margin-top: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; align-items: end; }
-  .job-filters[hidden] { display: none; }
-  .job-filters label { display: flex; flex-direction: column; gap: 4px; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
-  .job-filters select { width: 100%; height: 38px; padding: 0 10px; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); color: var(--ink); font: inherit; font-size: 14px; letter-spacing: 0; text-transform: none; }
-  .job-filters select:focus-visible, .job-filters button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .job-filters button { grid-column: 1 / -1; justify-self: start; height: 32px; padding: 0 12px; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); color: var(--ink); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
-  .job-filters button[hidden] { display: none; }
-  .job-filters button:hover { border-color: var(--ink); }
-  @media (max-width: 720px) { .job-filters { grid-template-columns: minmax(0, 1fr); } }
   /* Job cards: title, company, location and type, then function and posted date */
   .opportunities .role { display: grid; grid-template-columns: 40px minmax(0, 1fr); grid-template-areas: "logo info" ". apply"; column-gap: 12px; row-gap: 12px; align-items: start; }
   /* Employer logo: a placeholder badge with the company's initials (dummy until employers supply logos). */
@@ -280,15 +270,6 @@
   .job-search { margin-top: 14px; padding: 16px; border: 1px solid var(--line-2); border-radius: var(--r); background: var(--surface); box-shadow: var(--shadow); }
   .job-search-status { margin-top: 10px; min-height: 0; }
   .job-search-status:empty { display: none; }
-  .job-filters select {
-    height: 42px; padding: 0 36px 0 12px; border-color: var(--line); border-radius: 10px; -webkit-appearance: none; appearance: none; cursor: pointer;
-    background: #F7FAF9 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23587176' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 13px center / 11px;
-    transition: border-color 0.15s, box-shadow 0.15s;
-  }
-  html[dir="rtl"] .job-filters select { padding: 0 12px 0 36px; background-position: left 13px center; }
-  .job-filters select:hover { border-color: #A9BFBF; }
-  .job-filters select:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(31, 106, 110, 0.18); }
-  .job-filters button { height: 34px; padding: 0 14px; border-radius: 999px; }
   .opportunities .roles { margin-top: 18px; gap: 14px; border-top: 0; }
   .opportunities .role {
     grid-template-columns: 44px minmax(0, 1fr); column-gap: 14px; padding: 18px; border: 1px solid var(--line-2); border-radius: var(--r);
@@ -432,7 +413,6 @@
   .top-jobs-list li { border-bottom-color: rgba(14, 58, 67, 0.07); }
   /* Filters: a mint wash; job tags in mint; the salary line in teal. */
   .job-search { border-color: #D6E8E6; background: linear-gradient(135deg, #F1F8F7 0%, #FFFFFF 70%); }
-  .job-filters select { background-color: #FFFFFF; }
   .opportunities .role-meta > span:not(.role-pay) { background: #E3F1F0; color: #1F6A6E; }
   .opportunities .role-meta .role-pay { color: #1F6A6E; }
   .opportunities .role:hover { border-color: #9FD0D0; }
@@ -487,6 +467,11 @@
   .jbl-card:hover, .bf-list a:hover .bf-name { border-color: rgba(47, 138, 140, 0.35); }
   .fx-careers-top, .gf-promo { border-radius: 12px; box-shadow: var(--card-shadow); }
   .pager button { border-color: var(--card-border); background: #FFFFFF; box-shadow: 0 1px 2px rgba(14, 58, 67, 0.05); }
+  /* The role count under Current Opportunities (no filter menus): plain text, with Clear filter while one is on. */
+  .opportunities .job-search { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; margin-top: 12px; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+  .opportunities .job-search-status { margin: 0; font-size: 13.5px; color: var(--muted); }
+  .jf-clear { padding: 0; border: 0; background: none; font: inherit; font-size: 13.5px; font-weight: 600; color: #1F6A6E; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+  .jf-clear[hidden] { display: none; }
   .pager button[aria-current="page"] { background: #1F6A6E; border-color: #1F6A6E; }
 </style>
 </head>
@@ -539,17 +524,11 @@
 
   <section class="opportunities" id="opportunities" aria-labelledby="opportunities-title">
     <h2 id="opportunities-title">Current Opportunities</h2>
-    <div class="job-search" role="group" aria-label="Filter current opportunities">
-      <div class="job-filters" id="job-filters" hidden>
-        <label>Location<select id="jf-city"><option value="">All Gulf locations</option></select></label>
-        <label>Function<select id="jf-department"><option value="">All functions</option></select></label>
-        <label>Sort by<select id="jf-sort">
-          <option value="newest">Newest</option>
-          <option value="company">Company A to Z</option>
-        </select></label>
-        <button type="button" id="jf-reset" hidden>Reset filters</button>
-      </div>
+    <!-- No filter menus: the Jobs by location cards and the Browse jobs by function links filter the list. The line
+         below gives the number of roles (or how many match) and, while a filter is on, a Clear filter link. -->
+    <div class="job-search">
       <p id="job-search-status" class="job-search-status" role="status" aria-live="polite"></p>
+      <button type="button" id="jf-reset" class="jf-clear" hidden>Clear filter</button>
     </div>
     <div class="roles" data-fundsae-slot="roles">
       <div class="role">
@@ -1031,30 +1010,20 @@
 })();
 </script>
 <script>
-/* Job filters and sort. The Location and Function filters and the ?employer= filter all work through the same
-   data-fundsae-filtered attribute (a row is shown only if every one of them allows it), then the pager above is
-   re-run so the page count reflects only the matching rows. Location always lists the main Gulf locations (each
-   country, then its main cities; js/fundsae-connector.js tags every role with data-country and data-city); Function
-   always lists the finance functions below (the connector tags every role with data-function from its department
-   and title). The menus appear once the connector has rendered the roles and called window.__fundsInitFilters(). */
+/* Job filters. The country (Jobs by location cards), the function (Browse jobs by function links) and the ?employer=
+   filter all work through the same data-fundsae-filtered attribute (a row is shown only if every one of them allows
+   it), then the pager above is re-run so the page count reflects only the matching rows. js/fundsae-connector.js tags
+   every role with data-country, data-city and data-function, then calls window.__fundsInitFilters(), which puts the
+   counts on the cards and links and turns them into filters. Roles are listed newest first. */
 (function () {
-  // Main Gulf locations: [country code, country, main cities]. Values: "country:AE" (any city there) or a city name.
-  var GULF = [
-    ['AE', 'United Arab Emirates', ['Abu Dhabi', 'Dubai', 'Sharjah', 'Ajman', 'Ras Al Khaimah', 'Fujairah', 'Umm Al Quwain']],
-    ['SA', 'Saudi Arabia', ['Riyadh', 'Jeddah', 'Dammam']],
-    ['QA', 'Qatar', ['Doha']],
-    ['KW', 'Kuwait', ['Kuwait City']],
-    ['BH', 'Bahrain', ['Manama']],
-    ['OM', 'Oman', ['Muscat']]
-  ];
-  // Finance job functions, in menu order (labels equal the connector's JOB_FUNCTIONS).
+  // Finance job functions, in the Browse jobs by function order (labels equal the connector's JOB_FUNCTIONS).
   var FUNCTIONS = ['Investments & Portfolio Management', 'Private Equity', 'Venture Capital', 'Private Credit & Debt', 'Hedge Funds & Trading', 'Sales Trading & Brokerage', 'Quantitative Research & Investing', 'Real Estate & Infrastructure', 'Investment Banking & Corporate Finance', 'Corporate & Commercial Banking', 'Structured & Trade Finance', 'Wealth & Private Banking', 'Investor Relations & Fundraising', 'Research & Analysis', 'Risk Management', 'Actuarial & Insurance', 'Compliance & Regulatory', 'Legal', 'Finance & Accounting', 'Treasury & Capital Management', 'Tax', 'Audit & Assurance', 'Fund Administration & Operations', 'Sales & Business Development', 'Fintech & Technology', 'ESG & Sustainable Finance'];
   var status = document.getElementById('job-search-status');
   var list = document.querySelector('.opportunities .roles');
-  var bar = document.getElementById('job-filters');
   var resetBtn = document.getElementById('jf-reset');
-  var selects = { city: document.getElementById('jf-city'), department: document.getElementById('jf-department') };
-  var sortSel = document.getElementById('jf-sort');
+  // The current filters: city holds "country:XX" (a Jobs by location card), department a function (a Browse link).
+  var selects = { city: { value: '' }, department: { value: '' } };
+  var ready = false; // true once the connector has tagged the roles (window.__fundsInitFilters)
   if (!list) return;
 
   var employerId = new URLSearchParams(location.search).get('employer');
@@ -1126,16 +1095,11 @@
     return Object.keys(selects).some(function (k) { return selects[k] && selects[k].value; });
   }
 
+  /** Newest first. */
   function sortRows() {
-    var mode = sortSel ? sortSel.value : 'newest';
     var rows = roles();
     var time = function (r) { return Date.parse(r.getAttribute('data-posted') || '') || 0; };
-    var featured = function (r) { return r.getAttribute('data-featured') === '1' ? 1 : 0; };
-    rows.sort(function (a, b) {
-      if (mode === 'company') return (a.querySelector('.company').textContent || '').localeCompare(b.querySelector('.company').textContent || '') || time(b) - time(a);
-      if (mode === 'featured') return featured(b) - featured(a) || time(b) - time(a);
-      return time(b) - time(a);
-    });
+    rows.sort(function (a, b) { return time(b) - time(a); });
     rows.forEach(function (row) { list.appendChild(row); });
   }
 
@@ -1144,94 +1108,47 @@
     var matches = 0;
     rows.forEach(function (row) {
       var employerOk = !employerId || row.getAttribute('data-employer') === employerId;
-      var cityOk = !selects.city || locationOk(row, selects.city.value);
-      var departmentOk = !selects.department || !selects.department.value || row.getAttribute('data-function') === selects.department.value;
+      var cityOk = locationOk(row, selects.city.value);
+      var departmentOk = !selects.department.value || row.getAttribute('data-function') === selects.department.value;
       if (employerOk && cityOk && departmentOk) { row.removeAttribute('data-fundsae-filtered'); matches++; }
       else row.setAttribute('data-fundsae-filtered', '');
     });
     var narrowed = filtersActive();
     if (resetBtn) resetBtn.hidden = !narrowed;
     status.textContent = narrowed
-      ? (matches ? matches + ' of ' + rows.length + (rows.length === 1 ? ' role' : ' roles') + ' match your filters.' : 'No roles match your filters.')
-      : (bar && !bar.hidden ? rows.length + (rows.length === 1 ? ' role' : ' roles') : '');
+      ? (matches ? matches + ' of ' + rows.length + (rows.length === 1 ? ' role' : ' roles') + ' match your filter.' : 'No roles match your filter.')
+      : (ready ? rows.length + (rows.length === 1 ? ' role' : ' roles') : '');
     syncLocationCards();
     syncFunctionLinks();
     if (typeof window.__fundsPaginateRoles === 'function') window.__fundsPaginateRoles();
   }
 
-  /** Location: every Gulf country (all of its cities) and its main cities, with the number of roles where there are any. */
-  function fillLocations(rows) {
-    var sel = selects.city;
-    if (!sel) return;
-    var keep = sel.value;
-    var byCity = {};
+  /** The number of roles in each Gulf country, on the Jobs by location cards. */
+  function countLocations(rows) {
     var byCountry = {};
     rows.forEach(function (r) {
-      var city = r.getAttribute('data-city');
       var country = r.getAttribute('data-country');
-      if (city) byCity[city] = (byCity[city] || 0) + 1;
       if (country) byCountry[country] = (byCountry[country] || 0) + 1;
     });
-    var label = function (text, n) { return n ? text + ' (' + n + ')' : text; };
-    while (sel.options.length > 1) sel.remove(1);
-    while (sel.querySelector('optgroup')) sel.removeChild(sel.querySelector('optgroup'));
-    GULF.forEach(function (c) {
-      var group = document.createElement('optgroup');
-      group.label = c[1];
-      var all = document.createElement('option');
-      all.value = 'country:' + c[0];
-      all.textContent = label(c[0] === 'AE' ? 'All UAE' : 'All ' + c[1], byCountry[c[0]]);
-      group.appendChild(all);
-      c[2].forEach(function (city) {
-        var o = document.createElement('option');
-        o.value = city;
-        o.textContent = label(city, byCity[city]);
-        group.appendChild(o);
-      });
-      sel.appendChild(group);
-    });
-    var remote = document.createElement('option');
-    remote.value = 'Remote';
-    remote.textContent = label('Remote', byCity.Remote);
-    sel.appendChild(remote);
-    sel.value = keep;
-    if (sel.value !== keep) sel.value = '';
     syncLocationCards(byCountry);
   }
 
-  /* Fill the menus: Location from the fixed Gulf list, Function from the roles, keeping any current choice. */
+  /* Once the roles are tagged: the counts on the cards and links, then the list (newest first) and its count. */
   window.__fundsInitFilters = function () {
-    if (!bar) return;
     var rows = roles();
-    var any = !!selects.city;
-    fillLocations(rows);
-    // Function: every finance function, with the number of roles where there are any.
-    var fnSel = selects.department;
-    if (fnSel) {
-      var keep = fnSel.value;
-      var seen = {};
-      rows.forEach(function (r) { var v = r.getAttribute('data-function'); if (v) seen[v] = (seen[v] || 0) + 1; });
-      while (fnSel.options.length > 1) fnSel.remove(1);
-      FUNCTIONS.forEach(function (v) {
-        var o = document.createElement('option');
-        o.value = v;
-        o.textContent = seen[v] ? v + ' (' + seen[v] + ')' : v;
-        fnSel.appendChild(o);
-      });
-      fnSel.value = FUNCTIONS.indexOf(keep) >= 0 ? keep : '';
-      syncFunctionLinks(seen);
-      any = true;
-    }
-    bar.hidden = !any;
+    countLocations(rows);
+    var seen = {};
+    rows.forEach(function (r) { var v = r.getAttribute('data-function'); if (v) seen[v] = (seen[v] || 0) + 1; });
+    syncFunctionLinks(seen);
+    ready = true;
     sortRows();
     apply();
   };
 
-  Object.keys(selects).forEach(function (k) { if (selects[k]) selects[k].addEventListener('change', apply); });
   // A function link filters the list to that function (a second click clears it), then shows the list.
   functionLinks.forEach(function (a) {
     a.addEventListener('click', function (event) {
-      if (!selects.department || !bar || bar.hidden) return;
+      if (!ready) return;
       event.preventDefault();
       var fn = a.getAttribute('data-bf-function');
       selects.department.value = selects.department.value === fn ? '' : fn;
@@ -1240,10 +1157,10 @@
     });
   });
   // A country card filters the list to that country (a second click clears it), then shows the list. Until the
-  // menus are ready the card is a plain link to the list.
+  // roles are tagged the card is a plain link to the list.
   locationCards.forEach(function (card) {
     card.addEventListener('click', function (event) {
-      if (!selects.city || !bar || bar.hidden) return;
+      if (!ready) return;
       event.preventDefault();
       var value = 'country:' + card.getAttribute('data-jbl-country');
       selects.city.value = selects.city.value === value ? '' : value;
@@ -1251,9 +1168,9 @@
       document.getElementById('opportunities').scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
-  if (sortSel) sortSel.addEventListener('change', function () { sortRows(); apply(); });
   if (resetBtn) resetBtn.addEventListener('click', function () {
-    Object.keys(selects).forEach(function (k) { if (selects[k]) selects[k].value = ''; });
+    selects.city.value = '';
+    selects.department.value = '';
     apply();
   });
 })();
