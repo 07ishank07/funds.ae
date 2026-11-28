@@ -26,7 +26,7 @@
     'Careers in Finance': 'الوظائف في قطاع التمويل',
     'Events & Expos': 'الفعاليات والمعارض',
     'Property News': 'أخبار العقارات',
-    'Watch & Listen': 'شاهد واستمع',
+    'Watch & Learn': 'شاهد وتعلّم',
     'Funding Opportunities': 'فرص التمويل',
     'Industry Events': 'فعاليات القطاع',
     'Jobs by location': 'الوظائف حسب الموقع',

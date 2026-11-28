@@ -410,14 +410,14 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
     // No investor-type links: Property News, then the site's sections (Partner with us is the button).
     assert.ok(!catbar.includes('?category=') && !catbar.includes('?capital='), `${page} category bar has no investor-type links`);
     const links = [...catbar.matchAll(/<a href="([^"]+)"[^>]*>([^<>]+)<\/a>/g)].map((m) => [m[1], m[2]]);
-    assert.deepEqual(links, [['this.html', 'Property News'], ['Videos.dc.html', 'Watch &amp; Listen'], ['GrantsFunding.dc.html', 'Funding Opportunities'], ['Careers.dc.html', 'Finance Careers'], ['Events.dc.html', 'Industry Events']], `${page} header sections and order`);
+    assert.deepEqual(links, [['this.html', 'Property News'], ['Videos.dc.html', 'Watch &amp; Learn'], ['GrantsFunding.dc.html', 'Funding Opportunities'], ['Careers.dc.html', 'Finance Careers'], ['Events.dc.html', 'Industry Events']], `${page} header sections and order`);
   }
   // The home page builds the same header (its own bar inside), hides the design's headers and their search box.
   assert.ok(home.includes("siteHeader.className = 'fxb';") && home.includes('<a class="fxb-cta" href="PartnerWithUs.dc.html">Partner with us</a>') && home.includes("headerCss.href = 'site-header.css?v=3';"), 'home builds the option B header');
   assert.ok(home.includes('html body header.d-only, html body header.m-only { display: none !important; }'), 'home hides the design headers (and their search box)');
   const headerJs = readFileSync(path.join(repo, 'js', 'fundsae-header.js'), 'utf8');
   assert.ok(!/runSearch|Search news, funds and firms|fxh-search-panel/.test(headerJs) && headerJs.includes("header.fxb button[aria-label=\"Open menu\"]"), 'header script: menu only, no search');
-  // One bar in the header: Property News | Watch & Listen, Funding Opportunities, Finance Careers, Industry Events.
+  // One bar in the header: Property News | Watch & Learn, Funding Opportunities, Finance Careers, Industry Events.
   assert.ok(home.includes("[['Property News', null]],"), 'category bar starts with Property News');
   // No grants news box on the home page (its tiles, images and links are gone); the funding-type tiles sit under
   // "Business Grants & Funding Resources".
@@ -441,7 +441,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   for (const label of ['Sovereign', 'Pension', 'Private Equity', 'REITs', 'Family Offices', 'Banks', 'Government', 'Endowments']) {
     assert.ok(!home.includes(`['${label}', `), `category bar has no ${label} link`);
   }
-  assert.ok(home.includes("[['Watch & Listen', { href: 'Videos.dc.html' }], ['Funding Opportunities', { href: 'GrantsFunding.dc.html' }], ['Finance Careers', { href: 'Careers.dc.html' }], ['Industry Events', { href: 'Events.dc.html' }]]"), 'home bar ends with Watch & Listen, Funding Opportunities, Finance Careers and Industry Events (Partner with us is the button)');
+  assert.ok(home.includes("[['Watch & Learn', { href: 'Videos.dc.html' }], ['Funding Opportunities', { href: 'GrantsFunding.dc.html' }], ['Finance Careers', { href: 'Careers.dc.html' }], ['Industry Events', { href: 'Events.dc.html' }]]"), 'home bar ends with Watch & Learn, Funding Opportunities, Finance Careers and Industry Events (Partner with us is the button)');
   for (const gone of ['Latest', 'Fundraising', 'Deals', 'People', 'Venture', 'Credit', 'Secondaries', 'Hedge Funds', 'LPs', 'Regulation', 'Providers']) {
     assert.ok(!home.includes(`['${gone}', [`), `category bar no longer has ${gone}`);
   }
@@ -638,9 +638,9 @@ test('Videos & Podcasts: a header link on every page and a video hub page of dum
   const page = read('frontend_demo', 'Videos.dc.html');
   for (const f of [...readdirSync(path.join(repo, 'frontend_demo', 'news')).filter((n) => n.endsWith('.html')).map((n) => ['frontend_demo', 'news', n]),
     ['backend', 'templates', 'story.html'], ['backend', 'templates', 'job.html']]) {
-    assert.ok(read(...f).includes('<a href="../Videos.dc.html">Watch &amp; Listen</a>'), `${f.join('/')} header links to Watch & Listen`);
+    assert.ok(read(...f).includes('<a href="../Videos.dc.html">Watch &amp; Learn</a>'), `${f.join('/')} header links to Watch & Learn`);
   }
-  assert.ok(read('js', 'fundsae-header.js').includes("['Watch & Listen', 'Videos.dc.html']"), 'mobile menu links to Watch & Listen');
+  assert.ok(read('js', 'fundsae-header.js').includes("['Watch & Learn', 'Videos.dc.html']"), 'mobile menu links to Watch & Learn');
   assert.ok(read('frontend_demo', 'this.html').includes('<a href="Videos.dc.html" style="display: inline-block; margin-top: 16px'), 'home box View All opens the page');
   assert.ok(page.includes('<title>Videos &amp; Podcasts · Funds.ae</title>') && page.includes('<a href="Videos.dc.html" aria-current="page">'), 'title and current link');
   // Tabs: All, Videos, Podcasts, Interviews, Events; js/fundsae-media.js draws the compact sections (no big banner).
@@ -661,7 +661,7 @@ test('Videos & Podcasts: a header link on every page and a video hub page of dum
   assert.ok(episode.includes('<article class="ep" data-vp-episode>') && episode.includes('src="../js/fundsae-media.js"') &&
     episode.includes('<a href="Videos.dc.html?section=podcasts">Podcasts</a>') && episode.includes('<a href="Videos.dc.html" aria-current="page">'), 'podcast episode page');
   for (const id of ['ep-14', 'ep-13', 'ep-12', 'ep-11', 'ep-10', 'ep-9']) assert.ok(media.includes(`'${id}': [`), `episode ${id} has its page text`);
-  assert.ok(read('i18n.js').includes("'Watch & Listen': "), 'Arabic label');
+  assert.ok(read('i18n.js').includes("'Watch & Learn': "), 'Arabic label');
 });
 
 test('Grants & Funding page: dummy funding, loan and grant opportunities, browsed by type of funding', () => {

@@ -11,7 +11,7 @@
 (function () {
   'use strict';
 
-  var MENU = [['Property News', 'this.html'], ['Watch & Listen', 'Videos.dc.html'], ['Funding Opportunities', 'GrantsFunding.dc.html'],
+  var MENU = [['Property News', 'this.html'], ['Watch & Learn', 'Videos.dc.html'], ['Funding Opportunities', 'GrantsFunding.dc.html'],
     ['Finance Careers', 'Careers.dc.html'], ['Industry Events', 'Events.dc.html'], ['Partner with us', 'PartnerWithUs.dc.html'],
     ['About', 'About.dc.html'], ['Contact us', 'PartnerWithUs.dc.html#contact']];
   var tr = function (s) { return (window.__fundsTr || function (x) { return x; })(s); };
