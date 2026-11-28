@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-11-28T09:48:25.304Z",
+  "generatedAt": "2026-11-28T09:49:44.896Z",
   "notice": "Editorial content written by the Funds.ae team. Top Tweets items link to the original posts.",
   "slots": {
     "socialHighlights": [],
@@ -11,7 +11,7 @@
         "name": "Gold Partner",
         "badge": "Recommended",
         "price": "AED 9,500",
-        "priceNote": "/ month, billed quarterly",
+        "priceNote": "/ month",
         "showPrice": true,
         "duration": null,
         "placements": [
@@ -51,7 +51,7 @@
         "name": "Elite Partner",
         "badge": "Thought leadership",
         "price": "AED 22,000",
-        "priceNote": "/ month, billed quarterly",
+        "priceNote": "/ month",
         "showPrice": true,
         "duration": null,
         "placements": [
@@ -81,7 +81,7 @@
         "name": "Exclusive Partner",
         "badge": "Exclusive Partnership",
         "price": "AED 55,000",
-        "priceNote": "/ month, 6-month minimum",
+        "priceNote": "/ month",
         "showPrice": true,
         "duration": null,
         "placements": [],

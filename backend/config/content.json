@@ -12,7 +12,7 @@
       "name": "Gold Partner",
       "badge": "Recommended",
       "price": "AED 9,500",
-      "priceNote": "/ month, billed quarterly",
+      "priceNote": "/ month",
       "showPrice": true,
       "placements": [
         {
@@ -54,7 +54,7 @@
       "name": "Elite Partner",
       "badge": "Thought leadership",
       "price": "AED 22,000",
-      "priceNote": "/ month, billed quarterly",
+      "priceNote": "/ month",
       "showPrice": true,
       "placements": [
         {
@@ -96,7 +96,7 @@
       "name": "Exclusive Partner",
       "badge": "Exclusive Partnership",
       "price": "AED 55,000",
-      "priceNote": "/ month, 6-month minimum",
+      "priceNote": "/ month",
       "showPrice": true,
       "placements": [
         {
