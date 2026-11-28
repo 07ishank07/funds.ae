@@ -473,7 +473,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   // The Finance Careers banner (as on the home page) tops the page; its heading is the page h1. No Demo data badge.
   assert.match(careers, /<h1 id="careers-banner-title" class="fx-cb-title">Your next move in finance<\/h1>/);
   assert.ok(careers.includes('href="careers-banner.css?v=2"') && careers.includes('<img class="fx-cb-photo" src="img/careers-banner.jpg" alt="">'), 'Careers shows the banner');
-  assert.ok(!careers.includes('View finance jobs') && careers.includes('<a class="fx-cb-btn fx-cb-btn--ghost post-job-btn" href="PostJob.dc.html">Post a job</a>'), 'the Careers banner keeps only Post a job');
+  assert.ok(!careers.includes('View finance jobs') && !careers.includes('fx-cb-acts') && !careers.includes('post-job-btn'), 'the Careers banner has no buttons');
   assert.ok(!careers.includes('Financial Services Jobs') && careers.indexOf('fx-careers-top') < careers.indexOf('id="opportunities"'), 'banner replaces the old heading, above the listings');
   // Grants & Funding banner (the Grants page hero: photo, label, headline) in column 2, directly above Career Resources;
   // the home page shows the same card in column 2, directly above Sponsored Posts. Both use grants-promo.css.
@@ -788,7 +788,7 @@ test('every website form posts only field names the API accepts', () => {
     assert.deepEqual(values, list, `${name} choices match the API`);
   }
   assert.ok(postJob.includes('fundsae-forms.js'), 'PostJob loads the forms script');
-  assert.ok(readFileSync(path.join(repo, 'frontend_demo', 'Careers.dc.html'), 'utf8').includes('<a class="fx-cb-btn fx-cb-btn--ghost post-job-btn" href="PostJob.dc.html">Post a job</a>'), 'Careers links to Post a job (in its banner)');
+  // Post a job is no longer linked from the Careers banner; the page stays available at PostJob.dc.html.
 });
 
 test('the old news feed page is removed: News.dc.html only forwards to Real Estate News, and nothing links to it', () => {
