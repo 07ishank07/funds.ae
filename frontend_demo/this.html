@@ -1246,9 +1246,12 @@ document.addEventListener('DOMContentLoaded', async function() {
           const fundTypes = document.createElement('section');
           fundTypes.className = 'fx-fundtypes';
           fundTypes.setAttribute('aria-label', 'Funding by type');
+          // js/fundsae-connector.js updates the words, counts and order from Sanity (content.json grants).
+          fundTypes.setAttribute('data-fundsae-slot', 'grants-types-home');
           FUND_TYPES.forEach(([id, title, desc, count, icon]) => {
             const tile = document.createElement('a');
             tile.className = 'fx-fundtype';
+            tile.dataset.fundType = id;
             tile.href = 'GrantsFunding.dc.html?category=' + id;
             tile.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true">' + icon + '</svg>';
             const text = document.createElement('span');

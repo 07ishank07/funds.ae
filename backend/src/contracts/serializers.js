@@ -221,6 +221,25 @@ export function toAdvertiseTierDto(tier) {
 }
 
 /** The hero banner (content.json "hero"). No style means the first (Photo); the buttons link only to known site pages. */
+/** One Grants & Funding type tile; count is the number of shown programmes of that type. */
+export function toFundingTypeDto(type, count) {
+  return { id: type.id, title: type.title, description: type.description, count };
+}
+
+/** One Grants & Funding programme card. */
+export function toFundingProgrammeDto(p) {
+  return {
+    id: p.id,
+    provider: p.provider,
+    kind: p.kind,
+    place: p.place,
+    types: [...p.types],
+    description: p.description,
+    url: nullable(p.url),
+    featured: Boolean(p.featured)
+  };
+}
+
 export function toHeroDto(hero) {
   const page = (target) => (Object.hasOwn(HERO_BUTTON_TARGETS, target || '') ? HERO_BUTTON_TARGETS[target] : null);
   const href = page(hero.buttonTarget);

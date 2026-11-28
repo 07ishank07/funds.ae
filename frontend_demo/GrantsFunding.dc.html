@@ -141,7 +141,7 @@
   <!-- Browse by type of funding: each tile filters the opportunities below (and can be linked: ?category=<id>). -->
   <section class="gf-types" aria-labelledby="gf-types-title">
     <h2 id="gf-types-title" class="gf-sr">Browse by type of funding</h2>
-    <div class="gf-type-grid">
+    <div class="gf-type-grid" data-fundsae-slot="grants-types">
       <button type="button" class="gf-type" data-gf-cat="sme-grants" aria-pressed="false">
         <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M9 21v-4h6v4M8 7h2M14 7h2M8 11h2M14 11h2"/></svg>
         <span class="gf-type-text"><strong>SME Grants</strong><span>Grants for established businesses across all sectors</span><small>2 programmes</small></span>
@@ -198,7 +198,9 @@
   <p class="gf-count" data-gf-count role="status" aria-live="polite">Showing 15 of 15 opportunities</p>
   </div>
 
-  <section class="gf-list" aria-label="Funding opportunities">
+  <!-- The built-in cards and tiles are replaced by js/fundsae-connector.js with the types and programmes published
+       from Sanity (content.json grants); without them this content stays. -->
+  <section class="gf-list" aria-label="Funding opportunities" data-fundsae-slot="grants-programmes">
       <article class="gf-card gf-featured" data-type="grant" data-emirate="uae" data-cats="sme-grants export">
         <p class="gf-kicker">Grant · UAE-wide · <span class="gf-pick">Featured</span></p>
         <h3>Crescent Innovation Fund</h3>
@@ -342,9 +344,10 @@
 <script src="../js/fundsae-connector.js" defer></script>
 <script>
   // Grants & Funding: a funding-type tile (also ?category=<id> in the address) shows only that type's cards and
-  // updates the count. Text is set with textContent only.
+  // updates the count. Text is set with textContent only. The cards are read again on every change, because
+  // js/fundsae-connector.js may replace them with the programmes published from Sanity (it then calls __gfRefresh).
   (function () {
-    var cards = Array.prototype.slice.call(document.querySelectorAll('.gf-card'));
+    var allCards = function () { return Array.prototype.slice.call(document.querySelectorAll('.gf-card')); };
     var tiles = Array.prototype.slice.call(document.querySelectorAll('[data-gf-cat]'));
     var count = document.querySelector('[data-gf-count]');
     var empty = document.querySelector('[data-gf-empty]');
@@ -354,6 +357,7 @@
     var cat = '';
     function apply() {
       var shown = 0;
+      var cards = allCards();
       cards.forEach(function (card) {
         var ok = !cat || (' ' + card.getAttribute('data-cats') + ' ').indexOf(' ' + cat + ' ') !== -1;
         card.hidden = !ok;
@@ -363,7 +367,7 @@
       if (empty) empty.hidden = shown !== 0;
     }
     function setCategory(id, scroll) {
-      var tile = tiles.filter(function (t) { return t.getAttribute('data-gf-cat') === id; })[0];
+      var tile = tiles.filter(function (t) { return !t.hidden && t.getAttribute('data-gf-cat') === id; })[0];
       cat = tile ? id : '';
       tiles.forEach(function (t) { t.setAttribute('aria-pressed', String(t === tile)); });
       if (active) active.hidden = !tile;
@@ -382,6 +386,8 @@
         setCategory(cat === id ? '' : id, cat !== id);
       });
     });
+    // After the connector has filled the cards and tiles: keep the chosen type, recount.
+    window.__gfRefresh = function () { setCategory(cat, false); };
     var clear = document.querySelector('[data-gf-clear]');
     if (clear) clear.addEventListener('click', function () { setCategory('', false); });
     // Opened with ?category=<id>: select that type, then jump to the results once the page has finished loading.

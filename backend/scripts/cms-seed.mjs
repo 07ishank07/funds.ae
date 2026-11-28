@@ -6,6 +6,7 @@
 //   cd ../studio && npx sanity datasets import seed/fundsae-seed.ndjson development --replace
 //
 // Reads:  backend/config/sponsors.json (+ images in assets/sponsors/), backend/config/events.json,
+//         backend/config/content.json (packages and Grants & Funding types and programmes),
 //         the package cards in frontend_demo/PartnerWithUs.dc.html and the body copy of
 //         About/Privacy/Terms (sections marked data-fundsae-keep are skipped).
 // Writes: studio/seed/fundsae-seed.ndjson (git-ignored). Nothing is sent anywhere.
@@ -185,6 +186,22 @@ export function eventDocs(list) {
   });
 }
 
+/** Grants & Funding: one document per type tile (fixed id) and per programme. Public content, no personal data. */
+export function grantDocs(grants) {
+  if (!grants) return [];
+  return [
+    ...(grants.types || []).map((t) => compact({
+      _id: `fundingType-${t.id}`, _type: 'fundingType', typeId: t.id, title: t.title, description: t.description,
+      position: t.position, enabled: t.enabled !== false
+    })),
+    ...(grants.programmes || []).map((p) => compact({
+      _id: `fundingProgramme-${p.id}`, _type: 'fundingProgramme', id: { _type: 'slug', current: p.id }, provider: p.provider,
+      kind: p.kind, place: p.place, types: p.types, description: p.description, url: p.url || undefined,
+      featured: Boolean(p.featured), position: p.position, enabled: p.enabled !== false
+    }))
+  ];
+}
+
 export function buildSeed({ root = REPO_ROOT, siteUrl = 'https://funds.ae/frontend_demo/' } = {}) {
   keySeq = 0;
   const read = (rel) => readFileSync(path.join(root, rel), 'utf8');
@@ -194,6 +211,7 @@ export function buildSeed({ root = REPO_ROOT, siteUrl = 'https://funds.ae/fronte
     ...sponsorDocs(sponsors),
     ...eventDocs(events),
     ...tierDocs(JSON.parse(read('backend/config/content.json')).advertiseTiers),
+    ...grantDocs(JSON.parse(read('backend/config/content.json')).grants),
     ...[['about', 'About'], ['privacy', 'Privacy'], ['terms', 'Terms']].map(([slug, file]) => pageFromHtml(read(`frontend_demo/${file}.dc.html`), slug, siteUrl))
   ];
 }

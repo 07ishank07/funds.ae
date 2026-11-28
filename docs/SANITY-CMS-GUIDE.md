@@ -18,6 +18,7 @@ This guide explains how the Sanity CMS is built into funds.ae, how to set it up 
 9. [Editor quick guide](#9-editor-quick-guide)
 10. [Careers: jobs, employers and Post a Job](#10-careers-jobs-employers-and-post-a-job)
 11. [Where this goes next](#11-where-this-goes-next)
+12. [Editing each page](#12-editing-each-page)
 
 ---
 
@@ -480,3 +481,33 @@ Editors can also add jobs themselves with **Careers → Add a job**; they follow
   - Map them to `{ en, ar }` in `mapping.js`, extend the DTOs, and have the connector pick by `api.lang()`.
   - Re-render on `api.onLanguageChange`.
 - **Live preview (optional).** Sanity's Presentation tool can show drafts on a preview build of the site. It needs a draft-aware read path, so keep it off the public site.
+
+## 12. Editing each page
+
+The Studio's menu is organised like the website. Open the page you want to change:
+
+| Menu group | What you edit there |
+|---|---|
+| **Home page** | Hero banner, Spotlight, Sponsored Posts, Videos and Podcasts (sponsored), Featured Partners, Top Tweets |
+| **Real Estate News** | The News Review Queue; news sources, Capital Types and Asset Classes |
+| **Grants & Funding** | Programmes (the opportunity cards) and Types of funding (the twelve tiles, also on the home page) |
+| **Events** | Events and Expos |
+| **Finance Careers** | Jobs, employers, Top Employers and Top Jobs, Career Resources |
+| **Partner with us** | The packages |
+| **Site-wide** | The Elite Founding Sponsor banner; About, Privacy and Terms; sponsor areas not shown on the site |
+
+### 12.1 Grants & Funding
+
+- **Programmes:** provider name, what it offers (Grant, Loan, Equity or Trade finance), where it applies (UAE-wide or an emirate), one to three types of funding, a short description (20 to 200 characters) and an optional https link. With no link the card says "View details" as coming soon. Tick *Featured* to highlight it; untick *Show on the site* to hide it.
+- **Types of funding:** the twelve tiles keep their icons, so you choose the tile and change its title, one-line description and order, or hide it. The number of programmes on each tile is counted automatically.
+- Publishing works as for other content (Publish, then the site updates). With nothing published the page keeps its built-in programmes.
+
+### 12.2 Privacy
+
+The dataset is public on the Free plan, so everything in these page groups can be read by anyone. Describe organisations and programmes only: never enter a person's name, phone number or personal email. Private material (the news queue under `queue.*`, posted jobs and the job filer's details under `jobs.*`) stays in private documents, as before. The site only pulls published documents and only the fields it shows.
+
+### 12.3 After an update to the Studio
+
+1. Load the starting content into a test dataset: `cd backend && npm run cms:seed`, then `cd ../studio && npx sanity datasets import seed/fundsae-seed.ndjson development --replace`.
+2. Deploy the Studio: `cd studio && npm run deploy`. Import into `production` once you are happy (use `--missing` to add only what is not there yet).
+

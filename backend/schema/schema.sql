@@ -245,6 +245,28 @@ CREATE TABLE IF NOT EXISTS home_hero (
 
 -- Gulf Economy box on the home page: IMF World Economic Outlook figures (percent), one row per country,
 -- replaced by each run (src/pipeline/economy.js). Published as api/v1/economy.json with the IMF credit.
+-- Grants & Funding (edited in Sanity: fundingType, fundingProgramme). Public content only, no personal data.
+CREATE TABLE IF NOT EXISTS funding_types (
+    id          TEXT PRIMARY KEY CHECK (id IN ('sme-grants', 'startup', 'rd', 'technology', 'green', 'manufacturing', 'export', 'sme-loans', 'islamic', 'emirati', 'venture', 'free-zone')),
+    title       TEXT NOT NULL CHECK (char_length(title) BETWEEN 2 AND 40),
+    description TEXT NOT NULL CHECK (char_length(description) BETWEEN 2 AND 80),
+    position    INTEGER NOT NULL DEFAULT 10,
+    enabled     BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+CREATE TABLE IF NOT EXISTS funding_programmes (
+    id          TEXT PRIMARY KEY CHECK (id ~ '^[a-z0-9][a-z0-9-]{1,60}$'),
+    provider    TEXT NOT NULL CHECK (char_length(provider) BETWEEN 2 AND 70),
+    kind        TEXT NOT NULL CHECK (kind IN ('grant', 'loan', 'equity', 'trade')),
+    place       TEXT NOT NULL CHECK (place IN ('uae', 'abu-dhabi', 'dubai', 'sharjah', 'northern')),
+    types       TEXT[] NOT NULL CHECK (cardinality(types) BETWEEN 1 AND 3),
+    description TEXT NOT NULL CHECK (char_length(description) BETWEEN 20 AND 200),
+    url         TEXT CHECK (url IS NULL OR url ~ '^https://'),
+    featured    BOOLEAN NOT NULL DEFAULT FALSE,
+    position    INTEGER NOT NULL DEFAULT 10,
+    enabled     BOOLEAN NOT NULL DEFAULT TRUE
+);
+
 CREATE TABLE IF NOT EXISTS economy_figures (
     id          TEXT PRIMARY KEY CHECK (id ~ '^[A-Z]{3}$'),      -- IMF country code, e.g. ARE
     country     TEXT NOT NULL CHECK (char_length(country) BETWEEN 2 AND 40),

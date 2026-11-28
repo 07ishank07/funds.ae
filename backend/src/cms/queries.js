@@ -23,6 +23,12 @@ export const CONTENT_QUERY = `{
   "pages": *[_type == "page" && ${published}] | order(slug asc) {
     slug, title, intro, updatedAt, body
   },
+  "fundingTypes": *[_type == "fundingType" && enabled != false && ${published}] | order(position asc, title asc) {
+    "id": typeId, title, description, position
+  },
+  "fundingProgrammes": *[_type == "fundingProgramme" && enabled != false && ${published}] | order(position asc, provider asc) {
+    "id": id.current, provider, kind, place, types, description, url, featured, position
+  },
   "hero": *[_id == "homeHero"][0] {
     eyebrow, title, highlight, subtitle, imageAlt, style, buttonLabel, buttonTarget, button2Label, button2Target, "image": image.asset->{url, mimeType, size}
   }

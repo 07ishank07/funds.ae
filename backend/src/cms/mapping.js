@@ -142,6 +142,21 @@ export function toPages(docs) {
   }));
 }
 
+/**
+ * Grants & Funding (Sanity fundingType + fundingProgramme), or undefined when neither is published, so the page keeps
+ * its built-in content. Only the fields the site shows are copied.
+ */
+export function toGrants(types = [], programmes = []) {
+  if (!types.length && !programmes.length) return undefined;
+  return {
+    types: types.map((t) => compact({ id: t.id, title: t.title, description: t.description, position: t.position })),
+    programmes: programmes.map((p) => compact({
+      id: p.id, provider: p.provider, kind: p.kind, place: p.place, types: p.types, description: p.description,
+      url: p.url, featured: Boolean(p.featured), position: p.position
+    }))
+  };
+}
+
 /** The home page hero (Sanity singleton "homeHero"), or undefined when none is published. Image: PNG, JPG or WebP up to 1.5 MB. */
 export function toHero(doc, errors = []) {
   if (!doc || !doc.title) return undefined;
@@ -168,10 +183,11 @@ export function mapSanityContent(result) {
   const sponsors = toSponsorsConfig(r.sponsors);
   const errors = [...sponsors.errors];
   const hero = toHero(r.hero, errors);
+  const grants = toGrants(r.fundingTypes || [], r.fundingProgrammes || []);
   return {
     sponsors: sponsors.config,
     events: toEventsList(r.events),
-    content: { socialHighlights: toHighlights(r.highlights), advertiseTiers: toTiers(r.tiers), pages: toPages(r.pages), ...(hero ? { hero } : {}) },
+    content: { socialHighlights: toHighlights(r.highlights), advertiseTiers: toTiers(r.tiers), pages: toPages(r.pages), ...(hero ? { hero } : {}), ...(grants ? { grants } : {}) },
     errors
   };
 }

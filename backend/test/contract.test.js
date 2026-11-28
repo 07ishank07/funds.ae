@@ -88,6 +88,20 @@ test('content.json has the Sanity-managed slots and pages, with the contract fie
   // The home page hero banner: null until one is published in Sanity, then the contract fields.
   assert.ok('hero' in doc, 'content.json carries hero');
   if (doc.hero !== null) sameKeys(doc.hero, DTO_FIELDS.hero, 'hero');
+  // Grants & Funding (edited in Sanity): types with their programme counts, programmes; null keeps the built-in page.
+  assert.ok('grants' in doc, 'content.json carries grants');
+  if (doc.grants !== null) {
+    assert.deepEqual(Object.keys(doc.grants).sort(), ['programmes', 'types']);
+    for (const t of doc.grants.types) sameKeys(t, DTO_FIELDS.fundingType, `funding type ${t.id}`);
+    for (const p of doc.grants.programmes) sameKeys(p, DTO_FIELDS.fundingProgramme, `programme ${p.id}`);
+    for (const t of doc.grants.types) assert.equal(t.count, doc.grants.programmes.filter((p) => p.types.includes(t.id)).length, `${t.id} count`);
+  }
+  const grantsPage = readFileSync(path.join(repo, 'frontend_demo', 'GrantsFunding.dc.html'), 'utf8');
+  assert.ok(grantsPage.includes('<div class="gf-type-grid" data-fundsae-slot="grants-types">') &&
+    grantsPage.includes('data-fundsae-slot="grants-programmes"') && grantsPage.includes('window.__gfRefresh = function () { setCategory(cat, false); };'), 'Grants page slots and refresh');
+  const grantsJs = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
+  const grantsFn = grantsJs.slice(grantsJs.indexOf('function programmeCard('), grantsJs.indexOf('/* ------------------------------- Gulf Economy'));
+  assert.ok(grantsFn.includes('textContent') && !/innerHTML/.test(grantsFn) && grantsFn.includes('{ httpsOnly: true }'), 'programme cards: textContent, https links');
   // The home page tags its hero as the slot the connector fills.
   const home = readFileSync(path.join(repo, 'frontend_demo', 'this.html'), 'utf8');
   assert.ok(home.includes("hero.setAttribute('data-fundsae-slot', 'home-hero')"), 'home hero slot');

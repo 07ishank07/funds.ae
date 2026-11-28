@@ -99,6 +99,37 @@ export const HERO_BUTTON_TARGETS = {
 }
 export const HERO_LIMITS = { eyebrow: [2, 60], title: [8, 80], highlight: [0, 30], subtitle: [0, 240], imageAlt: [0, 140], buttonLabel: [2, 30], button2Label: [2, 30], imageMaxBytes: 1572864 };
 
+/** Grants & Funding (equals CONTENT_LIMITS.grants and the FUNDING_* lists in the backend; test/cms.test.js checks). */
+export const GRANTS_LIMITS = { typeTitle: [2, 40], typeDescription: [2, 80], maxProgrammes: 100, provider: [2, 70], description: [20, 200], types: [1, 3] };
+// The twelve type tiles; each id has its own icon on the site, so the list is fixed.
+export const FUNDING_TYPES = [
+  {value: 'sme-grants', title: 'SME Grants'},
+  {value: 'startup', title: 'Startup Funding'},
+  {value: 'rd', title: 'Innovation & R&D'},
+  {value: 'technology', title: 'Technology & AI'},
+  {value: 'green', title: 'Green & Sustainability'},
+  {value: 'manufacturing', title: 'Manufacturing & Industry'},
+  {value: 'export', title: 'Export & Trade Finance'},
+  {value: 'sme-loans', title: 'SME Loans'},
+  {value: 'islamic', title: 'Islamic Finance'},
+  {value: 'emirati', title: 'Emirati Founders'},
+  {value: 'venture', title: 'Venture & Angel Investment'},
+  {value: 'free-zone', title: 'Free Zone Support'},
+];
+export const FUNDING_KINDS = [
+  {value: 'grant', title: 'Grant'},
+  {value: 'loan', title: 'Loan'},
+  {value: 'equity', title: 'Equity'},
+  {value: 'trade', title: 'Trade finance'},
+];
+export const FUNDING_PLACES = [
+  {value: 'uae', title: 'UAE-wide'},
+  {value: 'abu-dhabi', title: 'Abu Dhabi'},
+  {value: 'dubai', title: 'Dubai'},
+  {value: 'sharjah', title: 'Sharjah'},
+  {value: 'northern', title: 'Northern Emirates'},
+];
+
 export const HEX_COLOR = /^#[0-9A-Fa-f]{6}$/;
 export const ID_PATTERN = /^[a-z0-9][a-z0-9-]{1,60}$/;
 export const IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/webp'];

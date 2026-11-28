@@ -1187,6 +1187,7 @@
 
   function renderContent(doc) {
     renderHero(doc.hero);
+    renderGrants(doc.grants);
     var s = doc.slots || {};
     renderHighlights(api.items(s.socialHighlights, api.valid.socialHighlight, 'Top Tweets items'));
     renderTiers(api.items(s.advertiseTiers, api.valid.advertiseTier, 'Advertise packages'));
@@ -1339,6 +1340,106 @@
     updateNewsMore();
   }
 
+  /* ----------------------------- Grants & Funding ----------------------------- */
+  // content.json grants (edited in Sanity): the type tiles on the Grants & Funding page and the home page, and the
+  // programme cards. Built with textContent; links are https only. Without grants the built-in content stays.
+
+  var GRANT_KINDS = { grant: 'Grant', loan: 'Loan', equity: 'Equity', trade: 'Trade finance' };
+  var GRANT_PLACES = { uae: 'UAE-wide', 'abu-dhabi': 'Abu Dhabi', dubai: 'Dubai', sharjah: 'Sharjah', northern: 'Northern Emirates' };
+  var GRANT_TYPE_ID = /^[a-z0-9][a-z0-9-]{0,30}$/;
+
+  function programmeCount(n) { return n + (n === 1 ? ' programme' : ' programmes'); }
+
+  function validFundingType(t) {
+    return !!t && GRANT_TYPE_ID.test(t.id) && typeof t.title === 'string' && t.title && typeof t.description === 'string' && typeof t.count === 'number';
+  }
+
+  function validProgramme(p) {
+    return !!p && typeof p.id === 'string' && typeof p.provider === 'string' && p.provider && Object.prototype.hasOwnProperty.call(GRANT_KINDS, p.kind) &&
+      Object.prototype.hasOwnProperty.call(GRANT_PLACES, p.place) && Array.isArray(p.types) && p.types.every(function (t) { return GRANT_TYPE_ID.test(t); }) &&
+      typeof p.description === 'string' && (p.url === null || typeof p.url === 'string');
+  }
+
+  /** Updates a set of type tiles (by id): words, count, order; tiles without a published type are hidden. */
+  function fillTypeTiles(grid, tiles, idOf, types, parts) {
+    var byId = {};
+    types.forEach(function (t) { byId[t.id] = t; });
+    tiles.forEach(function (tile) {
+      var t = byId[idOf(tile)];
+      tile.hidden = !t;
+      if (!t) return;
+      var title = tile.querySelector(parts.title);
+      var desc = tile.querySelector(parts.description);
+      var count = tile.querySelector(parts.count);
+      if (title) title.textContent = t.title;
+      if (desc) desc.textContent = t.description;
+      if (count) count.textContent = programmeCount(t.count);
+    });
+    types.forEach(function (t) {
+      var tile = tiles.filter(function (x) { return idOf(x) === t.id; })[0];
+      if (tile) grid.appendChild(tile);
+    });
+  }
+
+  function programmeCard(p, titles) {
+    var art = document.createElement('article');
+    art.className = 'gf-card' + (p.featured ? ' gf-featured' : '');
+    art.setAttribute('data-type', p.kind);
+    art.setAttribute('data-emirate', p.place);
+    art.setAttribute('data-cats', p.types.join(' '));
+    var kicker = document.createElement('p');
+    kicker.className = 'gf-kicker';
+    kicker.textContent = GRANT_KINDS[p.kind] + ' \u00b7 ' + GRANT_PLACES[p.place];
+    if (p.featured) {
+      kicker.appendChild(document.createTextNode(' \u00b7 '));
+      var pick = document.createElement('span');
+      pick.className = 'gf-pick';
+      pick.textContent = 'Featured';
+      kicker.appendChild(pick);
+    }
+    var h3 = document.createElement('h3');
+    h3.textContent = p.provider;
+    var brief = document.createElement('p');
+    brief.className = 'gf-brief';
+    brief.textContent = p.description;
+    var cats = document.createElement('p');
+    cats.className = 'gf-cats';
+    cats.textContent = p.types.map(function (t) { return titles[t]; }).filter(Boolean).join(' \u00b7 ');
+    var link = document.createElement('a');
+    link.className = 'gf-link';
+    link.textContent = 'View details ';
+    var arrow = document.createElement('span');
+    arrow.setAttribute('aria-hidden', 'true');
+    arrow.textContent = '\u2192';
+    link.appendChild(arrow);
+    if (api.setLink(link, p.url, { httpsOnly: true })) link.setAttribute('aria-label', 'View details: ' + p.provider + ' (opens the provider\'s site)');
+    else { link.href = '#'; link.setAttribute('aria-label', 'View details: ' + p.provider + ' (coming soon)'); }
+    [kicker, h3, brief, cats, link].forEach(function (el) { art.appendChild(el); });
+    return art;
+  }
+
+  function renderGrants(grants) {
+    if (!grants || typeof grants !== 'object') return;
+    var types = api.items(grants.types, validFundingType, 'funding types');
+    var programmes = api.items(grants.programmes, validProgramme, 'funding programmes');
+    if (!types.length && !programmes.length && state.mode !== 'live') return;
+    var titles = {};
+    types.forEach(function (t) { titles[t.id] = t.title; });
+    slots('grants-types').forEach(function (grid) {
+      fillTypeTiles(grid, children(grid, '[data-gf-cat]'), function (tile) { return tile.getAttribute('data-gf-cat'); }, types,
+        { title: 'strong', description: '.gf-type-text > span', count: 'small' });
+    });
+    slots('grants-types-home').forEach(function (grid) {
+      fillTypeTiles(grid, children(grid, '[data-fund-type]'), function (tile) { return tile.getAttribute('data-fund-type'); }, types,
+        { title: 'strong', description: 'span > span', count: 'small' });
+    });
+    slots('grants-programmes').forEach(function (list) {
+      list.textContent = '';
+      programmes.forEach(function (p) { list.appendChild(programmeCard(p, titles)); });
+    });
+    if (typeof window.__gfRefresh === 'function') window.__gfRefresh();
+  }
+
   /* ------------------------------- Gulf Economy ------------------------------- */
   // Home page column 3, "Gulf Economy at a Glance": the IMF's projected real GDP and consumer prices per country
   // (api/v1/economy.json), headed and written as on imf.org ("2026 Projected Real GDP (% Change)": -15.6). The rows and
@@ -1458,7 +1559,7 @@
       }
       var sponsorSlots = ['sponsor-founding', 'sponsor-platinum', 'sponsor-posts', 'sponsor-media', 'sponsor-companies', 'career-resources'];
       if (sponsorSlots.some(hasSlot)) guard('Sponsors', load('sponsors.json', 'sponsors').then(renderSponsors));
-      if (hasSlot('social-highlights') || hasSlot('advertise-tiers') || hasSlot('page-body') || hasSlot('home-hero')) {
+      if (hasSlot('social-highlights') || hasSlot('advertise-tiers') || hasSlot('page-body') || hasSlot('home-hero') || hasSlot('grants-programmes') || hasSlot('grants-types-home')) {
         guard('Editorial content', load('content.json', 'content').then(renderContent));
       }
     }).catch(function (err) {

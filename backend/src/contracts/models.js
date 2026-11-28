@@ -55,6 +55,13 @@ export const HERO_BUTTON_TARGETS = {
 };
 // Editorial content managed in Sanity (studio/) and published as api/v1/content.json.
 export const CONTENT_SLOTS = ['socialHighlights', 'advertiseTiers'];
+// Grants & Funding (content.json "grants", edited in Sanity): the twelve funding types (each id has its own icon on
+// the site, so the list is fixed), what a programme is, and where it applies. Equal to studio/schemaTypes/rules.js.
+export const FUNDING_TYPE_IDS = ['sme-grants', 'startup', 'rd', 'technology', 'green', 'manufacturing', 'export', 'sme-loans', 'islamic', 'emirati', 'venture', 'free-zone'];
+export const FUNDING_KINDS = ['grant', 'loan', 'equity', 'trade'];
+export const FUNDING_KIND_LABELS = { grant: 'Grant', loan: 'Loan', equity: 'Equity', trade: 'Trade finance' };
+export const FUNDING_PLACES = ['uae', 'abu-dhabi', 'dubai', 'sharjah', 'northern'];
+export const FUNDING_PLACE_LABELS = { uae: 'UAE-wide', 'abu-dhabi': 'Abu Dhabi', dubai: 'Dubai', sharjah: 'Sharjah', northern: 'Northern Emirates' };
 export const PAGE_SLUGS = ['about', 'privacy', 'terms'];
 export const PAGE_BLOCK_TYPES = ['p', 'h2', 'h3', 'li'];
 export const PAGE_LIST_TYPES = ['bullet', 'number'];
@@ -329,6 +336,15 @@ export const DB_MODELS = {
     fields: ['eyebrow', 'title', 'highlight', 'subtitle', 'image', 'imageAlt', 'style', 'buttonLabel', 'buttonTarget', 'button2Label', 'button2Target']
   },
   // Gulf Economy box: one row per country, replaced by each run (src/pipeline/economy.js).
+  // Grants & Funding (Sanity fundingType / fundingProgramme): public content, no personal data.
+  fundingTypes: {
+    table: 'funding_types',
+    fields: ['id', 'title', 'description', 'position', 'enabled']
+  },
+  fundingProgrammes: {
+    table: 'funding_programmes',
+    fields: ['id', 'provider', 'kind', 'place', 'types', 'description', 'url', 'featured', 'position', 'enabled']
+  },
   economyFigures: {
     table: 'economy_figures',
     fields: ['id', 'country', 'code', 'gdpGrowth', 'inflation', 'year', 'dataset', 'fetchedAt']
@@ -366,6 +382,9 @@ export const DTO_FIELDS = {
   sponsorItem: ['id', 'title', 'blurb', 'label', 'logoText', 'website', 'url', 'image', 'colorFrom', 'colorTo', 'resourceType', 'sponsored'],
   socialHighlight: ['id', 'accountName', 'handle', 'text', 'url', 'initials', 'color'],
   advertiseTier: ['id', 'name', 'badge', 'price', 'priceNote', 'showPrice', 'duration', 'placements', 'features', 'ctaLabel', 'ctaUrl', 'featured'],
+  // content.json grants.types (count = shown programmes of that type) and grants.programmes (url null = "coming soon").
+  fundingType: ['id', 'title', 'description', 'count'],
+  fundingProgramme: ['id', 'provider', 'kind', 'place', 'types', 'description', 'url', 'featured'],
   advertisePlacement: ['type', 'label', 'detail'],
   page: ['slug', 'title', 'intro', 'updatedAt', 'blocks'],
   hero: ['eyebrow', 'title', 'highlight', 'subtitle', 'image', 'imageAlt', 'style', 'buttonLabel', 'buttonHref', 'button2Label', 'button2Href'],

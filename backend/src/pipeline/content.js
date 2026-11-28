@@ -5,6 +5,7 @@
 //   advertiseTiers    the package cards on the Advertise page
 //   pages             About, Privacy and Terms body copy
 //   hero              the home page hero banner (one, or none: the page keeps its built-in banner)
+//   grants            Grants & Funding: the funding types (tiles) and programmes (cards); none keeps the built-in page
 // `npm run cms:pull` writes it from Sanity; it can also be edited by hand.
 //
 // Invalid content fails the step with a plain-language message and the
@@ -15,18 +16,19 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { CONFIG_DIR, readJson } from '../config.js';
 import { log } from '../lib/logger.js';
-import { ADVERTISE_PLACEMENTS, HERO_BUTTON_TARGETS, HERO_STYLES, PAGE_BLOCK_TYPES, PAGE_LIST_TYPES, PAGE_SLUGS, RETIRED_ADVERTISING_TIERS } from '../contracts/models.js';
-import { toAdvertiseTierDto, toHeroDto, toPageDto, toSocialHighlightDto } from '../contracts/serializers.js';
+import { ADVERTISE_PLACEMENTS, FUNDING_KINDS, FUNDING_PLACES, FUNDING_TYPE_IDS, HERO_BUTTON_TARGETS, HERO_STYLES, PAGE_BLOCK_TYPES, PAGE_LIST_TYPES, PAGE_SLUGS, RETIRED_ADVERTISING_TIERS } from '../contracts/models.js';
+import { toAdvertiseTierDto, toFundingProgrammeDto, toFundingTypeDto, toHeroDto, toPageDto, toSocialHighlightDto } from '../contracts/serializers.js';
 import { EMAIL_RE, cleanInline, cleanText, rules, validate } from '../validation/validate.js';
 import { isSafePublicUrl } from '../lib/http.js';
 
-const { id, text, httpsUrl, enumOf, isoDate, bool } = rules;
+const { id, text, httpsUrl, enumOf, isoDate, bool, wholeNumber } = rules;
 
 export const CONTENT_LIMITS = {
   highlights: { maxItems: 5, accountName: [2, 40], handle: [2, 16], text: [10, 140], initials: [1, 3] },
   tiers: { maxItems: 4, name: [2, 40], badge: [2, 20], price: [2, 30], priceNote: [2, 40], duration: [2, 40], features: 8, feature: [2, 120], ctaLabel: [2, 30], placementDetail: [2, 120] },
   pages: { title: [2, 80], intro: [0, 400], blocks: 120, blockText: 2000 },
-  hero: { eyebrow: [2, 60], title: [8, 80], highlight: [0, 30], subtitle: [0, 240], imageAlt: [0, 140], buttonLabel: [2, 30], button2Label: [2, 30], imageMaxBytes: 1572864 }
+  hero: { eyebrow: [2, 60], title: [8, 80], highlight: [0, 30], subtitle: [0, 240], imageAlt: [0, 140], buttonLabel: [2, 30], button2Label: [2, 30], imageMaxBytes: 1572864 },
+  grants: { typeTitle: [2, 40], typeDescription: [2, 80], maxProgrammes: 100, provider: [2, 70], description: [20, 200], types: [1, 3] }
 };
 
 const HEX = /^#[0-9a-f]{6}$/i;
@@ -207,6 +209,61 @@ const HERO_SCHEMA = {
   }
 };
 
+// Grants & Funding. A type keeps its fixed id (its icon); a programme names one to three of those types.
+const FUNDING_TYPE_SCHEMA = {
+  fields: {
+    id: enumOf(FUNDING_TYPE_IDS),
+    enabled: enabledFlag(),
+    title: text({ min: L.grants.typeTitle[0], max: L.grants.typeTitle[1] }),
+    description: text({ min: L.grants.typeDescription[0], max: L.grants.typeDescription[1] }),
+    position: wholeNumber({ min: 0, max: 999, required: false })
+  }
+};
+
+const fundingTypeList = () => (raw) => {
+  if (!Array.isArray(raw)) return { error: `Choose ${L.grants.types[0]} to ${L.grants.types[1]} types of funding.` };
+  if (raw.length < L.grants.types[0] || raw.length > L.grants.types[1]) return { error: `Choose ${L.grants.types[0]} to ${L.grants.types[1]} types of funding.` };
+  if (raw.some((t) => !FUNDING_TYPE_IDS.includes(t))) return { error: `Use the types of funding: ${FUNDING_TYPE_IDS.join(', ')}.` };
+  if (new Set(raw).size !== raw.length) return { error: 'Choose each type of funding once.' };
+  return { value: [...raw] };
+};
+
+const FUNDING_PROGRAMME_SCHEMA = {
+  fields: {
+    id: id(),
+    enabled: enabledFlag(),
+    provider: text({ min: L.grants.provider[0], max: L.grants.provider[1] }),
+    kind: enumOf(FUNDING_KINDS),
+    place: enumOf(FUNDING_PLACES),
+    types: fundingTypeList(),
+    description: text({ min: L.grants.description[0], max: L.grants.description[1] }),
+    url: httpsUrl({ required: false }),
+    featured: bool(),
+    position: wholeNumber({ min: 0, max: 999, required: false })
+  }
+};
+
+/** content.json grants -> the published types (with their programme counts) and programmes, or null when absent. */
+function validateGrants(grants, { now }) {
+  if (grants === undefined || grants === null) return { errors: [], grants: null };
+  if (typeof grants !== 'object' || Array.isArray(grants)) return { errors: ['grants: must have "types" and "programmes" lists.'], grants: null };
+  const errors = [];
+  for (const key of Object.keys(grants)) if (!['types', 'programmes'].includes(key)) errors.push(`grants: unknown part "${key}". Use types or programmes.`);
+  const types = validateList(grants.types, FUNDING_TYPE_SCHEMA, 'grants.types', { now });
+  const programmes = validateList(grants.programmes, FUNDING_PROGRAMME_SCHEMA, 'grants.programmes', { now, maxItems: L.grants.maxProgrammes });
+  errors.push(...types.errors, ...programmes.errors);
+  const order = (a, b) => (a.position ?? 999) - (b.position ?? 999);
+  const shownTypes = [...types.items].sort(order);
+  const shown = new Set(shownTypes.map((t) => t.id));
+  // A programme only counts towards, and is only labelled with, the types shown on the site.
+  const items = [...programmes.items].sort(order).map((p) => ({ ...p, types: p.types.filter((t) => shown.has(t)) }));
+  const count = (typeId) => items.filter((p) => p.types.includes(typeId)).length;
+  return {
+    errors,
+    grants: { types: shownTypes.map((t) => toFundingTypeDto(t, count(t.id))), programmes: items.map(toFundingProgrammeDto) }
+  };
+}
+
 /* ------------------------------- validation ------------------------------- */
 
 function validateList(list, schema, label, { now, maxItems, key = 'id' }) {
@@ -237,7 +294,7 @@ function validateList(list, schema, label, { now, maxItems, key = 'id' }) {
 export function validateContent(config, { now = new Date() } = {}) {
   const errors = [];
   for (const key of Object.keys(config || {})) {
-    if (!['socialHighlights', 'advertiseTiers', 'pages', 'hero'].includes(key)) errors.push(`Unknown group "${key}". Use socialHighlights, advertiseTiers, pages or hero.`);
+    if (!['socialHighlights', 'advertiseTiers', 'pages', 'hero', 'grants'].includes(key)) errors.push(`Unknown group "${key}". Use socialHighlights, advertiseTiers, pages, hero or grants.`);
   }
   const highlights = validateList(config?.socialHighlights, HIGHLIGHT_SCHEMA, 'socialHighlights', { now, maxItems: L.highlights.maxItems });
   // A retired package still enabled in Sanity is skipped rather than rejected, so it never blocks publishing.
@@ -250,7 +307,8 @@ export function validateContent(config, { now = new Date() } = {}) {
     : config?.advertiseTiers;
   const tiers = validateList(tierList, TIER_SCHEMA, 'advertiseTiers', { now, maxItems: L.tiers.maxItems });
   const pages = validateList(config?.pages, PAGE_SCHEMA, 'pages', { now, key: 'slug' });
-  errors.push(...highlights.errors, ...tiers.errors, ...pages.errors);
+  const grants = validateGrants(config?.grants, { now });
+  errors.push(...highlights.errors, ...tiers.errors, ...pages.errors, ...grants.errors);
   let hero = null;
   if (config?.hero !== undefined && config?.hero !== null) {
     const result = validate(HERO_SCHEMA, config.hero, { now });
@@ -265,7 +323,8 @@ export function validateContent(config, { now = new Date() } = {}) {
         advertiseTiers: tiers.items.map(toAdvertiseTierDto)
       },
       pages: Object.fromEntries(pages.items.map((p) => [p.slug, toPageDto(p)])),
-      hero
+      hero,
+      grants: grants.grants
     }
   };
 }
@@ -287,7 +346,8 @@ export function runContent(ctx, config = loadContentConfig()) {
   log.info('content.ready', {
     socialHighlights: content.slots.socialHighlights.length,
     advertiseTiers: content.slots.advertiseTiers.length,
-    pages: Object.keys(content.pages).length
+    pages: Object.keys(content.pages).length,
+    fundingProgrammes: content.grants ? content.grants.programmes.length : 0
   });
   return { ok: true, content };
 }

@@ -564,3 +564,71 @@ test('the home page hero banner comes from Sanity and is checked before it is pu
   assert.match(svg[0], /PNG, JPG or WebP/);
   assert.equal(toHero(null), undefined);
 });
+
+/* ------------------------------ Grants & Funding ------------------------------ */
+
+test('the Studio enforces the same Grants & Funding rules as the backend', async () => {
+  const models = await import('../src/contracts/models.js');
+  assert.deepEqual(studio.GRANTS_LIMITS, CONTENT_LIMITS.grants);
+  assert.deepEqual(studio.FUNDING_TYPES.map((t) => t.value), models.FUNDING_TYPE_IDS);
+  assert.deepEqual(studio.FUNDING_KINDS.map((t) => t.value), models.FUNDING_KINDS);
+  assert.deepEqual(studio.FUNDING_PLACES.map((t) => t.value), models.FUNDING_PLACES);
+  assert.deepEqual(Object.fromEntries(studio.FUNDING_KINDS.map((t) => [t.value, t.title])), models.FUNDING_KIND_LABELS);
+  assert.deepEqual(Object.fromEntries(studio.FUNDING_PLACES.map((t) => [t.value, t.title])), models.FUNDING_PLACE_LABELS);
+});
+
+test('Grants & Funding from Sanity: published types and programmes become content.json grants', () => {
+  const result = {
+    sponsors: [], events: [], highlights: [], tiers: [], pages: [], hero: null,
+    fundingTypes: [
+      { id: 'sme-grants', title: 'SME Grants', description: 'Grants for established businesses', position: 10 },
+      { id: 'export', title: 'Export & Trade Finance', description: 'Export credit and trade finance', position: 20 }
+    ],
+    fundingProgrammes: [
+      { id: 'crescent-fund', provider: 'Crescent Fund', kind: 'grant', place: 'uae', types: ['sme-grants', 'export'], description: 'Grants of up to AED 500,000 for growth projects.', url: 'https://crescent.example/apply', featured: true, position: 10 },
+      { id: 'falcon-trade', provider: 'Falcon Trade', kind: 'trade', place: 'dubai', types: ['export'], description: 'Trade finance lines for exporters in Dubai.', url: null, featured: false, position: 20 }
+    ]
+  };
+  const mapped = mapSanityContent(result);
+  assert.deepEqual(mapped.errors, []);
+  const { errors, content } = validateContent(mapped.content, { now: NOW });
+  assert.deepEqual(errors, []);
+  assert.deepEqual(content.grants.types.map((t) => [t.id, t.count]), [['sme-grants', 1], ['export', 2]], 'counts follow the programmes');
+  for (const t of content.grants.types) sameKeys(t, DTO_FIELDS.fundingType, t.id);
+  for (const p of content.grants.programmes) sameKeys(p, DTO_FIELDS.fundingProgramme, p.id);
+  assert.equal(content.grants.programmes[1].url, null, 'no link: shown as coming soon');
+  // Nothing published in Sanity: no grants group, so the page keeps its built-in content.
+  assert.equal(mapSanityContent({ ...result, fundingTypes: [], fundingProgrammes: [] }).content.grants, undefined);
+});
+
+test('invalid Grants & Funding content is refused in plain language', () => {
+  const good = { id: 'crescent-fund', provider: 'Crescent Fund', kind: 'grant', place: 'uae', types: ['sme-grants'], description: 'Grants of up to AED 500,000 for growth projects.' };
+  const type = { id: 'sme-grants', title: 'SME Grants', description: 'Grants for established businesses' };
+  const refused = (p, t = type) => validateContent({ grants: { types: [t], programmes: [{ ...good, ...p }] } }, { now: NOW }).errors;
+  assert.deepEqual(refused({}), []);
+  assert.ok(refused({ url: 'http://insecure.example' }).some((e) => /url/.test(e)), 'https links only');
+  assert.ok(refused({ url: 'javascript:alert(1)' }).some((e) => /url/.test(e)), 'no script links');
+  assert.ok(refused({ kind: 'gift' }).some((e) => /kind/.test(e)), 'known kinds only');
+  assert.ok(refused({ place: 'paris' }).some((e) => /place/.test(e)), 'UAE places only');
+  assert.ok(refused({ types: [] }).some((e) => /types/.test(e)), 'at least one type');
+  assert.ok(refused({ types: ['sme-grants', 'export', 'rd', 'green'] }).some((e) => /types/.test(e)), 'at most three types');
+  assert.ok(refused({ types: ['crypto'] }).some((e) => /types/.test(e)), 'known types only');
+  assert.ok(refused({ description: 'Too short' }).some((e) => /description/.test(e)), 'description length');
+  assert.ok(refused({}, { ...type, id: 'my-new-tile' }).some((e) => /grants.types/.test(e)), 'tiles keep their fixed ids (icons)');
+  assert.ok(refused({ contactName: 'A Person' }).some((e) => /contactName/.test(e)), 'no extra fields (such as personal details) are accepted');
+  // A hidden type: its programmes stay, but are no longer counted or labelled with it.
+  const out = validateContent({ grants: { types: [{ ...type, enabled: false }], programmes: [good] } }, { now: NOW }).content.grants;
+  assert.deepEqual(out.types, []);
+  assert.deepEqual(out.programmes[0].types, []);
+});
+
+test('Grants & Funding documents hold public content only (privacy)', () => {
+  const schema = readFileSync(path.join(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Z]:)/, '$1')), '..', '..', 'studio', 'schemaTypes', 'grants.js'), 'utf8');
+  const fieldNames = [...schema.matchAll(/name: '([a-zA-Z]+)'/g)].map((m) => m[1]);
+  for (const personal of ['email', 'phone', 'mobile', 'contactName', 'firstName', 'lastName', 'personName', 'whatsapp']) {
+    assert.ok(!fieldNames.includes(personal), `no ${personal} field`);
+  }
+  assert.ok(schema.includes('readable by anyone') && schema.includes('no personal details'), 'editors are told the content is public');
+  const query = readFileSync(path.join(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Z]:)/, '$1')), '..', 'src', 'cms', 'queries.js'), 'utf8');
+  assert.ok(/fundingProgramme" && enabled != false && \$\{published\}/.test(query) && /fundingType" && enabled != false && \$\{published\}/.test(query), 'only published, shown documents are pulled');
+});

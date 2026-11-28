@@ -1,5 +1,5 @@
 // The Studio's left-hand menu, organised like the website: one group per page (Home, Real Estate News,
-// Events, Finance Careers, Partner with us), then Site-wide items. Every sponsor area appears exactly once.
+// Grants & Funding, Events, Finance Careers, Partner with us), then Site-wide items. Every sponsor area appears exactly once.
 
 import {PAGE_TITLES} from './schemaTypes/page.js'
 import {PAGE_SLUGS, SPONSOR_SLOTS} from './schemaTypes/rules.js'
@@ -143,7 +143,7 @@ const sponsorArea = (S, slot) =>
 /** A top-level page group: the site page's name, then everything edited for that page. */
 const pageGroup = (S, id, title, items) => S.listItem().id(id).title(title).child(S.list().title(title).items(items))
 
-// The menu mirrors the website: one group per page, in the order of the site's header, then site-wide items.
+// The menu mirrors the website: one group per page, then site-wide items.
 // Nothing here changes what is stored; it only decides where each document is found.
 export const structure = (S, context) =>
   S.list()
@@ -159,6 +159,10 @@ export const structure = (S, context) =>
         S.listItem().id('top-tweets').title('Top Tweets').child(S.documentTypeList('socialHighlight').title('Top Tweets').defaultOrdering(byPosition)),
       ]),
       pageGroup(S, 'page-news', 'Real Estate News', [newsQueue(S), newsSettings(S)]),
+      pageGroup(S, 'page-grants', 'Grants & Funding', [
+        S.listItem().id('funding-programmes').title('Programmes').child(S.documentTypeList('fundingProgramme').title('Funding programmes').defaultOrdering(byPosition)),
+        S.listItem().id('funding-types').title('Types of funding (tiles)').child(S.documentTypeList('fundingType').title('Types of funding').defaultOrdering(byPosition)),
+      ]),
       pageGroup(S, 'page-events', 'Events', [
         S.listItem().id('events').title('Events').child(S.documentTypeList('event').title('Events').defaultOrdering([{field: 'startDate', direction: 'desc'}])),
       ]),

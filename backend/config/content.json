@@ -730,5 +730,292 @@
         }
       ]
     }
-  ]
+  ],
+  "grants": {
+    "types": [
+      {
+        "id": "sme-grants",
+        "title": "SME Grants",
+        "description": "Grants for established businesses across all sectors",
+        "position": 10
+      },
+      {
+        "id": "startup",
+        "title": "Startup Funding",
+        "description": "Pre-seed and early-stage funding for new founders",
+        "position": 20
+      },
+      {
+        "id": "rd",
+        "title": "Innovation & R&D",
+        "description": "Research, prototypes and lab partnerships",
+        "position": 30
+      },
+      {
+        "id": "technology",
+        "title": "Technology & AI",
+        "description": "Digital transformation, AI and deep tech funding",
+        "position": 40
+      },
+      {
+        "id": "green",
+        "title": "Green & Sustainability",
+        "description": "Net zero, renewables, water and clean energy",
+        "position": 50
+      },
+      {
+        "id": "manufacturing",
+        "title": "Manufacturing & Industry",
+        "description": "Equipment, automation and productivity funding",
+        "position": 60
+      },
+      {
+        "id": "export",
+        "title": "Export & Trade Finance",
+        "description": "Export credit, insurance and trade finance",
+        "position": 70
+      },
+      {
+        "id": "sme-loans",
+        "title": "SME Loans",
+        "description": "Working capital, equipment and soft loans",
+        "position": 80
+      },
+      {
+        "id": "islamic",
+        "title": "Islamic Finance",
+        "description": "Sharia-compliant Murabaha and Ijara funding",
+        "position": 90
+      },
+      {
+        "id": "emirati",
+        "title": "Emirati Founders",
+        "description": "Programmes for UAE nationals starting a business",
+        "position": 100
+      },
+      {
+        "id": "venture",
+        "title": "Venture & Angel Investment",
+        "description": "Equity from angels, VCs and crowdfunding",
+        "position": 110
+      },
+      {
+        "id": "free-zone",
+        "title": "Free Zone Support",
+        "description": "Packages and finance from UAE free zones",
+        "position": 120
+      }
+    ],
+    "programmes": [
+      {
+        "id": "crescent-innovation-fund",
+        "provider": "Crescent Innovation Fund",
+        "kind": "grant",
+        "place": "uae",
+        "types": [
+          "sme-grants",
+          "export"
+        ],
+        "description": "Grants of up to AED 500,000, covering half the cost of growth and export projects for established SMEs.",
+        "url": null,
+        "featured": true,
+        "position": 10
+      },
+      {
+        "id": "harbour-gate-sme-fund",
+        "provider": "Harbour Gate SME Fund",
+        "kind": "grant",
+        "place": "abu-dhabi",
+        "types": [
+          "sme-grants",
+          "manufacturing"
+        ],
+        "description": "Grants of AED 100k to 1m towards new equipment for manufacturers automating or cutting energy use.",
+        "url": null,
+        "featured": false,
+        "position": 20
+      },
+      {
+        "id": "lumen-impact-foundation",
+        "provider": "Lumen Impact Foundation",
+        "kind": "grant",
+        "place": "dubai",
+        "types": [
+          "green",
+          "startup",
+          "rd"
+        ],
+        "description": "Pilot grants of up to AED 250,000 for early-stage climate and water start-ups.",
+        "url": null,
+        "featured": false,
+        "position": 30
+      },
+      {
+        "id": "sharjah-research-park",
+        "provider": "Sharjah Research Park",
+        "kind": "grant",
+        "place": "sharjah",
+        "types": [
+          "rd",
+          "free-zone"
+        ],
+        "description": "R&D vouchers of AED 50k to 300k for companies working with a UAE university or lab.",
+        "url": null,
+        "featured": false,
+        "position": 40
+      },
+      {
+        "id": "saffron-capital-bank",
+        "provider": "Saffron Capital Bank",
+        "kind": "loan",
+        "place": "uae",
+        "types": [
+          "sme-loans"
+        ],
+        "description": "Working capital lines of AED 250k to 5m for SMEs with two years of audited accounts.",
+        "url": null,
+        "featured": false,
+        "position": 50
+      },
+      {
+        "id": "al-waha-islamic-finance",
+        "provider": "Al Waha Islamic Finance",
+        "kind": "loan",
+        "place": "dubai",
+        "types": [
+          "islamic",
+          "sme-loans"
+        ],
+        "description": "Sharia-compliant Murabaha finance of AED 100k to 3m for business equipment.",
+        "url": null,
+        "featured": false,
+        "position": 60
+      },
+      {
+        "id": "pearl-coast-development-bank",
+        "provider": "Pearl Coast Development Bank",
+        "kind": "loan",
+        "place": "abu-dhabi",
+        "types": [
+          "emirati",
+          "startup",
+          "sme-loans"
+        ],
+        "description": "Low-rate soft loans of AED 50k to 1m for Emirati founders, with a 12-month grace period.",
+        "url": null,
+        "featured": false,
+        "position": 70
+      },
+      {
+        "id": "northern-emirates-sme-credit",
+        "provider": "Northern Emirates SME Credit",
+        "kind": "loan",
+        "place": "northern",
+        "types": [
+          "sme-loans",
+          "technology"
+        ],
+        "description": "Revenue-based finance of AED 75k to 750k, repaid as a share of monthly sales.",
+        "url": null,
+        "featured": false,
+        "position": 80
+      },
+      {
+        "id": "oasis-angel-network",
+        "provider": "Oasis Angel Network",
+        "kind": "equity",
+        "place": "dubai",
+        "types": [
+          "venture",
+          "startup"
+        ],
+        "description": "Pre-seed and seed investment of AED 200k to 2m for founder-led start-ups with first customers.",
+        "url": null,
+        "featured": false,
+        "position": 90
+      },
+      {
+        "id": "sandstone-ventures",
+        "provider": "Sandstone Ventures",
+        "kind": "equity",
+        "place": "abu-dhabi",
+        "types": [
+          "venture",
+          "technology"
+        ],
+        "description": "Series A investment of AED 5m to 25m for B2B scale-ups across the GCC.",
+        "url": null,
+        "featured": false,
+        "position": 100
+      },
+      {
+        "id": "gulf-impact-partners",
+        "provider": "Gulf Impact Partners",
+        "kind": "equity",
+        "place": "uae",
+        "types": [
+          "venture",
+          "green"
+        ],
+        "description": "Growth equity of AED 10m to 50m for profitable SMEs in renewables, water, food and education.",
+        "url": null,
+        "featured": false,
+        "position": 110
+      },
+      {
+        "id": "crowdforge-uae",
+        "provider": "CrowdForge UAE",
+        "kind": "equity",
+        "place": "sharjah",
+        "types": [
+          "venture"
+        ],
+        "description": "Equity crowdfunding campaigns raising AED 500k to 5m from a brand’s own customers and community.",
+        "url": null,
+        "featured": false,
+        "position": 120
+      },
+      {
+        "id": "falcon-trade-finance",
+        "provider": "Falcon Trade Finance",
+        "kind": "trade",
+        "place": "dubai",
+        "types": [
+          "export"
+        ],
+        "description": "Invoice discounting that advances up to 90% of what your business customers owe you.",
+        "url": null,
+        "featured": false,
+        "position": 130
+      },
+      {
+        "id": "meridian-export-credit",
+        "provider": "Meridian Export Credit",
+        "kind": "trade",
+        "place": "uae",
+        "types": [
+          "export",
+          "manufacturing"
+        ],
+        "description": "Export credit insurance and guarantees of up to AED 20m for UAE goods sold abroad.",
+        "url": null,
+        "featured": false,
+        "position": 140
+      },
+      {
+        "id": "ras-port-supply-finance",
+        "provider": "Ras Port Supply Finance",
+        "kind": "trade",
+        "place": "northern",
+        "types": [
+          "export",
+          "free-zone"
+        ],
+        "description": "Supply chain finance of AED 250k to 15m for free zone importers and their suppliers.",
+        "url": null,
+        "featured": false,
+        "position": 150
+      }
+    ]
+  }
 }

@@ -1,6 +1,7 @@
 import {advertiseTier} from './advertiseTier.js'
 import {careersPage, employer, jobPosting} from './careers.js'
 import {event} from './event.js'
+import {fundingProgramme, fundingType} from './grants.js'
 import {homeHero} from './homeHero.js'
 import {newsAggregator, newsAggregatorState, newsPublishSignal} from './newsAggregator.js'
 import {newsArticle} from './newsArticle.js'
@@ -22,6 +23,8 @@ export const schemaTypes = [
   employer,
   careersPage,
   homeHero,
+  fundingType,
+  fundingProgramme,
   sponsorItem,
   event,
   socialHighlight,
