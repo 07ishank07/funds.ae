@@ -160,10 +160,62 @@
     .contact-card { padding: 22px; }
     .audience, .enquiry { padding: 22px; }
   }
+  /* ---- Exclusive brand look, matching the "Be seen." banner: the page sits on the banner's deep teal-black, with
+     gold eyebrows, hairlines, ticks, prices and buttons, white headings and soft grey-teal text. The header and footer
+     keep the site's light look. ---- */
+  body { background: #091C21; }
+  main {
+    --gold: #C9A961; --gold-2: #E6C982; --lux-panel: #0E262C; --lux-line: rgba(230, 201, 130, 0.18);
+    --lux-text: #F1F5F4; --lux-muted: #9DB7B6; --lux-ink: #091C21;
+    color: var(--lux-text);
+  }
+  main .eyebrow { letter-spacing: 0.22em; color: var(--gold-2); }
+  main a:focus-visible, main button:focus-visible, main input:focus-visible, main textarea:focus-visible { outline-color: var(--gold); }
+  .pitch h1 { color: #FFFFFF; }
+  .pitch h1 em { color: var(--gold-2); }
+  .audience { border: 1px solid var(--lux-line); border-radius: 6px; background: var(--lux-panel); background-image: none; }
+  .audience .eyebrow { color: var(--gold-2); }
+  .audience li { border-color: rgba(230, 201, 130, 0.3); color: #E3ECEB; }
+  .why { border: 1px solid var(--lux-line); }
+  .section-head { border-bottom-color: var(--lux-line); }
+  .section-head h2 { color: #FFFFFF; }
+  .section-head > p { color: var(--lux-muted); }
+  /* Packages: dark panels with a gold top rule; Gold Partner glows, Exclusive is the deepest card. */
+  .tier { border: 1px solid var(--lux-line); border-top: 2px solid var(--gold); border-radius: 6px; background: var(--lux-panel); color: var(--lux-text); }
+  .tier.featured { border-color: rgba(230, 201, 130, 0.55); border-top-color: var(--gold-2); box-shadow: 0 0 0 1px rgba(230, 201, 130, 0.22), 0 26px 60px -24px rgba(0, 0, 0, 0.7); }
+  .tier.exclusive { border-color: rgba(230, 201, 130, 0.4); border-top-color: var(--gold); background: linear-gradient(160deg, #143740 0%, #0B2328 62%); }
+  .tier .badge, .tier.exclusive .badge { background: rgba(230, 201, 130, 0.12); color: var(--gold-2); }
+  .tier.featured .badge { background: var(--gold); color: var(--lux-ink); }
+  .tier h2, .tier.exclusive h2 { color: #FFFFFF; }
+  .tier .price, .tier.exclusive .price { border-bottom-color: var(--lux-line); color: var(--gold-2); }
+  .tier .price small, .tier.exclusive .price small, .tier .duration, .tier.exclusive .duration { color: var(--lux-muted); }
+  .tier ul.placements + ul.features, .tier.exclusive ul.placements + ul.features { border-top-color: var(--lux-line); }
+  .tier .tier-lead, .tier.exclusive .tier-lead { color: var(--gold-2); }
+  .tier li, .tier.exclusive li { color: #EEF3F2; }
+  .tier li .detail, .tier.exclusive li .detail { color: var(--lux-muted); }
+  .tier li::before { border: 1px solid var(--gold); background: transparent; color: var(--gold-2); }
+  .tier .cta { border-color: rgba(230, 201, 130, 0.6); color: var(--gold-2); }
+  .tier .cta:hover { border-color: var(--gold); background: var(--gold); color: var(--lux-ink); }
+  .tier.featured .cta, .tier.exclusive .cta { border-color: var(--gold); background: var(--gold); color: var(--lux-ink); }
+  .tier.featured .cta:hover, .tier.exclusive .cta:hover { border-color: var(--gold-2); background: var(--gold-2); color: var(--lux-ink); }
+  .tiers-foot { color: var(--lux-muted); }
+  /* Contact us: the form and the details as dark panels, gold labels and button. */
+  .enquiry, .contact-card { border: 1px solid var(--lux-line); border-top: 2px solid var(--gold); border-radius: 6px; background: var(--lux-panel); }
+  .enquiry h3, .contact-card h3 { color: var(--gold-2); }
+  .enquiry label, .contact-item dt { color: var(--lux-muted); }
+  .enquiry input, .enquiry textarea { border-color: rgba(230, 201, 130, 0.22); background: rgba(255, 255, 255, 0.04); color: #FFFFFF; }
+  .enquiry input::placeholder, .enquiry textarea::placeholder { color: #6F8A8A; }
+  .enquiry .submit-btn { background: var(--gold); color: var(--lux-ink); }
+  .enquiry .submit-btn:hover { background: var(--gold-2); }
+  main .fx-form-status { color: var(--lux-muted); }
+  .contact-item { border-bottom-color: var(--lux-line); }
+  .contact-item dd { color: #FFFFFF; }
+  .contact-item dd span { color: var(--lux-muted); }
+
   /* Site footer, shared with this.html: double rule, brand, tagline, links. Pinned to the bottom on short pages. */
   body { min-height: 100vh; display: flex; flex-direction: column; }
   body > main, body > .page { width: 100%; flex: 1 0 auto; }
-  .site-footer { flex-shrink: 0; margin-top: 40px; background: var(--wash); border-top: 3px double var(--ink); }
+  .site-footer { flex-shrink: 0; margin-top: 0; background: var(--wash); border-top: 3px double var(--ink); }
   .foot-inner { max-width: 1288px; margin: 0 auto; padding: 26px 24px 30px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
   .foot-brand { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; }
   .foot-brand svg { width: 26px; height: 26px; flex-shrink: 0; }
@@ -322,7 +374,6 @@
         <p class="eyebrow">Contact us</p>
         <h2 id="contact-title">Get in touch with Funds.ae</h2>
       </div>
-      <p>Partnerships and sponsorship, news tips, corrections, press, careers or anything else: send us a message or use the details below. We reply within two working days.</p>
     </div>
     <div class="contact-grid">
       <div class="enquiry">

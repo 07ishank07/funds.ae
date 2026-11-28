@@ -614,6 +614,9 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   // Three package cards (Gold Partner, the recommended one; Elite Partner; Exclusive Partner) under a benefits pitch.
   assert.equal([...advertise.matchAll(/<div class="tier[ "]/g)].length, 3, 'three package cards');
   for (const name of ['Gold Partner', 'Elite Partner', 'Exclusive Partner']) assert.ok(advertise.includes(`<h2>${name}</h2>`), name);
+  // The page carries the "Be seen." banner's look (deep teal-black, gold accents); Contact us has no intro line.
+  assert.ok(advertise.includes('  body { background: #091C21; }') && advertise.includes('--gold: #C9A961;') && advertise.includes('.tier.featured .badge { background: var(--gold);'), 'dark and gold brand look');
+  assert.ok(!advertise.includes('news tips, corrections, press') && /<h2 id="contact-title">Get in touch with Funds\.ae<\/h2>\s*<\/div>\s*<\/div>/.test(advertise), 'Contact us has no intro line');
   // Every benefit is a dark heading over a short description; the lead-in line sits above the benefits.
   const cardOf = (name, tier) => advertise.slice(advertise.indexOf(`<h2>${name}</h2>`), advertise.indexOf(`data-fundsae-tier="${tier}"`));
   const benefit = (heading, detail) => `><span><strong>${heading}</strong><span class="detail">${detail}</span></span></li>`;
