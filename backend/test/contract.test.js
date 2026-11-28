@@ -575,8 +575,9 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.ok(/<main>\s*<!-- Finance Careers banner[\s\S]*?<\/section>\s*<!-- Browse jobs by function[\s\S]*?<\/section>\s*<section class="opportunities"/.test(careers), 'the banner, then Browse jobs by function, then Current Opportunities');
   assert.ok(careers.includes('FUNCTIONS.forEach(function (fn) {') && careers.includes("a.setAttribute('data-bf-function', fn);") &&
     careers.includes('syncFunctionLinks(seen);') && careers.includes("selects.department.value = selects.department.value === fn ? '' : fn;"), 'links come from the Function list, show counts and filter');
-  // Careers sidebar boxes carry the site palette: sand Top Jobs, slate Career Resources.
-  for (const [box, tone] of [['.top-jobs', '#9A7135'], ['.resources-box', '#31556D']]) assert.ok(careers.includes(box + ' { --tone: ' + tone + ';'), box + ' colour');
+  // One card style across the page, matching the job cards: white cards, capital headings with the teal accent line, teal accents.
+  assert.ok(careers.includes('.jobs-by-location, .top-jobs, .resources-box, .browse-functions, .job-search {') && careers.includes("--tone: #2F8A8C; --tone-soft: #E3F1F0; --tint: #FFFFFF;"), 'every block shares the job card style');
+  assert.ok(/\.top-jobs h2::before, [^{]*\{\s*content: ""; position: absolute; left: 0; bottom: 0; display: block; width: 30px; height: 3px;/.test(careers), 'headings carry the accent line');
   for (const page of ['Careers.dc.html', 'Events.dc.html', 'Videos.dc.html']) {
     const html = read(page);
     assert.ok(html.includes('<link rel="stylesheet" href="partners-wall.css?v=1">'), `${page} loads partners-wall.css`);

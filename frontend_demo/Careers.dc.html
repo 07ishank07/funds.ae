@@ -439,6 +439,40 @@
   .opportunities .apply-btn { border-color: #1F6A6E; color: #1F6A6E; }
   .opportunities .apply-btn:hover { background: #1F6A6E; color: #FFFFFF; }
   .pager button[aria-current="page"] { background: #1F6A6E; border-color: #1F6A6E; }
+  /* ---- One card style for the whole page, matching the job cards: every block is a white card with a soft border
+     and shadow, its heading in capitals with the teal accent line and dot underneath, and teal is the one accent colour
+     (Top Jobs ranks, hovers, links). ---- */
+  .page { --card-border: rgba(14, 58, 67, 0.07); --card-shadow: 0 1px 2px rgba(14, 58, 67, 0.04), 0 8px 22px -14px rgba(14, 58, 67, 0.22); }
+  .jobs-by-location, .top-jobs, .resources-box, .browse-functions, .job-search {
+    --tone: #2F8A8C; --tone-soft: #E3F1F0; --tint: #FFFFFF;
+    border: 1px solid var(--card-border); border-radius: 12px; background: #FFFFFF; box-shadow: var(--card-shadow);
+  }
+  .jobs-by-location, .top-jobs, .resources-box, .browse-functions { padding: 22px 22px 16px; }
+  .browse-functions { padding: 24px 24px 18px; }
+  .jobs-by-location h2, .top-jobs h2, .resources-box h2, .browse-functions h2, .opportunities > h2 {
+    position: relative; display: block; padding-bottom: 17px; font-size: 15.5px; font-weight: 600; line-height: 1.35;
+    letter-spacing: 0.03em; text-transform: uppercase; color: var(--ink);
+  }
+  .opportunities > h2 { font-size: 18px; }
+  .jobs-by-location h2::before, .top-jobs h2::before, .resources-box h2::before, .browse-functions h2::before, .opportunities > h2::before {
+    content: ""; position: absolute; left: 0; bottom: 0; display: block; width: 30px; height: 3px; border-radius: 2px; background: #2F8A8C; transform: none;
+  }
+  .jobs-by-location h2::after, .top-jobs h2::after, .resources-box h2::after, .browse-functions h2::after, .opportunities > h2::after {
+    content: ""; position: absolute; left: 36px; bottom: -0.5px; width: 4px; height: 4px; border-radius: 50%; background: #2F8A8C;
+  }
+  .jbl-grid, .bf-list, .resources-box .links { margin-top: 16px; }
+  .top-jobs-list { margin-top: 10px; }
+  /* Top Jobs rows: like a job card's lines, title in ink, company and place in grey, teal rank badges (top three filled). */
+  .top-jobs .top-jobs-list li { border-bottom-color: rgba(14, 58, 67, 0.07); }
+  .top-jobs .tj-title { font-size: 14.5px; color: var(--ink); }
+  .top-jobs .tj-co { font-size: 12.5px; color: var(--muted); }
+  .top-jobs .top-jobs-all { color: #1F6A6E; }
+  .top-jobs-list a:hover .tj-title { color: #1F6A6E; }
+  .jbl-card { border-color: var(--card-border); }
+  .jbl-card:hover, .bf-list a:hover .bf-name { border-color: rgba(47, 138, 140, 0.35); }
+  .fx-careers-top, .gf-promo { border-radius: 12px; box-shadow: var(--card-shadow); }
+  .pager button { border-color: var(--card-border); background: #FFFFFF; box-shadow: 0 1px 2px rgba(14, 58, 67, 0.05); }
+  .pager button[aria-current="page"] { background: #1F6A6E; border-color: #1F6A6E; }
 </style>
 </head>
 <body>
