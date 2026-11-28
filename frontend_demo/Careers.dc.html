@@ -218,22 +218,10 @@
   @media (max-width: 720px) { .opportunities .roles { grid-template-columns: minmax(0, 1fr); } }
   /* Demo-only content (fictional sponsors) never shows once the site runs on live data. */
   html[data-fundsae-connected="live"] [data-demo-only] { display: none !important; }
-  /* Top Employers (aside, under the sponsor box) and Top Jobs (under it): ranked lists. Top Jobs rows link to the employer's own
-     posting; Top Employers rows open this page filtered to that employer's roles. */
-  .top-jobs, .top-employers { padding: 12px 0 0; border-top: 2px solid var(--ink); margin-bottom: 28px; }
-  /* Top Employers: a 48px company logo (or initials until a logo is added in Sanity) beside the name and open roles. */
-  .top-employers-list a { align-items: center; gap: 14px; padding: 12px 0; }
-  .te-logo {
+  /* Top Jobs (column 2, under Jobs by location): a ranked list; each row links to the employer's own posting. */
+  .top-jobs { padding: 12px 0 0; border-top: 2px solid var(--ink); margin-bottom: 28px; }
     flex: 0 0 48px; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 6px; overflow: hidden;
-    background: linear-gradient(145deg, #0E3A43, #2F8A8C); color: #FFFFFF; font-size: 15px; font-weight: 700; letter-spacing: 0.04em;
-  }
-  /* A real logo sits whole on white inside a hairline frame, with a little breathing room. */
-  .te-logo:has(img) { border: 1px solid var(--line-2); }
-  .te-logo img { box-sizing: border-box; padding: 4px; }
-  .top-employers-list .tj-rank { align-self: center; }
-  .top-employers-list .tj-title { font-size: 15.5px; line-height: 1.3; }
-  .top-employers-list .tj-co { font-size: 13px; }
-  .top-jobs h2, .top-employers h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
+  .top-jobs h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
   .top-jobs-list { list-style: none; margin: 8px 0 0; padding: 0; }
   .top-jobs-list li { border-bottom: 1px solid var(--line-2); }
   .top-jobs-list a { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; color: var(--ink); text-decoration: none; }
@@ -327,16 +315,15 @@
   .pager button { min-width: 38px; height: 38px; border-radius: 999px; }
   /* Sidebar: each block is a white card */
   aside { gap: 24px; padding-left: 0; border-left: 0; }
-  .top-employers, .top-jobs, .resources-box {
+  .top-jobs, .resources-box {
     margin-bottom: 0; padding: 20px 20px 12px; border: 1px solid var(--line-2); border-radius: var(--r); background: var(--surface); box-shadow: var(--shadow);
   }
   .resources-box { padding-bottom: 18px; }
-  .top-jobs h2, .top-employers h2, .resources-box h2 { font-size: 12px; letter-spacing: 0.16em; color: var(--muted); }
+  .top-jobs h2, .resources-box h2 { font-size: 12px; letter-spacing: 0.16em; color: var(--muted); }
   .top-jobs-list li:last-child { border-bottom: 0; }
   .top-jobs-list a { margin: 0 -8px; padding: 10px 8px; border-radius: 10px; transition: background 0.15s; }
   .top-jobs-list a:hover { background: var(--panel); }
   .tj-rank { flex-basis: 20px; font-size: 13px; color: var(--ghost); }
-  .te-logo { flex-basis: 40px; width: 40px; height: 40px; border-radius: 11px; font-size: 13px; }
   .top-jobs-all { margin-top: 8px; }
   .resources-box .links { gap: 4px; }
   .resources-box .links a { margin: 0 -8px; padding: 7px 8px; border-radius: 10px; transition: background 0.15s; }
@@ -349,10 +336,9 @@
     .opportunities .role:hover { transform: none; }
   }
   /* ---- Colour accents: each block gets a soft tint from the site palette, a thin coloured top edge, a coloured mark
-     beside its heading and tinted rank badges (the top three filled). Teal for Top Employers, sand for Top Jobs,
+     beside its heading and tinted rank badges (the top three filled). Sand for Top Jobs,
      slate for Career Resources; mint washes on the filters, job tags and page background. ---- */
   body { background: linear-gradient(180deg, #EEF6F5 0, var(--wash) 420px) no-repeat, var(--wash); }
-  .top-employers { --tone: #1F6A6E; --tone-soft: #E3F1F0; --tint: #F1F8F7; }
   /* Browse jobs by function: a soft panel under the job list, every function with its count, three columns. */
   .browse-functions { margin-top: 36px; padding: 22px 24px 18px; border: 1px solid var(--line-2); border-top: 3px solid #1F6A6E; border-radius: var(--r); background: linear-gradient(180deg, #EAF4F3 0, #FFFFFF 90px); box-shadow: var(--shadow); scroll-margin-top: 84px; }
   .browse-functions h2 { display: flex; align-items: center; gap: 9px; font-size: 13px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); }
@@ -391,20 +377,20 @@
   @media (prefers-reduced-motion: reduce) { .jbl-card { transition: none; } .jbl-card:hover { transform: none; } }
   .top-jobs { --tone: #9A7135; --tone-soft: #F4EADB; --tint: #FBF6EE; }
   .resources-box { --tone: #31556D; --tone-soft: #E4ECF2; --tint: #F3F6F9; }
-  .top-employers, .top-jobs, .resources-box {
+  .top-jobs, .resources-box {
     border-top: 3px solid var(--tone);
     background: linear-gradient(180deg, var(--tone-soft) 0, var(--tint) 110px);
   }
-  .top-employers h2, .top-jobs h2, .resources-box h2 { display: flex; align-items: center; gap: 9px; color: var(--tone); }
-  .top-employers h2::before, .top-jobs h2::before, .resources-box h2::before {
+  .top-jobs h2, .resources-box h2 { display: flex; align-items: center; gap: 9px; color: var(--tone); }
+  .top-jobs h2::before, .resources-box h2::before {
     content: ""; flex: 0 0 auto; width: 8px; height: 8px; border-radius: 2px; background: var(--tone); transform: rotate(45deg);
   }
-  .top-employers .tj-rank, .top-jobs .tj-rank {
+  .top-jobs .tj-rank {
     flex: 0 0 24px; display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; margin-top: 1px;
     border-radius: 50%; background: var(--tone-soft); color: var(--tone); font-size: 11.5px; font-weight: 700; line-height: 1;
   }
-  .top-employers li:nth-child(-n+3) .tj-rank, .top-jobs li:nth-child(-n+3) .tj-rank { background: var(--tone); color: #FFFFFF; }
-  .top-employers .top-jobs-list a:hover, .top-jobs .top-jobs-list a:hover, .resources-box .links a:hover { background: var(--tone-soft); }
+  .top-jobs li:nth-child(-n+3) .tj-rank { background: var(--tone); color: #FFFFFF; }
+  .top-jobs .top-jobs-list a:hover, .resources-box .links a:hover { background: var(--tone-soft); }
   .top-jobs-list a:hover .tj-title { color: var(--tone); }
   .top-jobs .top-jobs-all { color: var(--tone); }
   .top-jobs-list li { border-bottom-color: rgba(14, 58, 67, 0.07); }
@@ -653,33 +639,6 @@
     <a class="jbl-card" href="#opportunities" data-jbl-country="BH"><svg class="jbl-flag" viewBox="0 0 36 24" aria-hidden="true"><rect width="36" height="24" fill="#CE1126"/><polygon points="0,0 8,0 12,2.4 8,4.8 12,7.2 8,9.6 12,12 8,14.4 12,16.8 8,19.2 12,21.6 8,24 0,24" fill="#FFFFFF"/></svg><span class="jbl-text"><span class="jbl-name">Bahrain</span><span class="jbl-count" data-jbl-count></span></span></a>
     <a class="jbl-card" href="#opportunities" data-jbl-country="OM"><svg class="jbl-flag" viewBox="0 0 36 24" aria-hidden="true"><rect width="36" height="24" fill="#DB161B"/><rect x="10" width="26" height="8" fill="#FFFFFF"/><rect x="10" y="16" width="26" height="8" fill="#008000"/></svg><span class="jbl-text"><span class="jbl-name">Oman</span><span class="jbl-count" data-jbl-count></span></span></a>
     </div>
-  </section>
-  <!-- Top Employers: ranked like Top Jobs (featured employers first, then most open roles). Each row opens this page
-       filtered to that employer's roles (?employer=, handled by js/fundsae-connector.js), which fills the list from employers.json. -->
-  <section class="top-employers" aria-labelledby="top-employers-title">
-    <h2 id="top-employers-title">Top Employers</h2>
-    <ol class="top-jobs-list top-employers-list" data-fundsae-slot="employers">
-      <li><a href="?employer=emp_994ddd5d9c21a8e3#opportunities-title"><span class="tj-rank">1</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #0E3A43, #2F8A8C)">EP</span><span class="tj-main"><span class="tj-title">Emirates Private Credit (demo)</span><span class="tj-co">1 job</span></span></a></li>
-      <li><a href="?employer=emp_44cd123125645764#opportunities-title"><span class="tj-rank">2</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #B58B52, #6B4E32)">GH</span><span class="tj-main"><span class="tj-title">Gulf Horizon Asset Management (demo)</span><span class="tj-co">1 job</span></span></a></li>
-      <li><a href="?employer=emp_b0a8a2e3895137ef#opportunities-title"><span class="tj-rank">3</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #1F5560, #4FB3B8)">HG</span><span class="tj-main"><span class="tj-title">Harbourline Group</span><span class="tj-co">2 jobs</span></span></a></li>
-      <li><a href="?employer=emp_9142e7d4b96b201c#opportunities-title"><span class="tj-rank">4</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #5B4675, #B4A4C9)">SV</span><span class="tj-main"><span class="tj-title">Sandline Ventures</span><span class="tj-co">2 jobs</span></span></a></li>
-      <li><a href="?employer=emp_ec64013710ac32d4#opportunities-title"><span class="tj-rank">5</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #31556D, #8BA9C1)">AN</span><span class="tj-main"><span class="tj-title">Al Noor Investments (demo)</span><span class="tj-co">1 job</span></span></a></li>
-      <li><a href="?employer=emp_3eaf12fb39625abe#opportunities-title"><span class="tj-rank">6</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #416C56, #9EB9A5)">AF</span><span class="tj-main"><span class="tj-title">Atlas Fund Administration (demo)</span><span class="tj-co">1 job</span></span></a></li>
-      <li><a href="?employer=emp_f975adca587a8ab8#opportunities-title"><span class="tj-rank">7</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #874E4B, #C9A9A0)">CC</span><span class="tj-main"><span class="tj-title">Crescent Capital Partners (demo)</span><span class="tj-co">1 job</span></span></a></li>
-      <li><a href="?employer=emp_365cb94e3e73d240#opportunities-title"><span class="tj-rank">8</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #134A50, #1F6A6E)">CP</span><span class="tj-main"><span class="tj-title">Crescent Peak Partners</span><span class="tj-co">1 job</span></span></a></li>
-      <li><a href="?employer=emp_0c77979b994a7b8f#opportunities-title"><span class="tj-rank">9</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #8A6330, #D3B46A)">DS</span><span class="tj-main"><span class="tj-title">Desert Seed Ventures (demo)</span><span class="tj-co">1 job</span></span></a></li>
-      <li><a href="?employer=emp_7d4bc3a93267084e#opportunities-title"><span class="tj-rank">10</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #4F8A8B, #1C5965)">FR</span><span class="tj-main"><span class="tj-title">Falcon Ridge Capital</span><span class="tj-co">1 job</span></span></a></li>
-      <li><a href="?employer=emp_bcca02ba4d119647#opportunities-title"><span class="tj-rank">11</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #7F9A97, #164B55)">HF</span><span class="tj-main"><span class="tj-title">Harborstone Financial (demo)</span><span class="tj-co">1 job</span></span></a></li>
-      <li><a href="?employer=emp_c5ae24a23f21c8c0#opportunities-title"><span class="tj-rank">12</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #6F8E8D, #2B6A74)">LA</span><span class="tj-main"><span class="tj-title">Lighthouse Asset Partners (demo)</span><span class="tj-co">1 job</span></span></a></li>
-      <li><a href="?employer=emp_2b8bbc4188c553cb#opportunities-title"><span class="tj-rank">13</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #C6A59B, #794C47)">MH</span><span class="tj-main"><span class="tj-title">Marhaba Holdings (demo)</span><span class="tj-co">1 job</span></span></a></li>
-      <li><a href="?employer=emp_cfbfd1f7de5eab7c#opportunities-title"><span class="tj-rank">14</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #8BA9C1, #31556D)">ML</span><span class="tj-main"><span class="tj-title">Meydan Legal (demo)</span><span class="tj-co">1 job</span></span></a></li>
-      <li><a href="?employer=emp_f85595c6cc777c36#opportunities-title"><span class="tj-rank">15</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #9EB9A5, #416C56)">MF</span><span class="tj-main"><span class="tj-title">Mosaic Fund Services (demo)</span><span class="tj-co">1 job</span></span></a></li>
-      <li><a href="?employer=emp_42deac7475bb3891#opportunities-title"><span class="tj-rank">16</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #B4A4C9, #5B4675)">OP</span><span class="tj-main"><span class="tj-title">Oasis Private Bank (demo)</span><span class="tj-co">1 job</span></span></a></li>
-      <li><a href="?employer=emp_d753612008f91055#opportunities-title"><span class="tj-rank">17</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #D3B46A, #8A6330)">PG</span><span class="tj-main"><span class="tj-title">Palm Gate Fund Administration</span><span class="tj-co">1 job</span></span></a></li>
-      <li><a href="?employer=emp_be950ac478f7703f#opportunities-title"><span class="tj-rank">18</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #2F8A8C, #0E3A43)">QI</span><span class="tj-main"><span class="tj-title">Qirsh</span><span class="tj-co">1 job</span></span></a></li>
-      <li><a href="?employer=emp_08abd55fa091bd63#opportunities-title"><span class="tj-rank">19</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #C9A9A0, #874E4B)">SW</span><span class="tj-main"><span class="tj-title">Sahra Wealth (demo)</span><span class="tj-co">1 job</span></span></a></li>
-      <li><a href="?employer=emp_a1774852cad63c48#opportunities-title"><span class="tj-rank">20</span><span class="te-logo" aria-hidden="true" style="background: linear-gradient(145deg, #1C5965, #4F8A8B)">VA</span><span class="tj-main"><span class="tj-title">Vertex Alpha (demo)</span><span class="tj-co">1 job</span></span></a></li>
-    </ol>
   </section>
   <section class="top-jobs" aria-labelledby="top-jobs-title">
     <h2 id="top-jobs-title">Top Jobs</h2>

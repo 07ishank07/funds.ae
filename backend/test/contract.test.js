@@ -506,19 +506,17 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.ok(!careers.includes('<option value="featured">Featured first</option>') && careers.includes('<option value="newest">Newest</option>'), 'no Featured first sort');
   assert.ok(rolesJs.includes("row.setAttribute('data-country', countryOf(job.location));") && rolesJs.includes("[/riyadh/, 'Riyadh', 'SA']"), 'roles are tagged with their Gulf country and city');
   assert.ok(careers.includes("badge.className = 'role-logo'"), 'job cards carry a dummy employer logo');
-  // Careers from Sanity: the connector follows careers.json for the Top boxes, links posted jobs to their page,
+  // Careers from Sanity: the connector follows careers.json for Top Jobs, links posted jobs to their page,
   // shows the salary/visa line and employer logos (images through setLogoImage, https only, no referrer).
   const careersConnector = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
-  for (const s of ["load('careers.json', 'careers')", 'pickedOrder(automatic, careersDoc && careersDoc.topJobs)', 'careersDoc && careersDoc.topEmployers',
+  for (const s of ["load('careers.json', 'careers')", 'pickedOrder(automatic, careersDoc && careersDoc.topJobs)',
     "'jobs/' + job.slug + '.html'", 'salaryText(job.salary)', "img.referrerPolicy = 'no-referrer'", 'item.resourceType']) {
     assert.ok(careersConnector.includes(s), `connector: ${s}`);
   }
-  // Featured Employers grid is gone; Top Employers in column 2 ranks employers and links to each one's roles.
+  // No Featured Employers grid and no Top Employers box: column 2 starts with Jobs by location, then Top Jobs.
   assert.ok(!careers.includes('employer-grid') && !careers.includes('Featured Employers'), 'Careers has no Featured Employers grid');
-  assert.match(careers, /<aside>[\s\S]*<section class="top-employers"[\s\S]*?<ol class="top-jobs-list top-employers-list" data-fundsae-slot="employers">[\s\S]*<\/aside>/);
-  assert.match(careers, /<li><a href="\?employer=emp_[a-f0-9]{16}#opportunities-title"><span class="tj-rank">1<\/span>/);
-  // No Exclusive Elite Sponsor box: column 2 starts with Jobs by location, then Top Employers.
-  assert.match(careers, /<aside>\s*<!-- Jobs by location:[\s\S]*?<\/section>\s*<!-- Top Employers:/);
+  assert.ok(!careers.includes('class="top-employers"') && !careers.includes('data-fundsae-slot="employers"') && !careers.includes('.te-logo'), 'Careers has no Top Employers box');
+  assert.match(careers, /<aside>\s*<!-- Jobs by location:[\s\S]*?<\/section>\s*<section class="top-jobs"/);
   assert.ok(careers.includes('html[data-fundsae-connected="live"] [data-demo-only] { display: none !important; }'), 'demo-only content is hidden in live mode');
   // The Spotlight box is on the home page only; the gold slot is not shown anywhere.
   assert.ok(!careers.includes('data-fundsae-slot="sponsor-platinum"') && !careers.includes('data-fundsae-slot="sponsor-gold"'), 'Careers has no Spotlight or Gold Sponsors box');
@@ -526,7 +524,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   // track holds the sponsor slot, labelled as sponsored.
   assert.ok(!careers.includes('sponsor-founding') && !careers.includes('founding-banner.css'), 'Careers has no Elite Founding Sponsor banner');
   assert.match(careers, /<\/aside>\s*<\/div>\s*<!--[\s\S]*?-->\s*<section class="partners"[\s\S]*?<\/section>\s*<footer/);
-  // Job cards carry a dummy initials logo but no Featured tag; Top Employers lists 20, each with an initials logo.
+  // Job cards carry a dummy initials logo but no Featured tag.
   assert.ok(!/role-featured/.test(careers), 'job cards have no Featured tag');
   // The Exclusive Elite Sponsor box is gone from Careers (and Events), the connector no longer fills it and the
   // Elite package no longer promises it.
@@ -540,12 +538,6 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.ok(events.includes('href="careers-banner.css?v=2"') && events.includes('<img class="fx-cb-photo" src="img/careers-banner.jpg" alt="" loading="lazy">'), 'Events loads the banner styles and photo');
   const sponsorConnector = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
   assert.ok(!sponsorConnector.includes("slots('sponsor-elite-exclusive')") && !sponsorConnector.includes("pick('eliteExclusive')"), 'connector no longer fills the box');
-  const topEmployers = careers.slice(careers.indexOf('data-fundsae-slot="employers"'), careers.indexOf('</ol>', careers.indexOf('data-fundsae-slot="employers"')));
-  assert.equal((topEmployers.match(/<li>/g) || []).length, 20, 'Top Employers shows 20');
-  assert.equal((topEmployers.match(/class="te-logo"/g) || []).length, 20, 'every Top Employer has a logo');
-  // Logos are big enough to read: 48px tiles, a real logo shown whole inside a hairline frame.
-  assert.ok(careers.includes('flex: 0 0 48px; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px;') &&
-    careers.includes('.te-logo:has(img) { border: 1px solid var(--line-2); }'), 'Top Employers logos are 48px');
   assert.equal(careers.split('class="partners"').length, 2, 'one Featured Companies strip');
   assert.match(careers, /class="partners-track">\s*<div class="partners-list" data-fundsae-slot="sponsor-companies">/);
   assert.ok(careers.includes('<h2 id="partners-title" class="partners-title">Partners<span class="fxh-sr"> (sponsored)</span></h2>'), 'a Partners heading, labelled as sponsored for screen readers');
@@ -560,7 +552,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.ok(!/innerHTML/.test(wallJs) && wallJs.includes("list.setAttribute('data-fundsae-slot', 'sponsor-companies');") && wallJs.includes("copy.setAttribute('aria-hidden', 'true');"), 'the script builds the wall with textContent and keeps the loop copy hidden');
   assert.ok(!careers.includes('Featured Partners strip: keeps an aria-hidden copy'), 'one loop script, shared');
   // Jobs by location: first in column 2, one flag card per GCC country, each filtering the list to its country.
-  const jbl = careers.slice(careers.indexOf('<aside>'), careers.indexOf('class="top-employers"'));
+  const jbl = careers.slice(careers.indexOf('<aside>'), careers.indexOf('class="top-jobs"'));
   assert.ok(jbl.includes('<h2 id="jobs-location-title">Jobs by location</h2>'), 'Jobs by location tops column 2');
   assert.deepEqual([...jbl.matchAll(/data-jbl-country="([A-Z]{2})"><svg class="jbl-flag"/g)].map((m) => m[1]), ['AE', 'SA', 'QA', 'KW', 'BH', 'OM'], 'the six GCC countries, with flags');
   assert.ok(careers.includes("var value = 'country:' + card.getAttribute('data-jbl-country');") && careers.includes('syncLocationCards(byCountry);'), 'cards filter by country and show the counts');
@@ -569,8 +561,8 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
     careers.indexOf('<h2 id="browse-functions-title">Browse jobs by function</h2>') < careers.indexOf('</main>'), 'Browse jobs by function sits under the job list');
   assert.ok(careers.includes('FUNCTIONS.forEach(function (fn) {') && careers.includes("a.setAttribute('data-bf-function', fn);") &&
     careers.includes('syncFunctionLinks(seen);') && careers.includes("selects.department.value = selects.department.value === fn ? '' : fn;"), 'links come from the Function list, show counts and filter');
-  // Careers sidebar boxes carry the site palette: teal Top Employers, sand Top Jobs, slate Career Resources.
-  for (const [box, tone] of [['.top-employers', '#1F6A6E'], ['.top-jobs', '#9A7135'], ['.resources-box', '#31556D']]) assert.ok(careers.includes(box + ' { --tone: ' + tone + ';'), box + ' colour');
+  // Careers sidebar boxes carry the site palette: sand Top Jobs, slate Career Resources.
+  for (const [box, tone] of [['.top-jobs', '#9A7135'], ['.resources-box', '#31556D']]) assert.ok(careers.includes(box + ' { --tone: ' + tone + ';'), box + ' colour');
   for (const page of ['Careers.dc.html', 'Events.dc.html', 'Videos.dc.html']) {
     const html = read(page);
     assert.ok(html.includes('<link rel="stylesheet" href="partners-wall.css?v=1">'), `${page} loads partners-wall.css`);

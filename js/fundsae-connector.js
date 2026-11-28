@@ -23,7 +23,7 @@
     return;
   }
 
-  var LIMITS = { newsPerRegion: 15, newsMore: 35, headline: 92, tileHeadline: 110, tiles: 15, eventsPerList: 10, eventsMax: 100, topJobs: 20, topEmployers: 20 };
+  var LIMITS = { newsPerRegion: 15, newsMore: 35, headline: 92, tileHeadline: 110, tiles: 15, eventsPerList: 10, eventsMax: 100, topJobs: 20 };
   var ROLES_DEMO_TOTAL = 120; // Careers page, demo mode: live roles are topped up with dummy roles to this many (3 pages of PER_PAGE = 40 in Careers.dc.html)
   var TILES_SHOWN = 12; // Residential, Commercial Real Estate, Infrastructure and Special & Alternative boxes
   // Home news tabs, each in the API's order: UAE Stories (key "News"), GCC Stories ("GCC": the other five GCC states,
@@ -701,31 +701,6 @@
     all.textContent = 'Show all roles';
     note.appendChild(all);
     list.parentNode.insertBefore(note, list);
-  }
-
-  /** Careers page, column 2: Top Employers (logo tile, name, open roles), in employers.json order (featured first, then most open roles). Each row
-   *  opens the page filtered to that employer's roles (see applyEmployerFilter). */
-  function renderEmployers(doc, careersDoc) {
-    // Hand-picked in the Studio (careers.json), in the editors' order; otherwise featured first, then most open roles.
-    var employers = pickedOrder(api.items(doc.items, api.valid.employer, 'employers'), careersDoc && careersDoc.topEmployers).slice(0, LIMITS.topEmployers);
-    slots('employers').forEach(function (list) {
-      var palette = backgroundsOf(children(list, ':scope > li .te-logo'));
-      fillList(list, ':scope > li', employers, function (li, employer, i) {
-        var a = li.querySelector('a');
-        a.setAttribute('href', '?employer=' + encodeURIComponent(employer.id) + '#opportunities-title');
-        a.title = employer.description ? employer.name + ': ' + employer.description : 'Open roles at ' + employer.name;
-        li.querySelector('.tj-rank').textContent = String(i + 1);
-        var logo = li.querySelector('.te-logo');
-        if (logo && !setLogoImage(logo, employer.logoUrl, employer.name)) {
-          logo.textContent = employer.initials;
-          if (palette.length) logo.style.background = palette[i % palette.length];
-        }
-        li.querySelector('.tj-title').textContent = employer.name;
-        var count = li.querySelector('.tj-co');
-        count.setAttribute('data-fundsae-count', String(employer.openJobs));
-        count.textContent = jobCount(employer.openJobs);
-      });
-    });
   }
 
   /* ----------------------------------- events ---------------------------------- */
@@ -1620,11 +1595,8 @@
         guard('Alternative real estate stories', Promise.all(ALTERNATIVE_SECTIONS.map(function (id) { return load('news/sections/' + id + '.json', 'news'); }))
           .then(function (docs) { renderTiles('tiles-alternative-real-estate', uaeOnly(mergeStoryDocs(docs)), TILES_SHOWN); }));
       }
-      // careers.json: the Top Employers / Top Jobs picked in the Studio (missing on older data: automatic order).
-      var careersDoc = (hasSlot('employers') || hasSlot('top-jobs')) ? load('careers.json', 'careers').catch(function () { return null; }) : null;
-      if (hasSlot('employers')) {
-        guard('Employers', Promise.all([load('employers.json', 'employers'), careersDoc]).then(function (docs) { renderEmployers(docs[0], docs[1]); }));
-      }
+      // careers.json: the Top Jobs picked in the Studio (missing on older data: automatic order).
+      var careersDoc = hasSlot('top-jobs') ? load('careers.json', 'careers').catch(function () { return null; }) : null;
       if (hasSlot('roles') || hasSlot('top-jobs')) {
         guard('Roles', Promise.all([
           load('jobs.json', 'jobs'),
