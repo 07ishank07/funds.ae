@@ -23,6 +23,8 @@
     'Events': 'الفعاليات',
     'Careers': 'الوظائف',
     'Finance Careers': 'الوظائف المالية',
+    'Careers in Finance': 'الوظائف في قطاع التمويل',
+    'Events & Expos': 'الفعاليات والمعارض',
     'Your next move in finance': 'خطوتك التالية في قطاع التمويل',
     'Roles across private equity, venture capital, private credit, banking and fund services.': 'وظائف في الملكية الخاصة ورأس المال الجريء والائتمان الخاص والمصارف وخدمات الصناديق.',
     'View finance jobs': 'تصفح الوظائف المالية',

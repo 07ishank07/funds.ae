@@ -59,6 +59,13 @@ html[lang="ar"] .fx-catbar a { font-family: inherit; }
 .fxb-menu { display: none; align-items: center; justify-content: center; width: 40px; height: 40px; padding: 0; border: 0; background: none; color: var(--h-ink); cursor: pointer; }
 .fxb-menu svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
 
+/* ---- small laptops: a little tighter, so all five sections (Careers in Finance, Events & Expos...) fit on one row ---- */
+@media (min-width: 981px) and (max-width: 1180px) {
+  .fxb > .fxb-in { gap: 16px; }
+  .fx-catbar-row { gap: 16px; }
+  .fx-catbar a { font-size: 13px; }
+}
+
 /* ---- phones and tablets: logo and tools on the first line, the sections scroll on a second line ---- */
 @media (max-width: 980px) {
   .fxb-tagline { display: none; }

@@ -1509,7 +1509,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         // No investor-type links: the bar is Real Estate Stories, then the site's own pages.
         const CATEGORY_GROUPS = [
           [['Real Estate Stories', null]],
-          [['Videos & Podcasts', { href: 'Videos.dc.html' }], ['Grants & Funding', { href: 'GrantsFunding.dc.html' }], ['Events', { href: 'Events.dc.html' }], ['Finance Careers', { href: 'Careers.dc.html' }]]
+          [['Videos & Podcasts', { href: 'Videos.dc.html' }], ['Grants & Funding', { href: 'GrantsFunding.dc.html' }], ['Careers in Finance', { href: 'Careers.dc.html' }], ['Events & Expos', { href: 'Events.dc.html' }]]
         ];
         const bar = document.createElement('nav');
         bar.className = 'fx-catbar';
@@ -1568,7 +1568,7 @@ document.addEventListener('DOMContentLoaded', async function() {
           const headerCss = document.createElement('link');
           headerCss.id = 'fx-site-header-css';
           headerCss.rel = 'stylesheet';
-          headerCss.href = 'site-header.css?v=2';
+          headerCss.href = 'site-header.css?v=3';
           document.head.appendChild(headerCss);
         }
         const catbarStyle = document.createElement('style');

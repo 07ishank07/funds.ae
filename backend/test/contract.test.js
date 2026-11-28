@@ -330,7 +330,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
     assert.ok(html.includes('fundsae-connector.js'), `${file} does not load the connector, so sponsors would never show`);
     assert.ok(!html.includes('Careers.dc.html#events'), `${file} still links to the old Careers events box`);
     assert.ok(!/Platinum (Sponsors|Partner)/.test(html), `${file} still shows "Platinum" instead of "Elite"`);
-    if (file !== 'this.html') assert.match(html, /<a href="Events\.dc\.html"( aria-current="page")?>Events<\/a>/, `${file}: nav Events link`);
+    if (file !== 'this.html') assert.match(html, /<a href="Events\.dc\.html"( aria-current="page")?>Events &amp; Expos<\/a>/, `${file}: nav Events & Expos link`);
     // The hero banner is on the home page only (checked below).
     if (file !== 'this.html') assert.ok(!html.includes('fx-hero') && !html.includes('hero-banner.css'), `${file} has no hero banner`);
     // The home page shows the hero instead, and Careers has neither banner.
@@ -391,7 +391,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
     for (const label of ['Top news', 'Careers', 'Events', 'Partner with us']) assert.ok(!footNav.includes(`>${label}</a>`), `${page} footer has no ${label}`);
     // Header (option B): a date line, then one sticky row with the logo, the sections, the language slot, the
     // Partner with us button and the phone menu button. No search box and no share icons.
-    assert.ok(html.includes('href="site-header.css?v=2"') && html.includes('src="../js/fundsae-header.js"'), `${page} uses the shared header`);
+    assert.ok(html.includes('href="site-header.css?v=3"') && html.includes('src="../js/fundsae-header.js"'), `${page} uses the shared header`);
     assert.ok(html.includes('<div class="fxb-top">') && html.includes('<header class="fxb">') && html.includes('<nav class="fx-catbar fxb-nav" aria-label="News categories">'), `${page} has the option B header`);
     assert.ok(html.includes('data-fundsae-date') && html.includes('<span class="fxb-lang"></span>') && html.includes('aria-label="Open menu"'), `${page} header has the date, language slot and menu button`);
     assert.ok(/<a class="fxb-cta" href="PartnerWithUs\.dc\.html"( aria-current="page")?>Partner with us<\/a>/.test(html), `${page} header has the Partner with us button`);
@@ -400,10 +400,10 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
     // No investor-type links: Real Estate Stories, then the site's sections (Partner with us is the button).
     assert.ok(!catbar.includes('?category=') && !catbar.includes('?capital='), `${page} category bar has no investor-type links`);
     const links = [...catbar.matchAll(/<a href="([^"]+)"[^>]*>([^<>]+)<\/a>/g)].map((m) => [m[1], m[2]]);
-    assert.deepEqual(links, [['this.html', 'Real Estate Stories'], ['Videos.dc.html', 'Videos &amp; Podcasts'], ['GrantsFunding.dc.html', 'Grants &amp; Funding'], ['Events.dc.html', 'Events'], ['Careers.dc.html', 'Finance Careers']], `${page} header sections and order`);
+    assert.deepEqual(links, [['this.html', 'Real Estate Stories'], ['Videos.dc.html', 'Videos &amp; Podcasts'], ['GrantsFunding.dc.html', 'Grants &amp; Funding'], ['Careers.dc.html', 'Careers in Finance'], ['Events.dc.html', 'Events &amp; Expos']], `${page} header sections and order`);
   }
   // The home page builds the same header (its own bar inside), hides the design's headers and their search box.
-  assert.ok(home.includes("siteHeader.className = 'fxb';") && home.includes('<a class="fxb-cta" href="PartnerWithUs.dc.html">Partner with us</a>') && home.includes("headerCss.href = 'site-header.css?v=2';"), 'home builds the option B header');
+  assert.ok(home.includes("siteHeader.className = 'fxb';") && home.includes('<a class="fxb-cta" href="PartnerWithUs.dc.html">Partner with us</a>') && home.includes("headerCss.href = 'site-header.css?v=3';"), 'home builds the option B header');
   assert.ok(home.includes('html body header.d-only, html body header.m-only { display: none !important; }'), 'home hides the design headers (and their search box)');
   const headerJs = readFileSync(path.join(repo, 'js', 'fundsae-header.js'), 'utf8');
   assert.ok(!/runSearch|Search news, funds and firms|fxh-search-panel/.test(headerJs) && headerJs.includes("header.fxb button[aria-label=\"Open menu\"]"), 'header script: menu only, no search');
@@ -431,7 +431,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   for (const label of ['Sovereign', 'Pension', 'Private Equity', 'REITs', 'Family Offices', 'Banks', 'Government', 'Endowments']) {
     assert.ok(!home.includes(`['${label}', `), `category bar has no ${label} link`);
   }
-  assert.ok(home.includes("[['Videos & Podcasts', { href: 'Videos.dc.html' }], ['Grants & Funding', { href: 'GrantsFunding.dc.html' }], ['Events', { href: 'Events.dc.html' }], ['Finance Careers', { href: 'Careers.dc.html' }]]"), 'home bar ends with Videos & Podcasts, Grants & Funding, Events and Finance Careers (Partner with us is the button)');
+  assert.ok(home.includes("[['Videos & Podcasts', { href: 'Videos.dc.html' }], ['Grants & Funding', { href: 'GrantsFunding.dc.html' }], ['Careers in Finance', { href: 'Careers.dc.html' }], ['Events & Expos', { href: 'Events.dc.html' }]]"), 'home bar ends with Videos & Podcasts, Grants & Funding, Careers in Finance and Events & Expos (Partner with us is the button)');
   for (const gone of ['Latest', 'Fundraising', 'Deals', 'People', 'Venture', 'Credit', 'Secondaries', 'Hedge Funds', 'LPs', 'Regulation', 'Providers']) {
     assert.ok(!home.includes(`['${gone}', [`), `category bar no longer has ${gone}`);
   }
@@ -455,7 +455,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.ok(home.includes('videosPodcastsBox.after(sponsoredPostsBox)') && !home.includes('careersColumn.insertBefore(sponsoredPostsBox'), 'Sponsored Posts sits in column 2 under Videos and Podcasts');
   assert.ok(connector.includes("var NEWS_REGIONS = ['News', 'GCC', 'Global'];") && connector.includes("var REGIONS = { uae: 'News', world: 'Global' };") && connector.includes('stories.forEach(function (s) { addTo(regionOf(s), s); });'), 'connector tabs match');
   assert.ok(!/'(UAE News|Global News|Business Funding)'/.test(home + connector), 'old tab names are gone');
-  assert.ok(home.includes("['Events', { href: 'Events.dc.html' }]") && home.includes("'Events.dc.html#submit-event'"), 'home links to the Events page');
+  assert.ok(home.includes("['Events & Expos', { href: 'Events.dc.html' }]") && home.includes("'Events.dc.html#submit-event'"), 'home links to the Events page');
   assert.ok(home.includes("[['About', 'About.dc.html'], ['Contact us', 'PartnerWithUs.dc.html#contact']]") && home.includes("'../js/fundsae-header.js'"), 'home footer and shared header script');
   assert.ok(read('Events.dc.html').includes('data-fundsae-slot="events"'), 'the Events page lists events');
   const careers = read('Careers.dc.html');
