@@ -65,7 +65,7 @@
         {
           "placement": "videos",
           "enabled": true,
-          "detail": "Additional featured listings in Videos and Podcasts"
+          "detail": "1 video pinned on the home page per month"
         },
         {
           "placement": "events",
