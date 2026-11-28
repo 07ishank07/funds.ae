@@ -630,7 +630,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   const eliteCard = cardOf('Elite Partner', 'gold');
   assert.ok(eliteCard.includes('<p class="tier-lead">Everything in Gold Partner, plus:</p>'), 'Elite Partner lead-in');
   for (const [h, d] of [['Videos and Podcasts', '1 video pinned on the home page per month'], ['Thought Leaders and Influencers', 'A feature in Thought Leaders'],
-    ['Spotlight logo', 'Your logo in the Spotlight box on the home page'], ['Job posts', '20 job posts a month, 2 pinned in Top Jobs'], ['Limited partners', 'A limited number of partners']]) {
+    ['Spotlight logo on Home Page', 'Your logo in the Spotlight box'], ['Job posts', '20 job posts a month, 2 pinned in Top Jobs'], ['Limited partners', 'A limited number of partners']]) {
     assert.ok(eliteCard.includes(benefit(h, d)), `Elite Partner: ${h}`);
   }
   const exclusiveCard = cardOf('Exclusive Partner', 'exclusive');
