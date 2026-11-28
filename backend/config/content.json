@@ -9,104 +9,108 @@
   "advertiseTiers": [
     {
       "id": "silver",
-      "name": "Featured Partner",
-      "badge": "Get listed",
-      "price": "AED 4,504",
-      "priceNote": "/ month (dummy)",
-      "showPrice": false,
-      "placements": [
-        {
-          "placement": "sponsoredPosts",
-          "enabled": true,
-          "detail": "One slot, rotating weekly"
-        },
-        {
-          "placement": "videos",
-          "enabled": false,
-          "detail": "Not included"
-        },
-        {
-          "placement": "events",
-          "enabled": true,
-          "detail": "A listing in Events and Expos"
-        },
-        {
-          "placement": "influencers",
-          "enabled": false,
-          "detail": "Not included"
-        },
-        {
-          "placement": "tweets",
-          "enabled": false,
-          "detail": "Not included"
-        }
-      ],
-      "features": [
-        "Listing in \"Featured Partners\" (home page column 3 and the Careers page)",
-        "Monthly performance summary (dummy)",
-        "Limited to 15 partners"
-      ],
-      "featured": false
-    },
-    {
-      "id": "gold",
       "name": "Gold Partner",
-      "badge": "Most popular",
-      "price": "AED 10000",
-      "priceNote": "/ month (dummy)",
-      "showPrice": false,
-      "placements": [
-        {
-          "placement": "sponsoredPosts",
-          "enabled": true,
-          "detail": "Two slots, rotating weekly"
-        },
-        {
-          "placement": "videos",
-          "enabled": true,
-          "detail": "One placement, rotating weekly"
-        },
-        {
-          "placement": "events",
-          "enabled": true,
-          "detail": "A featured listing in Events and Expos"
-        },
-        {
-          "placement": "influencers",
-          "enabled": true,
-          "detail": "One feature in Thought Leaders and Influencers"
-        },
-        {
-          "placement": "tweets",
-          "enabled": false,
-          "detail": "Not included"
-        }
-      ],
-      "features": [
-        "Everything in Featured Partner, plus:",
-        "A picture tile in \"Gold Partners\" (home page column 3)",
-        "A listing in \"Career Resources\" on the Careers page",
-        "Limited to 5 partners"
-      ],
-      "featured": true
-    },
-    {
-      "id": "exclusive",
-      "name": "Elite Exclusive Partner",
-      "badge": "One partner only",
-      "price": "On request",
-      "priceNote": "(dummy)",
+      "badge": "Recommended",
+      "price": "AED 9,500",
+      "priceNote": "/ month, billed quarterly",
       "showPrice": true,
       "placements": [
         {
           "placement": "sponsoredPosts",
           "enabled": true,
-          "detail": "The lead slot, every week"
+          "detail": "Two sponsored posts a month"
+        },
+        {
+          "placement": "videos",
+          "enabled": false,
+          "detail": "Not included"
+        },
+        {
+          "placement": "events",
+          "enabled": true,
+          "detail": "A featured listing in Industry Events"
+        },
+        {
+          "placement": "influencers",
+          "enabled": false,
+          "detail": "Not included"
+        },
+        {
+          "placement": "tweets",
+          "enabled": false,
+          "detail": "Not included"
+        }
+      ],
+      "features": [
+        "Your logo in the Partners strip on the home, Careers, Industry Events and Watch & Learn pages",
+        "A picture tile in \"Gold Partners\" on the home page",
+        "A listing in Top hiring companies and Career Resources on the Careers page",
+        "5 job posts a month, 1 pinned in Top Jobs",
+        "Monthly performance report",
+        "Limited to 10 partners"
+      ],
+      "featured": true
+    },
+    {
+      "id": "gold",
+      "name": "Elite Partner",
+      "badge": "Thought leadership",
+      "price": "AED 22,000",
+      "priceNote": "/ month, billed quarterly",
+      "showPrice": true,
+      "placements": [
+        {
+          "placement": "sponsoredPosts",
+          "enabled": true,
+          "detail": "Four sponsored posts a month, one week in the lead slot"
         },
         {
           "placement": "videos",
           "enabled": true,
-          "detail": "The lead video placement"
+          "detail": "One interview or podcast episode each quarter"
+        },
+        {
+          "placement": "events",
+          "enabled": true,
+          "detail": "The highlighted event card for your event"
+        },
+        {
+          "placement": "influencers",
+          "enabled": true,
+          "detail": "A feature in Thought Leaders"
+        },
+        {
+          "placement": "tweets",
+          "enabled": false,
+          "detail": "Not included"
+        }
+      ],
+      "features": [
+        "Everything in Gold Partner, plus:",
+        "The Spotlight card on the home page",
+        "15 job posts a month, 3 pinned in Top Jobs",
+        "Your firm presents one job function on the Careers page",
+        "Limited to 4 partners"
+      ],
+      "featured": false
+    },
+    {
+      "id": "exclusive",
+      "name": "Exclusive Partner",
+      "badge": "One partner only",
+      "price": "AED 55,000",
+      "priceNote": "/ month, 6-month minimum",
+      "showPrice": true,
+      "placements": [
+        {
+          "placement": "sponsoredPosts",
+          "enabled": true,
+          "detail": "The lead sponsored post, every week"
+        },
+        {
+          "placement": "videos",
+          "enabled": true,
+          "detail": "The lead video and a sponsored podcast series"
         },
         {
           "placement": "events",
@@ -125,8 +129,11 @@
         }
       ],
       "features": [
+        "Everything in Elite Partner, plus:",
         "Your firm in the Elite Founding Sponsor banner, under the masthead on every Funds.ae page except Careers",
-        "Everything in the Gold Partner package",
+        "The Finance Careers banner and one country in Jobs by location",
+        "Category exclusivity",
+        "A quarterly strategy session",
         "Exclusive: one partner at a time"
       ],
       "featured": false

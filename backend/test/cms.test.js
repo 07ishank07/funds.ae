@@ -354,7 +354,7 @@ test('the seed import (npm run cms:seed) holds today\'s content and passes the b
   assert.deepEqual(validateSponsors(mapped.sponsors).errors, [], 'every seeded sponsor is valid and every slot is within its limit');
   const content = validateContent(mapped.content, { now: NOW });
   assert.deepEqual(content.errors, []);
-  assert.equal(content.content.slots.advertiseTiers.length, 3, 'Partner, Gold Partner and Elite Exclusive Partner');
+  assert.equal(content.content.slots.advertiseTiers.length, 3, 'Gold Partner, Elite Partner and Exclusive Partner');
   // An Elite Partner (retired 'platinum') entry still enabled in Sanity is skipped, not an error.
   const withRetired = { ...mapped.content, advertiseTiers: [...mapped.content.advertiseTiers, { id: 'platinum', name: 'Elite Partner', price: 'AED 1', features: ['One line'] }] };
   const skipped = validateContent(withRetired, { now: NOW });

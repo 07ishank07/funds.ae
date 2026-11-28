@@ -606,14 +606,15 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
     assert.match(html, /<section class="partners"[^>]*>[\s\S]*?<\/section>\s*<footer class="site-footer">/, `${page}: the wall sits just above the footer`);
   }
   assert.ok(homePage.includes("partners.setAttribute('data-fundsae-partners', '');") && homePage.includes('footer.before(partners);') && homePage.includes("'../js/fundsae-partners.js', '../js/fundsae-connector.js'"), 'home adds the wall above its footer');
-  // Partner with us: one package card button per API tier (each opens Contact us), and the Elite Exclusive Partner card is #elite-partner.
+  // Partner with us: one package card button per API tier (each opens Contact us), and the Exclusive Partner card is #elite-partner.
   const advertise = read('PartnerWithUs.dc.html');
   const cardTiers = [...advertise.matchAll(/data-fundsae-tier="([a-z]+)"/g)].map((m) => m[1]);
   assert.deepEqual(cardTiers.sort(), [...ADVERTISING_TIERS].sort());
   assert.match(advertise, /id="elite-partner"[\s\S]*data-fundsae-tier="exclusive"/);
-  // Three package cards (Featured Partner, Gold Partner, Elite Exclusive Partner) under a benefits pitch.
+  // Three package cards (Gold Partner, the recommended one; Elite Partner; Exclusive Partner) under a benefits pitch.
   assert.equal([...advertise.matchAll(/<div class="tier[ "]/g)].length, 3, 'three package cards');
-  for (const name of ['Featured Partner', 'Gold Partner', 'Elite Exclusive Partner']) assert.ok(advertise.includes(`<h2>${name}</h2>`), name);
+  for (const name of ['Gold Partner', 'Elite Partner', 'Exclusive Partner']) assert.ok(advertise.includes(`<h2>${name}</h2>`), name);
+  assert.ok(advertise.includes('<div class="tier featured">\n        <span class="badge">Recommended</span>\n        <h2>Gold Partner</h2>'.split('\n').join(advertise.includes('\r\n') ? '\r\n' : '\n')), 'Gold Partner is the recommended package');
   assert.ok(advertise.indexOf('id="pitch-title"') < advertise.indexOf('id="packages"'), 'pitch sits above the packages');
   // Why partner (Option B): the licensed Dubai photo banner with "Be seen." and the six benefits, between the pitch and the packages.
   const why = advertise.slice(advertise.indexOf('<section class="section why"'), advertise.indexOf('</section>', advertise.indexOf('<section class="section why"')));
