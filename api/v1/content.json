@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-11-28T09:37:47.823Z",
+  "generatedAt": "2026-11-28T09:39:54.547Z",
   "notice": "Editorial content written by the Funds.ae team. Top Tweets items link to the original posts.",
   "slots": {
     "socialHighlights": [],
@@ -37,10 +37,10 @@
           }
         ],
         "features": [
-          "Home page: a Featured Partner link to your firm",
-          "Careers page: a listing in Top hiring companies",
-          "Careers page: a link in Career Resources",
-          "Careers page: 10 job posts a month, 1 pinned in Top Jobs"
+          "Featured Partner link: a link to your firm on the home page",
+          "Top hiring companies: a listing on the Careers page",
+          "Career Resources: a link to your firm on the Careers page",
+          "Job posts: 10 job posts a month, 1 pinned in Top Jobs"
         ],
         "ctaLabel": null,
         "ctaUrl": null,
@@ -68,9 +68,9 @@
         ],
         "features": [
           "Everything in Gold Partner, plus:",
-          "The Spotlight logo on the home page",
-          "20 job posts a month, 2 pinned in Top Jobs",
-          "Limited number of partners"
+          "Spotlight logo: your logo in the Spotlight box on the home page",
+          "Job posts: 20 job posts a month, 2 pinned in Top Jobs",
+          "Limited partners: a limited number of partners"
         ],
         "ctaLabel": null,
         "ctaUrl": null,
@@ -87,11 +87,11 @@
         "placements": [],
         "features": [
           "Selective partnership for:",
-          "Category exclusivity",
-          "Home page banner",
-          "Strategic business growth partnership",
-          "Consulting-based solution",
-          "Monthly meeting to review and adjust the approach"
+          "Category exclusivity: the only partner in your category",
+          "Home page banner: your brand in the banner on the home page",
+          "Business growth: a strategic business growth partnership",
+          "Consulting: a consulting-based solution",
+          "Monthly review: a meeting each month to review and adjust the approach"
         ],
         "ctaLabel": null,
         "ctaUrl": null,

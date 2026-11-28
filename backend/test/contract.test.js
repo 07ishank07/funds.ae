@@ -614,21 +614,30 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   // Three package cards (Gold Partner, the recommended one; Elite Partner; Exclusive Partner) under a benefits pitch.
   assert.equal([...advertise.matchAll(/<div class="tier[ "]/g)].length, 3, 'three package cards');
   for (const name of ['Gold Partner', 'Elite Partner', 'Exclusive Partner']) assert.ok(advertise.includes(`<h2>${name}</h2>`), name);
-  // Gold Partner benefits: two rotating sponsored posts, a Featured Partner link and a rotating tweet on the home page;
-  // Top hiring companies, a Career Resources link and 10 job posts (1 pinned) on Careers; 2 Industry Events and 2 Videos listings.
-  const goldCard = advertise.slice(advertise.indexOf('<h2>Gold Partner</h2>'), advertise.indexOf('data-fundsae-tier="silver"'));
-  for (const line of ['Two sponsored posts a month on the home page, rotating', 'Two featured listings in Videos and Podcasts', 'Two featured listings a month in Industry Events',
-    'One of your tweets in Top Tweets on the home page, rotating', 'Home page: a Featured Partner link to your firm', 'Careers page: a listing in Top hiring companies',
-    'Careers page: a link in Career Resources', 'Careers page: 10 job posts a month, 1 pinned in Top Jobs']) assert.ok(goldCard.includes(line), `Gold Partner: ${line}`);
-  // Elite Partner: everything in Gold plus the Spotlight logo, 20 job posts (2 pinned), limited partners, more Videos, Thought Leaders.
-  const eliteCard = advertise.slice(advertise.indexOf('<h2>Elite Partner</h2>'), advertise.indexOf('data-fundsae-tier="gold"'));
-  for (const line of ['Everything in Gold Partner, plus:', 'The Spotlight logo on the home page', '20 job posts a month, 2 pinned in Top Jobs', 'Limited number of partners',
-    'Additional featured listings in Videos and Podcasts', 'A feature in Thought Leaders']) assert.ok(eliteCard.includes(line), `Elite Partner: ${line}`);
-  // Exclusive Partner: a selective, one-to-one partnership (no placement lines).
-  const exclusiveCard = advertise.slice(advertise.indexOf('<h2>Exclusive Partner</h2>'), advertise.indexOf('data-fundsae-tier="exclusive"'));
-  assert.ok(exclusiveCard.includes('<ul class="placements" hidden></ul>'), 'Exclusive Partner has no placement lines');
-  for (const line of ['Selective partnership for:', 'Category exclusivity', 'Home page banner', 'Strategic business growth partnership', 'Consulting-based solution',
-    'Monthly meeting to review and adjust the approach']) assert.ok(exclusiveCard.includes(line), `Exclusive Partner: ${line}`);
+  // Every benefit is a dark heading over a short description; the lead-in line sits above the benefits.
+  const cardOf = (name, tier) => advertise.slice(advertise.indexOf(`<h2>${name}</h2>`), advertise.indexOf(`data-fundsae-tier="${tier}"`));
+  const benefit = (heading, detail) => `><span><strong>${heading}</strong><span class="detail">${detail}</span></span></li>`;
+  const goldCard = cardOf('Gold Partner', 'silver');
+  for (const [h, d] of [['Sponsored Posts', 'Two sponsored posts a month on the home page, rotating'], ['Videos and Podcasts', 'Two featured listings in Videos and Podcasts'],
+    ['Events and Expos', 'Two featured listings a month in Industry Events'], ['Top Tweets (X posts)', 'One of your tweets in Top Tweets on the home page, rotating'],
+    ['Featured Partner link', 'A link to your firm on the home page'], ['Top hiring companies', 'A listing on the Careers page'],
+    ['Career Resources', 'A link to your firm on the Careers page'], ['Job posts', '10 job posts a month, 1 pinned in Top Jobs']]) {
+    assert.ok(goldCard.includes(benefit(h, d)), `Gold Partner: ${h}`);
+  }
+  const eliteCard = cardOf('Elite Partner', 'gold');
+  assert.ok(eliteCard.includes('<p class="tier-lead">Everything in Gold Partner, plus:</p>'), 'Elite Partner lead-in');
+  for (const [h, d] of [['Videos and Podcasts', 'Additional featured listings in Videos and Podcasts'], ['Thought Leaders and Influencers', 'A feature in Thought Leaders'],
+    ['Spotlight logo', 'Your logo in the Spotlight box on the home page'], ['Job posts', '20 job posts a month, 2 pinned in Top Jobs'], ['Limited partners', 'A limited number of partners']]) {
+    assert.ok(eliteCard.includes(benefit(h, d)), `Elite Partner: ${h}`);
+  }
+  const exclusiveCard = cardOf('Exclusive Partner', 'exclusive');
+  assert.ok(exclusiveCard.includes('<ul class="placements" hidden></ul>') && exclusiveCard.includes('<p class="tier-lead">Selective partnership for:</p>'), 'Exclusive Partner lead-in, no placement lines');
+  for (const [h, d] of [['Category exclusivity', 'The only partner in your category'], ['Home page banner', 'Your brand in the banner on the home page'],
+    ['Business growth', 'A strategic business growth partnership'], ['Consulting', 'A consulting-based solution'], ['Monthly review', 'A meeting each month to review and adjust the approach']]) {
+    assert.ok(exclusiveCard.includes(benefit(h, d)), `Exclusive Partner: ${h}`);
+  }
+  const tierJs = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
+  assert.ok(tierJs.includes("var lead = fillBenefits(features, tier.features);") && tierJs.includes("var cut = line.indexOf(': ');"), 'connector draws heading and description benefits');
   assert.ok(advertise.includes('<div class="tier featured">\n        <span class="badge">Recommended</span>\n        <h2>Gold Partner</h2>'.split('\n').join(advertise.includes('\r\n') ? '\r\n' : '\n')), 'Gold Partner is the recommended package');
   assert.ok(advertise.indexOf('id="pitch-title"') < advertise.indexOf('id="packages"'), 'pitch sits above the packages');
   // Why partner (Option B): the licensed Dubai photo banner with "Be seen." and the six benefits, between the pitch and the packages.

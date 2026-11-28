@@ -101,6 +101,9 @@
   .tier.exclusive ul.placements + ul.features { border-top-color: rgba(241, 245, 244, 0.2); }
   .tier ul.placements:has(+ ul.features:not([hidden])) { flex: none; }
   .tier li > span { display: block; min-width: 0; }
+  /* The card's lead-in line ("Everything in Gold Partner, plus:"), above its benefits. */
+  .tier .tier-lead { margin: 18px 0 -6px; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+  .tier.exclusive .tier-lead { color: var(--mint); }
   .tier li strong { display: block; font-weight: 600; }
   .tier li .detail { display: block; margin-top: 1px; font-size: 14px; color: var(--muted); }
   .tier.exclusive li .detail { color: #A7C3C2; }
@@ -259,6 +262,7 @@
         <h2>Gold Partner</h2>
         <div class="price">AED 9,500 <small>/ month, billed quarterly</small></div>
         <p class="duration" hidden></p>
+        <p class="tier-lead" hidden></p>
         <ul class="placements">
           <li data-placement="sponsoredPosts"><span><strong>Sponsored Posts</strong><span class="detail">Two sponsored posts a month on the home page, rotating</span></span></li>
           <li data-placement="videos"><span><strong>Videos and Podcasts</strong><span class="detail">Two featured listings in Videos and Podcasts</span></span></li>
@@ -266,10 +270,10 @@
           <li data-placement="tweets"><span><strong>Top Tweets (X posts)</strong><span class="detail">One of your tweets in Top Tweets on the home page, rotating</span></span></li>
         </ul>
         <ul class="features">
-          <li>Home page: a Featured Partner link to your firm</li>
-          <li>Careers page: a listing in Top hiring companies</li>
-          <li>Careers page: a link in Career Resources</li>
-          <li>Careers page: 10 job posts a month, 1 pinned in Top Jobs</li>
+          <li><span><strong>Featured Partner link</strong><span class="detail">A link to your firm on the home page</span></span></li>
+          <li><span><strong>Top hiring companies</strong><span class="detail">A listing on the Careers page</span></span></li>
+          <li><span><strong>Career Resources</strong><span class="detail">A link to your firm on the Careers page</span></span></li>
+          <li><span><strong>Job posts</strong><span class="detail">10 job posts a month, 1 pinned in Top Jobs</span></span></li>
         </ul>
         <a class="cta" href="#contact" data-fundsae-tier="silver">Get started</a>
       </div>
@@ -278,15 +282,15 @@
         <h2>Elite Partner</h2>
         <div class="price">AED 22,000 <small>/ month, billed quarterly</small></div>
         <p class="duration" hidden></p>
+        <p class="tier-lead">Everything in Gold Partner, plus:</p>
         <ul class="placements">
           <li data-placement="videos"><span><strong>Videos and Podcasts</strong><span class="detail">Additional featured listings in Videos and Podcasts</span></span></li>
           <li data-placement="influencers"><span><strong>Thought Leaders and Influencers</strong><span class="detail">A feature in Thought Leaders</span></span></li>
         </ul>
         <ul class="features">
-          <li>Everything in Gold Partner, plus:</li>
-          <li>The Spotlight logo on the home page</li>
-          <li>20 job posts a month, 2 pinned in Top Jobs</li>
-          <li>Limited number of partners</li>
+          <li><span><strong>Spotlight logo</strong><span class="detail">Your logo in the Spotlight box on the home page</span></span></li>
+          <li><span><strong>Job posts</strong><span class="detail">20 job posts a month, 2 pinned in Top Jobs</span></span></li>
+          <li><span><strong>Limited partners</strong><span class="detail">A limited number of partners</span></span></li>
         </ul>
         <a class="cta" href="#contact" data-fundsae-tier="gold">Get started</a>
       </div>
@@ -295,14 +299,14 @@
         <h2>Exclusive Partner</h2>
         <div class="price">AED 55,000 <small>/ month, 6-month minimum</small></div>
         <p class="duration" hidden></p>
+        <p class="tier-lead">Selective partnership for:</p>
         <ul class="placements" hidden></ul>
         <ul class="features">
-          <li>Selective partnership for:</li>
-          <li>Category exclusivity</li>
-          <li>Home page banner</li>
-          <li>Strategic business growth partnership</li>
-          <li>Consulting-based solution</li>
-          <li>Monthly meeting to review and adjust the approach</li>
+          <li><span><strong>Category exclusivity</strong><span class="detail">The only partner in your category</span></span></li>
+          <li><span><strong>Home page banner</strong><span class="detail">Your brand in the banner on the home page</span></span></li>
+          <li><span><strong>Business growth</strong><span class="detail">A strategic business growth partnership</span></span></li>
+          <li><span><strong>Consulting</strong><span class="detail">A consulting-based solution</span></span></li>
+          <li><span><strong>Monthly review</strong><span class="detail">A meeting each month to review and adjust the approach</span></span></li>
         </ul>
         <a class="cta" href="#contact" data-fundsae-tier="exclusive">Enquire</a>
       </div>

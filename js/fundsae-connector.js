@@ -935,14 +935,33 @@
     node.appendChild(note);
   }
 
-  function fillLines(ul, lines) {
-    if (!ul) return;
+  /** Partner with us package benefits. "Heading: description" becomes a dark heading over the description (like the
+   *  placement lines); other lines show as written. Returns the lead-in line ("Everything in Gold Partner, plus:"), a
+   *  first line ending in ":", which the card shows above its benefits ('' when none). */
+  function fillBenefits(ul, lines) {
+    var lead = lines.length && /:\s*$/.test(lines[0]) ? lines[0] : '';
+    if (!ul) return lead;
     ul.textContent = '';
-    lines.forEach(function (line) {
+    lines.slice(lead ? 1 : 0).forEach(function (line) {
       var li = document.createElement('li');
-      li.textContent = line;
+      var cut = line.indexOf(': ');
+      if (cut > 0) {
+        var text = document.createElement('span');
+        var heading = document.createElement('strong');
+        heading.textContent = line.slice(0, cut);
+        var detail = document.createElement('span');
+        detail.className = 'detail';
+        var rest = line.slice(cut + 2);
+        detail.textContent = rest.charAt(0).toUpperCase() + rest.slice(1);
+        text.appendChild(heading);
+        text.appendChild(detail);
+        li.appendChild(text);
+      } else {
+        li.textContent = line;
+      }
       ul.appendChild(li);
     });
+    return lead;
   }
 
   /** Home "Top Tweets": avatar initials, account name, @handle, our one-line summary, link to the post. */
@@ -1027,7 +1046,12 @@
           placements.hidden = !tier.placements.length;
         }
         var features = card.querySelector('ul.features') || card.querySelector('ul');
-        fillLines(features, tier.features);
+        var lead = fillBenefits(features, tier.features);
+        var leadLine = card.querySelector('.tier-lead');
+        if (leadLine) {
+          leadLine.textContent = lead;
+          leadLine.hidden = !lead;
+        }
         if (features) features.hidden = !tier.features.length;
         var cta = card.querySelector('[data-fundsae-tier]');
         if (cta) {
