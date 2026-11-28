@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="site-header.css?v=3">
 <link rel="stylesheet" href="careers-banner.css?v=2">
 <link rel="stylesheet" href="grants-promo.css?v=1">
+<link rel="stylesheet" href="partners-wall.css?v=1">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   /* Editorial theme tokens. Keep in sync with the theme block at the end of this.html's script. */
@@ -276,60 +277,7 @@
   .pager button:hover:not([disabled]):not([aria-current="page"]) { border-color: var(--ink); }
   .pager button[aria-current="page"] { background: var(--ink); border-color: var(--ink); color: #FFFFFF; cursor: default; }
   .pager button[disabled] { color: var(--ghost); cursor: default; opacity: 0.6; }
-  /* Partners: a dark logo wall across the foot of the page. Two rows of logos glide right to left in an endless loop
-     over two identical lists (the second is an aria-hidden copy made by the script at the foot of the page). Each logo is
-     the sponsor's mark (its image, or its initials in an outlined tile) beside its name, in white. The strip pauses on
-     hover or keyboard focus (the other logos dim), and stands still as a wrapped grid for people who ask for reduced motion. */
-  .partners {
-    flex-shrink: 0; width: 100%; margin: 56px 0 0; padding: 40px 0 44px; color: #FFFFFF;
-    background: #0B2A30 radial-gradient(1100px 260px at 50% 0%, rgba(79, 179, 184, 0.12), transparent 70%);
-  }
-  .partners + .site-footer { margin-top: 0; }
-  .partners-title { max-width: 1288px; margin: 0 auto; padding: 0 24px; text-align: center; font-size: 12px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: #9FD8DB; }
-  .partners-viewport {
-    margin-top: 22px; overflow: hidden; direction: ltr;
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 120px, #000 calc(100% - 120px), transparent);
-    mask-image: linear-gradient(90deg, transparent, #000 120px, #000 calc(100% - 120px), transparent);
-  }
-  .partners-track { display: flex; width: max-content; animation: partners-scroll var(--partners-duration, 60s) linear infinite; }
-  .partners-viewport:hover .partners-track, .partners-viewport:focus-within .partners-track { animation-play-state: paused; }
-  @keyframes partners-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-  .partners-list { display: grid; grid-auto-flow: column; grid-template-rows: repeat(2, 76px); grid-auto-columns: 236px; }
-  .partner {
-    display: flex; align-items: center; justify-content: center; gap: 11px; min-width: 0; padding: 0 18px;
-    color: rgba(255, 255, 255, 0.8); text-decoration: none; transition: color 0.2s, opacity 0.2s;
-  }
-  .partners-viewport:hover .partner:not(:hover) { opacity: 0.5; }
-  .partner:hover, .partner:focus-visible { color: #FFFFFF; }
-  .partner:focus-visible { outline: 2px solid #9FD8DB; outline-offset: -6px; border-radius: 10px; }
-  .partner .logo {
-    flex: 0 0 32px; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 9px;
-    font-size: 9.5px; font-weight: 700; letter-spacing: 0.04em; line-height: 1; color: inherit;
-  }
-  /* Initials (no logo image yet): an outlined white mark instead of the coloured tile. A real logo stays on its white tile. */
-  .partner .logo:not([style*="url("]) { border: 1.5px solid currentColor; background: transparent !important; }
-  .partner > span { min-width: 0; }
-  .partner .name {
-    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden;
-    font-size: 15px; font-weight: 600; line-height: 1.2; letter-spacing: -0.01em;
-  }
-  .partner .site { display: none; }
-  .partners[data-still] .partners-track { animation: none; }
-  .partners[data-still] .partners-viewport { -webkit-mask-image: none; mask-image: none; }
-  @media (prefers-reduced-motion: reduce) {
-    .partners-viewport { -webkit-mask-image: none; mask-image: none; }
-    .partners-track { width: auto; max-width: 1288px; margin: 0 auto; padding: 0 24px; animation: none; }
-    .partners-list { flex: 1; grid-auto-flow: row; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); grid-template-rows: none; grid-auto-rows: 72px; }
-    .partners-list[aria-hidden="true"] { display: none; }
-    .partner { transition: none; }
-  }
-  @media (max-width: 620px) {
-    .partners { margin-top: 40px; padding: 32px 0 34px; }
-    .partners-viewport { -webkit-mask-image: linear-gradient(90deg, transparent, #000 40px, #000 calc(100% - 40px), transparent); mask-image: linear-gradient(90deg, transparent, #000 40px, #000 calc(100% - 40px), transparent); }
-    .partners-list { grid-template-rows: repeat(2, 64px); grid-auto-columns: 196px; }
-    .partner .name { font-size: 14px; }
-  }
-
+  /* Partners logo wall at the foot of the page: partners-wall.css and js/fundsae-partners.js (shared). */
   /* ---- Modern look: rounded white cards with soft shadows, pill buttons and tag chips, a calmer sidebar ---- */
   .page {
     --r: 14px;
@@ -698,8 +646,8 @@
 </aside>
 </div>
 <!-- Featured Partners (sponsor slot "professionalServices"): a dark logo wall at the foot of the page, two rows that
-     scroll right to left in an endless loop. js/fundsae-connector.js fills the list from sponsors.json; the script at the foot
-     of the page adds the aria-hidden copy the loop needs. These cards are the built-in content shown until the API answers. -->
+     scroll right to left in an endless loop. js/fundsae-connector.js fills the list from sponsors.json; js/fundsae-partners.js
+     adds the aria-hidden copy the loop needs. These cards are the built-in content shown until the API answers. -->
 <!-- "Partners" heading; screen readers also hear that these are sponsored placements (links carry rel="sponsored"). -->
 <section class="partners" aria-labelledby="partners-title">
   <h2 id="partners-title" class="partners-title">Partners<span class="fxh-sr"> (sponsored)</span></h2>
@@ -1016,36 +964,10 @@
   });
 })();
 </script>
-<script>
-/* Featured Partners strip: keeps an aria-hidden copy of the list beside it so the right-to-left loop is seamless,
-   and makes a fresh copy whenever js/fundsae-connector.js swaps the placeholder cards for sponsors.json data.
-   Two rows of logos: the speed stays the same whatever the number of companies (an unhurried ~40 px/s). */
-(function () {
-  var section = document.querySelector('.partners');
-  var track = section && section.querySelector('.partners-track');
-  var list = track && track.querySelector('[data-fundsae-slot="sponsor-companies"]');
-  if (!list) return;
-  var copy = null;
-  function sync() {
-    if (copy) copy.remove();
-    copy = null;
-    var count = list.querySelectorAll(':scope > a').length;
-    section.toggleAttribute('data-still', count < 2);
-    if (count < 2) return;
-    copy = list.cloneNode(true);
-    copy.removeAttribute('data-fundsae-slot');
-    copy.setAttribute('aria-hidden', 'true');
-    copy.querySelectorAll('a').forEach(function (a) { a.tabIndex = -1; });
-    track.appendChild(copy);
-    track.style.setProperty('--partners-duration', (count * 3) + 's');
-  }
-  sync();
-  new MutationObserver(sync).observe(list, { childList: true });
-})();
-</script>
 <script src="../i18n.js"></script>
 <script src="../js/fundsae-header.js" defer></script>
 <script src="../js/fundsae-api.js" defer></script>
+<script src="../js/fundsae-partners.js" defer></script>
 <script src="../js/fundsae-connector.js" defer></script>
 <script src="../js/fundsae-forms.js" defer></script>
 </body>

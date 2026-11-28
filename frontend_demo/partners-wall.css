@@ -1,0 +1,61 @@
+/*
+ * Partners: a dark logo wall at the foot of the home, Careers, Events & Expos and Videos & Podcasts pages, just above
+ * the footer. Two rows of logos glide right to left in an endless loop over two identical lists (js/fundsae-partners.js
+ * builds the wall where a page has only the mount, and adds the aria-hidden copy the loop needs). Each logo is the
+ * sponsor's mark (its image, or its initials in an outlined tile) beside its name, in white. The strip pauses on hover
+ * or keyboard focus (the other logos dim), and stands still as a wrapped grid for people who ask for reduced motion.
+ */
+.partners {
+  flex-shrink: 0; width: 100%; margin: 56px 0 0; padding: 40px 0 44px; color: #FFFFFF;
+  background: #0B2A30 radial-gradient(1100px 260px at 50% 0%, rgba(79, 179, 184, 0.12), transparent 70%);
+}
+.partners + .site-footer, .partners + footer { margin-top: 0 !important; }
+.partners-title { max-width: 1288px; margin: 0 auto; padding: 0 24px; text-align: center; font-size: 12px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: #9FD8DB; }
+.partners-viewport {
+  margin-top: 22px; overflow: hidden; direction: ltr;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 120px, #000 calc(100% - 120px), transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 120px, #000 calc(100% - 120px), transparent);
+}
+.partners-track { display: flex; width: max-content; animation: partners-scroll var(--partners-duration, 60s) linear infinite; }
+.partners-viewport:hover .partners-track, .partners-viewport:focus-within .partners-track { animation-play-state: paused; }
+@keyframes partners-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.partners-list { display: grid; grid-auto-flow: column; grid-template-rows: repeat(2, 76px); grid-auto-columns: 236px; }
+.partner {
+  display: flex; align-items: center; justify-content: center; gap: 11px; min-width: 0; padding: 0 18px;
+  color: rgba(255, 255, 255, 0.8); text-decoration: none; transition: color 0.2s, opacity 0.2s;
+}
+.partners-viewport:hover .partner:not(:hover) { opacity: 0.5; }
+.partner:hover, .partner:focus-visible { color: #FFFFFF; }
+.partner:focus-visible { outline: 2px solid #9FD8DB; outline-offset: -6px; border-radius: 10px; }
+.partner .logo {
+  flex: 0 0 32px; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 9px;
+  font-size: 9.5px; font-weight: 700; letter-spacing: 0.04em; line-height: 1; color: inherit;
+}
+/* Initials (no logo image yet): an outlined white mark instead of the coloured tile. A real logo stays on its white tile. */
+.partner .logo:not([style*="url("]) { border: 1.5px solid currentColor; background: transparent !important; }
+.partner > span { min-width: 0; }
+.partner .name {
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden;
+  font-size: 15px; font-weight: 600; line-height: 1.2; letter-spacing: -0.01em;
+}
+.partner .site { display: none; }
+.partners[data-still] .partners-track { animation: none; }
+.partners[data-still] .partners-viewport { -webkit-mask-image: none; mask-image: none; }
+@media (prefers-reduced-motion: reduce) {
+  .partners-viewport { -webkit-mask-image: none; mask-image: none; }
+  .partners-track { width: auto; max-width: 1288px; margin: 0 auto; padding: 0 24px; animation: none; }
+  .partners-list { flex: 1; grid-auto-flow: row; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); grid-template-rows: none; grid-auto-rows: 72px; }
+  .partners-list[aria-hidden="true"] { display: none; }
+  .partner { transition: none; }
+}
+@media (max-width: 620px) {
+  .partners { margin-top: 40px; padding: 32px 0 34px; }
+  .partners-viewport { -webkit-mask-image: linear-gradient(90deg, transparent, #000 40px, #000 calc(100% - 40px), transparent); mask-image: linear-gradient(90deg, transparent, #000 40px, #000 calc(100% - 40px), transparent); }
+  .partners-list { grid-template-rows: repeat(2, 64px); grid-auto-columns: 196px; }
+  .partner .name { font-size: 14px; }
+}
+/* Guards: page-wide heading and link styles (the home page's theme) must not reach the wall. */
+.partners, .partners * { box-sizing: border-box; }
+.partners .partners-title { margin: 0 auto !important; border: 0 !important; font-family: inherit; line-height: 1.3 !important; text-align: center !important; }
+.partners .partner, .partners .partner:hover { text-decoration: none !important; }
+.partners .fxh-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

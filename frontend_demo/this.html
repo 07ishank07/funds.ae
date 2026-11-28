@@ -370,6 +370,19 @@ document.addEventListener('DOMContentLoaded', async function() {
     document.querySelectorAll('header.d-only nav[aria-label="Sections"], nav.m-only[aria-label="Sections"]').forEach((nav) => nav.remove());
     {
       const footer = document.querySelector('footer');
+      // Partners logo wall above the footer, the same as on Careers, Events & Expos and Videos & Podcasts
+      // (partners-wall.css; js/fundsae-partners.js builds it and js/fundsae-connector.js fills it from sponsors.json).
+      if (footer && !document.querySelector('section.partners')) {
+        const partnersCss = document.createElement('link');
+        partnersCss.rel = 'stylesheet';
+        partnersCss.href = 'partners-wall.css?v=1';
+        document.head.appendChild(partnersCss);
+        const partners = document.createElement('section');
+        partners.className = 'partners';
+        partners.setAttribute('aria-labelledby', 'partners-title');
+        partners.setAttribute('data-fundsae-partners', '');
+        footer.before(partners);
+      }
       if (footer) {
         if (!footer.id) footer.id = 'about';
         // Bottom row: copyright on the left, the publisher note on the right, under a hairline.
@@ -2010,7 +2023,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Language switch (English / Arabic), then the API scripts. Loaded last so everything they attach to
     // already exists. Paths are relative to frontend_demo/. async=false keeps them in this order.
     {
-      ['../i18n.js', '../js/fundsae-api.js', '../js/fundsae-connector.js', '../js/fundsae-forms.js', '../js/fundsae-header.js'].forEach((src) => {
+      ['../i18n.js', '../js/fundsae-api.js', '../js/fundsae-partners.js', '../js/fundsae-connector.js', '../js/fundsae-forms.js', '../js/fundsae-header.js'].forEach((src) => {
         const script = document.createElement('script');
         script.src = src;
         script.async = false;

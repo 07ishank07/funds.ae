@@ -541,8 +541,21 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.ok(careers.includes('<h2 id="partners-title" class="partners-title">Partners<span class="fxh-sr"> (sponsored)</span></h2>'), 'a Partners heading, labelled as sponsored for screen readers');
   assert.ok(!careers.includes('partners-head') && !careers.includes('Feature your firm'), 'no visible tag or link above the strip');
   // Partners: a dark logo wall, two rows of white logos (mark and name) gliding right to left; still for reduced motion.
-  assert.ok(careers.includes('grid-template-rows: repeat(2, 76px)') && careers.includes('background: #0B2A30') && careers.includes('.partner .logo:not([style*="url("])') && !careers.includes('var(--serif) !important'), 'partners logo wall');
-  assert.ok(/@media \(prefers-reduced-motion: reduce\) \{\s*\.partners-viewport/.test(careers), 'the wall stands still for reduced motion');
+  // Partners: a dark logo wall (partners-wall.css, js/fundsae-partners.js), two rows of white logos gliding right to left,
+  // above the footer on the home, Careers, Events & Expos and Videos & Podcasts pages. Still for reduced motion.
+  const wall = readFileSync(path.join(repo, 'frontend_demo', 'partners-wall.css'), 'utf8');
+  const wallJs = readFileSync(path.join(repo, 'js', 'fundsae-partners.js'), 'utf8');
+  assert.ok(wall.includes('grid-template-rows: repeat(2, 76px)') && wall.includes('background: #0B2A30') && wall.includes('.partner .logo:not([style*="url("])'), 'partners logo wall');
+  assert.ok(/@media \(prefers-reduced-motion: reduce\) \{\s*\.partners-viewport/.test(wall), 'the wall stands still for reduced motion');
+  assert.ok(!/innerHTML/.test(wallJs) && wallJs.includes("list.setAttribute('data-fundsae-slot', 'sponsor-companies');") && wallJs.includes("copy.setAttribute('aria-hidden', 'true');"), 'the script builds the wall with textContent and keeps the loop copy hidden');
+  assert.ok(!careers.includes('Featured Partners strip: keeps an aria-hidden copy'), 'one loop script, shared');
+  for (const page of ['Careers.dc.html', 'Events.dc.html', 'Videos.dc.html']) {
+    const html = read(page);
+    assert.ok(html.includes('<link rel="stylesheet" href="partners-wall.css?v=1">'), `${page} loads partners-wall.css`);
+    assert.ok(html.indexOf('src="../js/fundsae-partners.js"') > 0 && html.indexOf('src="../js/fundsae-partners.js"') < html.indexOf('src="../js/fundsae-connector.js"'), `${page} builds the wall before the connector fills it`);
+    assert.match(html, /<section class="partners"[^>]*>[\s\S]*?<\/section>\s*<footer class="site-footer">/, `${page}: the wall sits just above the footer`);
+  }
+  assert.ok(homePage.includes("partners.setAttribute('data-fundsae-partners', '');") && homePage.includes('footer.before(partners);') && homePage.includes("'../js/fundsae-partners.js', '../js/fundsae-connector.js'"), 'home adds the wall above its footer');
   // Partner with us: one package card button per API tier (each opens Contact us), and the Elite Exclusive Partner card is #elite-partner.
   const advertise = read('PartnerWithUs.dc.html');
   const cardTiers = [...advertise.matchAll(/data-fundsae-tier="([a-z]+)"/g)].map((m) => m[1]);
