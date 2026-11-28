@@ -283,7 +283,12 @@ test('Real Estate News: one landing page with three parallel columns, opened by 
   assert.ok(!/Infrastructure Real Estate News|Special &(amp;)? Alternative Real Estate News/.test(home), 'the two old boxes are gone');
   const tilesJs = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
   assert.ok(tilesJs.includes("var ALTERNATIVE_SECTIONS = ['special-alternative-real-estate', 'infrastructure'];") &&
-    tilesJs.includes("renderTiles('tiles-alternative-real-estate', mergeStoryDocs(docs), TILES_SHOWN)"), 'the box merges both sections');
+    tilesJs.includes("renderTiles('tiles-alternative-real-estate', uaeOnly(mergeStoryDocs(docs)), TILES_SHOWN)"), 'the box merges both sections');
+  // The three home real estate boxes show UAE stories only (the UAE Stories tab's rule).
+  for (const slot of ['tiles-residential-real-estate', 'tiles-commercial-real-estate']) {
+    assert.ok(tilesJs.includes(`renderTiles('${slot}', uaeOnly(doc), TILES_SHOWN)`), `${slot}: UAE stories only`);
+  }
+  assert.ok(tilesJs.includes("return s && typeof s === 'object' && regionOf(s) === 'News';"), 'uaeOnly uses the UAE Stories rule');
   const connector = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
   const render = connector.slice(connector.indexOf('/* ---------------------------- Real Estate News page'), connector.indexOf('/* ------------------------------- Gulf Economy'));
   assert.ok(render.includes('api.valid.story') && render.includes('textContent') && !/innerHTML/.test(render), 'columns are built with textContent from validated stories');

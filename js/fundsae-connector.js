@@ -402,6 +402,15 @@
   // Home "Alternative Real Estate News" box: one box for the Infrastructure and Special & Alternative page sections.
   var ALTERNATIVE_SECTIONS = ['special-alternative-real-estate', 'infrastructure'];
 
+  /**
+   * The home page's real estate boxes show UAE stories only (as the UAE Stories tab: regionOf). The Real Estate News
+   * page keeps every story of its sections.
+   */
+  function uaeOnly(doc) {
+    var items = doc && Array.isArray(doc.items) ? doc.items : [];
+    return { items: items.filter(function (s) { return s && typeof s === 'object' && regionOf(s) === 'News'; }) };
+  }
+
   /** Several story lists as one: each story once, newest first. */
   function mergeStoryDocs(docs) {
     var seen = {};
@@ -1613,15 +1622,15 @@
 
       if (hasSlot('news')) guard('News', load('news.json', 'news').then(function (doc) { renderNews(doc); bindSearch(); }));
       if (hasSlot('tiles-residential-real-estate')) {
-        guard('Residential real estate stories', load('news/sections/residential-real-estate.json', 'news').then(function (doc) { renderTiles('tiles-residential-real-estate', doc, TILES_SHOWN); }));
+        guard('Residential real estate stories', load('news/sections/residential-real-estate.json', 'news').then(function (doc) { renderTiles('tiles-residential-real-estate', uaeOnly(doc), TILES_SHOWN); }));
       }
       if (hasSlot('tiles-commercial-real-estate')) {
-        guard('Commercial real estate stories', load('news/sections/commercial-real-estate.json', 'news').then(function (doc) { renderTiles('tiles-commercial-real-estate', doc, TILES_SHOWN); }));
+        guard('Commercial real estate stories', load('news/sections/commercial-real-estate.json', 'news').then(function (doc) { renderTiles('tiles-commercial-real-estate', uaeOnly(doc), TILES_SHOWN); }));
       }
       if (hasSlot('tiles-alternative-real-estate')) {
         // One home box for two page sections: Infrastructure and Special & Alternative, merged newest first.
         guard('Alternative real estate stories', Promise.all(ALTERNATIVE_SECTIONS.map(function (id) { return load('news/sections/' + id + '.json', 'news'); }))
-          .then(function (docs) { renderTiles('tiles-alternative-real-estate', mergeStoryDocs(docs), TILES_SHOWN); }));
+          .then(function (docs) { renderTiles('tiles-alternative-real-estate', uaeOnly(mergeStoryDocs(docs)), TILES_SHOWN); }));
       }
       // careers.json: the Top Employers / Top Jobs picked in the Studio (missing on older data: automatic order).
       var careersDoc = (hasSlot('employers') || hasSlot('top-jobs')) ? load('careers.json', 'careers').catch(function () { return null; }) : null;
