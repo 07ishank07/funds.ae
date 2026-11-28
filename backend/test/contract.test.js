@@ -108,7 +108,8 @@ test('content.json has the Sanity-managed slots and pages, with the contract fie
     assert.deepEqual(Object.keys(doc.banners).sort(), ['careers', 'grants']);
     for (const [placement, b] of Object.entries(doc.banners)) if (b !== null) sameKeys(b, DTO_FIELDS.banner, `banner ${placement}`);
   }
-  for (const [file, slot] of [['Careers.dc.html', 'banner-careers'], ['Careers.dc.html', 'banner-grants'], ['Events.dc.html', 'banner-careers']]) {
+  // (Events shows a travel advert in column 2 instead of the careers card.)
+  for (const [file, slot] of [['Careers.dc.html', 'banner-careers'], ['Careers.dc.html', 'banner-grants']]) {
     assert.ok(readFileSync(path.join(repo, 'frontend_demo', file), 'utf8').includes(`data-fundsae-slot="${slot}"`), `${file} tags its ${slot}`);
   }
   const bannerJs = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
@@ -562,9 +563,11 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.ok(!/elite-sponsor|sponsor-elite-exclusive/.test(events), 'Events has no Exclusive Elite Sponsor box');
   assert.ok(!read('PartnerWithUs.dc.html').includes('Exclusive Elite Sponsor box') &&
     !readFileSync(path.join(backend, 'config', 'content.json'), 'utf8').includes('Exclusive Elite Sponsor box'), 'no package promises the box');
-  // Events column 2: the Finance Careers banner (column-sized card, linking to Careers), then the submit forms.
-  assert.ok(/<aside>\s*<!--[^>]*-->\s*<section class="fx-careers-banner fx-careers-banner--card"[\s\S]*?<a class="fx-cb-btn" href="Careers.dc.html">View finance jobs<\/a>\s*<\/div>\s*<\/section>\s*<!-- Field names are the API contract/.test(events), 'Events: the careers banner, then the submit forms');
-  assert.ok(events.includes('href="careers-banner.css?v=2"') && events.includes('<img class="fx-cb-photo" src="img/careers-banner.jpg" alt="" loading="lazy">'), 'Events loads the banner styles and photo');
+  // Events column 2: the travel advert (a premium airline / hotel style ad on a licensed photo, labelled sponsored and
+  // opening the Partner with us packages), then the submit forms. No Finance Careers card on this page.
+  assert.ok(/<aside>\s*<!--[^>]*-->\s*<a class="ad-travel" href="PartnerWithUs\.dc\.html#packages"[\s\S]*?<\/a>\s*<!-- Field names are the API contract/.test(events), 'Events: the travel advert, then the submit forms');
+  assert.ok(events.includes('<span class="ad-label">Sponsored · demo</span>') && events.includes('<img src="img/ad-travel.jpg" alt=""') && !events.includes('fx-careers-banner') && !events.includes('careers-banner.css'), 'the advert is labelled and replaces the careers card');
+  assert.ok(statSync(path.join(repo, 'frontend_demo', 'img', 'ad-travel.jpg')).size < 200 * 1024 && readFileSync(path.join(repo, 'frontend_demo', 'img', 'CREDITS.md'), 'utf8').includes('| `ad-travel.jpg` |'), 'advert photo is light and credited');
   const sponsorConnector = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
   assert.ok(!sponsorConnector.includes("slots('sponsor-elite-exclusive')") && !sponsorConnector.includes("pick('eliteExclusive')"), 'connector no longer fills the box');
   assert.equal(careers.split('class="partners"').length, 2, 'one Featured Companies strip');

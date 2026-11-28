@@ -8,7 +8,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;600;700&family=Jost:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="site-header.css?v=3">
-<link rel="stylesheet" href="careers-banner.css?v=2">
 <link rel="stylesheet" href="partners-wall.css?v=1">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -108,12 +107,24 @@
   .events-list .month, .events-list .event-type, .events-list .city { color: var(--lux-muted); }
   .events-list .event-title { color: #FFFFFF; }
   .events-list a.event-title[href]:hover { color: var(--gold-2); }
-  /* Column 2: the careers card and the Submit your event form as dark panels. */
+  /* Column 2: the travel advert and the Submit your event form. */
   aside { border-left-color: var(--lux-line); }
-  aside .fx-careers-banner { border: 1px solid var(--lux-line); border-radius: 6px; }
-  aside .fx-careers-banner .fx-cb-eyebrow { color: var(--gold-2); }
-  aside .fx-careers-banner .fx-cb-btn { border-color: var(--gold); background: var(--gold); color: var(--lux-ink) !important; }
-  aside .fx-careers-banner .fx-cb-btn:hover { border-color: var(--gold-2); background: var(--gold-2); }
+  /* Travel advert: a full photo darkened towards the foot, a Sponsored label, gold eyebrow and rule, a large white
+     headline, one line of copy and a gold button, in the style of a premium airline or hotel ad. */
+  .ad-travel { position: relative; display: flex; flex-direction: column; justify-content: flex-end; min-height: 460px; overflow: hidden; border: 1px solid var(--lux-line); border-radius: 6px; background: #0B2228; color: #FFFFFF; text-decoration: none; }
+  .ad-travel img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 42%; transition: transform 0.7s ease; }
+  .ad-travel::before { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(9, 28, 33, 0.4) 0%, rgba(9, 28, 33, 0) 26%, rgba(9, 28, 33, 0.5) 56%, rgba(9, 28, 33, 0.95) 100%); }
+  .ad-travel:hover img { transform: scale(1.04); }
+  .ad-travel:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+  .ad-label { position: absolute; z-index: 2; top: 14px; left: 14px; padding: 3px 8px; border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 2px; font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #FFFFFF; }
+  .ad-in { position: relative; z-index: 2; display: block; padding: 24px 22px 24px; }
+  .ad-eb { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-2); }
+  .ad-title { display: block; margin-top: 10px; font-size: 28px; font-weight: 600; line-height: 1.12; letter-spacing: -0.015em; color: #FFFFFF; }
+  .ad-rule { display: block; width: 36px; height: 2px; margin: 16px 0 14px; background: var(--gold); }
+  .ad-sub { display: block; font-size: 14px; line-height: 1.55; color: rgba(241, 245, 244, 0.86); }
+  .ad-cta { display: inline-block; margin-top: 20px; padding: 11px 18px; border-radius: 2px; background: var(--gold); color: var(--lux-ink); font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+  .ad-travel:hover .ad-cta { background: var(--gold-2); }
+  @media (prefers-reduced-motion: reduce) { .ad-travel img { transition: none; } .ad-travel:hover img { transform: none; } }
   .submit-forms details { border: 1px solid var(--lux-line); border-top: 2px solid var(--gold); border-radius: 6px; background: var(--lux-panel); color: var(--lux-text); }
   .submit-forms summary { color: var(--gold-2); }
   .submit-forms details > p, .submit-forms label { color: var(--lux-muted); }
@@ -238,16 +249,20 @@
 </main>
 
 <aside>
-  <!-- Finance Careers banner (the home page's, column-sized; careers-banner.css), above Submit your event. -->
-  <section class="fx-careers-banner fx-careers-banner--card" aria-labelledby="careers-banner-title" data-fundsae-slot="banner-careers">
-    <img class="fx-cb-photo" src="img/careers-banner.jpg" alt="" loading="lazy">
-    <div class="fx-cb-text">
-      <p class="fx-cb-eyebrow">Finance Careers</p>
-      <h2 id="careers-banner-title" class="fx-cb-title">Your next move in finance</h2>
-      <p class="fx-cb-sub">Roles across private equity, venture capital, private credit, banking and fund services.</p>
-      <a class="fx-cb-btn" href="Careers.dc.html">View finance jobs</a>
-    </div>
-  </section>
+  <!-- Travel advert (demo): a full-photo card in the style of a premium airline or hotel ad, above Submit your event.
+       Photo: an aeroplane window at sunset (Unsplash, free licence; see img/CREDITS.md). Labelled as sponsored; it opens
+       the Partner with us packages, where this space is booked. No real airline or hotel is named. -->
+  <a class="ad-travel" href="PartnerWithUs.dc.html#packages" aria-label="Sponsored (demo): Arrive at every summit rested. Advertise in this space">
+    <img src="img/ad-travel.jpg" alt="" width="800" height="1000" loading="lazy">
+    <span class="ad-label">Sponsored · demo</span>
+    <span class="ad-in">
+      <span class="ad-eb">Premium travel partner</span>
+      <span class="ad-title">Arrive at every summit rested.</span>
+      <span class="ad-rule" aria-hidden="true"></span>
+      <span class="ad-sub">Business class to the Gulf's finance weeks, with a suite waiting when you land.</span>
+      <span class="ad-cta">Advertise in this space</span>
+    </span>
+  </a>
   <!-- Field names are the API contract (POST /api/v1/submissions/event). -->
   <div class="submit-forms">
     <details id="submit-event" open>
