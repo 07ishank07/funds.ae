@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-11-28T09:29:46.395Z",
+  "generatedAt": "2026-11-28T09:32:57.026Z",
   "notice": "Editorial content written by the Funds.ae team. Top Tweets items link to the original posts.",
   "slots": {
     "socialHighlights": [],
@@ -56,19 +56,9 @@
         "duration": null,
         "placements": [
           {
-            "type": "sponsoredPosts",
-            "label": "Sponsored Posts",
-            "detail": "Four sponsored posts a month, one week in the lead slot"
-          },
-          {
             "type": "videos",
             "label": "Videos and Podcasts",
-            "detail": "One interview or podcast episode each quarter"
-          },
-          {
-            "type": "events",
-            "label": "Events and Expos",
-            "detail": "The highlighted event card for your event"
+            "detail": "Additional featured listings in Videos and Podcasts"
           },
           {
             "type": "influencers",
@@ -78,10 +68,9 @@
         ],
         "features": [
           "Everything in Gold Partner, plus:",
-          "The Spotlight card on the home page",
-          "15 job posts a month, 3 pinned in Top Jobs",
-          "Your firm presents one job function on the Careers page",
-          "Limited to 4 partners"
+          "The Spotlight logo on the home page",
+          "20 job posts a month, 2 pinned in Top Jobs",
+          "Limited number of partners"
         ],
         "ctaLabel": null,
         "ctaUrl": null,

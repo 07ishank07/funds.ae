@@ -59,18 +59,18 @@
       "placements": [
         {
           "placement": "sponsoredPosts",
-          "enabled": true,
-          "detail": "Four sponsored posts a month, one week in the lead slot"
+          "enabled": false,
+          "detail": "As in Gold Partner"
         },
         {
           "placement": "videos",
           "enabled": true,
-          "detail": "One interview or podcast episode each quarter"
+          "detail": "Additional featured listings in Videos and Podcasts"
         },
         {
           "placement": "events",
-          "enabled": true,
-          "detail": "The highlighted event card for your event"
+          "enabled": false,
+          "detail": "As in Gold Partner"
         },
         {
           "placement": "influencers",
@@ -80,15 +80,14 @@
         {
           "placement": "tweets",
           "enabled": false,
-          "detail": "Not included"
+          "detail": "As in Gold Partner"
         }
       ],
       "features": [
         "Everything in Gold Partner, plus:",
-        "The Spotlight card on the home page",
-        "15 job posts a month, 3 pinned in Top Jobs",
-        "Your firm presents one job function on the Careers page",
-        "Limited to 4 partners"
+        "The Spotlight logo on the home page",
+        "20 job posts a month, 2 pinned in Top Jobs",
+        "Limited number of partners"
       ],
       "featured": false
     },
