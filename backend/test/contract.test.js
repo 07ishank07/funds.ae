@@ -628,7 +628,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   const goldCard = cardOf('Gold Partner', 'silver');
   for (const [h, d] of [['Sponsored Posts', 'Two sponsored posts a month on the home page, rotating'], ['Videos and Podcasts', 'Two featured listings in Videos and Podcasts'],
     ['Events and Expos', 'Two featured listings a month in Industry Events'], ['Top Tweets (X posts)', 'One of your tweets in Top Tweets on the home page, rotating'],
-    ['Featured Partner link', 'A link to your firm on the home page'], ['Top hiring companies', 'A listing on the Careers page'],
+    ['Featured Partner link', 'A link to your firm on the home page'], ['Partners logo scroll', 'Your logo in the scrolling Partners strip above the footer on four pages'], ['Top hiring companies', 'A listing on the Careers page'],
     ['Career Resources', 'A link to your firm on the Careers page'], ['Job posts', '10 job posts a month, 1 pinned in Top Jobs']]) {
     assert.ok(goldCard.includes(benefit(h, d)), `Gold Partner: ${h}`);
   }
