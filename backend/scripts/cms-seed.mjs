@@ -233,6 +233,8 @@ export function buildSeed({ root = REPO_ROOT, siteUrl = 'https://funds.ae/fronte
     ...tierDocs(JSON.parse(read('backend/config/content.json')).advertiseTiers),
     ...grantDocs(JSON.parse(read('backend/config/content.json')).grants),
     ...bannerDocs(JSON.parse(read('backend/config/content.json')).banners, root),
+    // Site settings: the footer tagline (the Top UAE Story pin is chosen in the Studio, from published stories).
+    compact({ _id: 'siteSettings', _type: 'siteSettings', footerTagline: JSON.parse(read('backend/config/content.json')).settings?.footerTagline }),
     ...[['about', 'About'], ['privacy', 'Privacy'], ['terms', 'Terms']].map(([slug, file]) => pageFromHtml(read(`frontend_demo/${file}.dc.html`), slug, siteUrl))
   ];
 }

@@ -285,6 +285,13 @@ CREATE TABLE IF NOT EXISTS site_banners (
     CHECK (image IS NULL OR credit IS NOT NULL)
 );
 
+-- Site settings (edited in Sanity: siteSettings). One row; public, no personal data.
+CREATE TABLE IF NOT EXISTS site_settings (
+    id               BOOLEAN PRIMARY KEY DEFAULT TRUE CHECK (id),
+    top_uae_story_id TEXT CHECK (top_uae_story_id IS NULL OR top_uae_story_id ~ '^[A-Za-z0-9_-]{4,80}$'),
+    footer_tagline   TEXT CHECK (footer_tagline IS NULL OR char_length(footer_tagline) BETWEEN 2 AND 60)
+);
+
 CREATE TABLE IF NOT EXISTS economy_figures (
     id          TEXT PRIMARY KEY CHECK (id ~ '^[A-Z]{3}$'),      -- IMF country code, e.g. ARE
     country     TEXT NOT NULL CHECK (char_length(country) BETWEEN 2 AND 40),

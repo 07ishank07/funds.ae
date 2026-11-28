@@ -9,6 +9,7 @@ import {newsArticle} from './newsArticle.js'
 import {newsSource} from './newsSource.js'
 import {assetClass, capitalType} from './newsTaxonomy.js'
 import {page} from './page.js'
+import {siteSettings} from './siteSettings.js'
 import {socialHighlight} from './socialHighlight.js'
 import {sponsorItem} from './sponsorItem.js'
 
@@ -27,6 +28,7 @@ export const schemaTypes = [
   fundingType,
   fundingProgramme,
   banner,
+  siteSettings,
   sponsorItem,
   event,
   socialHighlight,

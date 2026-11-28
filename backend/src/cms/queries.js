@@ -33,6 +33,9 @@ export const CONTENT_QUERY = `{
     placement, eyebrow, title, text, buttonLabel, buttonTarget, imageAlt, credit, startDate, endDate,
     "image": image.asset->{url, mimeType, size}
   },
+  "settings": *[_id == "siteSettings"][0] {
+    "topUaeStoryId": topUaeStory->storyId, footerTagline
+  },
   "hero": *[_id == "homeHero"][0] {
     eyebrow, title, highlight, subtitle, imageAlt, style, buttonLabel, buttonTarget, button2Label, button2Target, "image": image.asset->{url, mimeType, size}
   }

@@ -250,7 +250,9 @@
   function renderTopUae(stories) {
     slots('top-uae-story').forEach(function (box) {
       var uae = stories.filter(function (s) { return regionOf(s) === 'News'; });
-      var story = uae.filter(function (s) { return s.featured; })[0] || uae[0];
+      // The editors' pin (Sanity Site settings) when it is a live UAE story; else the featured one; else the newest.
+      var pinned = siteSettings.topUaeStoryId && uae.filter(function (s) { return s.id === siteSettings.topUaeStoryId; })[0];
+      var story = pinned || uae.filter(function (s) { return s.featured; })[0] || uae[0];
       if (!story) { if (state.mode === 'live') box.hidden = true; return; }
       var page = /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(story.slug || '') ? 'news/' + story.slug + '.html' : null;
       var link = function (a) { if (page) a.href = page; else api.setLink(a, story.url); };
@@ -293,6 +295,7 @@
       art.removeAttribute('id');
     });
 
+    lastStories = stories;
     renderTopUae(stories);
 
     var moreLink = news.querySelector('[data-more-news-region]');
@@ -1189,6 +1192,7 @@
     renderHero(doc.hero);
     renderGrants(doc.grants);
     renderBanners(doc.banners);
+    renderSettings(doc.settings);
     var s = doc.slots || {};
     renderHighlights(api.items(s.socialHighlights, api.valid.socialHighlight, 'Top Tweets items'));
     renderTiers(api.items(s.advertiseTiers, api.valid.advertiseTier, 'Advertise packages'));
@@ -1494,6 +1498,28 @@
     });
   }
 
+  /* ------------------------------- Site settings ------------------------------- */
+  // content.json settings (edited in Sanity): the pinned Top UAE Story and the footer tagline.
+
+  var FOOTER_TAGLINE = 'Discover. Connect. Grow.';
+  var siteSettings = { topUaeStoryId: null };
+  var lastStories = null;
+
+  function renderSettings(settings) {
+    if (!settings || typeof settings !== 'object') return;
+    if (typeof settings.topUaeStoryId === 'string' && /^[A-Za-z0-9_-]{4,80}$/.test(settings.topUaeStoryId)) {
+      siteSettings.topUaeStoryId = settings.topUaeStoryId;
+      if (lastStories) renderTopUae(lastStories);
+    }
+    var tagline = typeof settings.footerTagline === 'string' ? settings.footerTagline.trim() : '';
+    if (tagline) {
+      // The footer line beside the logo on every page (the home page's footer comes from its design, so match the text).
+      Array.prototype.slice.call(document.querySelectorAll('footer span, footer p, footer div')).forEach(function (el) {
+        if (!el.children.length && el.textContent.trim() === FOOTER_TAGLINE) el.textContent = tagline;
+      });
+    }
+  }
+
   function renderBanners(banners) {
     if (!banners || typeof banners !== 'object') return;
     fillBanner('banner-careers', banners.careers, { eyebrow: '.fx-cb-eyebrow', title: '.fx-cb-title', text: '.fx-cb-sub', image: '.fx-cb-photo', button: '.fx-cb-btn:not(.fx-cb-btn--ghost)' });
@@ -1619,7 +1645,7 @@
       }
       var sponsorSlots = ['sponsor-founding', 'sponsor-platinum', 'sponsor-posts', 'sponsor-media', 'sponsor-companies', 'career-resources'];
       if (sponsorSlots.some(hasSlot)) guard('Sponsors', load('sponsors.json', 'sponsors').then(renderSponsors));
-      if (hasSlot('social-highlights') || hasSlot('advertise-tiers') || hasSlot('page-body') || hasSlot('home-hero') || hasSlot('grants-programmes') || hasSlot('grants-types-home') || hasSlot('banner-careers') || hasSlot('banner-grants')) {
+      if (hasSlot('social-highlights') || hasSlot('advertise-tiers') || hasSlot('page-body') || hasSlot('home-hero') || hasSlot('grants-programmes') || hasSlot('grants-types-home') || hasSlot('banner-careers') || hasSlot('banner-grants') || document.querySelector('footer')) {
         guard('Editorial content', load('content.json', 'content').then(renderContent));
       }
     }).catch(function (err) {

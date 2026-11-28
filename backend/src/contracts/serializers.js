@@ -240,6 +240,11 @@ export function toFundingProgrammeDto(p) {
   };
 }
 
+/** Site settings: the pinned Top UAE Story (a story id) and the footer tagline. */
+export function toSiteSettingsDto(s) {
+  return { topUaeStoryId: nullable(s.topUaeStoryId), footerTagline: nullable(s.footerTagline) };
+}
+
 /** One banner; the button opens a site page from BANNER_TARGETS (text and page go together). */
 export function toBannerDto(b) {
   const href = Object.hasOwn(BANNER_TARGETS, b.buttonTarget || '') ? BANNER_TARGETS[b.buttonTarget] : null;

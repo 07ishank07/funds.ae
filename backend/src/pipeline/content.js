@@ -7,6 +7,7 @@
 //   hero              the home page hero banner (one, or none: the page keeps its built-in banner)
 //   grants            Grants & Funding: the funding types (tiles) and programmes (cards); none keeps the built-in page
 //   banners           reusable banners (Finance Careers banner, Grants & Funding card); none keeps the built-in ones
+//   settings          site settings: the pinned Top UAE Story and the footer tagline; none keeps today's behaviour
 // `npm run cms:pull` writes it from Sanity; it can also be edited by hand.
 //
 // Invalid content fails the step with a plain-language message and the
@@ -18,7 +19,7 @@ import path from 'node:path';
 import { CONFIG_DIR, readJson } from '../config.js';
 import { log } from '../lib/logger.js';
 import { ADVERTISE_PLACEMENTS, BANNER_PLACEMENTS, BANNER_TARGETS, FUNDING_KINDS, FUNDING_PLACES, FUNDING_TYPE_IDS, HERO_BUTTON_TARGETS, HERO_STYLES, PAGE_BLOCK_TYPES, PAGE_LIST_TYPES, PAGE_SLUGS, RETIRED_ADVERTISING_TIERS } from '../contracts/models.js';
-import { toAdvertiseTierDto, toBannerDto, toFundingProgrammeDto, toFundingTypeDto, toHeroDto, toPageDto, toSocialHighlightDto } from '../contracts/serializers.js';
+import { toAdvertiseTierDto, toBannerDto, toSiteSettingsDto, toFundingProgrammeDto, toFundingTypeDto, toHeroDto, toPageDto, toSocialHighlightDto } from '../contracts/serializers.js';
 import { EMAIL_RE, cleanInline, cleanText, rules, validate } from '../validation/validate.js';
 import { isSafePublicUrl } from '../lib/http.js';
 
@@ -30,7 +31,8 @@ export const CONTENT_LIMITS = {
   pages: { title: [2, 80], intro: [0, 400], blocks: 120, blockText: 2000 },
   hero: { eyebrow: [2, 60], title: [8, 80], highlight: [0, 30], subtitle: [0, 240], imageAlt: [0, 140], buttonLabel: [2, 30], button2Label: [2, 30], imageMaxBytes: 1572864 },
   grants: { typeTitle: [2, 40], typeDescription: [2, 80], maxProgrammes: 100, provider: [2, 70], description: [20, 200], types: [1, 3] },
-  banners: { eyebrow: [2, 40], title: [8, 80], text: [0, 160], buttonLabel: [2, 30], imageAlt: [0, 140], credit: [2, 160], imageMaxBytes: 1572864 }
+  banners: { eyebrow: [2, 40], title: [8, 80], text: [0, 160], buttonLabel: [2, 30], imageAlt: [0, 140], credit: [2, 160], imageMaxBytes: 1572864 },
+  settings: { footerTagline: [2, 60] }
 };
 
 const HEX = /^#[0-9a-f]{6}$/i;
@@ -291,6 +293,14 @@ const BANNER_SCHEMA = {
   }
 };
 
+// Site settings: a story id (as in news.json) and a short footer line; both optional.
+const SETTINGS_SCHEMA = {
+  fields: {
+    topUaeStoryId: pattern(text({ min: 4, max: 80, required: false }), /^[A-Za-z0-9_-]{4,80}$/, 'Use the story id from news.json.'),
+    footerTagline: text({ min: L.settings.footerTagline[0], max: L.settings.footerTagline[1], required: false })
+  }
+};
+
 /** content.json banners -> { careers, grants } (null for a placement with no shown banner), or null when absent. */
 function validateBanners(list, { now }) {
   if (list === undefined || list === null) return { errors: [], banners: null };
@@ -330,7 +340,7 @@ function validateList(list, schema, label, { now, maxItems, key = 'id' }) {
 export function validateContent(config, { now = new Date() } = {}) {
   const errors = [];
   for (const key of Object.keys(config || {})) {
-    if (!['socialHighlights', 'advertiseTiers', 'pages', 'hero', 'grants', 'banners'].includes(key)) errors.push(`Unknown group "${key}". Use socialHighlights, advertiseTiers, pages, hero, grants or banners.`);
+    if (!['socialHighlights', 'advertiseTiers', 'pages', 'hero', 'grants', 'banners', 'settings'].includes(key)) errors.push(`Unknown group "${key}". Use socialHighlights, advertiseTiers, pages, hero, grants, banners or settings.`);
   }
   const highlights = validateList(config?.socialHighlights, HIGHLIGHT_SCHEMA, 'socialHighlights', { now, maxItems: L.highlights.maxItems });
   // A retired package still enabled in Sanity is skipped rather than rejected, so it never blocks publishing.
@@ -345,6 +355,12 @@ export function validateContent(config, { now = new Date() } = {}) {
   const pages = validateList(config?.pages, PAGE_SCHEMA, 'pages', { now, key: 'slug' });
   const grants = validateGrants(config?.grants, { now });
   const banners = validateBanners(config?.banners, { now });
+  let settings = null;
+  if (config?.settings !== undefined && config?.settings !== null) {
+    const result = validate(SETTINGS_SCHEMA, config.settings, { now });
+    if (result.ok) settings = toSiteSettingsDto(result.value);
+    else for (const [field, message] of Object.entries(result.fields)) errors.push(`settings: "${field}" ${message}`);
+  }
   errors.push(...highlights.errors, ...tiers.errors, ...pages.errors, ...grants.errors, ...banners.errors);
   let hero = null;
   if (config?.hero !== undefined && config?.hero !== null) {
@@ -362,7 +378,8 @@ export function validateContent(config, { now = new Date() } = {}) {
       pages: Object.fromEntries(pages.items.map((p) => [p.slug, toPageDto(p)])),
       hero,
       grants: grants.grants,
-      banners: banners.banners
+      banners: banners.banners,
+      settings
     }
   };
 }

@@ -20,7 +20,7 @@ import { querySanity, sanityConfigFromEnv } from './sanity.js';
 export const GENERATED_NOTE = 'Written by `npm run cms:pull` from Sanity. Edit the content in the Studio (studio/), not here: the next publish overwrites this file. See docs/SANITY-CMS-GUIDE.md.';
 
 const CONTENT_HELP = [
-  'Editorial content shown on the website: socialHighlights (home "Top Tweets"), advertiseTiers (Partner with us page packages), pages (About, Privacy, Terms body copy), hero (home banner), grants (Grants & Funding types and programmes) and banners (Finance Careers banner, Grants & Funding card).',
+  'Editorial content shown on the website: socialHighlights (home "Top Tweets"), advertiseTiers (Partner with us page packages), pages (About, Privacy, Terms body copy), hero (home banner), grants (Grants & Funding types and programmes) banners (Finance Careers banner, Grants & Funding card) and settings (pinned Top UAE Story, footer tagline).',
   'Normally written from Sanity by `npm run cms:pull`. While settings.json content.source is "file" you can edit it by hand; `npm run publish:content` validates and publishes it.',
   'An empty list keeps the page\'s built-in content (Partner with us packages, page copy) or, in live mode, shows a short "nothing yet" note (Top Tweets).'
 ];

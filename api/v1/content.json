@@ -1,7 +1,7 @@
 {
   "apiVersion": 1,
   "mode": "demo",
-  "generatedAt": "2026-11-28T02:14:42.598Z",
+  "generatedAt": "2026-11-28T02:16:35.006Z",
   "notice": "Editorial content written by the Funds.ae team. Top Tweets items link to the original posts.",
   "slots": {
     "socialHighlights": [],
@@ -1023,5 +1023,9 @@
       "startDate": null,
       "endDate": null
     }
+  },
+  "settings": {
+    "topUaeStoryId": null,
+    "footerTagline": "Discover. Connect. Grow."
   }
 }

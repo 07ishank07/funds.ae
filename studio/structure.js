@@ -150,6 +150,7 @@ export const structure = (S, context) =>
     .title('funds.ae')
     .items([
       pageGroup(S, 'page-home', 'Home page', [
+        S.listItem().id('home-top-story').title('Top UAE Story (pin)').child(S.document().schemaType('siteSettings').documentId('siteSettings')),
         // One fixed document: the banner at the top of the home page. Unpublish it to show the built-in banner.
         S.listItem().id('home-hero').title('Hero banner').child(S.document().schemaType('homeHero').documentId('homeHero')),
         sponsorArea(S, 'platinum'),
@@ -175,6 +176,8 @@ export const structure = (S, context) =>
         S.listItem().id('banners-list').title('Finance Careers banner and Grants & Funding card').child(S.documentTypeList('banner').title('Banners')),
       ]),
       pageGroup(S, 'site-wide', 'Site-wide', [
+        // One fixed document: the pinned Top UAE Story and the footer tagline.
+        S.listItem().id('site-settings').title('Site settings').child(S.document().schemaType('siteSettings').documentId('siteSettings')),
         sponsorArea(S, 'founding'),
         S.listItem()
           .id('pages')

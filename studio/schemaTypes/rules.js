@@ -141,6 +141,9 @@ export const BANNER_TARGETS = {
   grants: {page: 'GrantsFunding.dc.html', title: 'Grants & Funding'},
 };
 
+/** Site settings (equal to CONTENT_LIMITS.settings in the backend). */
+export const SETTINGS_LIMITS = { footerTagline: [2, 60] };
+
 export const HEX_COLOR = /^#[0-9A-Fa-f]{6}$/;
 export const ID_PATTERN = /^[a-z0-9][a-z0-9-]{1,60}$/;
 export const IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/webp'];

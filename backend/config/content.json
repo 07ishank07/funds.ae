@@ -1034,5 +1034,8 @@
       "buttonLabel": "Explore grants and funding",
       "buttonTarget": "grants"
     }
-  ]
+  ],
+  "settings": {
+    "footerTagline": "Discover. Connect. Grow."
+  }
 }

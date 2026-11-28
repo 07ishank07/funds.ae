@@ -688,3 +688,31 @@ test('banner documents hold public content only (privacy)', () => {
   assert.ok(/"banner" && enabled != false && \$\{published\}/.test(query), 'only published, shown banners are pulled');
 });
 
+/* -------------------------------- Site settings -------------------------------- */
+
+test('site settings: Studio limits match, mapping and checks', () => {
+  assert.deepEqual(studio.SETTINGS_LIMITS, CONTENT_LIMITS.settings);
+  const base = { sponsors: [], events: [], highlights: [], tiers: [], pages: [], hero: null };
+  const mapped = mapSanityContent({ ...base, settings: { topUaeStoryId: 'st_9ee4ab12', footerTagline: 'Discover. Connect. Grow.' } });
+  assert.deepEqual(mapped.errors, []);
+  const { errors, content } = validateContent(mapped.content, { now: NOW });
+  assert.deepEqual(errors, []);
+  sameKeys(content.settings, DTO_FIELDS.siteSettings, 'settings');
+  assert.equal(content.settings.topUaeStoryId, 'st_9ee4ab12');
+  assert.equal(mapSanityContent({ ...base, settings: { topUaeStoryId: null, footerTagline: null } }).content.settings, undefined, 'nothing set: no settings group');
+  const refused = (s) => validateContent({ settings: s }, { now: NOW }).errors;
+  assert.ok(refused({ topUaeStoryId: '<script>' }).some((e) => /topUaeStoryId/.test(e)), 'story ids only');
+  assert.ok(refused({ footerTagline: 'x'.repeat(61) }).some((e) => /footerTagline/.test(e)), 'tagline length');
+  assert.ok(refused({ contactEmail: 'someone@gmail.com' }).some((e) => /contactEmail/.test(e)), 'no extra fields (such as personal details)');
+});
+
+test('site settings hold public content only (privacy)', () => {
+  const dir = path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Z]:)/, '$1'));
+  const schema = readFileSync(path.join(dir, '..', '..', 'studio', 'schemaTypes', 'siteSettings.js'), 'utf8');
+  const fieldNames = [...schema.matchAll(/name: '([a-zA-Z]+)'/g)].map((m) => m[1]);
+  assert.deepEqual(fieldNames.filter((n) => n !== 'siteSettings'), ['topUaeStory', 'footerTagline'], 'only the pin and the tagline');
+  assert.ok(schema.includes('weak: true'), 'the pin never blocks archiving or deleting a story');
+  const query = readFileSync(path.join(dir, '..', 'src', 'cms', 'queries.js'), 'utf8');
+  assert.ok(query.includes('"topUaeStoryId": topUaeStory->storyId, footerTagline'), 'only the story id and the tagline are pulled (no story content)');
+});
+

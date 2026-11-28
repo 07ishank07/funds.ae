@@ -488,14 +488,14 @@ The Studio's menu is organised like the website. Open the page you want to chang
 
 | Menu group | What you edit there |
 |---|---|
-| **Home page** | Hero banner, Spotlight, Sponsored Posts, Videos and Podcasts (sponsored), Featured Partners, Top Tweets |
+| **Home page** | Hero banner, Top UAE Story (pin), Spotlight, Sponsored Posts, Videos and Podcasts (sponsored), Featured Partners, Top Tweets |
 | **Real Estate News** | The News Review Queue; news sources, Capital Types and Asset Classes |
 | **Grants & Funding** | Programmes (the opportunity cards) and Types of funding (the twelve tiles, also on the home page) |
 | **Events** | Events and Expos |
 | **Finance Careers** | Jobs, employers, Top Employers and Top Jobs, Career Resources |
 | **Partner with us** | The packages |
 | **Banners** | The Finance Careers banner (home, Careers, Events) and the Grants & Funding card (home, Careers) |
-| **Site-wide** | The Elite Founding Sponsor banner; About, Privacy and Terms; sponsor areas not shown on the site |
+| **Site-wide** | Site settings (Top UAE Story pin, footer tagline); the Elite Founding Sponsor banner; About, Privacy and Terms; sponsor areas not shown on the site |
 
 ### 12.1 Grants & Funding
 
@@ -509,11 +509,17 @@ The Studio's menu is organised like the website. Open the page you want to chang
 - Fields: small label, heading, one line of text (the Grants & Funding card does not show it), button text and the site page it opens, a photo with its description and its **credit and licence**, and optional *Show from* / *Show until* dates for campaigns.
 - Unpublished, hidden or outside its dates, the built-in banner shows. Photos: PNG, JPG or WebP up to 1.5 MB, only photos you are licensed to use.
 
-### 12.3 Privacy
+### 12.3 Site settings
+
+- **Top UAE Story (pin):** choose a published UAE story to show as the home page's Top UAE Story. Clear it to go back to the automatic choice (the featured UAE story, or else the newest). A pinned story that is no longer live is ignored.
+- **Footer tagline:** the short line beside the logo in every page's footer ("Discover. Connect. Grow." today).
+- The site does not show a contact email, so none is kept here: nothing personal is stored in site settings.
+
+### 12.4 Privacy
 
 The dataset is public on the Free plan, so everything in these page groups can be read by anyone. Describe organisations and programmes only: never enter a person's name, phone number or personal email. Private material (the news queue under `queue.*`, posted jobs and the job filer's details under `jobs.*`) stays in private documents, as before. The site only pulls published documents and only the fields it shows.
 
-### 12.4 After an update to the Studio
+### 12.5 After an update to the Studio
 
 1. Load the starting content into a test dataset: `cd backend && npm run cms:seed`, then `cd ../studio && npx sanity datasets import seed/fundsae-seed.ndjson development --replace`.
 2. Deploy the Studio: `cd studio && npm run deploy`. Import into `production` once you are happy (use `--missing` to add only what is not there yet).

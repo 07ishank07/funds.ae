@@ -114,6 +114,13 @@ test('content.json has the Sanity-managed slots and pages, with the contract fie
   const bannerJs = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
   const bannerFn = bannerJs.slice(bannerJs.indexOf('function fillBanner('), bannerJs.indexOf('function renderBanners('));
   assert.ok(bannerFn.includes('textContent') && !/innerHTML/.test(bannerFn) && bannerFn.includes('api.imageUrl(b.image)') && bannerFn.includes('bannerShowing(b)'), 'banners: textContent, https photos, dates');
+  // Site settings (edited in Sanity): the pinned Top UAE Story and the footer tagline; null keeps today's behaviour.
+  assert.ok('settings' in doc, 'content.json carries settings');
+  if (doc.settings !== null) sameKeys(doc.settings, DTO_FIELDS.siteSettings, 'settings');
+  const settingsJs = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
+  const settingsFn = settingsJs.slice(settingsJs.indexOf('function renderSettings('), settingsJs.indexOf('function renderBanners('));
+  assert.ok(settingsFn.includes('el.textContent = tagline') && !/innerHTML/.test(settingsFn), 'footer tagline set with textContent');
+  assert.ok(settingsJs.includes('var pinned = siteSettings.topUaeStoryId && uae.filter('), 'the pin only takes a live UAE story');
   // The home page tags its hero as the slot the connector fills.
   const home = readFileSync(path.join(repo, 'frontend_demo', 'this.html'), 'utf8');
   assert.ok(home.includes("hero.setAttribute('data-fundsae-slot', 'home-hero')"), 'home hero slot');

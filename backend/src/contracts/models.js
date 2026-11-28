@@ -353,6 +353,11 @@ export const DB_MODELS = {
     table: 'site_banners',
     fields: ['placement', 'eyebrow', 'title', 'text', 'buttonLabel', 'buttonTarget', 'image', 'imageAlt', 'credit', 'startDate', 'endDate', 'enabled']
   },
+  // Site settings (Sanity singleton "siteSettings"): public, no personal data.
+  siteSettings: {
+    table: 'site_settings',
+    fields: ['topUaeStoryId', 'footerTagline']
+  },
   economyFigures: {
     table: 'economy_figures',
     fields: ['id', 'country', 'code', 'gdpGrowth', 'inflation', 'year', 'dataset', 'fetchedAt']
@@ -394,6 +399,8 @@ export const DTO_FIELDS = {
   fundingType: ['id', 'title', 'description', 'count'],
   fundingProgramme: ['id', 'provider', 'kind', 'place', 'types', 'description', 'url', 'featured'],
   // content.json banners.<placement> (null: the built-in banner shows). Dates are checked by the website on the day.
+  // content.json settings (null: today's defaults: featured or newest UAE story, built-in footer tagline).
+  siteSettings: ['topUaeStoryId', 'footerTagline'],
   banner: ['placement', 'eyebrow', 'title', 'text', 'buttonLabel', 'buttonHref', 'image', 'imageAlt', 'credit', 'startDate', 'endDate'],
   advertisePlacement: ['type', 'label', 'detail'],
   page: ['slug', 'title', 'intro', 'updatedAt', 'blocks'],

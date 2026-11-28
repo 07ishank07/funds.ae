@@ -157,6 +157,13 @@ export function toGrants(types = [], programmes = []) {
   };
 }
 
+/** Site settings (Sanity singleton "siteSettings"), or undefined when nothing is set. */
+export function toSettings(doc) {
+  if (!doc) return undefined;
+  const settings = compact({ topUaeStoryId: doc.topUaeStoryId, footerTagline: doc.footerTagline });
+  return Object.keys(settings).length ? settings : undefined;
+}
+
 /** Banners (Sanity "banner"), or undefined when none is published. Photo: PNG, JPG or WebP up to 1.5 MB. */
 export function toBanners(docs = [], errors = []) {
   if (!docs.length) return undefined;
@@ -203,10 +210,11 @@ export function mapSanityContent(result) {
   const hero = toHero(r.hero, errors);
   const grants = toGrants(r.fundingTypes || [], r.fundingProgrammes || []);
   const banners = toBanners(r.banners || [], errors);
+  const siteSettings = toSettings(r.settings);
   return {
     sponsors: sponsors.config,
     events: toEventsList(r.events),
-    content: { socialHighlights: toHighlights(r.highlights), advertiseTiers: toTiers(r.tiers), pages: toPages(r.pages), ...(hero ? { hero } : {}), ...(grants ? { grants } : {}), ...(banners ? { banners } : {}) },
+    content: { socialHighlights: toHighlights(r.highlights), advertiseTiers: toTiers(r.tiers), pages: toPages(r.pages), ...(hero ? { hero } : {}), ...(grants ? { grants } : {}), ...(banners ? { banners } : {}), ...(siteSettings ? { settings: siteSettings } : {}) },
     errors
   };
 }
