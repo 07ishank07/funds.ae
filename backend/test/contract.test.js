@@ -640,6 +640,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   }
   const exclusiveCard = cardOf('Exclusive Partner', 'exclusive');
   assert.equal(advertise.split('<small>/ month</small>').length - 1, 3, 'every price reads per month, with no billing terms');
+  for (const price of ['AED 9,000', 'AED 15,000', 'AED 35,000']) assert.ok(advertise.includes('<div class="price">' + price + ' <small>/ month</small></div>'), price);
   assert.ok(advertise.includes('<span class="badge">Exclusive Partnership</span>') && !advertise.includes('One partner only'), 'Exclusive Partner badge');
   assert.ok(exclusiveCard.includes('<ul class="placements" hidden></ul>') && exclusiveCard.includes('<p class="tier-lead">Selective partnership for:</p>'), 'Exclusive Partner lead-in, no placement lines');
   for (const [h, d] of [['Category exclusivity', 'The only partner in your category'], ['Home page banner', 'Your brand in the banner on the home page'],
