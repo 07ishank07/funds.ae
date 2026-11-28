@@ -30,6 +30,8 @@
     'Funding Opportunities': 'فرص التمويل',
     'Industry Events': 'فعاليات القطاع',
     'Jobs by location': 'الوظائف حسب الموقع',
+    'Top hiring companies': 'أكثر الشركات توظيفًا',
+    'View all': 'عرض الكل',
     'Browse jobs by function': 'تصفح الوظائف حسب الوظيفة',
     'Competitive': 'تنافسي',
     'Permanent': 'دائم',

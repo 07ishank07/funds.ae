@@ -566,6 +566,13 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.ok(/@media \(prefers-reduced-motion: reduce\) \{\s*\.partners-viewport/.test(wall), 'the wall stands still for reduced motion');
   assert.ok(!/innerHTML/.test(wallJs) && wallJs.includes("list.setAttribute('data-fundsae-slot', 'sponsor-companies');") && wallJs.includes("copy.setAttribute('aria-hidden', 'true');"), 'the script builds the wall with textContent and keeps the loop copy hidden');
   assert.ok(!careers.includes('Featured Partners strip: keeps an aria-hidden copy'), 'one loop script, shared');
+  // Top hiring companies: below Top Jobs, 10 employers (name, open jobs), each opening the list filtered to its roles.
+  const hiring = careers.slice(careers.indexOf('<section class="top-hiring"'), careers.indexOf('</section>', careers.indexOf('<section class="top-hiring"')));
+  assert.ok(careers.indexOf('<section class="top-jobs"') < careers.indexOf('<section class="top-hiring"') && careers.indexOf('<section class="top-hiring"') < careers.indexOf('class="gf-promo"'), 'Top hiring companies sits below Top Jobs');
+  assert.ok(hiring.includes('<h2 id="top-hiring-title">Top hiring companies</h2>') && hiring.includes('data-fundsae-slot="top-hiring"'), 'heading and slot');
+  assert.equal((hiring.match(/<li><a href="\?employer=emp_[a-f0-9]{16}#opportunities-title"><span class="th-name">[^<]+<\/span><span class="th-count">\d+ jobs?<\/span><\/a><\/li>/g) || []).length, 10, 'ten companies, each with its jobs');
+  const hiringJs = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
+  assert.ok(hiringJs.includes("pickedOrder(api.items(doc.items, api.valid.employer, 'employers'), careersDoc && careersDoc.topEmployers).slice(0, LIMITS.topHiring)") && hiringJs.includes('topHiring: 10'), 'connector: Studio order, ten companies');
   // Jobs by location: first in column 2, one flag card per GCC country, each filtering the list to its country.
   const jbl = careers.slice(careers.indexOf('<aside>'), careers.indexOf('class="top-jobs"'));
   assert.ok(jbl.includes('<h2 id="jobs-location-title">Jobs by location</h2>'), 'Jobs by location tops column 2');

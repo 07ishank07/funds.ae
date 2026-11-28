@@ -461,6 +461,21 @@
     content: ""; position: absolute; left: 36px; bottom: -0.5px; width: 4px; height: 4px; border-radius: 50%; background: #2F8A8C;
   }
   .jbl-grid, .bf-list, .resources-box .links { margin-top: 16px; }
+  /* Top hiring companies: the same card and heading; two columns of names (with a chevron) over their job counts. */
+  .top-hiring { --tone: #2F8A8C; padding: 22px 22px 18px; border: 1px solid var(--card-border); border-radius: 12px; background: #FFFFFF; box-shadow: var(--card-shadow); }
+  .th-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .top-hiring h2 { position: relative; display: block; padding-bottom: 17px; font-size: 15.5px; font-weight: 600; line-height: 1.35; letter-spacing: 0.03em; text-transform: uppercase; color: var(--ink); }
+  .top-hiring h2::before { content: ""; position: absolute; left: 0; bottom: 0; width: 30px; height: 3px; border-radius: 2px; background: #2F8A8C; }
+  .top-hiring h2::after { content: ""; position: absolute; left: 36px; bottom: -0.5px; width: 4px; height: 4px; border-radius: 50%; background: #2F8A8C; }
+  .th-all { flex-shrink: 0; margin-top: 1px; font-size: 13.5px; font-weight: 600; color: #1F6A6E; text-decoration: none; white-space: nowrap; }
+  .th-all::after, .th-name::after { content: " \203A"; font-weight: 600; }
+  .th-all:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .th-list { list-style: none; margin: 16px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 18px; }
+  .th-list a { display: block; color: var(--ink); text-decoration: none; }
+  .th-name { display: block; font-size: 14.5px; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
+  .th-count { display: block; margin-top: 3px; font-size: 12.5px; color: var(--muted); }
+  .th-list a:hover .th-name { color: #1F6A6E; text-decoration: underline; text-underline-offset: 3px; }
+  .th-list a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
   .top-jobs-list { margin-top: 10px; }
   /* Top Jobs rows: like a job card's lines, title in ink, company and place in grey, teal rank badges (top three filled). */
   .top-jobs .top-jobs-list li { border-bottom-color: rgba(14, 58, 67, 0.07); }
@@ -735,6 +750,27 @@
       <li><a href="#"><span class="tj-rank">20</span><span class="tj-main"><span class="tj-title">Fund Accountant</span><span class="tj-co">Mosaic Fund Services (dummy)</span></span></a></li>
     </ol>
     <a class="top-jobs-all" href="#opportunities-title">See all roles</a>
+  </section>
+  <!-- Top hiring companies: 10 employers in two columns, each name (with a chevron) above its number of open jobs; a
+       click opens this page filtered to that employer's roles (?employer=). js/fundsae-connector.js (slot "top-hiring")
+       fills it from employers.json, in the order picked in the Studio (Top Employers) or else most open roles first. -->
+  <section class="top-hiring" aria-labelledby="top-hiring-title">
+    <div class="th-head">
+      <h2 id="top-hiring-title">Top hiring companies</h2>
+      <a class="th-all" href="#opportunities-title">View all</a>
+    </div>
+    <ul class="th-list" data-fundsae-slot="top-hiring">
+      <li><a href="?employer=emp_994ddd5d9c21a8e3#opportunities-title"><span class="th-name">Emirates Private Credit (demo)</span><span class="th-count">1 job</span></a></li>
+      <li><a href="?employer=emp_44cd123125645764#opportunities-title"><span class="th-name">Gulf Horizon Asset Management (demo)</span><span class="th-count">1 job</span></a></li>
+      <li><a href="?employer=emp_b0a8a2e3895137ef#opportunities-title"><span class="th-name">Harbourline Group</span><span class="th-count">2 jobs</span></a></li>
+      <li><a href="?employer=emp_9142e7d4b96b201c#opportunities-title"><span class="th-name">Sandline Ventures</span><span class="th-count">2 jobs</span></a></li>
+      <li><a href="?employer=emp_ec64013710ac32d4#opportunities-title"><span class="th-name">Al Noor Investments (demo)</span><span class="th-count">1 job</span></a></li>
+      <li><a href="?employer=emp_3eaf12fb39625abe#opportunities-title"><span class="th-name">Atlas Fund Administration (demo)</span><span class="th-count">1 job</span></a></li>
+      <li><a href="?employer=emp_f975adca587a8ab8#opportunities-title"><span class="th-name">Crescent Capital Partners (demo)</span><span class="th-count">1 job</span></a></li>
+      <li><a href="?employer=emp_365cb94e3e73d240#opportunities-title"><span class="th-name">Crescent Peak Partners</span><span class="th-count">1 job</span></a></li>
+      <li><a href="?employer=emp_0c77979b994a7b8f#opportunities-title"><span class="th-name">Desert Seed Ventures (demo)</span><span class="th-count">1 job</span></a></li>
+      <li><a href="?employer=emp_7d4bc3a93267084e#opportunities-title"><span class="th-name">Falcon Ridge Capital</span><span class="th-count">1 job</span></a></li>
+    </ul>
   </section>
   <!-- Grants & Funding banner: the Grants & Funding page's hero (same photo, label and headline) in a column-sized
        card, directly above Career Resources; the whole card opens that page. -->

@@ -23,7 +23,7 @@
     return;
   }
 
-  var LIMITS = { newsPerRegion: 15, newsMore: 35, headline: 92, tileHeadline: 110, tiles: 15, eventsPerList: 10, eventsMax: 100, topJobs: 20 };
+  var LIMITS = { newsPerRegion: 15, newsMore: 35, headline: 92, tileHeadline: 110, tiles: 15, eventsPerList: 10, eventsMax: 100, topJobs: 20, topHiring: 10 };
   var ROLES_DEMO_TOTAL = 120; // Careers page, demo mode: live roles are topped up with dummy roles to this many (6 pages of PER_PAGE = 20 in Careers.dc.html)
   var TILES_SHOWN = 12; // Residential, Commercial Real Estate, Infrastructure and Special & Alternative boxes
   // Home news tabs, each in the API's order: UAE Stories (key "News"), GCC Stories ("GCC": the other five GCC states,
@@ -650,6 +650,22 @@
   }
 
   /** Careers page, column 2: the twenty best roles, featured first then newest. Rows link to the employer's own posting. */
+  /** Careers page, column 2: Top hiring companies, 10 employers (name, open jobs) in the order picked in the Studio
+   *  (careers.json topEmployers), else employers.json's order (featured first, then most open roles). Each opens the page
+   *  filtered to that employer's roles (see applyEmployerFilter). */
+  function renderTopHiring(doc, careersDoc) {
+    var employers = pickedOrder(api.items(doc.items, api.valid.employer, 'employers'), careersDoc && careersDoc.topEmployers).slice(0, LIMITS.topHiring);
+    slots('top-hiring').forEach(function (list) {
+      fillList(list, ':scope > li', employers, function (li, employer) {
+        var a = li.querySelector('a');
+        a.setAttribute('href', '?employer=' + encodeURIComponent(employer.id) + '#opportunities-title');
+        a.title = 'Open roles at ' + employer.name;
+        li.querySelector('.th-name').textContent = employer.name;
+        li.querySelector('.th-count').textContent = jobCount(employer.openJobs);
+      });
+    });
+  }
+
   function renderTopJobs(jobsDoc, careersDoc) {
     var all = api.items(jobsDoc.items, api.valid.job, 'jobs');
     var automatic = all.slice().sort(function (a, b) {
@@ -1601,7 +1617,10 @@
           .then(function (docs) { renderTiles('tiles-alternative-real-estate', uaeOnly(mergeStoryDocs(docs)), TILES_SHOWN); }));
       }
       // careers.json: the Top Jobs picked in the Studio (missing on older data: automatic order).
-      var careersDoc = hasSlot('top-jobs') ? load('careers.json', 'careers').catch(function () { return null; }) : null;
+      var careersDoc = (hasSlot('top-jobs') || hasSlot('top-hiring')) ? load('careers.json', 'careers').catch(function () { return null; }) : null;
+      if (hasSlot('top-hiring')) {
+        guard('Top hiring companies', Promise.all([load('employers.json', 'employers'), careersDoc]).then(function (docs) { renderTopHiring(docs[0], docs[1]); }));
+      }
       if (hasSlot('roles') || hasSlot('top-jobs')) {
         guard('Roles', Promise.all([
           load('jobs.json', 'jobs'),
