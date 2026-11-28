@@ -564,6 +564,11 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.ok(jbl.includes('<h2 id="jobs-location-title">Jobs by location</h2>'), 'Jobs by location tops column 2');
   assert.deepEqual([...jbl.matchAll(/data-jbl-country="([A-Z]{2})"><svg class="jbl-flag"/g)].map((m) => m[1]), ['AE', 'SA', 'QA', 'KW', 'BH', 'OM'], 'the six GCC countries, with flags');
   assert.ok(careers.includes("var value = 'country:' + card.getAttribute('data-jbl-country');") && careers.includes('syncLocationCards(byCountry);'), 'cards filter by country and show the counts');
+  // Browse jobs by function: under Current Opportunities, drawn from the Function menu's list, each link filtering by it.
+  assert.ok(careers.indexOf('id="job-pager"') < careers.indexOf('<h2 id="browse-functions-title">Browse jobs by function</h2>') &&
+    careers.indexOf('<h2 id="browse-functions-title">Browse jobs by function</h2>') < careers.indexOf('</main>'), 'Browse jobs by function sits under the job list');
+  assert.ok(careers.includes('FUNCTIONS.forEach(function (fn) {') && careers.includes("a.setAttribute('data-bf-function', fn);") &&
+    careers.includes('syncFunctionLinks(seen);') && careers.includes("selects.department.value = selects.department.value === fn ? '' : fn;"), 'links come from the Function list, show counts and filter');
   // Careers sidebar boxes carry the site palette: teal Top Employers, sand Top Jobs, slate Career Resources.
   for (const [box, tone] of [['.top-employers', '#1F6A6E'], ['.top-jobs', '#9A7135'], ['.resources-box', '#31556D']]) assert.ok(careers.includes(box + ' { --tone: ' + tone + ';'), box + ' colour');
   for (const page of ['Careers.dc.html', 'Events.dc.html', 'Videos.dc.html']) {

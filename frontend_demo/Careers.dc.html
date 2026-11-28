@@ -353,6 +353,20 @@
      slate for Career Resources; mint washes on the filters, job tags and page background. ---- */
   body { background: linear-gradient(180deg, #EEF6F5 0, var(--wash) 420px) no-repeat, var(--wash); }
   .top-employers { --tone: #1F6A6E; --tone-soft: #E3F1F0; --tint: #F1F8F7; }
+  /* Browse jobs by function: a soft panel under the job list, every function with its count, three columns. */
+  .browse-functions { margin-top: 36px; padding: 22px 24px 18px; border: 1px solid var(--line-2); border-top: 3px solid #1F6A6E; border-radius: var(--r); background: linear-gradient(180deg, #EAF4F3 0, #FFFFFF 90px); box-shadow: var(--shadow); scroll-margin-top: 84px; }
+  .browse-functions h2 { display: flex; align-items: center; gap: 9px; font-size: 13px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); }
+  .browse-functions h2::before { content: ""; flex: 0 0 auto; width: 8px; height: 8px; border-radius: 2px; background: #1F6A6E; transform: rotate(45deg); }
+  .bf-list { list-style: none; margin: 14px 0 0; padding: 0; column-count: 3; column-gap: 28px; }
+  .bf-list li { break-inside: avoid; }
+  .bf-list a { display: inline-block; padding: 6px 0; color: var(--ink); text-decoration: none; font-size: 14.5px; line-height: 1.35; }
+  .bf-count { margin-left: 7px; white-space: nowrap; }
+  .bf-list a:hover .bf-name, .bf-list a[aria-current="true"] .bf-name { color: #1F6A6E; text-decoration: underline; text-underline-offset: 3px; }
+  .bf-list a[aria-current="true"] .bf-name { font-weight: 600; }
+  .bf-count { font-size: 13px; font-variant-numeric: tabular-nums; color: var(--muted); }
+  .bf-count[data-zero] { color: #A9BCBC; }
+  @media (max-width: 1000px) { .bf-list { column-count: 2; } }
+  @media (max-width: 520px) { .bf-list { column-count: 1; } .browse-functions { padding: 18px 16px 14px; } }
   /* Jobs by location: six country cards, two across, each a flag beside the name and the number of roles. */
   .jobs-by-location {
     --tone: #2F8A8C; --tone-soft: #E1F2F2; --tint: #F3FAFA;
@@ -614,6 +628,14 @@
       </div>
     </div>
     <nav class="pager" id="job-pager" aria-label="Job pages"></nav>
+  </section>
+
+  <!-- Browse jobs by function: every choice of the Function menu with its number of roles, in three columns. The
+       filters script at the foot of the page draws the links (textContent only); a click filters Current
+       Opportunities to that function, a second click clears it. -->
+  <section class="browse-functions" aria-labelledby="browse-functions-title">
+    <h2 id="browse-functions-title">Browse jobs by function</h2>
+    <ul class="bf-list" data-bf-list></ul>
   </section>
 </main>
 
@@ -914,6 +936,44 @@
   if (!list) return;
 
   var employerId = new URLSearchParams(location.search).get('employer');
+  // Browse jobs by function (under the list): one link per Function choice, drawn here with textContent.
+  var functionLinks = [];
+  var functionList = document.querySelector('[data-bf-list]');
+  if (functionList) {
+    FUNCTIONS.forEach(function (fn) {
+      var li = document.createElement('li');
+      var a = document.createElement('a');
+      a.href = '#opportunities';
+      a.setAttribute('data-bf-function', fn);
+      var name = document.createElement('span');
+      name.className = 'bf-name';
+      name.textContent = fn;
+      var count = document.createElement('span');
+      count.className = 'bf-count';
+      a.appendChild(name);
+      a.appendChild(count);
+      li.appendChild(a);
+      functionList.appendChild(li);
+      functionLinks.push(a);
+    });
+  }
+
+  /** Puts each function's number of roles on its link (when given) and marks the function the list is filtered to. */
+  function syncFunctionLinks(counts) {
+    functionLinks.forEach(function (a) {
+      var fn = a.getAttribute('data-bf-function');
+      if (counts) {
+        var n = counts[fn] || 0;
+        var c = a.querySelector('.bf-count');
+        c.textContent = String(n);
+        c.toggleAttribute('data-zero', !n);
+        a.setAttribute('aria-label', fn + ': ' + n + (n === 1 ? ' job' : ' jobs'));
+      }
+      if (selects.department && selects.department.value === fn) a.setAttribute('aria-current', 'true');
+      else a.removeAttribute('aria-current');
+    });
+  }
+
   // Jobs by location (column 2): one card per GCC country.
   var locationCards = Array.prototype.slice.call(document.querySelectorAll('[data-jbl-country]'));
 
@@ -973,6 +1033,7 @@
       ? (matches ? matches + ' of ' + rows.length + (rows.length === 1 ? ' role' : ' roles') + ' match your filters.' : 'No roles match your filters.')
       : (bar && !bar.hidden ? rows.length + (rows.length === 1 ? ' role' : ' roles') : '');
     syncLocationCards();
+    syncFunctionLinks();
     if (typeof window.__fundsPaginateRoles === 'function') window.__fundsPaginateRoles();
   }
 
@@ -1036,6 +1097,7 @@
         fnSel.appendChild(o);
       });
       fnSel.value = FUNCTIONS.indexOf(keep) >= 0 ? keep : '';
+      syncFunctionLinks(seen);
       any = true;
     }
     bar.hidden = !any;
@@ -1044,6 +1106,17 @@
   };
 
   Object.keys(selects).forEach(function (k) { if (selects[k]) selects[k].addEventListener('change', apply); });
+  // A function link filters the list to that function (a second click clears it), then shows the list.
+  functionLinks.forEach(function (a) {
+    a.addEventListener('click', function (event) {
+      if (!selects.department || !bar || bar.hidden) return;
+      event.preventDefault();
+      var fn = a.getAttribute('data-bf-function');
+      selects.department.value = selects.department.value === fn ? '' : fn;
+      apply();
+      document.getElementById('opportunities').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
   // A country card filters the list to that country (a second click clears it), then shows the list. Until the
   // menus are ready the card is a plain link to the list.
   locationCards.forEach(function (card) {
