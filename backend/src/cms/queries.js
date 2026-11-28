@@ -29,6 +29,10 @@ export const CONTENT_QUERY = `{
   "fundingProgrammes": *[_type == "fundingProgramme" && enabled != false && ${published}] | order(position asc, provider asc) {
     "id": id.current, provider, kind, place, types, description, url, featured, position
   },
+  "banners": *[_type == "banner" && enabled != false && ${published}] | order(placement asc) {
+    placement, eyebrow, title, text, buttonLabel, buttonTarget, imageAlt, credit, startDate, endDate,
+    "image": image.asset->{url, mimeType, size}
+  },
   "hero": *[_id == "homeHero"][0] {
     eyebrow, title, highlight, subtitle, imageAlt, style, buttonLabel, buttonTarget, button2Label, button2Target, "image": image.asset->{url, mimeType, size}
   }

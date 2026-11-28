@@ -494,6 +494,7 @@ The Studio's menu is organised like the website. Open the page you want to chang
 | **Events** | Events and Expos |
 | **Finance Careers** | Jobs, employers, Top Employers and Top Jobs, Career Resources |
 | **Partner with us** | The packages |
+| **Banners** | The Finance Careers banner (home, Careers, Events) and the Grants & Funding card (home, Careers) |
 | **Site-wide** | The Elite Founding Sponsor banner; About, Privacy and Terms; sponsor areas not shown on the site |
 
 ### 12.1 Grants & Funding
@@ -502,11 +503,17 @@ The Studio's menu is organised like the website. Open the page you want to chang
 - **Types of funding:** the twelve tiles keep their icons, so you choose the tile and change its title, one-line description and order, or hide it. The number of programmes on each tile is counted automatically.
 - Publishing works as for other content (Publish, then the site updates). With nothing published the page keeps its built-in programmes.
 
-### 12.2 Privacy
+### 12.2 Banners
+
+- Two banners, one document each: the **Finance Careers banner** (home page under the funding tiles, top of the Careers page, Events page) and the **Grants & Funding card** (home page column 2, Careers page column 2). Change it once; every page that shows it updates.
+- Fields: small label, heading, one line of text (the Grants & Funding card does not show it), button text and the site page it opens, a photo with its description and its **credit and licence**, and optional *Show from* / *Show until* dates for campaigns.
+- Unpublished, hidden or outside its dates, the built-in banner shows. Photos: PNG, JPG or WebP up to 1.5 MB, only photos you are licensed to use.
+
+### 12.3 Privacy
 
 The dataset is public on the Free plan, so everything in these page groups can be read by anyone. Describe organisations and programmes only: never enter a person's name, phone number or personal email. Private material (the news queue under `queue.*`, posted jobs and the job filer's details under `jobs.*`) stays in private documents, as before. The site only pulls published documents and only the fields it shows.
 
-### 12.3 After an update to the Studio
+### 12.4 After an update to the Studio
 
 1. Load the starting content into a test dataset: `cd backend && npm run cms:seed`, then `cd ../studio && npx sanity datasets import seed/fundsae-seed.ndjson development --replace`.
 2. Deploy the Studio: `cd studio && npm run deploy`. Import into `production` once you are happy (use `--missing` to add only what is not there yet).

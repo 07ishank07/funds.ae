@@ -863,6 +863,7 @@ document.addEventListener('DOMContentLoaded', async function() {
           grantsPromo.className = 'gf-promo';
           grantsPromo.href = 'GrantsFunding.dc.html';
           grantsPromo.setAttribute('aria-labelledby', 'gf-promo-title');
+          grantsPromo.setAttribute('data-fundsae-slot', 'banner-grants');
           grantsPromo.innerHTML = `
             <img class="gf-promo-img" src="img/grants-hero.jpg" alt="" loading="lazy">
             <span class="gf-promo-in">
@@ -1283,6 +1284,7 @@ document.addEventListener('DOMContentLoaded', async function() {
           const careersBanner = document.createElement('section');
           careersBanner.className = 'fx-careers-banner';
           careersBanner.setAttribute('aria-labelledby', 'careers-banner-title');
+          careersBanner.setAttribute('data-fundsae-slot', 'banner-careers');
           careersBanner.innerHTML = `
             <img class="fx-cb-photo" src="img/careers-banner.jpg" alt="" loading="lazy">
             <div class="fx-cb-text">

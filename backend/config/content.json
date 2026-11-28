@@ -1017,5 +1017,22 @@
         "position": 150
       }
     ]
-  }
+  },
+  "banners": [
+    {
+      "placement": "careers",
+      "eyebrow": "Finance Careers",
+      "title": "Your next move in finance",
+      "text": "Roles across private equity, venture capital, private credit, banking and fund services.",
+      "buttonLabel": "View finance jobs",
+      "buttonTarget": "careers"
+    },
+    {
+      "placement": "grants",
+      "eyebrow": "Grants & Funding",
+      "title": "Capital for every stage of your business.",
+      "buttonLabel": "Explore grants and funding",
+      "buttonTarget": "grants"
+    }
+  ]
 }

@@ -6,6 +6,7 @@
 //   pages             About, Privacy and Terms body copy
 //   hero              the home page hero banner (one, or none: the page keeps its built-in banner)
 //   grants            Grants & Funding: the funding types (tiles) and programmes (cards); none keeps the built-in page
+//   banners           reusable banners (Finance Careers banner, Grants & Funding card); none keeps the built-in ones
 // `npm run cms:pull` writes it from Sanity; it can also be edited by hand.
 //
 // Invalid content fails the step with a plain-language message and the
@@ -16,8 +17,8 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { CONFIG_DIR, readJson } from '../config.js';
 import { log } from '../lib/logger.js';
-import { ADVERTISE_PLACEMENTS, FUNDING_KINDS, FUNDING_PLACES, FUNDING_TYPE_IDS, HERO_BUTTON_TARGETS, HERO_STYLES, PAGE_BLOCK_TYPES, PAGE_LIST_TYPES, PAGE_SLUGS, RETIRED_ADVERTISING_TIERS } from '../contracts/models.js';
-import { toAdvertiseTierDto, toFundingProgrammeDto, toFundingTypeDto, toHeroDto, toPageDto, toSocialHighlightDto } from '../contracts/serializers.js';
+import { ADVERTISE_PLACEMENTS, BANNER_PLACEMENTS, BANNER_TARGETS, FUNDING_KINDS, FUNDING_PLACES, FUNDING_TYPE_IDS, HERO_BUTTON_TARGETS, HERO_STYLES, PAGE_BLOCK_TYPES, PAGE_LIST_TYPES, PAGE_SLUGS, RETIRED_ADVERTISING_TIERS } from '../contracts/models.js';
+import { toAdvertiseTierDto, toBannerDto, toFundingProgrammeDto, toFundingTypeDto, toHeroDto, toPageDto, toSocialHighlightDto } from '../contracts/serializers.js';
 import { EMAIL_RE, cleanInline, cleanText, rules, validate } from '../validation/validate.js';
 import { isSafePublicUrl } from '../lib/http.js';
 
@@ -28,7 +29,8 @@ export const CONTENT_LIMITS = {
   tiers: { maxItems: 4, name: [2, 40], badge: [2, 20], price: [2, 30], priceNote: [2, 40], duration: [2, 40], features: 8, feature: [2, 120], ctaLabel: [2, 30], placementDetail: [2, 120] },
   pages: { title: [2, 80], intro: [0, 400], blocks: 120, blockText: 2000 },
   hero: { eyebrow: [2, 60], title: [8, 80], highlight: [0, 30], subtitle: [0, 240], imageAlt: [0, 140], buttonLabel: [2, 30], button2Label: [2, 30], imageMaxBytes: 1572864 },
-  grants: { typeTitle: [2, 40], typeDescription: [2, 80], maxProgrammes: 100, provider: [2, 70], description: [20, 200], types: [1, 3] }
+  grants: { typeTitle: [2, 40], typeDescription: [2, 80], maxProgrammes: 100, provider: [2, 70], description: [20, 200], types: [1, 3] },
+  banners: { eyebrow: [2, 40], title: [8, 80], text: [0, 160], buttonLabel: [2, 30], imageAlt: [0, 140], credit: [2, 160], imageMaxBytes: 1572864 }
 };
 
 const HEX = /^#[0-9a-f]{6}$/i;
@@ -264,6 +266,40 @@ function validateGrants(grants, { now }) {
   };
 }
 
+// Reusable banners. A photo needs its description and its credit and licence; button text and page go together.
+const BANNER_SCHEMA = {
+  fields: {
+    placement: enumOf(BANNER_PLACEMENTS),
+    enabled: enabledFlag(),
+    eyebrow: text({ min: L.banners.eyebrow[0], max: L.banners.eyebrow[1] }),
+    title: text({ min: L.banners.title[0], max: L.banners.title[1] }),
+    text: text({ min: 1, max: L.banners.text[1], required: false }),
+    buttonLabel: text({ min: L.banners.buttonLabel[0], max: L.banners.buttonLabel[1], required: false }),
+    buttonTarget: enumOf(Object.keys(BANNER_TARGETS), { required: false }),
+    image: httpsUrl({ required: false }),
+    imageAlt: text({ min: 1, max: L.banners.imageAlt[1], required: false }),
+    credit: text({ min: L.banners.credit[0], max: L.banners.credit[1], required: false }),
+    startDate: isoDate({ required: false, minDays: -3650, maxDays: 3650 }),
+    endDate: isoDate({ required: false, minDays: -3650, maxDays: 3650 })
+  },
+  check: (v) => {
+    if (v.image && !v.imageAlt) return { imageAlt: 'is required with a photo (describe it for people who cannot see it).' };
+    if (v.image && !v.credit) return { credit: 'is required with a photo (who took it, and its licence).' };
+    if (Boolean(v.buttonLabel) !== Boolean(v.buttonTarget)) return { buttonLabel: 'and the page the button opens go together (set both, or neither).' };
+    if (v.startDate && v.endDate && v.endDate < v.startDate) return { endDate: 'is before the start date.' };
+    return null;
+  }
+};
+
+/** content.json banners -> { careers, grants } (null for a placement with no shown banner), or null when absent. */
+function validateBanners(list, { now }) {
+  if (list === undefined || list === null) return { errors: [], banners: null };
+  const result = validateList(list, BANNER_SCHEMA, 'banners', { now, key: 'placement' });
+  const banners = Object.fromEntries(BANNER_PLACEMENTS.map((p) => [p, null]));
+  for (const b of result.items) banners[b.placement] = toBannerDto(b);
+  return { errors: result.errors, banners };
+}
+
 /* ------------------------------- validation ------------------------------- */
 
 function validateList(list, schema, label, { now, maxItems, key = 'id' }) {
@@ -294,7 +330,7 @@ function validateList(list, schema, label, { now, maxItems, key = 'id' }) {
 export function validateContent(config, { now = new Date() } = {}) {
   const errors = [];
   for (const key of Object.keys(config || {})) {
-    if (!['socialHighlights', 'advertiseTiers', 'pages', 'hero', 'grants'].includes(key)) errors.push(`Unknown group "${key}". Use socialHighlights, advertiseTiers, pages, hero or grants.`);
+    if (!['socialHighlights', 'advertiseTiers', 'pages', 'hero', 'grants', 'banners'].includes(key)) errors.push(`Unknown group "${key}". Use socialHighlights, advertiseTiers, pages, hero, grants or banners.`);
   }
   const highlights = validateList(config?.socialHighlights, HIGHLIGHT_SCHEMA, 'socialHighlights', { now, maxItems: L.highlights.maxItems });
   // A retired package still enabled in Sanity is skipped rather than rejected, so it never blocks publishing.
@@ -308,7 +344,8 @@ export function validateContent(config, { now = new Date() } = {}) {
   const tiers = validateList(tierList, TIER_SCHEMA, 'advertiseTiers', { now, maxItems: L.tiers.maxItems });
   const pages = validateList(config?.pages, PAGE_SCHEMA, 'pages', { now, key: 'slug' });
   const grants = validateGrants(config?.grants, { now });
-  errors.push(...highlights.errors, ...tiers.errors, ...pages.errors, ...grants.errors);
+  const banners = validateBanners(config?.banners, { now });
+  errors.push(...highlights.errors, ...tiers.errors, ...pages.errors, ...grants.errors, ...banners.errors);
   let hero = null;
   if (config?.hero !== undefined && config?.hero !== null) {
     const result = validate(HERO_SCHEMA, config.hero, { now });
@@ -324,7 +361,8 @@ export function validateContent(config, { now = new Date() } = {}) {
       },
       pages: Object.fromEntries(pages.items.map((p) => [p.slug, toPageDto(p)])),
       hero,
-      grants: grants.grants
+      grants: grants.grants,
+      banners: banners.banners
     }
   };
 }

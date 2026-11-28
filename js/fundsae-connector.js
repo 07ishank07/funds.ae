@@ -1188,6 +1188,7 @@
   function renderContent(doc) {
     renderHero(doc.hero);
     renderGrants(doc.grants);
+    renderBanners(doc.banners);
     var s = doc.slots || {};
     renderHighlights(api.items(s.socialHighlights, api.valid.socialHighlight, 'Top Tweets items'));
     renderTiers(api.items(s.advertiseTiers, api.valid.advertiseTier, 'Advertise packages'));
@@ -1440,6 +1441,65 @@
     if (typeof window.__gfRefresh === 'function') window.__gfRefresh();
   }
 
+  /* ------------------------------ Reusable banners ----------------------------- */
+  // content.json banners (edited in Sanity): the Finance Careers banner and the Grants & Funding card. Each fills the
+  // banners already on the page (textContent; the photo only from an https address). Missing, hidden or outside its
+  // dates (checked here, on the visitor's day in the UAE), the built-in banner stays.
+
+  var BANNER_HREF = /^[A-Za-z]+\.dc\.html$/;
+
+  function validBanner(b) {
+    return !!b && typeof b.title === 'string' && b.title && typeof b.eyebrow === 'string' && (b.text === null || typeof b.text === 'string') &&
+      (b.buttonHref === null || BANNER_HREF.test(b.buttonHref)) && (b.buttonLabel === null || typeof b.buttonLabel === 'string');
+  }
+
+  function bannerShowing(b) {
+    var today = api.dubaiToday();
+    return (!b.startDate || b.startDate <= today) && (!b.endDate || b.endDate >= today);
+  }
+
+  function fillBanner(slotName, b, parts) {
+    if (!validBanner(b) || !bannerShowing(b)) return;
+    slots(slotName).forEach(function (box) {
+      var set = function (selector, value) {
+        var el = selector && box.querySelector(selector);
+        if (!el) return;
+        if (value) { el.textContent = value; el.hidden = false; } else el.hidden = true;
+      };
+      set(parts.eyebrow, b.eyebrow);
+      set(parts.title, b.title);
+      if (parts.text) set(parts.text, b.text);
+      var photo = api.imageUrl(b.image);
+      var img = photo && box.querySelector(parts.image);
+      if (img) { img.src = photo; img.alt = ''; }
+      if (parts.button) {
+        var button = box.querySelector(parts.button);
+        if (button && b.buttonLabel && b.buttonHref) {
+          button.textContent = b.buttonLabel;
+          // A button that jumps within its own page (Careers: "#opportunities") keeps its place.
+          if ((button.getAttribute('href') || '').charAt(0) !== '#') button.setAttribute('href', b.buttonHref);
+        }
+      }
+      if (parts.cta && b.buttonLabel && b.buttonHref) {
+        var cta = box.querySelector(parts.cta);
+        if (cta) {
+          cta.textContent = b.buttonLabel + ' ';
+          var arrow = document.createElement('span');
+          arrow.setAttribute('aria-hidden', 'true');
+          arrow.textContent = '\u2192';
+          cta.appendChild(arrow);
+        }
+        box.setAttribute('href', b.buttonHref);
+      }
+    });
+  }
+
+  function renderBanners(banners) {
+    if (!banners || typeof banners !== 'object') return;
+    fillBanner('banner-careers', banners.careers, { eyebrow: '.fx-cb-eyebrow', title: '.fx-cb-title', text: '.fx-cb-sub', image: '.fx-cb-photo', button: '.fx-cb-btn:not(.fx-cb-btn--ghost)' });
+    fillBanner('banner-grants', banners.grants, { eyebrow: '.gf-promo-eb', title: '.gf-promo-title', image: '.gf-promo-img', cta: '.gf-promo-cta' });
+  }
+
   /* ------------------------------- Gulf Economy ------------------------------- */
   // Home page column 3, "Gulf Economy at a Glance": the IMF's projected real GDP and consumer prices per country
   // (api/v1/economy.json), headed and written as on imf.org ("2026 Projected Real GDP (% Change)": -15.6). The rows and
@@ -1559,7 +1619,7 @@
       }
       var sponsorSlots = ['sponsor-founding', 'sponsor-platinum', 'sponsor-posts', 'sponsor-media', 'sponsor-companies', 'career-resources'];
       if (sponsorSlots.some(hasSlot)) guard('Sponsors', load('sponsors.json', 'sponsors').then(renderSponsors));
-      if (hasSlot('social-highlights') || hasSlot('advertise-tiers') || hasSlot('page-body') || hasSlot('home-hero') || hasSlot('grants-programmes') || hasSlot('grants-types-home')) {
+      if (hasSlot('social-highlights') || hasSlot('advertise-tiers') || hasSlot('page-body') || hasSlot('home-hero') || hasSlot('grants-programmes') || hasSlot('grants-types-home') || hasSlot('banner-careers') || hasSlot('banner-grants')) {
         guard('Editorial content', load('content.json', 'content').then(renderContent));
       }
     }).catch(function (err) {

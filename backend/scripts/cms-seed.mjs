@@ -202,6 +202,26 @@ export function grantDocs(grants) {
   ];
 }
 
+// Today's banner photos (licensed Unsplash photos, credited in frontend_demo/img/CREDITS.md).
+const BANNER_PHOTOS = {
+  careers: { file: 'frontend_demo/img/careers-banner.jpg', alt: 'People talking by tall office windows over a city skyline', credit: 'Photo: Charles Forerunner, Unsplash (Unsplash Licence)' },
+  grants: { file: 'frontend_demo/img/grants-hero.jpg', alt: 'Downtown Dubai and the Burj Khalifa above a highway at sunrise', credit: 'Photo: Unsplash, photo Fr6zexbmjmc (Unsplash Licence)' }
+};
+
+/** Reusable banners: one document per placement, with today's photo, its description and credit. */
+export function bannerDocs(banners, root = REPO_ROOT) {
+  return (banners || []).map((b) => {
+    const photo = BANNER_PHOTOS[b.placement];
+    const file = photo && path.join(root, photo.file);
+    const image = file && existsSync(file) ? { _type: 'image', _sanityAsset: `image@${pathToFileURL(file).href}` } : undefined;
+    return compact({
+      _id: `banner-${b.placement}`, _type: 'banner', placement: b.placement, eyebrow: b.eyebrow, title: b.title, text: b.text,
+      buttonLabel: b.buttonLabel, buttonTarget: b.buttonTarget, image, imageAlt: image ? photo.alt : undefined,
+      credit: image ? photo.credit : undefined, startDate: b.startDate, endDate: b.endDate, enabled: b.enabled !== false
+    });
+  });
+}
+
 export function buildSeed({ root = REPO_ROOT, siteUrl = 'https://funds.ae/frontend_demo/' } = {}) {
   keySeq = 0;
   const read = (rel) => readFileSync(path.join(root, rel), 'utf8');
@@ -212,6 +232,7 @@ export function buildSeed({ root = REPO_ROOT, siteUrl = 'https://funds.ae/fronte
     ...eventDocs(events),
     ...tierDocs(JSON.parse(read('backend/config/content.json')).advertiseTiers),
     ...grantDocs(JSON.parse(read('backend/config/content.json')).grants),
+    ...bannerDocs(JSON.parse(read('backend/config/content.json')).banners, root),
     ...[['about', 'About'], ['privacy', 'Privacy'], ['terms', 'Terms']].map(([slug, file]) => pageFromHtml(read(`frontend_demo/${file}.dc.html`), slug, siteUrl))
   ];
 }

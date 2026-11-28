@@ -267,6 +267,24 @@ CREATE TABLE IF NOT EXISTS funding_programmes (
     enabled     BOOLEAN NOT NULL DEFAULT TRUE
 );
 
+-- Reusable banners (edited in Sanity: banner). One per placement; public content, a photo carries its credit.
+CREATE TABLE IF NOT EXISTS site_banners (
+    placement     TEXT PRIMARY KEY CHECK (placement IN ('careers', 'grants')),
+    eyebrow       TEXT NOT NULL CHECK (char_length(eyebrow) BETWEEN 2 AND 40),
+    title         TEXT NOT NULL CHECK (char_length(title) BETWEEN 8 AND 80),
+    text          TEXT CHECK (text IS NULL OR char_length(text) <= 160),
+    button_label  TEXT CHECK (button_label IS NULL OR char_length(button_label) BETWEEN 2 AND 30),
+    button_target TEXT CHECK (button_target IS NULL OR button_target IN ('news', 'videos', 'events', 'careers', 'partner', 'grants')),
+    image         TEXT CHECK (image IS NULL OR image ~ '^https://'),
+    image_alt     TEXT CHECK (image_alt IS NULL OR char_length(image_alt) <= 140),
+    credit        TEXT CHECK (credit IS NULL OR char_length(credit) BETWEEN 2 AND 160),
+    start_date    DATE,
+    end_date      DATE CHECK (end_date IS NULL OR start_date IS NULL OR end_date >= start_date),
+    enabled       BOOLEAN NOT NULL DEFAULT TRUE,
+    CHECK ((button_label IS NULL) = (button_target IS NULL)),
+    CHECK (image IS NULL OR credit IS NOT NULL)
+);
+
 CREATE TABLE IF NOT EXISTS economy_figures (
     id          TEXT PRIMARY KEY CHECK (id ~ '^[A-Z]{3}$'),      -- IMF country code, e.g. ARE
     country     TEXT NOT NULL CHECK (char_length(country) BETWEEN 2 AND 40),

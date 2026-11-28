@@ -102,6 +102,18 @@ test('content.json has the Sanity-managed slots and pages, with the contract fie
   const grantsJs = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
   const grantsFn = grantsJs.slice(grantsJs.indexOf('function programmeCard('), grantsJs.indexOf('/* ------------------------------- Gulf Economy'));
   assert.ok(grantsFn.includes('textContent') && !/innerHTML/.test(grantsFn) && grantsFn.includes('{ httpsOnly: true }'), 'programme cards: textContent, https links');
+  // Reusable banners (edited in Sanity): { careers, grants }, each null or the contract fields; null keeps the built-in ones.
+  assert.ok('banners' in doc, 'content.json carries banners');
+  if (doc.banners !== null) {
+    assert.deepEqual(Object.keys(doc.banners).sort(), ['careers', 'grants']);
+    for (const [placement, b] of Object.entries(doc.banners)) if (b !== null) sameKeys(b, DTO_FIELDS.banner, `banner ${placement}`);
+  }
+  for (const [file, slot] of [['Careers.dc.html', 'banner-careers'], ['Careers.dc.html', 'banner-grants'], ['Events.dc.html', 'banner-careers']]) {
+    assert.ok(readFileSync(path.join(repo, 'frontend_demo', file), 'utf8').includes(`data-fundsae-slot="${slot}"`), `${file} tags its ${slot}`);
+  }
+  const bannerJs = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
+  const bannerFn = bannerJs.slice(bannerJs.indexOf('function fillBanner('), bannerJs.indexOf('function renderBanners('));
+  assert.ok(bannerFn.includes('textContent') && !/innerHTML/.test(bannerFn) && bannerFn.includes('api.imageUrl(b.image)') && bannerFn.includes('bannerShowing(b)'), 'banners: textContent, https photos, dates');
   // The home page tags its hero as the slot the connector fills.
   const home = readFileSync(path.join(repo, 'frontend_demo', 'this.html'), 'utf8');
   assert.ok(home.includes("hero.setAttribute('data-fundsae-slot', 'home-hero')"), 'home hero slot');
@@ -443,7 +455,7 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.ok(careers.includes('href="grants-promo.css?v=1"') && homePage.includes("promoCss.href = 'grants-promo.css?v=1';"), 'shared banner styles');
   assert.ok(homePage.includes('sponsoredPostsBox.before(grantsPromo);') && homePage.includes("grantsPromo.href = 'GrantsFunding.dc.html';") &&
     homePage.includes('<img class="gf-promo-img" src="img/grants-hero.jpg" alt="" loading="lazy">'), 'home: Grants & Funding banner above Sponsored Posts');
-  assert.ok(careers.includes('<a class="gf-promo" href="GrantsFunding.dc.html" aria-labelledby="gf-promo-title">') &&
+  assert.ok(careers.includes('<a class="gf-promo" href="GrantsFunding.dc.html" aria-labelledby="gf-promo-title" data-fundsae-slot="banner-grants">') &&
     careers.includes('<img class="gf-promo-img" src="img/grants-hero.jpg" alt="" loading="lazy">') &&
     careers.includes('id="gf-promo-title">Capital for every stage of your business.</span>'), 'Grants & Funding banner on Careers');
   assert.match(careers, /<a class="gf-promo"[\s\S]*?<\/a>\s*<section class="resources-box">/, 'directly above Career Resources in column 2');

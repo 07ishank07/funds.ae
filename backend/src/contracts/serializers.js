@@ -5,7 +5,7 @@
 // Rule: every DTO key in models.js DTO_FIELDS is always present; optional
 // values are null, never "".
 
-import { ADVERTISE_PLACEMENT_LABELS, HERO_BUTTON_TARGETS, HERO_STYLES } from './models.js';
+import { ADVERTISE_PLACEMENT_LABELS, HERO_BUTTON_TARGETS, HERO_STYLES, BANNER_TARGETS } from './models.js';
 import {
   NEWS_GEOGRAPHIES, NEWS_GEOGRAPHY_LABELS, NEWS_TRANSACTION_LABELS, NEWS_TRANSACTION_TYPES, PUBLISHABLE_LICENSE_STATUSES
 } from '../news/rules.js';
@@ -237,6 +237,24 @@ export function toFundingProgrammeDto(p) {
     description: p.description,
     url: nullable(p.url),
     featured: Boolean(p.featured)
+  };
+}
+
+/** One banner; the button opens a site page from BANNER_TARGETS (text and page go together). */
+export function toBannerDto(b) {
+  const href = Object.hasOwn(BANNER_TARGETS, b.buttonTarget || '') ? BANNER_TARGETS[b.buttonTarget] : null;
+  return {
+    placement: b.placement,
+    eyebrow: b.eyebrow,
+    title: b.title,
+    text: nullable(b.text),
+    buttonLabel: href ? nullable(b.buttonLabel) : null,
+    buttonHref: nullable(b.buttonLabel) ? href : null,
+    image: nullable(b.image),
+    imageAlt: nullable(b.imageAlt),
+    credit: nullable(b.credit),
+    startDate: nullable(b.startDate),
+    endDate: nullable(b.endDate)
   };
 }
 

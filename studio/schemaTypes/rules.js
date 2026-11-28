@@ -130,6 +130,17 @@ export const FUNDING_PLACES = [
   {value: 'northern', title: 'Northern Emirates'},
 ];
 
+/** Reusable banners (equal to CONTENT_LIMITS.banners, BANNER_PLACEMENTS and BANNER_TARGETS in the backend). */
+export const BANNER_LIMITS = { eyebrow: [2, 40], title: [8, 80], text: [0, 160], buttonLabel: [2, 30], imageAlt: [0, 140], credit: [2, 160], imageMaxBytes: 1572864 };
+export const BANNER_PLACEMENTS = [
+  {value: 'careers', title: 'Finance Careers banner (home, Careers and Events pages)'},
+  {value: 'grants', title: 'Grants & Funding card (home and Careers pages)'},
+];
+export const BANNER_TARGETS = {
+  ...HERO_BUTTON_TARGETS,
+  grants: {page: 'GrantsFunding.dc.html', title: 'Grants & Funding'},
+};
+
 export const HEX_COLOR = /^#[0-9A-Fa-f]{6}$/;
 export const ID_PATTERN = /^[a-z0-9][a-z0-9-]{1,60}$/;
 export const IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/webp'];

@@ -260,7 +260,7 @@ test('invalid content is explained in plain language', () => {
   assert.match(errorsFor({ pages: [{ ...page, blocks: [{ type: 'li', list: null, spans: [{ text: 'x' }] }] }] }), /list "bullet" or "number"/);
   assert.match(errorsFor({ pages: [{ ...page, blocks: [{ type: 'p', list: null, spans: [{ text: 'x'.repeat(2001) }] }] }] }), /split it/);
   assert.match(errorsFor({ pages: [{ ...page, slug: 'careers' }] }), /"slug"/);
-  assert.match(errorsFor({ banners: [] }), /Unknown group "banners"/);
+  assert.match(errorsFor({ widgets: [] }), /Unknown group "widgets"/);
   assert.deepEqual(validateContent({}, { now: NOW }).errors, [], 'an empty file is valid');
   assert.deepEqual(validateContent({ advertiseTiers: [{ ...tier, enabled: false, id: 'Diamond!' }] }, { now: NOW }).errors.length, 1, 'disabled items are still checked');
 });
@@ -632,3 +632,59 @@ test('Grants & Funding documents hold public content only (privacy)', () => {
   const query = readFileSync(path.join(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Z]:)/, '$1')), '..', 'src', 'cms', 'queries.js'), 'utf8');
   assert.ok(/fundingProgramme" && enabled != false && \$\{published\}/.test(query) && /fundingType" && enabled != false && \$\{published\}/.test(query), 'only published, shown documents are pulled');
 });
+
+/* ----------------------------------- Banners ----------------------------------- */
+
+test('the Studio enforces the same banner rules as the backend', async () => {
+  const models = await import('../src/contracts/models.js');
+  assert.deepEqual(studio.BANNER_LIMITS, CONTENT_LIMITS.banners);
+  assert.deepEqual(studio.BANNER_PLACEMENTS.map((p) => p.value), models.BANNER_PLACEMENTS);
+  assert.deepEqual(Object.fromEntries(Object.entries(studio.BANNER_TARGETS).map(([k, v]) => [k, v.page])), models.BANNER_TARGETS);
+});
+
+test('banners from Sanity: checked, then published by placement with a site page for the button', () => {
+  const doc = {
+    placement: 'careers', eyebrow: 'Finance Careers', title: 'Your next move in finance', text: 'Roles across private markets.',
+    buttonLabel: 'View finance jobs', buttonTarget: 'careers', imageAlt: 'An office', credit: 'Photo: A. Photographer, Unsplash Licence',
+    startDate: '2026-12-01', endDate: '2026-12-31', image: { url: 'https://cdn.sanity.io/images/p/d/banner.jpg', mimeType: 'image/jpeg', size: 200000 }
+  };
+  const base = { sponsors: [], events: [], highlights: [], tiers: [], pages: [], hero: null };
+  const mapped = mapSanityContent({ ...base, banners: [doc] });
+  assert.deepEqual(mapped.errors, []);
+  const { errors, content } = validateContent(mapped.content, { now: NOW });
+  assert.deepEqual(errors, []);
+  sameKeys(content.banners.careers, DTO_FIELDS.banner, 'careers banner');
+  assert.equal(content.banners.careers.buttonHref, 'Careers.dc.html');
+  assert.equal(content.banners.grants, null, 'no grants banner: the built-in card shows');
+  assert.ok(mapSanityContent({ ...base, banners: [{ ...doc, image: { ...doc.image, mimeType: 'image/svg+xml' } }] }).errors.some((e) => /PNG, JPG or WebP/.test(e)), 'no SVG photos');
+  assert.ok(mapSanityContent({ ...base, banners: [{ ...doc, image: { ...doc.image, size: 3000000 } }] }).errors.some((e) => /limit/.test(e)), 'photo size limit');
+  assert.equal(mapSanityContent(base).content.banners, undefined, 'none published: no banners group');
+});
+
+test('invalid banners are refused in plain language', () => {
+  const good = { placement: 'grants', eyebrow: 'Grants & Funding', title: 'Capital for every stage of your business.' };
+  const refused = (b) => validateContent({ banners: [{ ...good, ...b }] }, { now: NOW }).errors;
+  assert.deepEqual(refused({}), []);
+  assert.ok(refused({ image: 'https://cdn.sanity.io/x.jpg', imageAlt: 'City' }).some((e) => /credit/.test(e)), 'a photo needs its credit and licence');
+  assert.ok(refused({ image: 'https://cdn.sanity.io/x.jpg', credit: 'Photo: A, Unsplash' }).some((e) => /imageAlt/.test(e)), 'a photo needs a description');
+  assert.ok(refused({ image: 'http://insecure.example/x.jpg', imageAlt: 'x', credit: 'Photo: A' }).some((e) => /image/.test(e)), 'https photos only');
+  assert.ok(refused({ buttonLabel: 'Go' }).some((e) => /buttonLabel/.test(e)), 'button text needs a page');
+  assert.ok(refused({ buttonLabel: 'Go there', buttonTarget: 'https://evil.example' }).some((e) => /buttonTarget/.test(e)), 'site pages only');
+  assert.ok(refused({ startDate: '2026-12-10', endDate: '2026-12-01' }).some((e) => /endDate/.test(e)), 'end after start');
+  assert.ok(refused({ placement: 'popup' }).some((e) => /placement/.test(e)), 'known placements only');
+  assert.ok(refused({ contactEmail: 'someone@gmail.com' }).some((e) => /contactEmail/.test(e)), 'no extra fields (such as personal details)');
+  assert.ok(validateContent({ banners: [good, good] }, { now: NOW }).errors.some((e) => /duplicate placement/.test(e)), 'one banner per placement');
+});
+
+test('banner documents hold public content only (privacy)', () => {
+  const dir = path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Z]:)/, '$1'));
+  const schema = readFileSync(path.join(dir, '..', '..', 'studio', 'schemaTypes', 'banner.js'), 'utf8');
+  const fieldNames = [...schema.matchAll(/name: '([a-zA-Z]+)'/g)].map((m) => m[1]);
+  for (const personal of ['email', 'phone', 'mobile', 'contactName', 'firstName', 'lastName', 'personName', 'whatsapp']) {
+    assert.ok(!fieldNames.includes(personal), `no ${personal} field`);
+  }
+  assert.ok(schema.includes('readable by anyone') && schema.includes('no personal details'), 'editors are told the content is public');
+  const query = readFileSync(path.join(dir, '..', 'src', 'cms', 'queries.js'), 'utf8');
+  assert.ok(/"banner" && enabled != false && \$\{published\}/.test(query), 'only published, shown banners are pulled');
+});
+

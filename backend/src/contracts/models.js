@@ -53,6 +53,9 @@ export const HERO_BUTTON_TARGETS = {
   careers: 'Careers.dc.html',
   partner: 'PartnerWithUs.dc.html'
 };
+// Reusable banners (Sanity "banner", content.json banners): one per placement; the button opens a site page.
+export const BANNER_PLACEMENTS = ['careers', 'grants'];
+export const BANNER_TARGETS = { ...HERO_BUTTON_TARGETS, grants: 'GrantsFunding.dc.html' };
 // Editorial content managed in Sanity (studio/) and published as api/v1/content.json.
 export const CONTENT_SLOTS = ['socialHighlights', 'advertiseTiers'];
 // Grants & Funding (content.json "grants", edited in Sanity): the twelve funding types (each id has its own icon on
@@ -345,6 +348,11 @@ export const DB_MODELS = {
     table: 'funding_programmes',
     fields: ['id', 'provider', 'kind', 'place', 'types', 'description', 'url', 'featured', 'position', 'enabled']
   },
+  // Reusable banners (Sanity "banner"): public content, a photo carries its credit and licence.
+  siteBanners: {
+    table: 'site_banners',
+    fields: ['placement', 'eyebrow', 'title', 'text', 'buttonLabel', 'buttonTarget', 'image', 'imageAlt', 'credit', 'startDate', 'endDate', 'enabled']
+  },
   economyFigures: {
     table: 'economy_figures',
     fields: ['id', 'country', 'code', 'gdpGrowth', 'inflation', 'year', 'dataset', 'fetchedAt']
@@ -385,6 +393,8 @@ export const DTO_FIELDS = {
   // content.json grants.types (count = shown programmes of that type) and grants.programmes (url null = "coming soon").
   fundingType: ['id', 'title', 'description', 'count'],
   fundingProgramme: ['id', 'provider', 'kind', 'place', 'types', 'description', 'url', 'featured'],
+  // content.json banners.<placement> (null: the built-in banner shows). Dates are checked by the website on the day.
+  banner: ['placement', 'eyebrow', 'title', 'text', 'buttonLabel', 'buttonHref', 'image', 'imageAlt', 'credit', 'startDate', 'endDate'],
   advertisePlacement: ['type', 'label', 'detail'],
   page: ['slug', 'title', 'intro', 'updatedAt', 'blocks'],
   hero: ['eyebrow', 'title', 'highlight', 'subtitle', 'image', 'imageAlt', 'style', 'buttonLabel', 'buttonHref', 'button2Label', 'button2Href'],

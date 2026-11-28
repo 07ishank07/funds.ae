@@ -157,6 +157,24 @@ export function toGrants(types = [], programmes = []) {
   };
 }
 
+/** Banners (Sanity "banner"), or undefined when none is published. Photo: PNG, JPG or WebP up to 1.5 MB. */
+export function toBanners(docs = [], errors = []) {
+  if (!docs.length) return undefined;
+  return docs.map((doc) => {
+    const b = compact({
+      placement: doc.placement, eyebrow: doc.eyebrow, title: doc.title, text: doc.text, buttonLabel: doc.buttonLabel,
+      buttonTarget: doc.buttonTarget, imageAlt: doc.imageAlt, credit: doc.credit, startDate: doc.startDate, endDate: doc.endDate
+    });
+    const img = doc.image;
+    if (img?.url) {
+      if (!IMAGE_TYPES.includes(img.mimeType)) errors.push(`Sanity banner (${doc.placement}): the photo must be PNG, JPG or WebP (it is ${img.mimeType || 'unknown'}).`);
+      else if (img.size > HERO_IMAGE_MAX_BYTES) errors.push(`Sanity banner (${doc.placement}): the photo is ${Math.round(img.size / 1024)} KB; the limit is ${HERO_IMAGE_MAX_BYTES / 1024} KB.`);
+      else b.image = img.url;
+    }
+    return b;
+  });
+}
+
 /** The home page hero (Sanity singleton "homeHero"), or undefined when none is published. Image: PNG, JPG or WebP up to 1.5 MB. */
 export function toHero(doc, errors = []) {
   if (!doc || !doc.title) return undefined;
@@ -184,10 +202,11 @@ export function mapSanityContent(result) {
   const errors = [...sponsors.errors];
   const hero = toHero(r.hero, errors);
   const grants = toGrants(r.fundingTypes || [], r.fundingProgrammes || []);
+  const banners = toBanners(r.banners || [], errors);
   return {
     sponsors: sponsors.config,
     events: toEventsList(r.events),
-    content: { socialHighlights: toHighlights(r.highlights), advertiseTiers: toTiers(r.tiers), pages: toPages(r.pages), ...(hero ? { hero } : {}), ...(grants ? { grants } : {}) },
+    content: { socialHighlights: toHighlights(r.highlights), advertiseTiers: toTiers(r.tiers), pages: toPages(r.pages), ...(hero ? { hero } : {}), ...(grants ? { grants } : {}), ...(banners ? { banners } : {}) },
     errors
   };
 }

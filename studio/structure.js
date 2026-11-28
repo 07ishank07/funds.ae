@@ -171,6 +171,9 @@ export const structure = (S, context) =>
         S.listItem().id('packages').title('Packages').child(S.documentTypeList('advertiseTier').title('Partner with us packages').defaultOrdering(byPosition)),
       ]),
       S.divider(),
+      pageGroup(S, 'banners', 'Banners', [
+        S.listItem().id('banners-list').title('Finance Careers banner and Grants & Funding card').child(S.documentTypeList('banner').title('Banners')),
+      ]),
       pageGroup(S, 'site-wide', 'Site-wide', [
         sponsorArea(S, 'founding'),
         S.listItem()
