@@ -599,11 +599,16 @@
           if (look.colours) logo.style.background = 'linear-gradient(145deg, ' + look.colours + ')';
         }
       }
-      row.querySelector('.location').textContent = [job.location, job.employmentType].filter(Boolean).join(' · ');
+      // Careers cards have fact rows (Careers.dc.html): location, salary and job type each on their own line.
+      var salaryEl = row.querySelector('.role-salary');
+      var typeEl = row.querySelector('.role-type');
+      row.querySelector('.location').textContent = salaryEl ? job.location : [job.location, job.employmentType].filter(Boolean).join(' · ');
+      if (salaryEl) salaryEl.textContent = salaryText(job.salary) || 'Competitive';
+      if (typeEl) typeEl.textContent = job.employmentType || 'Full-time';
       var meta = row.querySelector('.role-meta');
       if (meta) {
         meta.textContent = '';
-        var pay = [salaryText(job.salary), job.visa].filter(Boolean).join(' · ');
+        var pay = salaryEl ? (job.visa || '') : [salaryText(job.salary), job.visa].filter(Boolean).join(' · ');
         if (pay) {
           var payLine = document.createElement('span');
           payLine.className = 'role-pay';

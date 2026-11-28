@@ -506,6 +506,10 @@ test('every page but the home page and Careers shows the same Elite Founding Spo
   assert.ok(!careers.includes('<option value="featured">Featured first</option>') && careers.includes('<option value="newest">Newest</option>'), 'no Featured first sort');
   assert.ok(rolesJs.includes("row.setAttribute('data-country', countryOf(job.location));") && rolesJs.includes("[/riyadh/, 'Riyadh', 'SA']"), 'roles are tagged with their Gulf country and city');
   assert.ok(careers.includes("badge.className = 'role-logo'"), 'job cards carry a dummy employer logo');
+  // Job cards: accent line, then location, salary and job type rows with outline icons; the connector fills each row.
+  assert.ok(careers.includes("accent.className = 'role-accent';") && careers.includes("facts.className = 'role-facts';") &&
+    careers.includes("factRow(facts, 'location', where);") && careers.includes("factRow(facts, 'salary', salary);") && careers.includes("factRow(facts, 'type', type);"), 'job cards have the fact rows');
+  assert.ok(rolesJs.includes("if (salaryEl) salaryEl.textContent = salaryText(job.salary) || 'Competitive';") && rolesJs.includes("if (typeEl) typeEl.textContent = job.employmentType || 'Full-time';"), 'live jobs fill salary and type');
   // Careers from Sanity: the connector follows careers.json for Top Jobs, links posted jobs to their page,
   // shows the salary/visa line and employer logos (images through setLogoImage, https only, no referrer).
   const careersConnector = readFileSync(path.join(repo, 'js', 'fundsae-connector.js'), 'utf8');
