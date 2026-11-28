@@ -1521,8 +1521,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Groups, split by thin rules: [label, filter ids] filters the news; [label, { href }] is a plain link.
         // No investor-type links: the bar is Real Estate Stories, then the site's own pages.
         const CATEGORY_GROUPS = [
-          [['Real Estate Stories', null]],
-          [['Videos & Podcasts', { href: 'Videos.dc.html' }], ['Grants & Funding', { href: 'GrantsFunding.dc.html' }], ['Careers in Finance', { href: 'Careers.dc.html' }], ['Events & Expos', { href: 'Events.dc.html' }]]
+          [['Property News', null]],
+          [['Watch & Listen', { href: 'Videos.dc.html' }], ['Funding Opportunities', { href: 'GrantsFunding.dc.html' }], ['Finance Careers', { href: 'Careers.dc.html' }], ['Industry Events', { href: 'Events.dc.html' }]]
         ];
         const bar = document.createElement('nav');
         bar.className = 'fx-catbar';
@@ -1552,10 +1552,10 @@ document.addEventListener('DOMContentLoaded', async function() {
             if (target && target.href) {
               link.href = target.href;
             } else {
-              link.href = label === 'Real Estate Stories' ? '#' : '#top-news';
+              link.href = label === 'Property News' ? '#' : '#top-news';
               link.dataset.category = label;
               if (target) link.dataset.topics = target.join(' ');
-              if (label === 'Real Estate Stories') link.setAttribute('aria-current', 'true');
+              if (label === 'Property News') link.setAttribute('aria-current', 'true');
             }
             row.appendChild(link);
           });
@@ -1570,7 +1570,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             const topics = link.dataset.topics ? link.dataset.topics.split(' ') : null;
             select(label, topics);
             const news = document.querySelector('main.wrap > .news');
-            if (label === 'Real Estate Stories' || !news) window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (label === 'Property News' || !news) window.scrollTo({ top: 0, behavior: 'smooth' });
             else news.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
         }, true);
